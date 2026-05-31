@@ -1,0 +1,22 @@
+[project]
+name = "alphaterminal-backend"
+version = "0.1.0"
+description = "Local FastAPI backend skeleton for AlphaTerminal"
+requires-python = ">=3.11"
+dependencies = [
+  "apscheduler>=3.10,<4",
+  "cryptography>=43,<45",
+  "duckdb>=1.0,<2",
+  "fastapi>=0.115,<1",
+  "httpx>=0.27,<1",
+  "pydantic-settings>=2.4,<3",
+  "uvicorn>=0.30,<1",
+  "websockets>=15,<16",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
