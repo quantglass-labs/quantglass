@@ -1,0 +1,51 @@
+from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel, Field
+
+router = APIRouter(prefix="/api/alerts", tags=["alerts"])
+
+
+class AlertPayload(BaseModel):
+    symbolId: str = Field(min_length=1, max_length=32)
+    condition: str = Field(min_length=1, max_length=280)
+    channel: str = Field(pattern="^(desktop|telegram|email)$")
+    status: str = Field(default="armed", pattern="^(armed|paused|fired)$")
+
+
+@router.get("")
+async def list_alerts(request: Request) -> dict[str, object]:
+    return {"items": request.app.state.state_store.list_alerts()}
+
+
+@router.get("/history")
+async def list_alert_history(request: Request) -> dict[str, object]:
+    return {"items": request.app.state.state_store.list_alert_history()}
+
+
+@router.post("")
+async def create_alert(payload: AlertPayload, request: Request) -> dict[str, object]:
+    item = request.app.state.state_store.create_alert(
+        symbol=payload.symbolId,
+        condition=payload.condition,
+        channel=payload.channel,
+        status=payload.status,
+    )
+    return {"item": item}
+
+
+@router.put("/{alert_id}")
+async def update_alert(
+    alert_id: str,
+    payload: AlertPayload,
+    request: Request,
+) -> dict[str, object]:
+    try:
+        item = request.app.state.state_store.update_alert(
+            alert_id=alert_id,
+            symbol=payload.symbolId,
+            condition=payload.condition,
+            channel=payload.channel,
+            status=payload.status,
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Alert not found") from exc
+    return {"item": item}

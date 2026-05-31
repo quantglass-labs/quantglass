@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #e0ebff;
+  background: #08111f;
+  font-family: IBM Plex Sans, Aptos, Segoe UI, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-image: radial-gradient(circle at top, rgba(141, 183, 255, 0.18), transparent 36%), linear-gradient(135deg, rgba(79, 139, 255, 0.12), transparent 48%), linear-gradient(180deg, #08111f 0%, #091624 34%, #07111d 100%);
+  background-attachment: fixed;
+  color: #e0ebff;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black 38%, transparent 100%);
+  opacity: 0.28;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(8, 17, 31, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(141, 183, 255, 0.22);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(141, 183, 255, 0.38);
+}
+
+.glass-panel {
+  background: rgba(18, 30, 52, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(8, 17, 31, 0.35);
+}
+
+.metric-text {
+  font-family: JetBrains Mono, IBM Plex Mono, ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.soft-ring {
+  box-shadow: 0 0 0 1px rgba(141, 183, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+select {
+  background-color: rgba(6, 16, 32, 0.92);
+  border-color: rgba(141, 183, 255, 0.18);
+  color: #e0ebff;
+  color-scheme: dark;
+}
+
+select:hover {
+  border-color: rgba(141, 183, 255, 0.28);
+}
+
+select:focus {
+  background-color: rgba(6, 16, 32, 0.98);
+  border-color: rgba(141, 183, 255, 0.42);
+  box-shadow: 0 0 0 3px rgba(79, 139, 255, 0.18);
+}
+
+select option {
+  background-color: #091624;
+  color: #e0ebff;
+}
