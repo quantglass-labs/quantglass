@@ -16,6 +16,13 @@ apps/backend/.local/
 apps/backend/.pytest_cache/
 apps/backend/**/__pycache__/
 apps/backend/**/*.pyc
+apps/backend/build/
+apps/backend/dist/
+apps/backend/*.egg-info/
+apps/backend/**/*.egg-info/
+
+# PyInstaller / Tauri sidecar binaries
+apps/desktop/src-tauri/binaries/
 
 # Mock/frontend prototypes
 mock/

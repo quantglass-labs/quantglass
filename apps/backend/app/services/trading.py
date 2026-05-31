@@ -62,6 +62,7 @@ class TradingExecutionService:
             side=side,
             quantity=quantity,
             entry_price=entry_price,
+            safety_settings=safety_settings,
         )
         self._event_bus.publish(
             "live.trade.submitted",
@@ -91,7 +92,17 @@ class TradingExecutionService:
         side: str,
         quantity: float,
         entry_price: float,
+        safety_settings: Any,
     ) -> dict[str, Any]:
+        # Live execution is gated behind an explicit operator confirmation, not just the
+        # trading_mode flag. A flipped mode alone must never reach a broker order.
+        if not getattr(safety_settings, "live_trading_confirmed", False):
+            raise TradeExecutionError(
+                "Live trading is not confirmed. Enable the Risk & Safety live-trading "
+                "confirmation (which requires keychain-stored trade credentials) before "
+                "submitting real orders."
+            )
+
         attempted_providers: list[str] = []
 
         for provider_name in self._provider_manager.resolve_chain("trading", "trading"):

@@ -1,10 +1,36 @@
+import os
+import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def _platform_app_data_dir() -> Path:
+    """Per-user, writable application data directory for the current OS."""
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support"
+    if os.name == "nt":
+        base = os.environ.get("APPDATA")
+        return Path(base) if base else Path.home() / "AppData" / "Roaming"
+    base = os.environ.get("XDG_DATA_HOME")
+    return Path(base) if base else Path.home() / ".local" / "share"
+
+
+def _default_data_dir() -> Path:
+    """Resolve the local data directory.
+
+    In a normal source checkout we keep state under ``apps/backend/.local`` so the
+    developer experience is unchanged. When running from a frozen (PyInstaller)
+    bundle ``__file__`` points inside a read-only temp extraction directory, so we
+    fall back to a stable, writable per-user application-data location.
+    """
+    if getattr(sys, "frozen", False):
+        return _platform_app_data_dir() / "AlphaTerminal"
+    return Path(__file__).resolve().parents[2] / ".local"
 
 
 class ProviderRoute(BaseModel):
@@ -32,7 +58,6 @@ class ProviderSettings(BaseModel):
     news: ProviderRoute = Field(
         default_factory=lambda: ProviderRoute(
             primary="finnhub_news",
-            secondary="newsapi",
         )
     )
     ai: ProviderRoute = Field(
@@ -53,11 +78,18 @@ class SafetySettings(BaseModel):
     trading_mode: Literal["paper", "live"] = "paper"
     act_on_partial_candles: bool = False
     min_backtest_sample: int = 50
+    # Live trading stays disabled until the operator explicitly confirms it with a
+    # keychain-stored credential. A plain DB flag is not enough to enable real orders.
+    live_trading_confirmed: bool = False
 
 
 class AiSettings(BaseModel):
     model: str = "qwen3:14b-q4_K_M"
     cloud_enabled: bool = False
+    # Local Ollama endpoint used by the narration service.
+    ollama_base_url: str = "http://127.0.0.1:11434"
+    # Hard cap so a missing/slow local model never blocks a signal refresh.
+    request_timeout_seconds: float = 8.0
 
 
 class AppSettings(BaseSettings):
@@ -72,21 +104,10 @@ class AppSettings(BaseSettings):
     workspace_root: Path = Field(
         default_factory=lambda: Path(__file__).resolve().parents[4]
     )
-    data_dir: Path = Field(
-        default_factory=lambda: Path(__file__).resolve().parents[2] / ".local"
-    )
-    sqlite_path: Path = Field(
-        default_factory=lambda: Path(__file__).resolve().parents[2]
-        / ".local/state/alphaterminal.db"
-    )
-    duckdb_path: Path = Field(
-        default_factory=lambda: Path(__file__).resolve().parents[2]
-        / ".local/analytics/alphaterminal.duckdb"
-    )
-    parquet_dir: Path = Field(
-        default_factory=lambda: Path(__file__).resolve().parents[2]
-        / ".local/parquet"
-    )
+    data_dir: Path = Field(default_factory=_default_data_dir)
+    sqlite_path: Path | None = None
+    duckdb_path: Path | None = None
+    parquet_dir: Path | None = None
     enable_alpaca_market_data: bool = False
     alpaca_market_data_key_id: str | None = None
     alpaca_market_data_secret_key: str | None = None
@@ -99,6 +120,22 @@ class AppSettings(BaseSettings):
     provider_settings: ProviderSettings = Field(default_factory=ProviderSettings)
     safety: SafetySettings = Field(default_factory=SafetySettings)
     ai: AiSettings = Field(default_factory=AiSettings)
+
+    @model_validator(mode="after")
+    def _derive_storage_paths(self) -> "AppSettings":
+        """Derive concrete storage paths from ``data_dir`` unless explicitly set.
+
+        Keeping these relative to ``data_dir`` means a single ``ALPHATERMINAL_DATA_DIR``
+        override (used by the packaged desktop app) relocates all local state, while a
+        source checkout keeps the historical ``.local/{state,analytics,parquet}`` layout.
+        """
+        if self.sqlite_path is None:
+            self.sqlite_path = self.data_dir / "state" / "alphaterminal.db"
+        if self.duckdb_path is None:
+            self.duckdb_path = self.data_dir / "analytics" / "alphaterminal.duckdb"
+        if self.parquet_dir is None:
+            self.parquet_dir = self.data_dir / "parquet"
+        return self
 
 
 def apply_api_key_settings(

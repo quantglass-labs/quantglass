@@ -1,9 +1,18 @@
 from fastapi import APIRouter, HTTPException, Request
 
 from app.services.market_corridor import MarketCorridorService
+from app.services.ranking import RelativeStrengthRankingService
 from app.services.rate_limits import RateLimitExceededError
 
 router = APIRouter(prefix="/api/market", tags=["market"])
+
+
+@router.get("/ranking")
+async def get_market_ranking(request: Request) -> dict[str, object]:
+    service = RelativeStrengthRankingService(
+        analytics_store=request.app.state.analytics_store,
+    )
+    return service.rank()
 
 
 @router.get("/corridor")

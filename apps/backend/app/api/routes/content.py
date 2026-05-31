@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
+from app.services.narration import NarrationService
 from app.services.news_service import NewsService
 from app.services.signal_engine import SignalEngineService
 
@@ -19,9 +20,12 @@ class BacktestRunRequest(BaseModel):
 
 
 def _signal_engine(request: Request) -> SignalEngineService:
+    state_store = request.app.state.state_store
+    narrator = NarrationService(ai_settings_provider=state_store.get_ai_settings)
     return SignalEngineService(
         analytics_store=request.app.state.analytics_store,
-        min_backtest_sample=request.app.state.state_store.get_safety_settings().min_backtest_sample,
+        min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
+        narrator=narrator,
     )
 
 

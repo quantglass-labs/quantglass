@@ -28,9 +28,27 @@ mock/
 The current implementation state is:
 
 - Desktop routes, charts, mock views, and Tauri shell are in place.
-- Backend health, watchlist, provider settings, AI settings, and alerts are partially implemented.
+- Backend health, watchlist, provider settings, AI settings, and alerts are implemented.
 - Shared contracts exist and are the required boundary for new desktop/backend integration.
-- Market data, normalization, quant pipeline, signal engine, backtesting engine, alert execution, secrets management, and production testing are not complete.
+- Market corridor ingestion (public crypto + stock providers), normalization with integrity
+  checks, DuckDB analytics with Parquet archival, the deterministic signal engine
+  (regime gating, setup families, honest in-sample/out-of-sample backtesting, pooled
+  expectancy, empirical-Bayes win-rate calibration), local-model narration with an
+  anti-hallucination fact guard, encrypted/keychain secrets, the live-trading safety gate,
+  and scheduled market/signal refresh jobs are implemented and unit-tested.
+- Remaining/optional: cross-sectional relative-strength ranking, optional vectorbt
+  parameter-robustness tooling, and retiring unused provider stubs.
+
+### Tooling status (audited)
+
+- **vectorbt v1.0.0** is available for optional parameter-robustness heatmaps and
+  walk-forward studies but is NOT a runtime dependency; the shipped backtester is a
+  pure-Python first-touch ladder simulator (no pandas/numpy in the hot path).
+- **pandas-ta** is intentionally NOT used (the pinned distribution 404s and pulls a heavy
+  pandas/numpy stack); all indicators (EMA, SMA, RSI/RSI2, ATR, ADX, MACD, Bollinger,
+  Donchian, Keltner) are hand-rolled in pure Python in `signal_engine.py`.
+- **Lightweight Charts** is Apache-2.0 licensed and used on the desktop for candle rendering.
+
 
 ## Program Objective
 
@@ -118,7 +136,8 @@ Deliver a production-grade local-first desktop application that satisfies the ar
 
 ### F. Quant and Signal Engine
 
-- Indicator computation using pandas/pandas-ta.
+- Indicator computation in pure Python (no pandas/pandas-ta): EMA, SMA, RSI/RSI2, ATR,
+  ADX, MACD, Bollinger, Donchian, Keltner.
 - Support/resistance, regime, and setup classification.
 - Risk engine, SL/TP ladder generation, and R:R calculation.
 - Confidence basis tied to deterministic features and validated expectancy tables.

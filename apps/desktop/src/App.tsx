@@ -7,7 +7,7 @@ import { symbolCatalog, symbolById } from './data/symbolCatalog';
 import { SignalDetailDrawer } from './screens/SignalDetailDrawer';
 import { backendClient, mapMarketCandlesToChartSeries, mapProviderSettingsResponseToUi, mapUiSettingsToProviderRequest } from './lib/backend';
 import { formatCurrency } from './lib/format';
-import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
+import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
 
 const DashboardScreen = lazy(async () => import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })));
 const SymbolDetailScreen = lazy(async () => import('./screens/SymbolDetailScreen').then((module) => ({ default: module.SymbolDetailScreen })));
@@ -35,8 +35,8 @@ function buildToast(id: string, title: string, description?: string): ToastMessa
 const defaultProviderSettings: ProviderSettings = {
   viewMode: 'simple',
   cryptoPrimary: 'Coinbase',
-  cryptoSecondary: 'CoinGecko',
-  cryptoFallback: 'Kraken',
+  cryptoSecondary: 'Kraken',
+  cryptoFallback: 'Gemini',
   stocksPrimary: 'Alpaca',
   stocksSecondary: 'Finnhub',
   stocksFallback: 'Twelve Data',
@@ -72,6 +72,7 @@ export default function App() {
   const [savedStrategies, setSavedStrategies] = useState<SavedStrategy[]>([]);
   const [signalRecords, setSignalRecords] = useState<SignalRecord[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [marketRanking, setMarketRanking] = useState<RelativeStrengthRanking[]>([]);
   const [backtestPresets, setBacktestPresets] = useState<StrategyPreset[]>([]);
   const [providerSettings, setProviderSettings] = useState(defaultProviderSettings);
   const [providerRegistry, setProviderRegistry] = useState<ProviderRegistryEntry[]>([]);
@@ -198,6 +199,10 @@ export default function App() {
 
         const savedStrategiesResponse = await backendClient.getSavedStrategies();
 
+        const marketRankingResponse = await backendClient
+          .getMarketRanking()
+          .catch(() => ({ generated_at_utc: '', items: [] as RelativeStrengthRanking[] }));
+
         if (cancelled) return;
 
         setBackendStatus(health.status === 'ok' ? 'online' : 'offline');
@@ -217,6 +222,7 @@ export default function App() {
         setBacktestPresets(backtestsResponse.items);
         setPaperAccount(paperAccountResponse.account);
         setSavedStrategies(savedStrategiesResponse.items);
+        setMarketRanking(marketRankingResponse.items);
 
         const backendWatchlistIds = watchlistResponse.items
           .map((entry) => entry.symbol.toUpperCase())
@@ -685,6 +691,7 @@ export default function App() {
                   symbols={filteredSymbols}
                   watchlistIds={watchlistIds}
                   signals={signalRecords}
+                  ranking={marketRanking}
                   onToggleWatchlist={handleToggleWatchlist}
                   onOpenSymbol={handleSelectSymbol}
                   onOpenAlertModal={handleOpenAlertModal}

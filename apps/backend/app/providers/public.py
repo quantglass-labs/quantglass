@@ -6,6 +6,7 @@ from urllib.request import Request, urlopen
 
 class CoinbasePublicOHLCVProvider:
     _granularity_by_timeframe = {
+        "15m": 900,
         "1h": 3600,
         "1d": 86400,
     }
@@ -64,7 +65,9 @@ class CoinbasePublicOHLCVProvider:
 
 class KrakenPublicOHLCVProvider:
     _interval_by_timeframe = {
+        "15m": 15,
         "1h": 60,
+        "4h": 240,
         "1d": 1440,
     }
     _pair_by_symbol = {
@@ -123,7 +126,9 @@ class KrakenPublicOHLCVProvider:
 
 class GeminiPublicOHLCVProvider:
     _period_by_timeframe = {
+        "15m": "15m",
         "1h": "1hr",
+        "6h": "6hr",
         "1d": "1day",
     }
     _symbol_by_symbol = {

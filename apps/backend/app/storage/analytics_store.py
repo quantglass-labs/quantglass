@@ -5,6 +5,10 @@ from typing import Any
 import duckdb
 
 
+def _safe_partition(value: str) -> str:
+    return "".join(character if character.isalnum() else "_" for character in value)
+
+
 class AnalyticsStore:
     def __init__(self, duckdb_path: Path, parquet_dir: Path) -> None:
         self.duckdb_path = duckdb_path
@@ -23,6 +27,24 @@ class AnalyticsStore:
                     created_at TIMESTAMP NOT NULL,
                     sample_size INTEGER NOT NULL,
                     expectancy_r DOUBLE NOT NULL
+                )
+                """
+            )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS setup_expectancy (
+                    symbol VARCHAR NOT NULL,
+                    setup_type VARCHAR NOT NULL,
+                    timeframe VARCHAR NOT NULL,
+                    regime VARCHAR NOT NULL,
+                    sample_size INTEGER NOT NULL,
+                    wins INTEGER NOT NULL,
+                    sum_r DOUBLE NOT NULL,
+                    oos_sample_size INTEGER NOT NULL,
+                    oos_wins INTEGER NOT NULL,
+                    oos_sum_r DOUBLE NOT NULL,
+                    updated_at TIMESTAMP NOT NULL,
+                    PRIMARY KEY(symbol, setup_type, timeframe)
                 )
                 """
             )
@@ -136,6 +158,98 @@ class AnalyticsStore:
                         candle["volume"],
                     ],
                 )
+        self._archive_parquet(symbol, timeframe)
+
+    def _archive_parquet(self, symbol: str, timeframe: str) -> None:
+        """Write the durable long-term candle archive for one series as Parquet.
+
+        The DuckDB file is the hot store; this partitioned Parquet copy is the
+        backup/export surface referenced in docs/backup_and_recovery.md.
+        """
+        partition_dir = (
+            self.parquet_dir
+            / f"symbol={_safe_partition(symbol)}"
+            / f"timeframe={_safe_partition(timeframe)}"
+        )
+        partition_dir.mkdir(parents=True, exist_ok=True)
+        target = partition_dir / "candles.parquet"
+        escaped_target = str(target).replace("'", "''")
+        try:
+            with duckdb.connect(str(self.duckdb_path)) as connection:
+                connection.execute(
+                    f"""
+                    COPY (
+                        SELECT symbol, market_type, timeframe, source, open_time_utc,
+                               open, high, low, close, volume, ingested_at
+                        FROM market_candles
+                        WHERE symbol = ? AND timeframe = ?
+                        ORDER BY open_time_utc
+                    ) TO '{escaped_target}' (FORMAT PARQUET)
+                    """,
+                    [symbol, timeframe],
+                )
+        except Exception:
+            # Archiving is best-effort; a failed Parquet write must not break ingest.
+            return
+
+    def upsert_setup_expectancy(self, payload: dict[str, Any]) -> None:
+        with duckdb.connect(str(self.duckdb_path)) as connection:
+            connection.execute(
+                "DELETE FROM setup_expectancy WHERE symbol = ? AND setup_type = ? AND timeframe = ?",
+                [payload["symbol"], payload["setup_type"], payload["timeframe"]],
+            )
+            connection.execute(
+                """
+                INSERT INTO setup_expectancy (
+                    symbol, setup_type, timeframe, regime, sample_size, wins, sum_r,
+                    oos_sample_size, oos_wins, oos_sum_r, updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
+                """,
+                [
+                    payload["symbol"],
+                    payload["setup_type"],
+                    payload["timeframe"],
+                    payload.get("regime", "unknown"),
+                    int(payload["sample_size"]),
+                    int(payload["wins"]),
+                    float(payload["sum_r"]),
+                    int(payload.get("oos_sample_size", 0)),
+                    int(payload.get("oos_wins", 0)),
+                    float(payload.get("oos_sum_r", 0.0)),
+                ],
+            )
+
+    def get_pooled_expectancy(self, setup_type: str, timeframe: str) -> dict[str, Any]:
+        with duckdb.connect(str(self.duckdb_path)) as connection:
+            row = connection.execute(
+                """
+                SELECT
+                    COALESCE(SUM(sample_size), 0) AS sample_size,
+                    COALESCE(SUM(wins), 0) AS wins,
+                    COALESCE(SUM(sum_r), 0.0) AS sum_r,
+                    COALESCE(SUM(oos_sample_size), 0) AS oos_sample_size,
+                    COALESCE(SUM(oos_wins), 0) AS oos_wins,
+                    COALESCE(SUM(oos_sum_r), 0.0) AS oos_sum_r
+                FROM setup_expectancy
+                WHERE setup_type = ? AND timeframe = ?
+                """,
+                [setup_type, timeframe],
+            ).fetchone()
+        sample_size = int(row[0]) if row else 0
+        wins = int(row[1]) if row else 0
+        sum_r = float(row[2]) if row else 0.0
+        oos_sample_size = int(row[3]) if row else 0
+        oos_wins = int(row[4]) if row else 0
+        oos_sum_r = float(row[5]) if row else 0.0
+        return {
+            "sample_size": sample_size,
+            "win_rate": (wins / sample_size) if sample_size else 0.0,
+            "expectancy": (sum_r / sample_size) if sample_size else 0.0,
+            "oos_sample_size": oos_sample_size,
+            "oos_win_rate": (oos_wins / oos_sample_size) if oos_sample_size else 0.0,
+            "oos_expectancy": (oos_sum_r / oos_sample_size) if oos_sample_size else 0.0,
+        }
 
     def get_market_candle_corridor_summary(
         self,

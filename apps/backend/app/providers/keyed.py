@@ -34,11 +34,22 @@ def _post_json(url: str, payload: dict[str, Any], headers: dict[str, str] | None
 
 
 class AlpacaStocksOHLCVProvider:
-    def __init__(self, key_id: str, secret_key: str) -> None:
+    # Default to the PAPER trading host. Live order submission must be opted into
+    # explicitly by passing the live base URL; nothing here may hit real markets by default.
+    PAPER_TRADING_BASE_URL = "https://paper-api.alpaca.markets"
+    LIVE_TRADING_BASE_URL = "https://api.alpaca.markets"
+
+    def __init__(
+        self,
+        key_id: str,
+        secret_key: str,
+        trading_base_url: str | None = None,
+    ) -> None:
         self._headers = {
             "APCA-API-KEY-ID": key_id,
             "APCA-API-SECRET-KEY": secret_key,
         }
+        self._trading_base_url = trading_base_url or self.PAPER_TRADING_BASE_URL
 
     def get_symbols(self, market_type: str) -> list[str]:
         return ["SPY"] if market_type == "stocks" else []
@@ -82,7 +93,7 @@ class AlpacaStocksOHLCVProvider:
     def submit_order(self, symbol: str, side: str, quantity: float) -> dict[str, Any]:
         order_side = "buy" if side == "long" else "sell"
         payload = _post_json(
-            "https://api.alpaca.markets/v2/orders",
+            f"{self._trading_base_url}/v2/orders",
             payload={
                 "symbol": symbol.upper().replace("/", ""),
                 "qty": quantity,
