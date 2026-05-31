@@ -10,13 +10,17 @@ from app.services.trading import TradeExecutionError, TradingExecutionService
 
 
 class _FakeStateStore:
-    def __init__(self, trading_mode: str) -> None:
+    def __init__(self, trading_mode: str, live_trading_confirmed: bool = True) -> None:
         self._trading_mode = trading_mode
+        self._live_trading_confirmed = live_trading_confirmed
         self.paper_trade_calls: list[dict[str, object]] = []
         self.live_trade_calls: list[dict[str, object]] = []
 
     def get_safety_settings(self) -> SimpleNamespace:
-        return SimpleNamespace(trading_mode=self._trading_mode)
+        return SimpleNamespace(
+            trading_mode=self._trading_mode,
+            live_trading_confirmed=self._live_trading_confirmed,
+        )
 
     def submit_paper_trade(self, **kwargs):
         self.paper_trade_calls.append(kwargs)
@@ -141,6 +145,22 @@ class TradingExecutionServiceTests(unittest.TestCase):
         self.assertEqual(len(state_store.live_trade_calls), 1)
         self.assertEqual(event["type"], "live.trade.submitted")
         self.assertEqual(event["payload"]["provider"], "alpaca")
+
+    def test_submit_trade_blocks_live_when_not_confirmed(self) -> None:
+        state_store = _FakeStateStore(trading_mode="live", live_trading_confirmed=False)
+        provider_manager = _FakeProviderManager(chain=["alpaca"], client=_FakeProviderClient())
+        service = TradingExecutionService(state_store, provider_manager, BackendEventBus())
+
+        with self.assertRaises(TradeExecutionError):
+            service.submit_trade(
+                signal_id="signal-blocked",
+                symbol="SPY",
+                side="long",
+                quantity=1.0,
+                entry_price=525.0,
+            )
+
+        self.assertEqual(len(state_store.live_trade_calls), 0)
 
 
 class PaperRouteTests(unittest.TestCase):

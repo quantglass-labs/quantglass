@@ -18,8 +18,11 @@ from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
+from app.services.market_corridor import MarketCorridorService
+from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
+from app.services.signal_engine import SignalEngineService
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
@@ -41,7 +44,19 @@ async def lifespan(app: FastAPI):
     notification_service = AlertNotificationService(state_store)
     trading_service = TradingExecutionService(state_store, provider_manager, event_bus)
     execution_engine = ExecutionEngineService(state_store, analytics_store, event_bus, notification_service)
-    scheduler_service = SchedulerService(execution_engine, event_bus)
+    market_corridor_service = MarketCorridorService(provider_manager, analytics_store, rate_limiter)
+    narration_service = NarrationService(ai_settings_provider=state_store.get_ai_settings)
+    signal_engine = SignalEngineService(
+        analytics_store=analytics_store,
+        min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
+        narrator=narration_service,
+    )
+    scheduler_service = SchedulerService(
+        execution_engine,
+        event_bus,
+        market_corridor=market_corridor_service,
+        signal_engine=signal_engine,
+    )
     scheduler_service.start()
 
     app.state.settings = settings
@@ -52,6 +67,8 @@ async def lifespan(app: FastAPI):
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service
     app.state.execution_engine = execution_engine
+    app.state.market_corridor_service = market_corridor_service
+    app.state.signal_engine = signal_engine
     app.state.scheduler_service = scheduler_service
     app.state.rate_limiter = rate_limiter
 
@@ -77,6 +94,8 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:5173",
         "tauri://localhost",
+        "http://tauri.localhost",
+        "https://tauri.localhost",
     ],
     allow_credentials=False,
     allow_methods=["*"],

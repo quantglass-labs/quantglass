@@ -43,3 +43,29 @@ Before any restore, the script creates an automatic pre-restore rollback bundle 
 - Keep backup bundles outside the workspace for long-term retention.
 - Prefer restoring while the desktop app and backend are not running.
 - If a restore produces unexpected state, use the printed pre-restore bundle to roll back immediately.
+
+## Parquet Candle Archive
+
+On every closed-candle ingest, the analytics store also writes a durable Parquet copy of
+each series under `.local/parquet/symbol=<SYMBOL>/timeframe=<TIMEFRAME>/candles.parquet`.
+The DuckDB file is the hot query store; these Parquet partitions are the long-term,
+portable archive and the recommended export surface.
+
+To rebuild DuckDB market history from the Parquet archive (for example after a corrupt
+DuckDB file), re-read the partitions directly:
+
+```bash
+./.venv/bin/python - <<'PY'
+import duckdb
+con = duckdb.connect(".local/analytics/alphaterminal.duckdb")
+con.execute(
+    "INSERT INTO market_candles "
+    "SELECT * FROM read_parquet('.local/parquet/*/*/candles.parquet')"
+)
+con.close()
+PY
+```
+
+The Parquet write is best-effort and never blocks ingest; if a partition is missing, the
+next successful ingest of that series re-creates it.
+

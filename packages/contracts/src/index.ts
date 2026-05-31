@@ -19,6 +19,14 @@ export interface ConfidenceBasis {
   backtested_expectancy_R: number;
   backtest_sample_size: number;
   out_of_sample_validated: boolean;
+  // Engine v2 additions (optional for backward compatibility).
+  market_regime?: 'trending' | 'ranging' | 'volatile' | 'transitional';
+  out_of_sample_sample_size?: number;
+  out_of_sample_expectancy_R?: number;
+  pooled_sample_size?: number;
+  pooled_winrate?: number;
+  pooled_expectancy_R?: number;
+  confluence_score?: number;
 }
 
 export interface CanonicalSignal {
@@ -40,6 +48,11 @@ export interface CanonicalSignal {
   generated_at_utc: string;
   ai_explanation: string;
   disclaimer: string;
+  // Engine v2 freshness + provenance additions (optional).
+  data_age_seconds?: number;
+  last_candle_close_at?: string;
+  ingested_at?: string;
+  narration_source?: string;
 }
 
 export interface ProviderRoute {
@@ -276,6 +289,8 @@ export interface NewsItem {
   publishedAt: string;
   summary: string;
   sentiment: 'positive' | 'neutral' | 'negative';
+  // True when the item is derived locally from market data rather than a live news provider.
+  derived?: boolean;
 }
 
 export interface NewsListResponse {
@@ -375,6 +390,25 @@ export interface MarketCandlesResponse {
   timeframe: Timeframe | '1d';
   source: string | null;
   items: MarketCandle[];
+}
+
+export interface RelativeStrengthRanking {
+  symbol: string;
+  market_type: string;
+  timeframe: Timeframe | '1d';
+  source: string | null;
+  last_close: number;
+  trailing_returns: Record<string, number>;
+  momentum_score: number;
+  trend: 'up' | 'down' | 'neutral';
+  relative_strength_percentile: number;
+  peer_group_size: number;
+  peer_rank: number;
+}
+
+export interface MarketRankingResponse {
+  generated_at_utc: string;
+  items: RelativeStrengthRanking[];
 }
 
 export interface BackendHealthResponse {

@@ -24,6 +24,29 @@ export function SignalDetailDrawer({
 }) {
   const retryMockView = () => window.location.reload();
 
+  const narrationSource = signalRecord?.signal.narration_source ?? 'template';
+  const isModelNarration = narrationSource.startsWith('ollama');
+  const narrationLabel = isModelNarration
+    ? 'AI narration (local model, fact-checked against engine numbers):'
+    : 'Rule-based summary — narrates engine facts only:';
+  const narrationSourceDisplay = isModelNarration
+    ? `Local model (${narrationSource.replace('ollama:', '')})`
+    : narrationSource === 'template-guarded'
+      ? 'Deterministic template (model output rejected by fact guard)'
+      : narrationSource === 'template-fallback'
+        ? 'Deterministic template (model unavailable)'
+        : 'Deterministic template';
+
+  const dataAgeSeconds = signalRecord?.signal.data_age_seconds;
+  const dataFreshness =
+    typeof dataAgeSeconds === 'number'
+      ? dataAgeSeconds < 90
+        ? `${Math.round(dataAgeSeconds)}s ago`
+        : dataAgeSeconds < 5400
+          ? `${Math.round(dataAgeSeconds / 60)}m ago`
+          : `${(dataAgeSeconds / 3600).toFixed(1)}h ago`
+      : null;
+
   return (
     <Drawer open={open} title={signalRecord ? `${signalRecord.signal.symbol} signal detail` : 'Signal detail'} description="Full canonical signal object with confidence basis, risk ladder, AI narration, and paper-only execution actions. Signal records are generated on the backend from stored corridor candles." onClose={onClose}>
       {signalRecord ? (
@@ -39,6 +62,9 @@ export function SignalDetailDrawer({
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Canonical signal</p>
                   <h4 className="mt-1 text-2xl font-semibold text-ink">{signalRecord.signal.symbol}</h4>
                   <p className="mt-2 text-sm text-muted">{symbol?.marketType} · {signalRecord.signal.timeframe} · generated {formatDateTime(signalRecord.signal.generated_at_utc)} UTC</p>
+                  {dataFreshness ? (
+                    <p className="mt-1 text-xs text-muted">Last candle close {dataFreshness}{signalRecord.signal.last_candle_close_at ? ` · ${formatDateTime(signalRecord.signal.last_candle_close_at)} UTC` : ''}</p>
+                  ) : null}
                 </div>
                 <SignalChip signal={signalRecord.signal.signal} subdued={signalRecord.signal.confidence < 55} />
               </div>
@@ -61,7 +87,19 @@ export function SignalDetailDrawer({
                   <MetricStat label="Backtested win rate" value={`${(signalRecord.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%`} />
                   <MetricStat label="Expectancy R" value={signalRecord.signal.confidence_basis.backtested_expectancy_R.toFixed(2)} />
                   <MetricStat label="Sample size" value={signalRecord.signal.confidence_basis.backtest_sample_size} helper={signalRecord.signal.confidence_basis.backtest_sample_size < 50 ? 'Low-sample warning' : 'Above minimum threshold'} />
-                  <MetricStat label="OOS validated" value={signalRecord.signal.confidence_basis.out_of_sample_validated ? 'Yes' : 'No'} />
+                  <MetricStat label="OOS validated" value={signalRecord.signal.confidence_basis.out_of_sample_validated ? 'Yes' : 'No'} helper={signalRecord.signal.confidence_basis.out_of_sample_validated ? 'Out-of-sample expectancy positive' : 'Not confirmed out-of-sample'} />
+                  {signalRecord.signal.confidence_basis.market_regime ? (
+                    <MetricStat label="Market regime" value={signalRecord.signal.confidence_basis.market_regime} />
+                  ) : null}
+                  {typeof signalRecord.signal.confidence_basis.confluence_score === 'number' ? (
+                    <MetricStat label="Confluence score" value={signalRecord.signal.confidence_basis.confluence_score.toFixed(2)} />
+                  ) : null}
+                  {typeof signalRecord.signal.confidence_basis.pooled_sample_size === 'number' ? (
+                    <MetricStat label="Pooled sample" value={signalRecord.signal.confidence_basis.pooled_sample_size} helper="Cross-symbol setup history" />
+                  ) : null}
+                  {typeof signalRecord.signal.confidence_basis.out_of_sample_sample_size === 'number' ? (
+                    <MetricStat label="OOS sample" value={signalRecord.signal.confidence_basis.out_of_sample_sample_size} />
+                  ) : null}
                 </div>
               </Panel>
 
@@ -88,7 +126,8 @@ export function SignalDetailDrawer({
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">AI explanation</p>
-                <p className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">AI explanation — narrates engine facts only. {signalRecord.signal.ai_explanation}</p>
+                <p className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">{narrationLabel} {signalRecord.signal.ai_explanation}</p>
+                <p className="mt-2 text-xs text-muted">Source: {narrationSourceDisplay}</p>
                 <p className="mt-3 text-xs text-muted">{signalRecord.signal.disclaimer}</p>
               </Panel>
 

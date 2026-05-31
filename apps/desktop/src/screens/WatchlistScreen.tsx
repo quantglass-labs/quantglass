@@ -3,13 +3,14 @@ import { useMemo, useState } from 'react';
 import { Sparkline } from '../components/charts';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading, SignalChip } from '../components/ui';
 import { formatCurrency, formatPercent } from '../lib/format';
-import type { ScreenState, SignalRecord, SymbolRecord } from '../types';
+import type { RelativeStrengthRanking, ScreenState, SignalRecord, SymbolRecord } from '../types';
 
 export function WatchlistScreen({
   state,
   symbols,
   watchlistIds,
   signals,
+  ranking,
   onToggleWatchlist,
   onOpenSymbol,
   onOpenAlertModal,
@@ -18,6 +19,7 @@ export function WatchlistScreen({
   symbols: SymbolRecord[];
   watchlistIds: string[];
   signals: SignalRecord[];
+  ranking: RelativeStrengthRanking[];
   onToggleWatchlist: (symbolId: string) => void;
   onOpenSymbol: (symbolId: string) => void;
   onOpenAlertModal: (symbolId: string, signalId?: string) => void;
@@ -29,6 +31,16 @@ export function WatchlistScreen({
     if (!needle) return [];
     return symbols.filter((symbol) => !watchlistIds.includes(symbol.id) && (symbol.symbol.toLowerCase().includes(needle) || symbol.name.toLowerCase().includes(needle)));
   }, [query, symbols, watchlistIds]);
+  const topRanked = useMemo(() => {
+    const seen = new Set<string>();
+    const deduped: RelativeStrengthRanking[] = [];
+    for (const entry of ranking) {
+      if (seen.has(entry.symbol)) continue;
+      seen.add(entry.symbol);
+      deduped.push(entry);
+    }
+    return deduped.slice(0, 6);
+  }, [ranking]);
   const retryMockView = () => window.location.reload();
 
   return (
@@ -57,6 +69,41 @@ export function WatchlistScreen({
           </div>
         }
       />
+
+      {topRanked.length ? (
+        <Panel>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-ink">Top relative-strength candidates</h3>
+              <span className="text-xs text-muted">Cross-sectional momentum rank across the local universe</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {topRanked.map((entry) => {
+                const symbolRecord = symbols.find((symbol) => symbol.id === entry.symbol);
+                const positive = entry.momentum_score >= 0;
+                return (
+                  <button
+                    key={`${entry.symbol}:${entry.timeframe}`}
+                    type="button"
+                    onClick={() => symbolRecord && onOpenSymbol(symbolRecord.id)}
+                    className="flex flex-col gap-2 rounded-3xl border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="font-medium text-ink">{entry.symbol}</p>
+                      <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">{entry.timeframe}</span>
+                    </div>
+                    <p className="metric-text text-2xl text-ink">{entry.relative_strength_percentile.toFixed(0)}<span className="text-sm text-muted"> RS</span></p>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className={positive ? 'text-buy' : 'text-sell'}>{formatPercent(entry.momentum_score * 100)}</span>
+                      <span className="text-xs text-muted">#{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </Panel>
+      ) : null}
 
       <Panel>
         <DataStateView

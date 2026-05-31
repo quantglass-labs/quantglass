@@ -85,6 +85,32 @@ class MarketCorridorService:
             "market_type": "stocks",
             "timeframe": "1d",
         },
+        # Multi-timeframe coverage for the crypto majors so the engine's higher-timeframe
+        # filter and intraday setups have real data on both fast and slow horizons.
+        {
+            "symbol": "BTCUSD",
+            "route_domain": "crypto",
+            "market_type": "crypto",
+            "timeframe": "4h",
+        },
+        {
+            "symbol": "ETHUSD",
+            "route_domain": "crypto",
+            "market_type": "crypto",
+            "timeframe": "4h",
+        },
+        {
+            "symbol": "BTCUSD",
+            "route_domain": "crypto",
+            "market_type": "crypto",
+            "timeframe": "15m",
+        },
+        {
+            "symbol": "ETHUSD",
+            "route_domain": "crypto",
+            "market_type": "crypto",
+            "timeframe": "15m",
+        },
     ]
 
     def __init__(
@@ -511,7 +537,9 @@ class MarketCorridorService:
     @staticmethod
     def _expected_delta(timeframe: str) -> timedelta:
         mapping = {
+            "15m": timedelta(minutes=15),
             "1h": timedelta(hours=1),
+            "4h": timedelta(hours=4),
             "1d": timedelta(days=1),
         }
         return mapping[timeframe]

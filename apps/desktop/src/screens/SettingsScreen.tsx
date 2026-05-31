@@ -188,7 +188,7 @@ export function SettingsScreen({
                       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Crypto provider</p>
                         <p className="mt-3 text-lg font-medium text-ink">Auto</p>
-                        <p className="mt-2 text-sm text-muted">Uses {providerSettings.cryptoPrimary} for exchange-native candles and quotes, {providerSettings.cryptoSecondary} for broad metadata, and falls back to {providerSettings.cryptoFallback} if needed.</p>
+                        <p className="mt-2 text-sm text-muted">Uses {providerSettings.cryptoPrimary} for exchange-native candles and quotes, {providerSettings.cryptoSecondary || 'no secondary'} as the secondary exchange, and falls back to {providerSettings.cryptoFallback} if needed.</p>
                       </div>
                       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Stocks provider</p>
@@ -221,11 +221,12 @@ export function SettingsScreen({
                             {renderProviderMeta(providerSettings.cryptoPrimary)}
                           </label>
                           <label className="space-y-2">
-                            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Secondary metadata</span>
+                            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Secondary exchange</span>
                             <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={providerSettings.cryptoSecondary} onChange={(event) => onUpdateProviderSetting('cryptoSecondary', event.target.value)}>
                               <option value="">None</option>
-                              <option value="CoinGecko">CoinGecko</option>
-                              <option value="CoinMarketCap">CoinMarketCap</option>
+                              <option value="Kraken">Kraken</option>
+                              <option value="Coinbase">Coinbase</option>
+                              <option value="Gemini">Gemini</option>
                             </select>
                             {renderProviderMeta(providerSettings.cryptoSecondary)}
                           </label>
@@ -409,13 +410,13 @@ export function SettingsScreen({
                   <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between gap-4">
                       <div>
-                        <p className="font-medium text-ink">Optional cloud LLM</p>
-                        <p className="text-sm text-muted">Disabled by default in the current build.</p>
+                        <p className="font-medium text-ink">Model narration</p>
+                        <p className="text-sm text-muted">When on, the selected local Ollama model rewrites the summary. Every number is fact-checked against engine output; failed checks fall back to the deterministic template.</p>
                       </div>
                       <CloudOff className="size-5 text-muted" />
                     </div>
                     <div className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-surface/40 px-4 py-3 text-sm text-muted">
-                      <span>Cloud narration: {aiSettings.cloudEnabled ? 'enabled' : 'off by default'}</span>
+                      <span>Narration: {aiSettings.cloudEnabled ? 'local model (fact-checked)' : 'deterministic template'}</span>
                       <button type="button" className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${aiSettings.cloudEnabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`} onClick={() => onSetCloudEnabled(!aiSettings.cloudEnabled)}>
                         {aiSettings.cloudEnabled ? 'On' : 'Off'}
                       </button>

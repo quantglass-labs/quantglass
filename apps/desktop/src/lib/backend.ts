@@ -16,6 +16,7 @@ import type {
   BackendHealthResponse,
   CorridorIngestResponse,
   MarketCandlesResponse,
+  MarketRankingResponse,
   NewsListResponse,
   NotificationTestChannel,
   NotificationTestResponse,
@@ -39,7 +40,39 @@ import type {
 } from '@alphaterminal/contracts';
 import type { Candle, ProviderSettings } from '../types';
 
-const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL ?? 'http://127.0.0.1:8000';
+const DEFAULT_BACKEND_BASE_URL = 'http://127.0.0.1:8000';
+
+function isTauriRuntime(): boolean {
+  return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+}
+
+let backendBaseUrlPromise: Promise<string> | null = null;
+
+async function resolveBackendBaseUrl(): Promise<string> {
+  const configuredUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+  if (configuredUrl) {
+    return configuredUrl;
+  }
+  if (isTauriRuntime()) {
+    try {
+      const { invoke } = await import('@tauri-apps/api/core');
+      const url = await invoke<string>('backend_base_url');
+      if (url) {
+        return url;
+      }
+    } catch {
+      // Fall back to the conventional local port if the command is unavailable.
+    }
+  }
+  return DEFAULT_BACKEND_BASE_URL;
+}
+
+function getBackendBaseUrl(): Promise<string> {
+  if (!backendBaseUrlPromise) {
+    backendBaseUrlPromise = resolveBackendBaseUrl();
+  }
+  return backendBaseUrlPromise;
+}
 
 export interface BackendEventMessage {
   type: string;
@@ -52,12 +85,9 @@ export const providerLabelById: Record<string, string> = {
   ccxt_coinbase: 'Coinbase',
   ccxt_kraken: 'Kraken',
   ccxt_trade: 'CCXT Trade',
-  coingecko: 'CoinGecko',
-  coinmarketcap: 'CoinMarketCap',
   finnhub: 'Finnhub',
   finnhub_news: 'Finnhub',
   gemini: 'Gemini',
-  newsapi: 'NewsAPI',
   ollama: 'Ollama',
   openai: 'OpenAI',
   polygon: 'Polygon',
@@ -70,7 +100,8 @@ const providerIdByLabel: Record<string, string> = Object.fromEntries(
 );
 
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${backendBaseUrl}${path}`, {
+  const baseUrl = await getBackendBaseUrl();
+  const response = await fetch(`${baseUrl}${path}`, {
     headers: {
       'Content-Type': 'application/json',
       ...(init?.headers ?? {}),
@@ -114,6 +145,9 @@ export const backendClient = {
   },
   getMarketCandles(symbol: string, timeframe: string) {
     return requestJson<MarketCandlesResponse>(`/api/market/corridor/candles?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`);
+  },
+  getMarketRanking() {
+    return requestJson<MarketRankingResponse>('/api/market/ranking');
   },
   getProviderSettings() {
     return requestJson<ProviderSettingsResponse>('/api/providers/settings');
@@ -210,22 +244,29 @@ export const backendClient = {
     });
   },
   subscribeEvents(onEvent: (event: BackendEventMessage) => void) {
-    const url = new URL(backendBaseUrl);
-    url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
-    url.pathname = '/ws/events';
-    url.search = '';
+    let socket: WebSocket | null = null;
+    let closed = false;
 
-    const socket = new WebSocket(url.toString());
-    socket.onmessage = (message) => {
-      try {
-        onEvent(JSON.parse(message.data) as BackendEventMessage);
-      } catch {
-        return;
-      }
-    };
+    void getBackendBaseUrl().then((baseUrl) => {
+      if (closed) return;
+      const url = new URL(baseUrl);
+      url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+      url.pathname = '/ws/events';
+      url.search = '';
+
+      socket = new WebSocket(url.toString());
+      socket.onmessage = (message) => {
+        try {
+          onEvent(JSON.parse(message.data) as BackendEventMessage);
+        } catch {
+          return;
+        }
+      };
+    });
 
     return () => {
-      if (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING) {
+      closed = true;
+      if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
         socket.close();
       }
     };
