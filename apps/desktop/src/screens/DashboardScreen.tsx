@@ -5,7 +5,62 @@ import { ArrowRight, BookmarkPlus, CircleSlash2, TrendingDown, TrendingUp } from
 import { DataStateView, Button, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, SectionHeading, SignalChip, ConfidenceRing } from '../components/ui';
 import { Sparkline } from '../components/charts';
 import { formatCurrency, formatPercent } from '../lib/format';
-import type { CorridorIngestResult, PaperAccount, ScreenState, SignalRecord, SymbolRecord } from '../types';
+import type { Candle, CorridorIngestResult, PaperAccount, ScreenState, SignalRecord, SymbolRecord } from '../types';
+
+const timeframePriority = ['15m', '1h', '4h', '1d'];
+
+function marketCandleKey(symbol: string, timeframe: string) {
+  return `${symbol}:${timeframe}`;
+}
+
+function selectDisplayCorridor(symbol: SymbolRecord, marketCorridorItems: CorridorIngestResult[]) {
+  const candidates = marketCorridorItems.filter((item) => item.symbol === symbol.id);
+  if (!candidates.length) {
+    return null;
+  }
+  const preferred = symbol.marketType === 'stocks' ? ['1d'] : timeframePriority;
+  return [...candidates].sort((left, right) => {
+    const leftTime = Date.parse(left.latest_open_time_utc ?? '');
+    const rightTime = Date.parse(right.latest_open_time_utc ?? '');
+    if (Number.isFinite(leftTime) && Number.isFinite(rightTime) && leftTime !== rightTime) {
+      return rightTime - leftTime;
+    }
+    const leftPriority = preferred.indexOf(left.timeframe);
+    const rightPriority = preferred.indexOf(right.timeframe);
+    return (leftPriority === -1 ? 99 : leftPriority) - (rightPriority === -1 ? 99 : rightPriority);
+  })[0];
+}
+
+function buildMarketDisplay(
+  symbol: SymbolRecord,
+  marketCorridorItems: CorridorIngestResult[],
+  marketCandlesByKey: Record<string, Candle[]>,
+) {
+  const corridor = selectDisplayCorridor(symbol, marketCorridorItems);
+  const candles = corridor ? marketCandlesByKey[marketCandleKey(corridor.symbol, corridor.timeframe)] ?? [] : [];
+  const closes = candles.map((candle) => candle.close).filter((value) => Number.isFinite(value));
+  const latestClose = closes.length
+    ? closes[closes.length - 1]
+    : typeof corridor?.latest_close === 'number'
+      ? corridor.latest_close
+      : symbol.lastPrice;
+  const previousClose = closes.length > 1 ? closes[closes.length - 2] : null;
+  const changePercent = previousClose && previousClose !== 0
+    ? ((latestClose - previousClose) / previousClose) * 100
+    : symbol.changePercent;
+  const sparkline = closes.length >= 2 ? closes.slice(-24) : symbol.sparkline;
+
+  return {
+    corridor,
+    latestClose,
+    changePercent,
+    sparkline,
+    hasBackendCandles: closes.length >= 2,
+    sourceLabel: corridor
+      ? `${corridor.timeframe} closed candles via ${corridor.provider}`
+      : 'catalog fallback',
+  };
+}
 
 export function DashboardScreen({
   state,
@@ -14,6 +69,7 @@ export function DashboardScreen({
   watchlistIds,
   paperAccount,
   marketCorridorItems,
+  marketCandlesByKey,
   marketCorridorRefreshing,
   onRefreshMarketCorridor,
   onOpenSymbol,
@@ -26,6 +82,7 @@ export function DashboardScreen({
   watchlistIds: string[];
   paperAccount: PaperAccount;
   marketCorridorItems: CorridorIngestResult[];
+  marketCandlesByKey: Record<string, Candle[]>;
   marketCorridorRefreshing: boolean;
   onRefreshMarketCorridor: () => void;
   onOpenSymbol: (symbolId: string) => void;
@@ -37,7 +94,6 @@ export function DashboardScreen({
     .slice(0, 4);
   const watchlist = symbols.filter((symbol) => watchlistIds.includes(symbol.id)).slice(0, 5);
   const regime = signals.filter((signal) => signal.signal.signal === 'BUY_ZONE').length >= 3 ? 'Risk-On / Trending' : 'Mixed / Rotational';
-  const corridorBySymbol = new Map(marketCorridorItems.map((item) => [item.symbol, item]));
   const retryMockView = () => window.location.reload();
 
   return (
@@ -102,33 +158,39 @@ export function DashboardScreen({
                   <div className="rounded-full border border-buy/30 bg-buy/12 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-buy">{regime}</div>
                 </div>
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {symbols.slice(0, 6).map((symbol) => (
-                    <button
-                      key={symbol.id}
-                      type="button"
-                      className="rounded-2xl border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05]"
-                      onClick={() => onOpenSymbol(symbol.id)}
-                    >
-                      <div className="mb-3 flex items-center justify-between gap-4">
-                        <div>
-                          <p className="font-medium text-ink">{symbol.symbol}</p>
-                          <p className="text-xs text-muted">{symbol.name}</p>
-                          {corridorBySymbol.get(symbol.id) ? <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-accent">Live {corridorBySymbol.get(symbol.id)?.timeframe} via {corridorBySymbol.get(symbol.id)?.provider}</p> : null}
+                  {symbols.slice(0, 6).map((symbol) => {
+                    const display = buildMarketDisplay(symbol, marketCorridorItems, marketCandlesByKey);
+                    return (
+                      <button
+                        key={symbol.id}
+                        type="button"
+                        className="rounded-2xl border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05]"
+                        onClick={() => onOpenSymbol(symbol.id)}
+                      >
+                        <div className="mb-3 flex items-center justify-between gap-4">
+                          <div>
+                            <p className="font-medium text-ink">{symbol.symbol}</p>
+                            <p className="text-xs text-muted">{symbol.name}</p>
+                            <p className={`mt-1 text-[11px] uppercase tracking-[0.16em] ${display.hasBackendCandles ? 'text-accent' : 'text-muted'}`}>
+                              {display.sourceLabel}
+                            </p>
+                            {display.corridor?.latest_open_time_utc ? <p className="mt-1 text-[11px] text-muted">Last close {display.corridor.latest_open_time_utc.replace('T', ' ').slice(0, 16)} UTC</p> : null}
+                          </div>
+                          <div className={display.changePercent >= 0 ? 'text-buy' : 'text-sell'}>
+                            {display.changePercent >= 0 ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                          </div>
                         </div>
-                        <div className={symbol.changePercent >= 0 ? 'text-buy' : 'text-sell'}>
-                          {symbol.changePercent >= 0 ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
+                        <div className="flex items-end justify-between gap-3">
+                          <div>
+                            <p className="metric-text text-lg text-ink">{formatCurrency(display.latestClose)}</p>
+                            <p className={display.changePercent >= 0 ? 'text-sm text-buy' : 'text-sm text-sell'}>{formatPercent(display.changePercent)}</p>
+                          </div>
+                          <Sparkline values={display.sparkline} positive={display.changePercent >= 0} />
                         </div>
-                      </div>
-                      <div className="flex items-end justify-between gap-3">
-                        <div>
-                          <p className="metric-text text-lg text-ink">{formatCurrency(symbol.lastPrice)}</p>
-                          <p className={symbol.changePercent >= 0 ? 'text-sm text-buy' : 'text-sm text-sell'}>{formatPercent(symbol.changePercent)}</p>
-                        </div>
-                        <Sparkline values={symbol.sparkline} positive={symbol.changePercent >= 0} />
-                      </div>
-                      {corridorBySymbol.get(symbol.id)?.diagnostics.length ? <p className="mt-3 text-xs text-hold">Diagnostics: {corridorBySymbol.get(symbol.id)?.diagnostics.join(', ')}</p> : null}
-                    </button>
-                  ))}
+                        {display.corridor?.diagnostics.length ? <p className="mt-3 text-xs text-hold">Diagnostics: {display.corridor.diagnostics.join(', ')}</p> : null}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -256,6 +318,7 @@ export function DashboardScreen({
                 <div className="space-y-3">
                   {watchlist.map((symbol) => {
                     const latestSignal = signals.find((record) => record.symbolId === symbol.id);
+                    const display = buildMarketDisplay(symbol, marketCorridorItems, marketCandlesByKey);
                     return (
                       <div
                         key={symbol.id}
@@ -267,12 +330,13 @@ export function DashboardScreen({
                             {latestSignal ? <SignalChip signal={latestSignal.signal.signal} subdued={latestSignal.signal.confidence < 55} /> : null}
                           </div>
                           <div className="mt-2 flex items-center gap-4 text-sm text-muted">
-                            <span className="metric-text text-ink">{formatCurrency(symbol.lastPrice)}</span>
-                            <span className={symbol.changePercent >= 0 ? 'text-buy' : 'text-sell'}>{formatPercent(symbol.changePercent)}</span>
+                            <span className="metric-text text-ink">{formatCurrency(display.latestClose)}</span>
+                            <span className={display.changePercent >= 0 ? 'text-buy' : 'text-sell'}>{formatPercent(display.changePercent)}</span>
+                            {display.corridor ? <span>{display.corridor.timeframe}</span> : null}
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <Sparkline values={symbol.sparkline} positive={symbol.changePercent >= 0} />
+                          <Sparkline values={display.sparkline} positive={display.changePercent >= 0} />
                           <button
                             type="button"
                             className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
