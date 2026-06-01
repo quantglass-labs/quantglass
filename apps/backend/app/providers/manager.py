@@ -19,7 +19,7 @@ from app.providers.public import (
     YahooFinanceOHLCVProvider,
 )
 
-Capability = Literal["ohlcv", "order_book", "news", "trading"]
+Capability = Literal["ohlcv", "order_book", "news", "trading", "ai"]
 
 
 @dataclass(slots=True)
@@ -55,8 +55,10 @@ class ProviderManager:
         self.register("twelvedata", {"ohlcv"}, client=self._build_twelvedata_client(), transport="keyed")
         self.register("polygon", {"ohlcv"}, client=self._build_polygon_client(), transport="keyed")
         self.register("finnhub_news", {"news"}, client=self._build_finnhub_client(), transport="keyed")
-        self.register("ollama", set(), transport="internal")
-        self.register("openai", set(), transport="internal")
+        self.register("ollama", {"ai"}, transport="internal")
+        self.register("lm_studio", {"ai"}, transport="internal")
+        self.register("openai", {"ai"}, transport="keyed")
+        self.register("openai_compatible", {"ai"}, transport="keyed")
         self.register("alpaca_paper", {"trading"}, transport="internal")
         self.register("ccxt_trade", {"trading"}, transport="internal")
         self.register("coinbase_public", {"ohlcv"}, client=CoinbasePublicOHLCVProvider(), transport="public")

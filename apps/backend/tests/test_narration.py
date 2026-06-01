@@ -8,6 +8,7 @@ engine produced. Anything else must fall back to the deterministic template.
 """
 
 from app.core.config import AiSettings
+from app.services.model_gateway import ModelResponse
 from app.services.narration import NarrationService
 
 
@@ -55,3 +56,37 @@ def test_fact_guard_allows_structural_small_integers() -> None:
     service = _service(cloud_enabled=True)
     text = "There are 3 take-profit rungs and 2 reasons listed."
     assert service._passes_fact_guard(text, _FACTS) is True
+
+
+class _Gateway:
+    def __init__(self, response: ModelResponse | None) -> None:
+        self.response = response
+
+    def complete(self, _settings: AiSettings, _prompt: str) -> ModelResponse | None:
+        return self.response
+
+
+def test_narration_uses_gateway_source_when_fact_checked() -> None:
+    settings = AiSettings(cloud_enabled=True, provider="openai_compatible", model="local-model")
+    service = NarrationService(
+        ai_settings_provider=lambda: settings,
+        model_gateway=_Gateway(ModelResponse("BTCUSD has 58 confidence.", "openai_compatible:local-model")),
+    )
+
+    text, source = service.narrate(_FACTS)
+
+    assert text == "BTCUSD has 58 confidence."
+    assert source == "openai_compatible:local-model"
+
+
+def test_narration_falls_back_when_gateway_fabricates_number() -> None:
+    settings = AiSettings(cloud_enabled=True, provider="openai_compatible", model="local-model")
+    service = NarrationService(
+        ai_settings_provider=lambda: settings,
+        model_gateway=_Gateway(ModelResponse("BTCUSD will reach 12345.", "openai_compatible:local-model")),
+    )
+
+    text, source = service.narrate(_FACTS)
+
+    assert source == "template-guarded"
+    assert "12345" not in text

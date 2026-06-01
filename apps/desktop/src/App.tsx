@@ -10,7 +10,7 @@ import { symbolCatalog, symbolById } from './data/symbolCatalog';
 import { SignalDetailDrawer } from './screens/SignalDetailDrawer';
 import { backendClient, mapMarketCandlesToChartSeries, mapProviderSettingsResponseToUi, mapUiSettingsToProviderRequest } from './lib/backend';
 import { formatCurrency } from './lib/format';
-import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
+import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, ExtensionRegistryEntry, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
 
 const DashboardScreen = lazy(async () => import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })));
 const SymbolDetailScreen = lazy(async () => import('./screens/SymbolDetailScreen').then((module) => ({ default: module.SymbolDetailScreen })));
@@ -50,6 +50,12 @@ const defaultProviderSettings: ProviderSettings = {
 const defaultAiSettings: AiSettings = {
   model: 'qwen3:14b-q4_K_M',
   cloudEnabled: false,
+  provider: 'ollama',
+  baseUrl: 'http://127.0.0.1:11434',
+  apiKeyId: null,
+  temperature: 0.2,
+  maxTokens: 180,
+  requestTimeoutSeconds: 8,
 };
 
 const defaultPaperAccount: PaperAccount = {
@@ -79,6 +85,7 @@ export default function App() {
   const [backtestPresets, setBacktestPresets] = useState<StrategyPreset[]>([]);
   const [providerSettings, setProviderSettings] = useState(defaultProviderSettings);
   const [providerRegistry, setProviderRegistry] = useState<ProviderRegistryEntry[]>([]);
+  const [extensionRegistry, setExtensionRegistry] = useState<ExtensionRegistryEntry[]>([]);
   const [aiSettings, setAiSettings] = useState(defaultAiSettings);
   const [apiKeys, setApiKeys] = useState<ApiKeyField[]>(defaultApiKeys);
   const [marketCorridorItems, setMarketCorridorItems] = useState<CorridorIngestResult[]>([]);
@@ -181,10 +188,11 @@ export default function App() {
       }
 
       try {
-        const [health, providerResponse, providerRegistryResponse, watchlistResponse, marketCorridorResponse] = await Promise.all([
+        const [health, providerResponse, providerRegistryResponse, extensionRegistryResponse, watchlistResponse, marketCorridorResponse] = await Promise.all([
           backendClient.getHealth(),
           backendClient.getProviderSettings(),
           backendClient.getProviderRegistry(),
+          backendClient.getExtensionRegistry(),
           backendClient.getWatchlist(),
           loadMarketCorridor(true),
         ]);
@@ -212,6 +220,7 @@ export default function App() {
         setScreenState('ready');
         setProviderSettings((current) => mapProviderSettingsResponseToUi(providerResponse, current));
         setProviderRegistry(providerRegistryResponse.providers);
+        setExtensionRegistry(extensionRegistryResponse.extensions);
         setMarketCorridorItems(marketCorridorResponse.items);
         setMarketCandlesByKey(marketCorridorResponse.candleSeries);
         setTradingMode(providerResponse.safety.trading_mode);
@@ -720,6 +729,7 @@ export default function App() {
                   state={screenState}
                   providerSettings={providerSettings}
                   providerRegistry={providerRegistry}
+                  extensionRegistry={extensionRegistry}
                   apiKeys={apiKeys}
                   aiSettings={aiSettings}
                   tradingMode={tradingMode}
@@ -737,8 +747,7 @@ export default function App() {
                   }}
                   onSetTradingMode={(mode) => persistProviderSettings(providerSettings, mode, minBacktestSample)}
                   onSetMinBacktestSample={(value) => persistProviderSettings(providerSettings, tradingMode, value)}
-                  onSetAiModel={(model) => persistAiSettings({ ...aiSettings, model })}
-                  onSetCloudEnabled={(enabled) => persistAiSettings({ ...aiSettings, cloudEnabled: enabled })}
+                  onUpdateAiSettings={(settings) => persistAiSettings(settings)}
                 />
               }
             />

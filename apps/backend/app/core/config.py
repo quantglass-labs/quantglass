@@ -86,13 +86,30 @@ class SafetySettings(BaseModel):
     live_trading_confirmed: bool = False
 
 
+AiProvider = Literal["template", "ollama", "lm_studio", "openai", "openai_compatible"]
+
+
 class AiSettings(BaseModel):
     model: str = "qwen3:14b-q4_K_M"
     cloud_enabled: bool = False
-    # Local Ollama endpoint used by the narration service.
-    ollama_base_url: str = "http://127.0.0.1:11434"
+    provider: AiProvider = "ollama"
+    # Provider base URL. Ollama uses its native API by default; OpenAI-compatible
+    # providers expect a /v1 base URL such as http://127.0.0.1:1234/v1.
+    base_url: str = "http://127.0.0.1:11434"
+    api_key_id: str | None = None
+    temperature: float = 0.2
+    max_tokens: int = 180
     # Hard cap so a missing/slow local model never blocks a signal refresh.
     request_timeout_seconds: float = 8.0
+
+    @model_validator(mode="after")
+    def _migrate_legacy_payload(self) -> "AiSettings":
+        # Older settings stored only ollama_base_url. Keep existing user state
+        # readable without requiring a migration table.
+        legacy_base_url = getattr(self, "ollama_base_url", None)
+        if legacy_base_url and self.base_url == "http://127.0.0.1:11434":
+            self.base_url = legacy_base_url
+        return self
 
 
 class AppSettings(BaseSettings):
@@ -123,6 +140,7 @@ class AppSettings(BaseSettings):
     provider_settings: ProviderSettings = Field(default_factory=ProviderSettings)
     safety: SafetySettings = Field(default_factory=SafetySettings)
     ai: AiSettings = Field(default_factory=AiSettings)
+    enable_extension_entry_points: bool = False
 
     @model_validator(mode="after")
     def _derive_storage_paths(self) -> "AppSettings":

@@ -53,6 +53,22 @@ DEFAULT_API_KEYS: list[dict[str, Any]] = [
         "secret": True,
     },
     {
+        "id": "openai-api-key",
+        "label": "OpenAI API Key",
+        "value": "",
+        "note": "Optional key for OpenAI-hosted narration models.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "openai-compatible-api-key",
+        "label": "OpenAI-Compatible API Key",
+        "value": "",
+        "note": "Optional bearer token for OpenAI-compatible gateways such as LiteLLM, OpenRouter, vLLM, or private model routers.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
         "id": "telegram-bot-token",
         "label": "Telegram Bot Token",
         "value": "",
@@ -301,9 +317,13 @@ class StateStore:
             connection.commit()
 
     def get_ai_settings(self) -> AiSettings:
-        return AiSettings.model_validate(
-            self._read_settings_payload("ai_settings", AiSettings().model_dump())
-        )
+        payload = self._read_settings_payload("ai_settings", AiSettings().model_dump())
+        normalized_payload = self._normalize_ai_settings_payload(payload)
+        if normalized_payload != payload:
+            with sqlite3.connect(self.sqlite_path) as connection:
+                self._write_settings_payload(connection, "ai_settings", normalized_payload)
+                connection.commit()
+        return AiSettings.model_validate(normalized_payload)
 
     def update_ai_settings(self, ai_settings: AiSettings) -> AiSettings:
         with sqlite3.connect(self.sqlite_path) as connection:
@@ -314,6 +334,11 @@ class StateStore:
             )
             connection.commit()
         return ai_settings
+
+    def get_api_key_value(self, key_id: str | None) -> str:
+        if not key_id:
+            return ""
+        return self._secret_store.read_values().get(key_id, "")
 
     def list_api_keys(self) -> list[dict[str, Any]]:
         metadata = self._get_api_key_metadata()
@@ -970,6 +995,17 @@ class StateStore:
                 "fallback": None,
             }
 
+        return normalized
+
+    def _normalize_ai_settings_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
+        defaults = AiSettings().model_dump()
+        normalized = {**defaults, **payload}
+        legacy_base_url = payload.get("ollama_base_url")
+        if legacy_base_url and not payload.get("base_url"):
+            normalized["base_url"] = legacy_base_url
+        normalized.pop("ollama_base_url", None)
+        if normalized.get("provider") == "openai" and not normalized.get("api_key_id"):
+            normalized["api_key_id"] = "openai-api-key"
         return normalized
 
     def _ensure_alerts_columns(self, connection: sqlite3.Connection) -> None:

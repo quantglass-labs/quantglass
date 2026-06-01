@@ -22,7 +22,8 @@ quant, desktop, and local-AI contributors:
 - Provider adapters for market data, news, brokers, and alert channels.
 - Deterministic indicators and regime features.
 - Signal families and statistically honest backtests.
-- Local Ollama narration with fact guards.
+- Local/API model narration through Ollama, LM Studio, OpenAI, or any
+  OpenAI-compatible gateway, with fact guards.
 - Desktop workflows for watchlists, signals, alerts, paper trading, and
   settings.
 - Packaging for a local desktop app with a managed backend sidecar.
@@ -40,6 +41,7 @@ docs/
   user-guide/     End-user documentation
   contributing/   Extension and testing guides
 examples/
+  extensions/     Backend extension examples
   providers/      Provider adapter examples
   strategies/     Strategy examples
 ```
@@ -122,6 +124,8 @@ npm run validate:release
 
 - [Contributing](CONTRIBUTING.md)
 - [Provider adapters](docs/contributing/provider-adapters.md)
+- [Extension system](docs/contributing/extensions.md)
+- [AI model gateways](docs/contributing/ai-model-gateways.md)
 - [Strategy contributions](docs/contributing/strategy-plugins.md)
 - [Indicator contract](docs/contributing/indicator-contract.md)
 - [Testing guide](docs/contributing/testing.md)

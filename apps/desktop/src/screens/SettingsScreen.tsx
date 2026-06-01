@@ -1,20 +1,21 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CloudOff, ExternalLink, KeyRound, Scale, ShieldCheck, SlidersHorizontal } from 'lucide-react';
+import { CloudOff, ExternalLink, KeyRound, Plug, Scale, ShieldCheck, SlidersHorizontal } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, PillTabs, SectionHeading } from '../components/ui';
 import { maskApiKeyValue, providerLabelById } from '../lib/backend';
 import { formatDateTime } from '../lib/format';
-import type { AiSettings, ApiKeyField, NotificationTestChannel, ProviderRegistryEntry, ProviderSettings, SavedStrategy, ScreenState, TradingMode, ViewMode } from '../types';
+import type { AiSettings, ApiKeyField, ExtensionRegistryEntry, NotificationTestChannel, ProviderRegistryEntry, ProviderSettings, SavedStrategy, ScreenState, TradingMode, ViewMode } from '../types';
 
-type SettingsTab = 'providers' | 'keys' | 'risk' | 'ai' | 'strategies' | 'legal';
+type SettingsTab = 'providers' | 'keys' | 'risk' | 'ai' | 'extensions' | 'strategies' | 'legal';
 
 export function SettingsScreen({
   state,
   providerSettings,
   providerRegistry,
+  extensionRegistry,
   apiKeys,
   aiSettings,
   tradingMode,
@@ -27,12 +28,12 @@ export function SettingsScreen({
   onUpdateProviderSetting,
   onSetTradingMode,
   onSetMinBacktestSample,
-  onSetAiModel,
-  onSetCloudEnabled,
+  onUpdateAiSettings,
 }: {
   state: ScreenState;
   providerSettings: ProviderSettings;
   providerRegistry: ProviderRegistryEntry[];
+  extensionRegistry: ExtensionRegistryEntry[];
   apiKeys: ApiKeyField[];
   aiSettings: AiSettings;
   tradingMode: TradingMode;
@@ -45,13 +46,12 @@ export function SettingsScreen({
   onUpdateProviderSetting: <K extends keyof ProviderSettings>(key: K, value: ProviderSettings[K]) => void;
   onSetTradingMode: (mode: TradingMode) => void;
   onSetMinBacktestSample: (value: number) => void;
-  onSetAiModel: (model: string) => void;
-  onSetCloudEnabled: (enabled: boolean) => void;
+  onUpdateAiSettings: (settings: AiSettings) => void;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentTab = (searchParams.get('tab') as SettingsTab | null) ?? 'providers';
   const tab = useMemo<SettingsTab>(() => {
-    if (['providers', 'keys', 'risk', 'ai', 'strategies', 'legal'].includes(currentTab)) {
+    if (['providers', 'keys', 'risk', 'ai', 'extensions', 'strategies', 'legal'].includes(currentTab)) {
       return currentTab as SettingsTab;
     }
     return 'providers';
@@ -61,6 +61,7 @@ export function SettingsScreen({
     [providerRegistry],
   );
   const [draftApiKeys, setDraftApiKeys] = useState<Record<string, string>>({});
+  const [draftAiSettings, setDraftAiSettings] = useState<AiSettings>(aiSettings);
   const retryMockView = () => window.location.reload();
   const notificationTestFieldMap: Partial<Record<string, NotificationTestChannel>> = {
     'telegram-chat-id': 'telegram',
@@ -69,13 +70,20 @@ export function SettingsScreen({
   const apiKeySections = useMemo(() => {
     const telegramIds = new Set(['telegram-bot-token', 'telegram-chat-id']);
     const emailIds = new Set(['smtp-host', 'smtp-port', 'smtp-username', 'smtp-password', 'smtp-from-email', 'smtp-to-email']);
+    const aiIds = new Set(['openai-api-key', 'openai-compatible-api-key']);
 
     return [
       {
         id: 'providers',
         title: 'Provider credentials',
         description: 'Market data and trading-provider credentials that affect registry availability and keyed transports.',
-        items: apiKeys.filter((field) => !telegramIds.has(field.id) && !emailIds.has(field.id)),
+        items: apiKeys.filter((field) => !telegramIds.has(field.id) && !emailIds.has(field.id) && !aiIds.has(field.id)),
+      },
+      {
+        id: 'ai',
+        title: 'AI model gateways',
+        description: 'Optional keys for OpenAI or OpenAI-compatible model routers. Local Ollama and LM Studio do not need a key by default.',
+        items: apiKeys.filter((field) => aiIds.has(field.id)),
       },
       {
         id: 'telegram',
@@ -95,6 +103,10 @@ export function SettingsScreen({
   useEffect(() => {
     setDraftApiKeys(Object.fromEntries(apiKeys.map((field) => [field.id, field.value])));
   }, [apiKeys]);
+
+  useEffect(() => {
+    setDraftAiSettings(aiSettings);
+  }, [aiSettings]);
 
   function renderProviderMeta(label: string) {
     if (!label) {
@@ -139,6 +151,7 @@ export function SettingsScreen({
           { value: 'keys', label: 'API Keys' },
           { value: 'risk', label: 'Risk & Safety' },
           { value: 'ai', label: 'AI' },
+          { value: 'extensions', label: 'Extensions' },
           { value: 'strategies', label: 'Strategies' },
           { value: 'legal', label: 'Legal' },
         ]}
@@ -400,32 +413,133 @@ export function SettingsScreen({
                   <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between gap-4">
                       <div>
-                        <p className="font-medium text-ink">Ollama model</p>
-                        <p className="text-sm text-muted">Narration only. The deterministic engine remains the source of truth.</p>
+                        <p className="font-medium text-ink">Model gateway</p>
+                        <p className="text-sm text-muted">Narration only. The deterministic engine remains the source of truth, and every numeric claim is fact-checked.</p>
                       </div>
                       <SlidersHorizontal className="size-5 text-accent" />
                     </div>
-                    <select className="mt-4 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={aiSettings.model} onChange={(event) => onSetAiModel(event.target.value)}>
-                      <option value="qwen3:14b-q4_K_M">qwen3:14b-q4_K_M</option>
-                      <option value="llama3.3:8b-instruct">llama3.3:8b-instruct</option>
-                      <option value="mistral-small:24b">mistral-small:24b</option>
-                    </select>
+                    <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                      <label className="space-y-2 text-sm text-muted">
+                        <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Provider</span>
+                        <select
+                          className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                          value={draftAiSettings.provider}
+                          onChange={(event) => {
+                            const provider = event.target.value as AiSettings['provider'];
+                            const preset = {
+                              template: { baseUrl: '', apiKeyId: null, model: draftAiSettings.model },
+                              ollama: { baseUrl: 'http://127.0.0.1:11434', apiKeyId: null, model: draftAiSettings.model || 'qwen3:14b-q4_K_M' },
+                              lm_studio: { baseUrl: 'http://127.0.0.1:1234/v1', apiKeyId: null, model: draftAiSettings.model || 'local-model' },
+                              openai: { baseUrl: 'https://api.openai.com/v1', apiKeyId: 'openai-api-key', model: draftAiSettings.model || 'gpt-4.1-mini' },
+                              openai_compatible: { baseUrl: 'http://127.0.0.1:1234/v1', apiKeyId: 'openai-compatible-api-key', model: draftAiSettings.model || 'local-model' },
+                            }[provider];
+                            setDraftAiSettings({ ...draftAiSettings, provider, ...preset });
+                          }}
+                        >
+                          <option value="template">Template only</option>
+                          <option value="ollama">Ollama native</option>
+                          <option value="lm_studio">LM Studio</option>
+                          <option value="openai">OpenAI</option>
+                          <option value="openai_compatible">OpenAI-compatible</option>
+                        </select>
+                      </label>
+                      <label className="space-y-2 text-sm text-muted">
+                        <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Model</span>
+                        <input
+                          className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                          value={draftAiSettings.model}
+                          placeholder="qwen3:14b-q4_K_M, llama3.1, gpt-4.1-mini"
+                          onChange={(event) => setDraftAiSettings({ ...draftAiSettings, model: event.target.value })}
+                        />
+                      </label>
+                      <label className="space-y-2 text-sm text-muted lg:col-span-2">
+                        <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Base URL</span>
+                        <input
+                          className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                          value={draftAiSettings.baseUrl}
+                          placeholder="http://127.0.0.1:11434 or http://127.0.0.1:1234/v1"
+                          onChange={(event) => setDraftAiSettings({ ...draftAiSettings, baseUrl: event.target.value })}
+                        />
+                      </label>
+                      <label className="space-y-2 text-sm text-muted">
+                        <span className="block text-xs font-semibold uppercase tracking-[0.18em]">API key</span>
+                        <select
+                          className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                          value={draftAiSettings.apiKeyId ?? ''}
+                          onChange={(event) => setDraftAiSettings({ ...draftAiSettings, apiKeyId: event.target.value || null })}
+                        >
+                          <option value="">None</option>
+                          <option value="openai-api-key">OpenAI API Key</option>
+                          <option value="openai-compatible-api-key">OpenAI-Compatible API Key</option>
+                        </select>
+                      </label>
+                      <label className="space-y-2 text-sm text-muted">
+                        <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Timeout seconds</span>
+                        <input
+                          className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                          type="number"
+                          min="1"
+                          max="30"
+                          step="1"
+                          value={draftAiSettings.requestTimeoutSeconds}
+                          onChange={(event) => setDraftAiSettings({ ...draftAiSettings, requestTimeoutSeconds: Number(event.target.value) })}
+                        />
+                      </label>
+                    </div>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <Button onClick={() => onUpdateAiSettings(draftAiSettings)}>Save AI settings</Button>
+                      <Button variant="secondary" onClick={() => setDraftAiSettings(aiSettings)}>Reset</Button>
+                    </div>
                   </div>
                   <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="font-medium text-ink">Model narration</p>
-                        <p className="text-sm text-muted">When on, the selected local Ollama model rewrites the summary. Every number is fact-checked against engine output; failed checks fall back to the deterministic template.</p>
+                        <p className="text-sm text-muted">When on, the selected local or API model rewrites the summary. Failed calls and failed fact checks fall back to the deterministic template.</p>
                       </div>
                       <CloudOff className="size-5 text-muted" />
                     </div>
                     <div className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-surface/40 px-4 py-3 text-sm text-muted">
-                      <span>Narration: {aiSettings.cloudEnabled ? 'local model (fact-checked)' : 'deterministic template'}</span>
-                      <button type="button" className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${aiSettings.cloudEnabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`} onClick={() => onSetCloudEnabled(!aiSettings.cloudEnabled)}>
-                        {aiSettings.cloudEnabled ? 'On' : 'Off'}
+                      <span>Narration: {draftAiSettings.cloudEnabled ? `${draftAiSettings.provider} (fact-checked)` : 'deterministic template'}</span>
+                      <button type="button" className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${draftAiSettings.cloudEnabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`} onClick={() => setDraftAiSettings({ ...draftAiSettings, cloudEnabled: !draftAiSettings.cloudEnabled })}>
+                        {draftAiSettings.cloudEnabled ? 'On' : 'Off'}
                       </button>
                     </div>
                   </div>
+                </div>
+              ) : null}
+
+              {tab === 'extensions' ? (
+                <div className="space-y-5">
+                  <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-medium text-ink">Extension registry</p>
+                        <p className="mt-2 text-sm text-muted">Installed Python entry-point extensions can register providers, model gateways, indicators, strategies, and notification channels. External extension loading is opt-in from the backend environment.</p>
+                      </div>
+                      <Plug className="size-5 text-accent" />
+                    </div>
+                  </div>
+                  {extensionRegistry.length ? (
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      {extensionRegistry.map((extension) => (
+                        <div key={extension.id} className="rounded-3xl border border-border bg-white/[0.03] p-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <p className="font-medium text-ink">{extension.name}</p>
+                              <p className="mt-1 text-xs text-muted">{extension.id} · v{extension.version}</p>
+                            </div>
+                            <span className={`rounded-full border border-border px-2.5 py-1 text-xs ${extension.loaded ? 'text-buy' : 'text-muted'}`}>{extension.loaded ? 'loaded' : 'inactive'}</span>
+                          </div>
+                          <p className="mt-3 text-sm text-muted">{extension.description}</p>
+                          <p className="mt-3 text-xs text-muted">Capabilities: {extension.capabilities.join(', ') || 'none'}</p>
+                          {extension.diagnostics.length ? <p className="mt-3 text-xs text-hold">{extension.diagnostics.join(' ')}</p> : null}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <EmptyState title="No extensions reported" description="The backend did not return extension registry metadata." />
+                  )}
                 </div>
               ) : null}
 

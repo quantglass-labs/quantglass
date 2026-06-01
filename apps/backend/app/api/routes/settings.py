@@ -4,7 +4,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
-from app.core.config import AiSettings, apply_api_key_settings
+from app.core.config import AiProvider, AiSettings, apply_api_key_settings
 
 router = APIRouter(prefix="/api/settings", tags=["settings"])
 
@@ -12,6 +12,12 @@ router = APIRouter(prefix="/api/settings", tags=["settings"])
 class AiSettingsPayload(BaseModel):
     model: str
     cloudEnabled: bool
+    provider: AiProvider = "ollama"
+    baseUrl: str = "http://127.0.0.1:11434"
+    apiKeyId: str | None = None
+    temperature: float = 0.2
+    maxTokens: int = 180
+    requestTimeoutSeconds: float = 8.0
 
 
 class ApiKeyPayload(BaseModel):
@@ -21,14 +27,24 @@ class ApiKeyPayload(BaseModel):
 SUPPORTED_NOTIFICATION_CHANNELS = {"telegram", "email"}
 
 
+def serialize_ai_settings(ai_settings: AiSettings) -> dict[str, object]:
+    return {
+        "model": ai_settings.model,
+        "cloudEnabled": ai_settings.cloud_enabled,
+        "provider": ai_settings.provider,
+        "baseUrl": ai_settings.base_url,
+        "apiKeyId": ai_settings.api_key_id,
+        "temperature": ai_settings.temperature,
+        "maxTokens": ai_settings.max_tokens,
+        "requestTimeoutSeconds": ai_settings.request_timeout_seconds,
+    }
+
+
 @router.get("/ai")
 async def ai_settings(request: Request) -> dict[str, object]:
     ai_settings = request.app.state.state_store.get_ai_settings()
     return {
-        "ai": {
-            "model": ai_settings.model,
-            "cloudEnabled": ai_settings.cloud_enabled,
-        }
+        "ai": serialize_ai_settings(ai_settings)
     }
 
 
@@ -41,13 +57,16 @@ async def update_ai_settings(
         AiSettings(
             model=payload.model,
             cloud_enabled=payload.cloudEnabled,
+            provider=payload.provider,
+            base_url=payload.baseUrl,
+            api_key_id=payload.apiKeyId,
+            temperature=payload.temperature,
+            max_tokens=payload.maxTokens,
+            request_timeout_seconds=payload.requestTimeoutSeconds,
         )
     )
     return {
-        "ai": {
-            "model": ai_settings.model,
-            "cloudEnabled": ai_settings.cloud_enabled,
-        }
+        "ai": serialize_ai_settings(ai_settings)
     }
 
 

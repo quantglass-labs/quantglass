@@ -16,6 +16,7 @@ flowchart TB
     A --> C[AnalyticsStore DuckDB/Parquet]
     B --> D[apply_api_key_settings]
     D --> E[ProviderManager]
+    E --> X[ExtensionRegistry]
     C --> F[MarketCorridorService]
     E --> F
     B --> G[NarrationService]
@@ -28,13 +29,13 @@ flowchart TB
 ```
 
 The constructed objects are attached to `app.state` so route handlers can resolve them per request:
-`settings`, `state_store`, `analytics_store`, `provider_manager`, `event_bus`, `notification_service`, `trading_service`, `execution_engine`, `market_corridor_service`, `signal_engine`, `scheduler_service`, `rate_limiter`.
+`settings`, `state_store`, `analytics_store`, `provider_manager`, `extension_registry`, `event_bus`, `notification_service`, `trading_service`, `execution_engine`, `market_corridor_service`, `signal_engine`, `scheduler_service`, `rate_limiter`, `model_gateway`.
 
 ---
 
 ## Routers
 
-Ten routers are registered in `main.py`:
+Eleven routers are registered in `main.py`:
 
 | Router | Module | Area |
 |--------|--------|------|
@@ -43,6 +44,7 @@ Ten routers are registered in `main.py`:
 | market | `routes/market.py` | Ranking, corridor candles/diagnostics, refresh. |
 | paper | `routes/paper.py` | Paper account and trade intents. |
 | providers | `routes/providers.py` | Provider settings + registry. |
+| extensions | `routes/extensions.py` | Extension registry status. |
 | settings | `routes/settings.py` | AI settings, API keys, notification tests. |
 | strategies | `routes/strategies.py` | Saved strategies + backtests. |
 | watchlist | `routes/watchlist.py` | Watchlist CRUD. |
@@ -62,6 +64,7 @@ Full endpoint catalog: [API reference](06-api-reference.md).
 | **ExecutionEngineService** | `services/execution_engine.py` | Evaluates alerts, runs paper executions, emits notifications/events. |
 | **TradingExecutionService** | `services/trading.py` | Broker order plumbing (paper now; live gated). |
 | **NarrationService** | `services/narration.py` | LLM/template narration with fact‑guard. |
+| **ModelGateway** | `services/model_gateway.py` | Ollama native and OpenAI-compatible request handling. |
 | **RankingService** | `services/ranking.py` | Relative‑strength scoring across symbols. |
 | **AlertNotificationService** | `services/notifications.py` | Desktop/Telegram/email delivery + test. |
 | **BackendEventBus** | `services/event_bus.py` | In‑process pub/sub feeding the WebSocket. |
@@ -94,7 +97,7 @@ The `ProviderManager` ([app/providers/manager.py](../../apps/backend/app/provide
 |-----------|------|----------|
 | **public** | `providers/public.py` | `ccxt_coinbase`, `ccxt_kraken`, `gemini`, `yahoo_public` |
 | **keyed** | `providers/keyed.py` | `alpaca`, `finnhub`, `polygon`, `twelvedata`, `finnhub_news` |
-| **internal** | base/manager | `ollama`, `openai`, `alpaca_paper`, `ccxt_trade` |
+| **internal/keyed** | base/manager | `ollama`, `lm_studio`, `openai`, `openai_compatible`, `alpaca_paper`, `ccxt_trade` |
 
 Default routes (from `config.py`):
 
@@ -115,7 +118,8 @@ Rate limits default to `crypto_rate_limit_per_minute = 24` and `stocks_rate_limi
 `AppSettings` (pydantic‑settings, env prefix `QUANTGLASS_`, nested delimiter `__`) centralises configuration:
 
 - **Storage paths** are derived from `data_dir` unless explicitly set, so a single `QUANTGLASS_DATA_DIR` relocates everything. In a frozen (PyInstaller) build, `data_dir` resolves to the per‑user OS app‑data dir; in a source checkout it is `apps/backend/.local`.
-- **Sub‑models:** `ProviderSettings`, `SafetySettings` (`trading_mode=paper`, `act_on_partial_candles=False`, `min_backtest_sample=50`, `live_trading_confirmed=False`), `AiSettings` (`model=qwen3:14b-q4_K_M`, `cloud_enabled=False`, `ollama_base_url=http://127.0.0.1:11434`, `request_timeout_seconds=8.0`).
+- **Sub‑models:** `ProviderSettings`, `SafetySettings` (`trading_mode=paper`, `act_on_partial_candles=False`, `min_backtest_sample=50`, `live_trading_confirmed=False`), `AiSettings` (`provider=ollama`, `model=qwen3:14b-q4_K_M`, `cloud_enabled=False`, `base_url=http://127.0.0.1:11434`, `request_timeout_seconds=8.0`).
+- **Extensions:** external Python entry-point loading is disabled by default and controlled by `QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true`.
 - `apply_api_key_settings()` overlays decrypted API keys from the `StateStore` onto runtime settings at startup.
 
 Full reference: [Development → Configuration reference](10-development.md#configuration-reference).

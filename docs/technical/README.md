@@ -16,7 +16,7 @@
 | 2 | [Backend](02-backend.md) | FastAPI app, routers, services, scheduler, providers, config |
 | 3 | [Data model & storage](03-data-model.md) | SQLite state, DuckDB/Parquet analytics, secret store |
 | 4 | [Signal engine](04-signal-engine.md) | Indicators, regimes, setup families, backtesting, confidence |
-| 5 | [AI narration & fact‑guard](05-ai-narration.md) | Ollama narration, template fallback, anti‑hallucination |
+| 5 | [AI narration & fact‑guard](05-ai-narration.md) | Local/API model gateways, template fallback, anti‑hallucination |
 | 6 | [API reference](06-api-reference.md) | Every REST endpoint and the WebSocket event stream |
 | 7 | [Frontend](07-frontend.md) | React app, screens, BackendClient, contracts, bootstrap |
 | 8 | [Packaging & distribution](08-packaging.md) | PyInstaller sidecar, Tauri bundling, startup sequence |
@@ -37,13 +37,15 @@ flowchart TB
     subgraph Backend["FastAPI backend"]
         ROUT[Routers]
         SVC[Services<br/>signal · corridor · execution · narration]
+        PLUG[Extension registry]
         SCHED[APScheduler jobs]
         STORE[(SQLite · DuckDB · Parquet · Secrets)]
     end
     SIDE --> ROUT --> SVC --> STORE
+    ROUT --> PLUG
     SCHED --> SVC
     SVC -- public/keyed --> EXT[Market & news providers<br/>Coinbase · Kraken · Gemini · Yahoo · Finnhub]
-    SVC -- local --> OLL[Ollama LLM]
+    SVC -- local/API --> OLL[Model gateways<br/>Ollama · LM Studio · OpenAI-compatible]
     style UI fill:#1d4ed8,color:#fff
     style SVC fill:#0f766e,color:#fff
     style STORE fill:#334155,color:#fff

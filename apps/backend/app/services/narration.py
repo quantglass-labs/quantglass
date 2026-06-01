@@ -5,11 +5,10 @@ from __future__ import annotations
 
 import json
 import re
-import urllib.error
-import urllib.request
 from typing import Any, Callable
 
 from app.core.config import AiSettings
+from app.services.model_gateway import ModelGateway
 
 _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
 # Numbers that are structurally part of prose (rung counts, percentages-as-words, etc.)
@@ -18,56 +17,36 @@ _ALWAYS_ALLOWED = {0.0, 1.0, 2.0, 3.0, 100.0}
 
 
 class NarrationService:
-    """Generates signal narration from a local Ollama model with a strict fact guard.
+    """Generates signal narration from local/API models with a strict fact guard.
 
     The model is only ever allowed to restate facts the engine computed. Any generated
     number that does not trace back to the provided facts is treated as a hallucination
-    and the deterministic template is used instead. If Ollama is unreachable or cloud AI
-    is disabled, narration silently degrades to the labeled offline template.
+    and the deterministic template is used instead. If the configured model endpoint is
+    unreachable or model narration is disabled, narration silently degrades to the
+    labeled offline template.
     """
 
-    def __init__(self, ai_settings_provider: Callable[[], AiSettings]) -> None:
+    def __init__(
+        self,
+        ai_settings_provider: Callable[[], AiSettings],
+        model_gateway: ModelGateway | None = None,
+    ) -> None:
         self._ai_settings_provider = ai_settings_provider
+        self._model_gateway = model_gateway or ModelGateway()
 
     def narrate(self, facts: dict[str, Any]) -> tuple[str, str]:
         settings = self._ai_settings_provider()
         if not settings.cloud_enabled:
             return self._template(facts), "template"
 
-        generated = self._call_ollama(settings, facts)
-        if generated is None:
+        response = self._model_gateway.complete(settings, self._build_prompt(facts))
+        if response is None:
             return self._template(facts), "template-fallback"
 
-        if not self._passes_fact_guard(generated, facts):
+        if not self._passes_fact_guard(response.text, facts):
             return self._template(facts), "template-guarded"
 
-        return generated.strip(), f"ollama:{settings.model}"
-
-    def _call_ollama(self, settings: AiSettings, facts: dict[str, Any]) -> str | None:
-        prompt = self._build_prompt(facts)
-        payload = json.dumps(
-            {
-                "model": settings.model,
-                "prompt": prompt,
-                "stream": False,
-                "options": {"temperature": 0.2},
-            }
-        ).encode("utf-8")
-        request = urllib.request.Request(
-            url=f"{settings.ollama_base_url.rstrip('/')}/api/generate",
-            data=payload,
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(request, timeout=settings.request_timeout_seconds) as response:
-                body = json.loads(response.read().decode("utf-8"))
-        except (urllib.error.URLError, TimeoutError, ValueError, OSError):
-            return None
-        text = body.get("response")
-        if not isinstance(text, str) or not text.strip():
-            return None
-        return text
+        return response.text.strip(), response.source
 
     def _build_prompt(self, facts: dict[str, Any]) -> str:
         facts_json = json.dumps(facts, indent=2, default=str)

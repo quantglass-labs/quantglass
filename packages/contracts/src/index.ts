@@ -7,7 +7,7 @@ export type SignalType = 'BUY_ZONE' | 'SELL' | 'HOLD' | 'WAIT' | 'WATCH';
 export type RiskLevel = 'low' | 'medium' | 'high';
 export type TradingMode = 'paper' | 'live';
 export type ViewMode = 'simple' | 'advanced';
-export type ProviderCapability = 'ohlcv' | 'order_book' | 'news' | 'trading';
+export type ProviderCapability = 'ohlcv' | 'order_book' | 'news' | 'trading' | 'ai';
 export type AlertChannel = 'desktop' | 'telegram' | 'email';
 export type AlertStatus = 'armed' | 'paused' | 'fired';
 export type PaperTradeSide = 'long' | 'short';
@@ -166,6 +166,12 @@ export interface AlertItemResponse {
 export interface AiSettings {
   model: string;
   cloudEnabled: boolean;
+  provider: 'template' | 'ollama' | 'lm_studio' | 'openai' | 'openai_compatible';
+  baseUrl: string;
+  apiKeyId?: string | null;
+  temperature: number;
+  maxTokens: number;
+  requestTimeoutSeconds: number;
 }
 
 export interface AiSettingsResponse {
@@ -429,4 +435,19 @@ export interface BackendHealthResponse {
       parquet_dir: string;
     };
   };
+}
+
+export interface ExtensionRegistryEntry {
+  id: string;
+  name: string;
+  version: string;
+  description: string;
+  capabilities: string[];
+  homepage?: string | null;
+  loaded: boolean;
+  diagnostics: string[];
+}
+
+export interface ExtensionRegistryResponse {
+  extensions: ExtensionRegistryEntry[];
 }

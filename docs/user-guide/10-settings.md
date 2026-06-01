@@ -4,7 +4,7 @@
 
 ---
 
-Settings is where you control **data providers, API keys, risk/safety, AI narration, and saved strategies**. It is organised into five tabs.
+Settings is where you control **data providers, API keys, risk/safety, AI narration, extensions, and saved strategies**.
 
 <p align="center">
   <img src="../assets/screenshots/settings-providers.png" alt="Settings — Providers" width="900">
@@ -15,7 +15,8 @@ Settings is where you control **data providers, API keys, risk/safety, AI narrat
 | [Providers](#providers) | Which data sources are used and in what priority. |
 | [API Keys](#api-keys) | Encrypted keys for paid providers and notification channels. |
 | [Risk & Safety](#risk--safety) | Paper/live mode, partial candles, minimum backtest sample. |
-| [AI](#ai) | Local/cloud narration model selection. |
+| [AI](#ai) | Local/API narration model selection. |
+| [Extensions](#extensions) | Installed extension registry and loading status. |
 | [Strategies](#strategies) | Strategies you saved from Backtesting. |
 
 ---
@@ -27,11 +28,11 @@ QuantGlass routes each data domain (crypto, stocks, news, AI, trading) through a
 - **Simple mode** picks sensible US‑compliant defaults for you:
   - **Crypto:** Coinbase → Kraken → Gemini.
   - **Stocks:** Yahoo Finance.
-  - **AI:** Local Ollama (cloud off).
+  - **AI:** Template fallback with optional Ollama/local/API gateway narration.
   - **Trading:** Paper only.
 - **Advanced mode** exposes explicit primary/secondary/fallback routing and per‑market rate limits.
 
-The **Provider registry status** list shows each provider, its capabilities (`ohlcv`, `order_book`, `news`, `trading`), its transport (`public`, `keyed`, `internal`) and whether it is `configured` or `needs setup`.
+The **Provider registry status** list shows each provider, its capabilities (`ohlcv`, `order_book`, `news`, `trading`, `ai`), its transport (`public`, `keyed`, `internal`) and whether it is `configured` or `needs setup`.
 
 > **US‑compliance note:** the default build intentionally **excludes** Binance.com global, OKX and Bybit. It uses Coinbase, Kraken, Gemini, Alpaca, Finnhub and cached metadata providers.
 
@@ -52,6 +53,7 @@ Add optional keys to unlock paid data and notification channels. Keys are **mask
 | **Alpaca** | Equity data and (with live unlock) paper/live trading. |
 | **Telegram bot token + chat ID** | Telegram alert delivery. |
 | **SMTP host/port/credentials** | Email alert delivery. |
+| **OpenAI / OpenAI-compatible API keys** | Optional hosted or private model gateway narration. |
 
 > **Security:** ordinary keys are encrypted on disk. **Trade‑enabled** credentials are additionally stored in your operating system's keychain. See [Technical → Security model](../technical/09-security.md) for details. Use the per‑channel **test** buttons to verify notifications.
 
@@ -83,12 +85,40 @@ Controls how signal explanations ("narration") are generated.
 
 | Setting | Default | Notes |
 |---------|---------|-------|
-| **Model** | `qwen3:14b-q4_K_M` | The local Ollama model used for narration. |
-| **Ollama base URL** | `http://127.0.0.1:11434` | Where your local Ollama server runs. |
+| **Provider** | `ollama` | Template, Ollama, LM Studio, OpenAI, or OpenAI-compatible. |
+| **Model** | `qwen3:14b-q4_K_M` | Provider model id used for narration. |
+| **Base URL** | `http://127.0.0.1:11434` | Ollama native endpoint or OpenAI-compatible `/v1` endpoint. |
+| **API key** | None | Optional stored key for OpenAI or private gateways. |
 | **Cloud narration** | Off | Kept off by default to preserve the local‑first hot path. |
 | **Request timeout** | 8 s | Narration falls back to a template if the model is slow. |
 
-If Ollama isn't running, QuantGlass automatically uses **template‑based** explanations — every signal still gets a clear, fact‑checked write‑up. See [Core concepts → AI narration](11-core-concepts.md#ai-narration-and-the-fact-guard).
+If the configured model server isn't running, QuantGlass automatically uses **template‑based** explanations — every signal still gets a clear, fact‑checked write‑up. See [Core concepts → AI narration](11-core-concepts.md#ai-narration-and-the-fact-guard).
+
+Common local presets:
+
+- Ollama native: `provider=ollama`, `baseUrl=http://127.0.0.1:11434`.
+- Ollama OpenAI-compatible: `provider=openai_compatible`, `baseUrl=http://127.0.0.1:11434/v1`.
+- LM Studio: `provider=lm_studio`, `baseUrl=http://127.0.0.1:1234/v1`.
+- OpenAI: `provider=openai`, `baseUrl=https://api.openai.com/v1`, `apiKeyId=openai-api-key`.
+- Custom gateways: `provider=openai_compatible` with the gateway's `/v1` base URL.
+
+---
+
+## Extensions
+
+The Extensions tab shows backend extension manifests and diagnostics. External
+Python extensions are disabled by default because installed packages execute code
+inside the backend process.
+
+Enable extension entry points only for packages you trust:
+
+```bash
+QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true npm run backend:dev
+```
+
+Extensions can contribute provider adapters, AI gateways, indicators, strategies,
+notification channels, or performance optimizations. See
+[Contributing → Extensions](../contributing/extensions.md).
 
 ---
 

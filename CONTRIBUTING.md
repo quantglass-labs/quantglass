@@ -7,9 +7,10 @@ statistical evidence.
 ## Good Contribution Areas
 
 - Provider adapters for market data, news, brokers, and alert channels.
+- Extensions for provider, model, indicator, strategy, and notification surfaces.
 - Indicators and feature calculations.
 - Signal families and backtest realism.
-- Local AI narration prompts, guards, and model profiles.
+- Local/API AI narration prompts, guards, and model gateway profiles.
 - Desktop usability and accessibility.
 - Tests, fixtures, documentation, and release automation.
 
@@ -74,6 +75,13 @@ separate commercial licenses.
 - Keep signal and backtest math deterministic and testable.
 - Make AI narration explain engine facts only; do not let the model invent
   prices, probabilities, or recommendations.
+
+## Extension Guides
+
+- Provider adapters: [docs/contributing/provider-adapters.md](docs/contributing/provider-adapters.md)
+- Extension packages: [docs/contributing/extensions.md](docs/contributing/extensions.md)
+- AI model gateways: [docs/contributing/ai-model-gateways.md](docs/contributing/ai-model-gateways.md)
+- Strategy plugins: [docs/contributing/strategy-plugins.md](docs/contributing/strategy-plugins.md)
 
 ## Reporting Security Issues
 
