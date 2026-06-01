@@ -23,12 +23,14 @@ from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
+from app.services.indicator_registry import IndicatorRegistry
 from app.services.market_corridor import MarketCorridorService
 from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
 from app.services.signal_engine import SignalEngineService
+from app.services.strategy_registry import StrategyRegistry
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
@@ -41,6 +43,8 @@ async def lifespan(app: FastAPI):
     analytics_store = AnalyticsStore(settings.duckdb_path, settings.parquet_dir)
     event_bus = BackendEventBus()
     rate_limiter = InMemoryRateLimiter()
+    strategy_registry = StrategyRegistry()
+    indicator_registry = IndicatorRegistry()
 
     state_store.initialize(settings.provider_settings, settings.safety, settings.ai)
     persisted_provider_settings = state_store.get_provider_settings()
@@ -48,6 +52,8 @@ async def lifespan(app: FastAPI):
     provider_manager = ProviderManager(persisted_provider_settings, runtime_settings)
     extension_registry = load_extension_registry(
         provider_manager,
+        strategy_registry=strategy_registry,
+        indicator_registry=indicator_registry,
         enable_entry_points=settings.enable_extension_entry_points,
     )
     analytics_store.initialize()
@@ -78,6 +84,8 @@ async def lifespan(app: FastAPI):
     app.state.analytics_store = analytics_store
     app.state.provider_manager = provider_manager
     app.state.extension_registry = extension_registry
+    app.state.strategy_registry = strategy_registry
+    app.state.indicator_registry = indicator_registry
     app.state.event_bus = event_bus
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service

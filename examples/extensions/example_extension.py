@@ -9,7 +9,9 @@ Package this module in a separate Python distribution and expose it with:
     example = "your_package.example_extension:ExampleExtension"
 """
 
-from app.extensions.base import ExtensionContext, ExtensionManifest
+from app.extensions.base import ExtensionContext, ExtensionManifest, ExtensionSetting
+from app.services.indicator_registry import IndicatorDefinition
+from app.services.strategy_registry import StrategyDefinition
 
 
 class ExampleExtension:
@@ -18,7 +20,24 @@ class ExampleExtension:
         name="Example Extension",
         version="0.1.0",
         description="Registers a placeholder provider for extension development.",
-        capabilities=("market_data",),
+        capabilities=("market_data", "strategy", "indicator"),
+        permissions=("read_market_data", "network_access"),
+        settings=(
+            ExtensionSetting(
+                key="enabled",
+                label="Enabled",
+                type="boolean",
+                description="Controls whether this extension participates in registry routing.",
+                default=False,
+            ),
+            ExtensionSetting(
+                key="base_url",
+                label="Base URL",
+                type="string",
+                description="Optional upstream service URL for the example provider.",
+                required=False,
+            ),
+        ),
         homepage="https://github.com/quantglass-labs/quantglass",
     )
 
@@ -29,4 +48,30 @@ class ExampleExtension:
             client=None,
             transport="internal",
         )
+        context.register_indicator(
+            IndicatorDefinition(
+                id="example-liquidity-score",
+                name="Example Liquidity Score",
+                category="liquidity",
+                description="Placeholder indicator definition for extension authors.",
+                inputs=("close", "volume"),
+                outputs=("liquidity_score",),
+                source="extension",
+                extension_id=self.manifest.id,
+            )
+        )
+        context.register_strategy(
+            StrategyDefinition(
+                id="example-liquidity-pullback",
+                name="Example Liquidity Pullback",
+                description="Placeholder strategy definition for extension authors.",
+                setup_types=("example_liquidity_pullback",),
+                direction="long",
+                source="extension",
+                extension_id=self.manifest.id,
+            )
+        )
         context.diagnostics.append("Registered example_provider as an unconfigured OHLCV adapter.")
+
+    def health(self) -> dict[str, object]:
+        return {"status": "ok", "loaded": True}

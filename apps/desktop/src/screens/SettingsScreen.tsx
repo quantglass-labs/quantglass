@@ -533,6 +533,8 @@ export function SettingsScreen({
                           </div>
                           <p className="mt-3 text-sm text-muted">{extension.description}</p>
                           <p className="mt-3 text-xs text-muted">Capabilities: {extension.capabilities.join(', ') || 'none'}</p>
+                          <p className="mt-2 text-xs text-muted">Permissions: {extension.permissions.join(', ') || 'none'}</p>
+                          <p className="mt-2 text-xs text-muted">Settings: {extension.settings.length ? extension.settings.map((setting) => setting.key).join(', ') : 'none'}</p>
                           {extension.diagnostics.length ? <p className="mt-3 text-xs text-hold">{extension.diagnostics.join(' ')}</p> : null}
                         </div>
                       ))}

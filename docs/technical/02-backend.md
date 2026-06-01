@@ -60,6 +60,8 @@ Full endpoint catalog: [API reference](06-api-reference.md).
 | Service | File | Responsibility |
 |---------|------|----------------|
 | **SignalEngineService** | `services/signal_engine.py` | Computes indicators, regime, setups, confidence; attaches backtests + narration. |
+| **StrategyRegistry** | `services/strategy_registry.py` | Built-in and extension strategy metadata exposed for contributors and UI. |
+| **IndicatorRegistry** | `services/indicator_registry.py` | Built-in and extension indicator metadata exposed for contributors and UI. |
 | **MarketCorridorService** | `services/market_corridor.py` | Fetches/normalizes closed candles via providers, persists to analytics, integrity diagnostics. |
 | **ExecutionEngineService** | `services/execution_engine.py` | Evaluates alerts, runs paper executions, emits notifications/events. |
 | **TradingExecutionService** | `services/trading.py` | Broker order plumbing (paper now; live gated). |
@@ -110,6 +112,21 @@ trading: alpaca_paper → ccxt_trade
 ```
 
 Rate limits default to `crypto_rate_limit_per_minute = 24` and `stocks_rate_limit_per_minute = 58`.
+
+## Extensions
+
+`ExtensionRegistry` loads extension manifests and exposes diagnostics through
+`/api/extensions/*`. External Python entry points are disabled by default because
+installed packages execute inside the backend process. When enabled, extensions
+can register provider, strategy, and indicator metadata through `ExtensionContext`.
+
+Core extension plumbing:
+
+- `ExtensionManifest`: id, version, capabilities, permissions, settings schema.
+- `ExtensionContext`: provider, strategy, and indicator registration helpers.
+- `StrategyRegistry`: built-in strategy definitions plus extension-provided definitions.
+- `IndicatorRegistry`: built-in indicator definitions plus extension-provided definitions.
+- `StateStore`: persisted extension settings under the `extension_settings` key.
 
 ---
 

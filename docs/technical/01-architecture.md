@@ -15,7 +15,7 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 | **Local‑first** | All state under a per‑user OS data dir; SQLite + DuckDB + Parquet on disk. |
 | **Deterministic core** | Signals computed from closed candles only; no randomness; reproducible. |
 | **Optional, guarded AI** | LLM narration can use local or API gateways and is fact‑checked; never on the hot path. |
-| **Extension-ready** | Provider, AI, strategy, indicator, and notification extensions register through explicit manifests. |
+| **Extension-ready** | Provider, AI, strategy, indicator, backtest, execution, notification, import/export, and data-quality extensions register through explicit manifests. |
 | **Safety by default** | Paper trading only; live execution multi‑gated. |
 | **US‑compliant data** | Coinbase/Kraken/Gemini/Yahoo/Finnhub; global Binance/OKX/Bybit excluded. |
 | **Contracts‑first** | Shared TypeScript types in `@quantglass/contracts` mirror backend schemas. |

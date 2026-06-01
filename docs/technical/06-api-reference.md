@@ -81,6 +81,12 @@ The backend exposes a REST API (JSON) and a WebSocket event stream. All routes a
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/api/extensions/registry` | Installed extension manifests, load status, and diagnostics. |
+| `GET` | `/api/extensions/registry/{id}` | Single extension manifest and diagnostics. |
+| `GET` | `/api/extensions/registry/{id}/health` | Extension health payload. |
+| `GET` | `/api/extensions/registry/{id}/settings` | Persisted extension settings and settings schema. |
+| `PUT` | `/api/extensions/registry/{id}/settings` | Update persisted extension settings. |
+| `GET` | `/api/extensions/strategies` | Built-in and extension strategy definitions. |
+| `GET` | `/api/extensions/indicators` | Built-in and extension indicator definitions. |
 
 ## Settings
 

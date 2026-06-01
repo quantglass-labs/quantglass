@@ -443,11 +443,65 @@ export interface ExtensionRegistryEntry {
   version: string;
   description: string;
   capabilities: string[];
+  permissions: string[];
+  settings: ExtensionSettingDefinition[];
   homepage?: string | null;
   loaded: boolean;
   diagnostics: string[];
+  health: Record<string, unknown>;
 }
 
 export interface ExtensionRegistryResponse {
   extensions: ExtensionRegistryEntry[];
+}
+
+export interface ExtensionSettingDefinition {
+  key: string;
+  label: string;
+  type: 'string' | 'number' | 'boolean' | 'select' | 'secret';
+  description: string;
+  required: boolean;
+  default?: string | number | boolean | null;
+  options: string[];
+}
+
+export interface ExtensionSettingsResponse {
+  extensionId: string;
+  settings: Record<string, unknown>;
+  schema: ExtensionSettingDefinition[];
+}
+
+export interface ExtensionHealthResponse {
+  health: Record<string, unknown>;
+}
+
+export interface StrategyRegistryEntry {
+  id: string;
+  name: string;
+  description: string;
+  setup_types: string[];
+  direction: 'long' | 'short' | 'both';
+  market_types: string[];
+  timeframes: string[];
+  source: 'built-in' | 'extension';
+  extension_id?: string | null;
+}
+
+export interface StrategyRegistryResponse {
+  strategies: StrategyRegistryEntry[];
+}
+
+export interface IndicatorRegistryEntry {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  inputs: string[];
+  outputs: string[];
+  source: 'built-in' | 'extension';
+  extension_id?: string | null;
+}
+
+export interface IndicatorRegistryResponse {
+  indicators: IndicatorRegistryEntry[];
 }

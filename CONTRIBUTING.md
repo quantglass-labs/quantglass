@@ -80,6 +80,7 @@ separate commercial licenses.
 
 - Provider adapters: [docs/contributing/provider-adapters.md](docs/contributing/provider-adapters.md)
 - Extension packages: [docs/contributing/extensions.md](docs/contributing/extensions.md)
+- Extension types: [docs/contributing/extension-types.md](docs/contributing/extension-types.md)
 - AI model gateways: [docs/contributing/ai-model-gateways.md](docs/contributing/ai-model-gateways.md)
 - Strategy plugins: [docs/contributing/strategy-plugins.md](docs/contributing/strategy-plugins.md)
 
