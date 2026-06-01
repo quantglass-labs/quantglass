@@ -1,0 +1,36 @@
+name: Provider adapter
+description: Request or propose a market data, news, broker, or alert adapter
+title: "[Provider]: "
+labels: ["provider-adapter", "help wanted"]
+body:
+  - type: input
+    id: provider
+    attributes:
+      label: Provider Name
+    validations:
+      required: true
+  - type: dropdown
+    id: capability
+    attributes:
+      label: Capability
+      options:
+        - OHLCV market data
+        - Quotes
+        - News
+        - Paper trading
+        - Live trading
+        - Alerts
+    validations:
+      required: true
+  - type: textarea
+    id: docs
+    attributes:
+      label: Provider Docs
+      description: Link API docs, rate limits, auth details, and licensing notes.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Implementation Notes
+      description: Include symbols, timeframes, costs, and test-data options.

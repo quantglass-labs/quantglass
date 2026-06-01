@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible bug
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Provide exact steps.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit Or Version
+      placeholder: commit SHA, release, or branch
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Remove secrets before pasting.
+      render: text

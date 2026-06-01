@@ -1,7 +1,8 @@
 {
-  "name": "alphaterminal",
+  "name": "quantglass",
   "private": true,
   "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "backend:backup": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export",
     "desktop:dev": "npm --prefix apps/desktop run dev --",
@@ -14,7 +15,7 @@
     "backend:check": "PYTHONPATH=apps/backend ./.venv/bin/python -c \"from app.main import app; print(app.title, len(app.routes))\"",
     "backend:openapi": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/export_openapi.py",
     "backend:smoke": "PYTHONPATH=apps/backend ./.venv/bin/python -m unittest apps/backend/tests/test_smoke.py",
-    "backend:test": "PYTHONPATH=apps/backend ./.venv/bin/python -m unittest discover -s apps/backend/tests -p \"test_*.py\"",
+    "backend:test": "PYTHONPATH=apps/backend ./.venv/bin/python -m pytest apps/backend/tests",
     "validate:backend": "npm run backend:check && npm run backend:test && npm run backend:smoke && npm run backend:openapi",
     "validate:release": "npm run validate:backend && npm run desktop:build && npm run backend:bundle && npm run desktop:tauri:build"
   }

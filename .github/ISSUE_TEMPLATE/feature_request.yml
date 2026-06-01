@@ -1,0 +1,38 @@
+name: Feature request
+description: Propose a new feature or improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or contributor problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Backend
+        - Desktop
+        - Provider adapter
+        - Indicator
+        - Strategy
+        - Backtesting
+        - AI narration
+        - Docs
+        - Packaging
+  - type: textarea
+    id: safety
+    attributes:
+      label: Risk And Safety Notes
+      description: Mention data, trading, security, or licensing concerns.
