@@ -1,6 +1,6 @@
 # Trademarks
 
-The names QuantGlass and AlphaTerminal, associated logos, and project branding
+The names QuantGlass and QuantGlass, associated logos, and project branding
 are project trademarks unless otherwise noted.
 
 The open-source license grants rights to the code. It does not grant permission

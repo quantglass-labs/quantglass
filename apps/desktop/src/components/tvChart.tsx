@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { ColorType, CrosshairMode, LineStyle, createChart } from 'lightweight-charts';
 import { useEffect, useMemo, useRef } from 'react';
 import type { Candle } from '../types';

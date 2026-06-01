@@ -75,7 +75,7 @@ If the two are **close**, the edge is more likely real. If in‑sample looks gre
 
 > ⚠️ *"This setup has fewer than 50 trades, so the validation statistics should be treated as unstable."*
 
-AlphaTerminal applies a **minimum sample threshold (50 trades by default)**. Below it, even a 100% win rate is treated as **unreliable**, not impressive. This is deliberate: small samples produce flattering but meaningless numbers. Confidence scores elsewhere in the app also down‑weight under‑sampled setups.
+QuantGlass applies a **minimum sample threshold (50 trades by default)**. Below it, even a 100% win rate is treated as **unreliable**, not impressive. This is deliberate: small samples produce flattering but meaningless numbers. Confidence scores elsewhere in the app also down‑weight under‑sampled setups.
 
 ---
 

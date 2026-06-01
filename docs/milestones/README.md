@@ -1,4 +1,4 @@
-# AlphaTerminal Milestones
+# QuantGlass Milestones
 
 These milestone documents are the execution companion to `docs/production_implementation_masterplan.md`.
 

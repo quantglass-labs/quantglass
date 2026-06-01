@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec that freezes the AlphaTerminal backend into one executable.
+"""PyInstaller spec that freezes the QuantGlass backend into one executable.
 
-Produces a single-file ``alphaterminal-backend`` binary (``.exe`` on Windows) that
+Produces a single-file ``quantglass-backend`` binary (``.exe`` on Windows) that
 the Tauri desktop shell launches as a sidecar. Build via
 ``apps/backend/scripts/build_sidecar.py`` which renames the artifact to the Rust
 target triple Tauri expects.
@@ -57,7 +57,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name="alphaterminal-backend",
+    name="quantglass-backend",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

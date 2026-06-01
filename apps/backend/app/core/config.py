@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 import os
 import sys
 from functools import lru_cache
@@ -29,7 +32,7 @@ def _default_data_dir() -> Path:
     fall back to a stable, writable per-user application-data location.
     """
     if getattr(sys, "frozen", False):
-        return _platform_app_data_dir() / "AlphaTerminal"
+        return _platform_app_data_dir() / "QuantGlass"
     return Path(__file__).resolve().parents[2] / ".local"
 
 
@@ -94,12 +97,12 @@ class AiSettings(BaseModel):
 
 class AppSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_prefix="ALPHATERMINAL_",
+        env_prefix="QUANTGLASS_",
         env_nested_delimiter="__",
         extra="ignore",
     )
 
-    app_name: str = "AlphaTerminal Backend"
+    app_name: str = "QuantGlass Backend"
     environment: str = "development"
     workspace_root: Path = Field(
         default_factory=lambda: Path(__file__).resolve().parents[4]
@@ -125,14 +128,14 @@ class AppSettings(BaseSettings):
     def _derive_storage_paths(self) -> "AppSettings":
         """Derive concrete storage paths from ``data_dir`` unless explicitly set.
 
-        Keeping these relative to ``data_dir`` means a single ``ALPHATERMINAL_DATA_DIR``
+        Keeping these relative to ``data_dir`` means a single ``QUANTGLASS_DATA_DIR``
         override (used by the packaged desktop app) relocates all local state, while a
         source checkout keeps the historical ``.local/{state,analytics,parquet}`` layout.
         """
         if self.sqlite_path is None:
-            self.sqlite_path = self.data_dir / "state" / "alphaterminal.db"
+            self.sqlite_path = self.data_dir / "state" / "quantglass.db"
         if self.duckdb_path is None:
-            self.duckdb_path = self.data_dir / "analytics" / "alphaterminal.duckdb"
+            self.duckdb_path = self.data_dir / "analytics" / "quantglass.duckdb"
         if self.parquet_dir is None:
             self.parquet_dir = self.data_dir / "parquet"
         return self

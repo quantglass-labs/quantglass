@@ -1,4 +1,4 @@
-# AlphaTerminal Release Readiness Checklist
+# QuantGlass Release Readiness Checklist
 
 ## Release Validation
 

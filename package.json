@@ -16,6 +16,7 @@
     "backend:openapi": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/export_openapi.py",
     "backend:smoke": "PYTHONPATH=apps/backend ./.venv/bin/python -m unittest apps/backend/tests/test_smoke.py",
     "backend:test": "PYTHONPATH=apps/backend ./.venv/bin/python -m pytest apps/backend/tests",
+    "license:reports": "./.venv/bin/python scripts/generate_license_reports.py",
     "validate:backend": "npm run backend:check && npm run backend:test && npm run backend:smoke && npm run backend:openapi",
     "validate:release": "npm run validate:backend && npm run desktop:build && npm run backend:bundle && npm run desktop:tauri:build"
   }

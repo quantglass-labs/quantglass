@@ -1,4 +1,4 @@
-# AlphaTerminal Production Audit Report
+# QuantGlass Production Audit Report
 
 **Audit date:** 2026-05-31
 **Reviewer perspective:** senior financial-markets / quantitative-trading / AI-ML / software-architecture review
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-AlphaTerminal is **substantially more built than the masterplan's "Current Baseline" section claims.** The plan describes market data, normalization, the quant pipeline, the signal engine, backtesting, alert execution, and secrets as "not complete." In reality, the repository already contains working, non-trivial implementations of almost all of these, wired end-to-end from live public market APIs through a DuckDB store, a deterministic indicator/signal engine, an inline cost-aware backtest, a scheduler-driven alert/paper-execution loop, and a typed desktop client. The masterplan is therefore **stale as a status document**, even though it remains a good architectural compass.
+QuantGlass is **substantially more built than the masterplan's "Current Baseline" section claims.** The plan describes market data, normalization, the quant pipeline, the signal engine, backtesting, alert execution, and secrets as "not complete." In reality, the repository already contains working, non-trivial implementations of almost all of these, wired end-to-end from live public market APIs through a DuckDB store, a deterministic indicator/signal engine, an inline cost-aware backtest, a scheduler-driven alert/paper-execution loop, and a typed desktop client. The masterplan is therefore **stale as a status document**, even though it remains a good architectural compass.
 
 The headline problem is the inverse of what the plan implies. The hard plumbing is mostly done; the **two pillars the vision treats as non-negotiable differentiators are the two that are missing or weakest**:
 
@@ -132,7 +132,7 @@ Legend: ✅ real & wired · 🟡 partial · 🟥 missing/placeholder/stub · ⬛
 - 🟡 **Backtesting (Phase 8)** — runner with fees/slippage/split/walk-forward exists but is per-symbol, tiny-sample, blends in/out-of-sample, and validates a different exit than the UI shows (see §4.2). `backtest_snapshots` table is defined but not used to feed confidence.
 - 🟡 **Indicator palette (Phase 6)** — EMA/SMA/RSI/ATR present; **MACD and Bollinger absent** despite being in the vision/UI.
 - 🟡 **Multi-timeframe** — corridor ingests **only crypto@1h and stocks@1d** (`_corridor_targets`); the UI's 15m/4h selectors have no ingested data behind them.
-- 🟡 **News** — `news_service.py` returns **synthetic "AlphaTerminal Market Wire"** items derived from price moves unless a Finnhub key is configured; default experience is generated, not real news.
+- 🟡 **News** — `news_service.py` returns **synthetic "QuantGlass Market Wire"** items derived from price moves unless a Finnhub key is configured; default experience is generated, not real news.
 - 🟡 **Symbol universe** — hardcoded 12-symbol corridor list; watchlist additions do not extend ingest.
 
 ### Missing / placeholder / stub / documented-but-not-wired

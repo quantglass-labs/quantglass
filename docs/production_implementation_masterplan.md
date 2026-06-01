@@ -1,8 +1,8 @@
-# AlphaTerminal Production Implementation Masterplan
+# QuantGlass Production Implementation Masterplan
 
 ## Purpose
 
-This document is the canonical execution plan for taking AlphaTerminal from the current mock-first prototype into a production-grade local-first desktop application.
+This document is the canonical execution plan for taking QuantGlass from the current mock-first prototype into a production-grade local-first desktop application.
 
 Milestone checklists and acceptance gates live in `docs/milestones/` and should be used as the execution companion to this plan.
 
@@ -431,7 +431,7 @@ Every slice must leave behind executable validation.
 
 ## Definition of Done
 
-AlphaTerminal is only considered production-grade when all of the following are true:
+QuantGlass is only considered production-grade when all of the following are true:
 
 1. Core screens are backend-driven rather than fixture-driven.
 2. Market data is provider-backed, normalized, and cached locally.

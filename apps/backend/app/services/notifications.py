@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from __future__ import annotations
 
 import json
@@ -29,7 +32,7 @@ class AlertNotificationService:
         timestamp = datetime.now(timezone.utc).isoformat()
         return self._deliver(
             channel,
-            f"AlphaTerminal {channel} delivery test at {timestamp}.",
+            f"QuantGlass {channel} delivery test at {timestamp}.",
             subject_prefix="Test",
         )
 
@@ -153,7 +156,7 @@ class AlertNotificationService:
             )
 
         email_message = EmailMessage()
-        email_message["Subject"] = f"AlphaTerminal {subject_prefix}"
+        email_message["Subject"] = f"QuantGlass {subject_prefix}"
         email_message["From"] = smtp_from
         email_message["To"] = ", ".join(recipients)
         email_message.set_content(message)

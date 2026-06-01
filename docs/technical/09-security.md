@@ -4,7 +4,7 @@
 
 ---
 
-AlphaTerminal's threat model is a **single‑user desktop app**: no remote attackers, no multi‑tenant data, no inbound network surface beyond a loopback‑only backend. Security focuses on protecting **secrets at rest** and preventing **accidental real‑money trades**.
+QuantGlass's threat model is a **single‑user desktop app**: no remote attackers, no multi‑tenant data, no inbound network surface beyond a loopback‑only backend. Security focuses on protecting **secrets at rest** and preventing **accidental real‑money trades**.
 
 ---
 

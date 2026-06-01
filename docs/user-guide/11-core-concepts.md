@@ -4,13 +4,13 @@
 
 ---
 
-This chapter explains the ideas behind AlphaTerminal so the numbers on every screen mean something to you. None of it is advice — it's how the engine reasons.
+This chapter explains the ideas behind QuantGlass so the numbers on every screen mean something to you. None of it is advice — it's how the engine reasons.
 
 ---
 
 ## Closed candles and "no repainting"
 
-A **candle** summarises price over a fixed interval (open, high, low, close). AlphaTerminal computes signals **only when a candle closes**. A live, still‑forming bar is excluded. This guarantees a signal won't appear and then disappear as the current bar fluctuates — a problem called **repainting**. You'll see *"Closed‑candle only"* and diagnostics like *partial_latest_candle_excluded* as proof of this discipline.
+A **candle** summarises price over a fixed interval (open, high, low, close). QuantGlass computes signals **only when a candle closes**. A live, still‑forming bar is excluded. This guarantees a signal won't appear and then disappear as the current bar fluctuates — a problem called **repainting**. You'll see *"Closed‑candle only"* and diagnostics like *partial_latest_candle_excluded* as proof of this discipline.
 
 ---
 
@@ -143,7 +143,7 @@ Relative strength compares each symbol's recent performance **against its peers*
 
 ## AI narration and the fact-guard
 
-For each signal, AlphaTerminal writes a plain‑language explanation. There are two sources:
+For each signal, QuantGlass writes a plain‑language explanation. There are two sources:
 
 1. **Local AI (Ollama)** — when configured, a local language model writes the narration. No data leaves your machine.
 2. **Template** — a deterministic, rules‑based write‑up used when AI is unavailable or too slow.

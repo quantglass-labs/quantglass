@@ -1,20 +1,20 @@
-# AlphaTerminal — User Guide
+# QuantGlass — User Guide
 
-> **AlphaTerminal** is a local‑first, single‑user **quantitative desktop terminal** for crypto and US equities. It turns raw market data into **evidence‑based, closed‑candle signals**, lets you **backtest** them honestly, **paper‑trade** them, and **alert** you when conditions trigger — all running privately on your own machine.
+> **QuantGlass** is a local‑first, single‑user **quantitative desktop terminal** for crypto and US equities. It turns raw market data into **evidence‑based, closed‑candle signals**, lets you **backtest** them honestly, **paper‑trade** them, and **alert** you when conditions trigger — all running privately on your own machine.
 
 <p align="center">
-  <img src="../assets/screenshots/dashboard.png" alt="AlphaTerminal dashboard" width="900">
+  <img src="../assets/screenshots/dashboard.png" alt="QuantGlass dashboard" width="900">
 </p>
 
 ---
 
 ## What this guide covers
 
-This is the **end‑user manual**. It explains how to install, configure and use every screen in the app. If you are a developer who wants to understand how AlphaTerminal is built, read the [Technical Documentation](../technical/README.md) instead.
+This is the **end‑user manual**. It explains how to install, configure and use every screen in the app. If you are a developer who wants to understand how QuantGlass is built, read the [Technical Documentation](../technical/README.md) instead.
 
 | # | Section | What you'll learn |
 |---|---------|-------------------|
-| 1 | [Introduction](01-introduction.md) | What AlphaTerminal is, who it's for, and its guiding principles |
+| 1 | [Introduction](01-introduction.md) | What QuantGlass is, who it's for, and its guiding principles |
 | 2 | [Installation](02-installation.md) | Install on Linux, Windows and macOS; system requirements |
 | 3 | [Getting started](03-getting-started.md) | First launch, the layout, and a 5‑minute tour |
 | 4 | [Dashboard](04-dashboard.md) | Cross‑market overview, regime, paper exposure |
@@ -57,7 +57,7 @@ flowchart LR
 
 ## Important: this is not financial advice
 
-> AlphaTerminal is an **educational and research tool**. Every screen carries the reminder *"Educational use only. Not financial advice."* Signals are deterministic, model‑driven hypotheses — not recommendations. You are responsible for your own decisions. **Live trading is disabled by default** and is gated behind explicit confirmation. See [Paper vs live trading](12-paper-trading.md).
+> QuantGlass is an **educational and research tool**. Every screen carries the reminder *"Educational use only. Not financial advice."* Signals are deterministic, model‑driven hypotheses — not recommendations. You are responsible for your own decisions. **Live trading is disabled by default** and is gated behind explicit confirmation. See [Paper vs live trading](12-paper-trading.md).
 
 ---
 

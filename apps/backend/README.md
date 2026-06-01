@@ -1,4 +1,4 @@
-# AlphaTerminal Backend
+# QuantGlass Backend
 
 This is the Phase 1 implementation scaffold from the architecture document: a local FastAPI backend with APScheduler, SQLite state storage, DuckDB analytics storage, Parquet archive paths, and a capability-segregated provider manager.
 

@@ -69,7 +69,7 @@ The resolved URL is memoised in a single promise so every request shares it.
 
 ## BackendClient & contracts
 
-`backend.ts` is a typed client whose request/response shapes come from the shared **`@alphaterminal/contracts`** package (`packages/contracts`). This contracts‑first approach keeps the TypeScript types in lockstep with the backend's Pydantic schemas. Representative types:
+`backend.ts` is a typed client whose request/response shapes come from the shared **`@quantglass/contracts`** package (`packages/contracts`). This contracts‑first approach keeps the TypeScript types in lockstep with the backend's Pydantic schemas. Representative types:
 
 | Type | Used for |
 |------|----------|

@@ -14,7 +14,7 @@ The Watchlist is your **curated symbol monitor**. It groups the instruments you 
 
 ## Top relative‑strength candidates
 
-At the top, AlphaTerminal ranks your universe by **cross‑sectional momentum** — that is, how each symbol is performing *relative to its peers*, not just on its own.
+At the top, QuantGlass ranks your universe by **cross‑sectional momentum** — that is, how each symbol is performing *relative to its peers*, not just on its own.
 
 Each candidate chip shows:
 
@@ -55,7 +55,7 @@ flowchart LR
     D -. remove .-> E[Click the trash icon<br/>to stop tracking]
 ```
 
-- **Add:** type a ticker into the **Add symbol** box (e.g. `MSFT` or `SOLUSD`) and confirm. AlphaTerminal starts tracking its closed‑candle data and computing signals.
+- **Add:** type a ticker into the **Add symbol** box (e.g. `MSFT` or `SOLUSD`) and confirm. QuantGlass starts tracking its closed‑candle data and computing signals.
 - **Remove:** click the **remove** (trash) icon on a row, or use **Remove from watchlist** on the symbol's detail screen.
 
 > The default build exposes **US‑compliant venues only**. Crypto pairs resolve via Coinbase/Kraken/Gemini; equities via Yahoo Finance (and any paid providers you configure). See [Settings → Providers](10-settings.md#providers).

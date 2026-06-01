@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type {
   AiSettings,
   ApiKeyField,
@@ -37,7 +40,7 @@ import type {
   WatchlistCreateRequest,
   WatchlistDeleteResponse,
   WatchlistListResponse,
-} from '@alphaterminal/contracts';
+} from '@quantglass/contracts';
 import type { Candle, ProviderSettings } from '../types';
 
 const DEFAULT_BACKEND_BASE_URL = 'http://127.0.0.1:8000';

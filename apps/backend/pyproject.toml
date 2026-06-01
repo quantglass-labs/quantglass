@@ -1,5 +1,8 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 [project]
-name = "alphaterminal-backend"
+name = "quantglass-backend"
 version = "0.1.0"
 description = "Local FastAPI backend for QuantGlass"
 requires-python = ">=3.11"

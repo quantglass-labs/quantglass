@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use std::net::{TcpListener, TcpStream};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
@@ -52,7 +55,7 @@ fn start_backend(app: &tauri::App) -> (String, Option<CommandChild>) {
         None => return (FALLBACK_BASE_URL.to_string(), None),
     };
 
-    let command = match app.shell().sidecar("alphaterminal-backend") {
+    let command = match app.shell().sidecar("quantglass-backend") {
         Ok(command) => command.args(["--host", "127.0.0.1", "--port", &port.to_string()]),
         Err(error) => {
             eprintln!("[backend] sidecar unavailable, using fallback URL: {error}");
@@ -102,7 +105,7 @@ pub fn run() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("error while running AlphaTerminal")
+        .expect("error while running QuantGlass")
         .run(|app_handle, event| {
             if let RunEvent::ExitRequested { .. } = event {
                 if let Some(state) = app_handle.try_state::<BackendState>() {

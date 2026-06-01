@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Cross-sectional relative-strength ranking.
 
 Pure-Python (no pandas) ranking of the locally-ingested market universe by trailing

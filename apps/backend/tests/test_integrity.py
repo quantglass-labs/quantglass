@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Integrity test for the durable Parquet archive (F2).
 
 Closed candles written to DuckDB must also be archived to a partitioned, re-readable

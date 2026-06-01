@@ -4,7 +4,7 @@
 
 ---
 
-The backend is a **FastAPI** application (`title="AlphaTerminal Backend"`, `version="0.1.0"`) defined in [apps/backend/app/main.py](../../apps/backend/app/main.py). It is composed entirely with an `asynccontextmanager` **lifespan** that builds every store, service and the scheduler at startup and tears the scheduler down on shutdown.
+The backend is a **FastAPI** application (`title="QuantGlass Backend"`, `version="0.1.0"`) defined in [apps/backend/app/main.py](../../apps/backend/app/main.py). It is composed entirely with an `asynccontextmanager` **lifespan** that builds every store, service and the scheduler at startup and tears the scheduler down on shutdown.
 
 ---
 
@@ -112,9 +112,9 @@ Rate limits default to `crypto_rate_limit_per_minute = 24` and `stocks_rate_limi
 
 ## Configuration
 
-`AppSettings` (pydantic‑settings, env prefix `ALPHATERMINAL_`, nested delimiter `__`) centralises configuration:
+`AppSettings` (pydantic‑settings, env prefix `QUANTGLASS_`, nested delimiter `__`) centralises configuration:
 
-- **Storage paths** are derived from `data_dir` unless explicitly set, so a single `ALPHATERMINAL_DATA_DIR` relocates everything. In a frozen (PyInstaller) build, `data_dir` resolves to the per‑user OS app‑data dir; in a source checkout it is `apps/backend/.local`.
+- **Storage paths** are derived from `data_dir` unless explicitly set, so a single `QUANTGLASS_DATA_DIR` relocates everything. In a frozen (PyInstaller) build, `data_dir` resolves to the per‑user OS app‑data dir; in a source checkout it is `apps/backend/.local`.
 - **Sub‑models:** `ProviderSettings`, `SafetySettings` (`trading_mode=paper`, `act_on_partial_candles=False`, `min_backtest_sample=50`, `live_trading_confirmed=False`), `AiSettings` (`model=qwen3:14b-q4_K_M`, `cloud_enabled=False`, `ollama_base_url=http://127.0.0.1:11434`, `request_timeout_seconds=8.0`).
 - `apply_api_key_settings()` overlays decrypted API keys from the `StateStore` onto runtime settings at startup.
 

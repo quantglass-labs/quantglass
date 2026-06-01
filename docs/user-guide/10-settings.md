@@ -22,7 +22,7 @@ Settings is where you control **data providers, API keys, risk/safety, AI narrat
 
 ## Providers
 
-AlphaTerminal routes each data domain (crypto, stocks, news, AI, trading) through a **priority chain**: a primary source, then a secondary, then a fallback.
+QuantGlass routes each data domain (crypto, stocks, news, AI, trading) through a **priority chain**: a primary source, then a secondary, then a fallback.
 
 - **Simple mode** picks sensible US‑compliant defaults for you:
   - **Crypto:** Coinbase → Kraken → Gemini.
@@ -88,7 +88,7 @@ Controls how signal explanations ("narration") are generated.
 | **Cloud narration** | Off | Kept off by default to preserve the local‑first hot path. |
 | **Request timeout** | 8 s | Narration falls back to a template if the model is slow. |
 
-If Ollama isn't running, AlphaTerminal automatically uses **template‑based** explanations — every signal still gets a clear, fact‑checked write‑up. See [Core concepts → AI narration](11-core-concepts.md#ai-narration-and-the-fact-guard).
+If Ollama isn't running, QuantGlass automatically uses **template‑based** explanations — every signal still gets a clear, fact‑checked write‑up. See [Core concepts → AI narration](11-core-concepts.md#ai-narration-and-the-fact-guard).
 
 ---
 

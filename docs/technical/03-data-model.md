@@ -4,13 +4,13 @@
 
 ---
 
-AlphaTerminal persists three categories of data, each in a purpose‑fit store. All live under the per‑user data directory (see [config](02-backend.md#configuration)).
+QuantGlass persists three categories of data, each in a purpose‑fit store. All live under the per‑user data directory (see [config](02-backend.md#configuration)).
 
 ```mermaid
 flowchart LR
     subgraph data_dir
-        S[(state/alphaterminal.db<br/>SQLite)]
-        D[(analytics/alphaterminal.duckdb<br/>DuckDB)]
+        S[(state/quantglass.db<br/>SQLite)]
+        D[(analytics/quantglass.duckdb<br/>DuckDB)]
         P[/parquet/…/candles.parquet/]
         K[/state/secrets/<br/>Fernet payload + key/]
     end
@@ -85,7 +85,7 @@ Details: [Security model](09-security.md).
 
 ## Core schema types
 
-The deterministic contract shared with the frontend (`@alphaterminal/contracts`) includes:
+The deterministic contract shared with the frontend (`@quantglass/contracts`) includes:
 
 - **`CanonicalSignal`** — symbol, market type, label (`BUY_ZONE`/`SELL`/`HOLD`/`WAIT`/`WATCH`), status (`active`/`invalidated`/`closed`), confidence, risk level, entry/stop/TP ladder, indicators snapshot, `ConfidenceBasis`, narration.
 - **`ConfidenceBasis`** — `trend_alignment`, `volume_confirmation`, `volatility_regime`, `setup_type`, `backtested_winrate`, `backtested_expectancy_R`, `backtest_sample_size`, `out_of_sample_validated`, plus optional `market_regime`, `pooled_*`, `confluence_score`.

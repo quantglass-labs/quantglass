@@ -1,4 +1,4 @@
-# AlphaTerminal Production Fix Roadmap
+# QuantGlass Production Fix Roadmap
 
 **Companion to:** `docs/production_audit_report.md` (audit dated 2026-05-31)
 **Target profile:** single-user, single-machine, local-first desktop app. No cloud, no shared backend, no multi-user concerns.

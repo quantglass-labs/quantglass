@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Example strategy helper for contributors.
 
 Real strategies should live in the signal engine or a future strategy registry,

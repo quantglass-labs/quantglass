@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from __future__ import annotations
 
 import json
@@ -11,7 +14,7 @@ def main() -> None:
     output_path = (
         Path(sys.argv[1])
         if len(sys.argv) > 1
-        else Path("docs/openapi/alphaterminal-backend.openapi.json")
+        else Path("docs/openapi/quantglass-backend.openapi.json")
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(

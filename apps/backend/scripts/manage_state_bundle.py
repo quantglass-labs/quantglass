@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from __future__ import annotations
 
 import argparse
@@ -18,8 +21,8 @@ def _bundle_entries() -> list[tuple[str, Path]]:
     settings = get_settings()
     secrets_dir = settings.sqlite_path.parent / "secrets"
     return [
-        ("state/alphaterminal.db", settings.sqlite_path),
-        ("analytics/alphaterminal.duckdb", settings.duckdb_path),
+        ("state/quantglass.db", settings.sqlite_path),
+        ("analytics/quantglass.duckdb", settings.duckdb_path),
         ("parquet", settings.parquet_dir),
         ("state/secrets/api_keys.enc", secrets_dir / "api_keys.enc"),
         ("state/secrets/api_keys.key", secrets_dir / "api_keys.key"),
@@ -30,7 +33,7 @@ def export_bundle(output_path: Path | None = None) -> Path:
     settings = get_settings()
     backup_dir = settings.data_dir / "backups"
     backup_dir.mkdir(parents=True, exist_ok=True)
-    bundle_path = output_path or backup_dir / f"alphaterminal-backup-{_timestamp()}.zip"
+    bundle_path = output_path or backup_dir / f"quantglass-backup-{_timestamp()}.zip"
     manifest: dict[str, object] = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "service": settings.app_name,
@@ -80,7 +83,7 @@ def restore_bundle(bundle_path: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export or restore AlphaTerminal local state bundles.")
+    parser = argparse.ArgumentParser(description="Export or restore QuantGlass local state bundles.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     export_parser = subparsers.add_parser("export")

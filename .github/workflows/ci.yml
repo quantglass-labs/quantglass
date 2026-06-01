@@ -63,3 +63,28 @@ jobs:
       - name: Compile Tauri shell
         working-directory: apps/desktop/src-tauri
         run: cargo test
+
+  license-reports:
+    name: License reports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/desktop/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install backend
+        run: python -m pip install -e "apps/backend[dev,package]"
+      - name: Install desktop dependencies
+        run: npm --prefix apps/desktop ci
+      - name: Generate reports
+        run: python scripts/generate_license_reports.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: license-reports
+          path: license-reports/
