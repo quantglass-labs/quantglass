@@ -711,6 +711,7 @@ export default function App() {
                   watchlistIds={watchlistIds}
                   paperAccount={paperAccount}
                   marketCorridorItems={marketCorridorItems}
+                  marketCandlesByKey={marketCandlesByKey}
                   marketCorridorRefreshing={marketCorridorRefreshing}
                   onRefreshMarketCorridor={refreshMarketCorridor}
                   onOpenSymbol={handleSelectSymbol}
