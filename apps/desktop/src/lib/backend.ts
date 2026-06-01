@@ -19,6 +19,7 @@ import type {
   BackendHealthResponse,
   CorridorIngestResponse,
   ExtensionRegistryResponse,
+  ExtensionSettingsResponse,
   MarketCandlesResponse,
   MarketRankingResponse,
   NewsListResponse,
@@ -163,6 +164,21 @@ export const backendClient = {
   },
   getExtensionRegistry() {
     return requestJson<ExtensionRegistryResponse>('/api/extensions/registry');
+  },
+  getExtensionSettings(extensionId: string) {
+    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`);
+  },
+  updateExtensionSettings(extensionId: string, settings: Record<string, unknown>) {
+    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`, {
+      method: 'PUT',
+      body: JSON.stringify({ settings }),
+    });
+  },
+  updateExtensionEnabled(extensionId: string, enabled: boolean) {
+    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/enabled`, {
+      method: 'PUT',
+      body: JSON.stringify({ enabled }),
+    });
   },
   updateProviderSettings(payload: ProviderSettingsUpdateRequest) {
     return requestJson<ProviderSettingsResponse>('/api/providers/settings', {

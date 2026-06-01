@@ -85,6 +85,7 @@ The backend exposes a REST API (JSON) and a WebSocket event stream. All routes a
 | `GET` | `/api/extensions/registry/{id}/health` | Extension health payload. |
 | `GET` | `/api/extensions/registry/{id}/settings` | Persisted extension settings and settings schema. |
 | `PUT` | `/api/extensions/registry/{id}/settings` | Update persisted extension settings. |
+| `PUT` | `/api/extensions/registry/{id}/enabled` | Persist extension enable/disable state; restart required. |
 | `GET` | `/api/extensions/strategies` | Built-in and extension strategy definitions. |
 | `GET` | `/api/extensions/indicators` | Built-in and extension indicator definitions. |
 | `GET` | `/api/extensions/surfaces` | All built-in and extension surface metadata. |

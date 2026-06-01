@@ -86,6 +86,7 @@ export default function App() {
   const [providerSettings, setProviderSettings] = useState(defaultProviderSettings);
   const [providerRegistry, setProviderRegistry] = useState<ProviderRegistryEntry[]>([]);
   const [extensionRegistry, setExtensionRegistry] = useState<ExtensionRegistryEntry[]>([]);
+  const [extensionSettingsById, setExtensionSettingsById] = useState<Record<string, Record<string, unknown>>>({});
   const [aiSettings, setAiSettings] = useState(defaultAiSettings);
   const [apiKeys, setApiKeys] = useState<ApiKeyField[]>(defaultApiKeys);
   const [marketCorridorItems, setMarketCorridorItems] = useState<CorridorIngestResult[]>([]);
@@ -209,6 +210,13 @@ export default function App() {
         ]);
 
         const savedStrategiesResponse = await backendClient.getSavedStrategies();
+        const extensionSettingsResponses = await Promise.all(
+          extensionRegistryResponse.extensions.map((extension) =>
+            backendClient
+              .getExtensionSettings(extension.id)
+              .catch(() => ({ extensionId: extension.id, settings: {} as Record<string, unknown>, schema: [] })),
+          ),
+        );
 
         const marketRankingResponse = await backendClient
           .getMarketRanking()
@@ -221,6 +229,11 @@ export default function App() {
         setProviderSettings((current) => mapProviderSettingsResponseToUi(providerResponse, current));
         setProviderRegistry(providerRegistryResponse.providers);
         setExtensionRegistry(extensionRegistryResponse.extensions);
+        setExtensionSettingsById(
+          Object.fromEntries(
+            extensionSettingsResponses.map((response) => [response.extensionId, response.settings]),
+          ),
+        );
         setMarketCorridorItems(marketCorridorResponse.items);
         setMarketCandlesByKey(marketCorridorResponse.candleSeries);
         setTradingMode(providerResponse.safety.trading_mode);
@@ -409,6 +422,60 @@ export default function App() {
           'AI settings update failed',
           'The backend AI settings update failed, so no change was applied.',
         );
+      }
+    })();
+  }
+
+  function persistExtensionSettings(extensionId: string, settings: Record<string, unknown>) {
+    if (backendStatus !== 'online') {
+      pushToast('Extension settings unavailable', 'The backend is offline, so extension settings cannot be updated right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        const response = await backendClient.updateExtensionSettings(extensionId, {
+          ...(extensionSettingsById[extensionId] ?? {}),
+          ...settings,
+        });
+        setExtensionSettingsById((current) => ({
+          ...current,
+          [extensionId]: response.settings,
+        }));
+        pushToast(
+          'Extension settings saved',
+          response.requiresRestart ? 'Restart the backend to apply extension activation changes.' : 'The extension settings were persisted.',
+        );
+      } catch {
+        pushToast('Extension settings update failed', 'The backend rejected the extension settings update.');
+      }
+    })();
+  }
+
+  function persistExtensionEnabled(extensionId: string, enabled: boolean) {
+    if (backendStatus !== 'online') {
+      pushToast('Extension settings unavailable', 'The backend is offline, so extension settings cannot be updated right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        const response = await backendClient.updateExtensionEnabled(extensionId, enabled);
+        setExtensionRegistry((current) =>
+          current.map((extension) =>
+            extension.id === extensionId ? { ...extension, enabled } : extension,
+          ),
+        );
+        setExtensionSettingsById((current) => ({
+          ...current,
+          [extensionId]: response.settings,
+        }));
+        pushToast(
+          enabled ? 'Extension enabled' : 'Extension disabled',
+          response.requiresRestart ? 'Restart the backend for the registry changes to take effect.' : undefined,
+        );
+      } catch {
+        pushToast('Extension enablement failed', 'The backend rejected the extension enablement change.');
       }
     })();
   }
@@ -730,6 +797,7 @@ export default function App() {
                   providerSettings={providerSettings}
                   providerRegistry={providerRegistry}
                   extensionRegistry={extensionRegistry}
+                  extensionSettingsById={extensionSettingsById}
                   apiKeys={apiKeys}
                   aiSettings={aiSettings}
                   tradingMode={tradingMode}
@@ -748,6 +816,8 @@ export default function App() {
                   onSetTradingMode={(mode) => persistProviderSettings(providerSettings, mode, minBacktestSample)}
                   onSetMinBacktestSample={(value) => persistProviderSettings(providerSettings, tradingMode, value)}
                   onUpdateAiSettings={(settings) => persistAiSettings(settings)}
+                  onUpdateExtensionSettings={persistExtensionSettings}
+                  onUpdateExtensionEnabled={persistExtensionEnabled}
                 />
               }
             />

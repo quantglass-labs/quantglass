@@ -65,7 +65,24 @@ class ExtensionContext:
     strategy_registry: Any | None = None
     indicator_registry: Any | None = None
     surface_registry: Any | None = None
+    extension_id: str = "unknown"
+    enabled: bool = True
+    permissions: tuple[ExtensionPermission, ...] = ()
     diagnostics: list[str] = field(default_factory=list)
+
+    def require_enabled(self, operation: str) -> bool:
+        if self.enabled:
+            return True
+        self.diagnostics.append(f"{operation} skipped because extension is disabled.")
+        return False
+
+    def require_permission(self, permission: ExtensionPermission, operation: str) -> bool:
+        if permission in self.permissions:
+            return True
+        self.diagnostics.append(
+            f"{operation} skipped because extension did not declare {permission}."
+        )
+        return False
 
     def register_provider(
         self,
@@ -74,6 +91,18 @@ class ExtensionContext:
         client: Any | None = None,
         transport: Literal["public", "keyed", "internal"] = "internal",
     ) -> None:
+        if not self.require_enabled(f"Provider {name} registration"):
+            return
+        if transport in {"public", "keyed"} and not self.require_permission(
+            "network_access",
+            f"Provider {name} registration",
+        ):
+            return
+        if "trading" in capabilities and not self.require_permission(
+            "submit_orders",
+            f"Provider {name} registration",
+        ):
+            return
         self.provider_manager.register(
             name=name,
             capabilities=capabilities,
@@ -82,18 +111,24 @@ class ExtensionContext:
         )
 
     def register_strategy(self, definition: Any) -> None:
+        if not self.require_enabled("Strategy registration"):
+            return
         if self.strategy_registry is None:
             self.diagnostics.append("Strategy registry is unavailable.")
             return
         self.strategy_registry.register(definition)
 
     def register_indicator(self, definition: Any) -> None:
+        if not self.require_enabled("Indicator registration"):
+            return
         if self.indicator_registry is None:
             self.diagnostics.append("Indicator registry is unavailable.")
             return
         self.indicator_registry.register(definition)
 
     def register_surface(self, definition: Any) -> None:
+        if not self.require_enabled("Extension surface registration"):
+            return
         if self.surface_registry is None:
             self.diagnostics.append("Extension surface registry is unavailable.")
             return

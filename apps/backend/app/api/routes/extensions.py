@@ -36,6 +36,10 @@ class ExtensionSettingsPayload(BaseModel):
     settings: dict[str, Any]
 
 
+class ExtensionEnabledPayload(BaseModel):
+    enabled: bool
+
+
 @router.get("/registry/{extension_id}/settings")
 async def extension_settings(extension_id: str, request: Request) -> dict[str, object]:
     extension = request.app.state.extension_registry.get(extension_id)
@@ -65,6 +69,26 @@ async def update_extension_settings(
         "extensionId": extension_id,
         "settings": settings,
         "schema": extension.get("settings", []),
+    }
+
+
+@router.put("/registry/{extension_id}/enabled")
+async def update_extension_enabled(
+    extension_id: str,
+    payload: ExtensionEnabledPayload,
+    request: Request,
+) -> dict[str, object]:
+    extension = request.app.state.extension_registry.get(extension_id)
+    if extension is None:
+        raise HTTPException(status_code=404, detail="Extension not found")
+    current_settings = request.app.state.state_store.get_extension_settings(extension_id)
+    next_settings = {**current_settings, "enabled": payload.enabled}
+    settings = request.app.state.state_store.update_extension_settings(extension_id, next_settings)
+    return {
+        "extensionId": extension_id,
+        "settings": settings,
+        "schema": extension.get("settings", []),
+        "requiresRestart": True,
     }
 
 

@@ -24,9 +24,16 @@ GET /api/extensions/registry/{extension_id}
 GET /api/extensions/registry/{extension_id}/health
 GET /api/extensions/registry/{extension_id}/settings
 PUT /api/extensions/registry/{extension_id}/settings
+PUT /api/extensions/registry/{extension_id}/enabled
 GET /api/extensions/strategies
 GET /api/extensions/indicators
 ```
+
+Installed entry points are discovered only when
+`QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true`. Each discovered extension still
+stays inactive until its persisted `enabled` setting is set to `true`; changing
+that value requires a backend restart because third-party Python packages are
+loaded inside the backend process.
 
 ## Minimal package shape
 
@@ -54,16 +61,16 @@ class ExampleExtension:
         permissions=("read_market_data", "network_access"),
         settings=(
             ExtensionSetting(
-                key="enabled",
-                label="Enabled",
-                type="boolean",
-                default=False,
+                key="base_url",
+                label="Base URL",
+                type="string",
+                default="https://api.example.com",
             ),
         ),
     )
 
     def register(self, context: ExtensionContext) -> None:
-        context.register_provider("example_provider", {"ohlcv"})
+        context.register_provider("example_provider", {"ohlcv"}, transport="public")
 
     def health(self) -> dict[str, object]:
         return {"status": "ok"}
@@ -101,8 +108,10 @@ for a complete minimal extension.
 | `settings` | Generic settings schema rendered by the backend and UI. |
 | `homepage` | Optional project/docs URL. |
 
-Permissions are declarative in this stage. They make extension risk visible to
-users and maintainers before deeper sandboxing is added.
+Permissions are enforced at registration time for sensitive surfaces. Public or
+keyed provider registrations require `network_access`; trading providers require
+`submit_orders`. Keep permissions narrow so users can evaluate the extension risk
+before enabling it.
 
 ## Registry surfaces
 
@@ -114,11 +123,40 @@ users and maintainers before deeper sandboxing is added.
 - `ExtensionRegistry` exposes manifests, settings schema, diagnostics, and
   health.
 
+## Runtime contracts
+
+Backend execution contracts live in
+`apps/backend/app/extensions/contracts.py`. They define the stable shape for:
+
+- strategy candidates and strategy plugins
+- indicator plugins
+- backtest/fill-model plugins
+- data-quality plugins
+
+Use these protocols for new execution work instead of passing ad hoc dicts
+between extensions and core services.
+
+## Fixture validation
+
+Market-data and data-quality extensions should include deterministic candle
+fixtures. Validate them locally before opening a pull request:
+
+```bash
+PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/validate_extension_fixture.py path/to/candles.json
+```
+
+The fixture may be a JSON candle array or an object with a `candles` array. Each
+candle must include `open_time_utc`, `open`, `high`, `low`, `close`, and
+`volume`; timestamps must be UTC and strictly increasing.
+
 ## Acceptance checklist
 
 - Extension declares a stable `ExtensionManifest.id`.
+- Extension defaults to disabled and documents restart requirements.
+- Extension declares only the permissions it needs.
 - External network calls have timeouts.
 - Secrets are read from QuantGlass settings or environment, never logged.
 - Data returned to the core app is normalized to QuantGlass contracts.
+- Candle fixtures pass `validate_extension_fixture.py` when market data is involved.
 - Tests cover malformed inputs and unavailable upstream services.
 - Docs describe installation, configuration, costs, and redistribution limits.
