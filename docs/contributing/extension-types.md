@@ -3,6 +3,17 @@
 QuantGlass should grow as a community platform around small, testable extension
 surfaces. These are the supported or planned contribution lanes.
 
+QuantGlass exposes these lanes through metadata endpoints so contributors can
+discover the current built-in surface before proposing an extension:
+
+- `GET /api/extensions/surfaces`
+- `GET /api/extensions/backtest-models`
+- `GET /api/extensions/execution-adapters`
+- `GET /api/extensions/notification-channels`
+- `GET /api/extensions/import-export`
+- `GET /api/extensions/data-quality`
+- `GET /api/extensions/ui-panels`
+
 ## Market Data
 
 Adds candles, quotes, order books, fundamentals, macro, options, futures, forex,

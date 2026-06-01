@@ -7,7 +7,8 @@ statistical evidence.
 ## Good Contribution Areas
 
 - Provider adapters for market data, news, brokers, and alert channels.
-- Extensions for provider, model, indicator, strategy, and notification surfaces.
+- Extensions for provider, model, indicator, strategy, backtest, execution,
+  notification, import/export, data-quality, and UI surfaces.
 - Indicators and feature calculations.
 - Signal families and backtest realism.
 - Local/API AI narration prompts, guards, and model gateway profiles.

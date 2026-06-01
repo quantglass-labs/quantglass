@@ -87,6 +87,13 @@ The backend exposes a REST API (JSON) and a WebSocket event stream. All routes a
 | `PUT` | `/api/extensions/registry/{id}/settings` | Update persisted extension settings. |
 | `GET` | `/api/extensions/strategies` | Built-in and extension strategy definitions. |
 | `GET` | `/api/extensions/indicators` | Built-in and extension indicator definitions. |
+| `GET` | `/api/extensions/surfaces` | All built-in and extension surface metadata. |
+| `GET` | `/api/extensions/backtest-models` | Backtest fill/cost/validation extension surfaces. |
+| `GET` | `/api/extensions/execution-adapters` | Paper/live execution extension surfaces. |
+| `GET` | `/api/extensions/notification-channels` | Alert delivery extension surfaces. |
+| `GET` | `/api/extensions/import-export` | Import/export extension surfaces. |
+| `GET` | `/api/extensions/data-quality` | Data-quality diagnostic extension surfaces. |
+| `GET` | `/api/extensions/ui-panels` | Planned frontend panel/widget extension surfaces. |
 
 ## Settings
 

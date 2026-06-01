@@ -76,3 +76,38 @@ async def strategy_registry(request: Request) -> dict[str, object]:
 @router.get("/indicators")
 async def indicator_registry(request: Request) -> dict[str, object]:
     return {"indicators": request.app.state.indicator_registry.items()}
+
+
+@router.get("/surfaces")
+async def extension_surfaces(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items()}
+
+
+@router.get("/backtest-models")
+async def backtest_models(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("backtest")}
+
+
+@router.get("/execution-adapters")
+async def execution_adapters(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("execution")}
+
+
+@router.get("/notification-channels")
+async def notification_channels(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("notification")}
+
+
+@router.get("/import-export")
+async def import_export_surfaces(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("import_export")}
+
+
+@router.get("/data-quality")
+async def data_quality_surfaces(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("data_quality")}
+
+
+@router.get("/ui-panels")
+async def ui_panel_surfaces(request: Request) -> dict[str, object]:
+    return {"surfaces": request.app.state.surface_registry.items("ui_panel")}

@@ -16,6 +16,11 @@ ExtensionCapability = Literal[
     "indicator",
     "ai_model",
     "notification",
+    "backtest",
+    "execution",
+    "import_export",
+    "data_quality",
+    "ui_panel",
 ]
 
 ExtensionPermission = Literal[
@@ -59,6 +64,7 @@ class ExtensionContext:
     provider_manager: ProviderManager
     strategy_registry: Any | None = None
     indicator_registry: Any | None = None
+    surface_registry: Any | None = None
     diagnostics: list[str] = field(default_factory=list)
 
     def register_provider(
@@ -86,6 +92,12 @@ class ExtensionContext:
             self.diagnostics.append("Indicator registry is unavailable.")
             return
         self.indicator_registry.register(definition)
+
+    def register_surface(self, definition: Any) -> None:
+        if self.surface_registry is None:
+            self.diagnostics.append("Extension surface registry is unavailable.")
+            return
+        self.surface_registry.register(definition)
 
 
 @runtime_checkable

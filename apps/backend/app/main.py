@@ -23,6 +23,7 @@ from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
+from app.services.extension_surface_registry import ExtensionSurfaceRegistry
 from app.services.indicator_registry import IndicatorRegistry
 from app.services.market_corridor import MarketCorridorService
 from app.services.model_gateway import ModelGateway
@@ -45,6 +46,7 @@ async def lifespan(app: FastAPI):
     rate_limiter = InMemoryRateLimiter()
     strategy_registry = StrategyRegistry()
     indicator_registry = IndicatorRegistry()
+    surface_registry = ExtensionSurfaceRegistry()
 
     state_store.initialize(settings.provider_settings, settings.safety, settings.ai)
     persisted_provider_settings = state_store.get_provider_settings()
@@ -54,6 +56,7 @@ async def lifespan(app: FastAPI):
         provider_manager,
         strategy_registry=strategy_registry,
         indicator_registry=indicator_registry,
+        surface_registry=surface_registry,
         enable_entry_points=settings.enable_extension_entry_points,
     )
     analytics_store.initialize()
@@ -86,6 +89,7 @@ async def lifespan(app: FastAPI):
     app.state.extension_registry = extension_registry
     app.state.strategy_registry = strategy_registry
     app.state.indicator_registry = indicator_registry
+    app.state.surface_registry = surface_registry
     app.state.event_bus = event_bus
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service
