@@ -106,9 +106,9 @@ Common local presets:
 
 ## Extensions
 
-The Extensions tab shows backend extension manifests and diagnostics. External
-Python extensions are disabled by default because installed packages execute code
-inside the backend process.
+The Extensions tab shows backend extension manifests, requested permissions,
+settings schema, health, and diagnostics. External Python extensions are disabled
+by default because installed packages execute code inside the backend process.
 
 Enable extension entry points only for packages you trust:
 
@@ -117,7 +117,8 @@ QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true npm run backend:dev
 ```
 
 Extensions can contribute provider adapters, AI gateways, indicators, strategies,
-notification channels, or performance optimizations. See
+backtest assumptions, broker adapters, notification channels, import/export
+flows, data-quality checks, or performance optimizations. See
 [Contributing → Extensions](../contributing/extensions.md).
 
 ---

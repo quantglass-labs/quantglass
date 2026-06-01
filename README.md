@@ -125,6 +125,7 @@ npm run validate:release
 - [Contributing](CONTRIBUTING.md)
 - [Provider adapters](docs/contributing/provider-adapters.md)
 - [Extension system](docs/contributing/extensions.md)
+- [Extension types](docs/contributing/extension-types.md)
 - [AI model gateways](docs/contributing/ai-model-gateways.md)
 - [Strategy contributions](docs/contributing/strategy-plugins.md)
 - [Indicator contract](docs/contributing/indicator-contract.md)

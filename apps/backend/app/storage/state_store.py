@@ -340,6 +340,23 @@ class StateStore:
             return ""
         return self._secret_store.read_values().get(key_id, "")
 
+    def get_extension_settings(self, extension_id: str) -> dict[str, Any]:
+        payload = self._read_settings_payload("extension_settings", {})
+        item = payload.get(extension_id, {})
+        return item if isinstance(item, dict) else {}
+
+    def update_extension_settings(
+        self,
+        extension_id: str,
+        settings: dict[str, Any],
+    ) -> dict[str, Any]:
+        with sqlite3.connect(self.sqlite_path) as connection:
+            payload = self._read_settings_payload("extension_settings", {})
+            payload[extension_id] = settings
+            self._write_settings_payload(connection, "extension_settings", payload)
+            connection.commit()
+        return settings
+
     def list_api_keys(self) -> list[dict[str, Any]]:
         metadata = self._get_api_key_metadata()
         secret_values = self._secret_store.read_values()

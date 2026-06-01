@@ -37,7 +37,7 @@ flowchart TB
     subgraph Backend["FastAPI backend"]
         ROUT[Routers]
         SVC[Services<br/>signal · corridor · execution · narration]
-        PLUG[Extension registry]
+        PLUG[Extension registries<br/>providers · strategies · indicators]
         SCHED[APScheduler jobs]
         STORE[(SQLite · DuckDB · Parquet · Secrets)]
     end
