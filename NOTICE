@@ -9,5 +9,7 @@ Commercial licenses are available for proprietary embedding, closed-source
 redistribution, enterprise deployments, and other uses where AGPL compliance is
 not suitable. See COMMERCIAL-LICENSE.md.
 
+Third-party dependency notices are summarized in THIRD-PARTY-NOTICES.md.
+
 QuantGlass is a research and decision-support tool. It is not financial advice,
 an investment adviser, a broker-dealer, or a promise of trading performance.

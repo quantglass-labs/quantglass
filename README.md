@@ -48,6 +48,8 @@ examples/
 
 - Community license: [AGPL-3.0-or-later](LICENSE).
 - Commercial options: [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md).
+- AGPL release checklist: [AGPL-COMPLIANCE.md](AGPL-COMPLIANCE.md).
+- Third-party notices: [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 - Contributor terms: [CLA.md](CLA.md).
 - Trademark guidance: [TRADEMARKS.md](TRADEMARKS.md).
 

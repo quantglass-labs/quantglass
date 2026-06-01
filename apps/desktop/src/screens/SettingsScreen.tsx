@@ -1,4 +1,4 @@
-import { CloudOff, KeyRound, ShieldCheck, SlidersHorizontal } from 'lucide-react';
+import { CloudOff, ExternalLink, KeyRound, Scale, ShieldCheck, SlidersHorizontal } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, PillTabs, SectionHeading } from '../components/ui';
@@ -6,7 +6,7 @@ import { maskApiKeyValue, providerLabelById } from '../lib/backend';
 import { formatDateTime } from '../lib/format';
 import type { AiSettings, ApiKeyField, NotificationTestChannel, ProviderRegistryEntry, ProviderSettings, SavedStrategy, ScreenState, TradingMode, ViewMode } from '../types';
 
-type SettingsTab = 'providers' | 'keys' | 'risk' | 'ai' | 'strategies';
+type SettingsTab = 'providers' | 'keys' | 'risk' | 'ai' | 'strategies' | 'legal';
 
 export function SettingsScreen({
   state,
@@ -48,7 +48,7 @@ export function SettingsScreen({
   const [searchParams, setSearchParams] = useSearchParams();
   const currentTab = (searchParams.get('tab') as SettingsTab | null) ?? 'providers';
   const tab = useMemo<SettingsTab>(() => {
-    if (['providers', 'keys', 'risk', 'ai', 'strategies'].includes(currentTab)) {
+    if (['providers', 'keys', 'risk', 'ai', 'strategies', 'legal'].includes(currentTab)) {
       return currentTab as SettingsTab;
     }
     return 'providers';
@@ -137,6 +137,7 @@ export function SettingsScreen({
           { value: 'risk', label: 'Risk & Safety' },
           { value: 'ai', label: 'AI' },
           { value: 'strategies', label: 'Strategies' },
+          { value: 'legal', label: 'Legal' },
         ]}
       />
 
@@ -439,6 +440,47 @@ export function SettingsScreen({
                 ) : (
                   <EmptyState title="No strategies saved" description="Use Backtesting → Save strategy to populate this tab." />
                 )
+              ) : null}
+
+              {tab === 'legal' ? (
+                <div className="space-y-5">
+                  <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-medium text-ink">QuantGlass Community Edition</p>
+                        <p className="mt-2 text-sm text-muted">
+                          Licensed under AGPL-3.0-or-later. You may use, study, modify, and redistribute this software under the AGPL.
+                          Commercial licenses are available for proprietary embedding, closed-source redistribution, hosted products, and enterprise support.
+                        </p>
+                      </div>
+                      <Scale className="size-5 text-accent" />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+                      <p className="font-medium text-ink">Source code</p>
+                      <p className="mt-2 text-sm text-muted">The complete corresponding source for this build is available from the public repository.</p>
+                      <a className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-ink" href="https://github.com/sheeraz80/quantglass" target="_blank" rel="noreferrer">
+                        GitHub repository
+                        <ExternalLink className="size-4" />
+                      </a>
+                    </div>
+                    <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+                      <p className="font-medium text-ink">Legal documents</p>
+                      <div className="mt-3 grid gap-2 text-sm">
+                        <a className="inline-flex items-center gap-2 text-accent hover:text-ink" href="https://github.com/sheeraz80/quantglass/blob/main/LICENSE" target="_blank" rel="noreferrer">AGPL license <ExternalLink className="size-4" /></a>
+                        <a className="inline-flex items-center gap-2 text-accent hover:text-ink" href="https://github.com/sheeraz80/quantglass/blob/main/COMMERCIAL-LICENSE.md" target="_blank" rel="noreferrer">Commercial licensing <ExternalLink className="size-4" /></a>
+                        <a className="inline-flex items-center gap-2 text-accent hover:text-ink" href="https://github.com/sheeraz80/quantglass/blob/main/DISCLAIMER.md" target="_blank" rel="noreferrer">Financial disclaimer <ExternalLink className="size-4" /></a>
+                        <a className="inline-flex items-center gap-2 text-accent hover:text-ink" href="https://github.com/sheeraz80/quantglass/blob/main/THIRD-PARTY-NOTICES.md" target="_blank" rel="noreferrer">Third-party notices <ExternalLink className="size-4" /></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl border border-watch/25 bg-watch/10 p-4 text-sm text-muted">
+                    QuantGlass is research and decision-support software. It is not financial advice, an investment adviser, a broker-dealer, or a promise of trading performance.
+                  </div>
+                </div>
               ) : null}
             </>
           }
