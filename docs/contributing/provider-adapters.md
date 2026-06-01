@@ -5,7 +5,7 @@ services.
 
 ## Rules
 
-- Keep capabilities explicit: `ohlcv`, `order_book`, `news`, or `trading`.
+- Keep capabilities explicit: `ohlcv`, `order_book`, `news`, `trading`, or `ai`.
 - Do not require API keys for public providers.
 - Never log API keys, account IDs, or order payload secrets.
 - Normalize timestamps to UTC.
@@ -16,6 +16,7 @@ services.
 ## Backend Files
 
 - Provider registry: `apps/backend/app/providers/manager.py`
+- Extension registry: `apps/backend/app/extensions/registry.py`
 - Public providers: `apps/backend/app/providers/public.py`
 - Keyed providers: `apps/backend/app/providers/keyed.py`
 - Corridor ingest: `apps/backend/app/services/market_corridor.py`

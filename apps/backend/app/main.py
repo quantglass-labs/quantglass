@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.alerts import router as alerts_router
 from app.api.routes.content import router as content_router
 from app.api.routes.events import router as events_router
+from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
 from app.api.routes.market import router as market_router
 from app.api.routes.paper import router as paper_router
@@ -17,11 +18,13 @@ from app.api.routes.settings import router as settings_router
 from app.api.routes.strategies import router as strategies_router
 from app.api.routes.watchlist import router as watchlist_router
 from app.core.config import apply_api_key_settings, get_settings
+from app.extensions.registry import load_extension_registry
 from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
 from app.services.market_corridor import MarketCorridorService
+from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
@@ -43,12 +46,20 @@ async def lifespan(app: FastAPI):
     persisted_provider_settings = state_store.get_provider_settings()
     runtime_settings = apply_api_key_settings(settings, state_store.list_api_keys())
     provider_manager = ProviderManager(persisted_provider_settings, runtime_settings)
+    extension_registry = load_extension_registry(
+        provider_manager,
+        enable_entry_points=settings.enable_extension_entry_points,
+    )
     analytics_store.initialize()
     notification_service = AlertNotificationService(state_store)
     trading_service = TradingExecutionService(state_store, provider_manager, event_bus)
     execution_engine = ExecutionEngineService(state_store, analytics_store, event_bus, notification_service)
     market_corridor_service = MarketCorridorService(provider_manager, analytics_store, rate_limiter)
-    narration_service = NarrationService(ai_settings_provider=state_store.get_ai_settings)
+    model_gateway = ModelGateway(api_key_provider=state_store.get_api_key_value)
+    narration_service = NarrationService(
+        ai_settings_provider=state_store.get_ai_settings,
+        model_gateway=model_gateway,
+    )
     signal_engine = SignalEngineService(
         analytics_store=analytics_store,
         min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
@@ -66,6 +77,7 @@ async def lifespan(app: FastAPI):
     app.state.state_store = state_store
     app.state.analytics_store = analytics_store
     app.state.provider_manager = provider_manager
+    app.state.extension_registry = extension_registry
     app.state.event_bus = event_bus
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service
@@ -74,6 +86,7 @@ async def lifespan(app: FastAPI):
     app.state.signal_engine = signal_engine
     app.state.scheduler_service = scheduler_service
     app.state.rate_limiter = rate_limiter
+    app.state.model_gateway = model_gateway
 
     try:
         yield
@@ -110,6 +123,7 @@ app.include_router(content_router)
 app.include_router(market_router)
 app.include_router(paper_router)
 app.include_router(providers_router)
+app.include_router(extensions_router)
 app.include_router(settings_router)
 app.include_router(strategies_router)
 app.include_router(watchlist_router)

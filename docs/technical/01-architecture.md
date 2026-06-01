@@ -14,7 +14,8 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 |-----------|----------------|
 | **Local‑first** | All state under a per‑user OS data dir; SQLite + DuckDB + Parquet on disk. |
 | **Deterministic core** | Signals computed from closed candles only; no randomness; reproducible. |
-| **Optional, guarded AI** | LLM narration is local (Ollama) and fact‑checked; never on the hot path. |
+| **Optional, guarded AI** | LLM narration can use local or API gateways and is fact‑checked; never on the hot path. |
+| **Extension-ready** | Provider, AI, strategy, indicator, and notification extensions register through explicit manifests. |
 | **Safety by default** | Paper trading only; live execution multi‑gated. |
 | **US‑compliant data** | Coinbase/Kraken/Gemini/Yahoo/Finnhub; global Binance/OKX/Bybit excluded. |
 | **Contracts‑first** | Shared TypeScript types in `@quantglass/contracts` mirror backend schemas. |
@@ -31,7 +32,7 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 | **Analytics** | DuckDB (hot query store) + Parquet (durable archive) |
 | **Operational state** | SQLite |
 | **Secrets** | Fernet symmetric encryption + OS keychain |
-| **AI** | Ollama (local), default model `qwen3:14b-q4_K_M`; OpenAI optional/off |
+| **AI** | Ollama native, LM Studio/OpenAI/OpenAI-compatible chat completions; template fallback |
 | **Market data** | ccxt (Coinbase/Kraken), Gemini, Yahoo (public); Alpaca/Finnhub/Polygon/Twelve Data (keyed) |
 | **Packaging** | PyInstaller (sidecar) + Tauri bundler (AppImage/deb/rpm, MSI/NSIS, dmg) |
 
@@ -78,6 +79,7 @@ See [Packaging & distribution](08-packaging.md) for the full bundling pipeline.
 | `app/core/config.py` | Settings, provider routes, safety/AI defaults, storage path derivation. |
 | `app/api/routes/*` | HTTP endpoints (10 routers). |
 | `app/services/*` | Business logic: signal engine, market corridor, execution, narration, ranking, notifications, trading, event bus, rate limits. |
+| `app/extensions/*` | Disabled-by-default Python entry-point extension registry. |
 | `app/providers/*` | Provider registry and adapters (public/keyed/internal). |
 | `app/storage/*` | `StateStore` (SQLite), `AnalyticsStore` (DuckDB/Parquet), `SecretStore`. |
 | `app/scheduler.py` | APScheduler background jobs. |

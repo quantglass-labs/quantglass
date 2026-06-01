@@ -18,6 +18,7 @@ import type {
   BacktestRunResponse,
   BackendHealthResponse,
   CorridorIngestResponse,
+  ExtensionRegistryResponse,
   MarketCandlesResponse,
   MarketRankingResponse,
   NewsListResponse,
@@ -91,8 +92,10 @@ export const providerLabelById: Record<string, string> = {
   finnhub: 'Finnhub',
   finnhub_news: 'Finnhub',
   gemini: 'Gemini',
+  lm_studio: 'LM Studio',
   ollama: 'Ollama',
   openai: 'OpenAI',
+  openai_compatible: 'OpenAI-Compatible',
   polygon: 'Polygon',
   twelvedata: 'Twelve Data',
   yahoo_public: 'Yahoo Finance',
@@ -157,6 +160,9 @@ export const backendClient = {
   },
   getProviderRegistry() {
     return requestJson<ProviderRegistryResponse>('/api/providers/registry');
+  },
+  getExtensionRegistry() {
+    return requestJson<ExtensionRegistryResponse>('/api/extensions/registry');
   },
   updateProviderSettings(payload: ProviderSettingsUpdateRequest) {
     return requestJson<ProviderSettingsResponse>('/api/providers/settings', {
