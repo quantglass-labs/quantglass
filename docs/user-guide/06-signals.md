@@ -4,7 +4,7 @@
 
 ---
 
-The Signals screen is the **filterable inventory** of every signal AlphaTerminal currently has — across all symbols, timeframes and setups. It's where you go to scan for opportunities that match your criteria.
+The Signals screen is the **filterable inventory** of every signal QuantGlass currently has — across all symbols, timeframes and setups. It's where you go to scan for opportunities that match your criteria.
 
 <p align="center">
   <img src="../assets/screenshots/signals.png" alt="Signals" width="900">

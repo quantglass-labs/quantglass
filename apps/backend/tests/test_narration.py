@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Tests for the local-model narration fact guard.
 
 The guard is the anti-hallucination boundary: the model may only restate numbers the

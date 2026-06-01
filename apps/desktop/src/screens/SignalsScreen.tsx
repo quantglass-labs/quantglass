@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { useMemo, useState } from 'react';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading, SignalChip } from '../components/ui';

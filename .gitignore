@@ -29,6 +29,7 @@ mock/
 
 # Generated artifacts
 docs/openapi/
+license-reports/
 
 # OS/editor noise
 .DS_Store

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { BellPlus, PencilLine } from 'lucide-react';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading } from '../components/ui';
 import { formatDateTime } from '../lib/format';

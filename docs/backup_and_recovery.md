@@ -1,13 +1,13 @@
-# AlphaTerminal Backup And Recovery
+# QuantGlass Backup And Recovery
 
 ## Scope
 
-This document covers the local-state backup and restore path for AlphaTerminal production use.
+This document covers the local-state backup and restore path for QuantGlass production use.
 
 ## Backed-Up Assets
 
-- SQLite operational state at `.local/state/alphaterminal.db`
-- DuckDB analytics state at `.local/analytics/alphaterminal.duckdb`
+- SQLite operational state at `.local/state/quantglass.db`
+- DuckDB analytics state at `.local/analytics/quantglass.duckdb`
 - Parquet archives under `.local/parquet/`
 - Encrypted API key payload and encryption key under `.local/state/secrets/`
 
@@ -24,7 +24,7 @@ This exports a timestamped ZIP bundle under `.local/backups/` and prints the bun
 To export to a specific target:
 
 ```bash
-PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export /absolute/path/to/alphaterminal-backup.zip
+PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export /absolute/path/to/quantglass-backup.zip
 ```
 
 ## Restore Workflow
@@ -32,7 +32,7 @@ PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bun
 Restore uses the Python script directly:
 
 ```bash
-PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py restore /absolute/path/to/alphaterminal-backup.zip
+PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py restore /absolute/path/to/quantglass-backup.zip
 ```
 
 Before any restore, the script creates an automatic pre-restore rollback bundle in `.local/backups/`.
@@ -57,7 +57,7 @@ DuckDB file), re-read the partitions directly:
 ```bash
 ./.venv/bin/python - <<'PY'
 import duckdb
-con = duckdb.connect(".local/analytics/alphaterminal.duckdb")
+con = duckdb.connect(".local/analytics/quantglass.duckdb")
 con.execute(
     "INSERT INTO market_candles "
     "SELECT * FROM read_parquet('.local/parquet/*/*/candles.parquet')"

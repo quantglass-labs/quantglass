@@ -46,13 +46,11 @@ reports.
 
 ## Release Recommendation
 
-Before publishing signed releases, generate machine-readable notices with tools
-such as:
+Before publishing signed releases, generate machine-readable reports:
 
 ```bash
-npm --prefix apps/desktop ls --json
-cargo metadata --format-version 1 --manifest-path apps/desktop/src-tauri/Cargo.toml
-./.venv/bin/python -m pip list --format=json
+npm run license:reports
 ```
 
-Then archive the generated reports with the release artifacts.
+The reports are written under `license-reports/` and uploaded by CI as a
+`license-reports` artifact.

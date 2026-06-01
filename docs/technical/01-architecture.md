@@ -4,7 +4,7 @@
 
 ---
 
-AlphaTerminal is a **single‑user, local‑first desktop application**. There is no multi‑tenant server, no login, and no required network service beyond the public market/news APIs it reads. The entire system ships as one desktop binary that internally runs a Python backend.
+QuantGlass is a **single‑user, local‑first desktop application**. There is no multi‑tenant server, no login, and no required network service beyond the public market/news APIs it reads. The entire system ships as one desktop binary that internally runs a Python backend.
 
 ---
 
@@ -17,7 +17,7 @@ AlphaTerminal is a **single‑user, local‑first desktop application**. There i
 | **Optional, guarded AI** | LLM narration is local (Ollama) and fact‑checked; never on the hot path. |
 | **Safety by default** | Paper trading only; live execution multi‑gated. |
 | **US‑compliant data** | Coinbase/Kraken/Gemini/Yahoo/Finnhub; global Binance/OKX/Bybit excluded. |
-| **Contracts‑first** | Shared TypeScript types in `@alphaterminal/contracts` mirror backend schemas. |
+| **Contracts‑first** | Shared TypeScript types in `@quantglass/contracts` mirror backend schemas. |
 
 ---
 
@@ -46,9 +46,9 @@ sequenceDiagram
     participant Sidecar as Backend sidecar (Python)
     participant UI as WebView (React)
 
-    User->>Tauri: Launch AlphaTerminal
+    User->>Tauri: Launch QuantGlass
     Tauri->>Tauri: pick_free_port()
-    Tauri->>Sidecar: spawn alphaterminal-backend --host 127.0.0.1 --port N
+    Tauri->>Sidecar: spawn quantglass-backend --host 127.0.0.1 --port N
     Sidecar->>Sidecar: lifespan init (stores, services, scheduler.start())
     Tauri->>Sidecar: wait_for_port(N, 30s)
     Tauri->>UI: load WebView

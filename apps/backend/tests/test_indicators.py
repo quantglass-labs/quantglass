@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Unit tests for the pure indicator helpers used by the signal engine.
 
 These verify the hand-rolled (numpy-free) implementations against known values so

@@ -4,7 +4,7 @@
 
 ---
 
-A quick reference for the terms, indicators and acronyms used throughout AlphaTerminal.
+A quick reference for the terms, indicators and acronyms used throughout QuantGlass.
 
 ## General
 
@@ -12,7 +12,7 @@ A quick reference for the terms, indicators and acronyms used throughout AlphaTe
 |------|---------|
 | **Local‑first** | All data and computation live on your machine; nothing is required from the cloud. |
 | **Closed candle** | A completed price bar. Signals use only closed candles. |
-| **Repainting** | When a signal changes/disappears as the current bar moves. AlphaTerminal avoids this by using closed candles. |
+| **Repainting** | When a signal changes/disappears as the current bar moves. QuantGlass avoids this by using closed candles. |
 | **Paper trading** | Simulated trading with no real money. |
 | **Live trading** | Real orders at a connected broker (gated, off by default). |
 | **Corridor** | The internal market‑data pipeline (candles for the supported symbols). |

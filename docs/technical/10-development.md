@@ -96,13 +96,13 @@ flowchart LR
 
 ## Configuration reference
 
-Environment variables use the prefix `ALPHATERMINAL_` with `__` for nesting (e.g. `ALPHATERMINAL_SAFETY__TRADING_MODE=paper`).
+Environment variables use the prefix `QUANTGLASS_` with `__` for nesting (e.g. `QUANTGLASS_SAFETY__TRADING_MODE=paper`).
 
 | Setting | Default | Notes |
 |---------|---------|-------|
 | `data_dir` | `.local` (source) / OS app‑data (frozen) | One override relocates all state. |
-| `sqlite_path` | `<data_dir>/state/alphaterminal.db` | Operational state. |
-| `duckdb_path` | `<data_dir>/analytics/alphaterminal.duckdb` | Analytics. |
+| `sqlite_path` | `<data_dir>/state/quantglass.db` | Operational state. |
+| `duckdb_path` | `<data_dir>/analytics/quantglass.duckdb` | Analytics. |
 | `parquet_dir` | `<data_dir>/parquet` | Durable candle archive. |
 | `safety.trading_mode` | `paper` | `paper` / `live`. |
 | `safety.act_on_partial_candles` | `false` | Closed candles only. |

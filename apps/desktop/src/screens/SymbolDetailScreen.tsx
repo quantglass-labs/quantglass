@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { Bell, BookmarkPlus, ChartCandlestick, CircleSlash2, Play, SlidersHorizontal } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

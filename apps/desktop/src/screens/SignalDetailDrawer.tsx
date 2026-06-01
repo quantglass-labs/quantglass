@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { Bell, Clipboard, ShieldAlert } from 'lucide-react';
 import { Drawer, Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, SignalChip } from '../components/ui';
 import { formatCurrency, formatDateTime } from '../lib/format';

@@ -6,7 +6,7 @@
 
 ## First launch
 
-When AlphaTerminal opens, the bundled backend starts automatically. Within a few seconds the status pill at the top changes to **● Backend Online** and the **Dashboard** populates with data.
+When QuantGlass opens, the bundled backend starts automatically. Within a few seconds the status pill at the top changes to **● Backend Online** and the **Dashboard** populates with data.
 
 On first run the app seeds a demonstration **paper account** and a default **watchlist** so that every screen has something to show while you explore. You can change all of this later.
 
@@ -14,15 +14,15 @@ On first run the app seeds a demonstration **paper account** and a default **wat
 
 ## The layout
 
-AlphaTerminal uses a persistent shell: a **left navigation rail**, a **top bar**, and a **main content area** that changes as you navigate.
+QuantGlass uses a persistent shell: a **left navigation rail**, a **top bar**, and a **main content area** that changes as you navigate.
 
 <p align="center">
-  <img src="../assets/screenshots/dashboard.png" alt="AlphaTerminal layout" width="900">
+  <img src="../assets/screenshots/dashboard.png" alt="QuantGlass layout" width="900">
 </p>
 
 ```mermaid
 flowchart TB
-    subgraph Window[AlphaTerminal window]
+    subgraph Window[QuantGlass window]
         direction TB
         TOP[Top bar: search · market filter · Backend status · disclaimer]
         subgraph Body[ ]
@@ -40,7 +40,7 @@ flowchart TB
 | **Search symbol or name** | Jump to any symbol's detail screen. |
 | **All Markets / Crypto / Stocks** | Filter what's shown across the app to one asset class. |
 | **Backend status pill** | Live connection health (Online / Connecting / Unavailable). |
-| **Educational use only** | The standing disclaimer — AlphaTerminal is not financial advice. |
+| **Educational use only** | The standing disclaimer — QuantGlass is not financial advice. |
 
 ### Left navigation rail
 | Item | Screen | Guide |

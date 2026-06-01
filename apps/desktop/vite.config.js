@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { dirname, resolve } from 'node:path';
@@ -7,7 +9,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '@alphaterminal/contracts': resolve(currentDir, '../../packages/contracts/src/index.ts'),
+            '@quantglass/contracts': resolve(currentDir, '../../packages/contracts/src/index.ts'),
         },
     },
     build: {

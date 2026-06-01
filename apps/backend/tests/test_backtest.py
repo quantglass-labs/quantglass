@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Tests for the ladder backtest simulator.
 
 The simulator must size partial exits with the exact weights the signal shows the

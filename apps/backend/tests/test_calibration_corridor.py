@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Tests for win-rate calibration (F4) and corridor timeframe coverage (F1)."""
 
 from datetime import timedelta

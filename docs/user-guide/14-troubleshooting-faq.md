@@ -48,7 +48,7 @@ If Ollama isn't running or is slow, narration falls back to the **template** wri
 
 ## FAQ
 
-**Is AlphaTerminal financial advice?**
+**Is QuantGlass financial advice?**
 No. It is an educational, quantitative research tool. Signals are deterministic hypotheses, not recommendations. *Educational use only. Not financial advice.*
 
 **Does my data go to the cloud?**

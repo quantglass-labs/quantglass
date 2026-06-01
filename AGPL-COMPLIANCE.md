@@ -42,6 +42,8 @@ should use a separate commercial license. See `COMMERCIAL-LICENSE.md`.
 - Run `npm run validate:backend`.
 - Run `npm run desktop:build`.
 - Run `npm --prefix apps/desktop audit --audit-level=moderate`.
+- Run `npm run license:reports` and archive the generated `license-reports/`
+  output with the release artifacts.
 - Confirm `LICENSE`, `NOTICE`, `DISCLAIMER.md`, `COMMERCIAL-LICENSE.md`,
   `AGPL-COMPLIANCE.md`, and `THIRD-PARTY-NOTICES.md` are included in source
   releases.

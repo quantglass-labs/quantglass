@@ -1,9 +1,12 @@
-"""Build the AlphaTerminal backend into a Tauri sidecar binary.
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 
-Runs PyInstaller against ``alphaterminal-backend.spec`` and copies the resulting
+"""Build the QuantGlass backend into a Tauri sidecar binary.
+
+Runs PyInstaller against ``quantglass-backend.spec`` and copies the resulting
 single-file executable into ``apps/desktop/src-tauri/binaries`` renamed with the
 host Rust target triple, which is the naming Tauri's ``externalBin`` mechanism
-requires (e.g. ``alphaterminal-backend-aarch64-apple-darwin``).
+requires (e.g. ``quantglass-backend-aarch64-apple-darwin``).
 
 Usage (from the repository root, inside the project virtualenv)::
 
@@ -24,7 +27,7 @@ from pathlib import Path
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = BACKEND_DIR.parents[1]
 SIDECAR_DIR = REPO_ROOT / "apps" / "desktop" / "src-tauri" / "binaries"
-SPEC_FILE = BACKEND_DIR / "alphaterminal-backend.spec"
+SPEC_FILE = BACKEND_DIR / "quantglass-backend.spec"
 
 
 def host_target_triple() -> str:
@@ -61,7 +64,7 @@ def run_pyinstaller() -> None:
 def main() -> None:
     triple = host_target_triple()
     suffix = ".exe" if sys.platform.startswith("win") else ""
-    built = BACKEND_DIR / "dist" / f"alphaterminal-backend{suffix}"
+    built = BACKEND_DIR / "dist" / f"quantglass-backend{suffix}"
 
     run_pyinstaller()
 
@@ -69,7 +72,7 @@ def main() -> None:
         raise SystemExit(f"Expected build artifact not found: {built}")
 
     SIDECAR_DIR.mkdir(parents=True, exist_ok=True)
-    target = SIDECAR_DIR / f"alphaterminal-backend-{triple}{suffix}"
+    target = SIDECAR_DIR / f"quantglass-backend-{triple}{suffix}"
     shutil.copy2(built, target)
     if not suffix:
         target.chmod(0o755)

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export function formatCurrency(value: number, maximumFractionDigits = 2) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',

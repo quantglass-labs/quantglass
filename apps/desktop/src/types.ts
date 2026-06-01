@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type {
   AiSettings,
   ApiKeyField,
@@ -25,7 +28,7 @@ import type {
   Timeframe,
   TradingMode,
   ViewMode,
-} from '@alphaterminal/contracts';
+} from '@quantglass/contracts';
 
 export type {
   AiSettings,
@@ -54,7 +57,7 @@ export type {
   Timeframe,
   TradingMode,
   ViewMode,
-} from '@alphaterminal/contracts';
+} from '@quantglass/contracts';
 
 export type ScreenState = 'loading' | 'ready' | 'error';
 export type BackendStatus = 'connecting' | 'online' | 'offline';

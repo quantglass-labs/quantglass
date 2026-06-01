@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -79,7 +82,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="AlphaTerminal Backend",
+    title="QuantGlass Backend",
     version="0.1.0",
     lifespan=lifespan,
 )

@@ -13,7 +13,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
-      "@alphaterminal/contracts": ["../../packages/contracts/src/index.ts"]
+      "@quantglass/contracts": ["../../packages/contracts/src/index.ts"]
     },
     "resolveJsonModule": true,
     "isolatedModules": true,

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { ArrowRight, BookmarkPlus, CircleSlash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { DataStateView, Button, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, SectionHeading, SignalChip, ConfidenceRing } from '../components/ui';
 import { Sparkline } from '../components/charts';

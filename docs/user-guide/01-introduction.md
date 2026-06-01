@@ -4,9 +4,9 @@
 
 ---
 
-## What is AlphaTerminal?
+## What is QuantGlass?
 
-AlphaTerminal is a **desktop application** that helps you analyse markets the way a disciplined quantitative trader would. Instead of showing you a wall of indicators and leaving you to guess, it produces a single, explainable answer for each symbol and timeframe:
+QuantGlass is a **desktop application** that helps you analyse markets the way a disciplined quantitative trader would. Instead of showing you a wall of indicators and leaving you to guess, it produces a single, explainable answer for each symbol and timeframe:
 
 > *"Here is the signal, here is exactly why, here is how it performed in a backtest, and here is how confident the evidence makes us."*
 
@@ -21,7 +21,7 @@ Everything runs **on your own computer**. The app bundles its own analytics back
 
 ## Who is it for?
 
-| Audience | How AlphaTerminal helps |
+| Audience | How QuantGlass helps |
 |----------|--------------------------|
 | **Active retail traders** | A consistent, rules‑based "second opinion" with honest backtest stats, not hype. |
 | **Quant‑curious learners** | See indicators, regimes and expectancy in one place and learn how they combine. |
@@ -32,11 +32,11 @@ Everything runs **on your own computer**. The app bundles its own analytics back
 
 ## Guiding principles
 
-AlphaTerminal is built around a small set of non‑negotiable rules. They shape every screen you will use.
+QuantGlass is built around a small set of non‑negotiable rules. They shape every screen you will use.
 
 ```mermaid
 mindmap
-  root((AlphaTerminal<br/>principles))
+  root((QuantGlass<br/>principles))
     Closed-candle only
       No partial bars
       No repainting
@@ -71,7 +71,7 @@ The app starts in **paper‑trading** mode. Live trading is disabled and require
 
 ---
 
-## What AlphaTerminal is **not**
+## What QuantGlass is **not**
 
 - It is **not** a brokerage. It does not custody funds.
 - It is **not** a financial adviser. Signals are research hypotheses, not recommendations.

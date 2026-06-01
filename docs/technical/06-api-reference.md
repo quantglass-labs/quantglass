@@ -4,7 +4,7 @@
 
 ---
 
-The backend exposes a REST API (JSON) and a WebSocket event stream. All routes are served from the sidecar's base URL (a free loopback port at runtime; `http://127.0.0.1:8000` in dev). The machine‑readable spec is at [docs/openapi/alphaterminal-backend.openapi.json](../openapi/alphaterminal-backend.openapi.json) and can be regenerated with `npm run backend:openapi`.
+The backend exposes a REST API (JSON) and a WebSocket event stream. All routes are served from the sidecar's base URL (a free loopback port at runtime; `http://127.0.0.1:8000` in dev). The machine‑readable spec is at [docs/openapi/quantglass-backend.openapi.json](../openapi/quantglass-backend.openapi.json) and can be regenerated with `npm run backend:openapi`.
 
 > CORS is restricted to local dev origins and the Tauri webview (`tauri://localhost`, `http://127.0.0.1:{1420,4173,5173}`, etc.) with credentials disabled. See [Security model](09-security.md#cors).
 

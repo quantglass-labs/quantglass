@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { clsx } from 'clsx';
 import {
   Bell,
@@ -87,7 +90,7 @@ export function AppShell({
               <TrendingUp className="size-5" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold tracking-tight">AlphaTerminal</h1>
+              <h1 className="text-xl font-semibold tracking-tight">QuantGlass</h1>
               <p className="text-xs uppercase tracking-[0.18em] text-muted">Quantitative desktop terminal</p>
             </div>
           </div>

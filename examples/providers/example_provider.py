@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Example OHLCV provider adapter for contributors.
 
 This file is documentation-oriented. Copy the shape into a backend provider

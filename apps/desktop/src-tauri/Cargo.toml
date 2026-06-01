@@ -1,12 +1,15 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 [package]
-name = "alphaterminal_desktop"
+name = "quantglass_desktop"
 version = "0.1.0"
-description = "AlphaTerminal desktop shell"
+description = "QuantGlass desktop shell"
 authors = ["GitHub Copilot"]
 edition = "2021"
 
 [lib]
-name = "alphaterminal_desktop_lib"
+name = "quantglass_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

@@ -4,11 +4,11 @@
 
 ---
 
-AlphaTerminal ships as a **single, self‑contained desktop application**. You do **not** need to install Python, Node.js, or start a server separately — the analytics backend is bundled inside the app and starts automatically when you launch it.
+QuantGlass ships as a **single, self‑contained desktop application**. You do **not** need to install Python, Node.js, or start a server separately — the analytics backend is bundled inside the app and starts automatically when you launch it.
 
 ```mermaid
 flowchart LR
-    U[You double-click<br/>AlphaTerminal] --> D[Desktop window opens]
+    U[You double-click<br/>QuantGlass] --> D[Desktop window opens]
     D --> S[App silently starts<br/>the bundled backend]
     S --> P[Backend binds a private<br/>local port 127.0.0.1]
     P --> R[UI connects · Backend Online]
@@ -30,7 +30,7 @@ When you quit the app, the bundled backend is shut down with it. Nothing is left
 | Network | Needed to download market data | Broadband |
 | Optional: local AI | — | [Ollama](https://ollama.com) for richer narration |
 
-> AI narration is **optional**. Without Ollama installed, AlphaTerminal still produces clear, template‑based explanations for every signal. See [Settings → AI](10-settings.md#ai).
+> AI narration is **optional**. Without Ollama installed, QuantGlass still produces clear, template‑based explanations for every signal. See [Settings → AI](10-settings.md#ai).
 
 ---
 
@@ -44,33 +44,33 @@ The AppImage is fully portable — no installation required.
 
 ```bash
 # 1. Make it executable
-chmod +x AlphaTerminal_0.1.0_amd64.AppImage
+chmod +x QuantGlass_0.1.0_amd64.AppImage
 
 # 2. Run it
-./AlphaTerminal_0.1.0_amd64.AppImage
+./QuantGlass_0.1.0_amd64.AppImage
 ```
 
 ### Debian / Ubuntu (.deb)
 
 ```bash
-sudo apt install ./AlphaTerminal_0.1.0_amd64.deb
-# then launch "AlphaTerminal" from your applications menu
+sudo apt install ./QuantGlass_0.1.0_amd64.deb
+# then launch "QuantGlass" from your applications menu
 ```
 
 ### Fedora / RHEL (.rpm)
 
 ```bash
-sudo dnf install ./AlphaTerminal-0.1.0-1.x86_64.rpm
-# then launch "AlphaTerminal" from your applications menu
+sudo dnf install ./QuantGlass-0.1.0-1.x86_64.rpm
+# then launch "QuantGlass" from your applications menu
 ```
 
-> **First‑run note (Linux):** if your desktop blocks the AppImage, ensure FUSE is available (`sudo apt install libfuse2` on Debian/Ubuntu) or extract and run with `./AlphaTerminal_0.1.0_amd64.AppImage --appimage-extract-and-run`.
+> **First‑run note (Linux):** if your desktop blocks the AppImage, ensure FUSE is available (`sudo apt install libfuse2` on Debian/Ubuntu) or extract and run with `./QuantGlass_0.1.0_amd64.AppImage --appimage-extract-and-run`.
 
 ---
 
 ## Windows
 
-Run the installer (`AlphaTerminal_0.1.0_x64-setup.exe` / `.msi`) and follow the prompts, then launch **AlphaTerminal** from the Start menu.
+Run the installer (`QuantGlass_0.1.0_x64-setup.exe` / `.msi`) and follow the prompts, then launch **QuantGlass** from the Start menu.
 
 > **SmartScreen:** because the current build is not yet code‑signed, Windows may show *"Windows protected your PC."* Click **More info → Run anyway**. A signed build removes this warning.
 
@@ -78,9 +78,9 @@ Run the installer (`AlphaTerminal_0.1.0_x64-setup.exe` / `.msi`) and follow the 
 
 ## macOS
 
-Open the `.dmg` and drag **AlphaTerminal** into **Applications**, then launch it from Launchpad.
+Open the `.dmg` and drag **QuantGlass** into **Applications**, then launch it from Launchpad.
 
-> **Gatekeeper:** an unsigned/un‑notarised build will report *"AlphaTerminal can't be opened because Apple cannot check it for malicious software."* Right‑click the app → **Open** → **Open**, or allow it under **System Settings → Privacy & Security**. A notarised build removes this step.
+> **Gatekeeper:** an unsigned/un‑notarised build will report *"QuantGlass can't be opened because Apple cannot check it for malicious software."* Right‑click the app → **Open** → **Open**, or allow it under **System Settings → Privacy & Security**. A notarised build removes this step.
 
 ---
 
@@ -90,9 +90,9 @@ On first launch the app creates a per‑user data folder. Nothing is stored syst
 
 | OS | Data location |
 |----|---------------|
-| **Linux** | `~/.local/share/AlphaTerminal` (or `$XDG_DATA_HOME/AlphaTerminal`) |
-| **Windows** | `%APPDATA%\AlphaTerminal` |
-| **macOS** | `~/Library/Application Support/AlphaTerminal` |
+| **Linux** | `~/.local/share/QuantGlass` (or `$XDG_DATA_HOME/QuantGlass`) |
+| **Windows** | `%APPDATA%\QuantGlass` |
+| **macOS** | `~/Library/Application Support/QuantGlass` |
 
 This folder holds your SQLite state database, the analytics store, downloaded candles, and your encrypted secrets. See [Backup & recovery](13-backup-recovery.md) to learn how to copy or restore it.
 

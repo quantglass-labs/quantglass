@@ -4,13 +4,13 @@
 
 ---
 
-AlphaTerminal ships as a **single desktop installer per platform**. The Python backend is frozen into a self‑contained binary with **PyInstaller**, embedded as a Tauri **sidecar (externalBin)**, and the Rust shell launches it at runtime. The user never installs Python, Node or any server.
+QuantGlass ships as a **single desktop installer per platform**. The Python backend is frozen into a self‑contained binary with **PyInstaller**, embedded as a Tauri **sidecar (externalBin)**, and the Rust shell launches it at runtime. The user never installs Python, Node or any server.
 
 ```mermaid
 flowchart TB
     A[npm run desktop:bundle] --> B[backend:bundle]
     B --> C[build_sidecar.py → PyInstaller]
-    C --> D[binaries/&lt;target-triple&gt;/alphaterminal-backend]
+    C --> D[binaries/&lt;target-triple&gt;/quantglass-backend]
     A --> E[desktop:tauri:build]
     E --> F[Vite build → static frontend]
     D --> G[Tauri bundler embeds sidecar]
@@ -27,10 +27,10 @@ flowchart TB
 `apps/backend/scripts/build_sidecar.py` runs PyInstaller to produce a single‑file backend executable, then places it under the Tauri binaries directory named by **target triple**:
 
 ```
-apps/desktop/src-tauri/binaries/<target-triple>/alphaterminal-backend[.exe]
+apps/desktop/src-tauri/binaries/<target-triple>/quantglass-backend[.exe]
 ```
 
-Tauri requires the triple suffix (e.g. `alphaterminal-backend-x86_64-unknown-linux-gnu`) so it can pick the right binary per platform. The Tauri config registers it as an `externalBin`.
+Tauri requires the triple suffix (e.g. `quantglass-backend-x86_64-unknown-linux-gnu`) so it can pick the right binary per platform. The Tauri config registers it as an `externalBin`.
 
 Command: `npm run backend:bundle`.
 
@@ -58,7 +58,7 @@ sequenceDiagram
     participant UI
 
     Shell->>OS: pick_free_port() (bind :0, read port, release)
-    Shell->>Sidecar: sidecar("alphaterminal-backend")<br/>--host 127.0.0.1 --port N
+    Shell->>Sidecar: sidecar("quantglass-backend")<br/>--host 127.0.0.1 --port N
     Shell->>Sidecar: spawn() + drain stdout/stderr
     Shell->>Sidecar: wait_for_port(N, 30s)
     Shell->>Shell: manage(BackendState{base_url, child})
@@ -86,7 +86,7 @@ Stdout/stderr are drained continuously so the child's pipe never fills and stall
 
 | Platform | Outputs |
 |----------|---------|
-| **Linux** | `AlphaTerminal_0.1.0_amd64.AppImage`, `AlphaTerminal_0.1.0_amd64.deb`, `AlphaTerminal-0.1.0-1.x86_64.rpm` |
+| **Linux** | `QuantGlass_0.1.0_amd64.AppImage`, `QuantGlass_0.1.0_amd64.deb`, `QuantGlass-0.1.0-1.x86_64.rpm` |
 | **Windows** | MSI / NSIS installer (`.exe`) |
 | **macOS** | `.dmg` / `.app` |
 
@@ -100,11 +100,11 @@ When frozen (`sys.frozen` is true), `config.py` resolves `data_dir` to the per�
 
 | OS | Data folder |
 |----|-------------|
-| Linux | `~/.local/share/AlphaTerminal` |
-| Windows | `%APPDATA%\AlphaTerminal` |
-| macOS | `~/Library/Application Support/AlphaTerminal` |
+| Linux | `~/.local/share/QuantGlass` |
+| Windows | `%APPDATA%\QuantGlass` |
+| macOS | `~/Library/Application Support/QuantGlass` |
 
-A single `ALPHATERMINAL_DATA_DIR` env var relocates all state.
+A single `QUANTGLASS_DATA_DIR` env var relocates all state.
 
 ---
 

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from fastapi import APIRouter, Request
 
 router = APIRouter(tags=["health"])
@@ -10,7 +13,7 @@ async def health(request: Request) -> dict[str, object]:
     state_store = request.app.state.state_store
 
     return {
-        "service": "alphaterminal-backend",
+        "service": "quantglass-backend",
         "status": "ok",
         "scheduler": scheduler.status(),
         "storage": {

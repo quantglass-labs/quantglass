@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export type MarketType = 'crypto' | 'stocks';
 export type Timeframe = '15m' | '1h' | '4h' | '1d';
 export type SignalType = 'BUY_ZONE' | 'SELL' | 'HOLD' | 'WAIT' | 'WATCH';

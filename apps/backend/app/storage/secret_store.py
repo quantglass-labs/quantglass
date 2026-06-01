@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from __future__ import annotations
 
 import json
@@ -42,7 +45,7 @@ class EncryptedSecretStore:
     Fernet-encrypted file with 0600 permissions.
     """
 
-    _KEYCHAIN_SERVICE = "AlphaTerminal"
+    _KEYCHAIN_SERVICE = "QuantGlass"
 
     def __init__(self, payload_path: Path, key_path: Path) -> None:
         self.payload_path = payload_path

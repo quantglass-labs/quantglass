@@ -4,7 +4,7 @@
 
 ---
 
-AlphaTerminal can **simulate** trades (paper) and is designed to eventually **execute** them at a connected broker (live). By default it does **only paper trading**, and live execution is locked behind explicit safety gates.
+QuantGlass can **simulate** trades (paper) and is designed to eventually **execute** them at a connected broker (live). By default it does **only paper trading**, and live execution is locked behind explicit safety gates.
 
 > ⚠️ **Default state:** *Paper trading first. Live trading remains off.* You cannot place a real order by accident.
 
@@ -59,7 +59,7 @@ If any step is missing, live execution stays disabled. This multi‑step gate is
 | Validating backtested setups forward. | You fully understand the risks and broker mechanics. |
 | You want zero financial risk. | You've configured and tested trade‑enabled keys. |
 
-> Even in live mode, AlphaTerminal is **not** financial advice and does not guarantee outcomes. Signals are deterministic hypotheses. You remain fully responsible for every order.
+> Even in live mode, QuantGlass is **not** financial advice and does not guarantee outcomes. Signals are deterministic hypotheses. You remain fully responsible for every order.
 
 ---
 

@@ -1,9 +1,9 @@
-# AlphaTerminal — Technical Documentation
+# QuantGlass — Technical Documentation
 
-> Engineering reference for **AlphaTerminal**, a local‑first quantitative desktop terminal. This set documents the architecture, backend, signal engine, data model, API, frontend, packaging, security and developer workflows. For the end‑user manual, see the [User Guide](../user-guide/README.md).
+> Engineering reference for **QuantGlass**, a local‑first quantitative desktop terminal. This set documents the architecture, backend, signal engine, data model, API, frontend, packaging, security and developer workflows. For the end‑user manual, see the [User Guide](../user-guide/README.md).
 
 <p align="center">
-  <img src="../assets/screenshots/symbol-detail.png" alt="AlphaTerminal symbol detail" width="900">
+  <img src="../assets/screenshots/symbol-detail.png" alt="QuantGlass symbol detail" width="900">
 </p>
 
 ---
@@ -68,7 +68,7 @@ quantglass/
 │       ├── src/        screens · components · lib · data
 │       └── src-tauri/  Rust shell (lib.rs spawns the sidecar)
 ├── packages/
-│   └── contracts/      Shared TypeScript API types (@alphaterminal/contracts)
+│   └── contracts/      Shared TypeScript API types (@quantglass/contracts)
 └── docs/               Vision, milestones, OpenAPI, user-guide, technical
 ```
 
@@ -80,7 +80,7 @@ quantglass/
 - [Production implementation masterplan](../production_implementation_masterplan.md)
 - [Release readiness checklist](../release_readiness_checklist.md)
 - [Backup & recovery](../backup_and_recovery.md)
-- [OpenAPI specification](../openapi/alphaterminal-backend.openapi.json)
+- [OpenAPI specification](../openapi/quantglass-backend.openapi.json)
 - [Milestone phases](../milestones/README.md)
 
 Start with **[1. Architecture overview →](01-architecture.md)**

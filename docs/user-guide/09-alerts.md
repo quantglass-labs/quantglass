@@ -4,7 +4,7 @@
 
 ---
 
-Alerts notify you when a condition you care about is met, so you don't have to stare at charts. AlphaTerminal evaluates alerts on the backend every minute and can deliver them via **desktop notification**, **Telegram**, or **email**.
+Alerts notify you when a condition you care about is met, so you don't have to stare at charts. QuantGlass evaluates alerts on the backend every minute and can deliver them via **desktop notification**, **Telegram**, or **email**.
 
 <p align="center">
   <img src="../assets/screenshots/alerts.png" alt="Alerts" width="900">
@@ -77,7 +77,7 @@ The **Alert audit feed** records every firing with its timestamp, so you have a 
 3. **Reserve email** for lower‑urgency or archival notifications.
 4. Always **send a test** after configuring Telegram or email so you know delivery works.
 
-> Alerts are evaluated by the bundled backend while AlphaTerminal is running. They are part of the local‑first design — nothing about your alerts is stored in the cloud.
+> Alerts are evaluated by the bundled backend while QuantGlass is running. They are part of the local‑first design — nothing about your alerts is stored in the cloud.
 
 ---
 

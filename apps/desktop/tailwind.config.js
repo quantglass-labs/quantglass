@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 QuantGlass contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export default {
     content: ['./index.html', './src/**/*.{ts,tsx}'],
     theme: {

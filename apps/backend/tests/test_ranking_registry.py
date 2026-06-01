@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Tests for Phase G: retired provider stubs (G1) and relative-strength ranking (G2)."""
 
 from app.core.config import ProviderSettings
