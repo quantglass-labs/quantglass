@@ -109,6 +109,8 @@ Common local presets:
 The Extensions tab shows backend extension manifests, requested permissions,
 settings schema, health, and diagnostics. External Python extensions are disabled
 by default because installed packages execute code inside the backend process.
+Use the extension enable toggle and settings controls to persist configuration;
+enable/disable changes take effect after restarting the backend.
 
 Enable extension entry points only for packages you trust:
 

@@ -447,6 +447,7 @@ export interface ExtensionRegistryEntry {
   settings: ExtensionSettingDefinition[];
   homepage?: string | null;
   loaded: boolean;
+  enabled: boolean;
   diagnostics: string[];
   health: Record<string, unknown>;
 }
@@ -469,6 +470,7 @@ export interface ExtensionSettingsResponse {
   extensionId: string;
   settings: Record<string, unknown>;
   schema: ExtensionSettingDefinition[];
+  requiresRestart?: boolean;
 }
 
 export interface ExtensionHealthResponse {

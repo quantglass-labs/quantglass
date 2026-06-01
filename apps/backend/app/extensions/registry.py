@@ -15,6 +15,7 @@ from app.providers.manager import ProviderManager
 class ExtensionRecord:
     manifest: ExtensionManifest
     loaded: bool
+    enabled: bool = False
     diagnostics: list[str] = field(default_factory=list)
     health: dict[str, object] = field(default_factory=dict)
 
@@ -25,6 +26,7 @@ class ExtensionRecord:
             "permissions": list(self.manifest.permissions),
             "settings": [asdict(item) for item in self.manifest.settings],
             "loaded": self.loaded,
+            "enabled": self.enabled,
             "diagnostics": self.diagnostics,
             "health": self.health or {"status": "unknown"},
         }
@@ -56,6 +58,7 @@ def load_extension_registry(
     strategy_registry: Any | None = None,
     indicator_registry: Any | None = None,
     surface_registry: Any | None = None,
+    extension_settings_provider: Any | None = None,
     enable_entry_points: bool = False,
 ) -> ExtensionRegistry:
     registry = ExtensionRegistry()
@@ -70,6 +73,7 @@ def load_extension_registry(
                     capabilities=(),
                 ),
                 loaded=False,
+                enabled=False,
                 diagnostics=["Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true to load installed extension packages."],
                 health={"status": "disabled", "loaded": False},
             )
@@ -84,6 +88,7 @@ def load_extension_registry(
                 strategy_registry,
                 indicator_registry,
                 surface_registry,
+                extension_settings_provider,
             )
         )
     return registry
@@ -100,26 +105,45 @@ def _load_entry_point(
     strategy_registry: Any | None,
     indicator_registry: Any | None,
     surface_registry: Any | None,
+    extension_settings_provider: Any | None,
 ) -> ExtensionRecord:
     try:
         extension = entry_point.load()
         extension_instance: QuantGlassExtension = extension() if isinstance(extension, type) else extension
+        manifest = extension_instance.manifest
+        extension_settings = (
+            extension_settings_provider(manifest.id)
+            if callable(extension_settings_provider)
+            else {}
+        )
+        enabled = bool(extension_settings.get("enabled", False))
         context = ExtensionContext(
             provider_manager=provider_manager,
             strategy_registry=strategy_registry,
             indicator_registry=indicator_registry,
             surface_registry=surface_registry,
+            extension_id=manifest.id,
+            enabled=enabled,
+            permissions=manifest.permissions,
         )
-        extension_instance.register(context)
-        health = {"status": "ok", "loaded": True}
+        if enabled:
+            extension_instance.register(context)
+        else:
+            context.diagnostics.append("Extension discovered but disabled by settings.")
+        health = {
+            "status": "ok" if enabled else "disabled",
+            "loaded": enabled,
+            "enabled": enabled,
+        }
         health_method = getattr(extension_instance, "health", None)
-        if callable(health_method):
+        if enabled and callable(health_method):
             custom_health = health_method()
             if isinstance(custom_health, dict):
                 health = custom_health
         return ExtensionRecord(
-            manifest=extension_instance.manifest,
-            loaded=True,
+            manifest=manifest,
+            loaded=enabled,
+            enabled=enabled,
             diagnostics=context.diagnostics,
             health=health,
         )
@@ -133,6 +157,7 @@ def _load_entry_point(
                 capabilities=(),
             ),
             loaded=False,
+            enabled=False,
             diagnostics=[str(exc)],
             health={"status": "error", "loaded": False},
         )

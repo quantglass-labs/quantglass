@@ -57,6 +57,7 @@ async def lifespan(app: FastAPI):
         strategy_registry=strategy_registry,
         indicator_registry=indicator_registry,
         surface_registry=surface_registry,
+        extension_settings_provider=state_store.get_extension_settings,
         enable_entry_points=settings.enable_extension_entry_points,
     )
     analytics_store.initialize()

@@ -16,6 +16,7 @@ export function SettingsScreen({
   providerSettings,
   providerRegistry,
   extensionRegistry,
+  extensionSettingsById,
   apiKeys,
   aiSettings,
   tradingMode,
@@ -29,11 +30,14 @@ export function SettingsScreen({
   onSetTradingMode,
   onSetMinBacktestSample,
   onUpdateAiSettings,
+  onUpdateExtensionSettings,
+  onUpdateExtensionEnabled,
 }: {
   state: ScreenState;
   providerSettings: ProviderSettings;
   providerRegistry: ProviderRegistryEntry[];
   extensionRegistry: ExtensionRegistryEntry[];
+  extensionSettingsById: Record<string, Record<string, unknown>>;
   apiKeys: ApiKeyField[];
   aiSettings: AiSettings;
   tradingMode: TradingMode;
@@ -47,6 +51,8 @@ export function SettingsScreen({
   onSetTradingMode: (mode: TradingMode) => void;
   onSetMinBacktestSample: (value: number) => void;
   onUpdateAiSettings: (settings: AiSettings) => void;
+  onUpdateExtensionSettings: (extensionId: string, settings: Record<string, unknown>) => void;
+  onUpdateExtensionEnabled: (extensionId: string, enabled: boolean) => void;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentTab = (searchParams.get('tab') as SettingsTab | null) ?? 'providers';
@@ -62,6 +68,7 @@ export function SettingsScreen({
   );
   const [draftApiKeys, setDraftApiKeys] = useState<Record<string, string>>({});
   const [draftAiSettings, setDraftAiSettings] = useState<AiSettings>(aiSettings);
+  const [draftExtensionSettings, setDraftExtensionSettings] = useState<Record<string, Record<string, unknown>>>({});
   const retryMockView = () => window.location.reload();
   const notificationTestFieldMap: Partial<Record<string, NotificationTestChannel>> = {
     'telegram-chat-id': 'telegram',
@@ -107,6 +114,26 @@ export function SettingsScreen({
   useEffect(() => {
     setDraftAiSettings(aiSettings);
   }, [aiSettings]);
+
+  useEffect(() => {
+    setDraftExtensionSettings(
+      Object.fromEntries(
+        extensionRegistry.map((extension) => [
+          extension.id,
+          {
+            ...Object.fromEntries(
+              extension.settings
+                .filter((setting) => setting.key !== 'enabled')
+                .map((setting) => [setting.key, setting.default ?? '']),
+            ),
+            ...Object.fromEntries(
+              Object.entries(extensionSettingsById[extension.id] ?? {}).filter(([key]) => key !== 'enabled'),
+            ),
+          },
+        ]),
+      ),
+    );
+  }, [extensionRegistry, extensionSettingsById]);
 
   function renderProviderMeta(label: string) {
     if (!label) {
@@ -522,7 +549,9 @@ export function SettingsScreen({
                   </div>
                   {extensionRegistry.length ? (
                     <div className="grid gap-4 lg:grid-cols-2">
-                      {extensionRegistry.map((extension) => (
+                      {extensionRegistry.map((extension) => {
+                        const extensionSettings = extension.settings.filter((setting) => setting.key !== 'enabled');
+                        return (
                         <div key={extension.id} className="rounded-3xl border border-border bg-white/[0.03] p-4">
                           <div className="flex items-start justify-between gap-4">
                             <div>
@@ -534,10 +563,77 @@ export function SettingsScreen({
                           <p className="mt-3 text-sm text-muted">{extension.description}</p>
                           <p className="mt-3 text-xs text-muted">Capabilities: {extension.capabilities.join(', ') || 'none'}</p>
                           <p className="mt-2 text-xs text-muted">Permissions: {extension.permissions.join(', ') || 'none'}</p>
-                          <p className="mt-2 text-xs text-muted">Settings: {extension.settings.length ? extension.settings.map((setting) => setting.key).join(', ') : 'none'}</p>
+                          <p className="mt-2 text-xs text-muted">Settings: {extensionSettings.length ? extensionSettings.map((setting) => setting.key).join(', ') : 'none'}</p>
+                          <div className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-surface/40 px-4 py-3 text-sm text-muted">
+                            <span>{extension.enabled ? 'Enabled after backend restart' : 'Disabled'}</span>
+                            <button type="button" className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${extension.enabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`} onClick={() => onUpdateExtensionEnabled(extension.id, !extension.enabled)}>
+                              {extension.enabled ? 'On' : 'Off'}
+                            </button>
+                          </div>
+                          {extensionSettings.length ? (
+                            <div className="mt-4 space-y-3">
+                              {extensionSettings.map((setting) => (
+                                <label key={setting.key} className="block space-y-2 text-sm text-muted">
+                                  <span className="block text-xs font-semibold uppercase tracking-[0.18em]">{setting.label}</span>
+                                  {setting.type === 'boolean' ? (
+                                    <select
+                                      className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                                      value={String(draftExtensionSettings[extension.id]?.[setting.key] ?? setting.default ?? false)}
+                                      onChange={(event) =>
+                                        setDraftExtensionSettings((current) => ({
+                                          ...current,
+                                          [extension.id]: {
+                                            ...(current[extension.id] ?? {}),
+                                            [setting.key]: event.target.value === 'true',
+                                          },
+                                        }))
+                                      }
+                                    >
+                                      <option value="false">false</option>
+                                      <option value="true">true</option>
+                                    </select>
+                                  ) : setting.type === 'select' ? (
+                                    <select
+                                      className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                                      value={String(draftExtensionSettings[extension.id]?.[setting.key] ?? setting.default ?? '')}
+                                      onChange={(event) =>
+                                        setDraftExtensionSettings((current) => ({
+                                          ...current,
+                                          [extension.id]: {
+                                            ...(current[extension.id] ?? {}),
+                                            [setting.key]: event.target.value,
+                                          },
+                                        }))
+                                      }
+                                    >
+                                      {setting.options.map((option) => <option key={option} value={option}>{option}</option>)}
+                                    </select>
+                                  ) : (
+                                    <input
+                                      className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                                      type={setting.type === 'secret' ? 'password' : setting.type === 'number' ? 'number' : 'text'}
+                                      value={String(draftExtensionSettings[extension.id]?.[setting.key] ?? setting.default ?? '')}
+                                      onChange={(event) =>
+                                        setDraftExtensionSettings((current) => ({
+                                          ...current,
+                                          [extension.id]: {
+                                            ...(current[extension.id] ?? {}),
+                                            [setting.key]: setting.type === 'number' ? Number(event.target.value) : event.target.value,
+                                          },
+                                        }))
+                                      }
+                                    />
+                                  )}
+                                  {setting.description ? <span className="block text-xs text-muted">{setting.description}</span> : null}
+                                </label>
+                              ))}
+                              <Button onClick={() => onUpdateExtensionSettings(extension.id, draftExtensionSettings[extension.id] ?? {})}>Save extension settings</Button>
+                            </div>
+                          ) : null}
                           {extension.diagnostics.length ? <p className="mt-3 text-xs text-hold">{extension.diagnostics.join(' ')}</p> : null}
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <EmptyState title="No extensions reported" description="The backend did not return extension registry metadata." />

@@ -118,13 +118,22 @@ Rate limits default to `crypto_rate_limit_per_minute = 24` and `stocks_rate_limi
 
 `ExtensionRegistry` loads extension manifests and exposes diagnostics through
 `/api/extensions/*`. External Python entry points are disabled by default because
-installed packages execute inside the backend process. When enabled, extensions
-can register provider, strategy, and indicator metadata through `ExtensionContext`.
+installed packages execute inside the backend process. Discovered extensions are
+also disabled by persisted settings until the user enables them; changing that
+state requires a restart so registration happens from a clean process.
+
+When enabled, extensions can register provider, strategy, indicator, and surface
+metadata through `ExtensionContext`. Registration enforces declared permissions
+for sensitive operations such as external network providers and order-submission
+capability.
 
 Core extension plumbing:
 
 - `ExtensionManifest`: id, version, capabilities, permissions, settings schema.
 - `ExtensionContext`: provider, strategy, and indicator registration helpers.
+- `contracts.py`: execution protocols for strategy, indicator, backtest, and
+  data-quality plugins.
+- `validation.py`: shared candle fixture validation for providers and test kits.
 - `StrategyRegistry`: built-in strategy definitions plus extension-provided definitions.
 - `IndicatorRegistry`: built-in indicator definitions plus extension-provided definitions.
 - `ExtensionSurfaceRegistry`: backtest, execution, notification, import/export,
@@ -140,6 +149,8 @@ Core extension plumbing:
 - **Storage paths** are derived from `data_dir` unless explicitly set, so a single `QUANTGLASS_DATA_DIR` relocates everything. In a frozen (PyInstaller) build, `data_dir` resolves to the per‑user OS app‑data dir; in a source checkout it is `apps/backend/.local`.
 - **Sub‑models:** `ProviderSettings`, `SafetySettings` (`trading_mode=paper`, `act_on_partial_candles=False`, `min_backtest_sample=50`, `live_trading_confirmed=False`), `AiSettings` (`provider=ollama`, `model=qwen3:14b-q4_K_M`, `cloud_enabled=False`, `base_url=http://127.0.0.1:11434`, `request_timeout_seconds=8.0`).
 - **Extensions:** external Python entry-point loading is disabled by default and controlled by `QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true`.
+- **Extension activation:** each discovered extension has persisted settings under
+  `extension_settings`; `enabled=true` takes effect after restart.
 - `apply_api_key_settings()` overlays decrypted API keys from the `StateStore` onto runtime settings at startup.
 
 Full reference: [Development → Configuration reference](10-development.md#configuration-reference).

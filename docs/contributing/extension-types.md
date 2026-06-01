@@ -14,6 +14,12 @@ discover the current built-in surface before proposing an extension:
 - `GET /api/extensions/data-quality`
 - `GET /api/extensions/ui-panels`
 
+Runtime protocols for executable extension work live in
+`apps/backend/app/extensions/contracts.py`. Metadata-only contributions should
+register through `ExtensionSurfaceRegistry`; executable strategy, indicator,
+backtest, and data-quality work should implement those protocols once wired into
+the relevant service.
+
 ## Market Data
 
 Adds candles, quotes, order books, fundamentals, macro, options, futures, forex,
@@ -25,6 +31,7 @@ Required discipline:
 - respect provider rate limits
 - document pricing and redistribution constraints
 - return deterministic fixtures in tests
+- validate candle fixtures with `apps/backend/scripts/validate_extension_fixture.py`
 
 ## Strategy
 
@@ -130,6 +137,10 @@ Examples:
 
 Data-quality plugins should report diagnostics first. Automatic repair should be
 explicit and auditable.
+
+Core candle validation is available through
+`app.extensions.validation.validate_candles`. Reuse it in tests before adding
+provider-specific checks.
 
 ## UI Panels
 
