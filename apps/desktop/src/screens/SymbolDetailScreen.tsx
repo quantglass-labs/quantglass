@@ -6,6 +6,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BarChart, TinyLineChart } from '../components/charts';
 import { averageTrueRange, bollingerBands, exponentialMovingAverage, movingAverageConvergenceDivergence, relativeStrengthIndex, simpleMovingAverage } from '../lib/analytics';
+import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime, formatLargeNumber } from '../lib/format';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, PillTabs, SectionHeading, SignalChip } from '../components/ui';
 import type { Candle, CorridorIngestResult, NewsItem, ScreenState, SignalRecord, SymbolRecord, Timeframe } from '../types';
@@ -114,6 +115,7 @@ export function SymbolDetailScreen({
   const supportLevel = useMemo(() => (lows.length ? Math.min(...lows.slice(-24)) : 0), [lows]);
   const resistanceLevel = useMemo(() => (highs.length ? Math.max(...highs.slice(-24)) : 0), [highs]);
   const symbolNews = news.filter((item) => item.symbol === (signalRecord?.signal.symbol ?? symbol?.symbol));
+  const currentSignalFreshness = signalRecord ? signalFreshness(signalRecord.signal) : null;
 
   const indicatorStats = [
     { label: 'EMA 21', value: formatCurrency(ema.at(-1) ?? 0), helper: 'Short-term trend support' },
@@ -324,6 +326,14 @@ export function SymbolDetailScreen({
                     </div>
                     <div className="text-sm text-muted">Stop {formatCurrency(signalRecord.signal.stop_loss)} · TP ladder {signalRecord.signal.take_profit.map((level) => formatCurrency(level)).join(', ')}</div>
                     <div className="text-sm text-muted">Generated {formatDateTime(signalRecord.signal.generated_at_utc)} UTC</div>
+                    {currentSignalFreshness ? (
+                      <div className="pt-1">
+                        <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(currentSignalFreshness.tone)}`}>
+                          {currentSignalFreshness.label}
+                        </span>
+                        <p className="mt-2 text-xs text-muted">{currentSignalFreshness.detail}</p>
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2">
