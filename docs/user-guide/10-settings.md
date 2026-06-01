@@ -50,12 +50,17 @@ Add optional keys to unlock paid data and notification channels. Keys are **mask
 |-----|---------|
 | **Finnhub** | News and additional equity data. |
 | **Polygon / Twelve Data** | Additional equity OHLCV. |
-| **Alpaca** | Equity data and (with live unlock) paper/live trading. |
+| **Alpaca** | Optional equity data. Live broker execution is not available in the public preview. |
 | **Telegram bot token + chat ID** | Telegram alert delivery. |
 | **SMTP host/port/credentials** | Email alert delivery. |
 | **OpenAI / OpenAI-compatible API keys** | Optional hosted or private model gateway narration. |
 
-> **Security:** ordinary keys are encrypted on disk. **Trade‑enabled** credentials are additionally stored in your operating system's keychain. See [Technical → Security model](../technical/09-security.md) for details. Use the per‑channel **test** buttons to verify notifications.
+> **Security:** keys are encrypted on disk in local app data. Trade-capable keys
+> use the operating system keychain when it is available, but may fall back to
+> the encrypted file on systems without a usable keychain. Backup bundles include
+> the encrypted payload and the decryption key, so store them securely. See
+> [Technical → Security model](../technical/09-security.md) for details. Use the
+> per‑channel **test** buttons to verify notifications.
 
 ---
 
@@ -71,7 +76,7 @@ Add optional keys to unlock paid data and notification channels. Keys are **mask
 | **Partial candles** | `false` (enforced) | Signals use **closed candles only**; partial bars are never acted on. |
 | **Minimum backtest sample** | `50` trades | Strategies below this threshold show an instability warning in Backtesting. |
 
-> The live‑trading switch is a **deliberate safety gate**. Flipping to live requires confirmation and trade‑enabled keys. Read [Paper vs live trading](12-paper-trading.md) before changing it.
+> The live‑trading switch is a **deliberate safety gate**, but real-money live execution is not available in the public preview. Read [Paper vs live trading](12-paper-trading.md) before changing it.
 
 ---
 

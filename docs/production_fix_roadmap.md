@@ -4,6 +4,10 @@
 **Target profile:** single-user, single-machine, local-first desktop app. No cloud, no shared backend, no multi-user concerns.
 **How to read this:** phases are ordered by dependency and risk. Each item lists the originating gap (Gxx from the audit), affected files, complexity (S/M/L), dependencies, acceptance criteria, and suggested tests. Complexity is relative effort, not a time estimate.
 
+> **Status note:** this roadmap was created from the 2026-05-31 production audit.
+> Some items may now be partially complete. Use it as a hardening backlog, and
+> verify each item against current code before starting implementation.
+
 Priority bands:
 - **P0 — Honesty/safety:** ship-blockers; do first.
 - **P1 — Must-fix for production:** core product completeness.

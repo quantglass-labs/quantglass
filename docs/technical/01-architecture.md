@@ -16,7 +16,7 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 | **Deterministic core** | Signals computed from closed candles only; no randomness; reproducible. |
 | **Optional, guarded AI** | LLM narration can use local or API gateways and is fact‑checked; never on the hot path. |
 | **Extension-ready** | Provider, AI, strategy, indicator, backtest, execution, notification, import/export, and data-quality extensions register through explicit manifests. |
-| **Safety by default** | Paper trading only; live execution multi‑gated. |
+| **Safety by default** | Paper trading is the supported path in the public preview; built-in live execution remains blocked until the keychain/broker gate is complete. |
 | **US‑compliant data** | Coinbase/Kraken/Gemini/Yahoo/Finnhub; global Binance/OKX/Bybit excluded. |
 | **Contracts‑first** | Shared TypeScript types in `@quantglass/contracts` mirror backend schemas. |
 
@@ -31,7 +31,7 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 | **Backend** | Python, FastAPI 0.1.0, Uvicorn, Pydantic v2 / pydantic‑settings, APScheduler |
 | **Analytics** | DuckDB (hot query store) + Parquet (durable archive) |
 | **Operational state** | SQLite |
-| **Secrets** | Fernet symmetric encryption + OS keychain |
+| **Secrets** | Fernet symmetric encryption with optional OS keychain routing for trade-capable keys |
 | **AI** | Ollama native, LM Studio/OpenAI/OpenAI-compatible chat completions; template fallback |
 | **Market data** | ccxt (Coinbase/Kraken), Gemini, Yahoo (public); Alpaca/Finnhub/Polygon/Twelve Data (keyed) |
 | **Packaging** | PyInstaller (sidecar) + Tauri bundler (AppImage/deb/rpm, MSI/NSIS, dmg) |

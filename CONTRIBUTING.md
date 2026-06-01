@@ -16,7 +16,9 @@ statistical evidence.
 - Tests, fixtures, documentation, and release automation.
 
 Start with issues labeled `good first issue`, `help wanted`, `provider-adapter`,
-`strategy`, `indicator`, `frontend`, `backend`, `testing`, or `docs`.
+`strategy`, `indicator`, `frontend`, `backend`, `testing`, or `docs`. For
+starter scopes that are already shaped for review, see
+[Good first contribution ideas](docs/contributing/good-first-issues.md).
 
 ## Development Setup
 
@@ -80,6 +82,7 @@ separate commercial licenses.
 ## Extension Guides
 
 - Provider adapters: [docs/contributing/provider-adapters.md](docs/contributing/provider-adapters.md)
+- Good first issues: [docs/contributing/good-first-issues.md](docs/contributing/good-first-issues.md)
 - Extension packages: [docs/contributing/extensions.md](docs/contributing/extensions.md)
 - Extension types: [docs/contributing/extension-types.md](docs/contributing/extension-types.md)
 - AI model gateways: [docs/contributing/ai-model-gateways.md](docs/contributing/ai-model-gateways.md)

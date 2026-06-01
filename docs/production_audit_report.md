@@ -7,6 +7,13 @@
 
 > This report audits an educational, decision-support trading tool. Nothing here is financial advice. "Production-ready" in this document means *robust, honest, and safe for one person to run locally* — not regulated, not multi-tenant, not an automated trading product.
 
+> **Historical note:** this report is intentionally retained as an audit snapshot
+> from 2026-05-31. Some findings have since changed, including AI gateway
+> plumbing, extension surfaces, and optional OS-keychain routing for
+> trade-capable keys. Treat it as background context, not the current launch
+> status. Current public-preview status lives in [README.md](../README.md) and
+> [ROADMAP.md](../ROADMAP.md).
+
 ---
 
 ## 1. Executive Summary
