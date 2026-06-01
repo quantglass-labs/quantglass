@@ -6,6 +6,7 @@ from app.extensions.base import ExtensionManifest, ExtensionSetting
 from app.extensions.registry import ExtensionRecord, ExtensionRegistry
 from app.extensions.registry import load_extension_registry
 from app.providers.manager import ProviderManager
+from app.services.extension_surface_registry import ExtensionSurfaceRegistry
 
 
 def test_external_entry_points_are_disabled_by_default() -> None:
@@ -48,3 +49,19 @@ def test_extension_record_serializes_permissions_settings_and_health() -> None:
     assert item["permissions"] == ["read_market_data"]
     assert item["settings"][0]["key"] == "enabled"
     assert registry.health("demo") == {"status": "ok"}
+
+
+def test_extension_surface_registry_exposes_remaining_surfaces() -> None:
+    registry = ExtensionSurfaceRegistry()
+
+    categories = {item["category"] for item in registry.items()}
+
+    assert {
+        "backtest",
+        "execution",
+        "notification",
+        "import_export",
+        "data_quality",
+        "ui_panel",
+    }.issubset(categories)
+    assert registry.items("execution")

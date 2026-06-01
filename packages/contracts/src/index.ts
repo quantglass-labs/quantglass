@@ -505,3 +505,18 @@ export interface IndicatorRegistryEntry {
 export interface IndicatorRegistryResponse {
   indicators: IndicatorRegistryEntry[];
 }
+
+export interface ExtensionSurfaceEntry {
+  id: string;
+  name: string;
+  category: 'backtest' | 'execution' | 'notification' | 'import_export' | 'data_quality' | 'ui_panel';
+  description: string;
+  permissions: string[];
+  maturity: 'available' | 'planned';
+  source: 'built-in' | 'extension';
+  extension_id?: string | null;
+}
+
+export interface ExtensionSurfaceRegistryResponse {
+  surfaces: ExtensionSurfaceEntry[];
+}

@@ -10,6 +10,7 @@ Package this module in a separate Python distribution and expose it with:
 """
 
 from app.extensions.base import ExtensionContext, ExtensionManifest, ExtensionSetting
+from app.services.extension_surface_registry import ExtensionSurfaceDefinition
 from app.services.indicator_registry import IndicatorDefinition
 from app.services.strategy_registry import StrategyDefinition
 
@@ -20,7 +21,7 @@ class ExampleExtension:
         name="Example Extension",
         version="0.1.0",
         description="Registers a placeholder provider for extension development.",
-        capabilities=("market_data", "strategy", "indicator"),
+        capabilities=("market_data", "strategy", "indicator", "data_quality", "import_export"),
         permissions=("read_market_data", "network_access"),
         settings=(
             ExtensionSetting(
@@ -67,6 +68,28 @@ class ExampleExtension:
                 description="Placeholder strategy definition for extension authors.",
                 setup_types=("example_liquidity_pullback",),
                 direction="long",
+                source="extension",
+                extension_id=self.manifest.id,
+            )
+        )
+        context.register_surface(
+            ExtensionSurfaceDefinition(
+                id="example-data-quality-check",
+                name="Example Data Quality Check",
+                category="data_quality",
+                description="Placeholder diagnostic surface for extension authors.",
+                permissions=("read_market_data",),
+                source="extension",
+                extension_id=self.manifest.id,
+            )
+        )
+        context.register_surface(
+            ExtensionSurfaceDefinition(
+                id="example-csv-export",
+                name="Example CSV Export",
+                category="import_export",
+                description="Placeholder import/export surface for extension authors.",
+                permissions=("read_market_data",),
                 source="extension",
                 extension_id=self.manifest.id,
             )

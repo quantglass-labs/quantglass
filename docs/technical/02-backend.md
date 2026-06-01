@@ -62,6 +62,7 @@ Full endpoint catalog: [API reference](06-api-reference.md).
 | **SignalEngineService** | `services/signal_engine.py` | Computes indicators, regime, setups, confidence; attaches backtests + narration. |
 | **StrategyRegistry** | `services/strategy_registry.py` | Built-in and extension strategy metadata exposed for contributors and UI. |
 | **IndicatorRegistry** | `services/indicator_registry.py` | Built-in and extension indicator metadata exposed for contributors and UI. |
+| **ExtensionSurfaceRegistry** | `services/extension_surface_registry.py` | Backtest, execution, notification, import/export, data-quality, and UI-panel surface metadata. |
 | **MarketCorridorService** | `services/market_corridor.py` | Fetches/normalizes closed candles via providers, persists to analytics, integrity diagnostics. |
 | **ExecutionEngineService** | `services/execution_engine.py` | Evaluates alerts, runs paper executions, emits notifications/events. |
 | **TradingExecutionService** | `services/trading.py` | Broker order plumbing (paper now; live gated). |
@@ -126,6 +127,8 @@ Core extension plumbing:
 - `ExtensionContext`: provider, strategy, and indicator registration helpers.
 - `StrategyRegistry`: built-in strategy definitions plus extension-provided definitions.
 - `IndicatorRegistry`: built-in indicator definitions plus extension-provided definitions.
+- `ExtensionSurfaceRegistry`: backtest, execution, notification, import/export,
+  data-quality, and UI-panel extension surfaces.
 - `StateStore`: persisted extension settings under the `extension_settings` key.
 
 ---

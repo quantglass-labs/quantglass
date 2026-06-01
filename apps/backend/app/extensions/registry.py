@@ -55,6 +55,7 @@ def load_extension_registry(
     provider_manager: ProviderManager,
     strategy_registry: Any | None = None,
     indicator_registry: Any | None = None,
+    surface_registry: Any | None = None,
     enable_entry_points: bool = False,
 ) -> ExtensionRegistry:
     registry = ExtensionRegistry()
@@ -82,6 +83,7 @@ def load_extension_registry(
                 provider_manager,
                 strategy_registry,
                 indicator_registry,
+                surface_registry,
             )
         )
     return registry
@@ -97,6 +99,7 @@ def _load_entry_point(
     provider_manager: ProviderManager,
     strategy_registry: Any | None,
     indicator_registry: Any | None,
+    surface_registry: Any | None,
 ) -> ExtensionRecord:
     try:
         extension = entry_point.load()
@@ -105,6 +108,7 @@ def _load_entry_point(
             provider_manager=provider_manager,
             strategy_registry=strategy_registry,
             indicator_registry=indicator_registry,
+            surface_registry=surface_registry,
         )
         extension_instance.register(context)
         health = {"status": "ok", "loaded": True}

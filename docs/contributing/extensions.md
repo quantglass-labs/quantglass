@@ -96,7 +96,7 @@ for a complete minimal extension.
 | Field | Purpose |
 |-------|---------|
 | `id` | Stable extension id used in settings and diagnostics. |
-| `capabilities` | Contribution surface such as `market_data`, `strategy`, `indicator`, `ai_model`, `notification`, or `trading`. |
+| `capabilities` | Contribution surface such as `market_data`, `strategy`, `indicator`, `ai_model`, `notification`, `backtest`, `execution`, `import_export`, `data_quality`, or `ui_panel`. |
 | `permissions` | Declares sensitive access: `read_market_data`, `write_state`, `network_access`, `read_secrets`, `submit_orders`, `render_ui`, `run_model`. |
 | `settings` | Generic settings schema rendered by the backend and UI. |
 | `homepage` | Optional project/docs URL. |
@@ -109,6 +109,8 @@ users and maintainers before deeper sandboxing is added.
 - `StrategyRegistry` exposes built-in and extension strategy definitions.
 - `IndicatorRegistry` exposes deterministic feature definitions.
 - `ProviderManager` exposes market/news/trading/AI providers.
+- `ExtensionSurfaceRegistry` exposes backtest, execution, notification,
+  import/export, data-quality, and UI-panel surface metadata.
 - `ExtensionRegistry` exposes manifests, settings schema, diagnostics, and
   health.
 
