@@ -53,6 +53,19 @@ class SettingsRouteTests(unittest.TestCase):
             },
         )
 
+    def test_desktop_notification_test_endpoint_is_supported(self) -> None:
+        app = FastAPI()
+        app.include_router(settings_router)
+        app.state.notification_service = _NotificationService()
+
+        with TestClient(app) as client:
+            response = client.post("/api/settings/notifications/test/desktop")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["channel"], "desktop")
+        self.assertFalse(response.json()["delivered"])
+        self.assertEqual(response.json()["detail"], "desktop test path")
+
     def test_ai_settings_support_openai_compatible_payload(self) -> None:
         app = FastAPI()
         app.include_router(settings_router)

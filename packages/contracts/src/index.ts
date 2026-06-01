@@ -199,7 +199,7 @@ export interface ApiKeyItemResponse {
   item: ApiKeyField;
 }
 
-export type NotificationTestChannel = 'telegram' | 'email';
+export type NotificationTestChannel = AlertChannel;
 
 export interface NotificationTestResponse {
   channel: NotificationTestChannel;

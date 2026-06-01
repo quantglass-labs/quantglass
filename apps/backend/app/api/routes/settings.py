@@ -24,7 +24,7 @@ class ApiKeyPayload(BaseModel):
     value: str
 
 
-SUPPORTED_NOTIFICATION_CHANNELS = {"telegram", "email"}
+SUPPORTED_NOTIFICATION_CHANNELS = {"desktop", "telegram", "email"}
 
 
 def serialize_ai_settings(ai_settings: AiSettings) -> dict[str, object]:

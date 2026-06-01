@@ -343,7 +343,12 @@ export function SettingsScreen({
               {tab === 'keys' ? (
                 <div className="space-y-4">
                   <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
-                    Notification tests use the saved backend values below. Save changes first, then use the Telegram or Email test action on the corresponding delivery field.
+                    Notification tests use saved backend values for Telegram and email. Save changes first, then test each delivery path.
+                    <div className="mt-4">
+                      <Button variant="secondary" onClick={() => onTestNotification('desktop')}>
+                        Send Desktop test
+                      </Button>
+                    </div>
                   </div>
                   {apiKeySections.map((section) => (
                     <div key={section.id} className="space-y-4">

@@ -104,13 +104,13 @@ The backend exposes a REST API (JSON) and a WebSocket event stream. All routes a
 | `PUT` | `/api/settings/ai` | Update provider, model, endpoint, API key id, timeout, and narration flag. |
 | `GET` | `/api/settings/api-keys` | List API‑key fields (masked). |
 | `PUT` | `/api/settings/api-keys/{id}` | Set/clear a key value. |
-| `POST` | `/api/settings/notifications/test/{channel}` | Send a test notification (`desktop`/`telegram`/`email`). |
+| `POST` | `/api/settings/notifications/test/{channel}` | Send a test notification (`desktop`/`telegram`/`email`). Desktop returns backend readiness; the Tauri shell performs the OS notification. |
 
 ## Events (WebSocket)
 
 | Protocol | Path | Description |
 |----------|------|-------------|
-| `WS` | `/ws/events` | Push stream of backend events (signal updates, alert firings, paper fills) via the `BackendEventBus`. |
+| `WS` | `/ws/events` | Push stream of backend events including signal updates, `alert.fired`, `alert.delivery_failed`, paper fills, and scheduler warnings via the `BackendEventBus`. |
 
 ---
 

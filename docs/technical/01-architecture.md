@@ -26,7 +26,7 @@ QuantGlass is a **single‑user, local‑first desktop application**. There is n
 
 | Layer | Technology |
 |-------|------------|
-| **Desktop shell** | Tauri v2 (Rust), `tauri-plugin-shell` for the sidecar |
+| **Desktop shell** | Tauri v2 (Rust), `tauri-plugin-shell` for the sidecar, `tauri-plugin-notification` for OS alerts |
 | **Frontend** | React 19, TypeScript, Vite 6, Tailwind CSS, react‑router‑dom 7 (hash routing), Lightweight Charts |
 | **Backend** | Python, FastAPI 0.1.0, Uvicorn, Pydantic v2 / pydantic‑settings, APScheduler |
 | **Analytics** | DuckDB (hot query store) + Parquet (durable archive) |

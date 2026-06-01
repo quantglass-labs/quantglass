@@ -10,6 +10,7 @@ import { symbolCatalog, symbolById } from './data/symbolCatalog';
 import { SignalDetailDrawer } from './screens/SignalDetailDrawer';
 import { backendClient, mapMarketCandlesToChartSeries, mapProviderSettingsResponseToUi, mapUiSettingsToProviderRequest } from './lib/backend';
 import { formatCurrency } from './lib/format';
+import { sendNativeNotification } from './lib/nativeNotifications';
 import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, ExtensionRegistryEntry, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
 
 const DashboardScreen = lazy(async () => import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })));
@@ -66,6 +67,12 @@ const defaultPaperAccount: PaperAccount = {
 };
 
 const defaultApiKeys: ApiKeyField[] = [];
+
+function notificationChannelLabel(channel: NotificationTestChannel) {
+  if (channel === 'telegram') return 'Telegram';
+  if (channel === 'email') return 'Email';
+  return 'Desktop';
+}
 
 export default function App() {
   const navigate = useNavigate();
@@ -304,7 +311,19 @@ export default function App() {
 
       if (event.type === 'alert.fired') {
         const message = typeof event.payload.message === 'string' ? event.payload.message : 'A backend alert fired.';
+        if (event.payload.channel === 'desktop') {
+          void sendNativeNotification('QuantGlass alert', message);
+        }
         pushToast('Alert fired', message);
+        void refreshExecutionState();
+        return;
+      }
+
+      if (event.type === 'alert.delivery_failed') {
+        const symbolId = typeof event.payload.symbolId === 'string' ? event.payload.symbolId : 'Alert';
+        const channel = typeof event.payload.channel === 'string' ? event.payload.channel : 'notification';
+        const message = typeof event.payload.message === 'string' ? event.payload.message : 'Alert delivery failed.';
+        pushToast(`${symbolId} ${channel} delivery failed`, message);
         void refreshExecutionState();
         return;
       }
@@ -517,8 +536,15 @@ export default function App() {
     void (async () => {
       try {
         const response = await backendClient.testNotification(channel);
+        if (channel === 'desktop' && response.delivered) {
+          const sent = await sendNativeNotification('QuantGlass desktop test', response.detail);
+          if (!sent) {
+            pushToast('Desktop test needs permission', 'The backend test succeeded, but the OS notification was blocked or unavailable.');
+            return;
+          }
+        }
         pushToast(
-          response.delivered ? `${channel === 'telegram' ? 'Telegram' : 'Email'} test sent` : `${channel === 'telegram' ? 'Telegram' : 'Email'} test failed`,
+          response.delivered ? `${notificationChannelLabel(channel)} test sent` : `${notificationChannelLabel(channel)} test failed`,
           response.detail,
         );
       } catch {
@@ -899,7 +925,7 @@ export default function App() {
       <Modal
         open={alertModal.open}
         title={alertModal.alertId ? 'Edit alert' : 'New alert'}
-        description="Configure backend-persisted alerts. Telegram requires a saved bot token and chat ID, and email uses the saved SMTP delivery settings from API Keys."
+        description="Configure backend-persisted alerts. Desktop uses OS notifications, Telegram requires a saved bot token and chat ID, and email uses saved SMTP settings."
         onClose={() => setAlertModal({ open: false, symbolId: alertModal.symbolId })}
       >
         <div className="space-y-5">
@@ -919,7 +945,7 @@ export default function App() {
               <option value="email">Email</option>
             </select>
           </label>
-          <p className="text-xs text-muted">Telegram delivery uses the saved Bot Token and Chat ID from Settings → API Keys. Email delivery uses the saved SMTP host, credentials, and recipient settings from the same tab.</p>
+          <p className="text-xs text-muted">Desktop delivery uses the local notification permission from your OS. Telegram and email delivery use saved values from Settings → API Keys.</p>
           <div className="flex justify-end gap-3">
             <Button variant="ghost" onClick={() => setAlertModal({ open: false, symbolId: alertModal.symbolId })}>
               Cancel
