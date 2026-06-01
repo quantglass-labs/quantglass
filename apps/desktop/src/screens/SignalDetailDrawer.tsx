@@ -3,6 +3,7 @@
 
 import { Bell, Clipboard, ShieldAlert } from 'lucide-react';
 import { Drawer, Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, SignalChip } from '../components/ui';
+import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import type { ScreenState, SignalRecord, SymbolRecord } from '../types';
 
@@ -40,15 +41,7 @@ export function SignalDetailDrawer({
         ? 'Deterministic template (model unavailable)'
         : 'Deterministic template';
 
-  const dataAgeSeconds = signalRecord?.signal.data_age_seconds;
-  const dataFreshness =
-    typeof dataAgeSeconds === 'number'
-      ? dataAgeSeconds < 90
-        ? `${Math.round(dataAgeSeconds)}s ago`
-        : dataAgeSeconds < 5400
-          ? `${Math.round(dataAgeSeconds / 60)}m ago`
-          : `${(dataAgeSeconds / 3600).toFixed(1)}h ago`
-      : null;
+  const freshness = signalRecord ? signalFreshness(signalRecord.signal) : null;
 
   return (
     <Drawer open={open} title={signalRecord ? `${signalRecord.signal.symbol} signal detail` : 'Signal detail'} description="Full canonical signal object with confidence basis, risk ladder, AI narration, and paper-only execution actions. Signal records are generated on the backend from stored corridor candles." onClose={onClose}>
@@ -65,8 +58,13 @@ export function SignalDetailDrawer({
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Canonical signal</p>
                   <h4 className="mt-1 text-2xl font-semibold text-ink">{signalRecord.signal.symbol}</h4>
                   <p className="mt-2 text-sm text-muted">{symbol?.marketType} · {signalRecord.signal.timeframe} · generated {formatDateTime(signalRecord.signal.generated_at_utc)} UTC</p>
-                  {dataFreshness ? (
-                    <p className="mt-1 text-xs text-muted">Last candle close {dataFreshness}{signalRecord.signal.last_candle_close_at ? ` · ${formatDateTime(signalRecord.signal.last_candle_close_at)} UTC` : ''}</p>
+                  {freshness ? (
+                    <div className="mt-2">
+                      <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}>
+                        {freshness.label}
+                      </span>
+                      <p className="mt-1 text-xs text-muted">{freshness.detail}</p>
+                    </div>
                   ) : null}
                 </div>
                 <SignalChip signal={signalRecord.signal.signal} subdued={signalRecord.signal.confidence < 55} />

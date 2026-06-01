@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { useMemo, useState } from 'react';
+import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading, SignalChip } from '../components/ui';
 import type { MarketType, ScreenState, SignalRecord, SignalType, SymbolRecord, Timeframe } from '../types';
@@ -115,6 +116,7 @@ export function SignalsScreen({
                     <th className="px-4">Setup type</th>
                     <th className="px-4">Backtested win-rate</th>
                     <th className="px-4">Status</th>
+                    <th className="px-4">Freshness</th>
                     <th className="px-4">Generated</th>
                     <th className="px-4">Actions</th>
                   </tr>
@@ -122,6 +124,7 @@ export function SignalsScreen({
                 <tbody>
                   {rows.map((record) => {
                     const symbol = symbols.find((entry) => entry.id === record.symbolId);
+                    const freshness = signalFreshness(record.signal);
                     return (
                       <tr key={record.id} className={`rounded-3xl border border-border bg-white/[0.03] ${record.signal.confidence < 55 ? 'opacity-80' : ''}`}>
                         <td className="rounded-l-3xl px-4 py-4">
@@ -136,6 +139,12 @@ export function SignalsScreen({
                         <td className="px-4 py-4 text-sm text-muted">{record.signal.confidence_basis.setup_type}</td>
                         <td className="metric-text px-4 py-4 text-ink">{(record.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%</td>
                         <td className="px-4 py-4 text-sm text-muted">{record.status}</td>
+                        <td className="px-4 py-4 text-sm">
+                          <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}>
+                            {freshness.label}
+                          </span>
+                          <p className="mt-1 max-w-44 text-xs text-muted">{freshness.detail}</p>
+                        </td>
                         <td className="px-4 py-4 text-sm text-muted">{formatDateTime(record.signal.generated_at_utc)}</td>
                         <td className="rounded-r-3xl px-4 py-4">
                           <div className="flex flex-wrap gap-2">

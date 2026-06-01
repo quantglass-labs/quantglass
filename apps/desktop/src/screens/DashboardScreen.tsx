@@ -4,6 +4,7 @@
 import { ArrowRight, BookmarkPlus, CircleSlash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { DataStateView, Button, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, SectionHeading, SignalChip, ConfidenceRing } from '../components/ui';
 import { Sparkline } from '../components/charts';
+import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
 import type { Candle, CorridorIngestResult, PaperAccount, ScreenState, SignalRecord, SymbolRecord } from '../types';
 
@@ -235,7 +236,9 @@ export function DashboardScreen({
               error={<ErrorState title="Signal feed unavailable" description="The latest-signals card feed could not be loaded." onRetry={retryMockView} />}
               populated={
                 <div className="grid gap-4 lg:grid-cols-2">
-                  {latestSignals.map((record) => (
+                  {latestSignals.map((record) => {
+                    const freshness = signalFreshness(record.signal);
+                    return (
                     <div
                       key={record.id}
                       className={`rounded-[26px] border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05] ${record.signal.confidence < 55 ? 'opacity-75' : ''}`}
@@ -246,6 +249,11 @@ export function DashboardScreen({
                           <p className="text-xs text-muted">{record.signal.timeframe} · {record.status}</p>
                         </div>
                         <SignalChip signal={record.signal.signal} subdued={record.signal.confidence < 55} />
+                      </div>
+                      <div className="mt-3">
+                        <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}>
+                          {freshness.label}
+                        </span>
                       </div>
                       <div className="mt-4 flex items-center gap-4">
                         <ConfidenceRing value={record.signal.confidence} size={62} />
@@ -258,7 +266,7 @@ export function DashboardScreen({
                         </div>
                       </div>
                       <div className="mt-4 flex items-center justify-between text-sm text-muted">
-                        <span>{record.signal.generated_at_utc.replace('T', ' ').slice(0, 16)}Z</span>
+                        <span>{freshness.detail}</span>
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
@@ -292,7 +300,8 @@ export function DashboardScreen({
                         </div>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               }
             />
