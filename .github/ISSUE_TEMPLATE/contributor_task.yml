@@ -1,0 +1,44 @@
+name: Contributor task
+description: Propose or claim a scoped contributor task
+title: "[Task]: "
+labels: ["help wanted"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What small, reviewable improvement should be made?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Provider fixture
+        - Indicator test
+        - AI profile
+        - Extension example
+        - Desktop UX
+        - Documentation
+        - Release or CI
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: What should be true when this task is complete?
+      value: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: Which commands or screenshots should prove the work?
+      value: |
+        - [ ] npm run backend:test
+        - [ ] npm run desktop:build
+        - [ ] Documentation/screenshots updated if needed

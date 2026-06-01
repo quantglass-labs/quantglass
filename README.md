@@ -1,9 +1,10 @@
 # QuantGlass
 
 QuantGlass is an open-source, local-first market research and paper-trading
-workstation. It combines a FastAPI backend, a React/Tauri desktop app, typed
-contracts, deterministic signal and backtest logic, provider adapters, alerting,
-and local AI narration.
+workstation for crypto and US equities. It combines a FastAPI backend, a
+React/Tauri desktop app, typed contracts, deterministic signal and backtest
+logic, provider adapters, alerting, extension registries, and optional local/API
+AI narration.
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
 free to use, study, modify, and redistribute under the AGPL. Commercial licenses
@@ -13,6 +14,34 @@ compliance is not a fit.
 
 QuantGlass is not financial advice. It is research and decision-support
 software. See [DISCLAIMER.md](DISCLAIMER.md).
+
+## Public Preview Status
+
+QuantGlass is suitable for **community preview, local research, paper trading,
+and extension development**. It is not yet a production trading product.
+
+Current working surface:
+
+- Local desktop UI with a loopback-only backend sidecar.
+- Public crypto and US equity market data defaults.
+- Deterministic indicators, signal generation, alerts, saved strategies, and
+  paper-trading state.
+- Backtest and confidence plumbing with sample-size warnings.
+- AI narration through template fallback plus local/API model gateway support.
+- Extension registries for providers, AI gateways, strategies, indicators,
+  backtest models, execution adapters, notifications, import/export,
+  data-quality checks, and future UI panels.
+
+Known limitations:
+
+- Built-in live broker execution is not available in the public preview.
+- Trade-capable keys use the OS keychain only when a usable keychain exists;
+  otherwise they fall back to the encrypted local secret file.
+- Installers are unsigned unless produced by a maintainer release environment.
+- Provider availability depends on third-party public/keyed APIs and their rate
+  limits.
+- Extension APIs are intentionally early and may change before a stable plugin
+  ABI is declared.
 
 ## Why Contributors Might Care
 
@@ -123,6 +152,7 @@ npm run validate:release
 ## Contribution Guides
 
 - [Contributing](CONTRIBUTING.md)
+- [Good first contribution ideas](docs/contributing/good-first-issues.md)
 - [Provider adapters](docs/contributing/provider-adapters.md)
 - [Extension system](docs/contributing/extensions.md)
 - [Extension types](docs/contributing/extension-types.md)
@@ -136,12 +166,14 @@ npm run validate:release
 
 ## Project Status
 
-QuantGlass is a young project. It has a working local backend and desktop
-surface, but it should be treated as an alpha/beta research tool until the
-release checklist, CI, packaging, security hardening, and live-trading safety
-gates mature.
+QuantGlass is a young project. It has a working local backend, desktop surface,
+release build path, AGPL/commercial licensing docs, and contributor extension
+plumbing. Treat it as an alpha/beta research tool until CI, signed packaging,
+keychain enforcement for trade-capable keys, and live-trading safety gates
+mature.
 
-Paper trading is the safe default. Live trading must remain explicitly gated.
+Paper trading is the supported execution path. Built-in live trading remains
+unavailable in the public preview.
 
 ## Documentation
 

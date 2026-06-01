@@ -55,7 +55,8 @@ No. It is an educational, quantitative research tool. Signals are deterministic 
 No. It runs entirely on your machine. AI narration uses a **local** model by default and cloud narration is off. Only the market/news data you fetch comes from public/keyed providers.
 
 **Can it place real trades by accident?**
-No. The default is **paper only**, and live execution requires switching mode, confirming a dialog, and configuring trade‑enabled keys. See [Paper vs live trading](12-paper-trading.md).
+No. The public preview is **paper only** with no built-in live broker execution.
+See [Paper vs live trading](12-paper-trading.md).
 
 **Which markets and symbols are supported?**
 US‑compliant crypto (e.g. BTC, ETH, SOL, LINK via Coinbase/Kraken/Gemini) and US equities/ETFs (e.g. SPY, QQQ, AAPL, MSFT, NVDA, TSLA, COIN, IWM via Yahoo). Binance.com global, OKX and Bybit are intentionally excluded.

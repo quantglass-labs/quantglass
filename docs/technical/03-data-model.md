@@ -26,7 +26,7 @@ flowchart LR
 |-------|---------|---------|
 | **StateStore** | SQLite | Operational state — fast, transactional, single‑user. |
 | **AnalyticsStore** | DuckDB + Parquet | Columnar time‑series + backtest analytics; Parquet is the durable archive. |
-| **SecretStore** | Fernet + keychain | Encrypted API keys and trade credentials. |
+| **SecretStore** | Fernet + optional keychain | Encrypted API keys for data, notification, optional AI providers, and trade-capable credentials. |
 
 ---
 
@@ -72,12 +72,17 @@ This partitioning makes the archive portable and lets DuckDB history be rebuilt 
 
 ---
 
-## SecretStore (Fernet + keychain)
+## SecretStore (Fernet + optional keychain)
 
 [app/storage/secret_store.py](../../apps/backend/app/storage/secret_store.py).
 
-- Ordinary API keys are encrypted with **Fernet** symmetric encryption; the payload and its key live under `state/secrets/`.
-- **Trade‑enabled** credentials are additionally bound to the OS keychain, so live‑trading keys are not recoverable from the database alone.
+- API keys are encrypted with **Fernet** symmetric encryption; the payload and
+  its key live under `state/secrets/`.
+- Trade-capable credentials are routed to the OS keychain when one is available;
+  if no usable keychain exists, they fall back to the encrypted file.
+- The public preview does not include a supported built-in live broker execution
+  path. Enforced keychain storage remains a hardening requirement before
+  real-money live execution is promoted.
 
 Details: [Security model](09-security.md).
 

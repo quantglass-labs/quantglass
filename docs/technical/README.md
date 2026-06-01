@@ -20,7 +20,7 @@
 | 6 | [API reference](06-api-reference.md) | Every REST endpoint and the WebSocket event stream |
 | 7 | [Frontend](07-frontend.md) | React app, screens, BackendClient, contracts, bootstrap |
 | 8 | [Packaging & distribution](08-packaging.md) | PyInstaller sidecar, Tauri bundling, startup sequence |
-| 9 | [Security model](09-security.md) | Encryption, keychain, live‑trading gate, CORS |
+| 9 | [Security model](09-security.md) | Local secret encryption, live‑trading gate, CORS |
 | 10 | [Development & operations](10-development.md) | Scripts, build/dev, testing, configuration reference |
 
 ---

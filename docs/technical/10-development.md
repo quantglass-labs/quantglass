@@ -107,7 +107,7 @@ Environment variables use the prefix `QUANTGLASS_` with `__` for nesting (e.g. `
 | `safety.trading_mode` | `paper` | `paper` / `live`. |
 | `safety.act_on_partial_candles` | `false` | Closed candles only. |
 | `safety.min_backtest_sample` | `50` | Below ⇒ instability warning. |
-| `safety.live_trading_confirmed` | `false` | Plus keychain creds required for live. |
+| `safety.live_trading_confirmed` | `false` | Live execution remains blocked in preview builds; keychain-backed trade credentials are future hardening. |
 | `ai.model` | `qwen3:14b-q4_K_M` | Local Ollama model. |
 | `ai.cloud_enabled` | `false` | Cloud narration off. |
 | `ai.ollama_base_url` | `http://127.0.0.1:11434` | Local endpoint. |

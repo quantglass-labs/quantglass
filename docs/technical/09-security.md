@@ -32,9 +32,10 @@ http(s)://tauri.localhost
 
 ```mermaid
 flowchart TB
-    K[API key entered in UI] --> T{Trade-enabled?}
+    K[API key entered in UI] --> T{Trade-capable key?}
     T -->|no| F[Fernet-encrypt → state/secrets/]
-    T -->|yes| KC[OS keychain + encrypted payload]
+    T -->|yes and keychain available| KC[OS keychain]
+    T -->|yes but no keychain| F
     F --> R[Decrypted into runtime settings at startup]
     KC --> R
     style KC fill:#b91c1c,color:#fff
@@ -44,7 +45,7 @@ flowchart TB
 | Credential type | Storage |
 |-----------------|---------|
 | **Data/news/notification keys** | Fernet‑encrypted payload + key under `state/secrets/`. |
-| **Trade‑enabled credentials** | Additionally bound to the **OS keychain** — not recoverable from the DB alone. |
+| **Trade‑capable credentials** | Routed to the OS keychain when a usable keychain exists; otherwise they fall back to the encrypted file. Built-in live execution remains unavailable in the public preview. |
 
 Keys are **masked** in the UI. `apply_api_key_settings()` overlays decrypted keys onto runtime settings only in memory at startup.
 
@@ -60,15 +61,20 @@ Real‑money execution is intentionally hard to enable:
 flowchart LR
     A[trading_mode = paper<br/>default] --> B[Switch to 'live' in UI]
     B --> C{Explicit confirm dialog}
-    C -->|confirmed| D{live_trading_confirmed = true<br/>+ trade-enabled keychain creds}
-    D -->|yes| E[Live orders permitted]
-    D -->|no| F[Blocked]
+    C -->|confirmed| D{preview build}
+    D -->|current state| F[Blocked: no live broker client]
+    D -->|future hardening| E[Requires keychain creds<br/>+ scoped broker client]
     C -->|cancel| A
     style A fill:#0f766e,color:#fff
     style E fill:#b91c1c,color:#fff
+    style F fill:#b45309,color:#fff
 ```
 
-`SafetySettings` defaults: `trading_mode="paper"`, `live_trading_confirmed=False`. A plain DB flag is **not** sufficient — the code requires a keychain‑stored trade credential, so live trading cannot be enabled by editing the database alone. Currently only **paper execution** is implemented.
+`SafetySettings` defaults: `trading_mode="paper"`, `live_trading_confirmed=False`.
+The public preview ships with **paper execution** as the supported path. Built-in
+live trading must remain blocked until keychain availability is enforced for
+trade credentials, scoped broker credentials are supported, typed confirmation is
+tested, and a real broker execution client is intentionally registered.
 
 ---
 
@@ -90,7 +96,7 @@ flowchart LR
 
 | Risk | Mitigation |
 |------|------------|
-| Sensitive data exposure | Fernet + keychain; masked UI; loopback‑only API. |
+| Sensitive data exposure | Fernet-encrypted local secret payload; masked UI; loopback‑only API. |
 | Broken access control | Single‑user local app; no remote auth surface. |
 | Injection | Parameterised storage queries; typed Pydantic/contracts boundaries. |
 | Security misconfiguration | Restrictive CORS; safe defaults (paper, local AI). |

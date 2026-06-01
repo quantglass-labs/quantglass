@@ -51,7 +51,7 @@ mindmap
       Encrypted secrets
     Safety by default
       Paper trading first
-      Explicit live gate
+      Live unavailable in preview
 ```
 
 ### 1. Closed‑candle only
@@ -67,7 +67,9 @@ Backtests always separate **in‑sample** (training) from **out‑of‑sample** 
 Your watchlists, strategies, alerts, paper account and downloaded candles all live in a per‑user data folder on your machine. There is no login. See [Backup & recovery](13-backup-recovery.md) for where the files are.
 
 ### 5. Safety by default
-The app starts in **paper‑trading** mode. Live trading is disabled and requires both an explicit confirmation in **Settings → Risk & Safety** and trade‑enabled API keys. See [Paper vs live trading](12-paper-trading.md).
+The app starts in **paper‑trading** mode. Built-in live broker execution is not
+available in the public preview; future live support must pass the explicit
+safety gate described in [Paper vs live trading](12-paper-trading.md).
 
 ---
 

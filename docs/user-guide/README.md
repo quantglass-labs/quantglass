@@ -51,13 +51,13 @@ flowchart LR
 1. **Data comes in** from public market providers (no keys needed for the defaults).
 2. The **backend** normalizes it into closed candles and stores it locally.
 3. The **signal engine** computes indicators, detects the market regime, and produces a directional signal with an evidence‑based confidence score.
-4. You can **backtest** any setup, watch **charts**, set **alerts**, and run **paper trades** — never risking real money unless you explicitly unlock live trading.
+4. You can **backtest** any setup, watch **charts**, set **alerts**, and run **paper trades**. Real-money live execution is not available in the public preview.
 
 ---
 
 ## Important: this is not financial advice
 
-> QuantGlass is an **educational and research tool**. Every screen carries the reminder *"Educational use only. Not financial advice."* Signals are deterministic, model‑driven hypotheses — not recommendations. You are responsible for your own decisions. **Live trading is disabled by default** and is gated behind explicit confirmation. See [Paper vs live trading](12-paper-trading.md).
+> QuantGlass is an **educational and research tool**. Every screen carries the reminder *"Educational use only. Not financial advice."* Signals are deterministic, model‑driven hypotheses — not recommendations. You are responsible for your own decisions. **Live trading is disabled in the public preview**. See [Paper vs live trading](12-paper-trading.md).
 
 ---
 
@@ -65,6 +65,6 @@ flowchart LR
 
 - **Local‑first.** All your data — watchlists, strategies, alerts, paper account, candles — lives on your machine.
 - **No account, no cloud.** There is no sign‑up and nothing is uploaded by default.
-- **You own your keys.** Optional provider API keys are encrypted at rest; trade‑enabled keys are stored in your operating system's keychain. See [Settings → API Keys](10-settings.md#api-keys).
+- **You own your keys.** Optional provider API keys are encrypted at rest in local app data. Trade-capable keys use the OS keychain when available, but backups can still contain sensitive encrypted secret material. See [Settings → API Keys](10-settings.md#api-keys).
 
 Continue to **[1. Introduction →](01-introduction.md)**
