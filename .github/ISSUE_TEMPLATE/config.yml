@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/sheeraz80/quantglass/security/advisories/new
+    about: Report sensitive security issues privately.
+  - name: Commercial licensing
+    url: https://github.com/sheeraz80/quantglass/discussions
+    about: Discuss proprietary embedding, enterprise use, and support.

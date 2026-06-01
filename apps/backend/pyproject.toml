@@ -1,8 +1,9 @@
 [project]
 name = "alphaterminal-backend"
 version = "0.1.0"
-description = "Local FastAPI backend skeleton for AlphaTerminal"
+description = "Local FastAPI backend for QuantGlass"
 requires-python = ">=3.11"
+license = "AGPL-3.0-or-later"
 dependencies = [
   "apscheduler>=3.10,<4",
   "cryptography>=43,<45",
@@ -15,6 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev = ["pytest>=8,<10"]
 package = ["pyinstaller>=6,<7"]
 
 [build-system]
