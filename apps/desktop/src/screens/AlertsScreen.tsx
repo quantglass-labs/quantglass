@@ -26,7 +26,7 @@ export function AlertsScreen({
       <SectionHeading
         eyebrow="Alerts"
         title="Configured triggers and alert history"
-        description="Desktop alerts are local, Telegram alerts use saved bot credentials, and email alerts use the saved SMTP delivery settings from API Keys."
+        description="Desktop alerts use OS notifications plus in-app toasts, Telegram alerts use saved bot credentials, and email alerts use saved SMTP delivery settings."
         action={
           <Button onClick={() => onOpenAlertModal('BTCUSD')}>
             <BellPlus className="size-4" />

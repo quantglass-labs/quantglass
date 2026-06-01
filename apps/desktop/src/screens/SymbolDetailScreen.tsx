@@ -51,6 +51,59 @@ function resampleCandles(candles: Candle[], from: Timeframe, to: Timeframe): Can
   return resampled;
 }
 
+function marketCandleKey(symbol: string, timeframe: Timeframe) {
+  return `${symbol}:${timeframe}`;
+}
+
+function resolveCandleSource(
+  corridorItems: CorridorIngestResult[],
+  marketCandlesByKey: Record<string, Candle[]>,
+  timeframe: Timeframe,
+) {
+  const exact = corridorItems.find((entry) => entry.timeframe === timeframe);
+  if (exact) {
+    const exactCandles = marketCandlesByKey[marketCandleKey(exact.symbol, timeframe)] ?? [];
+    if (exactCandles.length) {
+      return {
+        source: exact,
+        sourceTimeframe: timeframe,
+        candles: exactCandles,
+        exact: true,
+      };
+    }
+  }
+
+  const targetMinutes = timeframeMinutes(timeframe);
+  const aggregateCandidates = corridorItems
+    .map((entry) => ({
+      entry,
+      sourceTimeframe: entry.timeframe as Timeframe,
+      sourceMinutes: timeframeMinutes(entry.timeframe as Timeframe),
+      candles: marketCandlesByKey[marketCandleKey(entry.symbol, entry.timeframe as Timeframe)] ?? [],
+    }))
+    .filter((candidate) => candidate.candles.length > 0 && candidate.sourceMinutes < targetMinutes && targetMinutes % candidate.sourceMinutes === 0)
+    .sort((left, right) => right.sourceMinutes - left.sourceMinutes);
+
+  for (const candidate of aggregateCandidates) {
+    const candles = resampleCandles(candidate.candles, candidate.sourceTimeframe, timeframe);
+    if (candles.length) {
+      return {
+        source: candidate.entry,
+        sourceTimeframe: candidate.sourceTimeframe,
+        candles,
+        exact: false,
+      };
+    }
+  }
+
+  return {
+    source: exact ?? corridorItems[0] ?? null,
+    sourceTimeframe: exact?.timeframe as Timeframe | undefined,
+    candles: [] as Candle[],
+    exact: false,
+  };
+}
+
 export function SymbolDetailScreen({
   state,
   symbols,
@@ -85,23 +138,29 @@ export function SymbolDetailScreen({
   const matchedSymbol = symbols.find((entry) => entry.id === symbolId);
   const symbol = matchedSymbol ?? symbols[0] ?? null;
   const signalRecord = symbol ? signals.find((entry) => entry.symbolId === symbol.id) ?? null : null;
-  const liveCorridorItem = symbol ? marketCorridorItems.find((entry) => entry.symbol === symbol.id) ?? null : null;
-  const [timeframe, setTimeframe] = useState<Timeframe>((liveCorridorItem?.timeframe as Timeframe | undefined) ?? signalRecord?.signal.timeframe ?? '1h');
+  const symbolCorridorItems = useMemo(
+    () => (symbol ? marketCorridorItems.filter((entry) => entry.symbol === symbol.id) : []),
+    [marketCorridorItems, symbol],
+  );
+  const defaultCorridorItem = symbolCorridorItems.find((entry) => entry.timeframe === signalRecord?.signal.timeframe) ?? symbolCorridorItems[0] ?? null;
+  const [timeframe, setTimeframe] = useState<Timeframe>((defaultCorridorItem?.timeframe as Timeframe | undefined) ?? signalRecord?.signal.timeframe ?? '1h');
   const [overlays, setOverlays] = useState({ ema: true, sma: true, bollinger: true, rsi: true, macd: true, atr: true, volume: true, levels: true });
   const retryMockView = () => window.location.reload();
 
   useEffect(() => {
-    setTimeframe((liveCorridorItem?.timeframe as Timeframe | undefined) ?? signalRecord?.signal.timeframe ?? '1h');
-  }, [liveCorridorItem?.timeframe, signalRecord?.signal.timeframe, symbol?.id]);
+    setTimeframe((defaultCorridorItem?.timeframe as Timeframe | undefined) ?? signalRecord?.signal.timeframe ?? '1h');
+  }, [defaultCorridorItem?.timeframe, signalRecord?.signal.timeframe, symbol?.id]);
 
-  const liveTimeframe = liveCorridorItem?.timeframe as Timeframe | undefined;
-  const liveCandles = liveTimeframe ? marketCandlesByKey[`${symbol.id}:${liveTimeframe}`] ?? [] : [];
-  const backendCandles = useMemo(() => {
-    if (!liveCandles.length || !liveTimeframe) return [];
-    return resampleCandles(liveCandles, liveTimeframe, timeframe);
-  }, [liveCandles, liveTimeframe, timeframe]);
-  const candles = useMemo(() => backendCandles, [backendCandles]);
+  const candleSource = useMemo(
+    () => resolveCandleSource(symbolCorridorItems, marketCandlesByKey, timeframe),
+    [marketCandlesByKey, symbolCorridorItems, timeframe],
+  );
+  const liveCorridorItem = candleSource.source;
+  const liveTimeframe = candleSource.sourceTimeframe;
+  const backendCandles = candleSource.candles;
+  const candles = backendCandles;
   const usesBackendCandles = backendCandles.length > 0;
+  const usesExactTimeframe = candleSource.exact;
   const closes = candles.map((candle) => candle.close);
   const volumes = candles.map((candle) => candle.volume);
   const lows = candles.map((candle) => candle.low);
@@ -200,7 +259,7 @@ export function SymbolDetailScreen({
                       <h2 className="metric-text text-3xl text-ink">{formatCurrency(symbol.lastPrice)}</h2>
                       <p className={symbol.changePercent >= 0 ? 'text-buy' : 'text-sell'}>{symbol.changePercent >= 0 ? '+' : ''}{symbol.changePercent.toFixed(1)}%</p>
                     </div>
-                    {liveCorridorItem ? <p className="text-xs text-muted">{usesBackendCandles ? (liveTimeframe === timeframe ? `Live backend corridor candles: ${liveCorridorItem.provider} ${liveCorridorItem.timeframe} · latest ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC` : `Backend ${liveTimeframe} corridor candles from ${liveCorridorItem.provider}, resampled to ${timeframe}. Latest source candle ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC.`) : `Backend corridor is available for ${liveCorridorItem.timeframe} via ${liveCorridorItem.provider}; current ${timeframe} view is using deterministic fallback data.`}</p> : null}
+                    {liveCorridorItem ? <p className="text-xs text-muted">{usesBackendCandles ? (usesExactTimeframe ? `Live backend corridor candles: ${liveCorridorItem.provider} ${liveCorridorItem.timeframe} · latest ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC` : `Backend ${liveTimeframe} corridor candles from ${liveCorridorItem.provider}, aggregated to ${timeframe}. Latest source candle ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC.`) : `Backend corridor is available for ${liveCorridorItem.timeframe} via ${liveCorridorItem.provider}; no closed ${timeframe} candles are available yet.`}</p> : null}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {[

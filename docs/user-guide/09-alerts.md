@@ -16,11 +16,11 @@ Alerts notify you when a condition you care about is met, so you don't have to s
 
 | Channel | How it works | Setup required |
 |---------|--------------|----------------|
-| **Desktop** | A local OS notification on your machine. | None — works out of the box. |
+| **Desktop** | A local OS notification plus the in-app alert toast. | Allow OS notification permission when prompted. |
 | **Telegram** | A message from your bot to your chat. | Bot token + chat ID in [Settings → API Keys](10-settings.md#api-keys). |
 | **Email** | An email via your SMTP server. | SMTP host, port and credentials in [Settings → API Keys](10-settings.md#api-keys). |
 
-> You can send a **test notification** for any channel from [Settings → API Keys](10-settings.md#api-keys) to confirm delivery before relying on it.
+> You can send a **test notification** for any channel from [Settings → API Keys](10-settings.md#api-keys) to confirm delivery before relying on it. Desktop tests request OS permission through the desktop shell; Telegram and email tests use the saved backend credentials.
 
 ---
 
@@ -58,7 +58,7 @@ stateDiagram-v2
 
 - **armed** — actively evaluated every minute by the backend.
 - **paused** — kept but not evaluated.
-- **fired** — the condition was met and a notification was sent; the firing is recorded in history.
+- **fired** — the condition was met; delivery is attempted and the firing is recorded in history. If Telegram or email delivery fails, the app shows the failure reason.
 
 Edit or pause an alert with the **Edit alert** button on its card.
 
@@ -72,7 +72,7 @@ The **Alert audit feed** records every firing with its timestamp, so you have a 
 
 ## Tips
 
-1. **Start with desktop alerts** — zero configuration and instant.
+1. **Start with desktop alerts** — zero external configuration after OS notification permission is allowed.
 2. **Use Telegram for mobile reach** when you're away from the machine.
 3. **Reserve email** for lower‑urgency or archival notifications.
 4. Always **send a test** after configuring Telegram or email so you know delivery works.
