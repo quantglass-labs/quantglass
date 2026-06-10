@@ -112,6 +112,18 @@ Run backend validation:
 npm run validate:backend
 ```
 
+Run the backend in development:
+
+```bash
+npm run backend:dev
+```
+
+Run the backend with trusted local/installed extensions enabled:
+
+```bash
+npm run backend:dev:extensions
+```
+
 Run the desktop build:
 
 ```bash
@@ -179,5 +191,6 @@ unavailable in the public preview.
 
 - [Technical docs](docs/technical/README.md)
 - [User guide](docs/user-guide/README.md)
+- [Configuration reference](docs/configuration.md)
 - [Production audit](docs/production_audit_report.md)
 - [Production fix roadmap](docs/production_fix_roadmap.md)
