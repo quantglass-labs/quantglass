@@ -11,7 +11,8 @@ export async function sendNativeNotification(title: string, body: string): Promi
   }
 
   try {
-    const { isPermissionGranted, requestPermission, sendNotification } = await import('@tauri-apps/plugin-notification');
+    const { isPermissionGranted, requestPermission, sendNotification } =
+      await import('@tauri-apps/plugin-notification');
     const granted = (await isPermissionGranted()) || (await requestPermission()) === 'granted';
     if (!granted) {
       return false;

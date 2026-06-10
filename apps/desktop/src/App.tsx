@@ -8,19 +8,68 @@ import { ConfirmDialog, Modal, ToastLayer, Button, LoadingSkeleton } from './com
 import type { ToastMessage } from './components/ui';
 import { symbolCatalog, symbolById } from './data/symbolCatalog';
 import { SignalDetailDrawer } from './screens/SignalDetailDrawer';
-import { backendClient, mapMarketCandlesToChartSeries, mapProviderSettingsResponseToUi, mapUiSettingsToProviderRequest } from './lib/backend';
+import {
+  backendClient,
+  mapMarketCandlesToChartSeries,
+  mapProviderSettingsResponseToUi,
+  mapUiSettingsToProviderRequest,
+} from './lib/backend';
 import { formatCurrency } from './lib/format';
 import { sendNativeNotification } from './lib/nativeNotifications';
-import type { AlertHistoryItem, AlertRecord, AiModelInfo, AiProviderTestResponse, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, CustomProviderProfile, CustomProviderUpsertRequest, ExtensionRegistryEntry, ExtensionSurfaceEntry, IndicatorRegistryEntry, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, StrategyRegistryEntry, TradingMode } from './types';
+import type {
+  AlertHistoryItem,
+  AlertRecord,
+  AiModelInfo,
+  AiProviderTestResponse,
+  AiSettings,
+  ApiKeyField,
+  BackendStatus,
+  Candle,
+  CorridorIngestResult,
+  CustomProviderProfile,
+  CustomProviderUpsertRequest,
+  ExtensionRegistryEntry,
+  ExtensionSurfaceEntry,
+  IndicatorRegistryEntry,
+  MarketType,
+  NewsItem,
+  NotificationTestChannel,
+  PaperAccount,
+  ProviderRegistryEntry,
+  ProviderSettings,
+  RelativeStrengthRanking,
+  SavedStrategy,
+  ScreenState,
+  SignalRecord,
+  StrategyPreset,
+  StrategyRegistryEntry,
+  TradingMode,
+} from './types';
 
-const DashboardScreen = lazy(async () => import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })));
-const SymbolDetailScreen = lazy(async () => import('./screens/SymbolDetailScreen').then((module) => ({ default: module.SymbolDetailScreen })));
-const SignalsScreen = lazy(async () => import('./screens/SignalsScreen').then((module) => ({ default: module.SignalsScreen })));
-const BacktestScreen = lazy(async () => import('./screens/BacktestScreen').then((module) => ({ default: module.BacktestScreen })));
-const WatchlistScreen = lazy(async () => import('./screens/WatchlistScreen').then((module) => ({ default: module.WatchlistScreen })));
-const AlertsScreen = lazy(async () => import('./screens/AlertsScreen').then((module) => ({ default: module.AlertsScreen })));
-const SettingsScreen = lazy(async () => import('./screens/SettingsScreen').then((module) => ({ default: module.SettingsScreen })));
-const LearnScreen = lazy(async () => import('./screens/LearnScreen').then((module) => ({ default: module.LearnScreen })));
+const DashboardScreen = lazy(async () =>
+  import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })),
+);
+const SymbolDetailScreen = lazy(async () =>
+  import('./screens/SymbolDetailScreen').then((module) => ({ default: module.SymbolDetailScreen })),
+);
+const SignalsScreen = lazy(async () =>
+  import('./screens/SignalsScreen').then((module) => ({ default: module.SignalsScreen })),
+);
+const BacktestScreen = lazy(async () =>
+  import('./screens/BacktestScreen').then((module) => ({ default: module.BacktestScreen })),
+);
+const WatchlistScreen = lazy(async () =>
+  import('./screens/WatchlistScreen').then((module) => ({ default: module.WatchlistScreen })),
+);
+const AlertsScreen = lazy(async () =>
+  import('./screens/AlertsScreen').then((module) => ({ default: module.AlertsScreen })),
+);
+const SettingsScreen = lazy(async () =>
+  import('./screens/SettingsScreen').then((module) => ({ default: module.SettingsScreen })),
+);
+const LearnScreen = lazy(async () =>
+  import('./screens/LearnScreen').then((module) => ({ default: module.LearnScreen })),
+);
 
 interface AlertModalState {
   open: boolean;
@@ -98,7 +147,9 @@ export default function App() {
   const [extensionSurfaces, setExtensionSurfaces] = useState<ExtensionSurfaceEntry[]>([]);
   const [extensionStrategies, setExtensionStrategies] = useState<StrategyRegistryEntry[]>([]);
   const [extensionIndicators, setExtensionIndicators] = useState<IndicatorRegistryEntry[]>([]);
-  const [extensionSettingsById, setExtensionSettingsById] = useState<Record<string, Record<string, unknown>>>({});
+  const [extensionSettingsById, setExtensionSettingsById] = useState<
+    Record<string, Record<string, unknown>>
+  >({});
   const [aiSettings, setAiSettings] = useState(defaultAiSettings);
   const [aiModelOptions, setAiModelOptions] = useState<string[]>([defaultAiSettings.model]);
   const [aiModelItems, setAiModelItems] = useState<AiModelInfo[]>([]);
@@ -108,7 +159,9 @@ export default function App() {
   const [aiModelFetchedAt, setAiModelFetchedAt] = useState<string | null>(null);
   const [aiModelsLoading, setAiModelsLoading] = useState(false);
   const [aiProviderTestLoading, setAiProviderTestLoading] = useState(false);
-  const [aiProviderTestResult, setAiProviderTestResult] = useState<AiProviderTestResponse | null>(null);
+  const [aiProviderTestResult, setAiProviderTestResult] = useState<AiProviderTestResponse | null>(
+    null,
+  );
   const [apiKeys, setApiKeys] = useState<ApiKeyField[]>(defaultApiKeys);
   const [marketCorridorItems, setMarketCorridorItems] = useState<CorridorIngestResult[]>([]);
   const [marketCandlesByKey, setMarketCandlesByKey] = useState<Record<string, Candle[]>>({});
@@ -117,7 +170,10 @@ export default function App() {
   const [liveTradingConfirmed, setLiveTradingConfirmed] = useState(false);
   const [signalDrawerId, setSignalDrawerId] = useState<string | null>(null);
   const [paperTradeSignalId, setPaperTradeSignalId] = useState<string | null>(null);
-  const [alertModal, setAlertModal] = useState<AlertModalState>({ open: false, symbolId: 'BTCUSD' });
+  const [alertModal, setAlertModal] = useState<AlertModalState>({
+    open: false,
+    symbolId: 'BTCUSD',
+  });
   const [alertCondition, setAlertCondition] = useState('');
   const [alertChannel, setAlertChannel] = useState<AlertRecord['channel']>('desktop');
   const [paperTradeQty, setPaperTradeQty] = useState(1);
@@ -137,30 +193,49 @@ export default function App() {
           return symbol;
         }
 
-        const liveCandles = marketCandlesByKey[corridorKey(liveItem.symbol, liveItem.timeframe)] ?? [];
+        const liveCandles =
+          marketCandlesByKey[corridorKey(liveItem.symbol, liveItem.timeframe)] ?? [];
         const latestClose = liveCandles.at(-1)?.close ?? liveItem.latest_close;
         const previousClose = liveCandles.at(-2)?.close;
 
         return {
           ...symbol,
           lastPrice: latestClose,
-          changePercent: previousClose ? ((latestClose - previousClose) / previousClose) * 100 : symbol.changePercent,
-          sparkline: liveCandles.length >= 2 ? liveCandles.slice(-24).map((candle) => candle.close) : symbol.sparkline,
+          changePercent: previousClose
+            ? ((latestClose - previousClose) / previousClose) * 100
+            : symbol.changePercent,
+          sparkline:
+            liveCandles.length >= 2
+              ? liveCandles.slice(-24).map((candle) => candle.close)
+              : symbol.sparkline,
         };
       }),
     [corridorBySymbol, marketCandlesByKey],
   );
   const filteredSymbols = useMemo(
-    () => (marketFilter === 'all' ? displaySymbols : displaySymbols.filter((symbol) => symbol.marketType === marketFilter)),
+    () =>
+      marketFilter === 'all'
+        ? displaySymbols
+        : displaySymbols.filter((symbol) => symbol.marketType === marketFilter),
     [displaySymbols, marketFilter],
   );
   const filteredSignals = useMemo(
-    () => (marketFilter === 'all' ? signalRecords : signalRecords.filter((record) => record.marketType === marketFilter)),
+    () =>
+      marketFilter === 'all'
+        ? signalRecords
+        : signalRecords.filter((record) => record.marketType === marketFilter),
     [marketFilter, signalRecords],
   );
-  const signalRecord = signalDrawerId ? signalRecords.find((record) => record.id === signalDrawerId) ?? null : null;
-  const signalSymbol = signalRecord ? displaySymbols.find((entry) => entry.id === signalRecord.symbolId) ?? symbolById[signalRecord.symbolId] : null;
-  const paperTradeRecord = paperTradeSignalId ? signalRecords.find((record) => record.id === paperTradeSignalId) ?? null : null;
+  const signalRecord = signalDrawerId
+    ? (signalRecords.find((record) => record.id === signalDrawerId) ?? null)
+    : null;
+  const signalSymbol = signalRecord
+    ? (displaySymbols.find((entry) => entry.id === signalRecord.symbolId) ??
+      symbolById[signalRecord.symbolId])
+    : null;
+  const paperTradeRecord = paperTradeSignalId
+    ? (signalRecords.find((record) => record.id === paperTradeSignalId) ?? null)
+    : null;
   const isLiveTradingMode = tradingMode === 'live';
 
   function pushToast(title: string, description?: string) {
@@ -195,33 +270,47 @@ export default function App() {
       }
 
       async function loadMarketCorridor(refreshIfEmpty: boolean) {
-        return loadWithFallback(async () => {
-          const statusResponse = await backendClient.getMarketCorridorStatus();
-          let items = statusResponse.items;
+        return loadWithFallback(
+          async () => {
+            const statusResponse = await backendClient.getMarketCorridorStatus();
+            let items = statusResponse.items;
 
-          if (refreshIfEmpty && items.length === 0) {
-            const refreshed = await backendClient.refreshMarketCorridor();
-            items = refreshed.items;
-          }
+            if (refreshIfEmpty && items.length === 0) {
+              const refreshed = await backendClient.refreshMarketCorridor();
+              items = refreshed.items;
+            }
 
-          const candleResponses = await Promise.all(
-            items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
-          );
+            const candleResponses = await Promise.all(
+              items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
+            );
 
-          return {
-            items,
-            candleSeries: Object.fromEntries(
-              candleResponses.map((response) => [
-                corridorKey(response.symbol, response.timeframe),
-                mapMarketCandlesToChartSeries(response.items),
-              ]),
-            ) as Record<string, Candle[]>,
-          };
-        }, { items: [] as CorridorIngestResult[], candleSeries: {} as Record<string, Candle[]> });
+            return {
+              items,
+              candleSeries: Object.fromEntries(
+                candleResponses.map((response) => [
+                  corridorKey(response.symbol, response.timeframe),
+                  mapMarketCandlesToChartSeries(response.items),
+                ]),
+              ) as Record<string, Candle[]>,
+            };
+          },
+          { items: [] as CorridorIngestResult[], candleSeries: {} as Record<string, Candle[]> },
+        );
       }
 
       try {
-        const [health, providerResponse, providerRegistryResponse, customProviderResponse, extensionRegistryResponse, extensionSurfacesResponse, extensionStrategiesResponse, extensionIndicatorsResponse, watchlistResponse, marketCorridorResponse] = await Promise.all([
+        const [
+          health,
+          providerResponse,
+          providerRegistryResponse,
+          customProviderResponse,
+          extensionRegistryResponse,
+          extensionSurfacesResponse,
+          extensionStrategiesResponse,
+          extensionIndicatorsResponse,
+          watchlistResponse,
+          marketCorridorResponse,
+        ] = await Promise.all([
           backendClient.getHealth(),
           backendClient.getProviderSettings(),
           backendClient.getProviderRegistry(),
@@ -234,7 +323,16 @@ export default function App() {
           loadMarketCorridor(true),
         ]);
 
-        const [aiResponse, apiKeysResponse, alertsResponse, alertHistoryResponse, paperAccountResponse, signalsResponse, newsResponse, backtestsResponse] = await Promise.all([
+        const [
+          aiResponse,
+          apiKeysResponse,
+          alertsResponse,
+          alertHistoryResponse,
+          paperAccountResponse,
+          signalsResponse,
+          newsResponse,
+          backtestsResponse,
+        ] = await Promise.all([
           backendClient.getAiSettings(),
           backendClient.getApiKeys(),
           loadWithFallback(() => backendClient.getAlerts(), { items: [] }),
@@ -245,12 +343,19 @@ export default function App() {
           loadWithFallback(() => backendClient.getBacktestPresets(), { items: [] }),
         ]);
 
-        const savedStrategiesResponse = await loadWithFallback(() => backendClient.getSavedStrategies(), { items: [] });
+        const savedStrategiesResponse = await loadWithFallback(
+          () => backendClient.getSavedStrategies(),
+          { items: [] },
+        );
         const extensionSettingsResponses = await Promise.all(
           extensionRegistryResponse.extensions.map((extension) =>
             backendClient
               .getExtensionSettings(extension.id)
-              .catch(() => ({ extensionId: extension.id, settings: {} as Record<string, unknown>, schema: [] })),
+              .catch(() => ({
+                extensionId: extension.id,
+                settings: {} as Record<string, unknown>,
+                schema: [],
+              })),
           ),
         );
 
@@ -262,7 +367,9 @@ export default function App() {
 
         setBackendStatus(health.status === 'ok' ? 'online' : 'offline');
         setScreenState('ready');
-        setProviderSettings((current) => mapProviderSettingsResponseToUi(providerResponse, current));
+        setProviderSettings((current) =>
+          mapProviderSettingsResponseToUi(providerResponse, current),
+        );
         setProviderRegistry(providerRegistryResponse.providers);
         setCustomProviders(customProviderResponse.providers);
         setExtensionRegistry(extensionRegistryResponse.extensions);
@@ -336,7 +443,10 @@ export default function App() {
         setPaperAccount(paperAccountResponse.account);
       } catch {
         if (!cancelled) {
-          pushToast('Realtime sync failed', 'The backend emitted an event, but the follow-up refresh failed.');
+          pushToast(
+            'Realtime sync failed',
+            'The backend emitted an event, but the follow-up refresh failed.',
+          );
         }
       }
     }
@@ -345,7 +455,10 @@ export default function App() {
       if (cancelled) return;
 
       if (event.type === 'alert.fired') {
-        const message = typeof event.payload.message === 'string' ? event.payload.message : 'A backend alert fired.';
+        const message =
+          typeof event.payload.message === 'string'
+            ? event.payload.message
+            : 'A backend alert fired.';
         if (event.payload.channel === 'desktop') {
           void sendNativeNotification('QuantGlass alert', message);
         }
@@ -355,17 +468,26 @@ export default function App() {
       }
 
       if (event.type === 'alert.delivery_failed') {
-        const symbolId = typeof event.payload.symbolId === 'string' ? event.payload.symbolId : 'Alert';
-        const channel = typeof event.payload.channel === 'string' ? event.payload.channel : 'notification';
-        const message = typeof event.payload.message === 'string' ? event.payload.message : 'Alert delivery failed.';
+        const symbolId =
+          typeof event.payload.symbolId === 'string' ? event.payload.symbolId : 'Alert';
+        const channel =
+          typeof event.payload.channel === 'string' ? event.payload.channel : 'notification';
+        const message =
+          typeof event.payload.message === 'string'
+            ? event.payload.message
+            : 'Alert delivery failed.';
         pushToast(`${symbolId} ${channel} delivery failed`, message);
         void refreshExecutionState();
         return;
       }
 
       if (event.type === 'paper.trade.executed') {
-        const symbolId = typeof event.payload.symbolId === 'string' ? event.payload.symbolId : 'Position';
-        pushToast('Paper trade executed', `${symbolId} was filled by the backend execution scheduler.`);
+        const symbolId =
+          typeof event.payload.symbolId === 'string' ? event.payload.symbolId : 'Position';
+        pushToast(
+          'Paper trade executed',
+          `${symbolId} was filled by the backend execution scheduler.`,
+        );
         void refreshExecutionState();
         return;
       }
@@ -376,7 +498,10 @@ export default function App() {
       }
 
       if (event.type === 'scheduler.job_error') {
-        const message = typeof event.payload.message === 'string' ? event.payload.message : 'A scheduler job reported an error.';
+        const message =
+          typeof event.payload.message === 'string'
+            ? event.payload.message
+            : 'A scheduler job reported an error.';
         pushToast('Backend scheduler warning', message);
       }
     });
@@ -406,7 +531,9 @@ export default function App() {
 
         const refreshed = await backendClient.refreshMarketCorridor();
         const candleResponses = await Promise.all(
-          refreshed.items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
+          refreshed.items.map((item) =>
+            backendClient.getMarketCandles(item.symbol, item.timeframe),
+          ),
         );
         setMarketCorridorItems(refreshed.items);
         setMarketCandlesByKey(
@@ -421,10 +548,11 @@ export default function App() {
           'Market corridor refreshed',
           refreshed.items.length
             ? `Updated ${refreshed.items.map((item) => `${item.symbol} ${item.timeframe}`).join(', ')} from the backend corridor.`
-          : 'No market corridor targets returned from the backend refresh.',
+            : 'No market corridor targets returned from the backend refresh.',
         );
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'The backend refresh request failed.';
+        const message =
+          error instanceof Error ? error.message : 'The backend refresh request failed.';
         pushToast('Market corridor refresh failed', `${message} Existing corridor data was kept.`);
       } finally {
         setMarketCorridorRefreshing(false);
@@ -456,9 +584,7 @@ export default function App() {
             nextLiveTradingConfirmed,
           ),
         );
-        setProviderSettings((current) =>
-          mapProviderSettingsResponseToUi(response, current),
-        );
+        setProviderSettings((current) => mapProviderSettingsResponseToUi(response, current));
         setTradingMode(response.safety.trading_mode);
         setMinBacktestSample(response.safety.min_backtest_sample);
         setLiveTradingConfirmed(response.safety.live_trading_confirmed);
@@ -519,11 +645,15 @@ export default function App() {
           apiKeyId: nextAiSettings.apiKeyId,
           requestTimeoutSeconds: nextAiSettings.requestTimeoutSeconds,
         });
-        const options = response.models.length ? response.models : [nextAiSettings.model].filter(Boolean);
+        const options = response.models.length
+          ? response.models
+          : [nextAiSettings.model].filter(Boolean);
         setAiModelOptions(options);
         setAiModelItems(response.modelItems ?? response.models.map((model) => ({ id: model })));
         setAiModelsFetched(response.fetched);
-        setAiModelSource(response.source ?? (response.fetched ? nextAiSettings.provider : 'fallback'));
+        setAiModelSource(
+          response.source ?? (response.fetched ? nextAiSettings.provider : 'fallback'),
+        );
         setAiModelFetchedAt(response.fetchedAtUtc ?? null);
         setAiModelDetail(response.detail);
       } catch {
@@ -588,7 +718,10 @@ export default function App() {
 
   function persistExtensionSettings(extensionId: string, settings: Record<string, unknown>) {
     if (backendStatus !== 'online') {
-      pushToast('Extension settings unavailable', 'The backend is offline, so extension settings cannot be updated right now.');
+      pushToast(
+        'Extension settings unavailable',
+        'The backend is offline, so extension settings cannot be updated right now.',
+      );
       return;
     }
 
@@ -604,17 +737,25 @@ export default function App() {
         }));
         pushToast(
           'Extension settings saved',
-          response.requiresRestart ? 'Restart the backend to apply extension activation changes.' : 'The extension settings were persisted.',
+          response.requiresRestart
+            ? 'Restart the backend to apply extension activation changes.'
+            : 'The extension settings were persisted.',
         );
       } catch {
-        pushToast('Extension settings update failed', 'The backend rejected the extension settings update.');
+        pushToast(
+          'Extension settings update failed',
+          'The backend rejected the extension settings update.',
+        );
       }
     })();
   }
 
   function persistExtensionEnabled(extensionId: string, enabled: boolean) {
     if (backendStatus !== 'online') {
-      pushToast('Extension settings unavailable', 'The backend is offline, so extension settings cannot be updated right now.');
+      pushToast(
+        'Extension settings unavailable',
+        'The backend is offline, so extension settings cannot be updated right now.',
+      );
       return;
     }
 
@@ -632,10 +773,15 @@ export default function App() {
         }));
         pushToast(
           enabled ? 'Extension enabled' : 'Extension disabled',
-          response.requiresRestart ? 'Restart the backend for the registry changes to take effect.' : undefined,
+          response.requiresRestart
+            ? 'Restart the backend for the registry changes to take effect.'
+            : undefined,
         );
       } catch {
-        pushToast('Extension enablement failed', 'The backend rejected the extension enablement change.');
+        pushToast(
+          'Extension enablement failed',
+          'The backend rejected the extension enablement change.',
+        );
       }
     })();
   }
@@ -680,12 +826,17 @@ export default function App() {
         if (channel === 'desktop' && response.delivered) {
           const sent = await sendNativeNotification('QuantGlass desktop test', response.detail);
           if (!sent) {
-            pushToast('Desktop test needs permission', 'The backend test succeeded, but the OS notification was blocked or unavailable.');
+            pushToast(
+              'Desktop test needs permission',
+              'The backend test succeeded, but the OS notification was blocked or unavailable.',
+            );
             return;
           }
         }
         pushToast(
-          response.delivered ? `${notificationChannelLabel(channel)} test sent` : `${notificationChannelLabel(channel)} test failed`,
+          response.delivered
+            ? `${notificationChannelLabel(channel)} test sent`
+            : `${notificationChannelLabel(channel)} test failed`,
           response.detail,
         );
       } catch {
@@ -726,7 +877,9 @@ export default function App() {
           symbol: symbolId,
           market_type: symbol.marketType,
         });
-        setWatchlistIds((current) => (current.includes(symbolId) ? current : [...current, symbolId]));
+        setWatchlistIds((current) =>
+          current.includes(symbolId) ? current : [...current, symbolId],
+        );
         pushToast('Added to watchlist', `${symbolId} saved to the backend watchlist.`);
       } catch {
         pushToast(
@@ -740,7 +893,9 @@ export default function App() {
   function handleOpenAlertModal(symbolId: string, signalId?: string, alertId?: string) {
     const record = alertId ? alerts.find((entry) => entry.id === alertId) : undefined;
     setAlertModal({ open: true, symbolId, signalId, alertId });
-    setAlertCondition(record?.condition ?? (signalId ? 'Alert when this setup reappears on a closed candle' : ''));
+    setAlertCondition(
+      record?.condition ?? (signalId ? 'Alert when this setup reappears on a closed candle' : ''),
+    );
     setAlertChannel(record?.channel ?? 'desktop');
   }
 
@@ -753,7 +908,10 @@ export default function App() {
     };
 
     if (backendStatus !== 'online') {
-      pushToast('Alert save unavailable', 'The backend is offline, so alerts cannot be saved right now.');
+      pushToast(
+        'Alert save unavailable',
+        'The backend is offline, so alerts cannot be saved right now.',
+      );
       return;
     }
 
@@ -762,9 +920,7 @@ export default function App() {
         if (alertModal.alertId) {
           const response = await backendClient.updateAlert(alertModal.alertId, nextAlert);
           setAlerts((current) =>
-            current.map((entry) =>
-              entry.id === alertModal.alertId ? response.item : entry,
-            ),
+            current.map((entry) => (entry.id === alertModal.alertId ? response.item : entry)),
           );
           pushToast('Alert updated', 'The alert configuration was saved to the backend.');
         } else {
@@ -798,7 +954,10 @@ export default function App() {
 
   function handleSaveStrategy(strategy: SavedStrategy) {
     if (backendStatus !== 'online') {
-      pushToast('Strategy save unavailable', 'The backend is offline, so strategies cannot be saved right now.');
+      pushToast(
+        'Strategy save unavailable',
+        'The backend is offline, so strategies cannot be saved right now.',
+      );
       return;
     }
 
@@ -809,16 +968,25 @@ export default function App() {
           response.item,
           ...current.filter((entry) => entry.id !== response.item.id),
         ]);
-        pushToast('Strategy saved', 'The strategy now appears in Settings → Strategies and is persisted in the backend.');
+        pushToast(
+          'Strategy saved',
+          'The strategy now appears in Settings → Strategies and is persisted in the backend.',
+        );
       } catch {
-        pushToast('Strategy save failed', 'The backend strategy save failed, so no change was applied.');
+        pushToast(
+          'Strategy save failed',
+          'The backend strategy save failed, so no change was applied.',
+        );
       }
     })();
   }
 
   function handleDeleteSavedStrategy(strategyId: string) {
     if (backendStatus !== 'online') {
-      pushToast('Strategy delete unavailable', 'The backend is offline, so saved strategies cannot be deleted right now.');
+      pushToast(
+        'Strategy delete unavailable',
+        'The backend is offline, so saved strategies cannot be deleted right now.',
+      );
       return;
     }
 
@@ -832,18 +1000,27 @@ export default function App() {
           pushToast('Strategy not found', 'The backend did not find that saved strategy.');
         }
       } catch {
-        pushToast('Strategy delete failed', 'The backend strategy delete failed, so no change was applied.');
+        pushToast(
+          'Strategy delete failed',
+          'The backend strategy delete failed, so no change was applied.',
+        );
       }
     })();
   }
 
   function handleImportSavedStrategies(strategies: SavedStrategy[]) {
     if (strategies.length === 0) {
-      pushToast('No valid strategies found', 'Import a JSON array or { items: [...] } file with complete QuantGlass saved strategy records.');
+      pushToast(
+        'No valid strategies found',
+        'Import a JSON array or { items: [...] } file with complete QuantGlass saved strategy records.',
+      );
       return;
     }
     if (backendStatus !== 'online') {
-      pushToast('Strategy import unavailable', 'The backend is offline, so saved strategies cannot be imported right now.');
+      pushToast(
+        'Strategy import unavailable',
+        'The backend is offline, so saved strategies cannot be imported right now.',
+      );
       return;
     }
 
@@ -857,16 +1034,25 @@ export default function App() {
           ...imported,
           ...current.filter((entry) => !imported.some((strategy) => strategy.id === entry.id)),
         ]);
-        pushToast('Strategies imported', `${imported.length} saved strategy${imported.length === 1 ? '' : 'ies'} persisted in backend storage.`);
+        pushToast(
+          'Strategies imported',
+          `${imported.length} saved strategy${imported.length === 1 ? '' : 'ies'} persisted in backend storage.`,
+        );
       } catch {
-        pushToast('Strategy import failed', 'The backend rejected one or more imported strategies.');
+        pushToast(
+          'Strategy import failed',
+          'The backend rejected one or more imported strategies.',
+        );
       }
     })();
   }
 
   function persistCustomProvider(payload: CustomProviderUpsertRequest, providerId?: string) {
     if (backendStatus !== 'online') {
-      pushToast('Provider save unavailable', 'The backend is offline, so custom provider changes cannot be saved right now.');
+      pushToast(
+        'Provider save unavailable',
+        'The backend is offline, so custom provider changes cannot be saved right now.',
+      );
       return;
     }
 
@@ -883,16 +1069,25 @@ export default function App() {
         setProviderRegistry(registryResponse.providers);
         setCustomProviders(customProviderResponse.providers);
         setApiKeys(apiKeysResponse.items);
-        pushToast('Custom provider saved', `${response.provider.label} was saved as a custom provider profile.`);
+        pushToast(
+          'Custom provider saved',
+          `${response.provider.label} was saved as a custom provider profile.`,
+        );
       } catch {
-        pushToast('Custom provider save failed', 'The backend rejected the custom provider profile.');
+        pushToast(
+          'Custom provider save failed',
+          'The backend rejected the custom provider profile.',
+        );
       }
     })();
   }
 
   function deleteCustomProvider(providerId: string) {
     if (backendStatus !== 'online') {
-      pushToast('Provider delete unavailable', 'The backend is offline, so custom provider changes cannot be saved right now.');
+      pushToast(
+        'Provider delete unavailable',
+        'The backend is offline, so custom provider changes cannot be saved right now.',
+      );
       return;
     }
 
@@ -909,16 +1104,26 @@ export default function App() {
         setApiKeys(apiKeysResponse.items);
         pushToast('Custom provider deleted', 'The custom provider profile was removed.');
       } catch {
-        pushToast('Custom provider delete failed', 'The backend rejected the custom provider delete request.');
+        pushToast(
+          'Custom provider delete failed',
+          'The backend rejected the custom provider delete request.',
+        );
       }
     })();
   }
 
   function requestLiveTradingMode() {
-    const alpacaKeyId = apiKeys.find((field) => field.id === 'alpaca-market-data-key-id')?.configured;
-    const alpacaSecret = apiKeys.find((field) => field.id === 'alpaca-market-data-secret-key')?.configured;
+    const alpacaKeyId = apiKeys.find(
+      (field) => field.id === 'alpaca-market-data-key-id',
+    )?.configured;
+    const alpacaSecret = apiKeys.find(
+      (field) => field.id === 'alpaca-market-data-secret-key',
+    )?.configured;
     if (!alpacaKeyId || !alpacaSecret) {
-      pushToast('Live credentials required', 'Save Alpaca key ID and secret in Settings -> API Keys before enabling live mode.');
+      pushToast(
+        'Live credentials required',
+        'Save Alpaca key ID and secret in Settings -> API Keys before enabling live mode.',
+      );
       return;
     }
     setLiveConfirmOpen(true);
@@ -927,10 +1132,14 @@ export default function App() {
   function handleConfirmPaperTrade() {
     if (!paperTradeRecord) return;
 
-    const entryPrice = (paperTradeRecord.signal.entry_zone[0] + paperTradeRecord.signal.entry_zone[1]) / 2;
+    const entryPrice =
+      (paperTradeRecord.signal.entry_zone[0] + paperTradeRecord.signal.entry_zone[1]) / 2;
 
     if (backendStatus !== 'online') {
-      pushToast('Trade submission unavailable', 'The backend is offline, so this trade cannot be submitted right now.');
+      pushToast(
+        'Trade submission unavailable',
+        'The backend is offline, so this trade cannot be submitted right now.',
+      );
       setPaperTradeSignalId(null);
       return;
     }
@@ -1037,7 +1246,16 @@ export default function App() {
             />
             <Route
               path="/backtest"
-              element={<BacktestScreen state={screenState} presets={backtestPresets} symbols={displaySymbols} minBacktestSample={minBacktestSample} marketCorridorItems={marketCorridorItems} onSaveStrategy={handleSaveStrategy} />}
+              element={
+                <BacktestScreen
+                  state={screenState}
+                  presets={backtestPresets}
+                  symbols={displaySymbols}
+                  minBacktestSample={minBacktestSample}
+                  marketCorridorItems={marketCorridorItems}
+                  onSaveStrategy={handleSaveStrategy}
+                />
+              }
             />
             <Route
               path="/watchlist"
@@ -1106,8 +1324,17 @@ export default function App() {
                   }}
                   onSaveCustomProvider={persistCustomProvider}
                   onDeleteCustomProvider={deleteCustomProvider}
-                  onSetTradingMode={(mode) => persistProviderSettings(providerSettings, mode, minBacktestSample, mode === 'live' ? liveTradingConfirmed : false)}
-                  onSetMinBacktestSample={(value) => persistProviderSettings(providerSettings, tradingMode, value)}
+                  onSetTradingMode={(mode) =>
+                    persistProviderSettings(
+                      providerSettings,
+                      mode,
+                      minBacktestSample,
+                      mode === 'live' ? liveTradingConfirmed : false,
+                    )
+                  }
+                  onSetMinBacktestSample={(value) =>
+                    persistProviderSettings(providerSettings, tradingMode, value)
+                  }
                   onUpdateAiSettings={(settings) => persistAiSettings(settings)}
                   onRefreshAiModels={refreshAiModels}
                   onTestAiProvider={testAiProvider}
@@ -1120,7 +1347,12 @@ export default function App() {
             />
             <Route
               path="/learn"
-              element={<LearnScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} onNavigate={(path) => navigate(path)} />}
+              element={
+                <LearnScreen
+                  backendStatus={screenState === 'ready' ? 'online' : 'offline'}
+                  onNavigate={(path) => navigate(path)}
+                />
+              }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
@@ -1160,23 +1392,51 @@ export default function App() {
           <div className="space-y-5">
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
               <p className="font-medium text-ink">{paperTradeRecord.signal.symbol}</p>
-              <p className="mt-2">Entry zone {paperTradeRecord.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}</p>
-              <p className="mt-1">Stop loss {formatCurrency(paperTradeRecord.signal.stop_loss)} · TP ladder {paperTradeRecord.signal.take_profit.map((level) => formatCurrency(level)).join(', ')}</p>
-              <p className="mt-1">Risk / reward {paperTradeRecord.signal.risk_reward.toFixed(1)} · {paperTradeRecord.signal.fees_slippage_assumed}</p>
+              <p className="mt-2">
+                Entry zone{' '}
+                {paperTradeRecord.signal.entry_zone
+                  .map((level) => formatCurrency(level))
+                  .join(' - ')}
+              </p>
+              <p className="mt-1">
+                Stop loss {formatCurrency(paperTradeRecord.signal.stop_loss)} · TP ladder{' '}
+                {paperTradeRecord.signal.take_profit
+                  .map((level) => formatCurrency(level))
+                  .join(', ')}
+              </p>
+              <p className="mt-1">
+                Risk / reward {paperTradeRecord.signal.risk_reward.toFixed(1)} ·{' '}
+                {paperTradeRecord.signal.fees_slippage_assumed}
+              </p>
               <p className="mt-1">Invalidation {paperTradeRecord.signal.invalidation}</p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-2 text-sm text-muted">
-                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Side</span>
-                <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={paperTradeSide} onChange={(event) => setPaperTradeSide(event.target.value as 'long' | 'short')}>
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Side
+                </span>
+                <select
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                  value={paperTradeSide}
+                  onChange={(event) => setPaperTradeSide(event.target.value as 'long' | 'short')}
+                >
                   <option value="long">Long</option>
                   <option value="short">Short</option>
                 </select>
               </label>
               <label className="space-y-2 text-sm text-muted">
-                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Quantity</span>
-                <input className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" type="number" min="0.01" step="0.01" value={paperTradeQty} onChange={(event) => setPaperTradeQty(Number(event.target.value))} />
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Quantity
+                </span>
+                <input
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={paperTradeQty}
+                  onChange={(event) => setPaperTradeQty(Number(event.target.value))}
+                />
               </label>
             </div>
 
@@ -1186,7 +1446,11 @@ export default function App() {
               </Button>
               <button
                 type="button"
-                title={isLiveTradingMode ? 'Live mode is enabled. The configured broker route will be used for this order.' : 'Enable in Settings → Risk & Safety to submit live trades through the configured broker route.'}
+                title={
+                  isLiveTradingMode
+                    ? 'Live mode is enabled. The configured broker route will be used for this order.'
+                    : 'Enable in Settings → Risk & Safety to submit live trades through the configured broker route.'
+                }
                 className="rounded-2xl border border-border bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-muted"
               >
                 {isLiveTradingMode ? 'Live mode enabled' : 'Switch to live in Settings'}
@@ -1204,24 +1468,43 @@ export default function App() {
       >
         <div className="space-y-5">
           <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
-            Symbol <span className="font-medium text-ink">{symbolById[alertModal.symbolId]?.symbol}</span>
-            {alertModal.signalId ? <span> · Prefilled from the selected signal drawer.</span> : null}
+            Symbol{' '}
+            <span className="font-medium text-ink">{symbolById[alertModal.symbolId]?.symbol}</span>
+            {alertModal.signalId ? (
+              <span> · Prefilled from the selected signal drawer.</span>
+            ) : null}
           </div>
           <label className="space-y-2 text-sm text-muted">
-            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Condition</span>
-            <textarea className="min-h-32 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={alertCondition} onChange={(event) => setAlertCondition(event.target.value)} />
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Condition
+            </span>
+            <textarea
+              className="min-h-32 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              value={alertCondition}
+              onChange={(event) => setAlertCondition(event.target.value)}
+            />
           </label>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Channel</span>
-            <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={alertChannel} onChange={(event) => setAlertChannel(event.target.value as AlertRecord['channel'])}>
+            <select
+              className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              value={alertChannel}
+              onChange={(event) => setAlertChannel(event.target.value as AlertRecord['channel'])}
+            >
               <option value="desktop">Desktop</option>
               <option value="telegram">Telegram</option>
               <option value="email">Email</option>
             </select>
           </label>
-          <p className="text-xs text-muted">Desktop delivery uses the local notification permission from your OS. Telegram and email delivery use saved values from Settings → API Keys.</p>
+          <p className="text-xs text-muted">
+            Desktop delivery uses the local notification permission from your OS. Telegram and email
+            delivery use saved values from Settings → API Keys.
+          </p>
           <div className="flex justify-end gap-3">
-            <Button variant="ghost" onClick={() => setAlertModal({ open: false, symbolId: alertModal.symbolId })}>
+            <Button
+              variant="ghost"
+              onClick={() => setAlertModal({ open: false, symbolId: alertModal.symbolId })}
+            >
               Cancel
             </Button>
             <Button onClick={handleSaveAlert}>Save alert</Button>
@@ -1238,7 +1521,10 @@ export default function App() {
         onConfirm={() => {
           persistProviderSettings(providerSettings, 'live', minBacktestSample, true);
           setLiveConfirmOpen(false);
-          pushToast('Trading mode updated', 'Settings now use the live broker route. Confirm each trade carefully and verify Alpaca credentials before submitting orders.');
+          pushToast(
+            'Trading mode updated',
+            'Settings now use the live broker route. Confirm each trade carefully and verify Alpaca credentials before submitting orders.',
+          );
         }}
       />
 

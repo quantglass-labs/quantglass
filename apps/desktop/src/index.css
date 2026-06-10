@@ -5,7 +5,12 @@
 :root {
   color: #e0ebff;
   background: #08111f;
-  font-family: IBM Plex Sans, Aptos, Segoe UI, system-ui, sans-serif;
+  font-family:
+    IBM Plex Sans,
+    Aptos,
+    Segoe UI,
+    system-ui,
+    sans-serif;
 }
 
 * {
@@ -20,7 +25,10 @@ body,
 
 body {
   margin: 0;
-  background-image: radial-gradient(circle at top, rgba(141, 183, 255, 0.18), transparent 36%), linear-gradient(135deg, rgba(79, 139, 255, 0.12), transparent 48%), linear-gradient(180deg, #08111f 0%, #091624 34%, #07111d 100%);
+  background-image:
+    radial-gradient(circle at top, rgba(141, 183, 255, 0.18), transparent 36%),
+    linear-gradient(135deg, rgba(79, 139, 255, 0.12), transparent 48%),
+    linear-gradient(180deg, #08111f 0%, #091624 34%, #07111d 100%);
   background-attachment: fixed;
   color: #e0ebff;
 }
@@ -30,7 +38,9 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(circle at center, black 38%, transparent 100%);
   opacity: 0.28;
@@ -62,12 +72,18 @@ body::before {
 }
 
 .metric-text {
-  font-family: JetBrains Mono, IBM Plex Mono, ui-monospace, monospace;
+  font-family:
+    JetBrains Mono,
+    IBM Plex Mono,
+    ui-monospace,
+    monospace;
   font-variant-numeric: tabular-nums;
 }
 
 .soft-ring {
-  box-shadow: 0 0 0 1px rgba(141, 183, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 0 0 1px rgba(141, 183, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 select {

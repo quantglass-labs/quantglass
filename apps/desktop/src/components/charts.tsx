@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { clsx } from 'clsx';
-import type { Candle } from '../types';
 
 function normalizeSeries(values: number[]) {
   const min = Math.min(...values);
@@ -30,17 +29,39 @@ export function Sparkline({ values, positive }: { values: number[]; positive?: b
   );
 }
 
-export function TinyLineChart({ values, tone = 'accent' }: { values: number[]; tone?: 'accent' | 'buy' | 'sell' | 'hold' }) {
-  const stroke = tone === 'buy' ? '#18c37f' : tone === 'sell' ? '#f05b78' : tone === 'hold' ? '#f0b84b' : '#8db7ff';
+export function TinyLineChart({
+  values,
+  tone = 'accent',
+}: {
+  values: number[];
+  tone?: 'accent' | 'buy' | 'sell' | 'hold';
+}) {
+  const stroke =
+    tone === 'buy'
+      ? '#18c37f'
+      : tone === 'sell'
+        ? '#f05b78'
+        : tone === 'hold'
+          ? '#f0b84b'
+          : '#8db7ff';
   const fill = `${stroke}22`;
   const normalized = normalizeSeries(values);
-  const line = normalized.map((value, index) => `${(index / Math.max(1, values.length - 1)) * 100},${value}`).join(' ');
+  const line = normalized
+    .map((value, index) => `${(index / Math.max(1, values.length - 1)) * 100},${value}`)
+    .join(' ');
   const area = `0,100 ${line} 100,100`;
 
   return (
     <svg viewBox="0 0 100 100" className="h-28 w-full">
       <polygon points={area} fill={fill} />
-      <polyline fill="none" stroke={stroke} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" points={line} />
+      <polyline
+        fill="none"
+        stroke={stroke}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points={line}
+      />
     </svg>
   );
 }

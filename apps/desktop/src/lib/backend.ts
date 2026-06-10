@@ -3,7 +3,6 @@
 
 import type {
   AiSettings,
-  ApiKeyField,
   ApiKeyItemResponse,
   ApiKeySettingsResponse,
   ApiKeyUpdateRequest,
@@ -14,7 +13,6 @@ import type {
   AiSettingsResponse,
   AlertHistoryListResponse,
   AlertItemResponse,
-  AlertRecord,
   AlertsListResponse,
   AlertUpsertRequest,
   BacktestPresetListResponse,
@@ -40,12 +38,10 @@ import type {
   PaperTradeIntentListResponse,
   PaperTradeIntentRequest,
   PaperTradeIntentResponse,
-  ProviderRoute,
   ProviderRegistryResponse,
   ProviderSettingsResponse,
   ProviderSettingsUpdateRequest,
   StrategyRegistryResponse,
-  SavedStrategy,
   SavedStrategyCreateRequest,
   SavedStrategyDeleteResponse,
   SavedStrategyItemResponse,
@@ -124,7 +120,11 @@ const providerIdByLabel: Record<string, string> = Object.fromEntries(
   Object.entries(providerLabelById).map(([providerId, label]) => [label, providerId]),
 );
 
-async function requestJson<T>(path: string, init?: RequestInit, timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS): Promise<T> {
+async function requestJson<T>(
+  path: string,
+  init?: RequestInit,
+  timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS,
+): Promise<T> {
   const baseUrl = await getBackendBaseUrl();
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
@@ -141,7 +141,9 @@ async function requestJson<T>(path: string, init?: RequestInit, timeoutMs = DEFA
     });
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new Error(`Backend request timed out after ${Math.round(timeoutMs / 1000)}s: ${path}`);
+      throw new Error(`Backend request timed out after ${Math.round(timeoutMs / 1000)}s: ${path}`, {
+        cause: error,
+      });
     }
     throw error;
   } finally {
@@ -178,12 +180,18 @@ export const backendClient = {
     return requestJson<CorridorIngestResponse>('/api/market/corridor');
   },
   refreshMarketCorridor() {
-    return requestJson<CorridorIngestResponse>('/api/market/corridor/refresh', {
-      method: 'POST',
-    }, 60_000);
+    return requestJson<CorridorIngestResponse>(
+      '/api/market/corridor/refresh',
+      {
+        method: 'POST',
+      },
+      60_000,
+    );
   },
   getMarketCandles(symbol: string, timeframe: string) {
-    return requestJson<MarketCandlesResponse>(`/api/market/corridor/candles?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`);
+    return requestJson<MarketCandlesResponse>(
+      `/api/market/corridor/candles?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`,
+    );
   },
   getMarketRanking() {
     return requestJson<MarketRankingResponse>('/api/market/ranking');
@@ -204,15 +212,21 @@ export const backendClient = {
     });
   },
   updateCustomProvider(providerId: string, payload: CustomProviderUpsertRequest) {
-    return requestJson<CustomProviderItemResponse>(`/api/providers/custom/${encodeURIComponent(providerId)}`, {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-    });
+    return requestJson<CustomProviderItemResponse>(
+      `/api/providers/custom/${encodeURIComponent(providerId)}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      },
+    );
   },
   deleteCustomProvider(providerId: string) {
-    return requestJson<CustomProviderDeleteResponse>(`/api/providers/custom/${encodeURIComponent(providerId)}`, {
-      method: 'DELETE',
-    });
+    return requestJson<CustomProviderDeleteResponse>(
+      `/api/providers/custom/${encodeURIComponent(providerId)}`,
+      {
+        method: 'DELETE',
+      },
+    );
   },
   getExtensionRegistry() {
     return requestJson<ExtensionRegistryResponse>('/api/extensions/registry');
@@ -227,19 +241,27 @@ export const backendClient = {
     return requestJson<IndicatorRegistryResponse>('/api/extensions/indicators');
   },
   getExtensionSettings(extensionId: string) {
-    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`);
+    return requestJson<ExtensionSettingsResponse>(
+      `/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`,
+    );
   },
   updateExtensionSettings(extensionId: string, settings: Record<string, unknown>) {
-    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`, {
-      method: 'PUT',
-      body: JSON.stringify({ settings }),
-    });
+    return requestJson<ExtensionSettingsResponse>(
+      `/api/extensions/registry/${encodeURIComponent(extensionId)}/settings`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ settings }),
+      },
+    );
   },
   updateExtensionEnabled(extensionId: string, enabled: boolean) {
-    return requestJson<ExtensionSettingsResponse>(`/api/extensions/registry/${encodeURIComponent(extensionId)}/enabled`, {
-      method: 'PUT',
-      body: JSON.stringify({ enabled }),
-    });
+    return requestJson<ExtensionSettingsResponse>(
+      `/api/extensions/registry/${encodeURIComponent(extensionId)}/enabled`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ enabled }),
+      },
+    );
   },
   updateProviderSettings(payload: ProviderSettingsUpdateRequest) {
     return requestJson<ProviderSettingsResponse>('/api/providers/settings', {
@@ -263,10 +285,14 @@ export const backendClient = {
     });
   },
   testAiProvider(payload: AiProviderTestRequest) {
-    return requestJson<AiProviderTestResponse>('/api/settings/ai/test', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    }, Math.max(DEFAULT_REQUEST_TIMEOUT_MS, (payload.requestTimeoutSeconds ?? 8) * 1000 + 3_000));
+    return requestJson<AiProviderTestResponse>(
+      '/api/settings/ai/test',
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      },
+      Math.max(DEFAULT_REQUEST_TIMEOUT_MS, (payload.requestTimeoutSeconds ?? 8) * 1000 + 3_000),
+    );
   },
   getApiKeys() {
     return requestJson<ApiKeySettingsResponse>('/api/settings/api-keys');
@@ -278,9 +304,12 @@ export const backendClient = {
     });
   },
   testNotification(channel: NotificationTestChannel) {
-    return requestJson<NotificationTestResponse>(`/api/settings/notifications/test/${encodeURIComponent(channel)}`, {
-      method: 'POST',
-    });
+    return requestJson<NotificationTestResponse>(
+      `/api/settings/notifications/test/${encodeURIComponent(channel)}`,
+      {
+        method: 'POST',
+      },
+    );
   },
   getPaperAccount() {
     return requestJson<PaperAccountResponse>('/api/paper-account');
@@ -313,9 +342,12 @@ export const backendClient = {
     });
   },
   deleteSavedStrategy(strategyId: string) {
-    return requestJson<SavedStrategyDeleteResponse>(`/api/strategies/${encodeURIComponent(strategyId)}`, {
-      method: 'DELETE',
-    });
+    return requestJson<SavedStrategyDeleteResponse>(
+      `/api/strategies/${encodeURIComponent(strategyId)}`,
+      {
+        method: 'DELETE',
+      },
+    );
   },
   addWatchlistItem(payload: WatchlistCreateRequest) {
     return requestJson<WatchlistListResponse['items'][number]>('/api/watchlist', {
@@ -369,7 +401,10 @@ export const backendClient = {
 
     return () => {
       closed = true;
-      if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) {
+      if (
+        socket &&
+        (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)
+      ) {
         socket.close();
       }
     };
@@ -411,18 +446,6 @@ function labelForProviderId(providerId: string | null | undefined, fallback: str
   return providerLabelById[providerId] ?? providerId;
 }
 
-function providerRouteForLabel(
-  primary: string,
-  secondary: string,
-  fallback: string,
-): { primary: ProviderRoute; secondary: ProviderRoute; fallback: ProviderRoute } {
-  return {
-    primary: { primary: providerIdByLabel[primary] ?? primary },
-    secondary: { primary: providerIdByLabel[secondary] ?? secondary },
-    fallback: { primary: providerIdByLabel[fallback] ?? fallback },
-  };
-}
-
 export function mapProviderSettingsResponseToUi(
   payload: ProviderSettingsResponse,
   fallback: ProviderSettings,
@@ -447,7 +470,7 @@ export function mapUiSettingsToProviderRequest(
   liveTradingConfirmed = false,
 ): ProviderSettingsUpdateRequest {
   function providerIdOrNull(value: string) {
-    return value ? providerIdByLabel[value] ?? value : null;
+    return value ? (providerIdByLabel[value] ?? value) : null;
   }
 
   return {
@@ -495,9 +518,10 @@ export function mapUiSettingsToProviderRequest(
 export function mapMarketCandlesToChartSeries(candles: MarketCandlesResponse['items']): Candle[] {
   return candles
     .map((candle) => {
-      const timestamp = candle.open_time_utc.endsWith('Z') || candle.open_time_utc.includes('+')
-        ? candle.open_time_utc
-        : `${candle.open_time_utc}Z`;
+      const timestamp =
+        candle.open_time_utc.endsWith('Z') || candle.open_time_utc.includes('+')
+          ? candle.open_time_utc
+          : `${candle.open_time_utc}Z`;
       return {
         time: Math.floor(new Date(timestamp).getTime() / 1000),
         open: candle.open,
@@ -507,14 +531,15 @@ export function mapMarketCandlesToChartSeries(candles: MarketCandlesResponse['it
         volume: candle.volume,
       };
     })
-    .filter((candle) =>
-      Number.isFinite(candle.time)
-      && Number.isFinite(candle.open)
-      && Number.isFinite(candle.high)
-      && Number.isFinite(candle.low)
-      && Number.isFinite(candle.close)
-      && candle.high >= candle.low
-      && candle.time > 0,
+    .filter(
+      (candle) =>
+        Number.isFinite(candle.time) &&
+        Number.isFinite(candle.open) &&
+        Number.isFinite(candle.high) &&
+        Number.isFinite(candle.low) &&
+        Number.isFinite(candle.close) &&
+        candle.high >= candle.low &&
+        candle.time > 0,
     )
     .sort((left, right) => left.time - right.time);
 }
@@ -544,15 +569,12 @@ export async function checkLessonAnswer(
   lessonId: string,
   answer: AnswerRequest,
 ): Promise<ExerciseResult> {
-  const res = await fetch(
-    `${baseUrl}/api/learn/lesson/${encodeURIComponent(lessonId)}/check`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(answer),
-      signal: AbortSignal.timeout(DEFAULT_REQUEST_TIMEOUT_MS),
-    },
-  );
+  const res = await fetch(`${baseUrl}/api/learn/lesson/${encodeURIComponent(lessonId)}/check`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(answer),
+    signal: AbortSignal.timeout(DEFAULT_REQUEST_TIMEOUT_MS),
+  });
   if (!res.ok) throw new Error(`POST /api/learn/lesson/${lessonId}/check → ${res.status}`);
   return res.json() as Promise<ExerciseResult>;
 }

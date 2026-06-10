@@ -4,7 +4,16 @@
 import { Bell, Search, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Sparkline } from '../components/charts';
-import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading, SignalChip } from '../components/ui';
+import {
+  Button,
+  DataStateView,
+  EmptyState,
+  ErrorState,
+  LoadingSkeleton,
+  Panel,
+  SectionHeading,
+  SignalChip,
+} from '../components/ui';
 import { formatCurrency, formatPercent } from '../lib/format';
 import type { RelativeStrengthRanking, ScreenState, SignalRecord, SymbolRecord } from '../types';
 
@@ -32,7 +41,12 @@ export function WatchlistScreen({
   const candidates = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return [];
-    return symbols.filter((symbol) => !watchlistIds.includes(symbol.id) && (symbol.symbol.toLowerCase().includes(needle) || symbol.name.toLowerCase().includes(needle)));
+    return symbols.filter(
+      (symbol) =>
+        !watchlistIds.includes(symbol.id) &&
+        (symbol.symbol.toLowerCase().includes(needle) ||
+          symbol.name.toLowerCase().includes(needle)),
+    );
   }, [query, symbols, watchlistIds]);
   const topRanked = useMemo(() => {
     const seen = new Set<string>();
@@ -55,11 +69,24 @@ export function WatchlistScreen({
         action={
           <div className="relative w-full max-w-sm">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Add symbol" className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-ink outline-none focus:border-accent" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Add symbol"
+              className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-ink outline-none focus:border-accent"
+            />
             {candidates.length ? (
               <div className="glass-panel absolute left-0 right-0 top-[calc(100%+0.5rem)] rounded-3xl p-2">
                 {candidates.slice(0, 5).map((candidate) => (
-                  <button key={candidate.id} type="button" className="flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left transition hover:bg-white/5" onClick={() => { onToggleWatchlist(candidate.id); setQuery(''); }}>
+                  <button
+                    key={candidate.id}
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left transition hover:bg-white/5"
+                    onClick={() => {
+                      onToggleWatchlist(candidate.id);
+                      setQuery('');
+                    }}
+                  >
                     <div>
                       <p className="font-medium text-ink">{candidate.symbol}</p>
                       <p className="text-xs text-muted">{candidate.name}</p>
@@ -78,7 +105,9 @@ export function WatchlistScreen({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-ink">Top relative-strength candidates</h3>
-              <span className="text-xs text-muted">Cross-sectional momentum rank across the local universe</span>
+              <span className="text-xs text-muted">
+                Cross-sectional momentum rank across the local universe
+              </span>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {topRanked.map((entry) => {
@@ -93,12 +122,21 @@ export function WatchlistScreen({
                   >
                     <div className="flex items-center justify-between">
                       <p className="font-medium text-ink">{entry.symbol}</p>
-                      <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">{entry.timeframe}</span>
+                      <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
+                        {entry.timeframe}
+                      </span>
                     </div>
-                    <p className="metric-text text-2xl text-ink">{entry.relative_strength_percentile.toFixed(0)}<span className="text-sm text-muted"> RS</span></p>
+                    <p className="metric-text text-2xl text-ink">
+                      {entry.relative_strength_percentile.toFixed(0)}
+                      <span className="text-sm text-muted"> RS</span>
+                    </p>
                     <div className="flex items-center justify-between text-sm">
-                      <span className={positive ? 'text-buy' : 'text-sell'}>{formatPercent(entry.momentum_score * 100)}</span>
-                      <span className="text-xs text-muted">#{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}</span>
+                      <span className={positive ? 'text-buy' : 'text-sell'}>
+                        {formatPercent(entry.momentum_score * 100)}
+                      </span>
+                      <span className="text-xs text-muted">
+                        #{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}
+                      </span>
                     </div>
                   </button>
                 );
@@ -113,8 +151,20 @@ export function WatchlistScreen({
           state={state}
           isEmpty={watchlist.length === 0}
           loading={<LoadingSkeleton rows={5} />}
-          empty={<EmptyState title="Watchlist is empty" description="Add your first symbol from the search field to populate the grouped crypto and stock views." action={<Button onClick={() => setQuery('BTC')}>Add your first symbol</Button>} />}
-          error={<ErrorState title="Watchlist unavailable" description="The grouped watchlist rows could not be loaded." onRetry={retryMockView} />}
+          empty={
+            <EmptyState
+              title="Watchlist is empty"
+              description="Add your first symbol from the search field to populate the grouped crypto and stock views."
+              action={<Button onClick={() => setQuery('BTC')}>Add your first symbol</Button>}
+            />
+          }
+          error={
+            <ErrorState
+              title="Watchlist unavailable"
+              description="The grouped watchlist rows could not be loaded."
+              onRetry={retryMockView}
+            />
+          }
           populated={
             <div className="space-y-8">
               {(['crypto', 'stocks'] as const).map((market) => {
@@ -127,24 +177,59 @@ export function WatchlistScreen({
                       {rows.map((symbol) => {
                         const signal = signals.find((record) => record.symbolId === symbol.id);
                         return (
-                          <div key={symbol.id} className="flex flex-col gap-4 rounded-3xl border border-border bg-white/[0.03] p-4 lg:flex-row lg:items-center lg:justify-between">
-                            <button type="button" className="flex flex-1 items-center gap-4 text-left" onClick={() => onOpenSymbol(symbol.id)}>
+                          <div
+                            key={symbol.id}
+                            className="flex flex-col gap-4 rounded-3xl border border-border bg-white/[0.03] p-4 lg:flex-row lg:items-center lg:justify-between"
+                          >
+                            <button
+                              type="button"
+                              className="flex flex-1 items-center gap-4 text-left"
+                              onClick={() => onOpenSymbol(symbol.id)}
+                            >
                               <div>
                                 <p className="font-medium text-ink">{symbol.symbol}</p>
                                 <p className="text-xs text-muted">{symbol.name}</p>
                               </div>
-                              <Sparkline values={symbol.sparkline} positive={symbol.changePercent >= 0} />
+                              <Sparkline
+                                values={symbol.sparkline}
+                                positive={symbol.changePercent >= 0}
+                              />
                             </button>
                             <div className="flex flex-wrap items-center gap-4 lg:justify-end">
                               <div>
-                                <p className="metric-text text-lg text-ink">{formatCurrency(symbol.lastPrice)}</p>
-                                <p className={symbol.changePercent >= 0 ? 'text-sm text-buy' : 'text-sm text-sell'}>{formatPercent(symbol.changePercent)}</p>
+                                <p className="metric-text text-lg text-ink">
+                                  {formatCurrency(symbol.lastPrice)}
+                                </p>
+                                <p
+                                  className={
+                                    symbol.changePercent >= 0
+                                      ? 'text-sm text-buy'
+                                      : 'text-sm text-sell'
+                                  }
+                                >
+                                  {formatPercent(symbol.changePercent)}
+                                </p>
                               </div>
-                              {signal ? <SignalChip signal={signal.signal.signal} subdued={signal.signal.confidence < 55} /> : null}
-                              <button type="button" className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink" onClick={() => onOpenAlertModal(symbol.id, signal?.id)} aria-label={`Alert ${symbol.symbol}`}>
+                              {signal ? (
+                                <SignalChip
+                                  signal={signal.signal.signal}
+                                  subdued={signal.signal.confidence < 55}
+                                />
+                              ) : null}
+                              <button
+                                type="button"
+                                className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
+                                onClick={() => onOpenAlertModal(symbol.id, signal?.id)}
+                                aria-label={`Alert ${symbol.symbol}`}
+                              >
                                 <Bell className="size-4" />
                               </button>
-                              <button type="button" className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink" onClick={() => onToggleWatchlist(symbol.id)} aria-label={`Remove ${symbol.symbol}`}>
+                              <button
+                                type="button"
+                                className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
+                                onClick={() => onToggleWatchlist(symbol.id)}
+                                aria-label={`Remove ${symbol.symbol}`}
+                              >
                                 <Trash2 className="size-4" />
                               </button>
                             </div>

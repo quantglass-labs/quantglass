@@ -13,7 +13,11 @@ export interface ToastMessage {
 }
 
 export function Panel({ className, children }: PropsWithChildren<{ className?: string }>) {
-  return <section className={clsx('glass-panel rounded-3xl p-5 soft-ring', className)}>{children}</section>;
+  return (
+    <section className={clsx('glass-panel rounded-3xl p-5 soft-ring', className)}>
+      {children}
+    </section>
+  );
 }
 
 export function SectionHeading({
@@ -30,7 +34,9 @@ export function SectionHeading({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div className="space-y-1">
-        {eyebrow ? <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted">{eyebrow}</p> : null}
+        {eyebrow ? (
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted">{eyebrow}</p>
+        ) : null}
         <h2 className="text-2xl font-semibold tracking-tight text-ink">{title}</h2>
         {description ? <p className="max-w-3xl text-sm text-muted">{description}</p> : null}
       </div>
@@ -75,7 +81,8 @@ export function SignalChip({ signal, subdued = false }: { signal: SignalType; su
 }
 
 export function ConfidenceRing({ value, size = 72 }: { value: number; size?: number }) {
-  const hue = value >= 70 ? 'from-buy to-accent' : value >= 55 ? 'from-hold to-accent' : 'from-sell to-hold';
+  const hue =
+    value >= 70 ? 'from-buy to-accent' : value >= 55 ? 'from-hold to-accent' : 'from-sell to-hold';
   return (
     <div
       className="relative grid place-items-center rounded-full"
@@ -86,7 +93,14 @@ export function ConfidenceRing({ value, size = 72 }: { value: number; size?: num
       }}
     >
       <div className="grid size-[calc(100%-10px)] place-items-center rounded-full bg-surface text-center">
-        <span className={clsx('bg-gradient-to-br bg-clip-text text-lg font-semibold text-transparent', hue)}>{value}</span>
+        <span
+          className={clsx(
+            'bg-gradient-to-br bg-clip-text text-lg font-semibold text-transparent',
+            hue,
+          )}
+        >
+          {value}
+        </span>
       </div>
     </div>
   );
@@ -128,7 +142,9 @@ export function Button({
   className,
   variant = 'primary',
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger' }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+}) {
   return (
     <button
       className={clsx(
@@ -158,14 +174,21 @@ export function PillTabs<T extends string>({
   className?: string;
 }) {
   return (
-    <div className={clsx('inline-flex flex-wrap gap-2 rounded-full border border-border bg-white/5 p-1', className)}>
+    <div
+      className={clsx(
+        'inline-flex flex-wrap gap-2 rounded-full border border-border bg-white/5 p-1',
+        className,
+      )}
+    >
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           className={clsx(
             'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] transition',
-            option.value === value ? 'bg-accentStrong text-white' : 'text-muted hover:bg-white/5 hover:text-ink',
+            option.value === value
+              ? 'bg-accentStrong text-white'
+              : 'text-muted hover:bg-white/5 hover:text-ink',
           )}
           onClick={() => onChange(option.value)}
         >
@@ -176,7 +199,15 @@ export function PillTabs<T extends string>({
   );
 }
 
-export function EmptyState({ title, description, action }: { title: string; description: string; action?: ReactNode }) {
+export function EmptyState({
+  title,
+  description,
+  action,
+}: {
+  title: string;
+  description: string;
+  action?: ReactNode;
+}) {
   return (
     <div className="flex min-h-60 flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-border bg-white/[0.03] p-8 text-center">
       <div className="rounded-full border border-border bg-white/5 p-3 text-accent">
@@ -191,7 +222,15 @@ export function EmptyState({ title, description, action }: { title: string; desc
   );
 }
 
-export function ErrorState({ title, description, onRetry }: { title: string; description: string; onRetry?: () => void }) {
+export function ErrorState({
+  title,
+  description,
+  onRetry,
+}: {
+  title: string;
+  description: string;
+  onRetry?: () => void;
+}) {
   return (
     <div className="flex min-h-60 flex-col items-center justify-center gap-4 rounded-3xl border border-sell/35 bg-sell/8 p-8 text-center">
       <div className="rounded-full border border-sell/40 bg-sell/12 p-3 text-sell">
@@ -218,9 +257,14 @@ export function LoadingSkeleton({ rows = 4, chart = false }: { rows?: number; ch
         <div className="size-2.5 animate-pulse rounded-full bg-accent/80" />
         <div className="h-3 w-32 animate-pulse rounded-full bg-white/15" />
       </div>
-      {chart ? <div className="h-64 animate-pulse rounded-3xl border border-white/8 bg-white/10" /> : null}
+      {chart ? (
+        <div className="h-64 animate-pulse rounded-3xl border border-white/8 bg-white/10" />
+      ) : null}
       {Array.from({ length: rows }).map((_, index) => (
-        <div key={index} className="flex animate-pulse items-center gap-4 rounded-2xl border border-white/6 bg-white/[0.04] px-3 py-3">
+        <div
+          key={index}
+          className="flex animate-pulse items-center gap-4 rounded-2xl border border-white/6 bg-white/[0.04] px-3 py-3"
+        >
           <div className="h-10 w-10 rounded-2xl bg-white/14" />
           <div className="flex-1 space-y-2">
             <div className="h-3 w-1/3 rounded-full bg-white/14" />
@@ -255,8 +299,29 @@ export function DataStateView({
   };
 
   if (state === 'loading') return <>{loading ?? <LoadingSkeleton />}</>;
-  if (state === 'error') return <>{error ?? <ErrorState title="View unavailable" description="This surface could not be loaded." onRetry={retryView} />}</>;
-  if (isEmpty) return <>{empty ?? <EmptyState title="Nothing here yet" description="No data is currently available for this view." />}</>;
+  if (state === 'error')
+    return (
+      <>
+        {error ?? (
+          <ErrorState
+            title="View unavailable"
+            description="This surface could not be loaded."
+            onRetry={retryView}
+          />
+        )}
+      </>
+    );
+  if (isEmpty)
+    return (
+      <>
+        {empty ?? (
+          <EmptyState
+            title="Nothing here yet"
+            description="No data is currently available for this view."
+          />
+        )}
+      </>
+    );
   return <>{populated}</>;
 }
 
@@ -282,7 +347,11 @@ export function Modal({
             <h3 className="text-xl font-semibold text-ink">{title}</h3>
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
-          <button type="button" className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-ink" onClick={onClose}>
+          <button
+            type="button"
+            className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-ink"
+            onClick={onClose}
+          >
             <X className="size-4" />
           </button>
         </div>
@@ -308,7 +377,9 @@ export function Drawer({
   if (!open) return null;
 
   return (
-    <div className={clsx('fixed inset-y-0 right-0 z-50 w-full max-w-2xl transition', 'translate-x-0')}>
+    <div
+      className={clsx('fixed inset-y-0 right-0 z-50 w-full max-w-2xl transition', 'translate-x-0')}
+    >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="glass-panel absolute inset-y-0 right-0 flex w-full max-w-2xl flex-col rounded-l-[32px] p-6">
         <div className="mb-6 flex items-start justify-between gap-4">
@@ -316,7 +387,11 @@ export function Drawer({
             <h3 className="text-xl font-semibold text-ink">{title}</h3>
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
-          <button type="button" className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-ink" onClick={onClose}>
+          <button
+            type="button"
+            className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-ink"
+            onClick={onClose}
+          >
             <X className="size-4" />
           </button>
         </div>
@@ -345,7 +420,8 @@ export function ConfirmDialog({
     <Modal open={open} title={title} description={description} onClose={onClose}>
       <div className="space-y-5">
         <div className="rounded-3xl border border-hold/30 bg-hold/10 p-4 text-sm text-muted">
-          Live trading remains disabled by default. This mock only allows paper execution. Confirming here changes the settings view, not the execution path.
+          Live trading remains disabled by default. This mock only allows paper execution.
+          Confirming here changes the settings view, not the execution path.
         </div>
         <div className="flex justify-end gap-3">
           <Button variant="ghost" onClick={onClose}>

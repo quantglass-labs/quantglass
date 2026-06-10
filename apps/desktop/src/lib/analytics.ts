@@ -40,7 +40,10 @@ export function weightedMovingAverage(values: number[], period: number) {
   return values.map((_, index) => {
     const start = Math.max(0, index - period + 1);
     const slice = values.slice(start, index + 1);
-    const weightedTotal = slice.reduce((total, value, sliceIndex) => total + value * (sliceIndex + 1), 0);
+    const weightedTotal = slice.reduce(
+      (total, value, sliceIndex) => total + value * (sliceIndex + 1),
+      0,
+    );
     const weight = (slice.length * (slice.length + 1)) / 2;
     return weightedTotal / weight;
   });
@@ -52,7 +55,7 @@ export function volumeWeightedMovingAverage(candles: Candle[], period: number) {
     const slice = candles.slice(start, index + 1);
     const weighted = slice.reduce((total, candle) => total + candle.close * candle.volume, 0);
     const volume = slice.reduce((total, candle) => total + candle.volume, 0);
-    return volume > 0 ? weighted / volume : slice.at(-1)?.close ?? 0;
+    return volume > 0 ? weighted / volume : (slice.at(-1)?.close ?? 0);
   });
 }
 
@@ -143,13 +146,24 @@ export function bollingerBands(values: number[], period: number, multiplier = 2)
 
 export function donchianChannel(candles: Candle[], period: number) {
   return {
-    upper: candles.map((_, index) => Math.max(...candles.slice(Math.max(0, index - period + 1), index + 1).map((candle) => candle.high))),
-    lower: candles.map((_, index) => Math.min(...candles.slice(Math.max(0, index - period + 1), index + 1).map((candle) => candle.low))),
+    upper: candles.map((_, index) =>
+      Math.max(
+        ...candles.slice(Math.max(0, index - period + 1), index + 1).map((candle) => candle.high),
+      ),
+    ),
+    lower: candles.map((_, index) =>
+      Math.min(
+        ...candles.slice(Math.max(0, index - period + 1), index + 1).map((candle) => candle.low),
+      ),
+    ),
   };
 }
 
 export function keltnerChannel(candles: Candle[], period: number, multiplier = 1.5) {
-  const ema = exponentialMovingAverage(candles.map((candle) => candle.close), period);
+  const ema = exponentialMovingAverage(
+    candles.map((candle) => candle.close),
+    period,
+  );
   const atr = averageTrueRange(candles, 14);
   return {
     middle: ema,
@@ -210,8 +224,14 @@ export function onBalanceVolume(candles: Candle[]) {
 export function moneyFlowIndex(candles: Candle[], period: number) {
   const flows = candles.map((candle, index) => {
     const typical = (candle.high + candle.low + candle.close) / 3;
-    const previousTypical = index > 0 ? (candles[index - 1].high + candles[index - 1].low + candles[index - 1].close) / 3 : typical;
-    return { positive: typical > previousTypical ? typical * candle.volume : 0, negative: typical < previousTypical ? typical * candle.volume : 0 };
+    const previousTypical =
+      index > 0
+        ? (candles[index - 1].high + candles[index - 1].low + candles[index - 1].close) / 3
+        : typical;
+    return {
+      positive: typical > previousTypical ? typical * candle.volume : 0,
+      negative: typical < previousTypical ? typical * candle.volume : 0,
+    };
   });
   return flows.map((_, index) => {
     const slice = flows.slice(Math.max(0, index - period + 1), index + 1);
@@ -226,7 +246,7 @@ export function chaikinMoneyFlow(candles: Candle[], period: number) {
     const slice = candles.slice(Math.max(0, index - period + 1), index + 1);
     const moneyFlowVolume = slice.map((candle) => {
       const range = candle.high - candle.low || 1;
-      const multiplier = ((candle.close - candle.low) - (candle.high - candle.close)) / range;
+      const multiplier = (candle.close - candle.low - (candle.high - candle.close)) / range;
       return multiplier * candle.volume;
     });
     const volume = sum(slice.map((candle) => candle.volume)) || 1;
@@ -244,7 +264,9 @@ export function rollingStandardDeviation(values: number[], period: number) {
 export function zScore(values: number[], period: number) {
   const sma = simpleMovingAverage(values, period);
   const stddev = rollingStandardDeviation(values, period);
-  return values.map((value, index) => (stddev[index] > 0 ? (value - sma[index]) / stddev[index] : 0));
+  return values.map((value, index) =>
+    stddev[index] > 0 ? (value - sma[index]) / stddev[index] : 0,
+  );
 }
 
 export function realizedVolatility(values: number[], period: number) {
@@ -285,8 +307,12 @@ export function directionalMovementIndex(candles: Candle[], period: number) {
     return downMove > upMove && downMove > 0 ? downMove : 0;
   });
   const atr = averageTrueRange(candles, period);
-  const plus = simpleMovingAverage(plusDm, period).map((value, index) => (atr[index] > 0 ? (value / atr[index]) * 100 : 0));
-  const minus = simpleMovingAverage(minusDm, period).map((value, index) => (atr[index] > 0 ? (value / atr[index]) * 100 : 0));
+  const plus = simpleMovingAverage(plusDm, period).map((value, index) =>
+    atr[index] > 0 ? (value / atr[index]) * 100 : 0,
+  );
+  const minus = simpleMovingAverage(minusDm, period).map((value, index) =>
+    atr[index] > 0 ? (value / atr[index]) * 100 : 0,
+  );
   const dx = plus.map((value, index) => {
     const denominator = value + minus[index];
     return denominator > 0 ? (Math.abs(value - minus[index]) / denominator) * 100 : 0;
@@ -295,10 +321,15 @@ export function directionalMovementIndex(candles: Candle[], period: number) {
 }
 
 export function volumeSma(candles: Candle[], period: number) {
-  return simpleMovingAverage(candles.map((candle) => candle.volume), period);
+  return simpleMovingAverage(
+    candles.map((candle) => candle.volume),
+    period,
+  );
 }
 
 export function relativeVolume(candles: Candle[], period: number) {
   const baseline = volumeSma(candles, period);
-  return candles.map((candle, index) => (baseline[index] > 0 ? candle.volume / baseline[index] : 0));
+  return candles.map((candle, index) =>
+    baseline[index] > 0 ? candle.volume / baseline[index] : 0,
+  );
 }
