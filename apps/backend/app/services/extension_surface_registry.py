@@ -44,7 +44,9 @@ class ExtensionSurfaceRegistry:
         definitions = self._definitions.values()
         if category is not None:
             definitions = [item for item in definitions if item.category == category]
-        return [definition.as_dict() for definition in sorted(definitions, key=lambda item: item.id)]
+        return [
+            definition.as_dict() for definition in sorted(definitions, key=lambda item: item.id)
+        ]
 
 
 def built_in_surfaces() -> tuple[ExtensionSurfaceDefinition, ...]:

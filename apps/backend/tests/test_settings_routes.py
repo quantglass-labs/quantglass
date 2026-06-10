@@ -25,7 +25,11 @@ class _NotificationService:
 
 class _ModelGateway:
     def list_models(self, ai_settings: AiSettings):
-        return [f"{ai_settings.provider}-model-a", f"{ai_settings.provider}-model-b"], True, "fake model list"
+        return (
+            [f"{ai_settings.provider}-model-a", f"{ai_settings.provider}-model-b"],
+            True,
+            "fake model list",
+        )
 
     def complete(self, ai_settings: AiSettings, prompt: str):
         if not ai_settings.model:
@@ -260,7 +264,9 @@ class SettingsRouteTests(unittest.TestCase):
         app.state.settings = AppSettings()
 
         with TestClient(app) as client:
-            response = client.put("/api/settings/api-keys/finnhub-api-key", json={"value": "replacement"})
+            response = client.put(
+                "/api/settings/api-keys/finnhub-api-key", json={"value": "replacement"}
+            )
 
         self.assertEqual(response.status_code, 200)
         item = response.json()["item"]

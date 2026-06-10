@@ -22,10 +22,7 @@ class SecretStorageTests(unittest.TestCase):
                 "telegram-bot-token",
                 "super-secret-token",
             )
-            listed_keys = {
-                item["id"]: item["value"]
-                for item in store.list_api_keys()
-            }
+            listed_keys = {item["id"]: item["value"] for item in store.list_api_keys()}
 
             self.assertEqual(updated_item["value"], "super-secret-token")
             self.assertEqual(listed_keys["telegram-bot-token"], "super-secret-token")
@@ -40,12 +37,8 @@ class SecretStorageTests(unittest.TestCase):
             self.assertNotIn("super-secret-token", row[0])
 
             payload = json.loads(row[0])
-            telegram_entry = next(
-                item for item in payload if item["id"] == "telegram-bot-token"
-            )
+            telegram_entry = next(item for item in payload if item["id"] == "telegram-bot-token")
             self.assertEqual(telegram_entry["value"], "")
 
-            encrypted_payload = (
-                sqlite_path.parent / "secrets" / "api_keys.enc"
-            ).read_bytes()
+            encrypted_payload = (sqlite_path.parent / "secrets" / "api_keys.enc").read_bytes()
             self.assertNotIn(b"super-secret-token", encrypted_payload)

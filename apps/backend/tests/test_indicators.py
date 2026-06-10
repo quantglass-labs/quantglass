@@ -10,7 +10,7 @@ that the confidence basis and backtest math stay trustworthy.
 from statistics import mean
 
 from app.services.indicator_registry import IndicatorRegistry
-from app.services.signal_engine import SeriesIndicators, SignalEngineService
+from app.services.signal_engine import SignalEngineService
 
 
 def _engine() -> SignalEngineService:
@@ -107,10 +107,7 @@ def test_donchian_tracks_window_extremes() -> None:
 
 def test_atr_positive_for_volatile_series() -> None:
     engine = _engine()
-    candles = [
-        {"high": 10 + i, "low": 8 + i, "close": 9 + i}
-        for i in range(20)
-    ]
+    candles = [{"high": 10 + i, "low": 8 + i, "close": 9 + i} for i in range(20)]
     atr = engine._atr(candles, 14)
     assert atr[-1] is not None
     assert atr[-1] > 0
@@ -119,10 +116,7 @@ def test_atr_positive_for_volatile_series() -> None:
 def test_adx_strong_trend_high_value() -> None:
     engine = _engine()
     # A clean uptrend should produce a meaningfully strong ADX reading.
-    candles = [
-        {"high": 10 + i, "low": 9 + i, "close": 9.5 + i}
-        for i in range(40)
-    ]
+    candles = [{"high": 10 + i, "low": 9 + i, "close": 9.5 + i} for i in range(40)]
     adx = engine._adx(candles, 14)
     assert adx[-1] is not None
     assert adx[-1] > 25.0

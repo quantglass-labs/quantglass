@@ -44,7 +44,10 @@ _LESSONS: list[dict[str, Any]] = [
             {"term": "Low", "definition": "Lowest traded price during the period."},
             {"term": "Close", "definition": "Price at the very last trade of the period."},
             {"term": "Body", "definition": "The rectangle between Open and Close."},
-            {"term": "Wick / Shadow", "definition": "The thin line extending beyond the body to the High or Low."},
+            {
+                "term": "Wick / Shadow",
+                "definition": "The thin line extending beyond the body to the High or Low.",
+            },
             {"term": "Volume", "definition": "Number of units traded during the period."},
         ],
         "exercise": {
@@ -86,10 +89,22 @@ _LESSONS: list[dict[str, Any]] = [
             "the market as bullish trend.  When `Close < EMA21 < SMA50`, it is bearish."
         ),
         "key_terms": [
-            {"term": "Higher High (HH)", "definition": "Each successive swing peak is above the prior peak."},
-            {"term": "Higher Low (HL)", "definition": "Each successive pullback bottom is above the prior bottom."},
-            {"term": "EMA-21", "definition": "21-period Exponential Moving Average — weights recent closes more."},
-            {"term": "SMA-50", "definition": "50-period Simple Moving Average — equal weight across all 50 closes."},
+            {
+                "term": "Higher High (HH)",
+                "definition": "Each successive swing peak is above the prior peak.",
+            },
+            {
+                "term": "Higher Low (HL)",
+                "definition": "Each successive pullback bottom is above the prior bottom.",
+            },
+            {
+                "term": "EMA-21",
+                "definition": "21-period Exponential Moving Average — weights recent closes more.",
+            },
+            {
+                "term": "SMA-50",
+                "definition": "50-period Simple Moving Average — equal weight across all 50 closes.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -126,10 +141,22 @@ _LESSONS: list[dict[str, Any]] = [
             "highest high / lowest low) to identify recent swing extremes that act as natural S/R."
         ),
         "key_terms": [
-            {"term": "Support", "definition": "Price floor — buyers step in to arrest falling price."},
-            {"term": "Resistance", "definition": "Price ceiling — sellers step in to arrest rising price."},
-            {"term": "Polarity Flip", "definition": "Broken resistance becomes support after a confirmed breakout."},
-            {"term": "Donchian Channel", "definition": "The highest high and lowest low over N periods."},
+            {
+                "term": "Support",
+                "definition": "Price floor — buyers step in to arrest falling price.",
+            },
+            {
+                "term": "Resistance",
+                "definition": "Price ceiling — sellers step in to arrest rising price.",
+            },
+            {
+                "term": "Polarity Flip",
+                "definition": "Broken resistance becomes support after a confirmed breakout.",
+            },
+            {
+                "term": "Donchian Channel",
+                "definition": "The highest high and lowest low over N periods.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -170,9 +197,18 @@ _LESSONS: list[dict[str, Any]] = [
             "Price falls on high volume → institutional distribution, bearish signal."
         ),
         "key_terms": [
-            {"term": "Volume Ratio", "definition": "Current bar volume ÷ 20-period average volume."},
-            {"term": "Volume Confirmation", "definition": "A 0–1 score: how much volume supports the current move."},
-            {"term": "Divergence", "definition": "Price and volume moving in opposite directions — weakens the move."},
+            {
+                "term": "Volume Ratio",
+                "definition": "Current bar volume ÷ 20-period average volume.",
+            },
+            {
+                "term": "Volume Confirmation",
+                "definition": "A 0–1 score: how much volume supports the current move.",
+            },
+            {
+                "term": "Divergence",
+                "definition": "Price and volume moving in opposite directions — weakens the move.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -218,11 +254,26 @@ _LESSONS: list[dict[str, Any]] = [
             "Always check `out_of_sample_validated` — if False, the backtest hasn't cleared statistical scrutiny."
         ),
         "key_terms": [
-            {"term": "Entry Zone", "definition": "The price range [low, high] considered acceptable to enter."},
-            {"term": "Stop-Loss", "definition": "Price level where the setup is invalidated; maximum acceptable loss."},
-            {"term": "Take-Profit Ladder", "definition": "Three scaled exit prices (TP1=50%, TP2=30%, TP3=20% of position)."},
-            {"term": "R:R (Risk:Reward)", "definition": "Reward ÷ Risk — a 2.0 R:R means the potential gain is 2× the risk."},
-            {"term": "Out-of-Sample Validated", "definition": "True when the OOS backtest slice has ≥ min_sample trades with positive expectancy."},
+            {
+                "term": "Entry Zone",
+                "definition": "The price range [low, high] considered acceptable to enter.",
+            },
+            {
+                "term": "Stop-Loss",
+                "definition": "Price level where the setup is invalidated; maximum acceptable loss.",
+            },
+            {
+                "term": "Take-Profit Ladder",
+                "definition": "Three scaled exit prices (TP1=50%, TP2=30%, TP3=20% of position).",
+            },
+            {
+                "term": "R:R (Risk:Reward)",
+                "definition": "Reward ÷ Risk — a 2.0 R:R means the potential gain is 2× the risk.",
+            },
+            {
+                "term": "Out-of-Sample Validated",
+                "definition": "True when the OOS backtest slice has ≥ min_sample trades with positive expectancy.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -244,7 +295,6 @@ _LESSONS: list[dict[str, Any]] = [
             "cta": "Click any BUY_ZONE signal and locate entry_zone, stop_loss, take_profit, and risk_reward in the detail drawer.",
         },
     },
-
     # ═══════════════════════════════════════════════════════════════════════
     # INTERMEDIATE – Indicators & Risk
     # ═══════════════════════════════════════════════════════════════════════
@@ -269,10 +319,22 @@ _LESSONS: list[dict[str, Any]] = [
             "directional filter — entries only allowed when SMA-50 slopes in trade direction."
         ),
         "key_terms": [
-            {"term": "SMA-50", "definition": "Simple average of the last 50 closing prices — lagging but stable."},
-            {"term": "EMA-21", "definition": "Exponentially weighted 21-period average — faster to react to recent moves."},
-            {"term": "Dynamic Support/Resistance", "definition": "A moving average acting as S/R that adjusts with price."},
-            {"term": "HTF Slope", "definition": "Higher-timeframe slope: (SMA50[now] - SMA50[10 bars ago]) / SMA50[10 bars ago]."},
+            {
+                "term": "SMA-50",
+                "definition": "Simple average of the last 50 closing prices — lagging but stable.",
+            },
+            {
+                "term": "EMA-21",
+                "definition": "Exponentially weighted 21-period average — faster to react to recent moves.",
+            },
+            {
+                "term": "Dynamic Support/Resistance",
+                "definition": "A moving average acting as S/R that adjusts with price.",
+            },
+            {
+                "term": "HTF Slope",
+                "definition": "Higher-timeframe slope: (SMA50[now] - SMA50[10 bars ago]) / SMA50[10 bars ago].",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -315,11 +377,26 @@ _LESSONS: list[dict[str, Any]] = [
             "momentum weakening even as price rises."
         ),
         "key_terms": [
-            {"term": "RSI-14", "definition": "14-period Relative Strength Index — primary momentum oscillator."},
-            {"term": "RSI-2", "definition": "2-period RSI — extreme short-term mean-reversion indicator."},
-            {"term": "Overbought", "definition": "RSI > 70 — momentum extended upward, risk of reversal rises."},
-            {"term": "Oversold", "definition": "RSI < 30 — momentum extended downward, potential bounce zone."},
-            {"term": "RSI Divergence", "definition": "Price and RSI moving in opposite directions — signals weakening momentum."},
+            {
+                "term": "RSI-14",
+                "definition": "14-period Relative Strength Index — primary momentum oscillator.",
+            },
+            {
+                "term": "RSI-2",
+                "definition": "2-period RSI — extreme short-term mean-reversion indicator.",
+            },
+            {
+                "term": "Overbought",
+                "definition": "RSI > 70 — momentum extended upward, risk of reversal rises.",
+            },
+            {
+                "term": "Oversold",
+                "definition": "RSI < 30 — momentum extended downward, potential bounce zone.",
+            },
+            {
+                "term": "RSI Divergence",
+                "definition": "Price and RSI moving in opposite directions — signals weakening momentum.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -361,10 +438,22 @@ _LESSONS: list[dict[str, Any]] = [
             "**ATR % of price** = ATR ÷ Close × 100.  If ATR% < 1% → low risk.  ATR% > 2.6% → high risk."
         ),
         "key_terms": [
-            {"term": "ATR-14", "definition": "14-period Average True Range — measures recent price volatility."},
-            {"term": "True Range", "definition": "The largest of: High-Low, |High-PrevClose|, |Low-PrevClose|."},
-            {"term": "Stop Multiple", "definition": "ATR multiplier for stop placement: 1.3 (compressed) to 1.6 (expanded)."},
-            {"term": "ATR % of Price", "definition": "ATR ÷ Close × 100 — the normalized volatility as a percentage."},
+            {
+                "term": "ATR-14",
+                "definition": "14-period Average True Range — measures recent price volatility.",
+            },
+            {
+                "term": "True Range",
+                "definition": "The largest of: High-Low, |High-PrevClose|, |Low-PrevClose|.",
+            },
+            {
+                "term": "Stop Multiple",
+                "definition": "ATR multiplier for stop placement: 1.3 (compressed) to 1.6 (expanded).",
+            },
+            {
+                "term": "ATR % of Price",
+                "definition": "ATR ÷ Close × 100 — the normalized volatility as a percentage.",
+            },
         ],
         "exercise": {
             "type": "numeric_input",
@@ -403,9 +492,18 @@ _LESSONS: list[dict[str, Any]] = [
         ),
         "key_terms": [
             {"term": "R:R", "definition": "Risk:Reward ratio — potential profit ÷ risk per trade."},
-            {"term": "Expectancy", "definition": "Average profit per trade: (Win% × Avg_win) − (Loss% × Avg_loss)."},
-            {"term": "TP Ladder", "definition": "Scaled exit at TP1 (50%), TP2 (30%), TP3 (20%) of position size."},
-            {"term": "Positive Expectancy", "definition": "Expectancy > 0 — the edge survives over many trades."},
+            {
+                "term": "Expectancy",
+                "definition": "Average profit per trade: (Win% × Avg_win) − (Loss% × Avg_loss).",
+            },
+            {
+                "term": "TP Ladder",
+                "definition": "Scaled exit at TP1 (50%), TP2 (30%), TP3 (20%) of position size.",
+            },
+            {
+                "term": "Positive Expectancy",
+                "definition": "Expectancy > 0 — the edge survives over many trades.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -447,9 +545,18 @@ _LESSONS: list[dict[str, Any]] = [
             "allowing position size to grow as the account grows (compounding)."
         ),
         "key_terms": [
-            {"term": "Risk Per Trade", "definition": "The maximum dollar loss acceptable if the stop is hit (e.g., 1% of account)."},
-            {"term": "Fixed-Fractional Sizing", "definition": "Size = (Account × Risk%) ÷ (Entry − Stop) — scales with account."},
-            {"term": "Drawdown", "definition": "Peak-to-trough decline in account equity during a losing streak."},
+            {
+                "term": "Risk Per Trade",
+                "definition": "The maximum dollar loss acceptable if the stop is hit (e.g., 1% of account).",
+            },
+            {
+                "term": "Fixed-Fractional Sizing",
+                "definition": "Size = (Account × Risk%) ÷ (Entry − Stop) — scales with account.",
+            },
+            {
+                "term": "Drawdown",
+                "definition": "Peak-to-trough decline in account equity during a losing streak.",
+            },
         ],
         "exercise": {
             "type": "numeric_input",
@@ -468,7 +575,6 @@ _LESSONS: list[dict[str, Any]] = [
             "cta": "Open a signal, note its entry and stop_loss, then calculate how many shares to buy with 1% risk on a $10,000 paper account.",
         },
     },
-
     # ═══════════════════════════════════════════════════════════════════════
     # ADVANCED – Engine Deep-Dive
     # ═══════════════════════════════════════════════════════════════════════
@@ -492,11 +598,23 @@ _LESSONS: list[dict[str, Any]] = [
             "High ADX = strong trend (either up or down); low ADX = weak/ranging market."
         ),
         "key_terms": [
-            {"term": "ADX-14", "definition": "14-period Average Directional Index — measures trend strength (0–100)."},
+            {
+                "term": "ADX-14",
+                "definition": "14-period Average Directional Index — measures trend strength (0–100).",
+            },
             {"term": "Trending", "definition": "ADX ≥ 22 — a directional trend is in place."},
-            {"term": "Ranging", "definition": "ADX < 16 — no meaningful trend; mean-reversion strategies preferred."},
-            {"term": "Volatile", "definition": "ATR% ≥ 1.7× its 50-bar median — abnormal volatility, confidence capped."},
-            {"term": "Transitional", "definition": "ADX 16–22 — market shifting between trending and ranging."},
+            {
+                "term": "Ranging",
+                "definition": "ADX < 16 — no meaningful trend; mean-reversion strategies preferred.",
+            },
+            {
+                "term": "Volatile",
+                "definition": "ATR% ≥ 1.7× its 50-bar median — abnormal volatility, confidence capped.",
+            },
+            {
+                "term": "Transitional",
+                "definition": "ADX 16–22 — market shifting between trending and ranging.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -542,8 +660,14 @@ _LESSONS: list[dict[str, Any]] = [
         "key_terms": [
             {"term": "MACD Line", "definition": "EMA(12) − EMA(26) — the core momentum line."},
             {"term": "Signal Line", "definition": "EMA(9) of the MACD line — smoothed version."},
-            {"term": "Histogram", "definition": "MACD Line − Signal Line — shows the rate of momentum change."},
-            {"term": "MACD Divergence", "definition": "Price and MACD moving in opposite directions — weakening move."},
+            {
+                "term": "Histogram",
+                "definition": "MACD Line − Signal Line — shows the rate of momentum change.",
+            },
+            {
+                "term": "MACD Divergence",
+                "definition": "Price and MACD moving in opposite directions — weakening move.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -590,8 +714,14 @@ _LESSONS: list[dict[str, Any]] = [
         "key_terms": [
             {"term": "BB Upper", "definition": "SMA(20) + 2 standard deviations — upper envelope."},
             {"term": "BB Lower", "definition": "SMA(20) − 2 standard deviations — lower envelope."},
-            {"term": "BB Bandwidth", "definition": "(Upper − Lower) / Mid × 100 — width of the bands, a volatility proxy."},
-            {"term": "BB Squeeze", "definition": "Bands narrowing — volatility is compressing before a directional move."},
+            {
+                "term": "BB Bandwidth",
+                "definition": "(Upper − Lower) / Mid × 100 — width of the bands, a volatility proxy.",
+            },
+            {
+                "term": "BB Squeeze",
+                "definition": "Bands narrowing — volatility is compressing before a directional move.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -639,11 +769,26 @@ _LESSONS: list[dict[str, Any]] = [
             "A signal with high IS metrics but OOS_Validated = False should be treated with caution."
         ),
         "key_terms": [
-            {"term": "In-Sample (IS)", "definition": "Historical window the model trained on — 70% by time."},
-            {"term": "Out-of-Sample (OOS)", "definition": "Held-out window — 30% of history, simulates forward performance."},
-            {"term": "Profit Factor", "definition": "Gross wins ÷ Gross losses.  > 1.3 is generally positive."},
-            {"term": "Max Drawdown", "definition": "The worst decline from peak equity in the backtest — shows worst-case pain."},
-            {"term": "OOS Validated", "definition": "True when OOS has enough trades (≥ min_sample) with positive expectancy."},
+            {
+                "term": "In-Sample (IS)",
+                "definition": "Historical window the model trained on — 70% by time.",
+            },
+            {
+                "term": "Out-of-Sample (OOS)",
+                "definition": "Held-out window — 30% of history, simulates forward performance.",
+            },
+            {
+                "term": "Profit Factor",
+                "definition": "Gross wins ÷ Gross losses.  > 1.3 is generally positive.",
+            },
+            {
+                "term": "Max Drawdown",
+                "definition": "The worst decline from peak equity in the backtest — shows worst-case pain.",
+            },
+            {
+                "term": "OOS Validated",
+                "definition": "True when OOS has enough trades (≥ min_sample) with positive expectancy.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -688,10 +833,22 @@ _LESSONS: list[dict[str, Any]] = [
             "Final confidence is clamped to [20, 89] — the engine never claims certainty."
         ),
         "key_terms": [
-            {"term": "Calibrated Win Rate", "definition": "Bayesian shrinkage: raw win rate → 0.5 proportional to sample thinness."},
-            {"term": "Pooled Expectancy", "definition": "Cross-symbol aggregated expectancy for this setup type across the corridor."},
-            {"term": "Confluence Score", "definition": "Multi-factor combined score: trend, volume, MACD, HTF slope, regime bonus."},
-            {"term": "OOS Cap", "definition": "Confidence hard-capped at 62 when out_of_sample_validated is False."},
+            {
+                "term": "Calibrated Win Rate",
+                "definition": "Bayesian shrinkage: raw win rate → 0.5 proportional to sample thinness.",
+            },
+            {
+                "term": "Pooled Expectancy",
+                "definition": "Cross-symbol aggregated expectancy for this setup type across the corridor.",
+            },
+            {
+                "term": "Confluence Score",
+                "definition": "Multi-factor combined score: trend, volume, MACD, HTF slope, regime bonus.",
+            },
+            {
+                "term": "OOS Cap",
+                "definition": "Confidence hard-capped at 62 when out_of_sample_validated is False.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -714,7 +871,6 @@ _LESSONS: list[dict[str, Any]] = [
             "cta": "Open any signal drawer and expand the Confidence Basis section.  Find a signal where OOS_validated = True and one where it is False.",
         },
     },
-
     # ═══════════════════════════════════════════════════════════════════════
     # EXPERT – Build & Calibrate
     # ═══════════════════════════════════════════════════════════════════════
@@ -738,10 +894,22 @@ _LESSONS: list[dict[str, Any]] = [
             "thin-sample win rates toward 50% in proportion to sample thinness."
         ),
         "key_terms": [
-            {"term": "Walk-Forward", "definition": "Rolling window backtesting across multiple OOS periods."},
-            {"term": "min_backtest_sample", "definition": "Minimum OOS trade count required before OOS validation is claimed."},
-            {"term": "OOS Expectancy", "definition": "Average R per trade in the held-out 30% of data."},
-            {"term": "Empirical Bayes Shrinkage", "definition": "Pulling raw win rates toward 50% when sample is thin — prevents overfitting."},
+            {
+                "term": "Walk-Forward",
+                "definition": "Rolling window backtesting across multiple OOS periods.",
+            },
+            {
+                "term": "min_backtest_sample",
+                "definition": "Minimum OOS trade count required before OOS validation is claimed.",
+            },
+            {
+                "term": "OOS Expectancy",
+                "definition": "Average R per trade in the held-out 30% of data.",
+            },
+            {
+                "term": "Empirical Bayes Shrinkage",
+                "definition": "Pulling raw win rates toward 50% when sample is thin — prevents overfitting.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -786,10 +954,22 @@ _LESSONS: list[dict[str, Any]] = [
             "More data = less shrinkage = calibrated score approaches raw reality."
         ),
         "key_terms": [
-            {"term": "Prior", "definition": "Starting belief (50% win rate) before seeing any data."},
-            {"term": "Prior Strength", "definition": "How much the prior dominates — equals min_backtest_sample (50 pseudo-trades)."},
-            {"term": "Shrinkage", "definition": "Pulling the estimate toward the prior when sample is small."},
-            {"term": "Calibrated Win Rate", "definition": "Bayesian-adjusted win rate — more reliable than raw win rate from small samples."},
+            {
+                "term": "Prior",
+                "definition": "Starting belief (50% win rate) before seeing any data.",
+            },
+            {
+                "term": "Prior Strength",
+                "definition": "How much the prior dominates — equals min_backtest_sample (50 pseudo-trades).",
+            },
+            {
+                "term": "Shrinkage",
+                "definition": "Pulling the estimate toward the prior when sample is small.",
+            },
+            {
+                "term": "Calibrated Win Rate",
+                "definition": "Bayesian-adjusted win rate — more reliable than raw win rate from small samples.",
+            },
         ],
         "exercise": {
             "type": "numeric_input",
@@ -851,9 +1031,18 @@ _LESSONS: list[dict[str, Any]] = [
             "Drop this file in `workspace/extensions/` and restart the backend."
         ),
         "key_terms": [
-            {"term": "Extension Manifest", "definition": "Declares id, name, version, capabilities, and required permissions."},
-            {"term": "Indicator Contract", "definition": "compute(candles) → list of values, one per candle, no lookahead."},
-            {"term": "Deterministic", "definition": "Same input → same output, always, with no side effects."},
+            {
+                "term": "Extension Manifest",
+                "definition": "Declares id, name, version, capabilities, and required permissions.",
+            },
+            {
+                "term": "Indicator Contract",
+                "definition": "compute(candles) → list of values, one per candle, no lookahead.",
+            },
+            {
+                "term": "Deterministic",
+                "definition": "Same input → same output, always, with no side effects.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -900,9 +1089,18 @@ _LESSONS: list[dict[str, Any]] = [
             "backtest simulator and displaying the same three levels in the signal output."
         ),
         "key_terms": [
-            {"term": "candidate_factory", "definition": "Function returning setup candidates from the signal engine context."},
-            {"term": "TP Ladder Consistency", "definition": "The exits shown to users must exactly match the exits the backtest simulates."},
-            {"term": "Closed Candle Rule", "definition": "Strategies may only use candles with status='closed' — no partial-bar data."},
+            {
+                "term": "candidate_factory",
+                "definition": "Function returning setup candidates from the signal engine context.",
+            },
+            {
+                "term": "TP Ladder Consistency",
+                "definition": "The exits shown to users must exactly match the exits the backtest simulates.",
+            },
+            {
+                "term": "Closed Candle Rule",
+                "definition": "Strategies may only use candles with status='closed' — no partial-bar data.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -948,9 +1146,18 @@ _LESSONS: list[dict[str, Any]] = [
             "discipline provides the edge."
         ),
         "key_terms": [
-            {"term": "Trading Plan", "definition": "A written ruleset for entries, sizing, exits, and review — removes discretionary emotion."},
-            {"term": "Signal Gate", "definition": "Minimum criteria a signal must meet before you act (e.g., confidence ≥ 65, OOS_validated)."},
-            {"term": "Monthly Calibration", "definition": "Reviewing whether your min_confidence threshold matches your actual hit rate."},
+            {
+                "term": "Trading Plan",
+                "definition": "A written ruleset for entries, sizing, exits, and review — removes discretionary emotion.",
+            },
+            {
+                "term": "Signal Gate",
+                "definition": "Minimum criteria a signal must meet before you act (e.g., confidence ≥ 65, OOS_validated).",
+            },
+            {
+                "term": "Monthly Calibration",
+                "definition": "Reviewing whether your min_confidence threshold matches your actual hit rate.",
+            },
         ],
         "exercise": {
             "type": "multiple_choice",
@@ -1064,7 +1271,8 @@ class LearnService:
                     tier: {
                         "total": sum(1 for les in _LESSONS if les["module_id"] == tier),
                         "completed": sum(
-                            1 for les in _LESSONS
+                            1
+                            for les in _LESSONS
                             if les["module_id"] == tier and les["id"] in completed_ids
                         ),
                     }
@@ -1129,7 +1337,8 @@ class LearnService:
                 tier: {
                     "total": sum(1 for les in _LESSONS if les["module_id"] == tier),
                     "completed": sum(
-                        1 for les in _LESSONS
+                        1
+                        for les in _LESSONS
                         if les["module_id"] == tier and les["id"] in completed_ids
                     ),
                 }

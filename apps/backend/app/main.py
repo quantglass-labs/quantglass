@@ -8,10 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.alerts import router as alerts_router
 from app.api.routes.content import router as content_router
-from app.api.routes.learn import router as learn_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
+from app.api.routes.learn import router as learn_router
 from app.api.routes.market import router as market_router
 from app.api.routes.paper import router as paper_router
 from app.api.routes.providers import router as providers_router
@@ -26,6 +26,7 @@ from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
 from app.services.extension_surface_registry import ExtensionSurfaceRegistry
 from app.services.indicator_registry import IndicatorRegistry
+from app.services.learn_service import LearnService
 from app.services.market_corridor import MarketCorridorService
 from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
@@ -33,7 +34,6 @@ from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
 from app.services.signal_engine import SignalEngineService
 from app.services.strategy_registry import StrategyRegistry
-from app.services.learn_service import LearnService
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
@@ -76,7 +76,9 @@ async def lifespan(app: FastAPI):
     analytics_store.initialize()
     notification_service = AlertNotificationService(state_store)
     trading_service = TradingExecutionService(state_store, provider_manager, event_bus)
-    execution_engine = ExecutionEngineService(state_store, analytics_store, event_bus, notification_service)
+    execution_engine = ExecutionEngineService(
+        state_store, analytics_store, event_bus, notification_service
+    )
     market_corridor_service = MarketCorridorService(provider_manager, analytics_store, rate_limiter)
     model_gateway = ModelGateway(api_key_provider=state_store.get_api_key_value)
     narration_service = NarrationService(

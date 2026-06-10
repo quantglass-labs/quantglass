@@ -33,7 +33,11 @@ class _FakeAnalyticsStore:
         self._candles = candles
 
     def list_market_series(self, minimum_candles: int = 60) -> list[dict]:
-        return [s for s in self._series if len(self._candles[(s["symbol"], s["timeframe"])]) >= minimum_candles]
+        return [
+            s
+            for s in self._series
+            if len(self._candles[(s["symbol"], s["timeframe"])]) >= minimum_candles
+        ]
 
     def list_market_candles(self, symbol: str, timeframe: str, limit: int = 300) -> dict:
         closes = self._candles[(symbol, timeframe)]
@@ -60,7 +64,9 @@ def test_ranking_orders_strongest_momentum_first() -> None:
         {"symbol": "WEAK", "market_type": "crypto", "timeframe": "1h", "source": "test"},
         {"symbol": "FALLING", "market_type": "crypto", "timeframe": "1h", "source": "test"},
     ]
-    service = RelativeStrengthRankingService(_FakeAnalyticsStore(series, candles), minimum_candles=30)
+    service = RelativeStrengthRankingService(
+        _FakeAnalyticsStore(series, candles), minimum_candles=30
+    )
 
     result = service.rank()
     items = result["items"]
@@ -83,7 +89,9 @@ def test_ranking_percentile_isolated_per_market_type() -> None:
         {"symbol": "BTCUSD", "market_type": "crypto", "timeframe": "1h", "source": "test"},
         {"symbol": "SPY", "market_type": "stocks", "timeframe": "1d", "source": "test"},
     ]
-    service = RelativeStrengthRankingService(_FakeAnalyticsStore(series, candles), minimum_candles=30)
+    service = RelativeStrengthRankingService(
+        _FakeAnalyticsStore(series, candles), minimum_candles=30
+    )
 
     result = service.rank()
     by_symbol = {item["symbol"]: item for item in result["items"]}

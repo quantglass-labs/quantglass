@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+line-length = 100
+target-version = "py311"
+extend-exclude = ["mock", "docs"]
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
+ignore = [
+  # zip(strict=...) requires touching hot indicator loops; revisit separately.
+  "B905",
+]
+
+[lint.isort]
+known-first-party = ["app"]

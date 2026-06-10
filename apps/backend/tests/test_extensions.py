@@ -7,8 +7,7 @@ from fastapi.testclient import TestClient
 from app.api.routes.extensions import router as extensions_router
 from app.core.config import ProviderSettings
 from app.extensions.base import ExtensionContext, ExtensionManifest, ExtensionSetting
-from app.extensions.registry import ExtensionRecord, ExtensionRegistry
-from app.extensions.registry import load_extension_registry
+from app.extensions.registry import ExtensionRecord, ExtensionRegistry, load_extension_registry
 from app.extensions.validation import validate_candles
 from app.providers.manager import ProviderManager
 from app.services.extension_surface_registry import ExtensionSurfaceRegistry

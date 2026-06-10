@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -20,7 +20,7 @@ class _StateStore:
 
     def mark_lesson_complete(self, lesson_id: str) -> None:
         entry = self.progress.setdefault(lesson_id, {"attempts": 0})
-        entry["completed_at"] = datetime.now(timezone.utc).isoformat()
+        entry["completed_at"] = datetime.now(UTC).isoformat()
 
     def record_lesson_attempt(self, lesson_id: str) -> None:
         entry = self.progress.setdefault(lesson_id, {"attempts": 0})

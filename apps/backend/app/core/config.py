@@ -5,8 +5,7 @@ import os
 import sys
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -139,9 +138,7 @@ class AppSettings(BaseSettings):
 
     app_name: str = "QuantGlass Backend"
     environment: str = "development"
-    workspace_root: Path = Field(
-        default_factory=lambda: Path(__file__).resolve().parents[4]
-    )
+    workspace_root: Path = Field(default_factory=lambda: Path(__file__).resolve().parents[4])
     data_dir: Path = Field(default_factory=_default_data_dir)
     sqlite_path: Path | None = None
     duckdb_path: Path | None = None
@@ -187,11 +184,19 @@ def apply_api_key_settings(
         if isinstance(item, dict) and isinstance(item.get("id"), str)
     }
 
-    alpaca_key_id = indexed_keys.get("alpaca-market-data-key-id") or settings.alpaca_market_data_key_id or None
-    alpaca_secret_key = indexed_keys.get("alpaca-market-data-secret-key") or settings.alpaca_market_data_secret_key or None
+    alpaca_key_id = (
+        indexed_keys.get("alpaca-market-data-key-id") or settings.alpaca_market_data_key_id or None
+    )
+    alpaca_secret_key = (
+        indexed_keys.get("alpaca-market-data-secret-key")
+        or settings.alpaca_market_data_secret_key
+        or None
+    )
     finnhub_api_key = indexed_keys.get("finnhub-api-key") or settings.finnhub_api_key or None
     polygon_api_key = indexed_keys.get("polygon-api-key") or settings.polygon_api_key or None
-    twelvedata_api_key = indexed_keys.get("twelvedata-api-key") or settings.twelvedata_api_key or None
+    twelvedata_api_key = (
+        indexed_keys.get("twelvedata-api-key") or settings.twelvedata_api_key or None
+    )
 
     return settings.model_copy(
         update={

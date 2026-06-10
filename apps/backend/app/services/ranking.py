@@ -10,7 +10,7 @@ surface the strongest candidates. Everything runs on data already stored in the 
 analytics store; no network or cloud calls are made.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.storage.analytics_store import AnalyticsStore
@@ -27,16 +27,16 @@ class RelativeStrengthRankingService:
 
     def rank(self) -> dict[str, Any]:
         rows: list[dict[str, Any]] = []
-        for series in self._analytics_store.list_market_series(minimum_candles=self._minimum_candles):
+        for series in self._analytics_store.list_market_series(
+            minimum_candles=self._minimum_candles
+        ):
             payload = self._analytics_store.list_market_candles(
                 series["symbol"],
                 series["timeframe"],
                 limit=120,
             )
             closes = [
-                candle["close"]
-                for candle in payload["items"]
-                if candle.get("close") is not None
+                candle["close"] for candle in payload["items"] if candle.get("close") is not None
             ]
             if len(closes) < self._minimum_candles:
                 continue
@@ -68,7 +68,7 @@ class RelativeStrengthRankingService:
         )
 
         return {
-            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "generated_at_utc": datetime.now(UTC).isoformat(),
             "items": rows,
         }
 

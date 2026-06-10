@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from collections import defaultdict, deque
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 
 class RateLimitExceededError(RuntimeError):
@@ -20,7 +20,7 @@ class InMemoryRateLimiter:
         if limit_per_minute <= 0:
             raise RateLimitExceededError(key, 60)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         window_start = now - timedelta(minutes=1)
         events = self._events[key]
 

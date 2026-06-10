@@ -70,7 +70,9 @@ def test_narration_uses_gateway_source_when_fact_checked() -> None:
     settings = AiSettings(cloud_enabled=True, provider="openai_compatible", model="local-model")
     service = NarrationService(
         ai_settings_provider=lambda: settings,
-        model_gateway=_Gateway(ModelResponse("BTCUSD has 58 confidence.", "openai_compatible:local-model")),
+        model_gateway=_Gateway(
+            ModelResponse("BTCUSD has 58 confidence.", "openai_compatible:local-model")
+        ),
     )
 
     text, source = service.narrate(_FACTS)
@@ -83,7 +85,9 @@ def test_narration_falls_back_when_gateway_fabricates_number() -> None:
     settings = AiSettings(cloud_enabled=True, provider="openai_compatible", model="local-model")
     service = NarrationService(
         ai_settings_provider=lambda: settings,
-        model_gateway=_Gateway(ModelResponse("BTCUSD will reach 12345.", "openai_compatible:local-model")),
+        model_gateway=_Gateway(
+            ModelResponse("BTCUSD will reach 12345.", "openai_compatible:local-model")
+        ),
     )
 
     text, source = service.narrate(_FACTS)

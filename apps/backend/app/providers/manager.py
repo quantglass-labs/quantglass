@@ -2,8 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from dataclasses import dataclass, field
-from typing import Any
-from typing import Literal
+from typing import Any, Literal
 
 from app.core.config import AppSettings, ProviderSettings, SafetySettings
 from app.providers.keyed import (
@@ -50,7 +49,9 @@ class ProviderManager:
         self._clients: dict[str, Any] = {}
         self._custom_provider_profiles = custom_provider_profiles or []
         self._api_key_provider = api_key_provider
-        self.configure(settings, app_settings, safety_settings, custom_provider_profiles, api_key_provider)
+        self.configure(
+            settings, app_settings, safety_settings, custom_provider_profiles, api_key_provider
+        )
 
     def configure(
         self,
@@ -83,24 +84,55 @@ class ProviderManager:
         self._register_custom_profiles()
 
     def _register_defaults(self) -> None:
-        self.register("ccxt_coinbase", {"ohlcv", "order_book", "trading"}, client=CoinbasePublicOHLCVProvider(), transport="public")
-        self.register("ccxt_kraken", {"ohlcv", "order_book", "trading"}, client=KrakenPublicOHLCVProvider(), transport="public")
-        self.register("gemini", {"ohlcv", "order_book", "trading"}, client=GeminiPublicOHLCVProvider(), transport="public")
-        self.register("alpaca", {"ohlcv", "trading"}, client=self._build_alpaca_client(), transport="keyed")
-        self.register("finnhub", {"ohlcv", "news"}, client=self._build_finnhub_client(), transport="keyed")
-        self.register("twelvedata", {"ohlcv"}, client=self._build_twelvedata_client(), transport="keyed")
+        self.register(
+            "ccxt_coinbase",
+            {"ohlcv", "order_book", "trading"},
+            client=CoinbasePublicOHLCVProvider(),
+            transport="public",
+        )
+        self.register(
+            "ccxt_kraken",
+            {"ohlcv", "order_book", "trading"},
+            client=KrakenPublicOHLCVProvider(),
+            transport="public",
+        )
+        self.register(
+            "gemini",
+            {"ohlcv", "order_book", "trading"},
+            client=GeminiPublicOHLCVProvider(),
+            transport="public",
+        )
+        self.register(
+            "alpaca", {"ohlcv", "trading"}, client=self._build_alpaca_client(), transport="keyed"
+        )
+        self.register(
+            "finnhub", {"ohlcv", "news"}, client=self._build_finnhub_client(), transport="keyed"
+        )
+        self.register(
+            "twelvedata", {"ohlcv"}, client=self._build_twelvedata_client(), transport="keyed"
+        )
         self.register("polygon", {"ohlcv"}, client=self._build_polygon_client(), transport="keyed")
-        self.register("finnhub_news", {"news"}, client=self._build_finnhub_client(), transport="keyed")
+        self.register(
+            "finnhub_news", {"news"}, client=self._build_finnhub_client(), transport="keyed"
+        )
         self.register("ollama", {"ai"}, transport="internal")
         self.register("lm_studio", {"ai"}, transport="internal")
         self.register("openai", {"ai"}, transport="keyed")
         self.register("openai_compatible", {"ai"}, transport="keyed")
         self.register("alpaca_paper", {"trading"}, transport="internal")
         self.register("ccxt_trade", {"trading"}, transport="internal")
-        self.register("coinbase_public", {"ohlcv"}, client=CoinbasePublicOHLCVProvider(), transport="public")
-        self.register("kraken_public", {"ohlcv"}, client=KrakenPublicOHLCVProvider(), transport="public")
-        self.register("gemini_public", {"ohlcv"}, client=GeminiPublicOHLCVProvider(), transport="public")
-        self.register("yahoo_public", {"ohlcv"}, client=YahooFinanceOHLCVProvider(), transport="public")
+        self.register(
+            "coinbase_public", {"ohlcv"}, client=CoinbasePublicOHLCVProvider(), transport="public"
+        )
+        self.register(
+            "kraken_public", {"ohlcv"}, client=KrakenPublicOHLCVProvider(), transport="public"
+        )
+        self.register(
+            "gemini_public", {"ohlcv"}, client=GeminiPublicOHLCVProvider(), transport="public"
+        )
+        self.register(
+            "yahoo_public", {"ohlcv"}, client=YahooFinanceOHLCVProvider(), transport="public"
+        )
 
     def register(
         self,
@@ -216,7 +248,10 @@ class ProviderManager:
             return None
         if not self._app_settings.enable_alpaca_market_data:
             return None
-        if not self._app_settings.alpaca_market_data_key_id or not self._app_settings.alpaca_market_data_secret_key:
+        if (
+            not self._app_settings.alpaca_market_data_key_id
+            or not self._app_settings.alpaca_market_data_secret_key
+        ):
             return None
         trading_base_url = (
             AlpacaStocksOHLCVProvider.LIVE_TRADING_BASE_URL
@@ -233,21 +268,30 @@ class ProviderManager:
     def _build_finnhub_client(self) -> Any | None:
         if not self._app_settings:
             return None
-        if not self._app_settings.enable_finnhub_market_data or not self._app_settings.finnhub_api_key:
+        if (
+            not self._app_settings.enable_finnhub_market_data
+            or not self._app_settings.finnhub_api_key
+        ):
             return None
         return FinnhubStocksOHLCVProvider(self._app_settings.finnhub_api_key)
 
     def _build_polygon_client(self) -> Any | None:
         if not self._app_settings:
             return None
-        if not self._app_settings.enable_polygon_market_data or not self._app_settings.polygon_api_key:
+        if (
+            not self._app_settings.enable_polygon_market_data
+            or not self._app_settings.polygon_api_key
+        ):
             return None
         return PolygonStocksOHLCVProvider(self._app_settings.polygon_api_key)
 
     def _build_twelvedata_client(self) -> Any | None:
         if not self._app_settings:
             return None
-        if not self._app_settings.enable_twelvedata_market_data or not self._app_settings.twelvedata_api_key:
+        if (
+            not self._app_settings.enable_twelvedata_market_data
+            or not self._app_settings.twelvedata_api_key
+        ):
             return None
         return TwelveDataStocksOHLCVProvider(self._app_settings.twelvedata_api_key)
 

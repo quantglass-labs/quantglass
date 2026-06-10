@@ -10,7 +10,9 @@ def _clone(payload: Any) -> Any:
 
 
 def build_signal_id(signal: dict[str, Any]) -> str:
-    return f"{signal['symbol']}-{signal['timeframe']}-{signal['signal']}-{signal['generated_at_utc']}"
+    return (
+        f"{signal['symbol']}-{signal['timeframe']}-{signal['signal']}-{signal['generated_at_utc']}"
+    )
 
 
 _canonical_signals = [
@@ -467,8 +469,40 @@ _backtest_presets = [
             "inSampleWinRate": 61,
             "outOfSampleWinRate": 58,
         },
-        "equityCurve": [100, 101.4, 102.1, 101.8, 103.6, 104.9, 104.2, 106.1, 108.4, 109.3, 110.8, 112.6, 114.9, 116.4, 118.2],
-        "drawdownCurve": [0, -0.6, -0.3, -1.1, -0.4, -0.8, -1.4, -0.7, -0.2, -0.4, -0.1, -0.6, -0.3, -0.2, -0.1],
+        "equityCurve": [
+            100,
+            101.4,
+            102.1,
+            101.8,
+            103.6,
+            104.9,
+            104.2,
+            106.1,
+            108.4,
+            109.3,
+            110.8,
+            112.6,
+            114.9,
+            116.4,
+            118.2,
+        ],
+        "drawdownCurve": [
+            0,
+            -0.6,
+            -0.3,
+            -1.1,
+            -0.4,
+            -0.8,
+            -1.4,
+            -0.7,
+            -0.2,
+            -0.4,
+            -0.1,
+            -0.6,
+            -0.3,
+            -0.2,
+            -0.1,
+        ],
     },
     {
         "id": "spy-trend-pullback",
@@ -493,8 +527,40 @@ _backtest_presets = [
             "inSampleWinRate": 63,
             "outOfSampleWinRate": 61,
         },
-        "equityCurve": [100, 100.8, 101.5, 102.9, 104.1, 104.7, 106.3, 107.6, 108.8, 110.5, 111.1, 112.4, 113.9, 115.8, 117.3],
-        "drawdownCurve": [0, -0.1, -0.2, -0.4, -0.3, -0.6, -0.4, -0.5, -0.3, -0.2, -0.4, -0.1, -0.3, -0.2, -0.1],
+        "equityCurve": [
+            100,
+            100.8,
+            101.5,
+            102.9,
+            104.1,
+            104.7,
+            106.3,
+            107.6,
+            108.8,
+            110.5,
+            111.1,
+            112.4,
+            113.9,
+            115.8,
+            117.3,
+        ],
+        "drawdownCurve": [
+            0,
+            -0.1,
+            -0.2,
+            -0.4,
+            -0.3,
+            -0.6,
+            -0.4,
+            -0.5,
+            -0.3,
+            -0.2,
+            -0.4,
+            -0.1,
+            -0.3,
+            -0.2,
+            -0.1,
+        ],
     },
     {
         "id": "tsla-whipsaw",

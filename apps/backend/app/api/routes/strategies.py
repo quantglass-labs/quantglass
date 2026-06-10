@@ -36,9 +36,7 @@ async def update_saved_strategy(
     payload: SavedStrategyPayload,
     request: Request,
 ) -> dict[str, object]:
-    item = request.app.state.state_store.save_strategy(
-        {**payload.model_dump(), "id": strategy_id}
-    )
+    item = request.app.state.state_store.save_strategy({**payload.model_dump(), "id": strategy_id})
     return {"item": item}
 
 

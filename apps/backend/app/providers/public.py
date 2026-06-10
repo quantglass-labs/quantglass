@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from urllib.request import Request, urlopen
 
@@ -43,10 +43,12 @@ class CoinbasePublicOHLCVProvider:
             f"https://api.exchange.coinbase.com/products/{product}/candles?granularity={granularity}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
+        payload = json.loads(
+            urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8")
+        )
         candles = [
             {
-                "open_time_utc": datetime.fromtimestamp(row[0], timezone.utc).isoformat(),
+                "open_time_utc": datetime.fromtimestamp(row[0], UTC).isoformat(),
                 "low": float(row[1]),
                 "high": float(row[2]),
                 "open": float(row[3]),
@@ -103,11 +105,13 @@ class KrakenPublicOHLCVProvider:
             f"https://api.kraken.com/0/public/OHLC?pair={pair}&interval={interval}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
+        payload = json.loads(
+            urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8")
+        )
         pair_key = next(iter(payload["result"].keys() - {"last"}))
         candles = [
             {
-                "open_time_utc": datetime.fromtimestamp(int(row[0]), timezone.utc).isoformat(),
+                "open_time_utc": datetime.fromtimestamp(int(row[0]), UTC).isoformat(),
                 "open": float(row[1]),
                 "high": float(row[2]),
                 "low": float(row[3]),
@@ -164,10 +168,12 @@ class GeminiPublicOHLCVProvider:
             f"https://api.gemini.com/v2/candles/{gemini_symbol}/{period}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
+        payload = json.loads(
+            urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8")
+        )
         candles = [
             {
-                "open_time_utc": datetime.fromtimestamp(int(row[0]) / 1000, timezone.utc).isoformat(),
+                "open_time_utc": datetime.fromtimestamp(int(row[0]) / 1000, UTC).isoformat(),
                 "open": float(row[1]),
                 "high": float(row[2]),
                 "low": float(row[3]),
@@ -195,7 +201,11 @@ class YahooFinanceOHLCVProvider:
     }
 
     def get_symbols(self, market_type: str) -> list[str]:
-        return ["SPY", "QQQ", "AAPL", "MSFT", "NVDA", "TSLA", "COIN", "IWM"] if market_type == "stocks" else []
+        return (
+            ["SPY", "QQQ", "AAPL", "MSFT", "NVDA", "TSLA", "COIN", "IWM"]
+            if market_type == "stocks"
+            else []
+        )
 
     def get_ohlcv(
         self,
@@ -215,7 +225,9 @@ class YahooFinanceOHLCVProvider:
             f"https://query1.finance.yahoo.com/v8/finance/chart/{normalized_symbol}?interval={interval}&range=6mo",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
+        payload = json.loads(
+            urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8")
+        )
         result = payload["chart"]["result"][0]
         quote = result["indicators"]["quote"][0]
 
@@ -230,7 +242,7 @@ class YahooFinanceOHLCVProvider:
                 continue
             candles.append(
                 {
-                    "open_time_utc": datetime.fromtimestamp(timestamp, timezone.utc).isoformat(),
+                    "open_time_utc": datetime.fromtimestamp(timestamp, UTC).isoformat(),
                     "open": float(open_value),
                     "high": float(high_value),
                     "low": float(low_value),

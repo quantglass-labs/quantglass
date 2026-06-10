@@ -3,10 +3,10 @@
 
 import json
 from calendar import monthrange
-from datetime import date, datetime, time, timedelta, timezone
-from zoneinfo import ZoneInfo
-from uuid import uuid4
+from datetime import UTC, date, datetime, time, timedelta
 from typing import Any
+from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 from app.providers.manager import ProviderManager
 from app.services.rate_limits import InMemoryRateLimiter, RateLimitExceededError
@@ -132,18 +132,15 @@ class MarketCorridorService:
             items.append(self._refresh_target(target))
 
         return {
-            "refreshed_at_utc": datetime.now(timezone.utc).isoformat(),
+            "refreshed_at_utc": datetime.now(UTC).isoformat(),
             "items": items,
         }
 
     def get_status(self) -> dict[str, object]:
         return {
-            "refreshed_at_utc": datetime.now(timezone.utc).isoformat(),
+            "refreshed_at_utc": datetime.now(UTC).isoformat(),
             "items": self._analytics_store.get_market_candle_corridor_summary(
-                [
-                    (target["symbol"], target["timeframe"])
-                    for target in self._corridor_targets
-                ]
+                [(target["symbol"], target["timeframe"]) for target in self._corridor_targets]
             ),
         }
 
@@ -157,7 +154,7 @@ class MarketCorridorService:
         return self._analytics_store.list_market_candles(symbol, timeframe)
 
     def _refresh_target(self, target: dict[str, str]) -> dict[str, Any]:
-        run_started_at = datetime.now(timezone.utc)
+        run_started_at = datetime.now(UTC)
         self._analytics_store.clear_market_integrity_diagnostics(
             target["symbol"],
             target["timeframe"],
@@ -201,7 +198,9 @@ class MarketCorridorService:
             )
             raise
 
-        route_chain = self._provider_manager.resolve_chain(target["route_domain"], capability="ohlcv")
+        route_chain = self._provider_manager.resolve_chain(
+            target["route_domain"], capability="ohlcv"
+        )
         if not route_chain:
             raise RuntimeError(f"No OHLCV providers configured for {target['route_domain']}")
 
@@ -211,7 +210,11 @@ class MarketCorridorService:
             provider = self._provider_manager.get_client(provider_name)
 
             if provider is None:
-                code = "provider_not_configured" if not self._provider_manager.is_configured(provider_name) else "provider_client_unavailable"
+                code = (
+                    "provider_not_configured"
+                    if not self._provider_manager.is_configured(provider_name)
+                    else "provider_client_unavailable"
+                )
                 detail = (
                     f"Provider adapter is disabled or missing credentials for {provider_name}."
                     if code == "provider_not_configured"
@@ -336,7 +339,9 @@ class MarketCorridorService:
                 )
                 errors.append(f"{provider_name}: {exc}")
 
-        raise RuntimeError(f"Market corridor refresh failed for {target['symbol']}: {'; '.join(errors)}")
+        raise RuntimeError(
+            f"Market corridor refresh failed for {target['symbol']}: {'; '.join(errors)}"
+        )
 
     def _normalize_and_validate_candles(
         self,
@@ -355,12 +360,16 @@ class MarketCorridorService:
             normalized, normalize_error = self._normalize_single_candle(candle)
             if normalized is None:
                 invalid_count += 1
-                self._append_invalid_sample(invalid_samples, normalize_error or "normalize_failed", candle)
+                self._append_invalid_sample(
+                    invalid_samples, normalize_error or "normalize_failed", candle
+                )
                 continue
             is_valid, validation_error = self._is_valid_candle(normalized)
             if not is_valid:
                 invalid_count += 1
-                self._append_invalid_sample(invalid_samples, validation_error or "validation_failed", normalized)
+                self._append_invalid_sample(
+                    invalid_samples, validation_error or "validation_failed", normalized
+                )
                 continue
             open_time = normalized["open_time_utc"]
             if open_time in deduped_by_open_time:
@@ -368,8 +377,7 @@ class MarketCorridorService:
             deduped_by_open_time[open_time] = normalized
 
         normalized_candles = [
-            deduped_by_open_time[key]
-            for key in sorted(deduped_by_open_time.keys())
+            deduped_by_open_time[key] for key in sorted(deduped_by_open_time.keys())
         ]
 
         if invalid_count:
@@ -394,19 +402,23 @@ class MarketCorridorService:
             )
 
         if not normalized_candles:
-            return [], diagnostics, {
-                "candles_received": len(candles),
-                "candles_kept": 0,
-                "invalid_count": invalid_count,
-                "duplicate_count": duplicate_count,
-                "gap_count": 0,
-                "session_gap_count": 0,
-                "unexpected_gap_count": 0,
-                "cadence_max_gap_seconds": 0,
-                "partial_excluded_count": 0,
-                "invalid_samples": invalid_samples,
-                "gap_samples": [],
-            }
+            return (
+                [],
+                diagnostics,
+                {
+                    "candles_received": len(candles),
+                    "candles_kept": 0,
+                    "invalid_count": invalid_count,
+                    "duplicate_count": duplicate_count,
+                    "gap_count": 0,
+                    "session_gap_count": 0,
+                    "unexpected_gap_count": 0,
+                    "cadence_max_gap_seconds": 0,
+                    "partial_excluded_count": 0,
+                    "invalid_samples": invalid_samples,
+                    "gap_samples": [],
+                },
+            )
 
         expected_delta = self._expected_delta(target["timeframe"])
         gap_analysis = self._analyze_gaps(normalized_candles, expected_delta, target["market_type"])
@@ -425,7 +437,7 @@ class MarketCorridorService:
                 )
             )
 
-        now_utc = datetime.now(timezone.utc)
+        now_utc = datetime.now(UTC)
         latest_open_time = datetime.fromisoformat(normalized_candles[-1]["open_time_utc"])
         if latest_open_time + expected_delta > now_utc:
             normalized_candles = normalized_candles[:-1]
@@ -440,19 +452,23 @@ class MarketCorridorService:
                 )
             )
 
-        return normalized_candles, diagnostics, {
-            "candles_received": len(candles),
-            "candles_kept": len(normalized_candles),
-            "invalid_count": invalid_count,
-            "duplicate_count": duplicate_count,
-            "gap_count": gap_count,
-            "session_gap_count": gap_analysis["session_gap_count"],
-            "unexpected_gap_count": gap_analysis["unexpected_gap_count"],
-            "cadence_max_gap_seconds": gap_analysis["cadence_max_gap_seconds"],
-            "partial_excluded_count": partial_excluded_count,
-            "invalid_samples": invalid_samples,
-            "gap_samples": gap_analysis["gap_samples"],
-        }
+        return (
+            normalized_candles,
+            diagnostics,
+            {
+                "candles_received": len(candles),
+                "candles_kept": len(normalized_candles),
+                "invalid_count": invalid_count,
+                "duplicate_count": duplicate_count,
+                "gap_count": gap_count,
+                "session_gap_count": gap_analysis["session_gap_count"],
+                "unexpected_gap_count": gap_analysis["unexpected_gap_count"],
+                "cadence_max_gap_seconds": gap_analysis["cadence_max_gap_seconds"],
+                "partial_excluded_count": partial_excluded_count,
+                "invalid_samples": invalid_samples,
+                "gap_samples": gap_analysis["gap_samples"],
+            },
+        )
 
     @staticmethod
     def _build_run_summary(
@@ -473,7 +489,7 @@ class MarketCorridorService:
         gap_samples: list[dict[str, Any]],
         detail: str | None,
     ) -> dict[str, Any]:
-        completed_at = datetime.now(timezone.utc)
+        completed_at = datetime.now(UTC)
         return {
             "run_id": str(uuid4()),
             "symbol": target["symbol"],
@@ -498,13 +514,15 @@ class MarketCorridorService:
         }
 
     @staticmethod
-    def _normalize_single_candle(candle: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+    def _normalize_single_candle(
+        candle: dict[str, Any],
+    ) -> tuple[dict[str, Any] | None, str | None]:
         try:
             open_time = datetime.fromisoformat(str(candle["open_time_utc"]))
             if open_time.tzinfo is None:
-                open_time = open_time.replace(tzinfo=timezone.utc)
+                open_time = open_time.replace(tzinfo=UTC)
             else:
-                open_time = open_time.astimezone(timezone.utc)
+                open_time = open_time.astimezone(UTC)
             return {
                 "open_time_utc": open_time.isoformat(),
                 "open": float(candle["open"]),
@@ -614,11 +632,14 @@ class MarketCorridorService:
                 current_open.date(),
             )
 
-        return MarketCorridorService._count_expected_us_equity_intraday_opens(
-            previous_open,
-            current_open,
-            expected_delta,
-        ) == 0
+        return (
+            MarketCorridorService._count_expected_us_equity_intraday_opens(
+                previous_open,
+                current_open,
+                expected_delta,
+            )
+            == 0
+        )
 
     @staticmethod
     def _is_expected_us_equity_session_gap(previous_date: date, current_date: date) -> bool:
@@ -629,7 +650,9 @@ class MarketCorridorService:
             cursor += timedelta(days=1)
         if not skipped_dates:
             return False
-        return all(not MarketCorridorService._is_us_equity_trading_day(day) for day in skipped_dates)
+        return all(
+            not MarketCorridorService._is_us_equity_trading_day(day) for day in skipped_dates
+        )
 
     @staticmethod
     def _is_us_equity_trading_day(day: date) -> bool:
@@ -647,10 +670,9 @@ class MarketCorridorService:
         expected_count = 0
 
         while cursor < current_local:
-            if (
-                MarketCorridorService._is_us_equity_trading_day(cursor.date())
-                and MarketCorridorService._is_us_equity_intraday_bar_open(cursor)
-            ):
+            if MarketCorridorService._is_us_equity_trading_day(
+                cursor.date()
+            ) and MarketCorridorService._is_us_equity_intraday_bar_open(cursor):
                 expected_count += 1
             cursor += expected_delta
 
@@ -715,10 +737,10 @@ class MarketCorridorService:
         h = (19 * a + b - d - g + 15) % 30
         i = c // 4
         k = c % 4
-        l = (32 + 2 * e + 2 * i - h - k) % 7
-        m = (a + 11 * h + 22 * l) // 451
-        month = (h + l - 7 * m + 114) // 31
-        day = ((h + l - 7 * m + 114) % 31) + 1
+        ell = (32 + 2 * e + 2 * i - h - k) % 7
+        m = (a + 11 * h + 22 * ell) // 451
+        month = (h + ell - 7 * m + 114) // 31
+        day = ((h + ell - 7 * m + 114) % 31) + 1
         return date(year, month, day)
 
     @staticmethod
@@ -752,5 +774,5 @@ class MarketCorridorService:
             "severity": severity,
             "code": code,
             "detail": detail,
-            "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+            "observed_at_utc": datetime.now(UTC).isoformat(),
         }

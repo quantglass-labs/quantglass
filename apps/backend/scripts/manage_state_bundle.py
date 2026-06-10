@@ -7,14 +7,14 @@ import argparse
 import json
 import shutil
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from app.core.config import get_settings
 
 
 def _timestamp() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _bundle_entries() -> list[tuple[str, Path]]:
@@ -35,7 +35,7 @@ def export_bundle(output_path: Path | None = None) -> Path:
     backup_dir.mkdir(parents=True, exist_ok=True)
     bundle_path = output_path or backup_dir / f"quantglass-backup-{_timestamp()}.zip"
     manifest: dict[str, object] = {
-        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "created_at_utc": datetime.now(UTC).isoformat(),
         "service": settings.app_name,
         "files": [],
     }
@@ -76,14 +76,19 @@ def restore_bundle(bundle_path: Path) -> None:
                 continue
             target_path = settings.data_dir / member
             target_path.parent.mkdir(parents=True, exist_ok=True)
-            with archive.open(member, "r") as source_handle, target_path.open("wb") as target_handle:
+            with (
+                archive.open(member, "r") as source_handle,
+                target_path.open("wb") as target_handle,
+            ):
                 shutil.copyfileobj(source_handle, target_handle)
 
     print(pre_restore_bundle)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Export or restore QuantGlass local state bundles.")
+    parser = argparse.ArgumentParser(
+        description="Export or restore QuantGlass local state bundles."
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     export_parser = subparsers.add_parser("export")

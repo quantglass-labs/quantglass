@@ -3,15 +3,15 @@
 
 from __future__ import annotations
 
-import json
 import hashlib
 import hmac
+import json
 import re
 import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.core.config import AiSettings
@@ -73,21 +73,63 @@ class ModelGateway:
     def list_model_catalog(self, settings: AiSettings) -> ModelCatalog:
         fallback_items = self._fallback_model_items(settings.provider)
         fallback_models = [item["id"] for item in fallback_items]
-        fetched_at_utc = datetime.now(timezone.utc).isoformat()
+        fetched_at_utc = datetime.now(UTC).isoformat()
 
         if settings.provider == "template":
-            return ModelCatalog(fallback_models, False, "Template narration does not use a model endpoint.", fallback_items, "template", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                "Template narration does not use a model endpoint.",
+                fallback_items,
+                "template",
+                fetched_at_utc,
+            )
         if not settings.base_url:
-            return ModelCatalog(fallback_models, False, "No model endpoint base URL is configured.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                "No model endpoint base URL is configured.",
+                fallback_items,
+                "fallback",
+                fetched_at_utc,
+            )
         api_key = self._api_key_provider(settings.api_key_id)
         if settings.provider == "bedrock" and not self._bedrock_credentials(settings):
-            return ModelCatalog(fallback_models, False, "Amazon Bedrock model discovery requires saved AWS Access Key ID and AWS Secret Access Key.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                "Amazon Bedrock model discovery requires saved AWS Access Key ID and AWS Secret Access Key.",
+                fallback_items,
+                "fallback",
+                fetched_at_utc,
+            )
         if settings.provider == "vertex" and not api_key:
-            return ModelCatalog(fallback_models, False, "Google Vertex AI model discovery requires a saved Vertex AI OAuth access token.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                "Google Vertex AI model discovery requires a saved Vertex AI OAuth access token.",
+                fallback_items,
+                "fallback",
+                fetched_at_utc,
+            )
         if settings.provider in KEY_REQUIRED_PROVIDERS and not api_key:
-            return ModelCatalog(fallback_models, False, f"{self._provider_label(settings.provider)} model discovery requires a saved {self._provider_label(settings.provider)} API key.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                f"{self._provider_label(settings.provider)} model discovery requires a saved {self._provider_label(settings.provider)} API key.",
+                fallback_items,
+                "fallback",
+                fetched_at_utc,
+            )
         if settings.provider == "openai_compatible" and settings.api_key_id and not api_key:
-            return ModelCatalog(fallback_models, False, "The selected OpenAI-compatible API key is not saved yet.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                fallback_models,
+                False,
+                "The selected OpenAI-compatible API key is not saved yet.",
+                fallback_items,
+                "fallback",
+                fetched_at_utc,
+            )
 
         if settings.provider == "ollama":
             items = self._list_ollama_model_items(settings)
@@ -107,8 +149,22 @@ class ModelGateway:
             items = []
         if items:
             models = [str(item["id"]) for item in items if item.get("id")]
-            return ModelCatalog(models, True, "Models fetched live from the configured provider endpoint.", items, self._model_source(settings.provider), fetched_at_utc)
-        return ModelCatalog(fallback_models, False, "Provider model endpoint was unavailable; showing fallback suggestions only.", fallback_items, "fallback", fetched_at_utc)
+            return ModelCatalog(
+                models,
+                True,
+                "Models fetched live from the configured provider endpoint.",
+                items,
+                self._model_source(settings.provider),
+                fetched_at_utc,
+            )
+        return ModelCatalog(
+            fallback_models,
+            False,
+            "Provider model endpoint was unavailable; showing fallback suggestions only.",
+            fallback_items,
+            "fallback",
+            fetched_at_utc,
+        )
 
     def provider_diagnostic_detail(self, settings: AiSettings) -> str | None:
         if settings.provider != "ollama":
@@ -125,13 +181,19 @@ class ModelGateway:
         if settings.provider in OPENAI_COMPATIBLE_PROVIDERS:
             return self._openai_compatible_runtime_state(settings)
         if settings.provider != "ollama":
-            return {"runtimeStatus": "unknown", "runtimeDetail": "Runtime status is not available for this provider."}
+            return {
+                "runtimeStatus": "unknown",
+                "runtimeDetail": "Runtime status is not available for this provider.",
+            }
         selected_model = settings.model.strip()
         if not selected_model:
             return {"runtimeStatus": "unknown", "runtimeDetail": "No model is selected."}
         loaded_models = self._ollama_loaded_models(settings)
         if loaded_models is None:
-            return {"runtimeStatus": "unavailable", "runtimeDetail": "Ollama runtime status was unavailable."}
+            return {
+                "runtimeStatus": "unavailable",
+                "runtimeDetail": "Ollama runtime status was unavailable.",
+            }
         loaded_item = loaded_models.get(selected_model)
         if loaded_item is not None:
             return {
@@ -262,7 +324,9 @@ class ModelGateway:
         text_parts = [
             item.get("text", "")
             for item in content
-            if isinstance(item, dict) and item.get("type") == "text" and isinstance(item.get("text"), str)
+            if isinstance(item, dict)
+            and item.get("type") == "text"
+            and isinstance(item.get("text"), str)
         ]
         text = "\n".join(part for part in text_parts if part.strip()).strip()
         if not text:
@@ -347,7 +411,9 @@ class ModelGateway:
     def _call_bedrock_invoke_model(self, settings: AiSettings, prompt: str) -> ModelResponse | None:
         credentials = self._bedrock_credentials(settings)
         if not credentials:
-            self.last_error = "Amazon Bedrock requires saved AWS Access Key ID and AWS Secret Access Key."
+            self.last_error = (
+                "Amazon Bedrock requires saved AWS Access Key ID and AWS Secret Access Key."
+            )
             return None
         model_id = settings.model.strip()
         if not model_id:
@@ -447,18 +513,33 @@ class ModelGateway:
             if isinstance(item, dict) and isinstance(item.get("name"), str):
                 model_name = item["name"]
                 details = item.get("details")
-                parameter_size = details.get("parameter_size") if isinstance(details, dict) and isinstance(details.get("parameter_size"), str) else None
-                quantization = details.get("quantization_level") if isinstance(details, dict) and isinstance(details.get("quantization_level"), str) else None
+                parameter_size = (
+                    details.get("parameter_size")
+                    if isinstance(details, dict) and isinstance(details.get("parameter_size"), str)
+                    else None
+                )
+                quantization = (
+                    details.get("quantization_level")
+                    if isinstance(details, dict)
+                    and isinstance(details.get("quantization_level"), str)
+                    else None
+                )
                 description_parts = ["Local Ollama model"]
                 if parameter_size:
                     description_parts.append(parameter_size)
                 if quantization:
                     description_parts.append(quantization)
                 runtime_status = "unknown" if loaded_models is None else "not_loaded"
-                runtime_detail = "Ollama runtime status was unavailable." if loaded_models is None else "Installed locally. Not currently loaded; first use may take longer."
+                runtime_detail = (
+                    "Ollama runtime status was unavailable."
+                    if loaded_models is None
+                    else "Installed locally. Not currently loaded; first use may take longer."
+                )
                 if loaded_models and model_name in loaded_models:
                     runtime_status = "loaded"
-                    runtime_detail = self._ollama_loaded_model_detail(model_name, loaded_models[model_name])
+                    runtime_detail = self._ollama_loaded_model_detail(
+                        model_name, loaded_models[model_name]
+                    )
                 items.append(
                     {
                         "id": model_name,
@@ -466,7 +547,9 @@ class ModelGateway:
                         "description": " · ".join(description_parts),
                         "runtimeStatus": runtime_status,
                         "runtimeDetail": runtime_detail,
-                        "createdAt": item.get("modified_at") if isinstance(item.get("modified_at"), str) else None,
+                        "createdAt": item.get("modified_at")
+                        if isinstance(item.get("modified_at"), str)
+                        else None,
                     }
                 )
         return self._dedupe_items(items)
@@ -488,7 +571,9 @@ class ModelGateway:
         for item in models:
             if not isinstance(item, dict):
                 continue
-            model_name = item.get("name") if isinstance(item.get("name"), str) else item.get("model")
+            model_name = (
+                item.get("name") if isinstance(item.get("name"), str) else item.get("model")
+            )
             if isinstance(model_name, str) and model_name:
                 loaded[model_name] = item
         return loaded
@@ -510,9 +595,19 @@ class ModelGateway:
     @staticmethod
     def _ollama_loaded_model_detail(model_name: str, item: dict[str, Any]) -> str:
         details = item.get("details")
-        parameter_size = details.get("parameter_size") if isinstance(details, dict) and isinstance(details.get("parameter_size"), str) else None
-        quantization = details.get("quantization_level") if isinstance(details, dict) and isinstance(details.get("quantization_level"), str) else None
-        context_length = item.get("context_length") if isinstance(item.get("context_length"), int) else None
+        parameter_size = (
+            details.get("parameter_size")
+            if isinstance(details, dict) and isinstance(details.get("parameter_size"), str)
+            else None
+        )
+        quantization = (
+            details.get("quantization_level")
+            if isinstance(details, dict) and isinstance(details.get("quantization_level"), str)
+            else None
+        )
+        context_length = (
+            item.get("context_length") if isinstance(item.get("context_length"), int) else None
+        )
         size_vram = item.get("size_vram") if isinstance(item.get("size_vram"), int) else None
         parts = [f"Ollama currently has {model_name} loaded"]
         if parameter_size:
@@ -522,7 +617,7 @@ class ModelGateway:
         if context_length:
             parts.append(f"context {context_length}")
         if size_vram:
-            parts.append(f"VRAM {size_vram / (1024 ** 3):.1f} GiB")
+            parts.append(f"VRAM {size_vram / (1024**3):.1f} GiB")
         return f"{', '.join(parts)}."
 
     def _openai_compatible_runtime_state(self, settings: AiSettings) -> dict[str, str]:
@@ -540,7 +635,11 @@ class ModelGateway:
                 "runtimeStatus": self._catalog_runtime_status(settings.provider),
                 "runtimeDetail": self._catalog_runtime_detail(settings.provider),
             }
-        status = "not_installed" if settings.provider in LOCAL_OPENAI_COMPATIBLE_PROVIDERS else "unavailable"
+        status = (
+            "not_installed"
+            if settings.provider in LOCAL_OPENAI_COMPATIBLE_PROVIDERS
+            else "unavailable"
+        )
         return {
             "runtimeStatus": status,
             "runtimeDetail": f"{selected_model} was not returned by {self._provider_label(settings.provider)} /models.",
@@ -758,7 +857,7 @@ class ModelGateway:
         extra_headers: dict[str, str] | None = None,
     ) -> dict[str, str]:
         parsed = urllib.parse.urlparse(url)
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         amz_date = now.strftime("%Y%m%dT%H%M%SZ")
         date_stamp = now.strftime("%Y%m%d")
         headers = {
@@ -770,11 +869,12 @@ class ModelGateway:
         if session_token:
             headers["X-Amz-Security-Token"] = session_token
         canonical_headers = {
-            key.lower(): " ".join(value.strip().split())
-            for key, value in headers.items()
+            key.lower(): " ".join(value.strip().split()) for key, value in headers.items()
         }
         signed_headers = ";".join(sorted(canonical_headers))
-        canonical_header_text = "".join(f"{key}:{canonical_headers[key]}\n" for key in sorted(canonical_headers))
+        canonical_header_text = "".join(
+            f"{key}:{canonical_headers[key]}\n" for key in sorted(canonical_headers)
+        )
         query_pairs = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
         canonical_query = "&".join(
             f"{urllib.parse.quote(key, safe='-_.~')}={urllib.parse.quote(value, safe='-_.~')}"
@@ -804,8 +904,13 @@ class ModelGateway:
         def sign(key: bytes, message: str) -> bytes:
             return hmac.new(key, message.encode("utf-8"), hashlib.sha256).digest()
 
-        signing_key = sign(sign(sign(sign(f"AWS4{secret_key}".encode("utf-8"), date_stamp), region), service), "aws4_request")
-        signature = hmac.new(signing_key, string_to_sign.encode("utf-8"), hashlib.sha256).hexdigest()
+        signing_key = sign(
+            sign(sign(sign(f"AWS4{secret_key}".encode(), date_stamp), region), service),
+            "aws4_request",
+        )
+        signature = hmac.new(
+            signing_key, string_to_sign.encode("utf-8"), hashlib.sha256
+        ).hexdigest()
         headers["Authorization"] = (
             f"AWS4-HMAC-SHA256 Credential={access_key}/{scope}, "
             f"SignedHeaders={signed_headers}, Signature={signature}"
@@ -844,8 +949,12 @@ class ModelGateway:
                         "description": self._provider_label(settings.provider),
                         "runtimeStatus": self._catalog_runtime_status(settings.provider),
                         "runtimeDetail": self._catalog_runtime_detail(settings.provider),
-                        "created": item.get("created") if isinstance(item.get("created"), int) else None,
-                        "ownedBy": item.get("owned_by") if isinstance(item.get("owned_by"), str) else None,
+                        "created": item.get("created")
+                        if isinstance(item.get("created"), int)
+                        else None,
+                        "ownedBy": item.get("owned_by")
+                        if isinstance(item.get("owned_by"), str)
+                        else None,
                     }
                 )
         return self._rank_model_items(items, settings.provider)
@@ -889,11 +998,21 @@ class ModelGateway:
             if not isinstance(item, dict) or not isinstance(item.get("modelId"), str):
                 continue
             output_modalities = item.get("outputModalities")
-            if isinstance(output_modalities, list) and output_modalities and "TEXT" not in output_modalities:
+            if (
+                isinstance(output_modalities, list)
+                and output_modalities
+                and "TEXT" not in output_modalities
+            ):
                 continue
             model_id = item["modelId"]
-            provider = item.get("providerName") if isinstance(item.get("providerName"), str) else "Amazon Bedrock"
-            model_name = item.get("modelName") if isinstance(item.get("modelName"), str) else model_id
+            provider = (
+                item.get("providerName")
+                if isinstance(item.get("providerName"), str)
+                else "Amazon Bedrock"
+            )
+            model_name = (
+                item.get("modelName") if isinstance(item.get("modelName"), str) else model_id
+            )
             items.append(
                 {
                     "id": model_id,
@@ -901,9 +1020,15 @@ class ModelGateway:
                     "description": provider,
                     "runtimeStatus": "available",
                     "runtimeDetail": f"Amazon Bedrock reports {model_id} as available in {region}.",
-                    "inputModalities": item.get("inputModalities") if isinstance(item.get("inputModalities"), list) else [],
-                    "outputModalities": output_modalities if isinstance(output_modalities, list) else [],
-                    "responseStreamingSupported": item.get("responseStreamingSupported") if isinstance(item.get("responseStreamingSupported"), bool) else None,
+                    "inputModalities": item.get("inputModalities")
+                    if isinstance(item.get("inputModalities"), list)
+                    else [],
+                    "outputModalities": output_modalities
+                    if isinstance(output_modalities, list)
+                    else [],
+                    "responseStreamingSupported": item.get("responseStreamingSupported")
+                    if isinstance(item.get("responseStreamingSupported"), bool)
+                    else None,
                 }
             )
         return self._rank_model_items(items, settings.provider)
@@ -930,16 +1055,26 @@ class ModelGateway:
             if not isinstance(model_id, str) or not model_id:
                 continue
             supported_actions = item.get("supportedActions")
-            if isinstance(supported_actions, list) and supported_actions and "generateContent" not in supported_actions:
+            if (
+                isinstance(supported_actions, list)
+                and supported_actions
+                and "generateContent" not in supported_actions
+            ):
                 continue
             items.append(
                 {
                     "id": model_id,
-                    "label": item.get("displayName") if isinstance(item.get("displayName"), str) else model_id,
-                    "description": item.get("description") if isinstance(item.get("description"), str) else "Google Vertex AI publisher model",
+                    "label": item.get("displayName")
+                    if isinstance(item.get("displayName"), str)
+                    else model_id,
+                    "description": item.get("description")
+                    if isinstance(item.get("description"), str)
+                    else "Google Vertex AI publisher model",
                     "runtimeStatus": "available",
                     "runtimeDetail": f"Google Vertex AI reports {model_id} as available for the configured project/location.",
-                    "supportedGenerationMethods": supported_actions if isinstance(supported_actions, list) else [],
+                    "supportedGenerationMethods": supported_actions
+                    if isinstance(supported_actions, list)
+                    else [],
                 }
             )
         return self._rank_model_items(items, settings.provider)
@@ -970,8 +1105,12 @@ class ModelGateway:
                 items.append(
                     {
                         "id": item["id"],
-                        "label": item.get("display_name") if isinstance(item.get("display_name"), str) else item["id"],
-                        "createdAt": item.get("created_at") if isinstance(item.get("created_at"), str) else None,
+                        "label": item.get("display_name")
+                        if isinstance(item.get("display_name"), str)
+                        else item["id"],
+                        "createdAt": item.get("created_at")
+                        if isinstance(item.get("created_at"), str)
+                        else None,
                     }
                 )
         return items
@@ -1002,10 +1141,18 @@ class ModelGateway:
             items.append(
                 {
                     "id": item["name"].removeprefix("models/"),
-                    "label": item.get("displayName") if isinstance(item.get("displayName"), str) else item["name"].removeprefix("models/"),
-                    "description": item.get("description") if isinstance(item.get("description"), str) else None,
-                    "inputTokenLimit": item.get("inputTokenLimit") if isinstance(item.get("inputTokenLimit"), int) else None,
-                    "outputTokenLimit": item.get("outputTokenLimit") if isinstance(item.get("outputTokenLimit"), int) else None,
+                    "label": item.get("displayName")
+                    if isinstance(item.get("displayName"), str)
+                    else item["name"].removeprefix("models/"),
+                    "description": item.get("description")
+                    if isinstance(item.get("description"), str)
+                    else None,
+                    "inputTokenLimit": item.get("inputTokenLimit")
+                    if isinstance(item.get("inputTokenLimit"), int)
+                    else None,
+                    "outputTokenLimit": item.get("outputTokenLimit")
+                    if isinstance(item.get("outputTokenLimit"), int)
+                    else None,
                     "supportedGenerationMethods": methods if isinstance(methods, list) else [],
                 }
             )
@@ -1022,7 +1169,11 @@ class ModelGateway:
         elif provider == "openai":
             models = ["gpt-5.5", "gpt-5.2", "gpt-5.1", "gpt-5", "gpt-4.1-mini"]
         elif provider == "anthropic":
-            models = ["claude-sonnet-4-20250514", "claude-opus-4-20250514", "claude-3-5-haiku-latest"]
+            models = [
+                "claude-sonnet-4-20250514",
+                "claude-opus-4-20250514",
+                "claude-3-5-haiku-latest",
+            ]
         elif provider == "google_gemini":
             models = ["gemini-3.5-flash", "gemini-2.5-flash", "gemini-2.5-pro"]
         elif provider == "vllm":
@@ -1046,7 +1197,13 @@ class ModelGateway:
         elif provider == "vertex":
             models = ["gemini-2.5-pro", "gemini-2.5-flash"]
         elif provider == "openai_compatible":
-            models = ["local-model", "openai/gpt-5.5", "openai/gpt-5.2", "anthropic/claude-sonnet-4", "google/gemini-2.5-flash"]
+            models = [
+                "local-model",
+                "openai/gpt-5.5",
+                "openai/gpt-5.2",
+                "anthropic/claude-sonnet-4",
+                "google/gemini-2.5-flash",
+            ]
         else:
             models = ["deterministic-template"]
         return [
@@ -1146,7 +1303,9 @@ class ModelGateway:
                 if "flash" in model_id:
                     priority += 50
             elif provider == "openai_compatible":
-                if any(token in model_id for token in ("gpt-5", "claude", "gemini", "qwen", "llama")):
+                if any(
+                    token in model_id for token in ("gpt-5", "claude", "gemini", "qwen", "llama")
+                ):
                     priority += 200
             created = item.get("created")
             created_score = created if isinstance(created, int) else 0

@@ -136,12 +136,16 @@ class ExecutionEngineService:
         selected_series: dict[str, dict[str, Any]] = {}
         for series in self._analytics_store.list_market_series(minimum_candles=2):
             current = selected_series.get(series["symbol"])
-            if current is None or preferred_rank.get(series["timeframe"], 99) < preferred_rank.get(current["timeframe"], 99):
+            if current is None or preferred_rank.get(series["timeframe"], 99) < preferred_rank.get(
+                current["timeframe"], 99
+            ):
                 selected_series[series["symbol"]] = series
 
         snapshots: dict[str, MarketSnapshot] = {}
         for symbol, series in selected_series.items():
-            candles = self._analytics_store.list_market_candles(symbol, series["timeframe"], limit=2)["items"]
+            candles = self._analytics_store.list_market_candles(
+                symbol, series["timeframe"], limit=2
+            )["items"]
             if not candles:
                 continue
             latest = candles[-1]

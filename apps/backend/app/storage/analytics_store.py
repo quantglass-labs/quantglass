@@ -444,7 +444,9 @@ class AnalyticsStore:
                 "severity": row[4],
                 "code": row[5],
                 "detail": row[6],
-                "observed_at_utc": row[7].isoformat() if hasattr(row[7], "isoformat") else str(row[7]),
+                "observed_at_utc": row[7].isoformat()
+                if hasattr(row[7], "isoformat")
+                else str(row[7]),
             }
             for row in rows
         ]
@@ -536,15 +538,20 @@ class AnalyticsStore:
                 "invalid_samples": json.loads(row[15]) if row[15] else [],
                 "gap_samples": json.loads(row[16]) if row[16] else [],
                 "detail": row[17],
-                "started_at_utc": row[18].isoformat() if hasattr(row[18], "isoformat") else str(row[18]),
-                "completed_at_utc": row[19].isoformat() if hasattr(row[19], "isoformat") else str(row[19]),
+                "started_at_utc": row[18].isoformat()
+                if hasattr(row[18], "isoformat")
+                else str(row[18]),
+                "completed_at_utc": row[19].isoformat()
+                if hasattr(row[19], "isoformat")
+                else str(row[19]),
             }
             for row in rows
         ]
 
     def _ensure_market_ingest_run_columns(self, connection: duckdb.DuckDBPyConnection) -> None:
         columns = {
-            row[1] for row in connection.execute("PRAGMA table_info('market_ingest_runs')").fetchall()
+            row[1]
+            for row in connection.execute("PRAGMA table_info('market_ingest_runs')").fetchall()
         }
         if "session_gap_count" not in columns:
             connection.execute(
@@ -575,9 +582,7 @@ class AnalyticsStore:
                 "UPDATE market_ingest_runs SET invalid_samples_json = '[]' WHERE invalid_samples_json IS NULL"
             )
         if "gap_samples_json" not in columns:
-            connection.execute(
-                "ALTER TABLE market_ingest_runs ADD COLUMN gap_samples_json TEXT"
-            )
+            connection.execute("ALTER TABLE market_ingest_runs ADD COLUMN gap_samples_json TEXT")
             connection.execute(
                 "UPDATE market_ingest_runs SET gap_samples_json = '[]' WHERE gap_samples_json IS NULL"
             )
