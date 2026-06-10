@@ -41,7 +41,9 @@ function SidebarNav() {
           className={({ isActive }) =>
             clsx(
               'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition',
-              isActive ? 'bg-accentStrong/20 text-ink soft-ring' : 'text-muted hover:bg-white/5 hover:text-ink',
+              isActive
+                ? 'bg-accentStrong/20 text-ink soft-ring'
+                : 'text-muted hover:bg-white/5 hover:text-ink',
             )
           }
         >
@@ -93,7 +95,9 @@ export function AppShell({
             </div>
             <div>
               <h1 className="text-xl font-semibold tracking-tight">QuantGlass</h1>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted">Quantitative desktop terminal</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted">
+                Quantitative desktop terminal
+              </p>
             </div>
           </div>
         </div>
@@ -109,7 +113,9 @@ export function AppShell({
             </div>
             <div>
               <p className="text-sm font-medium text-ink">Paper trading first</p>
-              <p className="text-xs text-muted">Paper intents execute through the backend scheduler; live trading remains off.</p>
+              <p className="text-xs text-muted">
+                Paper intents execute through the backend scheduler; live trading remains off.
+              </p>
             </div>
           </div>
           <DisclaimerChip compact />
@@ -172,7 +178,11 @@ export function AppShell({
                 )}
               >
                 <span className="size-2 rounded-full bg-current" />
-                {backendStatus === 'online' ? 'Backend Online' : backendStatus === 'connecting' ? 'Backend Connecting' : 'Backend Offline'}
+                {backendStatus === 'online'
+                  ? 'Backend Online'
+                  : backendStatus === 'connecting'
+                    ? 'Backend Connecting'
+                    : 'Backend Offline'}
               </span>
               <div className="hidden xl:block">
                 <DisclaimerChip compact />
@@ -207,7 +217,10 @@ export function AppShell({
               to={item.to}
               end={item.end}
               className={({ isActive }) =>
-                clsx('flex flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium', isActive ? 'text-ink' : 'text-muted')
+                clsx(
+                  'flex flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium',
+                  isActive ? 'text-ink' : 'text-muted',
+                )
               }
             >
               <item.icon className="size-4" />
@@ -218,7 +231,10 @@ export function AppShell({
       </nav>
 
       <footer className="border-t border-border/70 px-4 py-4 text-xs text-muted lg:ml-72 lg:px-8">
-        Educational use only. Not financial advice. {backendStatus === 'online' ? 'Health, provider settings, and watchlist are sourced from the local backend.' : 'Backend is unavailable, so data-driven surfaces may be incomplete until it is restored.'}
+        Educational use only. Not financial advice.{' '}
+        {backendStatus === 'online'
+          ? 'Health, provider settings, and watchlist are sourced from the local backend.'
+          : 'Backend is unavailable, so data-driven surfaces may be incomplete until it is restored.'}
       </footer>
     </div>
   );

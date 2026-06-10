@@ -13,10 +13,26 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ExerciseResult, LearnCatalogResponse, LessonRecord, LessonStub, LessonTier } from '@quantglass/contracts';
+import type {
+  ExerciseResult,
+  LearnCatalogResponse,
+  LessonRecord,
+  LessonStub,
+  LessonTier,
+} from '@quantglass/contracts';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus } from '../types';
-import { BookOpen, ChevronRight, CheckCircle2, Circle, GraduationCap, Lightbulb, SquareArrowOutUpRight, RotateCcw, AlertCircle } from 'lucide-react';
+import {
+  BookOpen,
+  ChevronRight,
+  CheckCircle2,
+  Circle,
+  GraduationCap,
+  Lightbulb,
+  SquareArrowOutUpRight,
+  RotateCcw,
+  AlertCircle,
+} from 'lucide-react';
 import clsx from 'clsx';
 
 // ---------------------------------------------------------------------------
@@ -33,10 +49,26 @@ interface LearnScreenProps {
 // ---------------------------------------------------------------------------
 
 const TIER_COLORS: Record<LessonTier, { badge: string; ring: string; dot: string }> = {
-  novice:       { badge: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30', ring: 'ring-emerald-500/50', dot: 'bg-emerald-400' },
-  intermediate: { badge: 'bg-sky-500/20 text-sky-300 border border-sky-500/30',           ring: 'ring-sky-500/50',     dot: 'bg-sky-400' },
-  advanced:     { badge: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',  ring: 'ring-violet-500/50',  dot: 'bg-violet-400' },
-  expert:       { badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',     ring: 'ring-amber-500/50',   dot: 'bg-amber-400' },
+  novice: {
+    badge: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    ring: 'ring-emerald-500/50',
+    dot: 'bg-emerald-400',
+  },
+  intermediate: {
+    badge: 'bg-sky-500/20 text-sky-300 border border-sky-500/30',
+    ring: 'ring-sky-500/50',
+    dot: 'bg-sky-400',
+  },
+  advanced: {
+    badge: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',
+    ring: 'ring-violet-500/50',
+    dot: 'bg-violet-400',
+  },
+  expert: {
+    badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    ring: 'ring-amber-500/50',
+    dot: 'bg-amber-400',
+  },
 };
 
 const TIER_LABELS: Record<LessonTier, string> = {
@@ -60,14 +92,24 @@ function renderMarkdown(text: string): string {
   // No eval, no XSS — plain string manipulation only.
   return text
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`(.+?)`/g, '<code class="font-mono text-amber-300 bg-zinc-800 px-1 rounded text-sm">$1</code>')
-    .replace(/^#{1,3} (.+)$/gm, '<h3 class="text-base font-semibold text-zinc-100 mt-4 mb-1">$1</h3>')
+    .replace(
+      /`(.+?)`/g,
+      '<code class="font-mono text-amber-300 bg-zinc-800 px-1 rounded text-sm">$1</code>',
+    )
+    .replace(
+      /^#{1,3} (.+)$/gm,
+      '<h3 class="text-base font-semibold text-zinc-100 mt-4 mb-1">$1</h3>',
+    )
     .replace(/^\| (.+) \|$/gm, (line) => {
-      const cells = line.split('|').map(c => c.trim()).filter(Boolean);
-      const isHeader = false;
-      return '<div class="flex gap-4 border-b border-zinc-700/60 py-1">' +
-        cells.map(c => `<span class="flex-1 text-sm text-zinc-300">${c}</span>`).join('') +
-        '</div>';
+      const cells = line
+        .split('|')
+        .map((c) => c.trim())
+        .filter(Boolean);
+      return (
+        '<div class="flex gap-4 border-b border-zinc-700/60 py-1">' +
+        cells.map((c) => `<span class="flex-1 text-sm text-zinc-300">${c}</span>`).join('') +
+        '</div>'
+      );
     })
     .replace(/^\|---.*$/gm, '')
     .replace(/^- (.+)$/gm, '<li class="ml-4 text-zinc-300 text-sm list-disc">$1</li>')
@@ -90,12 +132,14 @@ function TierBadge({ tier }: { tier: LessonTier }) {
 
 function ProgressBar({ done, total, tier }: { done: number; total: number; tier?: LessonTier }) {
   const p = pct(done, total);
-  const barColor = tier ? {
-    novice: 'bg-emerald-500',
-    intermediate: 'bg-sky-500',
-    advanced: 'bg-violet-500',
-    expert: 'bg-amber-500',
-  }[tier] : 'bg-indigo-500';
+  const barColor = tier
+    ? {
+        novice: 'bg-emerald-500',
+        intermediate: 'bg-sky-500',
+        advanced: 'bg-violet-500',
+        expert: 'bg-amber-500',
+      }[tier]
+    : 'bg-indigo-500';
   return (
     <div className="flex items-center gap-2 min-w-0">
       <div className="flex-1 h-1.5 rounded-full bg-zinc-700 min-w-0">
@@ -104,7 +148,9 @@ function ProgressBar({ done, total, tier }: { done: number; total: number; tier?
           style={{ width: `${p}%` }}
         />
       </div>
-      <span className="text-xs text-zinc-500 shrink-0">{done}/{total}</span>
+      <span className="text-xs text-zinc-500 shrink-0">
+        {done}/{total}
+      </span>
     </div>
   );
 }
@@ -120,7 +166,12 @@ interface ModuleSectionProps {
   defaultOpen: boolean;
 }
 
-function ModuleSection({ module, activeLessonId, onSelectLesson, defaultOpen }: ModuleSectionProps) {
+function ModuleSection({
+  module,
+  activeLessonId,
+  onSelectLesson,
+  defaultOpen,
+}: ModuleSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   const c = TIER_COLORS[module.tier];
   return (
@@ -131,7 +182,10 @@ function ModuleSection({ module, activeLessonId, onSelectLesson, defaultOpen }: 
       >
         <ChevronRight
           size={14}
-          className={clsx('shrink-0 text-zinc-500 transition-transform duration-200', open && 'rotate-90')}
+          className={clsx(
+            'shrink-0 text-zinc-500 transition-transform duration-200',
+            open && 'rotate-90',
+          )}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
@@ -156,7 +210,10 @@ function ModuleSection({ module, activeLessonId, onSelectLesson, defaultOpen }: 
               )}
             >
               {lesson.completed ? (
-                <CheckCircle2 size={14} className={clsx('shrink-0', c.dot.replace('bg-', 'text-'))} />
+                <CheckCircle2
+                  size={14}
+                  className={clsx('shrink-0', c.dot.replace('bg-', 'text-'))}
+                />
               ) : (
                 <Circle size={14} className="shrink-0 text-zinc-600" />
               )}
@@ -193,7 +250,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
   }, [lesson.id]);
 
   async function handleSubmit() {
-    let answer = '';
+    let answer: string;
     if (ex.type === 'multiple_choice') {
       if (selectedIndex === null) return;
       answer = String(selectedIndex);
@@ -209,7 +266,11 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
       setResult(res);
       if (res.correct) onComplete();
     } catch {
-      setResult({ correct: false, explanation: 'Could not reach the backend. Try again.', score: 0 });
+      setResult({
+        correct: false,
+        explanation: 'Could not reach the backend. Try again.',
+        score: 0,
+      });
     } finally {
       setLoading(false);
     }
@@ -233,16 +294,19 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
             <button
               key={i}
               disabled={result !== null || loading}
-              onClick={() => { setSelectedIndex(i); setResult(null); }}
+              onClick={() => {
+                setSelectedIndex(i);
+                setResult(null);
+              }}
               className={clsx(
                 'w-full text-left px-4 py-3 rounded-lg text-sm border transition-colors',
                 result === null && selectedIndex === i
                   ? 'border-indigo-500 bg-indigo-600/20 text-indigo-100'
                   : result !== null && result.correct && selectedIndex === i
                     ? 'border-emerald-500 bg-emerald-600/20 text-emerald-100'
-                  : result !== null && !result.correct && selectedIndex === i
-                    ? 'border-red-500 bg-red-600/20 text-red-100'
-                    : 'border-zinc-700 bg-zinc-800/60 text-zinc-300 hover:border-zinc-600 hover:text-zinc-100',
+                    : result !== null && !result.correct && selectedIndex === i
+                      ? 'border-red-500 bg-red-600/20 text-red-100'
+                      : 'border-zinc-700 bg-zinc-800/60 text-zinc-300 hover:border-zinc-600 hover:text-zinc-100',
               )}
             >
               <span className="font-medium mr-2 text-zinc-500">{String.fromCharCode(65 + i)}.</span>
@@ -257,7 +321,9 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
           type="text"
           value={numericValue}
           onChange={(e) => setNumericValue(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') void handleSubmit(); }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') void handleSubmit();
+          }}
           disabled={result !== null || loading}
           placeholder="Enter your answer…"
           className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
@@ -266,7 +332,10 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
 
       {result === null && (
         <button
-          disabled={loading || (ex.type === 'multiple_choice' ? selectedIndex === null : !numericValue.trim())}
+          disabled={
+            loading ||
+            (ex.type === 'multiple_choice' ? selectedIndex === null : !numericValue.trim())
+          }
           onClick={() => void handleSubmit()}
           className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
         >
@@ -276,12 +345,14 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
 
       {result !== null && (
         <>
-          <div className={clsx(
-            'rounded-lg p-4 border text-sm',
-            result.correct
-              ? 'border-emerald-500/40 bg-emerald-600/10 text-emerald-200'
-              : 'border-red-500/40 bg-red-600/10 text-red-200',
-          )}>
+          <div
+            className={clsx(
+              'rounded-lg p-4 border text-sm',
+              result.correct
+                ? 'border-emerald-500/40 bg-emerald-600/10 text-emerald-200'
+                : 'border-red-500/40 bg-red-600/10 text-red-200',
+            )}
+          >
             <div className="flex items-center gap-2 font-semibold mb-2">
               {result.correct ? (
                 <CheckCircle2 size={15} className="text-emerald-400" />
@@ -294,7 +365,11 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
           </div>
           {!result.correct && (
             <button
-              onClick={() => { setResult(null); setSelectedIndex(null); setNumericValue(''); }}
+              onClick={() => {
+                setResult(null);
+                setSelectedIndex(null);
+                setNumericValue('');
+              }}
               className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
             >
               <RotateCcw size={13} />
@@ -332,7 +407,13 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
     <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-start gap-4">
-        <div className={clsx('w-10 h-10 rounded-xl flex items-center justify-center ring-1 shrink-0', c.ring, 'bg-zinc-800')}>
+        <div
+          className={clsx(
+            'w-10 h-10 rounded-xl flex items-center justify-center ring-1 shrink-0',
+            c.ring,
+            'bg-zinc-800',
+          )}
+        >
           <BookOpen size={18} className={c.dot.replace('bg-', 'text-')} />
         </div>
         <div className="min-w-0">
@@ -353,7 +434,9 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
       {/* Concept */}
       <div ref={conceptRef} className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
-        <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Concept</h2>
+        <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+          Concept
+        </h2>
         <div
           className="text-sm text-zinc-300 leading-relaxed space-y-1 prose-zinc"
           dangerouslySetInnerHTML={{ __html: renderMarkdown(lesson.concept) }}
@@ -363,11 +446,15 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {/* Key Terms */}
       {lesson.key_terms?.length > 0 && (
         <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Key Terms</h2>
+          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+            Key Terms
+          </h2>
           <dl className="space-y-2">
             {lesson.key_terms.map((kt) => (
               <div key={kt.term} className="flex gap-3">
-                <dt className="text-sm font-medium text-zinc-100 shrink-0 w-40 truncate">{kt.term}</dt>
+                <dt className="text-sm font-medium text-zinc-100 shrink-0 w-40 truncate">
+                  {kt.term}
+                </dt>
                 <dd className="text-sm text-zinc-400 leading-relaxed">{kt.definition}</dd>
               </div>
             ))}
@@ -376,15 +463,14 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       )}
 
       {/* Exercise */}
-      <ExerciseController
-        lesson={lesson}
-        onComplete={onLessonCompleted}
-      />
+      <ExerciseController lesson={lesson} onComplete={onLessonCompleted} />
 
       {/* Try It Live */}
       {lesson.live_apply && (
         <div className="rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
-          <h2 className="text-sm font-semibold text-indigo-300 uppercase tracking-wider mb-2">Try It Live</h2>
+          <h2 className="text-sm font-semibold text-indigo-300 uppercase tracking-wider mb-2">
+            Try It Live
+          </h2>
           <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.live_apply.cta}</p>
           {lesson.live_apply.screen && (
             <button
@@ -402,7 +488,8 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
               className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <SquareArrowOutUpRight size={14} />
-              Open {lesson.live_apply.screen.charAt(0).toUpperCase() + lesson.live_apply.screen.slice(1)}
+              Open{' '}
+              {lesson.live_apply.screen.charAt(0).toUpperCase() + lesson.live_apply.screen.slice(1)}
             </button>
           )}
         </div>
@@ -443,7 +530,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   // Load catalog
   useEffect(() => {
     if (backendStatus !== 'online') return;
-    backendClient.getLearnCatalog()
+    backendClient
+      .getLearnCatalog()
       .then(setCatalog)
       .catch(() => setError('Failed to load the learning catalog. Is the backend running?'));
   }, [backendStatus]);
@@ -465,7 +553,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
     if (!activeLessonId || backendStatus !== 'online') return;
     setLessonLoading(true);
     setActiveLesson(null);
-    backendClient.getLearnLesson(activeLessonId)
+    backendClient
+      .getLearnLesson(activeLessonId)
       .then(setActiveLesson)
       .catch(() => setError(`Failed to load lesson '${activeLessonId}'.`))
       .finally(() => setLessonLoading(false));
@@ -478,7 +567,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
   const handleLessonCompleted = useCallback(() => {
     // Refresh catalog to pick up new completion state
-    backendClient.getLearnCatalog()
+    backendClient
+      .getLearnCatalog()
       .then(setCatalog)
       .catch(() => undefined);
     // Mark the active lesson as completed in the local state too
@@ -499,7 +589,6 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
   return (
     <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-
       {/* Top bar */}
       <div className="shrink-0 border-b border-zinc-800 px-6 py-3 flex items-center gap-4">
         <div className="flex items-center gap-2">
@@ -514,12 +603,13 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             </span>
           </div>
         )}
-        <span className="ml-auto text-xs text-zinc-600">Educational use only — not financial advice.</span>
+        <span className="ml-auto text-xs text-zinc-600">
+          Educational use only — not financial advice.
+        </span>
       </div>
 
       {/* Body */}
       <div className="flex-1 flex min-h-0 overflow-hidden">
-
         {/* Sidebar */}
         <aside className="w-72 shrink-0 border-r border-zinc-800 overflow-y-auto p-3 hidden md:block">
           {!catalog && (
@@ -551,7 +641,11 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
           {lessonLoading && (
             <div className="space-y-4">
               {[200, 120, 80, 240].map((h, i) => (
-                <div key={i} className="rounded-xl bg-zinc-800/60 animate-pulse" style={{ height: h }} />
+                <div
+                  key={i}
+                  className="rounded-xl bg-zinc-800/60 animate-pulse"
+                  style={{ height: h }}
+                />
               ))}
             </div>
           )}

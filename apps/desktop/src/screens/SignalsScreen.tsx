@@ -4,8 +4,24 @@
 import { useMemo, useState } from 'react';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
-import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, Panel, SectionHeading, SignalChip } from '../components/ui';
-import type { MarketType, ScreenState, SignalRecord, SignalType, SymbolRecord, Timeframe } from '../types';
+import {
+  Button,
+  DataStateView,
+  EmptyState,
+  ErrorState,
+  LoadingSkeleton,
+  Panel,
+  SectionHeading,
+  SignalChip,
+} from '../components/ui';
+import type {
+  MarketType,
+  ScreenState,
+  SignalRecord,
+  SignalType,
+  SymbolRecord,
+  Timeframe,
+} from '../types';
 
 export function SignalsScreen({
   state,
@@ -54,8 +70,14 @@ export function SignalsScreen({
       <Panel>
         <div className="grid gap-3 lg:grid-cols-[repeat(4,minmax(0,1fr)),auto]">
           <label className="space-y-2 text-sm text-muted">
-            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Signal type</span>
-            <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={signalType} onChange={(event) => setSignalType(event.target.value as typeof signalType)}>
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Signal type
+            </span>
+            <select
+              className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              value={signalType}
+              onChange={(event) => setSignalType(event.target.value as typeof signalType)}
+            >
               <option value="all">All</option>
               <option value="BUY_ZONE">Buy zone</option>
               <option value="SELL">Sell</option>
@@ -65,8 +87,14 @@ export function SignalsScreen({
             </select>
           </label>
           <label className="space-y-2 text-sm text-muted">
-            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Min confidence</span>
-            <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={minConfidence} onChange={(event) => setMinConfidence(Number(event.target.value))}>
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Min confidence
+            </span>
+            <select
+              className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              value={minConfidence}
+              onChange={(event) => setMinConfidence(Number(event.target.value))}
+            >
               <option value={0}>0%</option>
               <option value={50}>50%</option>
               <option value={60}>60%</option>
@@ -74,8 +102,14 @@ export function SignalsScreen({
             </select>
           </label>
           <label className="space-y-2 text-sm text-muted">
-            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Timeframe</span>
-            <select className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none" value={timeframe} onChange={(event) => setTimeframe(event.target.value as typeof timeframe)}>
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Timeframe
+            </span>
+            <select
+              className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              value={timeframe}
+              onChange={(event) => setTimeframe(event.target.value as typeof timeframe)}
+            >
               <option value="all">All</option>
               <option value="15m">15m</option>
               <option value="1h">1h</option>
@@ -84,13 +118,28 @@ export function SignalsScreen({
             </select>
           </label>
           <label className="space-y-2 text-sm text-muted">
-            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Status scope</span>
-            <button type="button" className={`w-full rounded-2xl border px-4 py-3 text-left ${activeOnly ? 'border-accent bg-accentStrong/15 text-ink' : 'border-border bg-white/[0.04] text-muted'}`} onClick={() => setActiveOnly((current) => !current)}>
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Status scope
+            </span>
+            <button
+              type="button"
+              className={`w-full rounded-2xl border px-4 py-3 text-left ${activeOnly ? 'border-accent bg-accentStrong/15 text-ink' : 'border-border bg-white/[0.04] text-muted'}`}
+              onClick={() => setActiveOnly((current) => !current)}
+            >
               {activeOnly ? 'Active only' : 'All statuses'}
             </button>
           </label>
           <div className="flex items-end">
-            <Button variant="secondary" className="w-full" onClick={() => { setSignalType('all'); setMinConfidence(0); setTimeframe('all'); setActiveOnly(false); }}>
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                setSignalType('all');
+                setMinConfidence(0);
+                setTimeframe('all');
+                setActiveOnly(false);
+              }}
+            >
               Reset filters
             </Button>
           </div>
@@ -102,8 +151,19 @@ export function SignalsScreen({
           state={state}
           isEmpty={rows.length === 0}
           loading={<LoadingSkeleton rows={6} />}
-          empty={<EmptyState title="No signals match the current filter" description="Try broadening the market, status, or confidence filters to repopulate the backend-generated table." />}
-          error={<ErrorState title="Signals table unavailable" description="The backend signal inventory could not be loaded." onRetry={retryMockView} />}
+          empty={
+            <EmptyState
+              title="No signals match the current filter"
+              description="Try broadening the market, status, or confidence filters to repopulate the backend-generated table."
+            />
+          }
+          error={
+            <ErrorState
+              title="Signals table unavailable"
+              description="The backend signal inventory could not be loaded."
+              onRetry={retryMockView}
+            />
+          }
           populated={
             <div className="overflow-x-auto">
               <table className="min-w-full border-separate border-spacing-y-3 text-left">
@@ -126,35 +186,72 @@ export function SignalsScreen({
                     const symbol = symbols.find((entry) => entry.id === record.symbolId);
                     const freshness = signalFreshness(record.signal);
                     return (
-                      <tr key={record.id} className={`rounded-3xl border border-border bg-white/[0.03] ${record.signal.confidence < 55 ? 'opacity-80' : ''}`}>
+                      <tr
+                        key={record.id}
+                        className={`rounded-3xl border border-border bg-white/[0.03] ${record.signal.confidence < 55 ? 'opacity-80' : ''}`}
+                      >
                         <td className="rounded-l-3xl px-4 py-4">
-                          <button type="button" className="text-left" onClick={() => onOpenSymbol(record.symbolId)}>
+                          <button
+                            type="button"
+                            className="text-left"
+                            onClick={() => onOpenSymbol(record.symbolId)}
+                          >
                             <p className="font-medium text-ink">{record.signal.symbol}</p>
-                            <p className="text-xs text-muted">{symbol?.marketType} · {record.signal.timeframe}</p>
+                            <p className="text-xs text-muted">
+                              {symbol?.marketType} · {record.signal.timeframe}
+                            </p>
                           </button>
                         </td>
-                        <td className="px-4 py-4"><SignalChip signal={record.signal.signal} subdued={record.signal.confidence < 55} /></td>
-                        <td className="metric-text px-4 py-4 text-ink">{record.signal.confidence}</td>
-                        <td className="metric-text px-4 py-4 text-ink">{record.signal.risk_reward.toFixed(1)}</td>
-                        <td className="px-4 py-4 text-sm text-muted">{record.signal.confidence_basis.setup_type}</td>
-                        <td className="metric-text px-4 py-4 text-ink">{(record.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%</td>
+                        <td className="px-4 py-4">
+                          <SignalChip
+                            signal={record.signal.signal}
+                            subdued={record.signal.confidence < 55}
+                          />
+                        </td>
+                        <td className="metric-text px-4 py-4 text-ink">
+                          {record.signal.confidence}
+                        </td>
+                        <td className="metric-text px-4 py-4 text-ink">
+                          {record.signal.risk_reward.toFixed(1)}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-muted">
+                          {record.signal.confidence_basis.setup_type}
+                        </td>
+                        <td className="metric-text px-4 py-4 text-ink">
+                          {(record.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%
+                        </td>
                         <td className="px-4 py-4 text-sm text-muted">{record.status}</td>
                         <td className="px-4 py-4 text-sm">
-                          <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}>
+                          <span
+                            className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}
+                          >
                             {freshness.label}
                           </span>
                           <p className="mt-1 max-w-44 text-xs text-muted">{freshness.detail}</p>
                         </td>
-                        <td className="px-4 py-4 text-sm text-muted">{formatDateTime(record.signal.generated_at_utc)}</td>
+                        <td className="px-4 py-4 text-sm text-muted">
+                          {formatDateTime(record.signal.generated_at_utc)}
+                        </td>
                         <td className="rounded-r-3xl px-4 py-4">
                           <div className="flex flex-wrap gap-2">
-                            <Button variant="secondary" className="px-3 py-2 text-xs" onClick={() => onOpenSymbol(record.symbolId)}>
+                            <Button
+                              variant="secondary"
+                              className="px-3 py-2 text-xs"
+                              onClick={() => onOpenSymbol(record.symbolId)}
+                            >
                               Symbol
                             </Button>
-                            <Button variant="ghost" className="px-3 py-2 text-xs" onClick={() => onOpenSignal(record.id)}>
+                            <Button
+                              variant="ghost"
+                              className="px-3 py-2 text-xs"
+                              onClick={() => onOpenSignal(record.id)}
+                            >
                               Detail drawer
                             </Button>
-                            <Button className="px-3 py-2 text-xs" onClick={() => onOpenPaperTrade(record.id)}>
+                            <Button
+                              className="px-3 py-2 text-xs"
+                              onClick={() => onOpenPaperTrade(record.id)}
+                            >
                               Paper trade
                             </Button>
                           </div>
@@ -170,13 +267,22 @@ export function SignalsScreen({
       </Panel>
 
       <Panel>
-        <SectionHeading eyebrow="Canonical signal shape" title="Schema summary" description="The table above derives from the same field-for-field canonical signal object shown in the signal detail drawer." />
+        <SectionHeading
+          eyebrow="Canonical signal shape"
+          title="Schema summary"
+          description="The table above derives from the same field-for-field canonical signal object shown in the signal detail drawer."
+        />
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           {signals.slice(0, 3).map((record) => (
             <div key={record.id} className="rounded-2xl border border-border bg-white/[0.03] p-4">
               <p className="font-medium text-ink">{record.signal.symbol}</p>
-              <p className="mt-2 text-sm text-muted">Entry zone {record.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}</p>
-              <p className="mt-1 text-sm text-muted">Fees/slippage {record.signal.fees_slippage_assumed}</p>
+              <p className="mt-2 text-sm text-muted">
+                Entry zone{' '}
+                {record.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}
+              </p>
+              <p className="mt-1 text-sm text-muted">
+                Fees/slippage {record.signal.fees_slippage_assumed}
+              </p>
             </div>
           ))}
         </div>

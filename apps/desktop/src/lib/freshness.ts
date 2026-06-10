@@ -38,11 +38,7 @@ export function signalFreshness(signal: CanonicalSignal): {
   const barSeconds = timeframeSeconds[signal.timeframe] ?? 3600;
   const ageLabel = formatAge(ageSeconds);
   const tone: FreshnessTone =
-    ageSeconds <= barSeconds * 2
-      ? 'fresh'
-      : ageSeconds <= barSeconds * 5
-        ? 'delayed'
-        : 'stale';
+    ageSeconds <= barSeconds * 2 ? 'fresh' : ageSeconds <= barSeconds * 5 ? 'delayed' : 'stale';
 
   const label =
     tone === 'fresh'

@@ -28,19 +28,33 @@ function lineData(candles: Candle[], values: number[]) {
 
 function chartSize(element: HTMLDivElement) {
   return {
-    width: Math.max(320, Math.floor(element.clientWidth || element.getBoundingClientRect().width || 0)),
-    height: Math.max(360, Math.floor(element.clientHeight || element.getBoundingClientRect().height || 0)),
+    width: Math.max(
+      320,
+      Math.floor(element.clientWidth || element.getBoundingClientRect().width || 0),
+    ),
+    height: Math.max(
+      360,
+      Math.floor(element.clientHeight || element.getBoundingClientRect().height || 0),
+    ),
   };
 }
 
-function FallbackCandlestickLayer({ candles, priceSeries }: { candles: Candle[]; priceSeries: ChartLineSeries[] }) {
+function FallbackCandlestickLayer({
+  candles,
+  priceSeries,
+}: {
+  candles: Candle[];
+  priceSeries: ChartLineSeries[];
+}) {
   const visibleCandles = useMemo(() => candles.slice(-160), [candles]);
 
   if (!visibleCandles.length) return null;
 
   const visibleStart = candles.length - visibleCandles.length;
   const visibleLineValues = priceSeries.flatMap((series) =>
-    series.values.slice(Math.max(0, visibleStart)).filter((value) => Number.isFinite(value) && value > 0),
+    series.values
+      .slice(Math.max(0, visibleStart))
+      .filter((value) => Number.isFinite(value) && value > 0),
   );
   const highs = [...visibleCandles.map((candle) => candle.high), ...visibleLineValues];
   const lows = [...visibleCandles.map((candle) => candle.low), ...visibleLineValues];
@@ -57,7 +71,10 @@ function FallbackCandlestickLayer({ candles, priceSeries }: { candles: Candle[];
   const step = plotWidth / Math.max(visibleCandles.length - 1, 1);
   const bodyWidth = Math.max(2.5, Math.min(9, step * 0.62));
   const priceToY = (price: number) => plotTop + ((paddedHigh - price) / paddedRange) * plotHeight;
-  const gridPrices = Array.from({ length: 5 }, (_, index) => paddedLow + (paddedRange / 4) * index).reverse();
+  const gridPrices = Array.from(
+    { length: 5 },
+    (_, index) => paddedLow + (paddedRange / 4) * index,
+  ).reverse();
 
   return (
     <svg
@@ -66,14 +83,35 @@ function FallbackCandlestickLayer({ candles, priceSeries }: { candles: Candle[];
       preserveAspectRatio="none"
       viewBox={`0 0 ${FALLBACK_CHART_WIDTH} ${FALLBACK_CHART_HEIGHT}`}
     >
-      <rect x="0" y="0" width={FALLBACK_CHART_WIDTH} height={FALLBACK_CHART_HEIGHT} fill="transparent" />
+      <rect
+        x="0"
+        y="0"
+        width={FALLBACK_CHART_WIDTH}
+        height={FALLBACK_CHART_HEIGHT}
+        fill="transparent"
+      />
       {gridPrices.map((price) => {
         const y = priceToY(price);
         return (
           <g key={price}>
-            <line x1={plotLeft} x2={plotLeft + plotWidth} y1={y} y2={y} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
-            <text x={FALLBACK_CHART_WIDTH - 76} y={y + 4} fill="#7890b7" fontSize="18" fontFamily="JetBrains Mono, ui-monospace, monospace">
-              {price >= 1000 ? price.toLocaleString(undefined, { maximumFractionDigits: 0 }) : price.toFixed(2)}
+            <line
+              x1={plotLeft}
+              x2={plotLeft + plotWidth}
+              y1={y}
+              y2={y}
+              stroke="rgba(255,255,255,0.07)"
+              strokeWidth="1"
+            />
+            <text
+              x={FALLBACK_CHART_WIDTH - 76}
+              y={y + 4}
+              fill="#7890b7"
+              fontSize="18"
+              fontFamily="JetBrains Mono, ui-monospace, monospace"
+            >
+              {price >= 1000
+                ? price.toLocaleString(undefined, { maximumFractionDigits: 0 })
+                : price.toFixed(2)}
             </text>
           </g>
         );
@@ -166,17 +204,25 @@ export function TradingViewCandlestickChart({
   const ref = useRef<HTMLDivElement | null>(null);
 
   const candleData = useMemo(
-    () => candles
-      .filter((candle) =>
-        Number.isFinite(candle.time)
-        && Number.isFinite(candle.open)
-        && Number.isFinite(candle.high)
-        && Number.isFinite(candle.low)
-        && Number.isFinite(candle.close)
-        && candle.time > 0
-        && candle.high >= candle.low,
-      )
-      .map((candle) => ({ time: candle.time as never, open: candle.open, high: candle.high, low: candle.low, close: candle.close })),
+    () =>
+      candles
+        .filter(
+          (candle) =>
+            Number.isFinite(candle.time) &&
+            Number.isFinite(candle.open) &&
+            Number.isFinite(candle.high) &&
+            Number.isFinite(candle.low) &&
+            Number.isFinite(candle.close) &&
+            candle.time > 0 &&
+            candle.high >= candle.low,
+        )
+        .map((candle) => ({
+          time: candle.time as never,
+          open: candle.open,
+          high: candle.high,
+          low: candle.low,
+          close: candle.close,
+        })),
     [candles],
   );
 
@@ -221,24 +267,72 @@ export function TradingViewCandlestickChart({
 
     series.setData(candleData);
     series.setMarkers([
-      ...(entryMarker ? [{ time: entryMarker.time as never, position: 'belowBar' as const, color: '#18c37f', shape: 'arrowUp' as const, text: 'Entry' }] : []),
-      ...(targetMarker ? [{ time: targetMarker.time as never, position: 'aboveBar' as const, color: '#f0b84b', shape: 'circle' as const, text: 'TP1' }] : []),
+      ...(entryMarker
+        ? [
+            {
+              time: entryMarker.time as never,
+              position: 'belowBar' as const,
+              color: '#18c37f',
+              shape: 'arrowUp' as const,
+              text: 'Entry',
+            },
+          ]
+        : []),
+      ...(targetMarker
+        ? [
+            {
+              time: targetMarker.time as never,
+              position: 'aboveBar' as const,
+              color: '#f0b84b',
+              shape: 'circle' as const,
+              text: 'TP1',
+            },
+          ]
+        : []),
     ]);
     if (finitePrice(stopLoss)) {
-      series.createPriceLine({ price: stopLoss, color: '#f05b78', lineStyle: LineStyle.Dashed, title: 'SL' });
+      series.createPriceLine({
+        price: stopLoss,
+        color: '#f05b78',
+        lineStyle: LineStyle.Dashed,
+        title: 'SL',
+      });
     }
-    takeProfit.slice(0, 2).filter(finitePrice).forEach((price, index) => {
-      series.createPriceLine({ price, color: '#18c37f', lineStyle: LineStyle.Dotted, title: `TP${index + 1}` });
-    });
+    takeProfit
+      .slice(0, 2)
+      .filter(finitePrice)
+      .forEach((price, index) => {
+        series.createPriceLine({
+          price,
+          color: '#18c37f',
+          lineStyle: LineStyle.Dotted,
+          title: `TP${index + 1}`,
+        });
+      });
     entryZone.filter(finitePrice).forEach((price, index) => {
-      series.createPriceLine({ price, color: '#8db7ff', lineStyle: LineStyle.SparseDotted, title: index === 0 ? 'Entry' : 'Zone' });
+      series.createPriceLine({
+        price,
+        color: '#8db7ff',
+        lineStyle: LineStyle.SparseDotted,
+        title: index === 0 ? 'Entry' : 'Zone',
+      });
     });
     if (showSupportResistance) {
       if (finitePrice(supportLevel)) {
-        series.createPriceLine({ price: supportLevel, color: '#4dd2ff', lineStyle: LineStyle.Dashed, title: 'Support' });
+        series.createPriceLine({
+          price: supportLevel,
+          color: '#4dd2ff',
+          lineStyle: LineStyle.Dashed,
+          title: 'Support',
+        });
       }
       if (finitePrice(resistanceLevel)) {
-        series.createPriceLine({ price: resistanceLevel, color: '#ffb45c', lineStyle: LineStyle.Dashed, title: 'Resistance' });
+        series.createPriceLine({
+          price: resistanceLevel,
+          color: '#ffb45c',
+          lineStyle: LineStyle.Dashed,
+          title: 'Resistance',
+        });
       }
     }
 
@@ -246,9 +340,17 @@ export function TradingViewCandlestickChart({
     emaSeries.setData(lineData(candles, ema));
     const smaSeries = chart.addLineSeries({ color: '#f0b84b', lineWidth: 2, visible: showSma });
     smaSeries.setData(lineData(candles, sma));
-    const upperSeries = chart.addLineSeries({ color: 'rgba(79,139,255,0.65)', lineWidth: 1, visible: showBollinger });
+    const upperSeries = chart.addLineSeries({
+      color: 'rgba(79,139,255,0.65)',
+      lineWidth: 1,
+      visible: showBollinger,
+    });
     upperSeries.setData(lineData(candles, bollingerUpper));
-    const lowerSeries = chart.addLineSeries({ color: 'rgba(79,139,255,0.65)', lineWidth: 1, visible: showBollinger });
+    const lowerSeries = chart.addLineSeries({
+      color: 'rgba(79,139,255,0.65)',
+      lineWidth: 1,
+      visible: showBollinger,
+    });
     lowerSeries.setData(lineData(candles, bollingerLower));
     priceSeries.forEach((line) => {
       const customSeries = chart.addLineSeries({ color: line.color, lineWidth: 2, visible: true });
@@ -268,7 +370,24 @@ export function TradingViewCandlestickChart({
       resizeObserver.disconnect();
       chart.remove();
     };
-  }, [bollingerLower, bollingerUpper, candleData, candles, ema, entryZone, priceSeries, resistanceLevel, showBollinger, showEma, showSma, showSupportResistance, sma, stopLoss, supportLevel, takeProfit]);
+  }, [
+    bollingerLower,
+    bollingerUpper,
+    candleData,
+    candles,
+    ema,
+    entryZone,
+    priceSeries,
+    resistanceLevel,
+    showBollinger,
+    showEma,
+    showSma,
+    showSupportResistance,
+    sma,
+    stopLoss,
+    supportLevel,
+    takeProfit,
+  ]);
 
   return (
     <div className="relative h-[420px] w-full overflow-hidden rounded-[22px]">
