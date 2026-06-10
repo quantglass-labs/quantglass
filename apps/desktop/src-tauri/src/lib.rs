@@ -82,7 +82,8 @@ fn backend_base_url(state: tauri::State<'_, BackendState>) -> String {
 fn save_json_export(path: String, contents: String) -> Result<String, String> {
     let path = std::path::PathBuf::from(path);
     if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).map_err(|error| format!("Could not create export directory: {error}"))?;
+        fs::create_dir_all(parent)
+            .map_err(|error| format!("Could not create export directory: {error}"))?;
     }
     fs::write(&path, contents).map_err(|error| format!("Could not write export file: {error}"))?;
     Ok(path.to_string_lossy().to_string())
