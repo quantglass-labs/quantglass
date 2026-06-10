@@ -19,6 +19,6 @@ def simple_breakout_signal(
         if index < lookback:
             signals.append(None)
             continue
-        prior_high = max(closes[index - lookback:index])
+        prior_high = max(closes[index - lookback : index])
         signals.append(close > prior_high)
     return signals

@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 import smtplib
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from email.message import EmailMessage
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -29,7 +29,7 @@ class AlertNotificationService:
         return self._deliver(channel, message, subject_prefix="Alert")
 
     def send_test_notification(self, channel: str) -> AlertDeliveryResult:
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
         return self._deliver(
             channel,
             f"QuantGlass {channel} delivery test at {timestamp}.",

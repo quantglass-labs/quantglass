@@ -4,17 +4,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import UTC
 from math import sqrt
 from statistics import median
 from typing import Any, Protocol
 
+from app.storage.analytics_store import AnalyticsStore
+
 
 class SignalNarrator(Protocol):
-    def narrate(self, facts: dict[str, Any]) -> tuple[str, str]:
-        ...
-
-
-from app.storage.analytics_store import AnalyticsStore
+    def narrate(self, facts: dict[str, Any]) -> tuple[str, str]: ...
 
 
 @dataclass(frozen=True)
@@ -98,7 +97,9 @@ class SignalEngineService:
             items.append(default_preset)
             seen.add(default_preset["id"])
 
-            for definition in self._matching_strategy_definitions(series["market_type"], series["timeframe"]):
+            for definition in self._matching_strategy_definitions(
+                series["market_type"], series["timeframe"]
+            ):
                 for setup_type in definition["setup_types"]:
                     if setup_type == default_preset["setupType"]:
                         continue
@@ -128,7 +129,9 @@ class SignalEngineService:
         items.sort(key=lambda item: (item["timeframe"], item["name"]))
         return items
 
-    def _matching_strategy_definitions(self, market_type: str, timeframe: str) -> list[dict[str, Any]]:
+    def _matching_strategy_definitions(
+        self, market_type: str, timeframe: str
+    ) -> list[dict[str, Any]]:
         if self._strategy_registry is None:
             return []
         items_method = getattr(self._strategy_registry, "items", None)
@@ -154,9 +157,15 @@ class SignalEngineService:
                 {
                     "id": str(item.get("id") or ""),
                     "name": str(item.get("name") or item.get("id") or ""),
-                    "setup_types": [str(setup_type) for setup_type in setup_types if isinstance(setup_type, str)],
-                    "source": item.get("source") if item.get("source") in {"built-in", "extension"} else "built-in",
-                    "extension_id": item.get("extension_id") if isinstance(item.get("extension_id"), str) else None,
+                    "setup_types": [
+                        str(setup_type) for setup_type in setup_types if isinstance(setup_type, str)
+                    ],
+                    "source": item.get("source")
+                    if item.get("source") in {"built-in", "extension"}
+                    else "built-in",
+                    "extension_id": item.get("extension_id")
+                    if isinstance(item.get("extension_id"), str)
+                    else None,
                 }
             )
         return matches
@@ -191,7 +200,9 @@ class SignalEngineService:
             return None
 
         selected_setup_type = setup_type or latest_state["setup_type"]
-        selected_direction = self._direction_for_setup(selected_setup_type, latest_state["direction"])
+        selected_direction = self._direction_for_setup(
+            selected_setup_type, latest_state["direction"]
+        )
         default_fees_percent, default_slippage_percent = self._default_costs(market_type)
         backtest = self._run_backtest(
             candles=candles,
@@ -201,7 +212,9 @@ class SignalEngineService:
             setup_type=selected_setup_type,
             direction=selected_direction,
             fees_percent=fees_percent if fees_percent is not None else default_fees_percent,
-            slippage_percent=slippage_percent if slippage_percent is not None else default_slippage_percent,
+            slippage_percent=slippage_percent
+            if slippage_percent is not None
+            else default_slippage_percent,
             train_test_split=train_test_split,
             walk_forward=walk_forward,
         )
@@ -212,11 +225,15 @@ class SignalEngineService:
             timeframe=timeframe,
             setup_type=selected_setup_type,
             fees_percent=fees_percent if fees_percent is not None else default_fees_percent,
-            slippage_percent=slippage_percent if slippage_percent is not None else default_slippage_percent,
+            slippage_percent=slippage_percent
+            if slippage_percent is not None
+            else default_slippage_percent,
             train_test_split=train_test_split,
             walk_forward=walk_forward,
             backtest=backtest,
-            strategy_definition=self._strategy_definition_for_setup(selected_setup_type, market_type, timeframe),
+            strategy_definition=self._strategy_definition_for_setup(
+                selected_setup_type, market_type, timeframe
+            ),
         )
 
     def _strategy_definition_for_setup(
@@ -350,7 +367,9 @@ class SignalEngineService:
                 "risk_reward": risk_reward,
                 "fees_slippage_assumed": self._fees_slippage_label(market_type),
                 "reasons": state["reasons"],
-                "invalidation": self._build_invalidation(direction=state["direction"], timeframe=timeframe, stop_loss=stop_loss),
+                "invalidation": self._build_invalidation(
+                    direction=state["direction"], timeframe=timeframe, stop_loss=stop_loss
+                ),
                 "candle_status": "closed",
                 "data_source": source,
                 "generated_at_utc": generated_at_utc,
@@ -483,7 +502,9 @@ class SignalEngineService:
         recent_start = max(0, index - 19)
         recent_high = max(indicators.highs[recent_start : index + 1])
         recent_low = min(indicators.lows[recent_start : index + 1])
-        average_volume = sum(indicators.volumes[recent_start : index + 1]) / max(index + 1 - recent_start, 1)
+        average_volume = sum(indicators.volumes[recent_start : index + 1]) / max(
+            index + 1 - recent_start, 1
+        )
         volume_ratio = volume / average_volume if average_volume else 0.0
         trend_gap = (ema - sma) / close if close else 0.0
         trend_alignment = self._clamp(abs(trend_gap) / 0.03)
@@ -514,7 +535,9 @@ class SignalEngineService:
                 candidates.append(
                     self._compose_candidate(
                         signal_type="BUY_ZONE",
-                        setup_type="daily_trend_pullback" if timeframe == "1d" else "ema_reclaim_pullback",
+                        setup_type="daily_trend_pullback"
+                        if timeframe == "1d"
+                        else "ema_reclaim_pullback",
                         direction="long",
                         status="active",
                         regime=regime,
@@ -570,7 +593,11 @@ class SignalEngineService:
                 )
 
         # --- Family 2: breakout retest (trending regime, Donchian + Keltner) ---
-        if regime == "trending" and donchian_high_prev is not None and donchian_low_prev is not None:
+        if (
+            regime == "trending"
+            and donchian_high_prev is not None
+            and donchian_low_prev is not None
+        ):
             broke_out_up = high >= donchian_high_prev and close >= donchian_high_prev * 0.997
             broke_out_down = low <= donchian_low_prev and close <= donchian_low_prev * 1.003
             if bullish_trend and broke_out_up and volume_ratio >= 1.0:
@@ -641,7 +668,12 @@ class SignalEngineService:
                 )
 
         # --- Family 3: range mean reversion (ranging regime, RSI2 + Bollinger) ---
-        if regime == "ranging" and rsi_fast is not None and bb_upper is not None and bb_lower is not None:
+        if (
+            regime == "ranging"
+            and rsi_fast is not None
+            and bb_upper is not None
+            and bb_lower is not None
+        ):
             if rsi_fast <= 8 and low <= bb_lower * 1.005:
                 confluence = self._confluence(
                     base=0.5,
@@ -740,7 +772,11 @@ class SignalEngineService:
         # --- Fallback states so the surface always has a contextual read ---
         if not candidates:
             if bullish_trend:
-                fallback_signal, fallback_setup, direction = "HOLD", "trend_hold_continuation", "long"
+                fallback_signal, fallback_setup, direction = (
+                    "HOLD",
+                    "trend_hold_continuation",
+                    "long",
+                )
                 status = "active"
             elif bearish_trend:
                 fallback_signal, fallback_setup, direction = "WATCH", "breakdown_watch", "short"
@@ -792,7 +828,16 @@ class SignalEngineService:
         candidates = candidate_method(context)
         if not isinstance(candidates, list):
             return []
-        required = {"signal", "setup_type", "direction", "reference_price", "entry_zone", "stop_loss", "take_profit", "confluence_score"}
+        required = {
+            "signal",
+            "setup_type",
+            "direction",
+            "reference_price",
+            "entry_zone",
+            "stop_loss",
+            "take_profit",
+            "confluence_score",
+        }
         valid: list[dict[str, Any]] = []
         for candidate in candidates:
             if not isinstance(candidate, dict) or not required.issubset(candidate.keys()):
@@ -835,7 +880,13 @@ class SignalEngineService:
         timeframe: str,
         mean_reversion_target: float | None = None,
     ) -> dict[str, Any]:
-        stop_multiple = 1.3 if volatility_regime == "compressed" else 1.6 if volatility_regime == "expanded" else 1.45
+        stop_multiple = (
+            1.3
+            if volatility_regime == "compressed"
+            else 1.6
+            if volatility_regime == "expanded"
+            else 1.45
+        )
         reward_multiple = 2.4 if signal_type in {"BUY_ZONE", "SELL"} else 1.8
 
         if direction == "long":
@@ -937,7 +988,9 @@ class SignalEngineService:
         score += regime_bonus
         return self._clamp(score)
 
-    def _volatility_regime(self, indicators: SeriesIndicators, index: int, atr: float, close: float) -> str:
+    def _volatility_regime(
+        self, indicators: SeriesIndicators, index: int, atr: float, close: float
+    ) -> str:
         current_atr_percent = atr / close if close else 0.0
         atr_percents = [
             atr_value / price
@@ -1041,12 +1094,18 @@ class SignalEngineService:
         in_sample = outcomes[:split_index]
         out_of_sample = outcomes[split_index:]
 
-        in_sample_win_rate = (sum(1 for value in in_sample if value > 0) / len(in_sample)) if in_sample else 0.0
+        in_sample_win_rate = (
+            (sum(1 for value in in_sample if value > 0) / len(in_sample)) if in_sample else 0.0
+        )
         in_sample_expectancy = (sum(in_sample) / len(in_sample)) if in_sample else 0.0
         out_of_sample_win_rate = (
-            sum(1 for value in out_of_sample if value > 0) / len(out_of_sample)
-        ) if out_of_sample else 0.0
-        out_of_sample_expectancy = (sum(out_of_sample) / len(out_of_sample)) if out_of_sample else 0.0
+            (sum(1 for value in out_of_sample if value > 0) / len(out_of_sample))
+            if out_of_sample
+            else 0.0
+        )
+        out_of_sample_expectancy = (
+            (sum(out_of_sample) / len(out_of_sample)) if out_of_sample else 0.0
+        )
 
         win_rate = sum(1 for value in outcomes if value > 0) / len(outcomes)
         expectancy = sum(outcomes) / len(outcomes)
@@ -1199,7 +1258,9 @@ class SignalEngineService:
             "timeframe": timeframe,
             "strategyId": strategy_definition.get("id") if strategy_definition else None,
             "strategyName": strategy_definition.get("name") if strategy_definition else None,
-            "strategySource": strategy_definition.get("source") if strategy_definition else "built-in",
+            "strategySource": strategy_definition.get("source")
+            if strategy_definition
+            else "built-in",
             "extensionId": strategy_definition.get("extension_id") if strategy_definition else None,
             "feesPercent": round(fees_percent, 4),
             "slippagePercent": round(slippage_percent, 4),
@@ -1232,7 +1293,9 @@ class SignalEngineService:
         backtest: dict[str, Any],
         pooled: dict[str, Any],
     ) -> int:
-        base = 42 if state["signal"] == "WAIT" else 52 if state["signal"] in {"HOLD", "WATCH"} else 58
+        base = (
+            42 if state["signal"] == "WAIT" else 52 if state["signal"] in {"HOLD", "WATCH"} else 58
+        )
         score = base
         score += state["trend_alignment"] * 14
         score += state["volume_confirmation"] * 8
@@ -1241,11 +1304,15 @@ class SignalEngineService:
         # Prefer pooled, calibrated statistics when a credible sample exists; otherwise
         # lean on the single-symbol backtest but damp confidence toward neutral.
         if pooled["sample_size"] >= self._min_backtest_sample:
-            calibrated_win_rate = self._calibrate_win_rate(pooled["win_rate"], pooled["sample_size"])
+            calibrated_win_rate = self._calibrate_win_rate(
+                pooled["win_rate"], pooled["sample_size"]
+            )
             score += (calibrated_win_rate - 0.5) * 32
             score += max(min(pooled["expectancy"], 1.0), -1.0) * 10
         else:
-            calibrated_win_rate = self._calibrate_win_rate(backtest["win_rate"], backtest["trade_count"])
+            calibrated_win_rate = self._calibrate_win_rate(
+                backtest["win_rate"], backtest["trade_count"]
+            )
             score += (calibrated_win_rate - 0.5) * 20
             score += max(min(backtest["expectancy"], 1.0), -1.0) * 8
             score -= 8  # thin sample penalty
@@ -1261,10 +1328,14 @@ class SignalEngineService:
         prior_strength = float(self._min_backtest_sample)
         if sample_size <= 0:
             return 0.5
-        return ((raw_win_rate * sample_size) + (0.5 * prior_strength)) / (sample_size + prior_strength)
+        return ((raw_win_rate * sample_size) + (0.5 * prior_strength)) / (
+            sample_size + prior_strength
+        )
 
-    def _data_freshness(self, timeframe: str, generated_at_utc: str) -> tuple[int | None, str | None]:
-        from datetime import datetime, timezone
+    def _data_freshness(
+        self, timeframe: str, generated_at_utc: str
+    ) -> tuple[int | None, str | None]:
+        from datetime import datetime
 
         bar_seconds = {
             "15m": 900,
@@ -1275,13 +1346,13 @@ class SignalEngineService:
         try:
             opened = datetime.fromisoformat(generated_at_utc.replace("Z", "+00:00"))
             if opened.tzinfo is None:
-                opened = opened.replace(tzinfo=timezone.utc)
+                opened = opened.replace(tzinfo=UTC)
         except (ValueError, AttributeError):
             return None, None
         from datetime import timedelta
 
         closed = opened + timedelta(seconds=bar_seconds)
-        age_seconds = int((datetime.now(timezone.utc) - closed).total_seconds())
+        age_seconds = int((datetime.now(UTC) - closed).total_seconds())
         return max(age_seconds, 0), closed.isoformat().replace("+00:00", "Z")
 
     def _narrate(
@@ -1471,7 +1542,9 @@ class SignalEngineService:
             return f"{symbol_id[:-3]}/USD"
         return symbol_id
 
-    def _build_signal_id(self, symbol_id: str, timeframe: str, signal_type: str, generated_at_utc: str) -> str:
+    def _build_signal_id(
+        self, symbol_id: str, timeframe: str, signal_type: str, generated_at_utc: str
+    ) -> str:
         return f"{symbol_id}-{timeframe}-{signal_type}-{generated_at_utc}"
 
     def _clamp(self, value: float, low: float = 0.0, high: float = 1.0) -> float:
@@ -1592,11 +1665,15 @@ class SignalEngineService:
             losses[index] = max(-delta, 0.0)
         average_gain = sum(gains[1 : period + 1]) / period
         average_loss = sum(losses[1 : period + 1]) / period
-        output[period] = 100.0 if average_loss == 0 else 100 - (100 / (1 + (average_gain / average_loss)))
+        output[period] = (
+            100.0 if average_loss == 0 else 100 - (100 / (1 + (average_gain / average_loss)))
+        )
         for index in range(period + 1, len(values)):
             average_gain = ((average_gain * (period - 1)) + gains[index]) / period
             average_loss = ((average_loss * (period - 1)) + losses[index]) / period
-            output[index] = 100.0 if average_loss == 0 else 100 - (100 / (1 + (average_gain / average_loss)))
+            output[index] = (
+                100.0 if average_loss == 0 else 100 - (100 / (1 + (average_gain / average_loss)))
+            )
         return output
 
     def _atr(self, candles: list[dict[str, Any]], period: int) -> list[float | None]:
@@ -1611,7 +1688,9 @@ class SignalEngineService:
                 true_ranges[index] = high - low
                 continue
             previous_close = float(candles[index - 1]["close"])
-            true_ranges[index] = max(high - low, abs(high - previous_close), abs(low - previous_close))
+            true_ranges[index] = max(
+                high - low, abs(high - previous_close), abs(low - previous_close)
+            )
         average_true_range = sum(true_ranges[1 : period + 1]) / period
         output[period] = average_true_range
         for index in range(period + 1, len(candles)):
@@ -1638,7 +1717,9 @@ class SignalEngineService:
             down_move = previous_low - low
             plus_dm[index] = up_move if (up_move > down_move and up_move > 0) else 0.0
             minus_dm[index] = down_move if (down_move > up_move and down_move > 0) else 0.0
-            true_range[index] = max(high - low, abs(high - previous_close), abs(low - previous_close))
+            true_range[index] = max(
+                high - low, abs(high - previous_close), abs(low - previous_close)
+            )
 
         smoothed_tr = sum(true_range[1 : period + 1])
         smoothed_plus = sum(plus_dm[1 : period + 1])

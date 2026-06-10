@@ -4,7 +4,6 @@
 from fastapi import APIRouter, HTTPException, Request
 from starlette.concurrency import run_in_threadpool
 
-from app.services.market_corridor import MarketCorridorService
 from app.services.ranking import RelativeStrengthRankingService
 from app.services.rate_limits import RateLimitExceededError
 

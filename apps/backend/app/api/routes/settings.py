@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from time import perf_counter
 
 from fastapi import APIRouter, HTTPException, Request
@@ -70,9 +70,7 @@ def serialize_ai_settings(ai_settings: AiSettings) -> dict[str, object]:
 @router.get("/ai")
 async def ai_settings(request: Request) -> dict[str, object]:
     ai_settings = request.app.state.state_store.get_ai_settings()
-    return {
-        "ai": serialize_ai_settings(ai_settings)
-    }
+    return {"ai": serialize_ai_settings(ai_settings)}
 
 
 @router.put("/ai")
@@ -92,9 +90,7 @@ async def update_ai_settings(
             request_timeout_seconds=payload.requestTimeoutSeconds,
         )
     )
-    return {
-        "ai": serialize_ai_settings(ai_settings)
-    }
+    return {"ai": serialize_ai_settings(ai_settings)}
 
 
 @router.post("/ai/models")
@@ -139,7 +135,7 @@ async def test_ai_provider(
     payload: AiProviderTestPayload,
     request: Request,
 ) -> dict[str, object]:
-    tested_at_utc = datetime.now(timezone.utc).isoformat()
+    tested_at_utc = datetime.now(UTC).isoformat()
     started = perf_counter()
     if payload.provider == "template":
         return {
@@ -186,7 +182,8 @@ async def test_ai_provider(
             "provider": payload.provider,
             "model": settings.model,
             "ok": False,
-            "detail": initial_runtime_state.get("runtimeDetail") or "The selected model is not installed.",
+            "detail": initial_runtime_state.get("runtimeDetail")
+            or "The selected model is not installed.",
             "runtimeStatus": "not_installed",
             "runtimeDetail": initial_runtime_state.get("runtimeDetail"),
             "elapsedMs": int((perf_counter() - started) * 1000),
@@ -223,7 +220,10 @@ async def test_ai_provider(
                 ).strip(),
             }
         diagnostic_detail = runtime_state.get("runtimeDetail")
-        detail = error_detail or "The provider did not return usable text. Check endpoint, model id, API key, and timeout."
+        detail = (
+            error_detail
+            or "The provider did not return usable text. Check endpoint, model id, API key, and timeout."
+        )
         if diagnostic_detail:
             detail = f"{detail} {diagnostic_detail}"
         return {
@@ -245,7 +245,9 @@ async def test_ai_provider(
         "model": settings.model,
         "ok": True,
         "detail": "Provider returned usable text.",
-        "runtimeStatus": "loaded" if payload.provider == "ollama" else initial_runtime_state.get("runtimeStatus"),
+        "runtimeStatus": "loaded"
+        if payload.provider == "ollama"
+        else initial_runtime_state.get("runtimeStatus"),
         "runtimeDetail": initial_runtime_state.get("runtimeDetail"),
         "source": response.source,
         "sample": sample,
@@ -257,7 +259,9 @@ async def test_ai_provider(
 @router.get("/api-keys")
 async def api_keys(request: Request) -> dict[str, object]:
     return {
-        "items": [serialize_api_key(item) for item in request.app.state.state_store.list_api_keys()],
+        "items": [
+            serialize_api_key(item) for item in request.app.state.state_store.list_api_keys()
+        ],
     }
 
 

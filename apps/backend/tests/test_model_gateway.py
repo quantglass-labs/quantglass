@@ -67,7 +67,10 @@ def test_gemini_model_discovery_filters_generate_content_models() -> None:
 
     assert fetched is True
     assert models == ["gemini-3.5-flash"]
-    assert calls[0] == "https://generativelanguage.googleapis.com/v1beta/models?key=gemini-secret&pageSize=1000"
+    assert (
+        calls[0]
+        == "https://generativelanguage.googleapis.com/v1beta/models?key=gemini-secret&pageSize=1000"
+    )
 
 
 def test_anthropic_missing_key_returns_clear_detail() -> None:
@@ -253,7 +256,9 @@ def test_vllm_model_discovery_uses_explicit_provider_id() -> None:
 
 
 def test_deepseek_requires_own_api_key_and_uses_bearer_models() -> None:
-    gateway = ModelGateway(api_key_provider=lambda key_id: "deepseek-secret" if key_id == "deepseek-api-key" else "")
+    gateway = ModelGateway(
+        api_key_provider=lambda key_id: "deepseek-secret" if key_id == "deepseek-api-key" else ""
+    )
     calls: list[tuple[str, dict[str, str] | None]] = []
 
     def fake_get_json(url: str, timeout: float, headers: dict[str, str] | None = None):
@@ -262,13 +267,20 @@ def test_deepseek_requires_own_api_key_and_uses_bearer_models() -> None:
 
     gateway._get_json = fake_get_json  # type: ignore[method-assign]
     catalog = gateway.list_model_catalog(
-        AiSettings(provider="deepseek", base_url="https://api.deepseek.com/v1", api_key_id="deepseek-api-key")
+        AiSettings(
+            provider="deepseek",
+            base_url="https://api.deepseek.com/v1",
+            api_key_id="deepseek-api-key",
+        )
     )
 
     assert catalog.fetched is True
     assert catalog.source == "deepseek:/models"
     assert catalog.models == ["deepseek-chat"]
-    assert calls[0] == ("https://api.deepseek.com/v1/models", {"Authorization": "Bearer deepseek-secret"})
+    assert calls[0] == (
+        "https://api.deepseek.com/v1/models",
+        {"Authorization": "Bearer deepseek-secret"},
+    )
 
 
 def test_bedrock_model_discovery_uses_signed_foundation_models_endpoint() -> None:
@@ -306,14 +318,21 @@ def test_bedrock_model_discovery_uses_signed_foundation_models_endpoint() -> Non
     gateway._aws_sigv4_headers = fake_sigv4_headers  # type: ignore[method-assign]
     gateway._get_json = fake_get_json  # type: ignore[method-assign]
     catalog = gateway.list_model_catalog(
-        AiSettings(provider="bedrock", base_url="bedrock-runtime.us-west-2.amazonaws.com", api_key_id="aws-access-key-id")
+        AiSettings(
+            provider="bedrock",
+            base_url="bedrock-runtime.us-west-2.amazonaws.com",
+            api_key_id="aws-access-key-id",
+        )
     )
 
     assert catalog.fetched is True
     assert catalog.source == "bedrock:foundation-models"
     assert catalog.models == ["anthropic.claude-3-5-sonnet-20240620-v1:0"]
     assert catalog.items[0]["runtimeStatus"] == "available"
-    assert calls[0] == ("https://bedrock.us-west-2.amazonaws.com/foundation-models", {"Authorization": "signed"})
+    assert calls[0] == (
+        "https://bedrock.us-west-2.amazonaws.com/foundation-models",
+        {"Authorization": "signed"},
+    )
 
 
 def test_bedrock_invoke_model_uses_signed_runtime_request() -> None:
@@ -326,7 +345,10 @@ def test_bedrock_invoke_model_uses_signed_runtime_request() -> None:
 
     def fake_sigv4_headers(**kwargs):
         assert kwargs["method"] == "POST"
-        assert kwargs["url"] == "https://bedrock-runtime.us-east-1.amazonaws.com/model/anthropic.claude-3-5-sonnet-20240620-v1%3A0/invoke"
+        assert (
+            kwargs["url"]
+            == "https://bedrock-runtime.us-east-1.amazonaws.com/model/anthropic.claude-3-5-sonnet-20240620-v1%3A0/invoke"
+        )
         return {"Authorization": "signed", "X-Amz-Date": "20260602T000000Z"}
 
     def fake_post_json(
@@ -357,7 +379,9 @@ def test_bedrock_invoke_model_uses_signed_runtime_request() -> None:
 
 
 def test_vertex_model_discovery_uses_project_location_endpoint() -> None:
-    gateway = ModelGateway(api_key_provider=lambda key_id: "vertex-token" if key_id == "vertex-ai-access-token" else "")
+    gateway = ModelGateway(
+        api_key_provider=lambda key_id: "vertex-token" if key_id == "vertex-ai-access-token" else ""
+    )
     calls: list[tuple[str, dict[str, str] | None]] = []
 
     def fake_get_json(url: str, timeout: float, headers: dict[str, str] | None = None):
@@ -416,5 +440,8 @@ def test_azure_openai_uses_deployment_chat_completions_url() -> None:
 
     assert response is not None
     assert response.source == "azure_openai:qg-gpt"
-    assert calls[0][0] == "https://example.openai.azure.com/openai/deployments/qg-gpt/chat/completions?api-version=2024-10-21"
+    assert (
+        calls[0][0]
+        == "https://example.openai.azure.com/openai/deployments/qg-gpt/chat/completions?api-version=2024-10-21"
+    )
     assert calls[0][2] == {"api-key": "azure-secret"}

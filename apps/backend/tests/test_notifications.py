@@ -21,7 +21,7 @@ class _UrlResponse:
     def __init__(self, body: bytes) -> None:
         self._body = body
 
-    def __enter__(self) -> "_UrlResponse":
+    def __enter__(self) -> _UrlResponse:
         return self
 
     def __exit__(self, *_args: object) -> None:
@@ -40,7 +40,7 @@ class _SmtpClient:
         self.port = port
         self.timeout = timeout
 
-    def __enter__(self) -> "_SmtpClient":
+    def __enter__(self) -> _SmtpClient:
         return self
 
     def __exit__(self, *_args: object) -> None:

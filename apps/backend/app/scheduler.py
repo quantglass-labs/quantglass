@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -97,7 +97,7 @@ class SchedulerService:
         }
 
     def _heartbeat_job(self) -> None:
-        self._last_heartbeat = datetime.now(timezone.utc).isoformat()
+        self._last_heartbeat = datetime.now(UTC).isoformat()
         self._event_bus.publish(
             "backend.heartbeat",
             {
@@ -134,7 +134,7 @@ class SchedulerService:
             return
         try:
             result = self._market_corridor.refresh()
-            self._last_market_refresh = datetime.now(timezone.utc).isoformat()
+            self._last_market_refresh = datetime.now(UTC).isoformat()
             self._event_bus.publish(
                 "market.corridor.refreshed",
                 {
@@ -156,7 +156,7 @@ class SchedulerService:
             return
         try:
             signals = self._signal_engine.list_signals()
-            self._last_signal_refresh = datetime.now(timezone.utc).isoformat()
+            self._last_signal_refresh = datetime.now(UTC).isoformat()
             self._event_bus.publish(
                 "signals.refreshed",
                 {

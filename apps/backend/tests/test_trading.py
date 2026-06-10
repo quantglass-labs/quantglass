@@ -106,7 +106,9 @@ class _FakeProviderManager:
 
 class _FailingTradingService:
     def submit_trade(self, **kwargs):
-        raise TradeExecutionError("No configured live trading provider is available. Checked: alpaca, ccxt_trade.")
+        raise TradeExecutionError(
+            "No configured live trading provider is available. Checked: alpaca, ccxt_trade."
+        )
 
 
 class TradingExecutionServiceTests(unittest.TestCase):
@@ -132,7 +134,9 @@ class TradingExecutionServiceTests(unittest.TestCase):
         state_store = _FakeStateStore(trading_mode="live")
         event_bus = BackendEventBus()
         queue = event_bus.subscribe()
-        provider_manager = _FakeProviderManager(chain=["alpaca", "ccxt_trade"], client=_FakeProviderClient())
+        provider_manager = _FakeProviderManager(
+            chain=["alpaca", "ccxt_trade"], client=_FakeProviderClient()
+        )
         service = TradingExecutionService(state_store, provider_manager, event_bus)
 
         result = service.submit_trade(

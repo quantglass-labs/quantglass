@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from pydantic import BaseModel, Field
 from fastapi import APIRouter, Request
+from pydantic import BaseModel, Field
 
 router = APIRouter(prefix="/api/watchlist", tags=["watchlist"])
 

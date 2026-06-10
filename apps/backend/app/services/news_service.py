@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.providers.base import NewsProvider
@@ -36,8 +36,13 @@ class NewsService:
 
         items: list[dict[str, Any]] = []
         seen_ids: set[str] = set()
-        symbols = [series["symbol"] for series in self._analytics_store.list_market_series(minimum_candles=2)]
-        preferred_symbols = self._dedupe_symbols(symbols)[: max(max_items // max(limit_per_symbol, 1), 1) * 2]
+        symbols = [
+            series["symbol"]
+            for series in self._analytics_store.list_market_series(minimum_candles=2)
+        ]
+        preferred_symbols = self._dedupe_symbols(symbols)[
+            : max(max_items // max(limit_per_symbol, 1), 1) * 2
+        ]
         for route in routes:
             client = self._provider_manager.get_client(route)
             if client is None or not isinstance(client, NewsProvider):
@@ -58,13 +63,12 @@ class NewsService:
         return self._sort_items(items)
 
     def _derived_market_updates(self, max_items: int) -> list[dict[str, Any]]:
-        signals_by_symbol = {
-            item["symbolId"]: item
-            for item in self._signal_engine.list_signals()
-        }
+        signals_by_symbol = {item["symbolId"]: item for item in self._signal_engine.list_signals()}
         items: list[dict[str, Any]] = []
         for series in self._analytics_store.list_market_series(minimum_candles=2):
-            candles_payload = self._analytics_store.list_market_candles(series["symbol"], series["timeframe"], limit=3)
+            candles_payload = self._analytics_store.list_market_candles(
+                series["symbol"], series["timeframe"], limit=3
+            )
             candles = candles_payload["items"]
             if len(candles) < 2:
                 continue
@@ -72,17 +76,32 @@ class NewsService:
             previous = candles[-2]
             latest_close = float(latest["close"])
             previous_close = float(previous["close"])
-            change_percent = ((latest_close - previous_close) / previous_close) * 100 if previous_close else 0.0
+            change_percent = (
+                ((latest_close - previous_close) / previous_close) * 100 if previous_close else 0.0
+            )
             signal = signals_by_symbol.get(series["symbol"])
             items.append(
                 {
                     "id": f"market-update-{series['symbol']}-{series['timeframe']}-{latest['open_time_utc']}",
                     "symbol": self._display_symbol(series["symbol"], series["market_type"]),
-                    "headline": self._headline_for_series(series["symbol"], series["market_type"], series["timeframe"], change_percent, signal),
+                    "headline": self._headline_for_series(
+                        series["symbol"],
+                        series["market_type"],
+                        series["timeframe"],
+                        change_percent,
+                        signal,
+                    ),
                     "source": "Derived from local market data — not live news",
                     "derived": True,
                     "publishedAt": latest["open_time_utc"],
-                    "summary": self._summary_for_series(series["symbol"], series["market_type"], series["timeframe"], latest_close, change_percent, signal),
+                    "summary": self._summary_for_series(
+                        series["symbol"],
+                        series["market_type"],
+                        series["timeframe"],
+                        latest_close,
+                        change_percent,
+                        signal,
+                    ),
                     "sentiment": self._sentiment_from_change(change_percent, signal),
                 }
             )
@@ -95,7 +114,9 @@ class NewsService:
         default_source: str,
     ) -> dict[str, Any]:
         normalized_symbol = self._display_symbol(symbol, self._market_type_for_symbol(symbol))
-        published_at = item.get("publishedAt") or item.get("published_at") or datetime.now(timezone.utc).isoformat()
+        published_at = (
+            item.get("publishedAt") or item.get("published_at") or datetime.now(UTC).isoformat()
+        )
         headline = item.get("headline") or item.get("title") or f"{normalized_symbol} market update"
         summary = item.get("summary") or item.get("description") or headline
         return {
@@ -106,7 +127,8 @@ class NewsService:
             "derived": False,
             "publishedAt": published_at,
             "summary": summary,
-            "sentiment": item.get("sentiment") or self._sentiment_from_text(f"{headline} {summary}"),
+            "sentiment": item.get("sentiment")
+            or self._sentiment_from_text(f"{headline} {summary}"),
         }
 
     def _headline_for_series(

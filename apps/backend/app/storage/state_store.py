@@ -3,13 +3,12 @@
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from app.core.config import AiSettings, ProviderSettings, SafetySettings
 from app.storage.secret_store import EncryptedSecretStore
-
 
 DEFAULT_API_KEYS: list[dict[str, Any]] = [
     {
@@ -387,9 +386,7 @@ class StateStore:
             connection.commit()
 
     def get_provider_settings(self) -> ProviderSettings:
-        payload = self._read_settings_payload(
-            "provider_settings", ProviderSettings().model_dump()
-        )
+        payload = self._read_settings_payload("provider_settings", ProviderSettings().model_dump())
         normalized_payload = self._normalize_provider_settings_payload(payload)
         if normalized_payload != payload:
             with sqlite3.connect(self.sqlite_path) as connection:
@@ -759,7 +756,9 @@ class StateStore:
             "balance": row[0],
             "buyingPower": row[1],
             "realizedPnl": row[2],
-            "openPositions": [self._serialize_paper_position_row(position) for position in positions],
+            "openPositions": [
+                self._serialize_paper_position_row(position) for position in positions
+            ],
         }
 
     def replace_paper_account(self, account: dict[str, Any]) -> dict[str, Any]:
@@ -1035,11 +1034,15 @@ class StateStore:
         )
 
     def _normalize_api_keys_payload(self, payload: Any) -> list[dict[str, Any]]:
-        indexed_payload = {
-            item.get("id"): item
-            for item in payload
-            if isinstance(item, dict) and isinstance(item.get("id"), str)
-        } if isinstance(payload, list) else {}
+        indexed_payload = (
+            {
+                item.get("id"): item
+                for item in payload
+                if isinstance(item, dict) and isinstance(item.get("id"), str)
+            }
+            if isinstance(payload, list)
+            else {}
+        )
 
         normalized: list[dict[str, Any]] = []
         for default_item in [*DEFAULT_API_KEYS, *self._custom_provider_api_key_metadata()]:
@@ -1097,22 +1100,6 @@ class StateStore:
                 connection.commit()
 
         return scrubbed_payload
-        connection.execute("DELETE FROM paper_positions")
-        for position in account.get("openPositions", []):
-            connection.execute(
-                """
-                INSERT INTO paper_positions (symbol_id, side, quantity, average_price, pnl, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    position["symbolId"],
-                    position["side"],
-                    position["quantity"],
-                    position["averagePrice"],
-                    position["pnl"],
-                    updated_at,
-                ),
-            )
 
     def _write_settings_payload(
         self,
@@ -1198,7 +1185,9 @@ class StateStore:
             raw = raw.removeprefix("custom_")
         cleaned = "".join(character if character.isalnum() else "_" for character in raw)
         cleaned = "_".join(part for part in cleaned.split("_") if part)
-        fallback = "".join(character if character.isalnum() else "_" for character in self._now_iso())
+        fallback = "".join(
+            character if character.isalnum() else "_" for character in self._now_iso()
+        )
         return f"custom_{cleaned or fallback}"
 
     def _normalize_custom_provider_profile(self, payload: dict[str, Any]) -> dict[str, Any]:
@@ -1223,8 +1212,14 @@ class StateStore:
             "baseUrl": str(payload.get("baseUrl") or payload.get("base_url") or "").strip(),
             "authType": auth_type,
             "apiKeyId": api_key_id or None,
-            "apiKeyHeader": str(payload.get("apiKeyHeader") or payload.get("api_key_header") or "Authorization").strip() or None,
-            "apiKeyQueryParam": str(payload.get("apiKeyQueryParam") or payload.get("api_key_query_param") or "apikey").strip() or None,
+            "apiKeyHeader": str(
+                payload.get("apiKeyHeader") or payload.get("api_key_header") or "Authorization"
+            ).strip()
+            or None,
+            "apiKeyQueryParam": str(
+                payload.get("apiKeyQueryParam") or payload.get("api_key_query_param") or "apikey"
+            ).strip()
+            or None,
             "capabilities": sorted(set(capabilities)),
             "enabled": bool(payload.get("enabled", True)),
             "notes": str(payload.get("notes") or "").strip(),
@@ -1246,17 +1241,13 @@ class StateStore:
         return sorted(normalized, key=lambda item: item["id"])
 
     def _ensure_alerts_columns(self, connection: sqlite3.Connection) -> None:
-        columns = {
-            row[1] for row in connection.execute("PRAGMA table_info(alerts)").fetchall()
-        }
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(alerts)").fetchall()}
         if "channel" not in columns:
             connection.execute(
                 "ALTER TABLE alerts ADD COLUMN channel TEXT NOT NULL DEFAULT 'desktop'"
             )
         if "status" not in columns:
-            connection.execute(
-                "ALTER TABLE alerts ADD COLUMN status TEXT NOT NULL DEFAULT 'armed'"
-            )
+            connection.execute("ALTER TABLE alerts ADD COLUMN status TEXT NOT NULL DEFAULT 'armed'")
         if "last_fired" not in columns:
             connection.execute("ALTER TABLE alerts ADD COLUMN last_fired TEXT")
 
@@ -1270,25 +1261,15 @@ class StateStore:
                 "ALTER TABLE paper_trade_intents ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'"
             )
         if "executed_at" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN executed_at TEXT"
-            )
+            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN executed_at TEXT")
         if "executed_price" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN executed_price REAL"
-            )
+            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN executed_price REAL")
         if "provider" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN provider TEXT"
-            )
+            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN provider TEXT")
         if "external_order_id" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN external_order_id TEXT"
-            )
+            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN external_order_id TEXT")
         if "broker_status" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN broker_status TEXT"
-            )
+            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN broker_status TEXT")
 
     def _apply_trade_fill(
         self,
@@ -1421,9 +1402,13 @@ class StateStore:
             FROM paper_positions
             """
         ).fetchall()
-        allocated_notional = sum(float(quantity) * float(average_price) for quantity, average_price, _ in positions)
+        allocated_notional = sum(
+            float(quantity) * float(average_price) for quantity, average_price, _ in positions
+        )
         unrealized_pnl = sum(float(pnl) for _, _, pnl in positions)
-        balance = float(account_row[0]) + allocated_notional + float(account_row[1]) + unrealized_pnl
+        balance = (
+            float(account_row[0]) + allocated_notional + float(account_row[1]) + unrealized_pnl
+        )
         connection.execute(
             """
             UPDATE paper_account_state
@@ -1513,7 +1498,7 @@ class StateStore:
 
     @staticmethod
     def _now_iso() -> str:
-        return datetime.now(timezone.utc).isoformat()
+        return datetime.now(UTC).isoformat()
 
     # -------------------------------------------------------------------------
     # Interactive Learning Progress
@@ -1542,7 +1527,6 @@ class StateStore:
             connection.commit()
 
     def record_lesson_attempt(self, lesson_id: str) -> None:
-        now = self._now_iso()
         with sqlite3.connect(self.sqlite_path) as connection:
             existing = connection.execute(
                 "SELECT attempts FROM learn_progress WHERE lesson_id = ?",

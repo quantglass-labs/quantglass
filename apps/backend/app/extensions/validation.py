@@ -6,7 +6,6 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-
 REQUIRED_CANDLE_FIELDS = ("open_time_utc", "open", "high", "low", "close", "volume")
 
 
@@ -43,12 +42,20 @@ def validate_candles(candles: list[dict[str, Any]]) -> list[str]:
                 continue
             numeric_values[field] = float(value)
 
-        if {"high", "low"}.issubset(numeric_values) and numeric_values["high"] < numeric_values["low"]:
+        if {"high", "low"}.issubset(numeric_values) and numeric_values["high"] < numeric_values[
+            "low"
+        ]:
             diagnostics.append(f"candle[{index}] high is below low")
         if {"open", "high", "low", "close"}.issubset(numeric_values):
-            if numeric_values["open"] > numeric_values["high"] or numeric_values["open"] < numeric_values["low"]:
+            if (
+                numeric_values["open"] > numeric_values["high"]
+                or numeric_values["open"] < numeric_values["low"]
+            ):
                 diagnostics.append(f"candle[{index}] open is outside high/low range")
-            if numeric_values["close"] > numeric_values["high"] or numeric_values["close"] < numeric_values["low"]:
+            if (
+                numeric_values["close"] > numeric_values["high"]
+                or numeric_values["close"] < numeric_values["low"]
+            ):
                 diagnostics.append(f"candle[{index}] close is outside high/low range")
         if numeric_values.get("volume", 0.0) < 0:
             diagnostics.append(f"candle[{index}] volume is negative")

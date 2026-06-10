@@ -3,12 +3,12 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from importlib.metadata import EntryPoint, entry_points
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from types import ModuleType
-from collections.abc import Callable
 from typing import Any
 
 from app.extensions.base import ExtensionContext, ExtensionManifest, QuantGlassExtension
@@ -44,7 +44,10 @@ class ExtensionRegistry:
         self._records[record.manifest.id] = record
 
     def items(self) -> list[dict[str, Any]]:
-        return [record.as_dict() for record in sorted(self._records.values(), key=lambda item: item.manifest.id)]
+        return [
+            record.as_dict()
+            for record in sorted(self._records.values(), key=lambda item: item.manifest.id)
+        ]
 
     def get(self, extension_id: str) -> dict[str, Any] | None:
         record = self._records.get(extension_id)
@@ -79,7 +82,9 @@ def load_extension_registry(
                 ),
                 loaded=False,
                 enabled=False,
-                diagnostics=["Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true or run npm run backend:dev:extensions to load trusted local extension files and installed extension packages."],
+                diagnostics=[
+                    "Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true or run npm run backend:dev:extensions to load trusted local extension files and installed extension packages."
+                ],
                 health={"status": "disabled", "loaded": False},
             )
         )
@@ -141,9 +146,9 @@ def _load_local_extension(path: Path) -> Any:
 
 def _extension_from_module(module: ModuleType) -> Any:
     if hasattr(module, "extension"):
-        return getattr(module, "extension")
+        return module.extension
     if hasattr(module, "Extension"):
-        return getattr(module, "Extension")
+        return module.Extension
     raise RuntimeError("Local extension must expose `extension` or `Extension`.")
 
 
@@ -158,7 +163,9 @@ def _load_extension(
 ) -> ExtensionRecord:
     try:
         extension = loader()
-        extension_instance: QuantGlassExtension = extension() if isinstance(extension, type) else extension
+        extension_instance: QuantGlassExtension = (
+            extension() if isinstance(extension, type) else extension
+        )
         manifest = extension_instance.manifest
         extension_settings = (
             extension_settings_provider(manifest.id)

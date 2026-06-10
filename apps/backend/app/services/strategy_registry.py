@@ -5,8 +5,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
-from typing import Literal
+from typing import Any, Literal
 
 StrategyDirection = Literal["long", "short", "both"]
 
