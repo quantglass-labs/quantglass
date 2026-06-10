@@ -11,7 +11,7 @@ import { SignalDetailDrawer } from './screens/SignalDetailDrawer';
 import { backendClient, mapMarketCandlesToChartSeries, mapProviderSettingsResponseToUi, mapUiSettingsToProviderRequest } from './lib/backend';
 import { formatCurrency } from './lib/format';
 import { sendNativeNotification } from './lib/nativeNotifications';
-import type { AlertHistoryItem, AlertRecord, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, ExtensionRegistryEntry, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, TradingMode } from './types';
+import type { AlertHistoryItem, AlertRecord, AiModelInfo, AiProviderTestResponse, AiSettings, ApiKeyField, BackendStatus, Candle, CorridorIngestResult, CustomProviderProfile, CustomProviderUpsertRequest, ExtensionRegistryEntry, ExtensionSurfaceEntry, IndicatorRegistryEntry, MarketType, NewsItem, NotificationTestChannel, PaperAccount, ProviderRegistryEntry, ProviderSettings, RelativeStrengthRanking, SavedStrategy, ScreenState, SignalRecord, StrategyPreset, StrategyRegistryEntry, TradingMode } from './types';
 
 const DashboardScreen = lazy(async () => import('./screens/DashboardScreen').then((module) => ({ default: module.DashboardScreen })));
 const SymbolDetailScreen = lazy(async () => import('./screens/SymbolDetailScreen').then((module) => ({ default: module.SymbolDetailScreen })));
@@ -20,6 +20,7 @@ const BacktestScreen = lazy(async () => import('./screens/BacktestScreen').then(
 const WatchlistScreen = lazy(async () => import('./screens/WatchlistScreen').then((module) => ({ default: module.WatchlistScreen })));
 const AlertsScreen = lazy(async () => import('./screens/AlertsScreen').then((module) => ({ default: module.AlertsScreen })));
 const SettingsScreen = lazy(async () => import('./screens/SettingsScreen').then((module) => ({ default: module.SettingsScreen })));
+const LearnScreen = lazy(async () => import('./screens/LearnScreen').then((module) => ({ default: module.LearnScreen })));
 
 interface AlertModalState {
   open: boolean;
@@ -92,14 +93,28 @@ export default function App() {
   const [backtestPresets, setBacktestPresets] = useState<StrategyPreset[]>([]);
   const [providerSettings, setProviderSettings] = useState(defaultProviderSettings);
   const [providerRegistry, setProviderRegistry] = useState<ProviderRegistryEntry[]>([]);
+  const [customProviders, setCustomProviders] = useState<CustomProviderProfile[]>([]);
   const [extensionRegistry, setExtensionRegistry] = useState<ExtensionRegistryEntry[]>([]);
+  const [extensionSurfaces, setExtensionSurfaces] = useState<ExtensionSurfaceEntry[]>([]);
+  const [extensionStrategies, setExtensionStrategies] = useState<StrategyRegistryEntry[]>([]);
+  const [extensionIndicators, setExtensionIndicators] = useState<IndicatorRegistryEntry[]>([]);
   const [extensionSettingsById, setExtensionSettingsById] = useState<Record<string, Record<string, unknown>>>({});
   const [aiSettings, setAiSettings] = useState(defaultAiSettings);
+  const [aiModelOptions, setAiModelOptions] = useState<string[]>([defaultAiSettings.model]);
+  const [aiModelItems, setAiModelItems] = useState<AiModelInfo[]>([]);
+  const [aiModelDetail, setAiModelDetail] = useState('Suggested default model.');
+  const [aiModelsFetched, setAiModelsFetched] = useState(false);
+  const [aiModelSource, setAiModelSource] = useState('fallback');
+  const [aiModelFetchedAt, setAiModelFetchedAt] = useState<string | null>(null);
+  const [aiModelsLoading, setAiModelsLoading] = useState(false);
+  const [aiProviderTestLoading, setAiProviderTestLoading] = useState(false);
+  const [aiProviderTestResult, setAiProviderTestResult] = useState<AiProviderTestResponse | null>(null);
   const [apiKeys, setApiKeys] = useState<ApiKeyField[]>(defaultApiKeys);
   const [marketCorridorItems, setMarketCorridorItems] = useState<CorridorIngestResult[]>([]);
   const [marketCandlesByKey, setMarketCandlesByKey] = useState<Record<string, Candle[]>>({});
   const [marketCorridorRefreshing, setMarketCorridorRefreshing] = useState(false);
   const [minBacktestSample, setMinBacktestSample] = useState(50);
+  const [liveTradingConfirmed, setLiveTradingConfirmed] = useState(false);
   const [signalDrawerId, setSignalDrawerId] = useState<string | null>(null);
   const [paperTradeSignalId, setPaperTradeSignalId] = useState<string | null>(null);
   const [alertModal, setAlertModal] = useState<AlertModalState>({ open: false, symbolId: 'BTCUSD' });
@@ -171,36 +186,50 @@ export default function App() {
       setScreenState('loading');
       setBackendErrorMessage(null);
 
-      async function loadMarketCorridor(refreshIfEmpty: boolean) {
-        const statusResponse = await backendClient.getMarketCorridorStatus();
-        let items = statusResponse.items;
-
-        if (refreshIfEmpty && items.length === 0) {
-          const refreshed = await backendClient.refreshMarketCorridor();
-          items = refreshed.items;
+      async function loadWithFallback<T>(loader: () => Promise<T>, fallback: T): Promise<T> {
+        try {
+          return await loader();
+        } catch {
+          return fallback;
         }
+      }
 
-        const candleResponses = await Promise.all(
-          items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
-        );
+      async function loadMarketCorridor(refreshIfEmpty: boolean) {
+        return loadWithFallback(async () => {
+          const statusResponse = await backendClient.getMarketCorridorStatus();
+          let items = statusResponse.items;
 
-        return {
-          items,
-          candleSeries: Object.fromEntries(
-            candleResponses.map((response) => [
-              corridorKey(response.symbol, response.timeframe),
-              mapMarketCandlesToChartSeries(response.items),
-            ]),
-          ) as Record<string, Candle[]>,
-        };
+          if (refreshIfEmpty && items.length === 0) {
+            const refreshed = await backendClient.refreshMarketCorridor();
+            items = refreshed.items;
+          }
+
+          const candleResponses = await Promise.all(
+            items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
+          );
+
+          return {
+            items,
+            candleSeries: Object.fromEntries(
+              candleResponses.map((response) => [
+                corridorKey(response.symbol, response.timeframe),
+                mapMarketCandlesToChartSeries(response.items),
+              ]),
+            ) as Record<string, Candle[]>,
+          };
+        }, { items: [] as CorridorIngestResult[], candleSeries: {} as Record<string, Candle[]> });
       }
 
       try {
-        const [health, providerResponse, providerRegistryResponse, extensionRegistryResponse, watchlistResponse, marketCorridorResponse] = await Promise.all([
+        const [health, providerResponse, providerRegistryResponse, customProviderResponse, extensionRegistryResponse, extensionSurfacesResponse, extensionStrategiesResponse, extensionIndicatorsResponse, watchlistResponse, marketCorridorResponse] = await Promise.all([
           backendClient.getHealth(),
           backendClient.getProviderSettings(),
           backendClient.getProviderRegistry(),
+          backendClient.getCustomProviders(),
           backendClient.getExtensionRegistry(),
+          backendClient.getExtensionSurfaces(),
+          backendClient.getExtensionStrategies(),
+          backendClient.getExtensionIndicators(),
           backendClient.getWatchlist(),
           loadMarketCorridor(true),
         ]);
@@ -208,15 +237,15 @@ export default function App() {
         const [aiResponse, apiKeysResponse, alertsResponse, alertHistoryResponse, paperAccountResponse, signalsResponse, newsResponse, backtestsResponse] = await Promise.all([
           backendClient.getAiSettings(),
           backendClient.getApiKeys(),
-          backendClient.getAlerts(),
-          backendClient.getAlertHistory(),
-          backendClient.getPaperAccount(),
-          backendClient.getSignals(),
-          backendClient.getNews(),
-          backendClient.getBacktestPresets(),
+          loadWithFallback(() => backendClient.getAlerts(), { items: [] }),
+          loadWithFallback(() => backendClient.getAlertHistory(), { items: [] }),
+          loadWithFallback(() => backendClient.getPaperAccount(), { account: defaultPaperAccount }),
+          loadWithFallback(() => backendClient.getSignals(), { items: [] }),
+          loadWithFallback(() => backendClient.getNews(), { items: [] }),
+          loadWithFallback(() => backendClient.getBacktestPresets(), { items: [] }),
         ]);
 
-        const savedStrategiesResponse = await backendClient.getSavedStrategies();
+        const savedStrategiesResponse = await loadWithFallback(() => backendClient.getSavedStrategies(), { items: [] });
         const extensionSettingsResponses = await Promise.all(
           extensionRegistryResponse.extensions.map((extension) =>
             backendClient
@@ -235,7 +264,11 @@ export default function App() {
         setScreenState('ready');
         setProviderSettings((current) => mapProviderSettingsResponseToUi(providerResponse, current));
         setProviderRegistry(providerRegistryResponse.providers);
+        setCustomProviders(customProviderResponse.providers);
         setExtensionRegistry(extensionRegistryResponse.extensions);
+        setExtensionSurfaces(extensionSurfacesResponse.surfaces);
+        setExtensionStrategies(extensionStrategiesResponse.strategies);
+        setExtensionIndicators(extensionIndicatorsResponse.indicators);
         setExtensionSettingsById(
           Object.fromEntries(
             extensionSettingsResponses.map((response) => [response.extensionId, response.settings]),
@@ -245,7 +278,9 @@ export default function App() {
         setMarketCandlesByKey(marketCorridorResponse.candleSeries);
         setTradingMode(providerResponse.safety.trading_mode);
         setMinBacktestSample(providerResponse.safety.min_backtest_sample);
+        setLiveTradingConfirmed(providerResponse.safety.live_trading_confirmed);
         setAiSettings(aiResponse.ai);
+        void refreshAiModels(aiResponse.ai);
         setApiKeys(apiKeysResponse.items);
         setAlerts(alertsResponse.items);
         setAlertHistory(alertHistoryResponse.items);
@@ -282,7 +317,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (backendStatus !== 'online') {
+    if (backendStatus === 'offline') {
       return undefined;
     }
 
@@ -353,13 +388,22 @@ export default function App() {
   }, [backendStatus]);
 
   function refreshMarketCorridor() {
-    if (backendStatus !== 'online' || marketCorridorRefreshing) {
+    if (marketCorridorRefreshing) {
       return;
     }
 
     setMarketCorridorRefreshing(true);
     void (async () => {
       try {
+        if (backendStatus !== 'online') {
+          const health = await backendClient.getHealth();
+          if (health.status !== 'ok') {
+            throw new Error('Backend health check did not return ok.');
+          }
+          setBackendStatus('online');
+          setBackendErrorMessage(null);
+        }
+
         const refreshed = await backendClient.refreshMarketCorridor();
         const candleResponses = await Promise.all(
           refreshed.items.map((item) => backendClient.getMarketCandles(item.symbol, item.timeframe)),
@@ -377,10 +421,11 @@ export default function App() {
           'Market corridor refreshed',
           refreshed.items.length
             ? `Updated ${refreshed.items.map((item) => `${item.symbol} ${item.timeframe}`).join(', ')} from the backend corridor.`
-            : 'No market corridor targets returned from the backend refresh.',
+          : 'No market corridor targets returned from the backend refresh.',
         );
-      } catch {
-        pushToast('Market corridor refresh failed', 'The backend refresh request failed, so the existing market corridor snapshot was kept.');
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'The backend refresh request failed.';
+        pushToast('Market corridor refresh failed', `${message} Existing corridor data was kept.`);
       } finally {
         setMarketCorridorRefreshing(false);
       }
@@ -391,8 +436,9 @@ export default function App() {
     nextProviderSettings: typeof providerSettings,
     nextTradingMode: TradingMode = tradingMode,
     nextMinBacktestSample: number = minBacktestSample,
+    nextLiveTradingConfirmed: boolean = nextTradingMode === 'live' ? liveTradingConfirmed : false,
   ) {
-    if (backendStatus !== 'online') {
+    if (backendStatus === 'offline') {
       pushToast(
         'Settings unavailable',
         'The backend is offline, so provider and safety settings cannot be updated right now.',
@@ -407,6 +453,7 @@ export default function App() {
             nextProviderSettings,
             nextTradingMode,
             nextMinBacktestSample,
+            nextLiveTradingConfirmed,
           ),
         );
         setProviderSettings((current) =>
@@ -414,6 +461,7 @@ export default function App() {
         );
         setTradingMode(response.safety.trading_mode);
         setMinBacktestSample(response.safety.min_backtest_sample);
+        setLiveTradingConfirmed(response.safety.live_trading_confirmed);
       } catch {
         pushToast(
           'Settings update failed',
@@ -441,6 +489,99 @@ export default function App() {
           'AI settings update failed',
           'The backend AI settings update failed, so no change was applied.',
         );
+      }
+    })();
+  }
+
+  function refreshAiModels(nextAiSettings: AiSettings) {
+    if (backendStatus === 'offline') {
+      setAiModelOptions([nextAiSettings.model].filter(Boolean));
+      setAiModelItems([]);
+      setAiModelsFetched(false);
+      setAiModelSource('offline');
+      setAiModelFetchedAt(null);
+      setAiModelDetail('Backend is offline, so model discovery cannot run.');
+      return;
+    }
+
+    setAiModelsLoading(true);
+    setAiModelsFetched(false);
+    setAiModelOptions(nextAiSettings.model ? [nextAiSettings.model] : []);
+    setAiModelItems([]);
+    setAiModelSource('fetching');
+    setAiModelFetchedAt(null);
+    setAiModelDetail('Fetching models from the selected provider...');
+    void (async () => {
+      try {
+        const response = await backendClient.getAiModels({
+          provider: nextAiSettings.provider,
+          baseUrl: nextAiSettings.baseUrl,
+          apiKeyId: nextAiSettings.apiKeyId,
+          requestTimeoutSeconds: nextAiSettings.requestTimeoutSeconds,
+        });
+        const options = response.models.length ? response.models : [nextAiSettings.model].filter(Boolean);
+        setAiModelOptions(options);
+        setAiModelItems(response.modelItems ?? response.models.map((model) => ({ id: model })));
+        setAiModelsFetched(response.fetched);
+        setAiModelSource(response.source ?? (response.fetched ? nextAiSettings.provider : 'fallback'));
+        setAiModelFetchedAt(response.fetchedAtUtc ?? null);
+        setAiModelDetail(response.detail);
+      } catch {
+        setAiModelOptions([nextAiSettings.model].filter(Boolean));
+        setAiModelItems([]);
+        setAiModelsFetched(false);
+        setAiModelSource('failed');
+        setAiModelFetchedAt(null);
+        setAiModelDetail('Model discovery failed for the selected provider.');
+      } finally {
+        setAiModelsLoading(false);
+      }
+    })();
+  }
+
+  function testAiProvider(nextAiSettings: AiSettings) {
+    if (backendStatus === 'offline') {
+      setAiProviderTestResult({
+        provider: nextAiSettings.provider,
+        model: nextAiSettings.model,
+        ok: false,
+        detail: 'Backend is offline, so the AI provider cannot be tested.',
+        elapsedMs: 0,
+        testedAtUtc: new Date().toISOString(),
+      });
+      return;
+    }
+
+    setAiProviderTestLoading(true);
+    setAiProviderTestResult(null);
+    void (async () => {
+      try {
+        const response = await backendClient.testAiProvider({
+          provider: nextAiSettings.provider,
+          baseUrl: nextAiSettings.baseUrl,
+          apiKeyId: nextAiSettings.apiKeyId,
+          requestTimeoutSeconds: nextAiSettings.requestTimeoutSeconds,
+          model: nextAiSettings.model,
+          temperature: nextAiSettings.temperature,
+          maxTokens: Math.min(nextAiSettings.maxTokens, 160),
+        });
+        setAiProviderTestResult(response);
+        pushToast(
+          response.ok ? 'AI provider test passed' : 'AI provider test failed',
+          response.detail,
+        );
+      } catch {
+        setAiProviderTestResult({
+          provider: nextAiSettings.provider,
+          model: nextAiSettings.model,
+          ok: false,
+          detail: 'The AI provider test request failed before a result was returned.',
+          elapsedMs: 0,
+          testedAtUtc: new Date().toISOString(),
+        });
+        pushToast('AI provider test failed', 'The backend did not return a provider test result.');
+      } finally {
+        setAiProviderTestLoading(false);
       }
     })();
   }
@@ -675,6 +816,114 @@ export default function App() {
     })();
   }
 
+  function handleDeleteSavedStrategy(strategyId: string) {
+    if (backendStatus !== 'online') {
+      pushToast('Strategy delete unavailable', 'The backend is offline, so saved strategies cannot be deleted right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        const response = await backendClient.deleteSavedStrategy(strategyId);
+        if (response.deleted) {
+          setSavedStrategies((current) => current.filter((entry) => entry.id !== strategyId));
+          pushToast('Strategy deleted', 'The saved strategy was removed from backend storage.');
+        } else {
+          pushToast('Strategy not found', 'The backend did not find that saved strategy.');
+        }
+      } catch {
+        pushToast('Strategy delete failed', 'The backend strategy delete failed, so no change was applied.');
+      }
+    })();
+  }
+
+  function handleImportSavedStrategies(strategies: SavedStrategy[]) {
+    if (strategies.length === 0) {
+      pushToast('No valid strategies found', 'Import a JSON array or { items: [...] } file with complete QuantGlass saved strategy records.');
+      return;
+    }
+    if (backendStatus !== 'online') {
+      pushToast('Strategy import unavailable', 'The backend is offline, so saved strategies cannot be imported right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        const responses = await Promise.all(
+          strategies.map((strategy) => backendClient.createSavedStrategy(strategy)),
+        );
+        const imported = responses.map((response) => response.item);
+        setSavedStrategies((current) => [
+          ...imported,
+          ...current.filter((entry) => !imported.some((strategy) => strategy.id === entry.id)),
+        ]);
+        pushToast('Strategies imported', `${imported.length} saved strategy${imported.length === 1 ? '' : 'ies'} persisted in backend storage.`);
+      } catch {
+        pushToast('Strategy import failed', 'The backend rejected one or more imported strategies.');
+      }
+    })();
+  }
+
+  function persistCustomProvider(payload: CustomProviderUpsertRequest, providerId?: string) {
+    if (backendStatus !== 'online') {
+      pushToast('Provider save unavailable', 'The backend is offline, so custom provider changes cannot be saved right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        const response = providerId
+          ? await backendClient.updateCustomProvider(providerId, payload)
+          : await backendClient.createCustomProvider(payload);
+        const [registryResponse, customProviderResponse, apiKeysResponse] = await Promise.all([
+          backendClient.getProviderRegistry(),
+          backendClient.getCustomProviders(),
+          backendClient.getApiKeys(),
+        ]);
+        setProviderRegistry(registryResponse.providers);
+        setCustomProviders(customProviderResponse.providers);
+        setApiKeys(apiKeysResponse.items);
+        pushToast('Custom provider saved', `${response.provider.label} was saved as a custom provider profile.`);
+      } catch {
+        pushToast('Custom provider save failed', 'The backend rejected the custom provider profile.');
+      }
+    })();
+  }
+
+  function deleteCustomProvider(providerId: string) {
+    if (backendStatus !== 'online') {
+      pushToast('Provider delete unavailable', 'The backend is offline, so custom provider changes cannot be saved right now.');
+      return;
+    }
+
+    void (async () => {
+      try {
+        await backendClient.deleteCustomProvider(providerId);
+        const [registryResponse, customProviderResponse, apiKeysResponse] = await Promise.all([
+          backendClient.getProviderRegistry(),
+          backendClient.getCustomProviders(),
+          backendClient.getApiKeys(),
+        ]);
+        setProviderRegistry(registryResponse.providers);
+        setCustomProviders(customProviderResponse.providers);
+        setApiKeys(apiKeysResponse.items);
+        pushToast('Custom provider deleted', 'The custom provider profile was removed.');
+      } catch {
+        pushToast('Custom provider delete failed', 'The backend rejected the custom provider delete request.');
+      }
+    })();
+  }
+
+  function requestLiveTradingMode() {
+    const alpacaKeyId = apiKeys.find((field) => field.id === 'alpaca-market-data-key-id')?.configured;
+    const alpacaSecret = apiKeys.find((field) => field.id === 'alpaca-market-data-secret-key')?.configured;
+    if (!alpacaKeyId || !alpacaSecret) {
+      pushToast('Live credentials required', 'Save Alpaca key ID and secret in Settings -> API Keys before enabling live mode.');
+      return;
+    }
+    setLiveConfirmOpen(true);
+  }
+
   function handleConfirmPaperTrade() {
     if (!paperTradeRecord) return;
 
@@ -757,6 +1006,7 @@ export default function App() {
                   watchlistIds={watchlistIds}
                   marketCorridorItems={marketCorridorItems}
                   marketCandlesByKey={marketCandlesByKey}
+                  extensionIndicators={extensionIndicators}
                   marketCorridorRefreshing={marketCorridorRefreshing}
                   onRefreshMarketCorridor={refreshMarketCorridor}
                   onToggleWatchlist={handleToggleWatchlist}
@@ -823,16 +1073,30 @@ export default function App() {
                   state={screenState}
                   providerSettings={providerSettings}
                   providerRegistry={providerRegistry}
+                  customProviders={customProviders}
                   extensionRegistry={extensionRegistry}
+                  extensionSurfaces={extensionSurfaces}
+                  extensionStrategies={extensionStrategies}
+                  extensionIndicators={extensionIndicators}
                   extensionSettingsById={extensionSettingsById}
                   apiKeys={apiKeys}
                   aiSettings={aiSettings}
+                  aiModelOptions={aiModelOptions}
+                  aiModelItems={aiModelItems}
+                  aiModelDetail={aiModelDetail}
+                  aiModelsFetched={aiModelsFetched}
+                  aiModelSource={aiModelSource}
+                  aiModelFetchedAt={aiModelFetchedAt}
+                  aiModelsLoading={aiModelsLoading}
+                  aiProviderTestLoading={aiProviderTestLoading}
+                  aiProviderTestResult={aiProviderTestResult}
                   tradingMode={tradingMode}
+                  liveTradingConfirmed={liveTradingConfirmed}
                   minBacktestSample={minBacktestSample}
                   savedStrategies={savedStrategies}
                   onSaveApiKey={persistApiKey}
                   onTestNotification={sendNotificationTest}
-                  onRequestLiveTrading={() => setLiveConfirmOpen(true)}
+                  onRequestLiveTrading={requestLiveTradingMode}
                   onChangeProviderView={(viewMode) => {
                     persistProviderSettings({ ...providerSettings, viewMode });
                     pushToast('Provider view updated', `Settings switched to ${viewMode} mode.`);
@@ -840,13 +1104,23 @@ export default function App() {
                   onUpdateProviderSetting={(key, value) => {
                     persistProviderSettings({ ...providerSettings, [key]: value });
                   }}
-                  onSetTradingMode={(mode) => persistProviderSettings(providerSettings, mode, minBacktestSample)}
+                  onSaveCustomProvider={persistCustomProvider}
+                  onDeleteCustomProvider={deleteCustomProvider}
+                  onSetTradingMode={(mode) => persistProviderSettings(providerSettings, mode, minBacktestSample, mode === 'live' ? liveTradingConfirmed : false)}
                   onSetMinBacktestSample={(value) => persistProviderSettings(providerSettings, tradingMode, value)}
                   onUpdateAiSettings={(settings) => persistAiSettings(settings)}
+                  onRefreshAiModels={refreshAiModels}
+                  onTestAiProvider={testAiProvider}
                   onUpdateExtensionSettings={persistExtensionSettings}
                   onUpdateExtensionEnabled={persistExtensionEnabled}
+                  onDeleteSavedStrategy={handleDeleteSavedStrategy}
+                  onImportSavedStrategies={handleImportSavedStrategies}
                 />
               }
+            />
+            <Route
+              path="/learn"
+              element={<LearnScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} onNavigate={(path) => navigate(path)} />}
             />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
@@ -962,7 +1236,7 @@ export default function App() {
         confirmLabel="Acknowledge and switch setting"
         onClose={() => setLiveConfirmOpen(false)}
         onConfirm={() => {
-          persistProviderSettings(providerSettings, 'live', minBacktestSample);
+          persistProviderSettings(providerSettings, 'live', minBacktestSample, true);
           setLiveConfirmOpen(false);
           pushToast('Trading mode updated', 'Settings now use the live broker route. Confirm each trade carefully and verify Alpaca credentials before submitting orders.');
         }}

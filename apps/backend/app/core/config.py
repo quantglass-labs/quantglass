@@ -86,7 +86,25 @@ class SafetySettings(BaseModel):
     live_trading_confirmed: bool = False
 
 
-AiProvider = Literal["template", "ollama", "lm_studio", "openai", "openai_compatible"]
+AiProvider = Literal[
+    "template",
+    "ollama",
+    "lm_studio",
+    "vllm",
+    "llama_cpp",
+    "openai",
+    "anthropic",
+    "google_gemini",
+    "deepseek",
+    "mistral",
+    "groq",
+    "openrouter",
+    "together",
+    "azure_openai",
+    "bedrock",
+    "vertex",
+    "openai_compatible",
+]
 
 
 class AiSettings(BaseModel):
@@ -169,11 +187,11 @@ def apply_api_key_settings(
         if isinstance(item, dict) and isinstance(item.get("id"), str)
     }
 
-    alpaca_key_id = indexed_keys.get("alpaca-market-data-key-id") or None
-    alpaca_secret_key = indexed_keys.get("alpaca-market-data-secret-key") or None
-    finnhub_api_key = indexed_keys.get("finnhub-api-key") or None
-    polygon_api_key = indexed_keys.get("polygon-api-key") or None
-    twelvedata_api_key = indexed_keys.get("twelvedata-api-key") or None
+    alpaca_key_id = indexed_keys.get("alpaca-market-data-key-id") or settings.alpaca_market_data_key_id or None
+    alpaca_secret_key = indexed_keys.get("alpaca-market-data-secret-key") or settings.alpaca_market_data_secret_key or None
+    finnhub_api_key = indexed_keys.get("finnhub-api-key") or settings.finnhub_api_key or None
+    polygon_api_key = indexed_keys.get("polygon-api-key") or settings.polygon_api_key or None
+    twelvedata_api_key = indexed_keys.get("twelvedata-api-key") or settings.twelvedata_api_key or None
 
     return settings.model_copy(
         update={

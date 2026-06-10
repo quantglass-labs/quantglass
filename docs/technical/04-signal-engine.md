@@ -27,6 +27,11 @@ flowchart TB
 
 ## Indicators
 
+The signal engine currently computes the curated core below. Settings ->
+Extensions exposes a broader indicator catalog for community implementations and
+future chart overlays; catalog-only entries do not affect signals until wired
+into an executable path.
+
 | Indicator | Parameters | Role |
 |-----------|------------|------|
 | EMA | 21 | Short‑term trend. |

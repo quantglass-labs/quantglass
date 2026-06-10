@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import json
+from contextlib import contextmanager
 from pathlib import Path
+from threading import RLock
 from typing import Any
 
 import duckdb
@@ -16,11 +18,18 @@ class AnalyticsStore:
     def __init__(self, duckdb_path: Path, parquet_dir: Path) -> None:
         self.duckdb_path = duckdb_path
         self.parquet_dir = parquet_dir
+        self._lock = RLock()
+
+    @contextmanager
+    def _connection(self):
+        with self._lock:
+            with duckdb.connect(str(self.duckdb_path)) as connection:
+                yield connection
 
     def initialize(self) -> None:
         self.duckdb_path.parent.mkdir(parents=True, exist_ok=True)
         self.parquet_dir.mkdir(parents=True, exist_ok=True)
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             connection.execute(
                 """
                 CREATE TABLE IF NOT EXISTS backtest_snapshots (
@@ -125,7 +134,7 @@ class AnalyticsStore:
         source: str,
         candles: list[dict[str, Any]],
     ) -> None:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             connection.execute(
                 "DELETE FROM market_candles WHERE symbol = ? AND timeframe = ?",
                 [symbol, timeframe],
@@ -178,7 +187,7 @@ class AnalyticsStore:
         target = partition_dir / "candles.parquet"
         escaped_target = str(target).replace("'", "''")
         try:
-            with duckdb.connect(str(self.duckdb_path)) as connection:
+            with self._connection() as connection:
                 connection.execute(
                     f"""
                     COPY (
@@ -196,7 +205,7 @@ class AnalyticsStore:
             return
 
     def upsert_setup_expectancy(self, payload: dict[str, Any]) -> None:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             connection.execute(
                 "DELETE FROM setup_expectancy WHERE symbol = ? AND setup_type = ? AND timeframe = ?",
                 [payload["symbol"], payload["setup_type"], payload["timeframe"]],
@@ -224,7 +233,7 @@ class AnalyticsStore:
             )
 
     def get_pooled_expectancy(self, setup_type: str, timeframe: str) -> dict[str, Any]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             row = connection.execute(
                 """
                 SELECT
@@ -258,7 +267,7 @@ class AnalyticsStore:
         self,
         targets: list[tuple[str, str]],
     ) -> list[dict[str, Any]]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             items: list[dict[str, Any]] = []
             for symbol, timeframe in targets:
                 row = connection.execute(
@@ -304,7 +313,7 @@ class AnalyticsStore:
         timeframe: str,
         limit: int = 300,
     ) -> dict[str, Any]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             rows = connection.execute(
                 """
                 SELECT source, open_time_utc, open, high, low, close, volume
@@ -343,7 +352,7 @@ class AnalyticsStore:
         }
 
     def list_market_series(self, minimum_candles: int = 60) -> list[dict[str, Any]]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             rows = connection.execute(
                 """
                 SELECT symbol,
@@ -375,7 +384,7 @@ class AnalyticsStore:
         ]
 
     def clear_market_integrity_diagnostics(self, symbol: str, timeframe: str) -> None:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             connection.execute(
                 "DELETE FROM market_integrity_diagnostics WHERE symbol = ? AND timeframe = ?",
                 [symbol, timeframe],
@@ -387,7 +396,7 @@ class AnalyticsStore:
     ) -> None:
         if not diagnostics:
             return
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             for diagnostic in diagnostics:
                 connection.execute(
                     """
@@ -416,7 +425,7 @@ class AnalyticsStore:
                 )
 
     def list_market_integrity_diagnostics(self, limit: int = 100) -> list[dict[str, Any]]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             rows = connection.execute(
                 """
                 SELECT symbol, market_type, timeframe, provider, severity, code, detail, observed_at_utc
@@ -441,7 +450,7 @@ class AnalyticsStore:
         ]
 
     def record_market_ingest_run(self, payload: dict[str, Any]) -> None:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             connection.execute(
                 """
                 INSERT INTO market_ingest_runs (
@@ -493,7 +502,7 @@ class AnalyticsStore:
             )
 
     def list_market_ingest_runs(self, limit: int = 50) -> list[dict[str, Any]]:
-        with duckdb.connect(str(self.duckdb_path)) as connection:
+        with self._connection() as connection:
             rows = connection.execute(
                 """
                   SELECT run_id, symbol, market_type, timeframe, provider, status,

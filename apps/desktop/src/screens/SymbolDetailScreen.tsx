@@ -1,17 +1,99 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Bell, BookmarkPlus, ChartCandlestick, CircleSlash2, Play, SlidersHorizontal } from 'lucide-react';
+import { Bell, BookmarkPlus, ChartCandlestick, CircleSlash2, Play, Search, SlidersHorizontal } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BarChart, TinyLineChart } from '../components/charts';
-import { averageTrueRange, bollingerBands, exponentialMovingAverage, movingAverageConvergenceDivergence, relativeStrengthIndex, simpleMovingAverage } from '../lib/analytics';
+import {
+  aroon,
+  averageTrueRange,
+  bollingerBands,
+  chaikinMoneyFlow,
+  commodityChannelIndex,
+  directionalMovementIndex,
+  donchianChannel,
+  exponentialMovingAverage,
+  keltnerChannel,
+  momentum,
+  moneyFlowIndex,
+  movingAverageConvergenceDivergence,
+  normalizedAverageTrueRange,
+  onBalanceVolume,
+  rateOfChange,
+  realizedVolatility,
+  relativeStrengthIndex,
+  relativeVolume,
+  rollingStandardDeviation,
+  sessionVwap,
+  simpleMovingAverage,
+  stochasticOscillator,
+  volumeSma,
+  volumeWeightedMovingAverage,
+  weightedMovingAverage,
+  williamsR,
+  zScore,
+} from '../lib/analytics';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime, formatLargeNumber } from '../lib/format';
 import { Button, DataStateView, EmptyState, ErrorState, LoadingSkeleton, MetricStat, Panel, PillTabs, SectionHeading, SignalChip } from '../components/ui';
-import type { Candle, CorridorIngestResult, NewsItem, ScreenState, SignalRecord, SymbolRecord, Timeframe } from '../types';
+import type { Candle, CorridorIngestResult, IndicatorRegistryEntry, NewsItem, ScreenState, SignalRecord, SymbolRecord, Timeframe } from '../types';
 
 const TradingViewCandlestickChart = lazy(async () => import('../components/tvChart').then((module) => ({ default: module.TradingViewCandlestickChart })));
+
+const READY_INDICATOR_IDS = new Set([
+  'ema21',
+  'sma50',
+  'rsi14',
+  'rsi2',
+  'atr14',
+  'adx14',
+  'macd-histogram',
+  'bollinger-20-2',
+  'donchian-20',
+  'keltner-21-atr',
+  'sma20',
+  'sma100',
+  'sma200',
+  'ema8',
+  'ema34',
+  'ema55',
+  'wma20',
+  'vwma20',
+  'vwap-session',
+  'aroon-25',
+  'dmi-14',
+  'cci20',
+  'stochastic-14-3',
+  'williams-r',
+  'roc12',
+  'momentum10',
+  'realized-vol-20',
+  'stddev-20',
+  'zscore-20',
+  'natr14',
+  'obv',
+  'mfi14',
+  'cmf20',
+  'volume-sma20',
+  'relative-volume-20',
+  'community-volume-participation',
+]);
+
+const DEFAULT_INDICATOR_IDS = ['ema21', 'sma50', 'bollinger-20-2', 'rsi14', 'macd-histogram', 'atr14', 'volume-sma20'];
+const PRICE_COLORS = ['#8db7ff', '#f0b84b', '#18c37f', '#ff8fb3', '#4dd2ff', '#b893ff', '#ffb45c', '#7ee787'];
+
+interface ComputedIndicatorView {
+  definition: IndicatorRegistryEntry;
+  status: 'ready' | 'extension' | 'catalog';
+  executable: boolean;
+  placement: 'price' | 'panel' | 'volume';
+  values: number[];
+  secondary?: number[];
+  tertiary?: number[];
+  color: string;
+  label: string;
+}
 
 function timeframeMinutes(timeframe: Timeframe) {
   switch (timeframe) {
@@ -53,6 +135,146 @@ function resampleCandles(candles: Candle[], from: Timeframe, to: Timeframe): Can
 
 function marketCandleKey(symbol: string, timeframe: Timeframe) {
   return `${symbol}:${timeframe}`;
+}
+
+function categoryLabel(category: string) {
+  return category
+    .split('_')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function indicatorStatus(indicator: IndicatorRegistryEntry): ComputedIndicatorView['status'] {
+  if (indicator.source === 'extension') return 'extension';
+  return READY_INDICATOR_IDS.has(indicator.id) ? 'ready' : 'catalog';
+}
+
+function computeIndicatorView(indicator: IndicatorRegistryEntry, candles: Candle[], colorIndex: number): ComputedIndicatorView {
+  const closes = candles.map((candle) => candle.close);
+  const volumes = candles.map((candle) => candle.volume);
+  const macd = movingAverageConvergenceDivergence(closes);
+  const bands = bollingerBands(closes, 20);
+  const atr14 = averageTrueRange(candles, 14);
+  const dmi = directionalMovementIndex(candles, 14);
+  const color = PRICE_COLORS[colorIndex % PRICE_COLORS.length];
+  const empty = closes.map(() => 0);
+  const status = indicatorStatus(indicator);
+  const executable = READY_INDICATOR_IDS.has(indicator.id);
+  const price = (values: number[], secondary?: number[], tertiary?: number[]): ComputedIndicatorView => ({
+    definition: indicator,
+    status,
+    executable,
+    placement: 'price',
+    values,
+    secondary,
+    tertiary,
+    color,
+    label: indicator.name,
+  });
+  const panel = (values: number[], secondary?: number[], tertiary?: number[]): ComputedIndicatorView => ({
+    definition: indicator,
+    status,
+    executable,
+    placement: indicator.category === 'volume' ? 'volume' : 'panel',
+    values,
+    secondary,
+    tertiary,
+    color,
+    label: indicator.name,
+  });
+
+  switch (indicator.id) {
+    case 'ema8':
+      return price(exponentialMovingAverage(closes, 8));
+    case 'ema21':
+      return price(exponentialMovingAverage(closes, 21));
+    case 'ema34':
+      return price(exponentialMovingAverage(closes, 34));
+    case 'ema55':
+      return price(exponentialMovingAverage(closes, 55));
+    case 'sma20':
+      return price(simpleMovingAverage(closes, 20));
+    case 'sma50':
+      return price(simpleMovingAverage(closes, 50));
+    case 'sma100':
+      return price(simpleMovingAverage(closes, 100));
+    case 'sma200':
+      return price(simpleMovingAverage(closes, 200));
+    case 'wma20':
+      return price(weightedMovingAverage(closes, 20));
+    case 'vwma20':
+      return price(volumeWeightedMovingAverage(candles, 20));
+    case 'vwap-session':
+      return price(sessionVwap(candles));
+    case 'bollinger-20-2':
+      return price(bands.middle, bands.upper, bands.lower);
+    case 'donchian-20': {
+      const donchian = donchianChannel(candles, 20);
+      return price(donchian.upper, donchian.lower);
+    }
+    case 'keltner-21-atr': {
+      const keltner = keltnerChannel(candles, 21);
+      return price(keltner.middle, keltner.upper, keltner.lower);
+    }
+    case 'rsi14':
+      return panel(relativeStrengthIndex(closes, 14));
+    case 'rsi2':
+      return panel(relativeStrengthIndex(closes, 2));
+    case 'macd-histogram':
+      return panel(macd.histogram, macd.macd, macd.signal);
+    case 'atr14':
+      return panel(atr14);
+    case 'adx14':
+      return panel(dmi.adx, dmi.plus, dmi.minus);
+    case 'dmi-14':
+      return panel(dmi.plus, dmi.minus);
+    case 'aroon-25': {
+      const aroonValues = aroon(candles, 25);
+      return panel(aroonValues.up, aroonValues.down, aroonValues.oscillator);
+    }
+    case 'stochastic-14-3': {
+      const stochastic = stochasticOscillator(candles, 14, 3);
+      return panel(stochastic.k, stochastic.d);
+    }
+    case 'williams-r':
+      return panel(williamsR(candles, 14));
+    case 'roc12':
+      return panel(rateOfChange(closes, 12));
+    case 'momentum10':
+      return panel(momentum(closes, 10));
+    case 'cci20':
+      return panel(commodityChannelIndex(candles, 20));
+    case 'realized-vol-20':
+      return panel(realizedVolatility(closes, 20));
+    case 'stddev-20':
+      return panel(rollingStandardDeviation(closes, 20));
+    case 'zscore-20':
+      return panel(zScore(closes, 20));
+    case 'natr14':
+      return panel(normalizedAverageTrueRange(candles, 14));
+    case 'obv':
+      return panel(onBalanceVolume(candles));
+    case 'mfi14':
+      return panel(moneyFlowIndex(candles, 14));
+    case 'cmf20':
+      return panel(chaikinMoneyFlow(candles, 20));
+    case 'volume-sma20':
+      return panel(volumeSma(candles, 20));
+    case 'relative-volume-20':
+      return panel(relativeVolume(candles, 20));
+    case 'community-volume-participation':
+      return panel(relativeVolume(candles, 20));
+    default:
+      return {
+        definition: indicator,
+        status,
+        executable,
+        placement: 'panel',
+        values: empty,
+        color,
+        label: indicator.name,
+      };
+  }
 }
 
 function resolveCandleSource(
@@ -112,6 +334,7 @@ export function SymbolDetailScreen({
   watchlistIds,
   marketCorridorItems,
   marketCandlesByKey,
+  extensionIndicators,
   marketCorridorRefreshing,
   onRefreshMarketCorridor,
   onToggleWatchlist,
@@ -126,6 +349,7 @@ export function SymbolDetailScreen({
   watchlistIds: string[];
   marketCorridorItems: CorridorIngestResult[];
   marketCandlesByKey: Record<string, Candle[]>;
+  extensionIndicators: IndicatorRegistryEntry[];
   marketCorridorRefreshing: boolean;
   onRefreshMarketCorridor: () => void;
   onToggleWatchlist: (symbolId: string) => void;
@@ -144,7 +368,10 @@ export function SymbolDetailScreen({
   );
   const defaultCorridorItem = symbolCorridorItems.find((entry) => entry.timeframe === signalRecord?.signal.timeframe) ?? symbolCorridorItems[0] ?? null;
   const [timeframe, setTimeframe] = useState<Timeframe>((defaultCorridorItem?.timeframe as Timeframe | undefined) ?? signalRecord?.signal.timeframe ?? '1h');
-  const [overlays, setOverlays] = useState({ ema: true, sma: true, bollinger: true, rsi: true, macd: true, atr: true, volume: true, levels: true });
+  const [indicatorBrowserOpen, setIndicatorBrowserOpen] = useState(false);
+  const [indicatorSearch, setIndicatorSearch] = useState('');
+  const [selectedIndicatorIds, setSelectedIndicatorIds] = useState<string[]>(DEFAULT_INDICATOR_IDS);
+  const [showSupportResistance, setShowSupportResistance] = useState(true);
   const retryMockView = () => window.location.reload();
 
   useEffect(() => {
@@ -173,8 +400,62 @@ export function SymbolDetailScreen({
   const atr = useMemo(() => averageTrueRange(candles, 14), [candles]);
   const supportLevel = useMemo(() => (lows.length ? Math.min(...lows.slice(-24)) : 0), [lows]);
   const resistanceLevel = useMemo(() => (highs.length ? Math.max(...highs.slice(-24)) : 0), [highs]);
+  const indicatorDefinitions = useMemo(
+    () => [...extensionIndicators].sort((left, right) => {
+      const leftStatus = indicatorStatus(left);
+      const rightStatus = indicatorStatus(right);
+      const statusOrder = { ready: 0, extension: 1, catalog: 2 };
+      return statusOrder[leftStatus] - statusOrder[rightStatus] || left.category.localeCompare(right.category) || left.name.localeCompare(right.name);
+    }),
+    [extensionIndicators],
+  );
+  const selectedIndicators = useMemo(
+    () => selectedIndicatorIds
+      .map((id, index) => {
+        const definition = indicatorDefinitions.find((indicator) => indicator.id === id);
+        return definition ? computeIndicatorView(definition, candles, index) : null;
+      })
+      .filter((indicator): indicator is ComputedIndicatorView => Boolean(indicator)),
+    [candles, indicatorDefinitions, selectedIndicatorIds],
+  );
+  const priceIndicators = useMemo(
+    () => selectedIndicators.filter((indicator) => indicator.executable && indicator.placement === 'price'),
+    [selectedIndicators],
+  );
+  const panelIndicators = useMemo(
+    () => selectedIndicators.filter((indicator) => indicator.placement !== 'price'),
+    [selectedIndicators],
+  );
+  const indicatorGroups = useMemo(() => {
+    const query = indicatorSearch.trim().toLowerCase();
+    const groups = new Map<string, IndicatorRegistryEntry[]>();
+    indicatorDefinitions
+      .filter((indicator) => {
+        if (!query) return true;
+        return [
+          indicator.name,
+          indicator.id,
+          indicator.category,
+          indicator.description,
+          ...(indicator.families ?? []),
+        ].join(' ').toLowerCase().includes(query);
+      })
+      .forEach((indicator) => {
+        groups.set(indicator.category, [...(groups.get(indicator.category) ?? []), indicator]);
+      });
+    return [...groups.entries()];
+  }, [indicatorDefinitions, indicatorSearch]);
   const symbolNews = news.filter((item) => item.symbol === (signalRecord?.signal.symbol ?? symbol?.symbol));
   const currentSignalFreshness = signalRecord ? signalFreshness(signalRecord.signal) : null;
+  const readyIndicatorCount = indicatorDefinitions.filter((indicator) => indicatorStatus(indicator) === 'ready').length;
+
+  function toggleIndicator(indicatorId: string) {
+    setSelectedIndicatorIds((current) =>
+      current.includes(indicatorId)
+        ? current.filter((id) => id !== indicatorId)
+        : [...current, indicatorId],
+    );
+  }
 
   const indicatorStats = [
     { label: 'EMA 21', value: formatCurrency(ema.at(-1) ?? 0), helper: 'Short-term trend support' },
@@ -261,28 +542,92 @@ export function SymbolDetailScreen({
                     </div>
                     {liveCorridorItem ? <p className="text-xs text-muted">{usesBackendCandles ? (usesExactTimeframe ? `Live backend corridor candles: ${liveCorridorItem.provider} ${liveCorridorItem.timeframe} · latest ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC` : `Backend ${liveTimeframe} corridor candles from ${liveCorridorItem.provider}, aggregated to ${timeframe}. Latest source candle ${formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC.`) : `Backend corridor is available for ${liveCorridorItem.timeframe} via ${liveCorridorItem.provider}; no closed ${timeframe} candles are available yet.`}</p> : null}
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { key: 'ema', label: 'EMA' },
-                      { key: 'sma', label: 'SMA' },
-                      { key: 'bollinger', label: 'Bollinger' },
-                      { key: 'levels', label: 'S/R' },
-                      { key: 'rsi', label: 'RSI' },
-                      { key: 'macd', label: 'MACD' },
-                      { key: 'atr', label: 'ATR' },
-                      { key: 'volume', label: 'Volume' },
-                    ].map((item) => (
-                      <button
-                        key={item.key}
-                        type="button"
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] transition ${overlays[item.key as keyof typeof overlays] ? 'border-accent bg-accentStrong/15 text-ink' : 'border-border text-muted hover:bg-white/5'}`}
-                        onClick={() => setOverlays((current) => ({ ...current, [item.key]: !current[item.key as keyof typeof current] }))}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <button
+                      type="button"
+                      className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] transition ${showSupportResistance ? 'border-accent bg-accentStrong/15 text-ink' : 'border-border text-muted hover:bg-white/5'}`}
+                      onClick={() => setShowSupportResistance((current) => !current)}
+                    >
+                      S/R
+                    </button>
+                    <Button variant="secondary" onClick={() => setIndicatorBrowserOpen((current) => !current)}>
+                      <SlidersHorizontal className="size-4" />
+                      Indicators
+                    </Button>
                   </div>
                 </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-buy/30 bg-buy/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-buy">{readyIndicatorCount} ready</span>
+                  <span className="rounded-full border border-border px-3 py-1 text-xs text-muted">{indicatorDefinitions.length} registry entries</span>
+                  {selectedIndicators.map((indicator) => (
+                    <button
+                      key={indicator.definition.id}
+                      type="button"
+                      className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${indicator.status === 'ready' ? 'border-accent/50 bg-accentStrong/10 text-ink' : indicator.status === 'extension' ? 'border-accent/30 bg-accentStrong/5 text-accent' : 'border-border text-muted'}`}
+                      onClick={() => toggleIndicator(indicator.definition.id)}
+                      title={indicator.status === 'ready' ? 'Remove executable indicator' : 'Remove selected catalog/extension indicator'}
+                    >
+                      {indicator.definition.name}
+                    </button>
+                  ))}
+                </div>
+
+                {indicatorBrowserOpen ? (
+                  <Panel className="space-y-4 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted">Indicator browser</p>
+                        <p className="mt-1 text-sm text-muted">Add ready indicators to the chart or select catalog and extension entries to inspect contribution status.</p>
+                      </div>
+                      <label className="flex min-w-[260px] items-center gap-2 rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-muted">
+                        <Search className="size-4" />
+                        <input
+                          value={indicatorSearch}
+                          onChange={(event) => setIndicatorSearch(event.target.value)}
+                          placeholder="Search 100+ indicators"
+                          className="w-full bg-transparent text-ink outline-none placeholder:text-muted"
+                        />
+                      </label>
+                    </div>
+                    <div className="max-h-[420px] space-y-4 overflow-y-auto pr-1">
+                      {indicatorGroups.map(([category, indicators]) => (
+                        <div key={category} className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{categoryLabel(category)}</p>
+                            <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted">{indicators.length}</span>
+                          </div>
+                          <div className="grid gap-2 md:grid-cols-2">
+                            {indicators.map((indicator) => {
+                              const status = indicatorStatus(indicator);
+                              const selected = selectedIndicatorIds.includes(indicator.id);
+                              return (
+                                <button
+                                  key={indicator.id}
+                                  type="button"
+                                  className={`rounded-2xl border p-3 text-left transition ${selected ? 'border-accent/60 bg-accentStrong/10' : 'border-border bg-white/[0.03] hover:bg-white/[0.06]'}`}
+                                  onClick={() => toggleIndicator(indicator.id)}
+                                >
+                                  <div className="flex flex-wrap items-center justify-between gap-2">
+                                    <p className="text-sm font-medium text-ink">{indicator.name}</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      <span className={`rounded-full border px-2 py-0.5 text-[11px] ${status === 'ready' ? 'border-buy/30 bg-buy/10 text-buy' : status === 'extension' ? 'border-accent/30 bg-accentStrong/10 text-accent' : 'border-border text-muted'}`}>
+                                        {status === 'ready' ? 'Ready' : status === 'extension' ? 'Extension' : 'Catalog'}
+                                      </span>
+                                      {selected ? <span className="rounded-full border border-accent/40 px-2 py-0.5 text-[11px] text-accent">Selected</span> : null}
+                                    </div>
+                                  </div>
+                                  <p className="mt-2 text-xs text-muted">{indicator.description}</p>
+                                  <p className="mt-2 text-[11px] text-muted">Outputs: {indicator.outputs.join(', ') || 'none'}</p>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Panel>
+                ) : null}
 
                 <div className="overflow-hidden rounded-[28px] border border-border bg-surface/40 p-2">
                   <Suspense fallback={<LoadingSkeleton chart rows={0} />}>
@@ -292,50 +637,57 @@ export function SymbolDetailScreen({
                       sma={sma}
                       bollingerUpper={bands.upper}
                       bollingerLower={bands.lower}
-                      showEma={overlays.ema}
-                      showSma={overlays.sma}
-                      showBollinger={overlays.bollinger}
-                      showSupportResistance={overlays.levels}
+                      showEma={false}
+                      showSma={false}
+                      showBollinger={false}
+                      showSupportResistance={showSupportResistance}
                       supportLevel={supportLevel}
                       resistanceLevel={resistanceLevel}
                       entryZone={signalRecord?.signal.entry_zone ?? [0, 0]}
                       stopLoss={signalRecord?.signal.stop_loss ?? 0}
                       takeProfit={signalRecord?.signal.take_profit ?? []}
+                      priceSeries={priceIndicators.flatMap((indicator) => [
+                        { id: indicator.definition.id, name: indicator.definition.name, values: indicator.values, color: indicator.color },
+                        ...(indicator.secondary ? [{ id: `${indicator.definition.id}-secondary`, name: `${indicator.definition.name} 2`, values: indicator.secondary, color: '#f0b84b' }] : []),
+                        ...(indicator.tertiary ? [{ id: `${indicator.definition.id}-tertiary`, name: `${indicator.definition.name} 3`, values: indicator.tertiary, color: '#f05b78' }] : []),
+                      ])}
                     />
                   </Suspense>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-3">
-                  {overlays.rsi ? (
-                    <Panel className="p-4">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">RSI panel</p>
-                      <TinyLineChart values={rsi.slice(-24)} tone="hold" />
-                    </Panel>
-                  ) : null}
-                  {overlays.macd ? (
-                    <Panel className="p-4">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">MACD panel</p>
-                      <BarChart values={macd.histogram.slice(-18)} />
-                    </Panel>
-                  ) : null}
-                  {overlays.volume ? (
-                    <Panel className="p-4">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Volume panel</p>
-                      <BarChart values={volumes.slice(-18).map((value) => value / 100)} />
-                    </Panel>
-                  ) : null}
-                  {overlays.atr ? (
-                    <Panel className="p-4 md:col-span-3">
-                      <div className="flex items-center justify-between gap-3">
+                  {panelIndicators.map((indicator) => (
+                    <Panel key={indicator.definition.id} className={indicator.definition.id === 'atr14' ? 'p-4 md:col-span-3' : 'p-4'}>
+                      <div className="mb-3 flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">ATR panel</p>
-                          <p className="text-sm text-muted">Volatility regime stays aligned with closed candles only.</p>
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{indicator.definition.name}</p>
+                          <p className="mt-1 text-xs text-muted">{categoryLabel(indicator.definition.category)}</p>
                         </div>
-                        <div className="metric-text text-lg text-ink">{formatCurrency(atr.at(-1) ?? 0)}</div>
+                        <span className={`rounded-full border px-2 py-0.5 text-[11px] ${indicator.status === 'ready' ? 'border-buy/30 bg-buy/10 text-buy' : indicator.status === 'extension' ? 'border-accent/30 bg-accentStrong/10 text-accent' : 'border-border text-muted'}`}>
+                          {indicator.status === 'ready' ? 'Ready' : indicator.status === 'extension' ? 'Extension' : 'Catalog'}
+                        </span>
                       </div>
-                      <TinyLineChart values={atr.slice(-24)} tone="accent" />
+                      {indicator.executable ? (
+                        <>
+                          {indicator.definition.id === 'macd-histogram' || indicator.placement === 'volume' ? (
+                            <BarChart values={indicator.values.slice(-24).map((value) => Math.abs(value) > 10000 ? value / 1000 : value)} />
+                          ) : (
+                            <TinyLineChart values={indicator.values.slice(-24)} tone={indicator.definition.category === 'momentum' ? 'hold' : 'accent'} />
+                          )}
+                          <p className="mt-3 text-xs text-muted">
+                            Latest {Number.isFinite(indicator.values.at(-1)) ? indicator.values.at(-1)?.toFixed(2) : 'n/a'}
+                            {indicator.secondary?.length ? ` / secondary ${indicator.secondary.at(-1)?.toFixed(2)}` : ''}
+                          </p>
+                        </>
+                      ) : (
+                        <div className="rounded-2xl border border-dashed border-border bg-white/[0.03] p-3 text-sm text-muted">
+                          {indicator.status === 'extension'
+                            ? 'Registered by an extension. Runtime compute hooks are recognized by the registry; chart execution needs an extension-provided compute adapter.'
+                            : 'Catalog target. This indicator is documented for contributors but is not executable in the chart yet.'}
+                        </div>
+                      )}
                     </Panel>
-                  ) : null}
+                  ))}
                 </div>
               </div>
             }

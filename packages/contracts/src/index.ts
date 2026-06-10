@@ -76,6 +76,7 @@ export interface SafetySettings {
   trading_mode: TradingMode;
   act_on_partial_candles: boolean;
   min_backtest_sample: number;
+  live_trading_confirmed: boolean;
 }
 
 export interface RateLimitSettings {
@@ -95,10 +96,50 @@ export interface ProviderRegistryEntry {
   capabilities: ProviderCapability[];
   configured?: boolean;
   transport?: 'public' | 'keyed' | 'internal';
+  label?: string;
+  source?: 'builtin' | 'custom' | 'extension';
+  baseUrl?: string;
+  authType?: CustomProviderAuthType;
+  profileConfigured?: boolean;
+  adapterStatus?: 'available' | 'profile_only';
+  notes?: string;
 }
 
 export interface ProviderRegistryResponse {
   providers: ProviderRegistryEntry[];
+}
+
+export type CustomProviderAuthType = 'none' | 'bearer' | 'api_key_header' | 'api_key_query';
+
+export interface CustomProviderProfile {
+  id: string;
+  label: string;
+  baseUrl: string;
+  authType: CustomProviderAuthType;
+  apiKeyId?: string | null;
+  apiKeyHeader?: string | null;
+  apiKeyQueryParam?: string | null;
+  capabilities: ProviderCapability[];
+  enabled: boolean;
+  notes?: string;
+}
+
+export interface CustomProviderListResponse {
+  providers: CustomProviderProfile[];
+}
+
+export interface CustomProviderItemResponse {
+  provider: CustomProviderProfile;
+}
+
+export interface CustomProviderUpsertRequest extends Omit<CustomProviderProfile, 'id' | 'apiKeyId'> {
+  id?: string | null;
+  apiKeyId?: string | null;
+}
+
+export interface CustomProviderDeleteResponse {
+  deleted: boolean;
+  providerId: string;
 }
 
 export interface WatchlistEntry {
@@ -166,7 +207,24 @@ export interface AlertItemResponse {
 export interface AiSettings {
   model: string;
   cloudEnabled: boolean;
-  provider: 'template' | 'ollama' | 'lm_studio' | 'openai' | 'openai_compatible';
+  provider:
+    | 'template'
+    | 'ollama'
+    | 'lm_studio'
+    | 'vllm'
+    | 'llama_cpp'
+    | 'openai'
+    | 'anthropic'
+    | 'google_gemini'
+    | 'deepseek'
+    | 'mistral'
+    | 'groq'
+    | 'openrouter'
+    | 'together'
+    | 'azure_openai'
+    | 'bedrock'
+    | 'vertex'
+    | 'openai_compatible';
   baseUrl: string;
   apiKeyId?: string | null;
   temperature: number;
@@ -178,6 +236,56 @@ export interface AiSettingsResponse {
   ai: AiSettings;
 }
 
+export interface AiModelListRequest {
+  provider: AiSettings['provider'];
+  baseUrl: string;
+  apiKeyId?: string | null;
+  requestTimeoutSeconds?: number;
+}
+
+export interface AiProviderTestRequest extends AiModelListRequest {
+  model: string;
+  temperature?: number;
+  maxTokens?: number;
+}
+
+export interface AiModelInfo {
+  id: string;
+  label?: string | null;
+  description?: string | null;
+  runtimeStatus?: 'available' | 'loaded' | 'not_loaded' | 'loading' | 'busy' | 'not_installed' | 'unavailable' | 'unknown';
+  runtimeDetail?: string | null;
+  created?: number | null;
+  createdAt?: string | null;
+  ownedBy?: string | null;
+  inputTokenLimit?: number | null;
+  outputTokenLimit?: number | null;
+  supportedGenerationMethods?: string[];
+}
+
+export interface AiModelListResponse {
+  provider: AiSettings['provider'];
+  models: string[];
+  modelItems?: AiModelInfo[];
+  fetched: boolean;
+  detail: string;
+  source?: string;
+  fetchedAtUtc?: string;
+}
+
+export interface AiProviderTestResponse {
+  provider: AiSettings['provider'];
+  model: string;
+  ok: boolean;
+  detail: string;
+  runtimeStatus?: 'available' | 'loaded' | 'not_loaded' | 'loading' | 'busy' | 'not_installed' | 'unavailable' | 'unknown';
+  runtimeDetail?: string | null;
+  source?: string;
+  sample?: string;
+  elapsedMs: number;
+  testedAtUtc: string;
+}
+
 export interface ApiKeyField {
   id: string;
   label: string;
@@ -185,6 +293,7 @@ export interface ApiKeyField {
   note: string;
   tradeEnabled: boolean;
   secret: boolean;
+  configured?: boolean;
 }
 
 export interface ApiKeySettingsResponse {
@@ -245,6 +354,11 @@ export interface SavedStrategyCreateRequest extends SavedStrategy {}
 
 export interface SavedStrategyItemResponse {
   item: SavedStrategy;
+}
+
+export interface SavedStrategyDeleteResponse {
+  deleted: boolean;
+  id: string;
 }
 
 export interface PaperTradeIntentRequest {
@@ -326,6 +440,10 @@ export interface StrategyPreset {
   symbolId: string;
   setupType: string;
   timeframe: Timeframe;
+  strategyId?: string | null;
+  strategyName?: string | null;
+  strategySource?: 'built-in' | 'extension' | null;
+  extensionId?: string | null;
   feesPercent: number;
   slippagePercent: number;
   trainTestSplit: number;
@@ -487,6 +605,7 @@ export interface StrategyRegistryEntry {
   timeframes: string[];
   source: 'built-in' | 'extension';
   extension_id?: string | null;
+  executable?: boolean;
 }
 
 export interface StrategyRegistryResponse {
@@ -500,6 +619,8 @@ export interface IndicatorRegistryEntry {
   description: string;
   inputs: string[];
   outputs: string[];
+  maturity?: 'computed' | 'catalog';
+  families?: string[];
   source: 'built-in' | 'extension';
   extension_id?: string | null;
 }
@@ -521,4 +642,101 @@ export interface ExtensionSurfaceEntry {
 
 export interface ExtensionSurfaceRegistryResponse {
   surfaces: ExtensionSurfaceEntry[];
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Learning Platform
+// ---------------------------------------------------------------------------
+
+export type LessonTier = 'novice' | 'intermediate' | 'advanced' | 'expert';
+export type ExerciseType = 'multiple_choice' | 'numeric_input' | 'identify_on_chart' | 'interpret_signal';
+
+export interface LessonKeyTerm {
+  term: string;
+  definition: string;
+}
+
+export interface LessonExerciseMultipleChoice {
+  type: 'multiple_choice';
+  question: string;
+  options: string[];
+  /** The 0-based index of the correct option — omitted from client GET responses; used internally. */
+  correct_index?: number;
+  explanation: string;
+}
+
+export interface LessonExerciseNumericInput {
+  type: 'numeric_input';
+  question: string;
+  hint?: string;
+  explanation: string;
+}
+
+export type LessonExercise = LessonExerciseMultipleChoice | LessonExerciseNumericInput;
+
+export interface LessonLiveApply {
+  screen: string;
+  cta: string;
+}
+
+/** Full lesson detail returned by GET /api/learn/lesson/:id */
+export interface LessonRecord {
+  id: string;
+  module_id: string;
+  tier: LessonTier;
+  order: number;
+  title: string;
+  summary: string;
+  concept: string;
+  key_terms: LessonKeyTerm[];
+  exercise: LessonExercise;
+  live_apply: LessonLiveApply;
+  /** True when the authenticated user has completed this lesson. */
+  completed: boolean;
+}
+
+/** Lightweight summary returned inside module listings */
+export interface LessonStub {
+  id: string;
+  order: number;
+  title: string;
+  summary: string;
+  tier: LessonTier;
+  completed: boolean;
+}
+
+export interface TierProgress {
+  total: number;
+  completed: number;
+}
+
+export interface LearnProgress {
+  total: number;
+  completed: number;
+  by_tier: Record<LessonTier, TierProgress>;
+}
+
+export interface LearnModule {
+  id: string;
+  tier: LessonTier;
+  title: string;
+  description: string;
+  lessons: LessonStub[];
+  completed: number;
+  total: number;
+}
+
+export interface LearnCatalogResponse {
+  modules: LearnModule[];
+  progress: LearnProgress;
+}
+
+export interface AnswerRequest {
+  answer: string;
+}
+
+export interface ExerciseResult {
+  correct: boolean;
+  explanation: string;
+  score: number;
 }

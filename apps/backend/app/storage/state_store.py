@@ -69,6 +69,102 @@ DEFAULT_API_KEYS: list[dict[str, Any]] = [
         "secret": True,
     },
     {
+        "id": "deepseek-api-key",
+        "label": "DeepSeek API Key",
+        "value": "",
+        "note": "Optional bearer token for DeepSeek chat and reasoning models through its OpenAI-compatible API.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "mistral-api-key",
+        "label": "Mistral API Key",
+        "value": "",
+        "note": "Optional bearer token for Mistral AI and Codestral model discovery through its API.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "groq-api-key",
+        "label": "Groq API Key",
+        "value": "",
+        "note": "Optional bearer token for Groq's low-latency OpenAI-compatible model endpoint.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "openrouter-api-key",
+        "label": "OpenRouter API Key",
+        "value": "",
+        "note": "Optional bearer token for OpenRouter model routing across multiple providers.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "together-api-key",
+        "label": "Together AI API Key",
+        "value": "",
+        "note": "Optional bearer token for Together AI's OpenAI-compatible model endpoint.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "azure-openai-api-key",
+        "label": "Azure OpenAI API Key",
+        "value": "",
+        "note": "Optional key for Azure OpenAI compatible deployment endpoints.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "aws-access-key-id",
+        "label": "AWS Access Key ID",
+        "value": "",
+        "note": "Required with AWS Secret Access Key for Amazon Bedrock model discovery and invocation.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "aws-secret-access-key",
+        "label": "AWS Secret Access Key",
+        "value": "",
+        "note": "Required secret credential for signed Amazon Bedrock requests.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "aws-session-token",
+        "label": "AWS Session Token",
+        "value": "",
+        "note": "Optional temporary AWS session token for STS or SSO-backed Bedrock credentials.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "vertex-ai-access-token",
+        "label": "Vertex AI OAuth Access Token",
+        "value": "",
+        "note": "Bearer token for Google Vertex AI REST model discovery and generateContent calls.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "anthropic-api-key",
+        "label": "Anthropic API Key",
+        "value": "",
+        "note": "Optional key for native Claude model discovery and narration through the Anthropic Messages API.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
+        "id": "google-gemini-api-key",
+        "label": "Google Gemini API Key",
+        "value": "",
+        "note": "Optional key for native Gemini model discovery and narration through the Gemini API.",
+        "tradeEnabled": False,
+        "secret": True,
+    },
+    {
         "id": "telegram-bot-token",
         "label": "Telegram Bot Token",
         "value": "",
@@ -133,6 +229,9 @@ DEFAULT_API_KEYS: list[dict[str, Any]] = [
         "secret": False,
     },
 ]
+
+CUSTOM_PROVIDER_AUTH_TYPES = {"none", "bearer", "api_key_header", "api_key_query"}
+CUSTOM_PROVIDER_CAPABILITIES = {"ohlcv", "order_book", "news", "trading", "ai"}
 
 
 class StateStore:
@@ -253,6 +352,15 @@ class StateStore:
                 )
                 """
             )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS learn_progress (
+                    lesson_id TEXT PRIMARY KEY,
+                    completed_at TEXT NOT NULL,
+                    attempts INTEGER NOT NULL DEFAULT 1
+                )
+                """
+            )
             self._ensure_alerts_columns(connection)
             self._ensure_paper_trade_intent_columns(connection)
             self._ensure_paper_account_row(connection)
@@ -315,6 +423,35 @@ class StateStore:
                 safety_settings.model_dump(),
             )
             connection.commit()
+
+    def list_custom_provider_profiles(self) -> list[dict[str, Any]]:
+        payload = self._read_settings_payload("custom_provider_profiles", [])
+        return self._normalize_custom_provider_profiles_payload(payload)
+
+    def upsert_custom_provider_profile(self, profile: dict[str, Any]) -> dict[str, Any]:
+        normalized_profile = self._normalize_custom_provider_profile(profile)
+        profiles = [
+            item
+            for item in self.list_custom_provider_profiles()
+            if item["id"] != normalized_profile["id"]
+        ]
+        profiles.append(normalized_profile)
+        profiles = sorted(profiles, key=lambda item: item["id"])
+        with sqlite3.connect(self.sqlite_path) as connection:
+            self._write_settings_payload(connection, "custom_provider_profiles", profiles)
+            connection.commit()
+        return normalized_profile
+
+    def delete_custom_provider_profile(self, profile_id: str) -> bool:
+        normalized_id = self._provider_profile_id(profile_id)
+        profiles = self.list_custom_provider_profiles()
+        remaining = [item for item in profiles if item["id"] != normalized_id]
+        deleted = len(remaining) != len(profiles)
+        if deleted:
+            with sqlite3.connect(self.sqlite_path) as connection:
+                self._write_settings_payload(connection, "custom_provider_profiles", remaining)
+                connection.commit()
+        return deleted
 
     def get_ai_settings(self) -> AiSettings:
         payload = self._read_settings_payload("ai_settings", AiSettings().model_dump())
@@ -588,6 +725,15 @@ class StateStore:
             )
             connection.commit()
         return payload
+
+    def delete_saved_strategy(self, strategy_id: str) -> bool:
+        with sqlite3.connect(self.sqlite_path) as connection:
+            cursor = connection.execute(
+                "DELETE FROM saved_strategies WHERE id = ?",
+                (strategy_id,),
+            )
+            connection.commit()
+        return cursor.rowcount > 0
 
     def get_paper_account(self) -> dict[str, Any]:
         with sqlite3.connect(self.sqlite_path) as connection:
@@ -896,7 +1042,7 @@ class StateStore:
         } if isinstance(payload, list) else {}
 
         normalized: list[dict[str, Any]] = []
-        for default_item in DEFAULT_API_KEYS:
+        for default_item in [*DEFAULT_API_KEYS, *self._custom_provider_api_key_metadata()]:
             raw_item = indexed_payload.get(default_item["id"], {})
             normalized.append(
                 {
@@ -911,6 +1057,23 @@ class StateStore:
                 }
             )
         return normalized
+
+    def _custom_provider_api_key_metadata(self) -> list[dict[str, Any]]:
+        items: list[dict[str, Any]] = []
+        for profile in self.list_custom_provider_profiles():
+            if profile["authType"] == "none":
+                continue
+            items.append(
+                {
+                    "id": profile["apiKeyId"],
+                    "label": f"{profile['label']} API Key",
+                    "value": "",
+                    "note": f"Bearer/header/query credential for custom provider profile {profile['label']}. Adapter execution still requires a provider extension.",
+                    "tradeEnabled": "trading" in profile["capabilities"],
+                    "secret": True,
+                }
+            )
+        return items
 
     def _get_api_key_metadata(self) -> list[dict[str, Any]]:
         payload = self._read_settings_payload("api_keys", DEFAULT_API_KEYS)
@@ -1023,7 +1186,64 @@ class StateStore:
         normalized.pop("ollama_base_url", None)
         if normalized.get("provider") == "openai" and not normalized.get("api_key_id"):
             normalized["api_key_id"] = "openai-api-key"
+        if normalized.get("provider") == "anthropic" and not normalized.get("api_key_id"):
+            normalized["api_key_id"] = "anthropic-api-key"
+        if normalized.get("provider") == "google_gemini" and not normalized.get("api_key_id"):
+            normalized["api_key_id"] = "google-gemini-api-key"
         return normalized
+
+    def _provider_profile_id(self, value: Any) -> str:
+        raw = str(value or "").strip().lower()
+        if raw.startswith("custom_"):
+            raw = raw.removeprefix("custom_")
+        cleaned = "".join(character if character.isalnum() else "_" for character in raw)
+        cleaned = "_".join(part for part in cleaned.split("_") if part)
+        fallback = "".join(character if character.isalnum() else "_" for character in self._now_iso())
+        return f"custom_{cleaned or fallback}"
+
+    def _normalize_custom_provider_profile(self, payload: dict[str, Any]) -> dict[str, Any]:
+        label = str(payload.get("label") or payload.get("name") or "Custom provider").strip()
+        profile_id = self._provider_profile_id(payload.get("id") or label)
+        auth_type = str(payload.get("authType") or payload.get("auth_type") or "none")
+        if auth_type not in CUSTOM_PROVIDER_AUTH_TYPES:
+            auth_type = "none"
+        capabilities = [
+            str(capability)
+            for capability in payload.get("capabilities", [])
+            if str(capability) in CUSTOM_PROVIDER_CAPABILITIES
+        ]
+        if not capabilities:
+            capabilities = ["ohlcv"]
+        api_key_id = str(payload.get("apiKeyId") or payload.get("api_key_id") or "").strip()
+        if auth_type != "none" and not api_key_id:
+            api_key_id = f"{profile_id}-api-key"
+        return {
+            "id": profile_id,
+            "label": label,
+            "baseUrl": str(payload.get("baseUrl") or payload.get("base_url") or "").strip(),
+            "authType": auth_type,
+            "apiKeyId": api_key_id or None,
+            "apiKeyHeader": str(payload.get("apiKeyHeader") or payload.get("api_key_header") or "Authorization").strip() or None,
+            "apiKeyQueryParam": str(payload.get("apiKeyQueryParam") or payload.get("api_key_query_param") or "apikey").strip() or None,
+            "capabilities": sorted(set(capabilities)),
+            "enabled": bool(payload.get("enabled", True)),
+            "notes": str(payload.get("notes") or "").strip(),
+        }
+
+    def _normalize_custom_provider_profiles_payload(self, payload: Any) -> list[dict[str, Any]]:
+        if not isinstance(payload, list):
+            return []
+        normalized: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for item in payload:
+            if not isinstance(item, dict):
+                continue
+            profile = self._normalize_custom_provider_profile(item)
+            if profile["id"] in seen:
+                continue
+            seen.add(profile["id"])
+            normalized.append(profile)
+        return sorted(normalized, key=lambda item: item["id"])
 
     def _ensure_alerts_columns(self, connection: sqlite3.Connection) -> None:
         columns = {
@@ -1294,3 +1514,49 @@ class StateStore:
     @staticmethod
     def _now_iso() -> str:
         return datetime.now(timezone.utc).isoformat()
+
+    # -------------------------------------------------------------------------
+    # Interactive Learning Progress
+    # -------------------------------------------------------------------------
+
+    def get_learn_progress(self) -> dict[str, Any]:
+        with sqlite3.connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT lesson_id, completed_at, attempts FROM learn_progress"
+            ).fetchall()
+        return {row[0]: {"completed_at": row[1], "attempts": row[2]} for row in rows}
+
+    def mark_lesson_complete(self, lesson_id: str) -> None:
+        now = self._now_iso()
+        with sqlite3.connect(self.sqlite_path) as connection:
+            connection.execute(
+                """
+                INSERT INTO learn_progress (lesson_id, completed_at, attempts)
+                VALUES (?, ?, 1)
+                ON CONFLICT(lesson_id) DO UPDATE SET
+                    completed_at = excluded.completed_at,
+                    attempts = learn_progress.attempts + 1
+                """,
+                (lesson_id, now),
+            )
+            connection.commit()
+
+    def record_lesson_attempt(self, lesson_id: str) -> None:
+        now = self._now_iso()
+        with sqlite3.connect(self.sqlite_path) as connection:
+            existing = connection.execute(
+                "SELECT attempts FROM learn_progress WHERE lesson_id = ?",
+                (lesson_id,),
+            ).fetchone()
+            if existing:
+                connection.execute(
+                    "UPDATE learn_progress SET attempts = attempts + 1 WHERE lesson_id = ?",
+                    (lesson_id,),
+                )
+            else:
+                # Attempted but not yet complete — store with a sentinel completed_at.
+                connection.execute(
+                    "INSERT OR IGNORE INTO learn_progress (lesson_id, completed_at, attempts) VALUES (?, '', 1)",
+                    (lesson_id,),
+                )
+            connection.commit()

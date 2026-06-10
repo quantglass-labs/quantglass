@@ -5,6 +5,8 @@
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "backend:backup": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export",
+    "backend:dev": "PYTHONPATH=apps/backend ./.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
+    "backend:dev:extensions": "QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true PYTHONPATH=apps/backend ./.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
     "desktop:dev": "npm --prefix apps/desktop run dev --",
     "desktop:build": "npm --prefix apps/desktop run build",
     "desktop:preview": "npm --prefix apps/desktop run preview --",

@@ -8,13 +8,15 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+PROVIDER_HTTP_TIMEOUT_SECONDS = 8
+
 
 def _fetch_json(url: str, headers: dict[str, str] | None = None) -> dict[str, Any]:
     request = Request(
         url,
         headers={"User-Agent": "Mozilla/5.0", **(headers or {})},
     )
-    return json.loads(urlopen(request).read().decode("utf-8"))
+    return json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
 
 
 def _post_json(url: str, payload: dict[str, Any], headers: dict[str, str] | None = None) -> dict[str, Any]:
@@ -25,7 +27,7 @@ def _post_json(url: str, payload: dict[str, Any], headers: dict[str, str] | None
         method="POST",
     )
     try:
-        return json.loads(urlopen(request).read().decode("utf-8"))
+        return json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
     except HTTPError as exc:
         response_body = exc.read().decode("utf-8", errors="replace")
         try:

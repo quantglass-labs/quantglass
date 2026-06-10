@@ -28,3 +28,23 @@ async def create_saved_strategy(
 ) -> dict[str, object]:
     item = request.app.state.state_store.save_strategy(payload.model_dump())
     return {"item": item}
+
+
+@router.put("/{strategy_id}")
+async def update_saved_strategy(
+    strategy_id: str,
+    payload: SavedStrategyPayload,
+    request: Request,
+) -> dict[str, object]:
+    item = request.app.state.state_store.save_strategy(
+        {**payload.model_dump(), "id": strategy_id}
+    )
+    return {"item": item}
+
+
+@router.delete("/{strategy_id}")
+async def delete_saved_strategy(strategy_id: str, request: Request) -> dict[str, object]:
+    return {
+        "deleted": request.app.state.state_store.delete_saved_strategy(strategy_id),
+        "id": strategy_id,
+    }

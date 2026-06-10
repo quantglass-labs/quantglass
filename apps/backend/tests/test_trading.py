@@ -8,6 +8,9 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from app.api.routes.paper import router as paper_router
+from app.core.config import AppSettings, ProviderSettings, SafetySettings
+from app.providers.keyed import AlpacaStocksOHLCVProvider
+from app.providers.manager import ProviderManager
 from app.services.event_bus import BackendEventBus
 from app.services.trading import TradeExecutionError, TradingExecutionService
 
@@ -164,6 +167,38 @@ class TradingExecutionServiceTests(unittest.TestCase):
             )
 
         self.assertEqual(len(state_store.live_trade_calls), 0)
+
+
+class ProviderManagerRoutingTests(unittest.TestCase):
+    def test_alpaca_client_uses_paper_host_until_live_trading_is_confirmed(self) -> None:
+        app_settings = AppSettings(
+            enable_alpaca_market_data=True,
+            alpaca_market_data_key_id="key",
+            alpaca_market_data_secret_key="secret",
+        )
+
+        unconfirmed_manager = ProviderManager(
+            ProviderSettings(),
+            app_settings,
+            SafetySettings(trading_mode="live", live_trading_confirmed=False),
+        )
+        unconfirmed_client = unconfirmed_manager.get_client("alpaca")
+
+        confirmed_manager = ProviderManager(
+            ProviderSettings(),
+            app_settings,
+            SafetySettings(trading_mode="live", live_trading_confirmed=True),
+        )
+        confirmed_client = confirmed_manager.get_client("alpaca")
+
+        self.assertEqual(
+            unconfirmed_client._trading_base_url,
+            AlpacaStocksOHLCVProvider.PAPER_TRADING_BASE_URL,
+        )
+        self.assertEqual(
+            confirmed_client._trading_base_url,
+            AlpacaStocksOHLCVProvider.LIVE_TRADING_BASE_URL,
+        )
 
 
 class PaperRouteTests(unittest.TestCase):

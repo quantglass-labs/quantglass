@@ -112,21 +112,37 @@ Common local presets:
 ## Extensions
 
 The Extensions tab shows backend extension manifests, requested permissions,
-settings schema, health, and diagnostics. External Python extensions are disabled
-by default because installed packages execute code inside the backend process.
-Use the extension enable toggle and settings controls to persist configuration;
-enable/disable changes take effect after restarting the backend.
+settings schema, health, diagnostics, registered strategies, the indicator
+catalog, and contribution surfaces. Extension strategies that provide an
+executable candidate factory can feed signal generation and Backtesting presets;
+Backtesting labels those presets with the contributing strategy source.
+
+Indicators are marked as either `computed` or `catalog`. `computed` indicators
+feed the current engine. `catalog` indicators are documented contribution
+targets and do not affect signals until an implementation is wired in.
+
+External Python extensions are disabled by default because installed packages and
+local extension files execute code inside the backend process. Use the extension
+enable toggle and settings controls to persist configuration; enable/disable
+changes take effect after restarting the backend.
 
 Enable extension entry points only for packages you trust:
 
 ```bash
-QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true npm run backend:dev
+npm run backend:dev:extensions
 ```
+
+For local development, extension files can live under `extensions/*.py` in the
+source checkout or under the user data `extensions/` directory. A repo-local
+example is available at `extensions/community_momentum_pack.py`.
 
 Extensions can contribute provider adapters, AI gateways, indicators, strategies,
 backtest assumptions, broker adapters, notification channels, import/export
 flows, data-quality checks, or performance optimizations. See
 [Contributing → Extensions](../contributing/extensions.md).
+
+UI-panel surfaces are listed as contribution targets, but third-party frontend
+code execution is not enabled yet.
 
 ---
 

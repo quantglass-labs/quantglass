@@ -9,12 +9,43 @@ that the confidence basis and backtest math stay trustworthy.
 
 from statistics import mean
 
+from app.services.indicator_registry import IndicatorRegistry
 from app.services.signal_engine import SeriesIndicators, SignalEngineService
 
 
 def _engine() -> SignalEngineService:
     # The indicator helpers never touch the analytics store, so a dummy is fine.
     return SignalEngineService(analytics_store=object(), min_backtest_sample=20)
+
+
+def test_indicator_registry_exposes_large_categorized_catalog() -> None:
+    items = IndicatorRegistry().items()
+    categories = {str(item["category"]) for item in items}
+    computed = {str(item["id"]) for item in items if item.get("maturity") == "computed"}
+
+    assert len(items) >= 80
+    assert {
+        "trend",
+        "momentum",
+        "volatility",
+        "volume",
+        "market_structure",
+        "relative_strength",
+        "risk",
+        "breadth",
+    }.issubset(categories)
+    assert {
+        "ema21",
+        "sma50",
+        "rsi14",
+        "rsi2",
+        "atr14",
+        "adx14",
+        "macd-histogram",
+        "bollinger-20-2",
+        "donchian-20",
+        "keltner-21-atr",
+    }.issubset(computed)
 
 
 def test_sma_matches_simple_mean() -> None:

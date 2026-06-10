@@ -3,5 +3,5 @@
   "identifier": "default",
   "description": "Default desktop permissions for QuantGlass.",
   "windows": ["main"],
-  "permissions": ["core:default", "notification:default"]
+  "permissions": ["core:default", "dialog:default", "notification:default", "shell:default"]
 }
