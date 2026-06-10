@@ -1,10 +1,23 @@
 # QuantGlass
 
+[![CI](https://github.com/quantglass-labs/quantglass/actions/workflows/ci.yml/badge.svg)](https://github.com/quantglass-labs/quantglass/actions/workflows/ci.yml)
+[![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/quantglass-labs/quantglass?include_prereleases)](https://github.com/quantglass-labs/quantglass/releases)
+
 QuantGlass is an open-source, local-first market research and paper-trading
 workstation for crypto and US equities. It combines a FastAPI backend, a
 React/Tauri desktop app, typed contracts, deterministic signal and backtest
 logic, provider adapters, alerting, extension registries, and optional local/API
 AI narration.
+
+<p align="center">
+  <img src="docs/assets/screenshots/dashboard.png" alt="QuantGlass dashboard with market corridor chart and signals" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/assets/screenshots/symbol-detail.png" alt="Symbol detail with candlestick chart and decision card" width="440">
+  <img src="docs/assets/screenshots/backtest.png" alt="Backtesting screen with expectancy metrics" width="440">
+</p>
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
 free to use, study, modify, and redistribute under the AGPL. Commercial licenses
@@ -192,5 +205,11 @@ unavailable in the public preview.
 - [Technical docs](docs/technical/README.md)
 - [User guide](docs/user-guide/README.md)
 - [Configuration reference](docs/configuration.md)
-- [Production audit](docs/production_audit_report.md)
-- [Production fix roadmap](docs/production_fix_roadmap.md)
+- [Changelog](CHANGELOG.md)
+
+QuantGlass publishes its own critique. The
+[production audit](docs/production_audit_report.md) is a point-in-time review
+of what is and is not trustworthy yet, and the
+[production fix roadmap](docs/production_fix_roadmap.md) is the public
+hardening backlog derived from it — a good place to find meaningful
+contributions.
