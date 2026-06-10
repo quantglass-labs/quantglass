@@ -5,6 +5,10 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from importlib.metadata import EntryPoint, entry_points
+from importlib.util import module_from_spec, spec_from_file_location
+from pathlib import Path
+from types import ModuleType
+from collections.abc import Callable
 from typing import Any
 
 from app.extensions.base import ExtensionContext, ExtensionManifest, QuantGlassExtension
@@ -60,6 +64,7 @@ def load_extension_registry(
     surface_registry: Any | None = None,
     extension_settings_provider: Any | None = None,
     enable_entry_points: bool = False,
+    extension_paths: tuple[Path, ...] = (),
 ) -> ExtensionRegistry:
     registry = ExtensionRegistry()
     if not enable_entry_points:
@@ -69,12 +74,12 @@ def load_extension_registry(
                     id="python-entry-points",
                     name="Python entry point extensions",
                     version="0",
-                    description="External quantglass.extensions packages are available only when explicitly enabled.",
+                    description="External quantglass.extensions packages and local extension files are available only when explicitly enabled.",
                     capabilities=(),
                 ),
                 loaded=False,
                 enabled=False,
-                diagnostics=["Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true to load installed extension packages."],
+                diagnostics=["Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true or run npm run backend:dev:extensions to load trusted local extension files and installed extension packages."],
                 health={"status": "disabled", "loaded": False},
             )
         )
@@ -82,8 +87,21 @@ def load_extension_registry(
 
     for entry_point in _extension_entry_points():
         registry.register_record(
-            _load_entry_point(
-                entry_point,
+            _load_extension(
+                entry_point.name,
+                entry_point.load,
+                provider_manager,
+                strategy_registry,
+                indicator_registry,
+                surface_registry,
+                extension_settings_provider,
+            )
+        )
+    for extension_path in _local_extension_files(extension_paths):
+        registry.register_record(
+            _load_extension(
+                extension_path.stem,
+                lambda path=extension_path: _load_local_extension(path),
                 provider_manager,
                 strategy_registry,
                 indicator_registry,
@@ -99,8 +117,39 @@ def _extension_entry_points() -> list[EntryPoint]:
     return list(selected)
 
 
-def _load_entry_point(
-    entry_point: EntryPoint,
+def _local_extension_files(extension_paths: tuple[Path, ...]) -> list[Path]:
+    files: list[Path] = []
+    for root in extension_paths:
+        if not root.exists() or not root.is_dir():
+            continue
+        files.extend(
+            path
+            for path in sorted(root.glob("*.py"))
+            if path.name != "__init__.py" and not path.name.startswith("_")
+        )
+    return files
+
+
+def _load_local_extension(path: Path) -> Any:
+    spec = spec_from_file_location(f"quantglass_local_extension_{path.stem}", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Could not load local extension module {path}")
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return _extension_from_module(module)
+
+
+def _extension_from_module(module: ModuleType) -> Any:
+    if hasattr(module, "extension"):
+        return getattr(module, "extension")
+    if hasattr(module, "Extension"):
+        return getattr(module, "Extension")
+    raise RuntimeError("Local extension must expose `extension` or `Extension`.")
+
+
+def _load_extension(
+    name: str,
+    loader: Callable[[], Any],
     provider_manager: ProviderManager,
     strategy_registry: Any | None,
     indicator_registry: Any | None,
@@ -108,7 +157,7 @@ def _load_entry_point(
     extension_settings_provider: Any | None,
 ) -> ExtensionRecord:
     try:
-        extension = entry_point.load()
+        extension = loader()
         extension_instance: QuantGlassExtension = extension() if isinstance(extension, type) else extension
         manifest = extension_instance.manifest
         extension_settings = (
@@ -150,8 +199,8 @@ def _load_entry_point(
     except Exception as exc:  # pragma: no cover - defensive boundary for third-party code
         return ExtensionRecord(
             manifest=ExtensionManifest(
-                id=entry_point.name,
-                name=entry_point.name,
+                id=name,
+                name=name,
                 version="unknown",
                 description="Extension failed during import or registration.",
                 capabilities=(),

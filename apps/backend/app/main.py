@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.alerts import router as alerts_router
 from app.api.routes.content import router as content_router
+from app.api.routes.learn import router as learn_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
@@ -32,6 +33,7 @@ from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
 from app.services.signal_engine import SignalEngineService
 from app.services.strategy_registry import StrategyRegistry
+from app.services.learn_service import LearnService
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
@@ -51,7 +53,14 @@ async def lifespan(app: FastAPI):
     state_store.initialize(settings.provider_settings, settings.safety, settings.ai)
     persisted_provider_settings = state_store.get_provider_settings()
     runtime_settings = apply_api_key_settings(settings, state_store.list_api_keys())
-    provider_manager = ProviderManager(persisted_provider_settings, runtime_settings)
+    persisted_safety_settings = state_store.get_safety_settings()
+    provider_manager = ProviderManager(
+        persisted_provider_settings,
+        runtime_settings,
+        persisted_safety_settings,
+        custom_provider_profiles=state_store.list_custom_provider_profiles(),
+        api_key_provider=state_store.get_api_key_value,
+    )
     extension_registry = load_extension_registry(
         provider_manager,
         strategy_registry=strategy_registry,
@@ -59,6 +68,10 @@ async def lifespan(app: FastAPI):
         surface_registry=surface_registry,
         extension_settings_provider=state_store.get_extension_settings,
         enable_entry_points=settings.enable_extension_entry_points,
+        extension_paths=(
+            settings.workspace_root / "extensions",
+            settings.data_dir / "extensions",
+        ),
     )
     analytics_store.initialize()
     notification_service = AlertNotificationService(state_store)
@@ -74,6 +87,7 @@ async def lifespan(app: FastAPI):
         analytics_store=analytics_store,
         min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
         narrator=narration_service,
+        strategy_registry=strategy_registry,
     )
     scheduler_service = SchedulerService(
         execution_engine,
@@ -81,6 +95,7 @@ async def lifespan(app: FastAPI):
         market_corridor=market_corridor_service,
         signal_engine=signal_engine,
     )
+    learn_service = LearnService(state_store)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -100,6 +115,7 @@ async def lifespan(app: FastAPI):
     app.state.scheduler_service = scheduler_service
     app.state.rate_limiter = rate_limiter
     app.state.model_gateway = model_gateway
+    app.state.learn_service = learn_service
 
     try:
         yield
@@ -142,3 +158,4 @@ app.include_router(strategies_router)
 app.include_router(watchlist_router)
 app.include_router(alerts_router)
 app.include_router(events_router)
+app.include_router(learn_router)

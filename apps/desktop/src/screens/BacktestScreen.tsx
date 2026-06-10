@@ -148,6 +148,11 @@ export function BacktestScreen({
                 <span className="font-medium">Prefill source</span>
               </div>
               <p className="mt-2">Symbol: {symbol?.symbol ?? 'Unavailable'} · Setup: {preset?.setupType ?? 'Unavailable'} · Timeframe: {preset?.timeframe ?? 'Unavailable'}</p>
+              {preset?.strategyName ? (
+                <p className="mt-2">
+                  Strategy source: {preset.strategyName} ({preset.strategySource ?? 'built-in'}{preset.extensionId ? ` / ${preset.extensionId}` : ''})
+                </p>
+              ) : null}
               <p className="mt-2">{runMessage ?? 'Parameter changes rerun against the backend and update the metrics below.'}</p>
               {liveCorridorItem ? <p className="mt-2">Live market corridor backing is available for {liveCorridorItem.symbol} {liveCorridorItem.timeframe} via {liveCorridorItem.provider}, last updated {formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC.</p> : null}
             </div>

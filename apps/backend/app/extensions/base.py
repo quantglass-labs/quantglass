@@ -108,6 +108,7 @@ class ExtensionContext:
             capabilities=capabilities,
             client=client,
             transport=transport,
+            source="extension",
         )
 
     def register_strategy(self, definition: Any) -> None:

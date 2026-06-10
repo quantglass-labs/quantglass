@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from typing import Any
 from urllib.request import Request, urlopen
 
+PROVIDER_HTTP_TIMEOUT_SECONDS = 8
+
 
 class CoinbasePublicOHLCVProvider:
     _granularity_by_timeframe = {
@@ -41,7 +43,7 @@ class CoinbasePublicOHLCVProvider:
             f"https://api.exchange.coinbase.com/products/{product}/candles?granularity={granularity}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request).read().decode("utf-8"))
+        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
         candles = [
             {
                 "open_time_utc": datetime.fromtimestamp(row[0], timezone.utc).isoformat(),
@@ -101,7 +103,7 @@ class KrakenPublicOHLCVProvider:
             f"https://api.kraken.com/0/public/OHLC?pair={pair}&interval={interval}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request).read().decode("utf-8"))
+        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
         pair_key = next(iter(payload["result"].keys() - {"last"}))
         candles = [
             {
@@ -162,7 +164,7 @@ class GeminiPublicOHLCVProvider:
             f"https://api.gemini.com/v2/candles/{gemini_symbol}/{period}",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request).read().decode("utf-8"))
+        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
         candles = [
             {
                 "open_time_utc": datetime.fromtimestamp(int(row[0]) / 1000, timezone.utc).isoformat(),
@@ -213,7 +215,7 @@ class YahooFinanceOHLCVProvider:
             f"https://query1.finance.yahoo.com/v8/finance/chart/{normalized_symbol}?interval={interval}&range=6mo",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        payload = json.loads(urlopen(request).read().decode("utf-8"))
+        payload = json.loads(urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8"))
         result = payload["chart"]["result"][0]
         quote = result["indicators"]["quote"][0]
 

@@ -6,14 +6,19 @@ first.
 
 ## Extension model
 
-Backend extensions are Python packages that expose a `quantglass.extensions`
-entry point. Loading external packages executes Python code, so QuantGlass keeps
-entry-point loading disabled by default.
+Backend extensions can be either:
+
+- Python packages that expose a `quantglass.extensions` entry point.
+- Local development files under `extensions/*.py` in the source checkout or
+  under the user data `extensions/` directory.
+
+Loading external extension code executes Python inside the backend process, so
+QuantGlass keeps extension code loading disabled by default.
 
 Enable installed extensions explicitly:
 
 ```bash
-QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true npm run backend:dev
+npm run backend:dev:extensions
 ```
 
 The backend reports loaded or inactive extensions at:
@@ -29,11 +34,17 @@ GET /api/extensions/strategies
 GET /api/extensions/indicators
 ```
 
-Installed entry points are discovered only when
+Installed entry points and local extension files are discovered only when
 `QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true`. Each discovered extension still
 stays inactive until its persisted `enabled` setting is set to `true`; changing
 that value requires a backend restart because third-party Python packages are
 loaded inside the backend process.
+
+For local development, place a file such as
+`extensions/community_momentum_pack.py` in the repo. The file must expose either
+`extension` or `Extension`. `Extension` may be a class or a factory function.
+The Tauri shell passes `QUANTGLASS_WORKSPACE_ROOT` to the backend, so repo-local
+extension packs are discoverable from the desktop app during development.
 
 ## Minimal package shape
 
@@ -77,7 +88,9 @@ class ExampleExtension:
 ```
 
 See [`examples/extensions/example_extension.py`](../../examples/extensions/example_extension.py)
-for a complete minimal extension.
+for a minimal package-style extension, and
+[`extensions/community_momentum_pack.py`](../../extensions/community_momentum_pack.py)
+for an executable repo-local strategy/indicator pack.
 
 ## Contribution areas
 
@@ -116,12 +129,22 @@ before enabling it.
 ## Registry surfaces
 
 - `StrategyRegistry` exposes built-in and extension strategy definitions.
+  Executable strategies can register a candidate factory; matching candidates
+  are consumed by the signal engine and appear in Backtesting presets with their
+  strategy source metadata.
 - `IndicatorRegistry` exposes deterministic feature definitions.
+  Built-in entries distinguish `computed` indicators from broader `catalog`
+  targets. Extension indicators should do the same so users know whether the
+  indicator is actively used by a service or only advertised as metadata.
 - `ProviderManager` exposes market/news/trading/AI providers.
 - `ExtensionSurfaceRegistry` exposes backtest, execution, notification,
   import/export, data-quality, and UI-panel surface metadata.
 - `ExtensionRegistry` exposes manifests, settings schema, diagnostics, and
   health.
+
+UI panel surfaces are currently metadata only. They are visible in Settings so
+contributors can claim and discuss a surface, but QuantGlass does not execute
+third-party frontend code yet.
 
 ## Runtime contracts
 

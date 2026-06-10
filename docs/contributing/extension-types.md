@@ -20,6 +20,11 @@ register through `ExtensionSurfaceRegistry`; executable strategy, indicator,
 backtest, and data-quality work should implement those protocols once wired into
 the relevant service.
 
+Executable strategy definitions can register a candidate factory through
+`StrategyDefinition`. Those candidates are merged into the signal engine and
+Backtesting preset flow when their market and timeframe match the current
+analysis context.
+
 ## Market Data
 
 Adds candles, quotes, order books, fundamentals, macro, options, futures, forex,

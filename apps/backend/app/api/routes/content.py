@@ -3,6 +3,7 @@
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
+from starlette.concurrency import run_in_threadpool
 
 from app.services.narration import NarrationService
 from app.services.news_service import NewsService
@@ -29,6 +30,7 @@ def _signal_engine(request: Request) -> SignalEngineService:
         analytics_store=request.app.state.analytics_store,
         min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
         narrator=narrator,
+        strategy_registry=request.app.state.strategy_registry,
     )
 
 
@@ -43,27 +45,28 @@ def _news_service(request: Request) -> NewsService:
 @router.get("/api/signals")
 async def get_signals(request: Request) -> dict[str, object]:
     return {
-        "items": _signal_engine(request).list_signals(),
+        "items": await run_in_threadpool(_signal_engine(request).list_signals),
     }
 
 
 @router.get("/api/news")
 async def get_news(request: Request) -> dict[str, object]:
     return {
-        "items": _news_service(request).list_news(),
+        "items": await run_in_threadpool(_news_service(request).list_news),
     }
 
 
 @router.get("/api/backtests/presets")
 async def get_backtest_presets(request: Request) -> dict[str, object]:
     return {
-        "items": _signal_engine(request).list_backtest_presets(),
+        "items": await run_in_threadpool(_signal_engine(request).list_backtest_presets),
     }
 
 
 @router.post("/api/backtests/run")
 async def run_backtest(request: Request, payload: BacktestRunRequest) -> dict[str, object]:
-    item = _signal_engine(request).run_backtest_analysis(
+    item = await run_in_threadpool(
+        _signal_engine(request).run_backtest_analysis,
         symbol_id=payload.symbolId,
         market_type=payload.marketType,
         timeframe=payload.timeframe,

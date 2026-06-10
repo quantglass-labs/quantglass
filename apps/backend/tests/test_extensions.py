@@ -155,6 +155,98 @@ def test_extension_context_allows_declared_provider_permissions() -> None:
     assert context.diagnostics == []
 
 
+def test_local_extension_file_registers_executable_strategy_indicator_and_surface(tmp_path) -> None:
+    extension_file = tmp_path / "local_pack.py"
+    extension_file.write_text(
+        """
+from app.extensions.base import ExtensionManifest
+from app.services.extension_surface_registry import ExtensionSurfaceDefinition
+from app.services.indicator_registry import IndicatorDefinition
+from app.services.strategy_registry import StrategyDefinition
+
+def candidates(context):
+    return [{
+        "signal": "WATCH",
+        "setup_type": "local_extension_setup",
+        "direction": "long",
+        "reference_price": 100.0,
+        "entry_zone": [99.0, 101.0],
+        "stop_loss": 95.0,
+        "take_profit": [105.0, 108.0, 111.0],
+        "confluence_score": 0.7,
+    }]
+
+class Extension:
+    manifest = ExtensionManifest(
+        id="local-pack",
+        name="Local Pack",
+        version="0.1.0",
+        description="Local extension",
+        capabilities=("strategy", "indicator", "ui_panel"),
+        permissions=("read_market_data", "render_ui"),
+    )
+
+    def register(self, context):
+        context.register_strategy(StrategyDefinition(
+            id="local-extension-strategy",
+            name="Local Extension Strategy",
+            description="Executable local strategy",
+            setup_types=("local_extension_setup",),
+            direction="long",
+            source="extension",
+            extension_id="local-pack",
+            candidate_factory=candidates,
+        ))
+        context.register_indicator(IndicatorDefinition(
+            id="local-indicator",
+            name="Local Indicator",
+            category="extension",
+            description="Local indicator",
+            inputs=("close",),
+            outputs=("local",),
+            source="extension",
+            extension_id="local-pack",
+        ))
+        context.register_surface(ExtensionSurfaceDefinition(
+            id="local-surface",
+            name="Local Surface",
+            category="ui_panel",
+            description="Local surface",
+            source="extension",
+            extension_id="local-pack",
+        ))
+""",
+        encoding="utf-8",
+    )
+    provider_manager = ProviderManager(ProviderSettings())
+    strategy_registry = StrategyRegistry()
+    surface_registry = ExtensionSurfaceRegistry()
+    from app.services.indicator_registry import IndicatorRegistry
+
+    indicator_registry = IndicatorRegistry()
+    registry = load_extension_registry(
+        provider_manager,
+        strategy_registry=strategy_registry,
+        indicator_registry=indicator_registry,
+        surface_registry=surface_registry,
+        extension_settings_provider=lambda extension_id: {"enabled": extension_id == "local-pack"},
+        enable_entry_points=True,
+        extension_paths=(tmp_path,),
+    )
+
+    extension = registry.get("local-pack")
+    assert extension is not None
+    assert extension["loaded"] is True
+    strategy = strategy_registry.get("local-extension-strategy")
+    assert strategy is not None
+    assert strategy.as_dict()["executable"] is True
+    assert indicator_registry.get("local-indicator") is not None
+    assert any(surface["id"] == "local-surface" for surface in surface_registry.items("ui_panel"))
+    candidates = strategy_registry.candidate_setups({"market_type": "crypto", "timeframe": "1h"})
+    assert candidates[0]["setup_type"] == "local_extension_setup"
+    assert candidates[0]["extension_id"] == "local-pack"
+
+
 def test_validate_candles_accepts_clean_fixture() -> None:
     diagnostics = validate_candles(
         [

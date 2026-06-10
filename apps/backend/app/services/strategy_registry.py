@@ -3,7 +3,9 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
 from typing import Literal
 
 StrategyDirection = Literal["long", "short", "both"]
@@ -20,9 +22,21 @@ class StrategyDefinition:
     timeframes: tuple[str, ...] = ("15m", "1h", "4h", "1d")
     source: Literal["built-in", "extension"] = "built-in"
     extension_id: str | None = None
+    candidate_factory: Callable[[dict[str, Any]], list[dict[str, Any]]] | None = None
 
     def as_dict(self) -> dict[str, object]:
-        return asdict(self)
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "setup_types": list(self.setup_types),
+            "direction": self.direction,
+            "market_types": list(self.market_types),
+            "timeframes": list(self.timeframes),
+            "source": self.source,
+            "extension_id": self.extension_id,
+            "executable": self.candidate_factory is not None,
+        }
 
 
 class StrategyRegistry:
@@ -42,6 +56,35 @@ class StrategyRegistry:
 
     def get(self, strategy_id: str) -> StrategyDefinition | None:
         return self._definitions.get(strategy_id)
+
+    def candidate_setups(self, context: dict[str, Any]) -> list[dict[str, Any]]:
+        market_type = str(context.get("market_type") or "")
+        timeframe = str(context.get("timeframe") or "")
+        candidates: list[dict[str, Any]] = []
+        for definition in self._definitions.values():
+            if definition.candidate_factory is None:
+                continue
+            if market_type not in definition.market_types or timeframe not in definition.timeframes:
+                continue
+            try:
+                generated = definition.candidate_factory(context)
+            except Exception:
+                continue
+            if not isinstance(generated, list):
+                continue
+            for candidate in generated:
+                if not isinstance(candidate, dict):
+                    continue
+                candidates.append(
+                    {
+                        **candidate,
+                        "strategy_id": definition.id,
+                        "strategy_name": definition.name,
+                        "strategy_source": definition.source,
+                        "extension_id": definition.extension_id,
+                    }
+                )
+        return candidates
 
 
 def built_in_strategies() -> tuple[StrategyDefinition, ...]:

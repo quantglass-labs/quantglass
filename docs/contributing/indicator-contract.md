@@ -3,6 +3,18 @@
 Indicators are deterministic feature calculations used by signals, backtests,
 rankings, and explanations.
 
+QuantGlass separates the indicator surface into two maturity levels:
+
+- `computed`: implemented in the engine today and eligible for signal/backtest
+  use.
+- `catalog`: listed as a documented contribution target, but not yet computed by
+  the core engine.
+
+Community extensions can register additional indicators through
+`IndicatorDefinition`. Use `catalog` for metadata-only packs and `computed` only
+when the extension also wires a deterministic calculation into an executable
+service path.
+
 ## Rules
 
 - No network calls.
@@ -36,3 +48,6 @@ If an indicator appears in the UI or confidence basis, update:
 
 - `docs/technical/04-signal-engine.md`
 - `docs/user-guide/06-signals.md`
+
+If an indicator is added only as a catalog entry, update the category/family
+description and avoid implying that it affects live signals.

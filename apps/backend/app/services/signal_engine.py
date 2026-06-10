@@ -51,10 +51,12 @@ class SignalEngineService:
         analytics_store: AnalyticsStore,
         min_backtest_sample: int,
         narrator: SignalNarrator | None = None,
+        strategy_registry: Any | None = None,
     ) -> None:
         self._analytics_store = analytics_store
         self._min_backtest_sample = min_backtest_sample
         self._narrator = narrator
+        self._strategy_registry = strategy_registry
 
     def list_signals(self) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
@@ -79,8 +81,9 @@ class SignalEngineService:
 
     def list_backtest_presets(self) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
+        seen: set[str] = set()
         for series in self._analytics_store.list_market_series(minimum_candles=80):
-            preset = self.run_backtest_analysis(
+            default_preset = self.run_backtest_analysis(
                 symbol_id=series["symbol"],
                 market_type=series["market_type"],
                 timeframe=series["timeframe"],
@@ -90,10 +93,73 @@ class SignalEngineService:
                 train_test_split=70,
                 walk_forward=True,
             )
-            if preset is not None:
-                items.append(preset)
+            if default_preset is None:
+                continue
+            items.append(default_preset)
+            seen.add(default_preset["id"])
+
+            for definition in self._matching_strategy_definitions(series["market_type"], series["timeframe"]):
+                for setup_type in definition["setup_types"]:
+                    if setup_type == default_preset["setupType"]:
+                        continue
+                    preset = self.run_backtest_analysis(
+                        symbol_id=series["symbol"],
+                        market_type=series["market_type"],
+                        timeframe=series["timeframe"],
+                        setup_type=setup_type,
+                        fees_percent=None,
+                        slippage_percent=None,
+                        train_test_split=70,
+                        walk_forward=True,
+                    )
+                    if preset is None or preset["id"] in seen:
+                        continue
+                    if preset["metrics"]["tradeCount"] <= 0 and definition["source"] == "built-in":
+                        continue
+                    preset = {
+                        **preset,
+                        "strategyId": definition["id"],
+                        "strategyName": definition["name"],
+                        "strategySource": definition["source"],
+                        "extensionId": definition.get("extension_id"),
+                    }
+                    items.append(preset)
+                    seen.add(preset["id"])
         items.sort(key=lambda item: (item["timeframe"], item["name"]))
         return items
+
+    def _matching_strategy_definitions(self, market_type: str, timeframe: str) -> list[dict[str, Any]]:
+        if self._strategy_registry is None:
+            return []
+        items_method = getattr(self._strategy_registry, "items", None)
+        if not callable(items_method):
+            return []
+        definitions = items_method()
+        if not isinstance(definitions, list):
+            return []
+        matches: list[dict[str, Any]] = []
+        for item in definitions:
+            if not isinstance(item, dict):
+                continue
+            setup_types = item.get("setup_types")
+            market_types = item.get("market_types")
+            timeframes = item.get("timeframes")
+            if not isinstance(setup_types, list) or not setup_types:
+                continue
+            if isinstance(market_types, list) and market_types and market_type not in market_types:
+                continue
+            if isinstance(timeframes, list) and timeframes and timeframe not in timeframes:
+                continue
+            matches.append(
+                {
+                    "id": str(item.get("id") or ""),
+                    "name": str(item.get("name") or item.get("id") or ""),
+                    "setup_types": [str(setup_type) for setup_type in setup_types if isinstance(setup_type, str)],
+                    "source": item.get("source") if item.get("source") in {"built-in", "extension"} else "built-in",
+                    "extension_id": item.get("extension_id") if isinstance(item.get("extension_id"), str) else None,
+                }
+            )
+        return matches
 
     def run_backtest_analysis(
         self,
@@ -150,7 +216,19 @@ class SignalEngineService:
             train_test_split=train_test_split,
             walk_forward=walk_forward,
             backtest=backtest,
+            strategy_definition=self._strategy_definition_for_setup(selected_setup_type, market_type, timeframe),
         )
+
+    def _strategy_definition_for_setup(
+        self,
+        setup_type: str,
+        market_type: str,
+        timeframe: str,
+    ) -> dict[str, Any] | None:
+        for definition in self._matching_strategy_definitions(market_type, timeframe):
+            if setup_type in definition["setup_types"]:
+                return definition
+        return None
 
     def _build_signal_record(
         self,
@@ -633,6 +711,32 @@ class SignalEngineService:
                     )
                 )
 
+        candidates.extend(
+            self._extension_candidate_setups(
+                context={
+                    "market_type": market_type,
+                    "timeframe": timeframe,
+                    "indicators": indicators,
+                    "index": index,
+                    "close": close,
+                    "high": high,
+                    "low": low,
+                    "volume": volume,
+                    "ema21": ema,
+                    "sma50": sma,
+                    "rsi14": rsi,
+                    "rsi2": rsi_fast,
+                    "atr14": atr,
+                    "volume_ratio": volume_ratio,
+                    "trend_alignment": trend_alignment,
+                    "volume_confirmation": volume_confirmation,
+                    "volatility_regime": volatility_regime,
+                    "regime": regime,
+                    "market_service": self,
+                }
+            )
+        )
+
         # --- Fallback states so the surface always has a contextual read ---
         if not candidates:
             if bullish_trend:
@@ -678,6 +782,34 @@ class SignalEngineService:
             )
 
         return candidates
+
+    def _extension_candidate_setups(self, context: dict[str, Any]) -> list[dict[str, Any]]:
+        if self._strategy_registry is None:
+            return []
+        candidate_method = getattr(self._strategy_registry, "candidate_setups", None)
+        if not callable(candidate_method):
+            return []
+        candidates = candidate_method(context)
+        if not isinstance(candidates, list):
+            return []
+        required = {"signal", "setup_type", "direction", "reference_price", "entry_zone", "stop_loss", "take_profit", "confluence_score"}
+        valid: list[dict[str, Any]] = []
+        for candidate in candidates:
+            if not isinstance(candidate, dict) or not required.issubset(candidate.keys()):
+                continue
+            valid.append(
+                {
+                    "status": "active",
+                    "regime": str(context.get("regime") or "extension"),
+                    "risk_level": "medium",
+                    "trend_alignment": float(context.get("trend_alignment") or 0.0),
+                    "volume_confirmation": float(context.get("volume_confirmation") or 0.0),
+                    "volatility_regime": str(context.get("volatility_regime") or "normal"),
+                    "reasons": ["Extension strategy candidate."],
+                    **candidate,
+                }
+            )
+        return valid
 
     def _compose_candidate(
         self,
@@ -1025,6 +1157,8 @@ class SignalEngineService:
         backtest: dict[str, Any],
     ) -> None:
         try:
+            oos_n = backtest["out_of_sample_trade_count"]
+            oos_wins = round(backtest["out_of_sample_win_rate"] * oos_n) if oos_n > 0 else 0
             self._analytics_store.upsert_setup_expectancy(
                 {
                     "symbol": symbol_id,
@@ -1034,14 +1168,9 @@ class SignalEngineService:
                     "sample_size": backtest["trade_count"],
                     "wins": backtest["wins"],
                     "sum_r": backtest["sum_r"],
-                    "oos_sample_size": backtest["out_of_sample_trade_count"],
-                    "oos_wins": sum(
-                        1
-                        for _ in range(backtest["out_of_sample_trade_count"])
-                        if backtest["out_of_sample_win_rate"] > 0
-                    ),
-                    "oos_sum_r": backtest["out_of_sample_expectancy"]
-                    * backtest["out_of_sample_trade_count"],
+                    "oos_sample_size": oos_n,
+                    "oos_wins": oos_wins,
+                    "oos_sum_r": backtest["out_of_sample_expectancy"] * oos_n,
                 }
             )
         except Exception:
@@ -1059,6 +1188,7 @@ class SignalEngineService:
         train_test_split: int,
         walk_forward: bool,
         backtest: dict[str, Any],
+        strategy_definition: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         display_symbol = self._display_symbol(symbol_id, market_type)
         return {
@@ -1067,6 +1197,10 @@ class SignalEngineService:
             "symbolId": symbol_id,
             "setupType": setup_type,
             "timeframe": timeframe,
+            "strategyId": strategy_definition.get("id") if strategy_definition else None,
+            "strategyName": strategy_definition.get("name") if strategy_definition else None,
+            "strategySource": strategy_definition.get("source") if strategy_definition else "built-in",
+            "extensionId": strategy_definition.get("extension_id") if strategy_definition else None,
             "feesPercent": round(fees_percent, 4),
             "slippagePercent": round(slippage_percent, 4),
             "trainTestSplit": train_test_split,
