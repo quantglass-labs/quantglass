@@ -21,6 +21,7 @@ from app.services.signal_engine import setups as setups_module
 from app.services.signal_engine import statistics as statistics_module
 from app.services.signal_engine.confidence import derive_confidence
 from app.services.signal_engine.models import SeriesIndicators, SignalNarrator
+from app.services.signal_engine.statistics import conformal_interval
 from app.storage.analytics_store import AnalyticsStore
 
 
@@ -323,6 +324,7 @@ class SignalEngineService:
         pooled = self._analytics_store.get_pooled_expectancy(state["setup_type"], timeframe)
 
         confidence = self._derive_confidence(state=state, backtest=backtest, pooled=pooled)
+        conformal = conformal_interval(backtest.get("out_of_sample_outcomes", []), coverage=0.9)
         generated_at_utc = candles[-1]["open_time_utc"]
         ingested_at = candles[-1].get("ingested_at")
         display_symbol = self._display_symbol(symbol_id, market_type)
@@ -385,6 +387,13 @@ class SignalEngineService:
                     "pooled_winrate": round(pooled["win_rate"], 4),
                     "pooled_expectancy_R": round(pooled["expectancy"], 4),
                     "confluence_score": round(state["confluence_score"], 2),
+                    "conformal_coverage": conformal["coverage"] if conformal else None,
+                    "conformal_lower_r": round(conformal["lower_r"], 3) if conformal else None,
+                    "conformal_upper_r": round(conformal["upper_r"], 3) if conformal else None,
+                    "conformal_sample_size": conformal["calibration_sample_size"]
+                    if conformal
+                    else 0,
+                    "conformal_guaranteed": bool(conformal),
                 },
                 "entry_zone": entry_zone,
                 "stop_loss": stop_loss,

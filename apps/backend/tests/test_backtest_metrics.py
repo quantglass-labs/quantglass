@@ -174,3 +174,44 @@ class TestDeriveConfidence:
             {"sample_size": 200, "win_rate": 0.7, "expectancy": 0.4},
         )
         assert thin < validated
+
+
+class TestConformalInterval:
+    def test_empty_calibration_returns_none(self) -> None:
+        from app.services.signal_engine.statistics import conformal_interval
+
+        assert conformal_interval([], coverage=0.9) is None
+
+    def test_too_small_calibration_returns_none(self) -> None:
+        from app.services.signal_engine.statistics import conformal_interval
+
+        # 90% coverage needs ceil((n+1)*0.95) <= n, i.e. n >= 19.
+        assert conformal_interval([0.5] * 18, coverage=0.9) is None
+
+    def test_known_answer_interval(self) -> None:
+        from app.services.signal_engine.statistics import conformal_interval
+
+        outcomes = [float(value) for value in range(1, 20)]  # n = 19
+        result = conformal_interval(outcomes, coverage=0.9)
+        assert result is not None
+        # lower rank = floor(20*0.05) = 1 -> 1.0; upper rank = ceil(20*0.95) = 19 -> 19.0
+        assert result["lower_r"] == 1.0
+        assert result["upper_r"] == 19.0
+        assert result["calibration_sample_size"] == 19
+        assert result["guaranteed"] is True
+
+    def test_interval_tightens_with_more_data(self) -> None:
+        from app.services.signal_engine.statistics import conformal_interval
+
+        outcomes = [float(value) for value in range(1, 101)]  # n = 100
+        result = conformal_interval(outcomes, coverage=0.9)
+        assert result is not None
+        # lower rank = floor(101*0.05) = 5; upper rank = ceil(101*0.95) = 96
+        assert result["lower_r"] == 5.0
+        assert result["upper_r"] == 96.0
+
+    def test_invalid_coverage_returns_none(self) -> None:
+        from app.services.signal_engine.statistics import conformal_interval
+
+        assert conformal_interval([1.0] * 50, coverage=1.0) is None
+        assert conformal_interval([1.0] * 50, coverage=0.0) is None
