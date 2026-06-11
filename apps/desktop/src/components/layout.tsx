@@ -6,6 +6,7 @@ import {
   Bell,
   ChevronRight,
   GraduationCap,
+  Target,
   LayoutDashboard,
   Search,
   Settings,
@@ -27,6 +28,7 @@ const navItems = [
   { to: '/backtest', label: 'Backtesting', icon: TestTubeDiagonal },
   { to: '/alerts', label: 'Alerts', icon: Bell },
   { to: '/learn', label: 'Learn', icon: GraduationCap },
+  { to: '/missions', label: 'Missions', icon: Target },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 

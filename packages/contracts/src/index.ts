@@ -808,6 +808,28 @@ export interface LearnReadiness {
   active_moments: string[];
 }
 
+export interface MissionCriterion {
+  label: string;
+  met: boolean;
+  current: number;
+  target: number;
+}
+
+export interface MissionRecord {
+  id: string;
+  title: string;
+  level: LessonTier;
+  description: string;
+  lesson_links: string[];
+  criteria: MissionCriterion[];
+  completed: boolean;
+  completed_at: string | null;
+}
+
+export interface MissionsResponse {
+  items: MissionRecord[];
+}
+
 export interface TradeReviewItem {
   id: string;
   symbol: string;
