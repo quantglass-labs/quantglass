@@ -1462,5 +1462,181 @@
       "screen": "signals",
       "cta": "Read any signal's confidence basis and note every statistic assumes spot — the scope line this track just explained."
     }
+  },
+  {
+    "id": "advanced-34-price-vs-value",
+    "module_id": "advanced",
+    "track_id": "fundamentals",
+    "tier": "advanced",
+    "order": 34,
+    "title": "Price, Value, and the Trader's Use of Fundamentals",
+    "summary": "Investors estimate value; traders map catalysts.",
+    "concept": "**Fundamentals** are the facts beneath an asset: a company's earnings and balance sheet, a token's supply mechanics and usage. An *investor* uses them to estimate value and waits for price to agree — a multi-year bet. A *trader* uses them differently: as a **map of scheduled volatility and persistent flows**.\n\nThe trader's three questions of any fundamental fact: **When is the next catalyst?** (earnings dates, unlock events — these are *scheduled regime changes*); **What is already priced in?** (markets move on surprise versus expectation, not on good-versus-bad — a 'great' report below expectations falls); and **Which direction do the persistent flows lean?** (buybacks, issuance, emissions — slow pressure that tilts the playing field a trend rides on).\n\nThe humility that makes this usable: in the short run, *price is the only fundamental you can trade*. Fundamentals explain why regimes form and when they might break; the chart, costs, and risk math still govern every entry. Fighting a trend because 'the fundamentals disagree' has its own graveyard.",
+    "key_terms": [
+      {
+        "term": "Fundamentals",
+        "definition": "The factual layer: earnings, supply, usage, cash flows."
+      },
+      {
+        "term": "Catalyst",
+        "definition": "A scheduled event likely to reprice the asset — earnings, unlocks."
+      },
+      {
+        "term": "Priced in",
+        "definition": "Markets move on surprise relative to expectations, not raw news quality."
+      },
+      {
+        "term": "Persistent flow",
+        "definition": "Slow structural buying/selling pressure: buybacks, emissions."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A company reports record profits, yet the stock drops 8%. The fundamentals-aware explanation?",
+      "options": [
+        "Profits cause selling.",
+        "Expectations were higher still: price had already absorbed a bigger number, and the surprise was negative even though the absolute result was a record.",
+        "The report was fake.",
+        "Stocks move randomly on all news."
+      ],
+      "correct_index": 1,
+      "explanation": "The market trades the gap between outcome and expectation. 'Record' is an absolute; price had been set by a forecast above it — the priced-in lesson in one candle."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Check the news panel beside your charts: for each headline, ask the three trader questions — catalyst timing, priced-in, persistent flow."
+    }
+  },
+  {
+    "id": "advanced-35-equity-fundamentals",
+    "module_id": "advanced",
+    "track_id": "fundamentals",
+    "tier": "advanced",
+    "order": 35,
+    "title": "Equity Fundamentals: Earnings as Scheduled Storms",
+    "summary": "The quarterly cycle every stock trader must respect.",
+    "concept": "Equities run on a public calendar. Every quarter, **earnings**: results versus analyst expectations, plus **guidance** — management's forecast, which often moves price more than the results themselves (markets are forward machines). Around these dates, realized volatility spikes, gaps become routine, and spreads widen — recall the gaps lesson: stock charts gap precisely because news lands while exchanges sleep.\n\nFor a technical trader the actionable layer is mostly **risk hygiene**: know the earnings date of anything you hold; recognize that a stop cannot protect through a gap (the slippage lesson's overnight example was exactly this); and treat the days before earnings as a regime of their own — many disciplined traders simply flatten or downsize into the event rather than gamble on a coin-flip with widened tails.\n\nValuation multiples (P/E and kin) matter on the trader's horizon mainly as **crowding context**: extremes mark where reactions to surprise get violent. The deep valuation course belongs to investing; the trader needs the calendar, the expectation, and the humility.",
+    "key_terms": [
+      {
+        "term": "Earnings report",
+        "definition": "Quarterly results versus expectations — the scheduled storm."
+      },
+      {
+        "term": "Guidance",
+        "definition": "Management's forward forecast; often the real price-mover."
+      },
+      {
+        "term": "Gap risk",
+        "definition": "Overnight repricing that jumps stops — peak around earnings."
+      },
+      {
+        "term": "Event flattening",
+        "definition": "Reducing or closing exposure into binary scheduled events."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why do many disciplined traders reduce or close stock positions just before earnings?",
+      "options": [
+        "Earnings dates are secret.",
+        "The event is a binary gap-risk regime where stops cannot protect through the overnight jump — the position becomes a coin-flip with widened tails, not a setup.",
+        "Trading is closed on earnings day.",
+        "Earnings always cause drops."
+      ],
+      "correct_index": 1,
+      "explanation": "Edge comes from setups whose risk you can define. A gap through your stop is undefined risk by construction — stepping aside is risk management, not cowardice."
+    },
+    "live_apply": {
+      "screen": "watchlist",
+      "cta": "For each stock on your watchlist, find its next earnings date and note it beside your invalidation levels."
+    }
+  },
+  {
+    "id": "advanced-36-crypto-fundamentals",
+    "module_id": "advanced",
+    "track_id": "fundamentals",
+    "tier": "advanced",
+    "order": 36,
+    "title": "Crypto Fundamentals: Tokenomics and On-Chain Reality",
+    "summary": "Supply schedules, unlocks, and usage — the facts beneath the coin.",
+    "concept": "Crypto has no earnings, but it has harder-edged fundamentals: code-defined **supply mechanics**. The questions that matter: What is the **emission schedule** (how many new tokens hit the market daily — persistent sell-side flow)? Are there **unlock cliffs** (insider/investor tokens releasing on dates — scheduled supply storms, the crypto equivalent of earnings)? Is supply capped (Bitcoin's halvings — scheduled *reductions* in flow)? And does **on-chain usage** (active addresses, fees paid, value settled) support the narrative, or is price pure reflexivity?\n\nThe sobering pattern: unlock dates are public, yet prices still routinely slide into and after them — fundamentals here work less as secret edge and more as **hazard avoidance**: do not be the buyer the unlock sells into.\n\nA scam-defense callback with teeth: tokens whose 'fundamentals' are only emissions, marketing, and locked insider supply are the asset-shaped version of the guru funnel. The same checklist applies — who needs your money, and what do they hold that you cannot see?",
+    "key_terms": [
+      {
+        "term": "Emission schedule",
+        "definition": "Code-defined new supply per period — structural sell flow."
+      },
+      {
+        "term": "Unlock cliff",
+        "definition": "Dated release of insider/investor tokens — scheduled supply shock."
+      },
+      {
+        "term": "Halving",
+        "definition": "Bitcoin's periodic emission cut — a scheduled flow reduction."
+      },
+      {
+        "term": "On-chain usage",
+        "definition": "Addresses, fees, settlement — the demand-side reality check."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A token has 80% of supply locked with insiders, unlocking monthly over two years. What is the structural reading?",
+      "options": [
+        "Scarcity — only 20% exists, so price must rise.",
+        "A two-year scheduled supply overhang: every month adds insider tokens that cost their holders ~nothing, creating persistent sell pressure your buys would absorb.",
+        "Locks are bullish by definition.",
+        "Unlock schedules never affect price."
+      ],
+      "correct_index": 1,
+      "explanation": "The float is small today, but the schedule is the fundamental: cheap-basis supply arriving monthly is the headwind every long fights. Public, dated, and routinely underestimated."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Pick a crypto symbol and ask the four supply questions — emission, unlocks, cap, usage — before reading its chart."
+    }
+  },
+  {
+    "id": "advanced-37-fundamentals-scope",
+    "module_id": "advanced",
+    "track_id": "fundamentals",
+    "tier": "advanced",
+    "order": 37,
+    "title": "Catalysts Meet Charts: The Scope Line",
+    "summary": "Fundamentals frame the regime; technicals time the trade; the engine stays technical.",
+    "concept": "The synthesis. Fundamentals and technicals answer different questions on different clocks: fundamentals explain **why** a regime exists and **when** it might break (catalysts); technicals — structure, regimes, volume, volatility — say **whether and where** a tradable setup exists right now. The professional pattern is not choosing a side but assigning roles: *fundamentals as context and calendar, technicals as trigger and risk geometry*.\n\nWhere does QuantGlass stand? The engine is **deliberately technical-only**: every signal derives from closed candles — price, volume, and their mathematics. It does not parse earnings, forecast guidance, or weigh tokenomics, and so — by the scope-honesty rule you have now seen three times — it never claims to. The news panel beside your charts is *your* fundamental input, kept separate from the engine's computed facts precisely so you always know which kind of claim you are reading.\n\nYour workflow, assembled: calendar first (what storms are scheduled?), regime second (what game is on?), setup third (does the engine see structure?), risk always (size from the stop, respect the events). That ordering is the whole track in one sentence.",
+    "key_terms": [
+      {
+        "term": "Context vs trigger",
+        "definition": "Fundamentals frame; technicals time."
+      },
+      {
+        "term": "Technical-only engine",
+        "definition": "QuantGlass signals derive from candles alone — declared scope."
+      },
+      {
+        "term": "Separation of claims",
+        "definition": "Computed facts and news context kept visibly distinct."
+      },
+      {
+        "term": "Calendar-first workflow",
+        "definition": "Scheduled catalysts checked before any setup is taken."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "The engine shows a textbook pullback setup on a stock reporting earnings tomorrow. The track's workflow says?",
+      "options": [
+        "Take it — setups outrank calendars.",
+        "Calendar first: tomorrow's binary gap regime undermines the stop's protection, so skip or defer — the setup's geometry assumes a market that can be exited.",
+        "Double size to monetize the event.",
+        "Setups are invalid in earnings months."
+      ],
+      "correct_index": 1,
+      "explanation": "Every Academy risk number presumes executable exits. A scheduled gap event suspends that premise — the disciplined read is that the trade's risk is undefined, whatever the chart says."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "For each current signal, run calendar-first: any scheduled catalyst inside the trade's expected holding period?"
+    }
   }
 ]
