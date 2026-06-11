@@ -5,6 +5,10 @@ import type { MarketType, ViewMode } from '@quantglass/contracts';
 
 export type {
   MissionRecord,
+  JournalItem,
+  JournalResponse,
+  CoachDetection,
+  CoachResponse,
   AiSettings,
   AiModelInfo,
   AiProviderTestResponse,

@@ -73,6 +73,12 @@ const LearnScreen = lazy(async () =>
 const MissionsScreen = lazy(async () =>
   import('./screens/MissionsScreen').then((module) => ({ default: module.MissionsScreen })),
 );
+const JournalScreen = lazy(async () =>
+  import('./screens/JournalScreen').then((module) => ({ default: module.JournalScreen })),
+);
+const ReviewScreen = lazy(async () =>
+  import('./screens/ReviewScreen').then((module) => ({ default: module.ReviewScreen })),
+);
 
 interface AlertModalState {
   open: boolean;
@@ -1382,6 +1388,18 @@ export default function App() {
               path="/missions"
               element={
                 <MissionsScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
+              }
+            />
+            <Route
+              path="/journal"
+              element={
+                <JournalScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
+              }
+            />
+            <Route
+              path="/review"
+              element={
+                <ReviewScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />

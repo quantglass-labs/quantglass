@@ -57,6 +57,9 @@ import type {
   LearnReadiness,
   TradeReviewResponse,
   MissionsResponse,
+  JournalResponse,
+  JournalAnnotation,
+  CoachResponse,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -456,6 +459,19 @@ export const backendClient = {
   },
   getTradeReview() {
     return requestJson<TradeReviewResponse>('/api/paper-trades/review');
+  },
+  getJournal() {
+    return requestJson<JournalResponse>('/api/journal');
+  },
+  annotateTrade(intentId: string, annotation: JournalAnnotation) {
+    return requestJson<JournalAnnotation & { intent_id: string }>(`/api/journal/${intentId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(annotation),
+    });
+  },
+  getReviewCoach() {
+    return requestJson<CoachResponse>('/api/review/coach');
   },
   getLearnReadiness() {
     return requestJson<LearnReadiness>('/api/learn/readiness');
