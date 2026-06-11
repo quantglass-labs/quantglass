@@ -721,9 +721,10 @@ export interface LearnProgress {
   by_tier: Record<LessonTier, TierProgress>;
 }
 
-export interface LearnModule {
+export interface LearnTrack {
   id: string;
-  tier: LessonTier;
+  level: LessonTier;
+  order: number;
   title: string;
   description: string;
   lessons: LessonStub[];
@@ -731,8 +732,17 @@ export interface LearnModule {
   total: number;
 }
 
+export interface LearnLevel {
+  id: LessonTier;
+  title: string;
+  description: string;
+  tracks: LearnTrack[];
+  completed: number;
+  total: number;
+}
+
 export interface LearnCatalogResponse {
-  modules: LearnModule[];
+  levels: LearnLevel[];
   progress: LearnProgress;
 }
 

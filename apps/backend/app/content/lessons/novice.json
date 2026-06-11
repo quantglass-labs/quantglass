@@ -52,7 +52,8 @@
     "live_apply": {
       "screen": "dashboard",
       "cta": "Open the Dashboard, hover any candle on the chart, and verify the O/H/L/C values in the tooltip."
-    }
+    },
+    "track_id": "chart-literacy"
   },
   {
     "id": "novice-02-trend",
@@ -95,7 +96,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open Signals, click any BUY_ZONE signal, and look at the Reasons section — find the trend alignment reason."
-    }
+    },
+    "track_id": "chart-literacy"
   },
   {
     "id": "novice-03-support-resistance",
@@ -138,7 +140,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find a WATCH signal with setup type 'breakout_retest_continuation' — the entry zone is near the flipped level."
-    }
+    },
+    "track_id": "chart-literacy"
   },
   {
     "id": "novice-04-volume",
@@ -177,7 +180,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open a signal detail drawer and inspect the confidence_basis.volume_confirmation value."
-    }
+    },
+    "track_id": "chart-literacy"
   },
   {
     "id": "novice-05-reading-signal",
@@ -224,6 +228,7 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Click any BUY_ZONE signal and locate entry_zone, stop_loss, take_profit, and risk_reward in the detail drawer."
-    }
+    },
+    "track_id": "first-signal"
   }
 ]

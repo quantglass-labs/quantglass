@@ -40,7 +40,8 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "In Settings → Safety, try reducing min_backtest_sample to 10 and see how more signals show OOS_validated=True — then think about whether that's trustworthy."
-    }
+    },
+    "track_id": "quant-validation"
   },
   {
     "id": "expert-02-empirical-bayes",
@@ -79,7 +80,8 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Compare a setup with 10 OOS trades vs one with 80 OOS trades.  Notice how confidence differs even for similar raw win rates."
-    }
+    },
+    "track_id": "quant-validation"
   },
   {
     "id": "expert-03-custom-indicator",
@@ -118,7 +120,8 @@
     "live_apply": {
       "screen": "settings",
       "cta": "Open Settings → Extensions.  Review the community_momentum_pack extension as a reference implementation."
-    }
+    },
+    "track_id": "building-extensions"
   },
   {
     "id": "expert-04-custom-strategy",
@@ -157,7 +160,8 @@
     "live_apply": {
       "screen": "settings",
       "cta": "Review extensions/community_momentum_pack.py for a complete working strategy extension example."
-    }
+    },
+    "track_id": "building-extensions"
   },
   {
     "id": "expert-05-trading-plan",
@@ -196,6 +200,7 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
-    }
+    },
+    "track_id": "going-live"
   }
 ]

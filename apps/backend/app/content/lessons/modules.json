@@ -1,34 +1,137 @@
 {
-  "tier_order": [
+  "level_order": [
     "novice",
     "intermediate",
     "advanced",
     "expert"
   ],
-  "modules": {
+  "levels": {
     "novice": {
       "id": "novice",
-      "tier": "novice",
       "title": "Candle to Signal",
       "description": "Build the foundational vocabulary.  By the end you will read any candlestick, identify a trend, find support/resistance, and interpret your first QuantGlass signal."
     },
     "intermediate": {
       "id": "intermediate",
-      "tier": "intermediate",
       "title": "Indicators & Risk",
       "description": "Go deeper: moving averages, RSI momentum, ATR-based stop sizing, risk:reward arithmetic, and position sizing.  After this module you can calculate every number in a QuantGlass signal yourself."
     },
     "advanced": {
       "id": "advanced",
-      "tier": "advanced",
       "title": "Engine Deep-Dive",
       "description": "Understand how the signal engine thinks: market regimes, MACD, Bollinger Bands, honest backtesting, and the full confidence_basis derivation.  You will be able to explain *why* any signal was generated."
     },
     "expert": {
       "id": "expert",
-      "tier": "expert",
       "title": "Build & Calibrate",
       "description": "Walk-forward OOS validation, empirical Bayes calibration, writing custom indicator and strategy extensions, and synthesizing everything into a disciplined personal trading plan."
     }
-  }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "level": "novice",
+      "order": 1,
+      "title": "Market Foundations",
+      "description": "Instruments, exchanges, sessions, order types, spreads, and liquidity — how markets actually work before any chart is read."
+    },
+    {
+      "id": "chart-literacy",
+      "level": "novice",
+      "order": 2,
+      "title": "Chart Literacy",
+      "description": "Read any candlestick chart: candles, trends, support/resistance, and volume."
+    },
+    {
+      "id": "first-signal",
+      "level": "novice",
+      "order": 3,
+      "title": "Your First Signal",
+      "description": "Read a QuantGlass signal end-to-end and place your first paper trade."
+    },
+    {
+      "id": "indicator-mastery",
+      "level": "intermediate",
+      "order": 1,
+      "title": "Indicator Mastery",
+      "description": "Every built-in indicator family — moving averages, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — exactly as the engine computes them."
+    },
+    {
+      "id": "risk-position-sizing",
+      "level": "intermediate",
+      "order": 2,
+      "title": "Risk & Position Sizing",
+      "description": "R-multiples, ATR-based stops, position sizing, and portfolio heat."
+    },
+    {
+      "id": "trade-planning",
+      "level": "intermediate",
+      "order": 3,
+      "title": "Trade Planning & Journaling",
+      "description": "Entries, exits, invalidation, and the discipline of a written plan and journal."
+    },
+    {
+      "id": "market-regimes",
+      "level": "intermediate",
+      "order": 4,
+      "title": "Market Regimes",
+      "description": "Trending, ranging, and volatile regimes — and why the same setup behaves differently in each."
+    },
+    {
+      "id": "strategy-families",
+      "level": "advanced",
+      "order": 1,
+      "title": "Strategy Families",
+      "description": "Trend pullback, breakout retest, mean reversion, momentum — tied to the engine's real setup detectors."
+    },
+    {
+      "id": "statistical-honesty",
+      "level": "advanced",
+      "order": 2,
+      "title": "Backtesting & Statistical Honesty",
+      "description": "In-sample vs out-of-sample, overfitting, walk-forward, expectancy, Sharpe, Sortino, profit factor."
+    },
+    {
+      "id": "execution-costs",
+      "level": "advanced",
+      "order": 3,
+      "title": "Execution & Costs",
+      "description": "Fees, slippage, liquidity, and partial fills — where paper results and live results diverge."
+    },
+    {
+      "id": "trading-psychology",
+      "level": "advanced",
+      "order": 4,
+      "title": "Trading Psychology",
+      "description": "Biases, tilt, revenge trading, and the routines that keep a plan intact."
+    },
+    {
+      "id": "quant-validation",
+      "level": "expert",
+      "order": 1,
+      "title": "Quantitative Validation",
+      "description": "Conformal prediction, calibration, empirical Bayes shrinkage, and Monte Carlo drawdowns."
+    },
+    {
+      "id": "building-extensions",
+      "level": "expert",
+      "order": 2,
+      "title": "Building Extensions",
+      "description": "Write custom indicators and strategies with the QuantGlass extension SDK."
+    },
+    {
+      "id": "ai-assisted-research",
+      "level": "expert",
+      "order": 3,
+      "title": "AI-Assisted Research",
+      "description": "Fact-guarded narration, structured outputs, and MCP workflows — using AI without letting it invent numbers."
+    },
+    {
+      "id": "going-live",
+      "level": "expert",
+      "order": 4,
+      "title": "Going-Live Readiness",
+      "description": "Broker plumbing, key custody, and safety gates. Educational only — never financial advice."
+    }
+  ]
 }
