@@ -16,6 +16,7 @@ from typing import Any
 from app.core.config import AiSettings, ProviderSettings, SafetySettings
 from app.storage.secret_store import EncryptedSecretStore
 from app.storage.state_store.alerts import AlertsStore
+from app.storage.state_store.constitution import ConstitutionStore
 from app.storage.state_store.db import connect
 from app.storage.state_store.journal import JournalStore
 from app.storage.state_store.learn import LearnProgressStore
@@ -44,6 +45,7 @@ class StateStore:
         self.trading = PaperTradingStore(sqlite_path)
         self.learn = LearnProgressStore(sqlite_path)
         self.journal = JournalStore(sqlite_path)
+        self.constitution = ConstitutionStore(sqlite_path)
 
     def initialize(
         self,
@@ -60,6 +62,7 @@ class StateStore:
             self.trading.ensure_schema(connection)
             self.learn.ensure_schema(connection)
             self.journal.ensure_schema(connection)
+            self.constitution.ensure_schema(connection)
             run_migrations(connection)
             self.settings.ensure_defaults(
                 connection, provider_settings, safety_settings, ai_settings
@@ -268,3 +271,9 @@ class StateStore:
 
     def upsert_journal_note(self, intent_id: str, note: str, tags: list[str]) -> dict[str, Any]:
         return self.journal.upsert_journal_note(intent_id, note, tags)
+
+    def get_constitution(self) -> dict[str, Any] | None:
+        return self.constitution.get_constitution()
+
+    def save_constitution(self, rules: dict[str, Any]) -> dict[str, Any]:
+        return self.constitution.save_constitution(rules)

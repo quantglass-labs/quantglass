@@ -938,6 +938,33 @@ export interface CoachResponse {
   detections: CoachDetection[];
 }
 
+export interface ConstitutionRules {
+  max_risk_percent: number;
+  daily_max_trades: number;
+  require_stop: boolean;
+  require_reason: boolean;
+}
+
+export interface ConstitutionResponse {
+  adopted: boolean;
+  rules: ConstitutionRules;
+  adopted_at: string | null;
+}
+
+export interface ConstitutionComplianceCheck {
+  id: string;
+  label: string;
+  violations: number;
+}
+
+export interface ConstitutionCompliance {
+  adopted: boolean;
+  rules: ConstitutionRules;
+  total_trades: number;
+  trades_today: number;
+  checks: ConstitutionComplianceCheck[];
+}
+
 export interface LearnMomentsResponse {
   items: LearnMoment[];
 }
