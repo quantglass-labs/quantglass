@@ -11,6 +11,14 @@
 
 import type { JSX } from 'react';
 
+import {
+  AuctionSim,
+  CandleBuilder,
+  IndicatorPlayground,
+  PayoffExplorer,
+  RiskSandbox,
+} from './InteractiveWidgets';
+
 export interface LessonVisual {
   type: string;
   title?: string;
@@ -281,6 +289,11 @@ const REGISTRY: Record<string, (props: { params: Record<string, unknown> }) => J
   candle_comparison: () => <CandleComparison />,
   magnitude_bars: MagnitudeBars,
   process_steps: ProcessSteps,
+  risk_sandbox: RiskSandbox,
+  candle_builder: () => <CandleBuilder />,
+  indicator_playground: IndicatorPlayground,
+  auction_sim: () => <AuctionSim />,
+  payoff_explorer: PayoffExplorer,
 };
 
 export function LessonVisuals({ visuals }: { visuals?: LessonVisual[] }) {
