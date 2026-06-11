@@ -49,9 +49,26 @@ def _add_trade_intent_columns(connection: sqlite3.Connection) -> None:
         connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN broker_status TEXT")
 
 
+def _add_trade_plan_columns(connection: sqlite3.Connection) -> None:
+    columns = _columns(connection, "paper_trade_intents")
+    for name, ddl in [
+        ("plan_stop", "ALTER TABLE paper_trade_intents ADD COLUMN plan_stop REAL"),
+        ("plan_target", "ALTER TABLE paper_trade_intents ADD COLUMN plan_target REAL"),
+        (
+            "plan_risk_percent",
+            "ALTER TABLE paper_trade_intents ADD COLUMN plan_risk_percent REAL",
+        ),
+        ("plan_reason", "ALTER TABLE paper_trade_intents ADD COLUMN plan_reason TEXT"),
+        ("plan_emotion", "ALTER TABLE paper_trade_intents ADD COLUMN plan_emotion TEXT"),
+    ]:
+        if name not in columns:
+            connection.execute(ddl)
+
+
 MIGRATIONS: list[tuple[int, str, Callable[[sqlite3.Connection], None]]] = [
     (1, "add_alert_channel_status_columns", _add_alert_columns),
     (2, "add_trade_intent_execution_columns", _add_trade_intent_columns),
+    (3, "add_trade_plan_columns", _add_trade_plan_columns),
 ]
 
 

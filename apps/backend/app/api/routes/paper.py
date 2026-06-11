@@ -28,6 +28,13 @@ class PaperTradePayload(BaseModel):
     side: str = Field(pattern="^(long|short)$")
     quantity: float = Field(gt=0)
     entryPrice: float = Field(gt=0)
+    # Trade plan (MSN-1): captured with the intent so process scores, missions,
+    # and the journal can read intent-time decisions.
+    planStop: float | None = Field(default=None, gt=0)
+    planTarget: float | None = Field(default=None, gt=0)
+    planRiskPercent: float | None = Field(default=None, gt=0, le=100)
+    planReason: str | None = Field(default=None, max_length=280)
+    planEmotion: str | None = Field(default=None, max_length=32)
 
 
 @router.get("/api/paper-account")
@@ -61,6 +68,13 @@ async def submit_paper_trade(
             side=payload.side,
             quantity=payload.quantity,
             entry_price=payload.entryPrice,
+            plan={
+                "stop": payload.planStop,
+                "target": payload.planTarget,
+                "riskPercent": payload.planRiskPercent,
+                "reason": payload.planReason,
+                "emotion": payload.planEmotion,
+            },
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc

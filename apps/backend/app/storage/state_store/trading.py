@@ -127,7 +127,8 @@ class PaperTradingStore:
             rows = connection.execute(
                 """
                 SELECT id, signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
-                       status, executed_at, executed_price, provider, external_order_id, broker_status
+                       status, executed_at, executed_price, provider, external_order_id, broker_status,
+                       plan_stop, plan_target, plan_risk_percent, plan_reason, plan_emotion
                 FROM paper_trade_intents
                 ORDER BY submitted_at DESC, id DESC
                 """
@@ -142,20 +143,37 @@ class PaperTradingStore:
         quantity: float,
         entry_price: float,
         trading_mode: str,
+        plan: dict[str, Any] | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         submitted_at = now_iso()
         symbol_id = symbol.upper().replace("/", "")
 
         with connect(self.sqlite_path) as connection:
             self.ensure_account_row(connection)
+            plan = plan or {}
             connection.execute(
                 """
                 INSERT INTO paper_trade_intents (
-                    signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at, status, provider, broker_status
+                    signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
+                    status, provider, broker_status,
+                    plan_stop, plan_target, plan_risk_percent, plan_reason, plan_emotion
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued')
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued', ?, ?, ?, ?, ?)
                 """,
-                (signal_id, symbol_id, side, quantity, entry_price, trading_mode, submitted_at),
+                (
+                    signal_id,
+                    symbol_id,
+                    side,
+                    quantity,
+                    entry_price,
+                    trading_mode,
+                    submitted_at,
+                    plan.get("stop"),
+                    plan.get("target"),
+                    plan.get("riskPercent"),
+                    plan.get("reason"),
+                    plan.get("emotion"),
+                ),
             )
             trade_id = connection.execute("SELECT last_insert_rowid()").fetchone()[0]
             connection.commit()
@@ -163,6 +181,11 @@ class PaperTradingStore:
         account = self.get_paper_account()
         trade = {
             "id": str(trade_id),
+            "planStop": plan.get("stop"),
+            "planTarget": plan.get("target"),
+            "planRiskPercent": plan.get("riskPercent"),
+            "planReason": plan.get("reason"),
+            "planEmotion": plan.get("emotion"),
             "signalId": signal_id,
             "symbol": symbol_id,
             "side": side,
@@ -553,4 +576,9 @@ class PaperTradingStore:
             "provider": row[11],
             "externalOrderId": row[12],
             "brokerStatus": row[13],
+            "planStop": row[14] if len(row) > 14 else None,
+            "planTarget": row[15] if len(row) > 15 else None,
+            "planRiskPercent": row[16] if len(row) > 16 else None,
+            "planReason": row[17] if len(row) > 17 else None,
+            "planEmotion": row[18] if len(row) > 18 else None,
         }
