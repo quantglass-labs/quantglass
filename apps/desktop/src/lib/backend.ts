@@ -53,6 +53,7 @@ import type {
   AnswerRequest,
   ExerciseResult,
   LearnCatalogResponse,
+  LearnMomentsResponse,
   LearnProgress,
   LessonRecord,
 } from '@quantglass/contracts';
@@ -422,6 +423,9 @@ export const backendClient = {
       method: 'POST',
       body: JSON.stringify(answer),
     });
+  },
+  getLearnMoments() {
+    return requestJson<LearnMomentsResponse>('/api/learn/moments');
   },
   getLearnProgress() {
     return requestJson<LearnProgress>('/api/learn/progress');

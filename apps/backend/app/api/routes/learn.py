@@ -82,3 +82,15 @@ async def mark_complete(lesson_id: str, request: Request) -> dict:
     store = request.app.state.state_store
     store.mark_lesson_complete(lesson_id)
     return {"ok": True, "lesson_id": lesson_id}
+
+
+# ---------------------------------------------------------------------------
+# Lesson moments (coaching from the user's own paper trading)
+# ---------------------------------------------------------------------------
+
+
+@router.get("/moments")
+async def get_moments(request: Request) -> dict:
+    """Return teachable moments detected from the user's own paper trading."""
+    svc = request.app.state.learn_moments_service
+    return {"items": svc.get_moments()}

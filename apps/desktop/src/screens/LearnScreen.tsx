@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   ExerciseResult,
   LearnCatalogResponse,
+  LearnMoment,
   LessonRecord,
   LessonStub,
   LessonTier,
@@ -522,6 +523,7 @@ function EmptyLearnState({ message }: { message: string }) {
 
 export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [catalog, setCatalog] = useState<LearnCatalogResponse | null>(null);
+  const [moments, setMoments] = useState<LearnMoment[]>([]);
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
   const [activeLesson, setActiveLesson] = useState<LessonRecord | null>(null);
   const [lessonLoading, setLessonLoading] = useState(false);
@@ -535,6 +537,15 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       .then(setCatalog)
       .catch(() => setError('Failed to load the learning catalog. Is the backend running?'));
   }, [backendStatus]);
+
+  // Load coaching moments derived from the user's own paper trading
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    backendClient
+      .getLearnMoments()
+      .then((response) => setMoments(response.items))
+      .catch(() => setMoments([]));
+  }, [backendStatus, activeLessonId]);
 
   // Auto-select first incomplete lesson once catalog arrives
   useEffect(() => {
@@ -632,6 +643,26 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6">
+          {moments.length > 0 && (
+            <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+                Coaching moments from your paper trading
+              </p>
+              <div className="mt-3 space-y-2">
+                {moments.slice(0, 3).map((moment) => (
+                  <button
+                    key={moment.id}
+                    type="button"
+                    className="block w-full rounded-lg border border-zinc-700/60 bg-zinc-900/40 p-3 text-left text-sm text-zinc-300 hover:border-indigo-400/60"
+                    onClick={() => setActiveLessonId(moment.lesson_id)}
+                  >
+                    {moment.message}
+                    <span className="mt-1 block text-xs text-indigo-300">Open the lesson →</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           {error && (
             <div className="rounded-xl border border-red-500/30 bg-red-600/10 p-4 text-sm text-red-300 mb-4">
               {error}
