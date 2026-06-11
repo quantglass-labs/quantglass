@@ -5,7 +5,9 @@ import { clsx } from 'clsx';
 import {
   Bell,
   ChevronRight,
+  ClipboardCheck,
   GraduationCap,
+  NotebookPen,
   Target,
   LayoutDashboard,
   Search,
@@ -29,6 +31,8 @@ const navItems = [
   { to: '/alerts', label: 'Alerts', icon: Bell },
   { to: '/learn', label: 'Learn', icon: GraduationCap },
   { to: '/missions', label: 'Missions', icon: Target },
+  { to: '/journal', label: 'Journal', icon: NotebookPen },
+  { to: '/review', label: 'Review', icon: ClipboardCheck },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 

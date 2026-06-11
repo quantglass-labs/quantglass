@@ -11,6 +11,7 @@ from app.api.routes.content import router as content_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
+from app.api.routes.journal import router as journal_router
 from app.api.routes.learn import router as learn_router
 from app.api.routes.market import router as market_router
 from app.api.routes.mcp import router as mcp_router
@@ -38,6 +39,7 @@ from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
+from app.services.review_coach import ReviewCoachService
 from app.services.signal_engine import SignalEngineService
 from app.services.strategy_registry import StrategyRegistry
 from app.services.trade_review import TradeReviewService
@@ -111,6 +113,7 @@ async def lifespan(app: FastAPI):
     learn_assessment_service = LearnAssessmentService(state_store)
     trade_review_service = TradeReviewService(state_store, analytics_store)
     mission_service = MissionService(state_store, trade_review_service)
+    review_coach_service = ReviewCoachService(state_store, trade_review_service, learn_service)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -137,6 +140,7 @@ async def lifespan(app: FastAPI):
     app.state.learn_assessment_service = learn_assessment_service
     app.state.trade_review_service = trade_review_service
     app.state.mission_service = mission_service
+    app.state.review_coach_service = review_coach_service
 
     try:
         yield
@@ -180,4 +184,5 @@ app.include_router(watchlist_router)
 app.include_router(alerts_router)
 app.include_router(events_router)
 app.include_router(learn_router)
+app.include_router(journal_router)
 app.include_router(mcp_router)

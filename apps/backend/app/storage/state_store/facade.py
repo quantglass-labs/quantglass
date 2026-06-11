@@ -17,6 +17,7 @@ from app.core.config import AiSettings, ProviderSettings, SafetySettings
 from app.storage.secret_store import EncryptedSecretStore
 from app.storage.state_store.alerts import AlertsStore
 from app.storage.state_store.db import connect
+from app.storage.state_store.journal import JournalStore
 from app.storage.state_store.learn import LearnProgressStore
 from app.storage.state_store.migrations import run_migrations
 from app.storage.state_store.settings import SettingsStore
@@ -42,6 +43,7 @@ class StateStore:
         self.strategies = SavedStrategiesStore(sqlite_path)
         self.trading = PaperTradingStore(sqlite_path)
         self.learn = LearnProgressStore(sqlite_path)
+        self.journal = JournalStore(sqlite_path)
 
     def initialize(
         self,
@@ -57,6 +59,7 @@ class StateStore:
             self.strategies.ensure_schema(connection)
             self.trading.ensure_schema(connection)
             self.learn.ensure_schema(connection)
+            self.journal.ensure_schema(connection)
             run_migrations(connection)
             self.settings.ensure_defaults(
                 connection, provider_settings, safety_settings, ai_settings
@@ -259,3 +262,9 @@ class StateStore:
 
     def record_mission_complete(self, mission_id: str) -> None:
         self.learn.record_mission_complete(mission_id)
+
+    def get_journal_notes(self) -> dict[str, Any]:
+        return self.journal.get_journal_notes()
+
+    def upsert_journal_note(self, intent_id: str, note: str, tags: list[str]) -> dict[str, Any]:
+        return self.journal.upsert_journal_note(intent_id, note, tags)

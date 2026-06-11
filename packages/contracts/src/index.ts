@@ -1,29 +1,34 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export type MarketType = 'crypto' | 'stocks';
-export type Timeframe = '15m' | '1h' | '4h' | '1d';
-export type SignalType = 'BUY_ZONE' | 'SELL' | 'HOLD' | 'WAIT' | 'WATCH';
-export type RiskLevel = 'low' | 'medium' | 'high';
-export type TradingMode = 'paper' | 'live';
-export type ViewMode = 'simple' | 'advanced';
-export type ProviderCapability = 'ohlcv' | 'order_book' | 'news' | 'trading' | 'ai';
-export type AlertChannel = 'desktop' | 'telegram' | 'email';
-export type AlertStatus = 'armed' | 'paused' | 'fired';
-export type PaperTradeSide = 'long' | 'short';
-export type SignalStatus = 'active' | 'invalidated' | 'closed';
+export type MarketType = "crypto" | "stocks";
+export type Timeframe = "15m" | "1h" | "4h" | "1d";
+export type SignalType = "BUY_ZONE" | "SELL" | "HOLD" | "WAIT" | "WATCH";
+export type RiskLevel = "low" | "medium" | "high";
+export type TradingMode = "paper" | "live";
+export type ViewMode = "simple" | "advanced";
+export type ProviderCapability =
+  | "ohlcv"
+  | "order_book"
+  | "news"
+  | "trading"
+  | "ai";
+export type AlertChannel = "desktop" | "telegram" | "email";
+export type AlertStatus = "armed" | "paused" | "fired";
+export type PaperTradeSide = "long" | "short";
+export type SignalStatus = "active" | "invalidated" | "closed";
 
 export interface ConfidenceBasis {
   trend_alignment: number;
   volume_confirmation: number;
-  volatility_regime: 'compressed' | 'normal' | 'expanded';
+  volatility_regime: "compressed" | "normal" | "expanded";
   setup_type: string;
   backtested_winrate: number;
   backtested_expectancy_R: number;
   backtest_sample_size: number;
   out_of_sample_validated: boolean;
   // Engine v2 additions (optional for backward compatibility).
-  market_regime?: 'trending' | 'ranging' | 'volatile' | 'transitional';
+  market_regime?: "trending" | "ranging" | "volatile" | "transitional";
   out_of_sample_sample_size?: number;
   out_of_sample_expectancy_R?: number;
   pooled_sample_size?: number;
@@ -51,7 +56,7 @@ export interface CanonicalSignal {
   fees_slippage_assumed: string;
   reasons: string[];
   invalidation: string;
-  candle_status: 'closed';
+  candle_status: "closed";
   data_source: string;
   generated_at_utc: string;
   ai_explanation: string;
@@ -100,13 +105,13 @@ export interface ProviderRegistryEntry {
   name: string;
   capabilities: ProviderCapability[];
   configured?: boolean;
-  transport?: 'public' | 'keyed' | 'internal';
+  transport?: "public" | "keyed" | "internal";
   label?: string;
-  source?: 'builtin' | 'custom' | 'extension';
+  source?: "builtin" | "custom" | "extension";
   baseUrl?: string;
   authType?: CustomProviderAuthType;
   profileConfigured?: boolean;
-  adapterStatus?: 'available' | 'profile_only';
+  adapterStatus?: "available" | "profile_only";
   notes?: string;
 }
 
@@ -114,7 +119,11 @@ export interface ProviderRegistryResponse {
   providers: ProviderRegistryEntry[];
 }
 
-export type CustomProviderAuthType = 'none' | 'bearer' | 'api_key_header' | 'api_key_query';
+export type CustomProviderAuthType =
+  | "none"
+  | "bearer"
+  | "api_key_header"
+  | "api_key_query";
 
 export interface CustomProviderProfile {
   id: string;
@@ -137,7 +146,10 @@ export interface CustomProviderItemResponse {
   provider: CustomProviderProfile;
 }
 
-export interface CustomProviderUpsertRequest extends Omit<CustomProviderProfile, 'id' | 'apiKeyId'> {
+export interface CustomProviderUpsertRequest extends Omit<
+  CustomProviderProfile,
+  "id" | "apiKeyId"
+> {
   id?: string | null;
   apiKeyId?: string | null;
 }
@@ -213,23 +225,23 @@ export interface AiSettings {
   model: string;
   cloudEnabled: boolean;
   provider:
-    | 'template'
-    | 'ollama'
-    | 'lm_studio'
-    | 'vllm'
-    | 'llama_cpp'
-    | 'openai'
-    | 'anthropic'
-    | 'google_gemini'
-    | 'deepseek'
-    | 'mistral'
-    | 'groq'
-    | 'openrouter'
-    | 'together'
-    | 'azure_openai'
-    | 'bedrock'
-    | 'vertex'
-    | 'openai_compatible';
+    | "template"
+    | "ollama"
+    | "lm_studio"
+    | "vllm"
+    | "llama_cpp"
+    | "openai"
+    | "anthropic"
+    | "google_gemini"
+    | "deepseek"
+    | "mistral"
+    | "groq"
+    | "openrouter"
+    | "together"
+    | "azure_openai"
+    | "bedrock"
+    | "vertex"
+    | "openai_compatible";
   baseUrl: string;
   apiKeyId?: string | null;
   temperature: number;
@@ -242,7 +254,7 @@ export interface AiSettingsResponse {
 }
 
 export interface AiModelListRequest {
-  provider: AiSettings['provider'];
+  provider: AiSettings["provider"];
   baseUrl: string;
   apiKeyId?: string | null;
   requestTimeoutSeconds?: number;
@@ -258,7 +270,15 @@ export interface AiModelInfo {
   id: string;
   label?: string | null;
   description?: string | null;
-  runtimeStatus?: 'available' | 'loaded' | 'not_loaded' | 'loading' | 'busy' | 'not_installed' | 'unavailable' | 'unknown';
+  runtimeStatus?:
+    | "available"
+    | "loaded"
+    | "not_loaded"
+    | "loading"
+    | "busy"
+    | "not_installed"
+    | "unavailable"
+    | "unknown";
   runtimeDetail?: string | null;
   created?: number | null;
   createdAt?: string | null;
@@ -269,7 +289,7 @@ export interface AiModelInfo {
 }
 
 export interface AiModelListResponse {
-  provider: AiSettings['provider'];
+  provider: AiSettings["provider"];
   models: string[];
   modelItems?: AiModelInfo[];
   fetched: boolean;
@@ -279,11 +299,19 @@ export interface AiModelListResponse {
 }
 
 export interface AiProviderTestResponse {
-  provider: AiSettings['provider'];
+  provider: AiSettings["provider"];
   model: string;
   ok: boolean;
   detail: string;
-  runtimeStatus?: 'available' | 'loaded' | 'not_loaded' | 'loading' | 'busy' | 'not_installed' | 'unavailable' | 'unknown';
+  runtimeStatus?:
+    | "available"
+    | "loaded"
+    | "not_loaded"
+    | "loading"
+    | "busy"
+    | "not_installed"
+    | "unavailable"
+    | "unknown";
   runtimeDetail?: string | null;
   source?: string;
   sample?: string;
@@ -421,7 +449,7 @@ export interface NewsItem {
   source: string;
   publishedAt: string;
   summary: string;
-  sentiment: 'positive' | 'neutral' | 'negative';
+  sentiment: "positive" | "neutral" | "negative";
   // True when the item is derived locally from market data rather than a live news provider.
   derived?: boolean;
 }
@@ -452,7 +480,7 @@ export interface StrategyPreset {
   timeframe: Timeframe;
   strategyId?: string | null;
   strategyName?: string | null;
-  strategySource?: 'built-in' | 'extension' | null;
+  strategySource?: "built-in" | "extension" | null;
   extensionId?: string | null;
   feesPercent: number;
   slippagePercent: number;
@@ -494,7 +522,7 @@ export interface MarketCandle {
 export interface CorridorIngestResult {
   symbol: string;
   market_type: MarketType;
-  timeframe: Timeframe | '1d';
+  timeframe: Timeframe | "1d";
   provider: string;
   candles_ingested: number;
   latest_close: number;
@@ -510,9 +538,9 @@ export interface CorridorIngestResponse {
 export interface MarketIntegrityDiagnostic {
   symbol: string;
   market_type: MarketType;
-  timeframe: Timeframe | '1d';
+  timeframe: Timeframe | "1d";
   provider: string;
-  severity: 'warning' | 'error';
+  severity: "warning" | "error";
   code: string;
   detail: string;
   observed_at_utc: string;
@@ -524,7 +552,7 @@ export interface MarketIntegrityDiagnosticsResponse {
 
 export interface MarketCandlesResponse {
   symbol: string;
-  timeframe: Timeframe | '1d';
+  timeframe: Timeframe | "1d";
   source: string | null;
   items: MarketCandle[];
 }
@@ -532,12 +560,12 @@ export interface MarketCandlesResponse {
 export interface RelativeStrengthRanking {
   symbol: string;
   market_type: string;
-  timeframe: Timeframe | '1d';
+  timeframe: Timeframe | "1d";
   source: string | null;
   last_close: number;
   trailing_returns: Record<string, number>;
   momentum_score: number;
-  trend: 'up' | 'down' | 'neutral';
+  trend: "up" | "down" | "neutral";
   relative_strength_percentile: number;
   peer_group_size: number;
   peer_rank: number;
@@ -587,7 +615,7 @@ export interface ExtensionRegistryResponse {
 export interface ExtensionSettingDefinition {
   key: string;
   label: string;
-  type: 'string' | 'number' | 'boolean' | 'select' | 'secret';
+  type: "string" | "number" | "boolean" | "select" | "secret";
   description: string;
   required: boolean;
   default?: string | number | boolean | null;
@@ -610,10 +638,10 @@ export interface StrategyRegistryEntry {
   name: string;
   description: string;
   setup_types: string[];
-  direction: 'long' | 'short' | 'both';
+  direction: "long" | "short" | "both";
   market_types: string[];
   timeframes: string[];
-  source: 'built-in' | 'extension';
+  source: "built-in" | "extension";
   extension_id?: string | null;
   executable?: boolean;
 }
@@ -629,9 +657,9 @@ export interface IndicatorRegistryEntry {
   description: string;
   inputs: string[];
   outputs: string[];
-  maturity?: 'computed' | 'catalog';
+  maturity?: "computed" | "catalog";
   families?: string[];
-  source: 'built-in' | 'extension';
+  source: "built-in" | "extension";
   extension_id?: string | null;
 }
 
@@ -642,11 +670,17 @@ export interface IndicatorRegistryResponse {
 export interface ExtensionSurfaceEntry {
   id: string;
   name: string;
-  category: 'backtest' | 'execution' | 'notification' | 'import_export' | 'data_quality' | 'ui_panel';
+  category:
+    | "backtest"
+    | "execution"
+    | "notification"
+    | "import_export"
+    | "data_quality"
+    | "ui_panel";
   description: string;
   permissions: string[];
-  maturity: 'available' | 'planned';
-  source: 'built-in' | 'extension';
+  maturity: "available" | "planned";
+  source: "built-in" | "extension";
   extension_id?: string | null;
 }
 
@@ -658,8 +692,12 @@ export interface ExtensionSurfaceRegistryResponse {
 // Interactive Learning Platform
 // ---------------------------------------------------------------------------
 
-export type LessonTier = 'novice' | 'intermediate' | 'advanced' | 'expert';
-export type ExerciseType = 'multiple_choice' | 'numeric_input' | 'identify_on_chart' | 'interpret_signal';
+export type LessonTier = "novice" | "intermediate" | "advanced" | "expert";
+export type ExerciseType =
+  | "multiple_choice"
+  | "numeric_input"
+  | "identify_on_chart"
+  | "interpret_signal";
 
 export interface LessonKeyTerm {
   term: string;
@@ -667,7 +705,7 @@ export interface LessonKeyTerm {
 }
 
 export interface LessonExerciseMultipleChoice {
-  type: 'multiple_choice';
+  type: "multiple_choice";
   question: string;
   options: string[];
   /** The 0-based index of the correct option — omitted from client GET responses; used internally. */
@@ -676,13 +714,15 @@ export interface LessonExerciseMultipleChoice {
 }
 
 export interface LessonExerciseNumericInput {
-  type: 'numeric_input';
+  type: "numeric_input";
   question: string;
   hint?: string;
   explanation: string;
 }
 
-export type LessonExercise = LessonExerciseMultipleChoice | LessonExerciseNumericInput;
+export type LessonExercise =
+  | LessonExerciseMultipleChoice
+  | LessonExerciseNumericInput;
 
 export interface LessonLiveApply {
   screen: string;
@@ -702,7 +742,11 @@ export interface LessonRecord {
   exercise: LessonExercise;
   live_apply: LessonLiveApply;
   live_exercise?: string;
-  visuals?: { type: string; title?: string; params?: Record<string, unknown> }[];
+  visuals?: {
+    type: string;
+    title?: string;
+    params?: Record<string, unknown>;
+  }[];
   /** True when the authenticated user has completed this lesson. */
   completed: boolean;
 }
@@ -839,13 +883,13 @@ export interface TradeReviewItem {
   planEmotion: string | null;
   process_score: number;
   process_notes: string[];
-  outcome_status: 'stopped' | 'target' | 'open' | 'unscored';
+  outcome_status: "stopped" | "target" | "open" | "unscored";
   outcome_r: number | null;
   classification:
-    | 'earned_win'
-    | 'well_played_loss'
-    | 'honest_tuition'
-    | 'dangerous_success'
+    | "earned_win"
+    | "well_played_loss"
+    | "honest_tuition"
+    | "dangerous_success"
     | null;
 }
 
@@ -858,6 +902,40 @@ export interface TradeReviewResponse {
     dangerous_success_count: number;
     process_good_bar: number;
   };
+}
+
+export interface JournalItem extends TradeReviewItem {
+  journal_note: string;
+  tags: string[];
+}
+
+export interface JournalResponse {
+  items: JournalItem[];
+  summary: TradeReviewResponse["summary"];
+  mistake_tags: string[];
+}
+
+export interface JournalAnnotation {
+  note: string;
+  tags: string[];
+}
+
+export interface CoachDetection {
+  id: string;
+  label: string;
+  count: number;
+  symbols: string[];
+  lessons: { id: string; title: string }[];
+  missions: string[];
+}
+
+export interface CoachResponse {
+  weekly: {
+    trades: number;
+    average_process_score: number;
+  };
+  summary: TradeReviewResponse["summary"];
+  detections: CoachDetection[];
 }
 
 export interface LearnMomentsResponse {
@@ -876,7 +954,7 @@ export interface ExerciseResult {
 
 export interface LiveExercise {
   lesson_id: string;
-  type: 'live_numeric';
+  type: "live_numeric";
   question: string;
   hint: string;
   params: Record<string, number | string>;
