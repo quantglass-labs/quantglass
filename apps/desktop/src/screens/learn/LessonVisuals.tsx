@@ -18,6 +18,7 @@ import {
   PayoffExplorer,
   RiskSandbox,
 } from './InteractiveWidgets';
+import { ConformalVisualizer, MonteCarloAnimator, RegimeScrubber } from './EngineExplorers';
 
 export interface LessonVisual {
   type: string;
@@ -294,6 +295,9 @@ const REGISTRY: Record<string, (props: { params: Record<string, unknown> }) => J
   indicator_playground: IndicatorPlayground,
   auction_sim: () => <AuctionSim />,
   payoff_explorer: PayoffExplorer,
+  regime_scrubber: RegimeScrubber,
+  monte_carlo: MonteCarloAnimator,
+  conformal_visualizer: ConformalVisualizer,
 };
 
 export function LessonVisuals({ visuals }: { visuals?: LessonVisual[] }) {
