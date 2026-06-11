@@ -54,6 +54,7 @@ import type {
   ExerciseResult,
   LearnCatalogResponse,
   LearnMomentsResponse,
+  LearnReadiness,
   LiveExercise,
   LiveExerciseResult,
   LearnProgress,
@@ -436,6 +437,9 @@ export const backendClient = {
       `/api/learn/lesson/${encodeURIComponent(lessonId)}/live-check`,
       { method: 'POST', body: JSON.stringify(body) },
     );
+  },
+  getLearnReadiness() {
+    return requestJson<LearnReadiness>('/api/learn/readiness');
   },
   getLearnMoments() {
     return requestJson<LearnMomentsResponse>('/api/learn/moments');

@@ -19,6 +19,7 @@ import type {
   LiveExerciseResult,
   LearnCatalogResponse,
   LearnMoment,
+  LearnReadiness,
   LessonRecord,
   LessonStub,
   LessonTier,
@@ -31,6 +32,7 @@ import {
   CheckCircle2,
   Circle,
   GraduationCap,
+  Lock,
   Lightbulb,
   SquareArrowOutUpRight,
   RotateCcw,
@@ -167,9 +169,18 @@ interface LevelSectionProps {
   activeLessonId: string | null;
   onSelectLesson: (lesson: LessonStub) => void;
   defaultOpen: boolean;
+  locked?: boolean;
+  lockReasons?: string[];
 }
 
-function LevelSection({ level, activeLessonId, onSelectLesson, defaultOpen }: LevelSectionProps) {
+function LevelSection({
+  level,
+  activeLessonId,
+  onSelectLesson,
+  defaultOpen,
+  locked,
+  lockReasons,
+}: LevelSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   const c = TIER_COLORS[level.id];
   return (
@@ -189,6 +200,11 @@ function LevelSection({ level, activeLessonId, onSelectLesson, defaultOpen }: Le
           <div className="flex items-center gap-2 mb-0.5">
             <span className="text-sm font-medium text-zinc-200 truncate">{level.title}</span>
             <TierBadge tier={level.id} />
+            {locked ? (
+              <span title={(lockReasons ?? []).join(' · ') || 'Locked'}>
+                <Lock size={12} className="shrink-0 text-zinc-500" />
+              </span>
+            ) : null}
           </div>
           <ProgressBar done={level.completed} total={level.total} tier={level.id} />
         </div>
@@ -624,6 +640,7 @@ function EmptyLearnState({ message }: { message: string }) {
 export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [catalog, setCatalog] = useState<LearnCatalogResponse | null>(null);
   const [moments, setMoments] = useState<LearnMoment[]>([]);
+  const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
   const [activeLesson, setActiveLesson] = useState<LessonRecord | null>(null);
   const [lessonLoading, setLessonLoading] = useState(false);
@@ -645,6 +662,15 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       .getLearnMoments()
       .then((response) => setMoments(response.items))
       .catch(() => setMoments([]));
+  }, [backendStatus, activeLessonId]);
+
+  // Readiness scores and level unlocks
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    backendClient
+      .getLearnReadiness()
+      .then(setReadiness)
+      .catch(() => setReadiness(null));
   }, [backendStatus, activeLessonId]);
 
   // Auto-select first incomplete lesson once catalog arrives
@@ -716,6 +742,34 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             </span>
           </div>
         )}
+        {readiness ? (
+          <div className="hidden lg:flex items-center gap-3 text-[11px] text-zinc-500">
+            {(
+              [
+                ['Knowledge', readiness.scores.knowledge],
+                ['Execution', readiness.scores.execution],
+                ['Risk', readiness.scores.risk],
+                ['Psych', readiness.scores.psychology],
+                ['Consistency', readiness.scores.consistency],
+              ] as const
+            ).map(([label, value]) => (
+              <span key={label} title={`${label} readiness`}>
+                {label}{' '}
+                <span
+                  className={
+                    value >= 70
+                      ? 'text-emerald-400'
+                      : value >= 40
+                        ? 'text-amber-300'
+                        : 'text-zinc-400'
+                  }
+                >
+                  {value}
+                </span>
+              </span>
+            ))}
+          </div>
+        ) : null}
         <span className="ml-auto text-xs text-zinc-600">
           Educational use only — not financial advice.
         </span>
@@ -738,6 +792,11 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               level={level}
               activeLessonId={activeLessonId}
               onSelectLesson={handleSelectLesson}
+              locked={readiness?.levels.find((l) => l.id === level.id)?.unlocked === false}
+              lockReasons={readiness?.levels
+                .find((l) => l.id === level.id)
+                ?.requirements.filter((r) => !r.met)
+                .map((r) => r.label)}
               defaultOpen={
                 i === 0 ||
                 level.tracks.some((track) =>
