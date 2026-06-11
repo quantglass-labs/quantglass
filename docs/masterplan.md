@@ -81,7 +81,7 @@ Three tiers — declarative diagrams, interactive widgets, engine-true
 explorers — all via a schema-validated widget registry (no markup in content;
 live-data capable).
 
-- [ ] VIS-1 Visual registry + diagram archetypes — [#51](https://github.com/quantglass-labs/quantglass/issues/51)
+- [x] VIS-1 (foundation: 4 diagram types live) Visual registry + diagram archetypes — [#51](https://github.com/quantglass-labs/quantglass/issues/51)
 - [ ] VIS-2 Interactive widgets (candle builder, risk sandbox, indicator
       playground, auction sim, payoff explorer) — [#52](https://github.com/quantglass-labs/quantglass/issues/52)
 - [ ] VIS-3 Engine-true explorers (regime scrubber, Monte Carlo animator,

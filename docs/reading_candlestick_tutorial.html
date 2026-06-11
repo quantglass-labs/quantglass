@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Reading a Candlestick — Real Trading Tutorial</title>
+<style>
+  :root{
+    --bg:#07111f; --panel:#0d1b2e; --panel2:#10233b; --text:#e8f0fb;
+    --muted:#9fb0c7; --line:#263b57; --green:#14c784; --red:#ef4444;
+    --blue:#60a5fa; --yellow:#f59e0b; --purple:#a78bfa;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:linear-gradient(135deg,#07111f,#0a1628 55%,#08111f);
+    color:var(--text); font-family:Inter,Segoe UI,Roboto,Arial,sans-serif; line-height:1.65;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 20px 80px}
+  .hero{
+    border:1px solid var(--line); border-radius:24px; padding:34px;
+    background:radial-gradient(circle at top right,rgba(20,199,132,.16),transparent 28%),
+               linear-gradient(180deg,rgba(16,35,59,.98),rgba(10,22,40,.94));
+    box-shadow:0 24px 70px rgba(0,0,0,.35);
+  }
+  h1{font-size:44px;line-height:1.05;margin:0 0 12px}
+  h2{font-size:28px;margin:38px 0 14px}
+  h3{font-size:21px;margin:24px 0 10px}
+  p{color:#d7e3f4}
+  .sub{font-size:18px;color:var(--muted);max-width:820px}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .badge{border:1px solid #2b4567;border-radius:999px;padding:7px 12px;background:#0b1c30;color:#b8c8dd;font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .card{
+    background:linear-gradient(180deg,rgba(16,35,59,.92),rgba(12,26,45,.92));
+    border:1px solid var(--line); border-radius:18px; padding:20px; margin:18px 0;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+  }
+  .callout{border-left:4px solid var(--green);padding:14px 16px;background:#08251e;border-radius:12px;color:#d8fff1}
+  .warning{border-left:4px solid var(--yellow);padding:14px 16px;background:#2a1d05;border-radius:12px;color:#ffe9bd}
+  table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{border-bottom:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+  th{background:#132844;color:#f1f7ff}
+  td{background:#0b1b2e;color:#dbe7f5}
+  tr:last-child td{border-bottom:0}
+  code,pre{background:#09182a;border:1px solid #1e3552;color:#d8eaff;border-radius:12px}
+  pre{padding:14px;overflow:auto}
+  .svgbox{background:#07111f;border:1px solid var(--line);border-radius:18px;padding:10px;margin:16px 0}
+  svg{max-width:100%;height:auto;display:block}
+  details{background:#0b1b2e;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0}
+  summary{cursor:pointer;color:#cde3ff;font-weight:700}
+  .footer{margin-top:38px;color:var(--muted);font-size:14px}
+  .pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:700}
+  .green{background:rgba(20,199,132,.14);color:#87ffd0;border:1px solid rgba(20,199,132,.45)}
+  .red{background:rgba(239,68,68,.14);color:#fecaca;border:1px solid rgba(239,68,68,.45)}
+  @media(max-width:820px){.grid{grid-template-columns:1fr} h1{font-size:34px}.hero{padding:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">Learn · Chart Literacy · Novice</div>
+    <h1>Reading a Candlestick</h1>
+    <p class="sub">A beginner-friendly, visual trading lesson that explains how one candle summarizes the battle between buyers and sellers.</p>
+    <div class="badges">
+      <span class="badge">Estimated time: 5–7 min</span>
+      <span class="badge">Key terms: OHLC, body, wick, rejection</span>
+      <span class="badge">Mission unlock: Read 10 Candles Like a Trader</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Lesson Promise</h2>
+    <p>By the end of this lesson, you will understand what one candlestick tells you, what it does <b>not</b> tell you, and why a candle must always be read with context.</p>
+    <div class="callout"><b>Main idea:</b> A candlestick is a price story, not a guaranteed signal.</div>
+  </section>
+
+  <section class="card">
+    <h2>1. What Is a Candlestick?</h2>
+    <p>A candlestick is a visual summary of price movement during one selected time period.</p>
+    <table>
+      <tr><th>Candle timeframe</th><th>What one candle represents</th></tr>
+      <tr><td>1 minute</td><td>All price movement during 1 minute</td></tr>
+      <tr><td>1 hour</td><td>All price movement during 1 hour</td></tr>
+      <tr><td>1 day</td><td>All price movement during 1 trading day</td></tr>
+      <tr><td>1 week</td><td>All price movement during 1 week</td></tr>
+    </table>
+    <p>A candle answers four questions: where price started, how high it went, how low it went, and where it finished. These are called <b>OHLC</b>.</p>
+    <pre>O = Open
+H = High
+L = Low
+C = Close</pre>
+  </section>
+
+  <section class="card">
+    <h2>2. Candlestick Anatomy</h2>
+    <div class="svgbox">
+    <svg viewBox="0 0 1000 520" role="img" aria-label="Candlestick anatomy">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="1000" height="520" rx="14" fill="#07111f"/>
+      <text x="500" y="48" text-anchor="middle" fill="#f8fafc" font-size="30" font-weight="800">Candlestick Anatomy</text>
+      <text x="500" y="80" text-anchor="middle" fill="#9fb0c7" font-size="16">One candle summarizes open, high, low, and close.</text>
+
+      <line x1="500" y1="130" x2="500" y2="420" stroke="#14c784" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+      <rect x="432" y="205" width="136" height="135" rx="14" fill="#14c784" stroke="#a7f3d0" stroke-width="3"/>
+      <text x="500" y="282" text-anchor="middle" fill="#052e22" font-size="22" font-weight="900">BODY</text>
+
+      <line x1="500" y1="130" x2="680" y2="130" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="700" y="136" fill="#e8f0fb" font-size="20" font-weight="700">High</text>
+      <text x="700" y="162" fill="#9fb0c7" font-size="14">Highest price reached</text>
+
+      <line x1="568" y1="205" x2="680" y2="205" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="700" y="211" fill="#e8f0fb" font-size="20" font-weight="700">Close</text>
+      <text x="700" y="237" fill="#9fb0c7" font-size="14">Price at the end</text>
+
+      <line x1="568" y1="340" x2="680" y2="340" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="700" y="346" fill="#e8f0fb" font-size="20" font-weight="700">Open</text>
+      <text x="700" y="372" fill="#9fb0c7" font-size="14">Price at the start</text>
+
+      <line x1="500" y1="420" x2="680" y2="420" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="700" y="426" fill="#e8f0fb" font-size="20" font-weight="700">Low</text>
+      <text x="700" y="452" fill="#9fb0c7" font-size="14">Lowest price reached</text>
+
+      <line x1="432" y1="272" x2="290" y2="272" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="270" y="266" text-anchor="end" fill="#e8f0fb" font-size="20" font-weight="700">Body</text>
+      <text x="270" y="292" text-anchor="end" fill="#9fb0c7" font-size="14">Open-to-close range</text>
+
+      <line x1="500" y1="165" x2="290" y2="165" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="270" y="159" text-anchor="end" fill="#e8f0fb" font-size="20" font-weight="700">Upper wick</text>
+      <text x="270" y="185" text-anchor="end" fill="#9fb0c7" font-size="14">Rejected higher price</text>
+
+      <line x1="500" y1="380" x2="290" y2="380" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="270" y="374" text-anchor="end" fill="#e8f0fb" font-size="20" font-weight="700">Lower wick</text>
+      <text x="270" y="400" text-anchor="end" fill="#9fb0c7" font-size="14">Rejected lower price</text>
+    </svg>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3. Green Candle vs Red Candle</h2>
+    <p>A candle is usually shown as <span class="pill green">green</span> when price closes above its open. It is usually shown as <span class="pill red">red</span> when price closes below its open.</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 1000 430" role="img" aria-label="Green versus red candle">
+      <rect width="1000" height="430" rx="14" fill="#07111f"/>
+      <text x="500" y="48" fill="#f8fafc" text-anchor="middle" font-size="30" font-weight="800">Green vs Red Candle</text>
+      <text x="500" y="80" fill="#9fb0c7" text-anchor="middle" font-size="16">Color shows whether the close was above or below the open.</text>
+
+      <line x1="290" y1="125" x2="290" y2="335" stroke="#14c784" stroke-width="8" stroke-linecap="round"/>
+      <rect x="230" y="185" width="120" height="105" rx="13" fill="#14c784" stroke="#a7f3d0" stroke-width="3"/>
+      <line x1="350" y1="185" x2="445" y2="185" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="462" y="191" fill="#e8f0fb" font-size="18" font-weight="700">Close</text>
+      <line x1="350" y1="290" x2="445" y2="290" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="462" y="296" fill="#e8f0fb" font-size="18" font-weight="700">Open</text>
+      <text x="290" y="375" text-anchor="middle" fill="#a7f3d0" font-size="22" font-weight="800">Green Candle</text>
+      <text x="290" y="400" text-anchor="middle" fill="#9fb0c7" font-size="15">Close is above open</text>
+
+      <line x1="710" y1="125" x2="710" y2="335" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/>
+      <rect x="650" y="185" width="120" height="105" rx="13" fill="#ef4444" stroke="#fecaca" stroke-width="3"/>
+      <line x1="770" y1="185" x2="865" y2="185" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="882" y="191" fill="#e8f0fb" font-size="18" font-weight="700">Open</text>
+      <line x1="770" y1="290" x2="865" y2="290" stroke="#506684" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="882" y="296" fill="#e8f0fb" font-size="18" font-weight="700">Close</text>
+      <text x="710" y="375" text-anchor="middle" fill="#fecaca" font-size="22" font-weight="800">Red Candle</text>
+      <text x="710" y="400" text-anchor="middle" fill="#9fb0c7" font-size="15">Close is below open</text>
+    </svg>
+    </div>
+    <div class="warning"><b>Beginner warning:</b> Green does not automatically mean buy. Red does not automatically mean sell.</div>
+  </section>
+
+  <section class="card">
+    <h2>4. From Ticks to One Candle</h2>
+    <p>Every small trade is a tick. A candle groups many ticks into one visual summary.</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 1100 360" role="img" aria-label="Ticks to candle diagram">
+      <rect width="1100" height="360" rx="14" fill="#07111f"/>
+      <text x="550" y="46" fill="#f8fafc" font-size="30" font-weight="800" text-anchor="middle">Ticks Become a Candle</text>
+      <text x="550" y="76" fill="#9fb0c7" font-size="16" text-anchor="middle">Many small price movements are summarized into OHLC.</text>
+
+      <polyline points="80,220 210,180 340,238 470,125 600,265 730,200" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#60a5fa">
+        <circle cx="80" cy="220" r="7"/><circle cx="210" cy="180" r="7"/><circle cx="340" cy="238" r="7"/>
+        <circle cx="470" cy="125" r="7"/><circle cx="600" cy="265" r="7"/><circle cx="730" cy="200" r="7"/>
+      </g>
+      <g fill="#e8f0fb" font-size="15" text-anchor="middle">
+        <text x="80" y="250">$100</text><text x="210" y="165">$103</text><text x="340" y="268">$98</text>
+        <text x="470" y="110">$110</text><text x="600" y="295">$95</text><text x="730" y="190">$104</text>
+      </g>
+      <path d="M790 200 C830 200,835 200,870 200" stroke="#506684" stroke-width="3" marker-end="url(#arrow)"/>
+      <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#506684"/></marker></defs>
+
+      <line x1="940" y1="125" x2="940" y2="265" stroke="#14c784" stroke-width="8" stroke-linecap="round"/>
+      <rect x="900" y="200" width="80" height="65" rx="10" fill="#14c784" stroke="#a7f3d0" stroke-width="3"/>
+      <text x="940" y="305" fill="#a7f3d0" font-size="18" text-anchor="middle" font-weight="800">OHLC Candle</text>
+      <text x="940" y="330" fill="#9fb0c7" font-size="14" text-anchor="middle">O 100 · H 110 · L 95 · C 104</text>
+    </svg>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5. Worked Example</h2>
+    <p>Imagine a candle has this data:</p>
+    <table>
+      <tr><th>OHLC value</th><th>Price</th></tr>
+      <tr><td>Open</td><td>$100</td></tr>
+      <tr><td>High</td><td>$110</td></tr>
+      <tr><td>Low</td><td>$95</td></tr>
+      <tr><td>Close</td><td>$104</td></tr>
+    </table>
+    <p>The candle is green because the close is above the open.</p>
+    <pre>Close = $104
+Open  = $100
+
+$104 > $100
+Result: Green candle</pre>
+    <p>The upper wick shows price reached $110 but could not stay there. The lower wick shows price dropped to $95 but recovered.</p>
+  </section>
+
+  <section class="card">
+    <h2>6. Candle Body: Strength of the Final Move</h2>
+    <div class="svgbox">
+    <svg viewBox="0 0 1100 390" role="img" aria-label="Candle body size">
+      <rect width="1100" height="390" rx="14" fill="#07111f"/>
+      <text x="550" y="48" fill="#f8fafc" text-anchor="middle" font-size="30" font-weight="800">Body Size Shows Strength</text>
+      <text x="550" y="80" fill="#9fb0c7" text-anchor="middle" font-size="16">Large body = stronger directional move. Small body = uncertainty.</text>
+
+      <g transform="translate(150,120)">
+        <line x1="0" y1="0" x2="0" y2="170" stroke="#14c784" stroke-width="6"/>
+        <rect x="-45" y="35" width="90" height="115" rx="10" fill="#14c784" stroke="#a7f3d0" stroke-width="3"/>
+        <text x="0" y="220" text-anchor="middle" fill="#e8f0fb" font-size="18" font-weight="800">Strong buyers</text>
+      </g>
+      <g transform="translate(410,120)">
+        <line x1="0" y1="0" x2="0" y2="170" stroke="#14c784" stroke-width="6"/>
+        <rect x="-45" y="75" width="90" height="25" rx="8" fill="#14c784" stroke="#a7f3d0" stroke-width="3"/>
+        <text x="0" y="220" text-anchor="middle" fill="#e8f0fb" font-size="18" font-weight="800">Uncertainty</text>
+      </g>
+      <g transform="translate(690,120)">
+        <line x1="0" y1="0" x2="0" y2="170" stroke="#ef4444" stroke-width="6"/>
+        <rect x="-45" y="75" width="90" height="25" rx="8" fill="#ef4444" stroke="#fecaca" stroke-width="3"/>
+        <text x="0" y="220" text-anchor="middle" fill="#e8f0fb" font-size="18" font-weight="800">Uncertainty</text>
+      </g>
+      <g transform="translate(950,120)">
+        <line x1="0" y1="0" x2="0" y2="170" stroke="#ef4444" stroke-width="6"/>
+        <rect x="-45" y="35" width="90" height="115" rx="10" fill="#ef4444" stroke="#fecaca" stroke-width="3"/>
+        <text x="0" y="220" text-anchor="middle" fill="#e8f0fb" font-size="18" font-weight="800">Strong sellers</text>
+      </g>
+    </svg>
+    </div>
+    <table>
+      <tr><th>Body type</th><th>Simple meaning</th></tr>
+      <tr><td>Large green body</td><td>Buyers strongly pushed price higher</td></tr>
+      <tr><td>Large red body</td><td>Sellers strongly pushed price lower</td></tr>
+      <tr><td>Small body</td><td>Neither side clearly won</td></tr>
+      <tr><td>Tiny body with long wicks</td><td>Both sides fought, but neither fully controlled the candle</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>7. Wicks: Where Price Was Rejected</h2>
+    <p>A wick shows that price visited an area but could not stay there.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Long Upper Wick</h3>
+        <p>Price moved up, then sellers pushed it back down. Higher prices were rejected.</p>
+        <p><b>Stronger when:</b> it appears near resistance.</p>
+      </div>
+      <div class="card">
+        <h3>Long Lower Wick</h3>
+        <p>Price moved down, then buyers pushed it back up. Lower prices were rejected.</p>
+        <p><b>Stronger when:</b> it appears near support.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>8. Location Matters More Than Shape</h2>
+    <p>The same candle can mean different things depending on where it appears.</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 1100 520" role="img" aria-label="Candle context flowchart">
+      <rect width="1100" height="520" rx="14" fill="#07111f"/>
+      <text x="550" y="50" fill="#f8fafc" text-anchor="middle" font-size="30" font-weight="800">How to Read a Candle With Context</text>
+      <g font-family="Inter,Arial" font-size="17" font-weight="700">
+        <rect x="410" y="90" width="280" height="58" rx="16" fill="#132844" stroke="#60a5fa"/>
+        <text x="550" y="126" fill="#eff6ff" text-anchor="middle">You see a candle pattern</text>
+
+        <path d="M550 148 L550 190" stroke="#506684" stroke-width="3" marker-end="url(#arr2)"/>
+        <rect x="390" y="190" width="320" height="64" rx="16" fill="#1e293b" stroke="#94a3b8"/>
+        <text x="550" y="228" fill="#f8fafc" text-anchor="middle">Where did it appear?</text>
+
+        <path d="M390 225 C300 225 275 275 250 310" stroke="#506684" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <path d="M550 254 L550 310" stroke="#506684" stroke-width="3" marker-end="url(#arr2)"/>
+        <path d="M710 225 C800 225 825 275 850 310" stroke="#506684" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+
+        <rect x="100" y="310" width="300" height="70" rx="16" fill="#064e3b" stroke="#14c784"/>
+        <text x="250" y="340" fill="#ecfdf5" text-anchor="middle">Near support</text>
+        <text x="250" y="365" fill="#a7f3d0" text-anchor="middle" font-size="14">More meaningful</text>
+
+        <rect x="400" y="310" width="300" height="70" rx="16" fill="#3f3f46" stroke="#a1a1aa"/>
+        <text x="550" y="340" fill="#f4f4f5" text-anchor="middle">Middle of nowhere</text>
+        <text x="550" y="365" fill="#d4d4d8" text-anchor="middle" font-size="14">Less meaningful</text>
+
+        <rect x="700" y="310" width="300" height="70" rx="16" fill="#7f1d1d" stroke="#ef4444"/>
+        <text x="850" y="340" fill="#fef2f2" text-anchor="middle">Near resistance</text>
+        <text x="850" y="365" fill="#fecaca" text-anchor="middle" font-size="14">More meaningful</text>
+
+        <path d="M250 380 C250 430 420 435 550 435" stroke="#506684" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <path d="M550 380 L550 435" stroke="#506684" stroke-width="3" marker-end="url(#arr2)"/>
+        <path d="M850 380 C850 430 680 435 550 435" stroke="#506684" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <rect x="375" y="435" width="350" height="58" rx="16" fill="#132844" stroke="#60a5fa"/>
+        <text x="550" y="470" fill="#eff6ff" text-anchor="middle">Check trend, volume, and risk</text>
+      </g>
+      <defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#506684"/></marker></defs>
+    </svg>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>9. Context Matrix</h2>
+    <table>
+      <tr><th>Candle appears at</th><th>Candle shape</th><th>Possible message</th></tr>
+      <tr><td>Support</td><td>Long lower wick</td><td>Buyers may be defending support</td></tr>
+      <tr><td>Resistance</td><td>Long upper wick</td><td>Sellers may be rejecting higher price</td></tr>
+      <tr><td>Strong uptrend</td><td>Large green body</td><td>Trend may be continuing</td></tr>
+      <tr><td>Strong downtrend</td><td>Large red body</td><td>Trend may be continuing</td></tr>
+      <tr><td>After long rally</td><td>Small body with wicks</td><td>Momentum may be slowing</td></tr>
+      <tr><td>Low-volume area</td><td>Any candle</td><td>Less reliable</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>10. Candle Reading Checklist</h2>
+    <ol>
+      <li>Is it green or red?</li>
+      <li>Is the body large or small?</li>
+      <li>Are the wicks long or short?</li>
+      <li>Is the candle near support?</li>
+      <li>Is the candle near resistance?</li>
+      <li>Is it with or against the trend?</li>
+      <li>Is volume high or low?</li>
+      <li>Does the candle fit a valid setup?</li>
+      <li>Where would the trade idea be invalid?</li>
+      <li>What is the risk before any possible reward?</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>11. Common Beginner Mistakes</h2>
+    <table>
+      <tr><th>Mistake</th><th>Why it is dangerous</th></tr>
+      <tr><td>Buying every green candle</td><td>Green does not guarantee the next candle will rise</td></tr>
+      <tr><td>Selling every red candle</td><td>Red does not guarantee continuation lower</td></tr>
+      <tr><td>Reading one candle alone</td><td>Context matters more than the shape</td></tr>
+      <tr><td>Ignoring support and resistance</td><td>Location changes meaning</td></tr>
+      <tr><td>Ignoring volume</td><td>Weak participation can weaken the candle message</td></tr>
+      <tr><td>Forgetting risk management</td><td>Even a good setup can fail</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>12. One Candle Is Not a Signal</h2>
+    <p>A candle is only one piece of information. A better decision combines candle, trend, support/resistance, volume, and risk.</p>
+    <div class="svgbox">
+    <svg viewBox="0 0 1000 360" role="img" aria-label="Decision inputs diagram">
+      <rect width="1000" height="360" rx="14" fill="#07111f"/>
+      <text x="500" y="48" fill="#f8fafc" text-anchor="middle" font-size="30" font-weight="800">Better Decision = Multiple Inputs</text>
+      <g font-size="18" font-weight="800" text-anchor="middle">
+        <rect x="70" y="125" width="155" height="70" rx="16" fill="#132844" stroke="#60a5fa"/><text x="147" y="168" fill="#eff6ff">Candle</text>
+        <rect x="250" y="125" width="155" height="70" rx="16" fill="#132844" stroke="#60a5fa"/><text x="327" y="168" fill="#eff6ff">Trend</text>
+        <rect x="430" y="125" width="155" height="70" rx="16" fill="#132844" stroke="#60a5fa"/><text x="507" y="158" fill="#eff6ff">Support /</text><text x="507" y="181" fill="#eff6ff">Resistance</text>
+        <rect x="610" y="125" width="155" height="70" rx="16" fill="#132844" stroke="#60a5fa"/><text x="687" y="168" fill="#eff6ff">Volume</text>
+        <rect x="790" y="125" width="155" height="70" rx="16" fill="#132844" stroke="#60a5fa"/><text x="867" y="168" fill="#eff6ff">Risk</text>
+
+        <path d="M147 195 L500 255" stroke="#506684" stroke-width="3"/>
+        <path d="M327 195 L500 255" stroke="#506684" stroke-width="3"/>
+        <path d="M507 195 L500 255" stroke="#506684" stroke-width="3"/>
+        <path d="M687 195 L500 255" stroke="#506684" stroke-width="3"/>
+        <path d="M867 195 L500 255" stroke="#506684" stroke-width="3"/>
+        <rect x="360" y="255" width="280" height="72" rx="18" fill="#064e3b" stroke="#14c784"/>
+        <text x="500" y="299" fill="#ecfdf5">Better Decision</text>
+      </g>
+    </svg>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>13. Self-Check Quiz</h2>
+    <details><summary>Question 1: What does OHLC stand for?</summary><p><b>Answer:</b> Open, High, Low, Close.</p></details>
+    <details><summary>Question 2: A candle opens at $30 and closes at $35. What color is it usually?</summary><p><b>Answer:</b> Green, because close is above open.</p></details>
+    <details><summary>Question 3: What does a long upper wick usually show?</summary><p><b>Answer:</b> Price moved higher but was rejected from higher levels.</p></details>
+    <details><summary>Question 4: Why should you not trade from one candle alone?</summary><p><b>Answer:</b> Because context such as trend, support, resistance, volume, and risk matters.</p></details>
+  </section>
+
+  <section class="card">
+    <h2>14. Practice Task</h2>
+    <p>Look at five candles on a sample chart. For each candle, write:</p>
+    <pre>1. Is it green or red?
+2. Is the body large or small?
+3. Is there a long upper wick?
+4. Is there a long lower wick?
+5. Is the candle near support or resistance?
+6. What might the candle be showing?
+7. Would you need more context before trading?</pre>
+  </section>
+
+  <section class="card">
+    <h2>15. Mission Unlock</h2>
+    <div class="callout">
+      <b>Mission: Read 10 Candles Like a Trader</b><br/>
+      You will classify 10 candles and explain the context behind each one.
+    </div>
+    <table>
+      <tr><th>Mission item</th><th>User must identify</th></tr>
+      <tr><td>Strong buyer candle</td><td>Large green body with context</td></tr>
+      <tr><td>Strong seller candle</td><td>Large red body with context</td></tr>
+      <tr><td>Indecision candle</td><td>Small body and/or long wicks</td></tr>
+      <tr><td>Upper wick rejection</td><td>Possible selling pressure near resistance</td></tr>
+      <tr><td>Lower wick rejection</td><td>Possible buying pressure near support</td></tr>
+      <tr><td>Weak context candle</td><td>Candle in the middle of nowhere</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Final Takeaway</h2>
+    <p>A candlestick shows where price started, how far buyers and sellers pushed, where price was rejected, and who controlled the close.</p>
+    <div class="callout"><b>A good trader does not ask only:</b> “Is this candle green?”<br/><b>A good trader asks:</b> “What is this candle showing, where did it appear, and does it fit a valid plan?”</div>
+  </section>
+
+  <p class="footer">Educational content only. This tutorial is designed for learning and paper-trading practice, not personalized investment advice or trade recommendations.</p>
+</div>
+</body>
+</html>
