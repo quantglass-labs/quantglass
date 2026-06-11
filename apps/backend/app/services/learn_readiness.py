@@ -121,8 +121,16 @@ class LearnReadinessService:
 
         novice = {"id": "novice", "unlocked": True, "requirements": []}
 
+        # Test-out (MSN-7): passing a level's exam substitutes for completing
+        # its lessons — the exam is the gate, the lessons are the path.
+        def studied_or_tested_out(level: str) -> bool:
+            return level_complete(level) or assessment_passed(level)
+
         intermediate_reqs = [
-            requirement("Complete all novice lessons", level_complete("novice")),
+            requirement(
+                "Complete all novice lessons (or test out via the exam)",
+                studied_or_tested_out("novice"),
+            ),
             requirement("Pass the novice assessment", assessment_passed("novice")),
         ]
         intermediate = {
@@ -132,7 +140,10 @@ class LearnReadinessService:
         }
 
         advanced_reqs = [
-            requirement("Complete all intermediate lessons", level_complete("intermediate")),
+            requirement(
+                "Complete all intermediate lessons (or test out via the exam)",
+                studied_or_tested_out("intermediate"),
+            ),
             requirement(
                 f"Execute {ADVANCED_TRADE_BAR}+ paper trades",
                 executed_trades >= ADVANCED_TRADE_BAR,
@@ -148,7 +159,10 @@ class LearnReadinessService:
         }
 
         expert_reqs = [
-            requirement("Complete all advanced lessons", level_complete("advanced")),
+            requirement(
+                "Complete all advanced lessons (or test out via the exam)",
+                studied_or_tested_out("advanced"),
+            ),
             requirement(
                 f"Execute {EXPERT_TRADE_BAR}+ paper trades", executed_trades >= EXPERT_TRADE_BAR
             ),

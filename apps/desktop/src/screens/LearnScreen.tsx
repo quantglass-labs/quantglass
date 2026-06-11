@@ -29,6 +29,7 @@ import type {
 } from '@quantglass/contracts';
 import { backendClient } from '../lib/backend';
 import { LessonVisuals } from './learn/LessonVisuals';
+import { GlossaryView, ReferenceView } from './learn/LibraryViews';
 import type { BackendStatus } from '../types';
 import {
   BookOpen,
@@ -746,6 +747,23 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
         </div>
       )}
 
+      {/* Common mistakes */}
+      {lesson.common_mistakes?.length ? (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-600/10 p-5">
+          <h2 className="text-sm font-semibold text-amber-300 uppercase tracking-wider mb-3">
+            Common Mistakes
+          </h2>
+          <ul className="space-y-2">
+            {lesson.common_mistakes.map((mistake) => (
+              <li key={mistake} className="flex gap-2 text-sm text-zinc-300 leading-relaxed">
+                <span className="text-amber-400 shrink-0">⚠</span>
+                {mistake}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       {/* Exercise */}
       <ExerciseController lesson={lesson} onComplete={onLessonCompleted} />
       <LiveExercisePanel
@@ -755,6 +773,23 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       />
 
       {/* Try It Live */}
+      {/* Bridge: lesson -> mission/scenario */}
+      {lesson.bridge ? (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-5">
+          <h2 className="text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2">
+            Take It Further
+          </h2>
+          <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.bridge.cta}</p>
+          <button
+            type="button"
+            onClick={() => onNavigate('/missions')}
+            className="rounded-lg border border-emerald-500/50 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
+          >
+            Open Missions
+          </button>
+        </div>
+      ) : null}
+
       {lesson.live_apply && (
         <div className="rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
           <h2 className="text-sm font-semibold text-indigo-300 uppercase tracking-wider mb-2">
@@ -815,6 +850,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
   const [tradeReview, setTradeReview] = useState<TradeReviewResponse | null>(null);
   const [assessmentLevel, setAssessmentLevel] = useState<LessonTier | null>(null);
+  const [libraryView, setLibraryView] = useState<'glossary' | 'reference' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [screenHeight, setScreenHeight] = useState('calc(100dvh - 12rem)');
   const screenRef = useRef<HTMLDivElement | null>(null);
@@ -854,7 +890,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   // The lesson pane starts at the top for every newly opened lesson.
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 });
-  }, [activeLessonId, assessmentLevel]);
+  }, [activeLessonId, assessmentLevel, libraryView]);
   const [activeLesson, setActiveLesson] = useState<LessonRecord | null>(null);
   const [lessonLoading, setLessonLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -930,6 +966,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   }, [activeLessonId, backendStatus]);
 
   const handleSelectLesson = useCallback((lesson: LessonStub) => {
+    setLibraryView(null);
     setActiveLessonId(lesson.id);
     setError(null);
   }, []);
@@ -1021,6 +1058,32 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
           />
+          <div className="mb-3 flex gap-2">
+            <button
+              type="button"
+              onClick={() => setLibraryView(libraryView === 'glossary' ? null : 'glossary')}
+              className={clsx(
+                'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
+                libraryView === 'glossary'
+                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
+                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+              )}
+            >
+              Glossary
+            </button>
+            <button
+              type="button"
+              onClick={() => setLibraryView(libraryView === 'reference' ? null : 'reference')}
+              className={clsx(
+                'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
+                libraryView === 'reference'
+                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
+                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+              )}
+            >
+              Reference
+            </button>
+          </div>
           {searchResults ? (
             <div className="space-y-0.5">
               {searchResults.length === 0 ? (
@@ -1089,6 +1152,15 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   .catch(() => undefined);
               }}
             />
+          ) : libraryView === 'glossary' ? (
+            <GlossaryView
+              onOpenLesson={(lessonId) => {
+                setLibraryView(null);
+                setActiveLessonId(lessonId);
+              }}
+            />
+          ) : libraryView === 'reference' ? (
+            <ReferenceView />
           ) : (
             <>
               {!catalog && !error ? (

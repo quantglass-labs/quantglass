@@ -107,6 +107,10 @@
           "indicator": "rsi"
         }
       }
+    ],
+    "common_mistakes": [
+      "Shorting 'overbought' in an uptrend. Strong trends pin RSI above 70 for weeks; mean-reversion reads need a ranging regime.",
+      "Acting on RSI alone. The engine treats it as one input behind the regime gate, never a standalone trigger."
     ]
   },
   {
@@ -547,6 +551,10 @@
         "type": "risk_sandbox",
         "title": "Move the stop; watch 1R and position size respond."
       }
+    ],
+    "common_mistakes": [
+      "Setting fixed-dollar stops regardless of volatility. A 2-point stop is generous on a quiet day and inside the noise on a wild one.",
+      "Recomputing position size without recomputing the ATR stop after volatility doubles - the old stop distance no longer means anything."
     ]
   },
   {
@@ -598,7 +606,16 @@
         "type": "risk_sandbox",
         "title": "R:R recomputes as you move either level."
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Judging trades by win rate alone. A 90% win rate loses money if the 10% are -10R disasters.",
+      "Setting targets by hope instead of structure. Risk:reward only means something when the target sits at a level the market actually respects.",
+      "Moving the stop to 'improve' the ratio after entry. The ratio was the entry criterion; changing it mid-trade deletes the plan."
+    ],
+    "bridge": {
+      "cta": "Apply it: take the Risk Discipline mission - 20 trades, every one with a stop and risk inside policy.",
+      "mission_id": "risk-discipline"
+    }
   },
   {
     "id": "intermediate-05-position-sizing",
@@ -641,7 +658,16 @@
         "type": "risk_sandbox",
         "title": "Size always derives from the stop, never from conviction."
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Choosing size first and risk second. Size is an output: (account x risk%) / stop distance - never an input.",
+      "Doubling size after losses to win it back. That is martingale arithmetic, and it ends accounts.",
+      "Counting open positions separately. Five trades risking 1% each is 5% portfolio heat if they correlate - and in a crash, everything correlates."
+    ],
+    "bridge": {
+      "cta": "Apply it: the Risk Discipline mission grades your sizing on every real paper trade.",
+      "mission_id": "risk-discipline"
+    }
   },
   {
     "id": "intermediate-13-r-multiples",
@@ -687,7 +713,15 @@
         "type": "risk_sandbox",
         "title": "R is the unit; the sandbox speaks it natively."
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Comparing dollar results across trades of different size. Only R-multiples make trades comparable.",
+      "Calling a -1R loss a failure. A planned loss taken at the stop is the system working exactly as designed."
+    ],
+    "bridge": {
+      "cta": "Apply it: the Accept the Planned Loss mission counts your well-played -1R losses.",
+      "mission_id": "accept-the-planned-loss"
+    }
   },
   {
     "id": "intermediate-14-portfolio-heat",
@@ -835,7 +869,15 @@
           ]
         }
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Sizing up during a drawdown to recover faster. Recovery arithmetic is brutal already; bigger bets make the hole exponentially deeper.",
+      "Quitting a positive-expectancy system mid-drawdown. The Monte Carlo lesson shows ordinary systems spend a third of their life under water."
+    ],
+    "bridge": {
+      "cta": "Apply it: replay Pullback in a Trend - hold the plan while the chart argues.",
+      "scenario_id": "pullback-in-a-trend"
+    }
   },
   {
     "id": "intermediate-16-trade-plan",
@@ -895,7 +937,16 @@
           ]
         }
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Writing the plan after entering. A plan that exists to justify a position is a press release, not a plan.",
+      "Leaving the invalidation vague ('cut if it looks bad'). If the stop is not a number, there is no stop.",
+      "Planning the entry in detail and the exit not at all. The exit is where the money actually happens."
+    ],
+    "bridge": {
+      "cta": "Apply it: replay The Breakout That Wasn't and make the planning calls under pressure.",
+      "scenario_id": "the-breakout-that-wasnt"
+    }
   },
   {
     "id": "intermediate-17-journaling",
@@ -939,7 +990,11 @@
     "live_apply": {
       "screen": "dashboard",
       "cta": "Look at your last three paper trades: for each, write the one-sentence reason you entered — if you cannot, that is the finding."
-    }
+    },
+    "common_mistakes": [
+      "Recording only outcomes. The journal's value is the decision record: reason, emotion, and plan adherence at entry time.",
+      "Journaling winners and skipping losers. The losers contain nearly all of the information."
+    ]
   },
   {
     "id": "intermediate-18-entries-exits",
