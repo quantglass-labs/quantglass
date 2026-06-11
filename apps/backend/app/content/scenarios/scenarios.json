@@ -1,0 +1,1418 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "The Breakout That Wasn't",
+    "level": "intermediate",
+    "description": "A stylized recreation of a classic range fakeout. Price compresses under a well-watched ceiling, breaks out on a burst of volume - and fails. You decide, bar by bar, what a disciplined trader does at each moment.",
+    "lesson_links": [
+      "intermediate-16-trade-plan",
+      "intermediate-04-risk-reward"
+    ],
+    "pass_percent": 70,
+    "candles": [
+      {
+        "open": 100.0,
+        "high": 100.14,
+        "low": 99.81,
+        "close": 99.87,
+        "volume": 1312
+      },
+      {
+        "open": 99.87,
+        "high": 99.93,
+        "low": 99.63,
+        "close": 99.7,
+        "volume": 1376
+      },
+      {
+        "open": 99.7,
+        "high": 100.41,
+        "low": 99.59,
+        "close": 100.34,
+        "volume": 2340
+      },
+      {
+        "open": 100.34,
+        "high": 100.53,
+        "low": 100.21,
+        "close": 100.47,
+        "volume": 1146
+      },
+      {
+        "open": 100.47,
+        "high": 100.94,
+        "low": 99.23,
+        "close": 99.47,
+        "volume": 3796
+      },
+      {
+        "open": 99.47,
+        "high": 99.98,
+        "low": 99.06,
+        "close": 99.21,
+        "volume": 1442
+      },
+      {
+        "open": 99.21,
+        "high": 99.52,
+        "low": 99.03,
+        "close": 99.41,
+        "volume": 1266
+      },
+      {
+        "open": 99.41,
+        "high": 100.8,
+        "low": 99.23,
+        "close": 100.46,
+        "volume": 3142
+      },
+      {
+        "open": 100.46,
+        "high": 100.49,
+        "low": 100.1,
+        "close": 100.27,
+        "volume": 1512
+      },
+      {
+        "open": 100.27,
+        "high": 100.65,
+        "low": 100.17,
+        "close": 100.44,
+        "volume": 1419
+      },
+      {
+        "open": 100.44,
+        "high": 100.51,
+        "low": 99.86,
+        "close": 99.97,
+        "volume": 1815
+      },
+      {
+        "open": 99.97,
+        "high": 100.27,
+        "low": 98.95,
+        "close": 99.1,
+        "volume": 3361
+      },
+      {
+        "open": 99.1,
+        "high": 99.32,
+        "low": 98.92,
+        "close": 99.06,
+        "volume": 1060
+      },
+      {
+        "open": 99.06,
+        "high": 99.06,
+        "low": 98.89,
+        "close": 99.04,
+        "volume": 1034
+      },
+      {
+        "open": 99.04,
+        "high": 100.01,
+        "low": 99.01,
+        "close": 99.92,
+        "volume": 3388
+      },
+      {
+        "open": 99.92,
+        "high": 100.08,
+        "low": 98.78,
+        "close": 99.16,
+        "volume": 2772
+      },
+      {
+        "open": 99.16,
+        "high": 99.3,
+        "low": 98.26,
+        "close": 98.6,
+        "volume": 2210
+      },
+      {
+        "open": 98.6,
+        "high": 98.65,
+        "low": 97.34,
+        "close": 97.42,
+        "volume": 3931
+      },
+      {
+        "open": 97.42,
+        "high": 98.08,
+        "low": 96.23,
+        "close": 96.33,
+        "volume": 3306
+      },
+      {
+        "open": 96.33,
+        "high": 96.35,
+        "low": 95.87,
+        "close": 95.92,
+        "volume": 1898
+      },
+      {
+        "open": 95.92,
+        "high": 96.19,
+        "low": 95.51,
+        "close": 96.08,
+        "volume": 1166
+      },
+      {
+        "open": 96.08,
+        "high": 96.46,
+        "low": 95.82,
+        "close": 96.46,
+        "volume": 2138
+      },
+      {
+        "open": 96.46,
+        "high": 97.17,
+        "low": 95.94,
+        "close": 97.03,
+        "volume": 2599
+      },
+      {
+        "open": 97.03,
+        "high": 97.17,
+        "low": 96.52,
+        "close": 96.68,
+        "volume": 1732
+      },
+      {
+        "open": 96.68,
+        "high": 97.1,
+        "low": 95.8,
+        "close": 95.94,
+        "volume": 2339
+      },
+      {
+        "open": 95.94,
+        "high": 95.96,
+        "low": 95.68,
+        "close": 95.87,
+        "volume": 1147
+      },
+      {
+        "open": 95.87,
+        "high": 95.98,
+        "low": 95.24,
+        "close": 95.51,
+        "volume": 1734
+      },
+      {
+        "open": 95.51,
+        "high": 96.13,
+        "low": 95.25,
+        "close": 95.55,
+        "volume": 1162
+      },
+      {
+        "open": 95.55,
+        "high": 95.68,
+        "low": 95.49,
+        "close": 95.64,
+        "volume": 1405
+      },
+      {
+        "open": 95.64,
+        "high": 96.69,
+        "low": 94.95,
+        "close": 96.56,
+        "volume": 3487
+      },
+      {
+        "open": 96.56,
+        "high": 97.33,
+        "low": 96.16,
+        "close": 97.11,
+        "volume": 1860
+      },
+      {
+        "open": 97.11,
+        "high": 99.16,
+        "low": 97.01,
+        "close": 98.94,
+        "volume": 4456
+      },
+      {
+        "open": 98.94,
+        "high": 100.09,
+        "low": 98.74,
+        "close": 99.99,
+        "volume": 2799
+      },
+      {
+        "open": 99.99,
+        "high": 101.24,
+        "low": 99.93,
+        "close": 101.19,
+        "volume": 4187
+      },
+      {
+        "open": 101.19,
+        "high": 101.39,
+        "low": 100.26,
+        "close": 100.26,
+        "volume": 2845
+      },
+      {
+        "open": 100.26,
+        "high": 101.73,
+        "low": 99.53,
+        "close": 100.97,
+        "volume": 3063
+      },
+      {
+        "open": 100.97,
+        "high": 101.11,
+        "low": 99.0,
+        "close": 99.21,
+        "volume": 4542
+      },
+      {
+        "open": 99.21,
+        "high": 99.3,
+        "low": 98.09,
+        "close": 99.1,
+        "volume": 1081
+      },
+      {
+        "open": 99.1,
+        "high": 100.57,
+        "low": 98.85,
+        "close": 100.41,
+        "volume": 3994
+      },
+      {
+        "open": 100.41,
+        "high": 100.96,
+        "low": 99.12,
+        "close": 99.21,
+        "volume": 4335
+      },
+      {
+        "open": 99.21,
+        "high": 99.73,
+        "low": 99.09,
+        "close": 99.12,
+        "volume": 1041
+      },
+      {
+        "open": 99.12,
+        "high": 99.19,
+        "low": 98.43,
+        "close": 98.97,
+        "volume": 1470
+      },
+      {
+        "open": 98.97,
+        "high": 99.25,
+        "low": 97.07,
+        "close": 97.55,
+        "volume": 4758
+      },
+      {
+        "open": 97.55,
+        "high": 97.83,
+        "low": 93.13,
+        "close": 93.86,
+        "volume": 10217
+      },
+      {
+        "open": 93.86,
+        "high": 94.36,
+        "low": 92.93,
+        "close": 92.99,
+        "volume": 2460
+      },
+      {
+        "open": 92.99,
+        "high": 93.05,
+        "low": 91.83,
+        "close": 92.14,
+        "volume": 3231
+      },
+      {
+        "open": 92.14,
+        "high": 92.27,
+        "low": 90.96,
+        "close": 92.1,
+        "volume": 1316
+      },
+      {
+        "open": 92.1,
+        "high": 92.29,
+        "low": 89.81,
+        "close": 90.03,
+        "volume": 5294
+      },
+      {
+        "open": 90.03,
+        "high": 90.29,
+        "low": 88.62,
+        "close": 89.24,
+        "volume": 3330
+      },
+      {
+        "open": 89.24,
+        "high": 89.82,
+        "low": 86.84,
+        "close": 86.91,
+        "volume": 7549
+      },
+      {
+        "open": 86.91,
+        "high": 87.35,
+        "low": 86.33,
+        "close": 87.05,
+        "volume": 1503
+      },
+      {
+        "open": 87.05,
+        "high": 87.3,
+        "low": 85.25,
+        "close": 85.28,
+        "volume": 6117
+      },
+      {
+        "open": 85.28,
+        "high": 85.64,
+        "low": 84.68,
+        "close": 84.91,
+        "volume": 1878
+      },
+      {
+        "open": 84.91,
+        "high": 85.26,
+        "low": 84.78,
+        "close": 84.9,
+        "volume": 881
+      },
+      {
+        "open": 84.9,
+        "high": 85.29,
+        "low": 84.56,
+        "close": 85.19,
+        "volume": 1500
+      },
+      {
+        "open": 85.19,
+        "high": 85.49,
+        "low": 84.19,
+        "close": 84.76,
+        "volume": 2260
+      },
+      {
+        "open": 84.76,
+        "high": 84.99,
+        "low": 84.44,
+        "close": 84.46,
+        "volume": 2094
+      },
+      {
+        "open": 84.46,
+        "high": 84.77,
+        "low": 84.24,
+        "close": 84.61,
+        "volume": 1624
+      },
+      {
+        "open": 84.61,
+        "high": 84.8,
+        "low": 83.68,
+        "close": 83.75,
+        "volume": 2907
+      },
+      {
+        "open": 83.75,
+        "high": 83.8,
+        "low": 83.37,
+        "close": 83.53,
+        "volume": 1642
+      }
+    ],
+    "checkpoints": [
+      {
+        "at_bar": 30,
+        "question": "Price just closed above the range high on the biggest volume bar in weeks. Everyone on the feed is calling the breakout. What do you do?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Buy at market right now before it runs away",
+            "points": 0,
+            "debrief": "Buying the first euphoric close is chasing: your entry sits far from any invalidation level, so your stop is either huge or arbitrary. The engine's first-touch math is unforgiving - a wide stop turns a normal pullback into a full loss."
+          },
+          {
+            "id": "plan",
+            "label": "Define the trade first: entry on retest, stop below the breakout bar, target from the range height",
+            "points": 10,
+            "debrief": "Correct. A breakout is a hypothesis, not a result. Writing entry, stop, and target before committing capital is what the process score rewards - and it is the only version of this trade with defined risk."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Buy a half position now, figure out the stop later",
+            "points": 3,
+            "debrief": "Smaller size limits the damage but 'figure out the stop later' means the trade has no invalidation. A small bad trade is still a bad trade - the journal will score it stopless."
+          }
+        ]
+      },
+      {
+        "at_bar": 34,
+        "question": "The breakout is stalling. Price has spent four bars going sideways just above the old range high, and volume is fading. Your planned retest entry filled, stop below the breakout bar. Now what?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Widen the stop below the whole range - give it room to breathe",
+            "points": 0,
+            "debrief": "Widening a stop after entry is the single most corrosive habit in trading: it converts a planned small loss into an unplanned large one. The constitution exists precisely to forbid this."
+          },
+          {
+            "id": "hold",
+            "label": "Do nothing - the plan is intact until the stop is hit",
+            "points": 10,
+            "debrief": "Correct. Fading volume is uncomfortable but it is not your invalidation level. A plan only works if the plan, not the discomfort, makes the decisions."
+          },
+          {
+            "id": "add",
+            "label": "Add to the position - lower average entry before it resumes",
+            "points": 2,
+            "debrief": "Adding into a stalling breakout increases risk exactly when the evidence is weakening. If the stop is hit you now lose more than the plan ever allowed."
+          }
+        ]
+      },
+      {
+        "at_bar": 44,
+        "question": "The breakout failed. Your stop was hit two bars ago for a planned -1R loss, and price is now in free fall below the old range. How do you close the episode?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Short it right now - it owes you",
+            "points": 0,
+            "debrief": "This is revenge trading: the entry reason is your loss, not the market. The psychology track calls this tilt, and the journal's emotion tag exists to catch exactly this moment."
+          },
+          {
+            "id": "journal",
+            "label": "Log the trade: planned loss, stop respected, write what the fakeout looked like",
+            "points": 10,
+            "debrief": "Correct. This is a well-played loss - good decision, bad outcome. The 2x2 classifier exists because traders who can take a -1R without flinching are the ones still solvent after a hundred trades."
+          },
+          {
+            "id": "stew",
+            "label": "Walk away and skip journaling - it was just a loser",
+            "points": 4,
+            "debrief": "Walking away beats revenge trading, but an unjournaled loss teaches nothing. The fakeout's signature - the fading retest volume - is the lesson you paid for."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Pullback in a Trend",
+    "level": "intermediate",
+    "description": "A stylized recreation of a steady uptrend that suddenly gives back a week of gains in three red bars. The trend is intact by every measure - but it does not feel that way. Trade the plan, not the feeling.",
+    "lesson_links": [
+      "intermediate-05-position-sizing",
+      "advanced-23-drawdown-psychology"
+    ],
+    "pass_percent": 70,
+    "candles": [
+      {
+        "open": 100.0,
+        "high": 101.29,
+        "low": 99.83,
+        "close": 100.99,
+        "volume": 2816
+      },
+      {
+        "open": 100.99,
+        "high": 101.27,
+        "low": 100.59,
+        "close": 101.16,
+        "volume": 1384
+      },
+      {
+        "open": 101.16,
+        "high": 101.4,
+        "low": 100.94,
+        "close": 101.4,
+        "volume": 1565
+      },
+      {
+        "open": 101.4,
+        "high": 102.39,
+        "low": 101.23,
+        "close": 102.02,
+        "volume": 2090
+      },
+      {
+        "open": 102.02,
+        "high": 102.71,
+        "low": 101.64,
+        "close": 102.65,
+        "volume": 2708
+      },
+      {
+        "open": 102.65,
+        "high": 103.29,
+        "low": 102.61,
+        "close": 103.25,
+        "volume": 2136
+      },
+      {
+        "open": 103.25,
+        "high": 103.61,
+        "low": 103.04,
+        "close": 103.61,
+        "volume": 1529
+      },
+      {
+        "open": 103.61,
+        "high": 104.14,
+        "low": 103.5,
+        "close": 104.09,
+        "volume": 2350
+      },
+      {
+        "open": 104.09,
+        "high": 104.17,
+        "low": 103.93,
+        "close": 104.08,
+        "volume": 887
+      },
+      {
+        "open": 104.08,
+        "high": 105.67,
+        "low": 103.97,
+        "close": 105.2,
+        "volume": 3019
+      },
+      {
+        "open": 105.2,
+        "high": 106.06,
+        "low": 104.71,
+        "close": 105.9,
+        "volume": 2713
+      },
+      {
+        "open": 105.9,
+        "high": 106.34,
+        "low": 105.59,
+        "close": 106.32,
+        "volume": 2037
+      },
+      {
+        "open": 106.32,
+        "high": 107.58,
+        "low": 106.25,
+        "close": 107.39,
+        "volume": 3763
+      },
+      {
+        "open": 107.39,
+        "high": 107.91,
+        "low": 107.23,
+        "close": 107.72,
+        "volume": 1578
+      },
+      {
+        "open": 107.72,
+        "high": 107.93,
+        "low": 107.48,
+        "close": 107.86,
+        "volume": 1041
+      },
+      {
+        "open": 107.86,
+        "high": 108.81,
+        "low": 107.64,
+        "close": 108.49,
+        "volume": 2735
+      },
+      {
+        "open": 108.49,
+        "high": 108.51,
+        "low": 108.1,
+        "close": 108.51,
+        "volume": 925
+      },
+      {
+        "open": 108.51,
+        "high": 109.12,
+        "low": 108.31,
+        "close": 108.88,
+        "volume": 1837
+      },
+      {
+        "open": 108.88,
+        "high": 109.81,
+        "low": 108.55,
+        "close": 109.67,
+        "volume": 2444
+      },
+      {
+        "open": 109.67,
+        "high": 111.53,
+        "low": 109.55,
+        "close": 111.35,
+        "volume": 3679
+      },
+      {
+        "open": 111.35,
+        "high": 113.14,
+        "low": 111.31,
+        "close": 112.96,
+        "volume": 4473
+      },
+      {
+        "open": 112.96,
+        "high": 113.34,
+        "low": 112.47,
+        "close": 113.09,
+        "volume": 1502
+      },
+      {
+        "open": 113.09,
+        "high": 113.52,
+        "low": 112.03,
+        "close": 112.35,
+        "volume": 2812
+      },
+      {
+        "open": 112.35,
+        "high": 113.09,
+        "low": 112.34,
+        "close": 112.85,
+        "volume": 1768
+      },
+      {
+        "open": 112.85,
+        "high": 113.87,
+        "low": 112.43,
+        "close": 113.76,
+        "volume": 3091
+      },
+      {
+        "open": 113.76,
+        "high": 115.37,
+        "low": 113.71,
+        "close": 114.88,
+        "volume": 2594
+      },
+      {
+        "open": 114.88,
+        "high": 115.76,
+        "low": 114.74,
+        "close": 115.55,
+        "volume": 1883
+      },
+      {
+        "open": 115.55,
+        "high": 116.71,
+        "low": 115.07,
+        "close": 116.41,
+        "volume": 3157
+      },
+      {
+        "open": 116.41,
+        "high": 117.39,
+        "low": 116.4,
+        "close": 117.09,
+        "volume": 2311
+      },
+      {
+        "open": 117.09,
+        "high": 119.28,
+        "low": 117.03,
+        "close": 119.27,
+        "volume": 4512
+      },
+      {
+        "open": 119.27,
+        "high": 120.0,
+        "low": 117.89,
+        "close": 118.37,
+        "volume": 2584
+      },
+      {
+        "open": 118.37,
+        "high": 119.19,
+        "low": 115.05,
+        "close": 115.5,
+        "volume": 5853
+      },
+      {
+        "open": 115.5,
+        "high": 115.58,
+        "low": 112.83,
+        "close": 112.83,
+        "volume": 6525
+      },
+      {
+        "open": 112.83,
+        "high": 112.93,
+        "low": 110.86,
+        "close": 110.88,
+        "volume": 4982
+      },
+      {
+        "open": 110.88,
+        "high": 111.34,
+        "low": 109.66,
+        "close": 109.86,
+        "volume": 2921
+      },
+      {
+        "open": 109.86,
+        "high": 110.48,
+        "low": 109.22,
+        "close": 109.38,
+        "volume": 1668
+      },
+      {
+        "open": 109.38,
+        "high": 109.48,
+        "low": 109.06,
+        "close": 109.4,
+        "volume": 895
+      },
+      {
+        "open": 109.4,
+        "high": 110.58,
+        "low": 109.09,
+        "close": 110.28,
+        "volume": 2354
+      },
+      {
+        "open": 110.28,
+        "high": 110.55,
+        "low": 110.07,
+        "close": 110.49,
+        "volume": 1218
+      },
+      {
+        "open": 110.49,
+        "high": 111.4,
+        "low": 110.22,
+        "close": 111.28,
+        "volume": 2792
+      },
+      {
+        "open": 111.28,
+        "high": 111.89,
+        "low": 111.13,
+        "close": 111.86,
+        "volume": 2390
+      },
+      {
+        "open": 111.86,
+        "high": 111.87,
+        "low": 111.28,
+        "close": 111.32,
+        "volume": 2035
+      },
+      {
+        "open": 111.32,
+        "high": 113.35,
+        "low": 111.11,
+        "close": 113.15,
+        "volume": 4151
+      },
+      {
+        "open": 113.15,
+        "high": 114.98,
+        "low": 112.89,
+        "close": 114.89,
+        "volume": 3591
+      },
+      {
+        "open": 114.89,
+        "high": 115.41,
+        "low": 114.68,
+        "close": 115.24,
+        "volume": 1672
+      },
+      {
+        "open": 115.24,
+        "high": 116.43,
+        "low": 115.01,
+        "close": 115.71,
+        "volume": 1591
+      },
+      {
+        "open": 115.71,
+        "high": 116.08,
+        "low": 115.63,
+        "close": 115.86,
+        "volume": 1178
+      },
+      {
+        "open": 115.86,
+        "high": 115.97,
+        "low": 114.5,
+        "close": 114.86,
+        "volume": 2964
+      },
+      {
+        "open": 114.86,
+        "high": 117.05,
+        "low": 114.57,
+        "close": 116.83,
+        "volume": 4425
+      },
+      {
+        "open": 116.83,
+        "high": 117.7,
+        "low": 116.82,
+        "close": 117.55,
+        "volume": 1960
+      },
+      {
+        "open": 117.55,
+        "high": 119.8,
+        "low": 117.53,
+        "close": 119.53,
+        "volume": 4938
+      },
+      {
+        "open": 119.53,
+        "high": 120.05,
+        "low": 119.47,
+        "close": 119.59,
+        "volume": 1078
+      },
+      {
+        "open": 119.59,
+        "high": 119.75,
+        "low": 119.4,
+        "close": 119.72,
+        "volume": 1014
+      },
+      {
+        "open": 119.72,
+        "high": 121.08,
+        "low": 119.62,
+        "close": 120.85,
+        "volume": 3340
+      },
+      {
+        "open": 120.85,
+        "high": 122.66,
+        "low": 120.62,
+        "close": 122.18,
+        "volume": 3253
+      }
+    ],
+    "checkpoints": [
+      {
+        "at_bar": 33,
+        "question": "Three sharp red bars have erased a week of gains. The higher-timeframe trend structure is intact: price is above the prior swing low and the regime gate still reads trending. You hold a position from much lower. What do you do?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Sell everything - protect the profit before it disappears",
+            "points": 2,
+            "debrief": "Exiting on fear when no invalidation level has been touched means the chart was never in charge - your stomach was. You keep the profit but train the habit of abandoning plans under pressure."
+          },
+          {
+            "id": "check_plan",
+            "label": "Re-read the plan: stop is below the swing low, untouched - hold",
+            "points": 10,
+            "debrief": "Correct. A pullback that stays above your invalidation level is noise by definition. The drawdown-psychology lesson is this exact moment: the plan was written by the calm version of you for the scared version."
+          },
+          {
+            "id": "double",
+            "label": "Double the position - it is on sale",
+            "points": 3,
+            "debrief": "The trend supports adding, but doubling makes risk balloon mid-trade without a new plan. If the swing low breaks you lose far more than the original plan risked. Adds need their own entry, stop, and size."
+          }
+        ]
+      },
+      {
+        "at_bar": 37,
+        "question": "Price has stabilized just above the swing low. You want to add to the position. How do you size the add?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Size it so the add risks 1% to the same stop, like any new trade",
+            "points": 10,
+            "debrief": "Correct. An add is a brand-new trade wearing the old one's jersey. Position-sizing math does not care that you already own some - risk per unit of stop distance is the only sizing input."
+          },
+          {
+            "id": "size_gut",
+            "label": "Buy a round number that feels meaningful",
+            "points": 0,
+            "debrief": "Round-number sizing means risk is whatever the chart decides later. The sizing lesson exists because 'felt right' is how 5% losses happen with a 1% policy."
+          },
+          {
+            "id": "all_in",
+            "label": "Use all remaining buying power - conviction is high",
+            "points": 0,
+            "debrief": "Conviction is an emotion wearing a suit. All-in sizing makes one adverse bar fatal, and the engine's Monte Carlo lesson shows how fast full-size losing streaks bankrupt an account."
+          }
+        ]
+      },
+      {
+        "at_bar": 50,
+        "question": "The trend resumed and the position is well in profit. The original target is close. What is the disciplined finish?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Cancel the target - this one is going much higher",
+            "points": 2,
+            "debrief": "Maybe it is - but abandoning the written exit converts a tested plan into improvisation at the moment of maximum greed. If you want a trail-instead-of-target system, design it before the next trade, not during this one."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Let the target or a trailed stop take you out, per the plan",
+            "points": 10,
+            "debrief": "Correct. Exits decided in advance are the half of trading nobody journals about. An earned win only counts as one if the process that produced it can be repeated."
+          },
+          {
+            "id": "exit_now",
+            "label": "Sell immediately - lock it in before anything changes",
+            "points": 5,
+            "debrief": "Taking profit is never ruinous, but exiting early out of fear systematically shrinks winners while stops keep losses full-size. Over a hundred trades that asymmetry is the difference between positive and negative expectancy."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "The Gap Down",
+    "level": "advanced",
+    "description": "A stylized recreation of a liquidity shock: an overnight gap straight through your stop, then a violent, tradeable chop. The plan did not survive contact - now your conduct under fire is the whole game.",
+    "lesson_links": [
+      "advanced-23-drawdown-psychology",
+      "advanced-28-leverage-discipline"
+    ],
+    "pass_percent": 70,
+    "candles": [
+      {
+        "open": 100.0,
+        "high": 100.37,
+        "low": 99.97,
+        "close": 100.33,
+        "volume": 1884
+      },
+      {
+        "open": 100.33,
+        "high": 101.29,
+        "low": 99.9,
+        "close": 101.08,
+        "volume": 2214
+      },
+      {
+        "open": 101.08,
+        "high": 101.4,
+        "low": 101.03,
+        "close": 101.38,
+        "volume": 1330
+      },
+      {
+        "open": 101.38,
+        "high": 102.48,
+        "low": 101.06,
+        "close": 102.37,
+        "volume": 3217
+      },
+      {
+        "open": 102.37,
+        "high": 103.21,
+        "low": 102.36,
+        "close": 102.91,
+        "volume": 2414
+      },
+      {
+        "open": 102.91,
+        "high": 103.33,
+        "low": 102.71,
+        "close": 103.26,
+        "volume": 1520
+      },
+      {
+        "open": 103.26,
+        "high": 104.18,
+        "low": 103.18,
+        "close": 104.13,
+        "volume": 3236
+      },
+      {
+        "open": 104.13,
+        "high": 105.01,
+        "low": 103.87,
+        "close": 104.67,
+        "volume": 2351
+      },
+      {
+        "open": 104.67,
+        "high": 104.82,
+        "low": 103.51,
+        "close": 103.72,
+        "volume": 3397
+      },
+      {
+        "open": 103.72,
+        "high": 104.93,
+        "low": 103.41,
+        "close": 104.59,
+        "volume": 2932
+      },
+      {
+        "open": 104.59,
+        "high": 105.03,
+        "low": 104.56,
+        "close": 104.96,
+        "volume": 1485
+      },
+      {
+        "open": 104.96,
+        "high": 105.82,
+        "low": 104.86,
+        "close": 105.81,
+        "volume": 2534
+      },
+      {
+        "open": 105.81,
+        "high": 106.08,
+        "low": 105.7,
+        "close": 105.9,
+        "volume": 1079
+      },
+      {
+        "open": 105.9,
+        "high": 106.91,
+        "low": 105.77,
+        "close": 106.59,
+        "volume": 2535
+      },
+      {
+        "open": 106.59,
+        "high": 107.77,
+        "low": 106.47,
+        "close": 107.43,
+        "volume": 3259
+      },
+      {
+        "open": 107.43,
+        "high": 108.51,
+        "low": 107.19,
+        "close": 108.31,
+        "volume": 3006
+      },
+      {
+        "open": 108.31,
+        "high": 109.61,
+        "low": 108.3,
+        "close": 109.26,
+        "volume": 2712
+      },
+      {
+        "open": 109.26,
+        "high": 109.85,
+        "low": 109.09,
+        "close": 109.83,
+        "volume": 2541
+      },
+      {
+        "open": 109.83,
+        "high": 110.76,
+        "low": 109.69,
+        "close": 110.61,
+        "volume": 2987
+      },
+      {
+        "open": 110.61,
+        "high": 110.8,
+        "low": 110.54,
+        "close": 110.59,
+        "volume": 930
+      },
+      {
+        "open": 110.59,
+        "high": 110.71,
+        "low": 110.14,
+        "close": 110.64,
+        "volume": 1041
+      },
+      {
+        "open": 110.64,
+        "high": 110.8,
+        "low": 109.63,
+        "close": 110.48,
+        "volume": 1316
+      },
+      {
+        "open": 110.48,
+        "high": 111.11,
+        "low": 110.21,
+        "close": 111.07,
+        "volume": 2421
+      },
+      {
+        "open": 111.07,
+        "high": 112.09,
+        "low": 111.02,
+        "close": 112.01,
+        "volume": 2727
+      },
+      {
+        "open": 112.01,
+        "high": 113.15,
+        "low": 111.51,
+        "close": 113.14,
+        "volume": 2599
+      },
+      {
+        "open": 113.14,
+        "high": 113.46,
+        "low": 112.76,
+        "close": 113.39,
+        "volume": 1507
+      },
+      {
+        "open": 113.39,
+        "high": 113.46,
+        "low": 103.13,
+        "close": 103.17,
+        "volume": 20448
+      },
+      {
+        "open": 103.17,
+        "high": 106.34,
+        "low": 102.57,
+        "close": 104.32,
+        "volume": 3127
+      },
+      {
+        "open": 104.32,
+        "high": 104.32,
+        "low": 100.71,
+        "close": 102.46,
+        "volume": 4520
+      },
+      {
+        "open": 102.46,
+        "high": 103.36,
+        "low": 98.64,
+        "close": 99.67,
+        "volume": 6016
+      },
+      {
+        "open": 99.67,
+        "high": 100.9,
+        "low": 99.27,
+        "close": 99.49,
+        "volume": 1126
+      },
+      {
+        "open": 99.49,
+        "high": 99.58,
+        "low": 96.28,
+        "close": 96.44,
+        "volume": 9062
+      },
+      {
+        "open": 96.44,
+        "high": 100.23,
+        "low": 96.33,
+        "close": 98.96,
+        "volume": 7748
+      },
+      {
+        "open": 98.96,
+        "high": 99.66,
+        "low": 98.82,
+        "close": 99.26,
+        "volume": 1675
+      },
+      {
+        "open": 99.26,
+        "high": 102.94,
+        "low": 99.21,
+        "close": 102.22,
+        "volume": 7468
+      },
+      {
+        "open": 102.22,
+        "high": 102.63,
+        "low": 101.95,
+        "close": 102.09,
+        "volume": 1467
+      },
+      {
+        "open": 102.09,
+        "high": 102.26,
+        "low": 100.99,
+        "close": 101.85,
+        "volume": 1332
+      },
+      {
+        "open": 101.85,
+        "high": 102.55,
+        "low": 100.19,
+        "close": 101.88,
+        "volume": 1119
+      },
+      {
+        "open": 101.88,
+        "high": 102.13,
+        "low": 100.74,
+        "close": 101.02,
+        "volume": 2665
+      },
+      {
+        "open": 101.02,
+        "high": 102.46,
+        "low": 100.81,
+        "close": 102.12,
+        "volume": 3018
+      },
+      {
+        "open": 102.12,
+        "high": 104.53,
+        "low": 101.96,
+        "close": 104.19,
+        "volume": 6250
+      },
+      {
+        "open": 104.19,
+        "high": 107.79,
+        "low": 104.01,
+        "close": 107.4,
+        "volume": 8309
+      },
+      {
+        "open": 107.4,
+        "high": 108.4,
+        "low": 106.71,
+        "close": 108.09,
+        "volume": 2387
+      },
+      {
+        "open": 108.09,
+        "high": 108.32,
+        "low": 106.94,
+        "close": 107.97,
+        "volume": 1099
+      },
+      {
+        "open": 107.97,
+        "high": 110.0,
+        "low": 107.39,
+        "close": 109.64,
+        "volume": 4803
+      },
+      {
+        "open": 109.64,
+        "high": 111.67,
+        "low": 108.13,
+        "close": 110.87,
+        "volume": 2911
+      },
+      {
+        "open": 110.87,
+        "high": 111.18,
+        "low": 110.14,
+        "close": 110.43,
+        "volume": 1636
+      },
+      {
+        "open": 110.43,
+        "high": 111.02,
+        "low": 110.02,
+        "close": 110.22,
+        "volume": 1298
+      },
+      {
+        "open": 110.22,
+        "high": 112.13,
+        "low": 109.11,
+        "close": 110.77,
+        "volume": 2150
+      },
+      {
+        "open": 110.77,
+        "high": 114.44,
+        "low": 110.06,
+        "close": 112.25,
+        "volume": 4465
+      }
+    ],
+    "checkpoints": [
+      {
+        "at_bar": 27,
+        "question": "The market gapped down through your stop overnight - you are out at a worse price than planned, roughly -1.8R instead of -1R. The tape is violent. First decision?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Trade the volatility hard - this is where fortunes are made",
+            "points": 0,
+            "debrief": "Trading to win back a loss is the textbook tilt entry. Volatile regimes punish exactly this: spreads widen, stops slip, and the engine's volatile-override gate exists because edges measured in calm markets do not transfer here."
+          },
+          {
+            "id": "stand_down",
+            "label": "Accept the slippage, halve all position sizing, reassess at the close",
+            "points": 10,
+            "debrief": "Correct. Gap slippage past a stop is a cost of trading, not a betrayal. Cutting size when realized volatility doubles is what keeps -1.8R an annoyance instead of the first domino."
+          },
+          {
+            "id": "reenter",
+            "label": "Re-enter the same trade immediately - the thesis has not changed",
+            "points": 2,
+            "debrief": "The thesis may stand but the regime has changed: stop distances computed from yesterday's ATR are wrong today. Re-entry needs a new plan sized to the new volatility, not a reflex."
+          }
+        ]
+      },
+      {
+        "at_bar": 33,
+        "question": "Mid-chop, a position you re-planned and entered with a stop is down but not stopped. A friend messages: 'just average down, it always bounces.' What do you do?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Average down - lower the break-even point",
+            "points": 0,
+            "debrief": "Averaging down without a plan is how single trades kill accounts: each add moves break-even closer and total risk further. Every blow-up post-mortem contains this step."
+          },
+          {
+            "id": "respect",
+            "label": "Keep the position and the stop exactly as planned",
+            "points": 10,
+            "debrief": "Correct. The trade is behaving inside its planned envelope. Outside advice mid-trade is noise - your written plan is the only voice with a track record."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Close it - flat feels safer in this tape",
+            "points": 5,
+            "debrief": "Going flat is a legitimate volatility response, but the time for that call was the post-gap reassessment. Exiting mid-plan on feel still trains the improvisation habit, just in a safer direction."
+          }
+        ]
+      },
+      {
+        "at_bar": 42,
+        "question": "The chop resolved upward and your re-planned trade hit its target. Net, the day went: gapped loss, disciplined re-plan, full winner. The honest debrief is:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "I traded a crash brilliantly - size up next time",
+            "points": 0,
+            "debrief": "One survived shock is not a skill sample. Calling it brilliance and sizing up is the dangerous-success pattern: the outcome was partly variance, and doubling exposure prices the next gap at ruin."
+          },
+          {
+            "id": "process",
+            "label": "The system worked: sizing cut, plans rewritten, stops respected - log all of it",
+            "points": 10,
+            "debrief": "Correct. The win matters less than the sequence that produced it: stand down, resize, re-plan, obey stops. That sequence is reusable; the bounce was not yours to claim."
+          },
+          {
+            "id": "lucky",
+            "label": "Pure luck - nothing to learn from chaos",
+            "points": 3,
+            "debrief": "Humility beats heroics, but 'nothing to learn' is wrong: you have a journaled record of conduct under a liquidity shock. That record - not the P&L - is what the expert psychology bar measures."
+          }
+        ]
+      }
+    ]
+  }
+]

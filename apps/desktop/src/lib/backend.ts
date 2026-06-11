@@ -63,6 +63,9 @@ import type {
   ConstitutionResponse,
   ConstitutionRules,
   ConstitutionCompliance,
+  ScenariosResponse,
+  ScenarioDetail,
+  ScenarioGradeResponse,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -503,6 +506,19 @@ export const backendClient = {
   },
   getConstitutionCompliance() {
     return requestJson<ConstitutionCompliance>('/api/constitution/compliance');
+  },
+  getScenarios() {
+    return requestJson<ScenariosResponse>('/api/learn/scenarios');
+  },
+  getScenario(scenarioId: string) {
+    return requestJson<ScenarioDetail>(`/api/learn/scenarios/${scenarioId}`);
+  },
+  gradeScenario(scenarioId: string, answers: Record<string, string>) {
+    return requestJson<ScenarioGradeResponse>(`/api/learn/scenarios/${scenarioId}/grade`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers }),
+    });
   },
   getLearnReadiness() {
     return requestJson<LearnReadiness>('/api/learn/readiness');

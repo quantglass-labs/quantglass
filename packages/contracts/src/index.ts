@@ -965,6 +965,65 @@ export interface ConstitutionCompliance {
   checks: ConstitutionComplianceCheck[];
 }
 
+export interface ScenarioSummary {
+  id: string;
+  title: string;
+  level: string;
+  description: string;
+  lesson_links: string[];
+  checkpoints: number;
+  pass_percent: number;
+  best_percent: number | null;
+  passed: boolean;
+}
+
+export interface ScenariosResponse {
+  items: ScenarioSummary[];
+}
+
+export interface ScenarioCandle {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+
+export interface ScenarioCheckpoint {
+  at_bar: number;
+  question: string;
+  options: { id: string; label: string }[];
+}
+
+export interface ScenarioDetail {
+  id: string;
+  title: string;
+  level: string;
+  description: string;
+  pass_percent: number;
+  candles: ScenarioCandle[];
+  checkpoints: ScenarioCheckpoint[];
+}
+
+export interface ScenarioDebriefItem {
+  question: string;
+  chosen: string | null;
+  points: number;
+  max_points: number;
+  debrief: string;
+  best_choice: string | null;
+}
+
+export interface ScenarioGradeResponse {
+  scenario_id: string;
+  score: number;
+  max_score: number;
+  percent: number;
+  passed: boolean;
+  pass_percent: number;
+  checkpoints: ScenarioDebriefItem[];
+}
+
 export interface LearnMomentsResponse {
   items: LearnMoment[];
 }

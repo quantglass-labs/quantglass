@@ -46,6 +46,17 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_scenarios (
+                scenario_id TEXT PRIMARY KEY,
+                best_percent INTEGER NOT NULL,
+                passed INTEGER NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 1,
+                taken_at TEXT NOT NULL
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -131,5 +142,36 @@ class LearnProgressStore:
             connection.execute(
                 "INSERT OR IGNORE INTO learn_missions (mission_id, completed_at) VALUES (?, ?)",
                 (mission_id, now_iso()),
+            )
+            connection.commit()
+
+    def get_scenario_results(self) -> dict[str, Any]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT scenario_id, best_percent, passed, attempts, taken_at FROM learn_scenarios"
+            ).fetchall()
+        return {
+            row[0]: {
+                "best_percent": row[1],
+                "passed": bool(row[2]),
+                "attempts": row[3],
+                "taken_at": row[4],
+            }
+            for row in rows
+        }
+
+    def record_scenario_result(self, scenario_id: str, percent: int, passed: bool) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                """
+                INSERT INTO learn_scenarios (scenario_id, best_percent, passed, attempts, taken_at)
+                VALUES (?, ?, ?, 1, ?)
+                ON CONFLICT(scenario_id) DO UPDATE SET
+                    best_percent = MAX(learn_scenarios.best_percent, excluded.best_percent),
+                    passed = MAX(learn_scenarios.passed, excluded.passed),
+                    attempts = learn_scenarios.attempts + 1,
+                    taken_at = excluded.taken_at
+                """,
+                (scenario_id, percent, int(passed), now_iso()),
             )
             connection.commit()

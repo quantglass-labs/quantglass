@@ -266,6 +266,12 @@ class StateStore:
     def record_mission_complete(self, mission_id: str) -> None:
         self.learn.record_mission_complete(mission_id)
 
+    def get_scenario_results(self) -> dict[str, Any]:
+        return self.learn.get_scenario_results()
+
+    def record_scenario_result(self, scenario_id: str, percent: int, passed: bool) -> None:
+        self.learn.record_scenario_result(scenario_id, percent, passed)
+
     def get_journal_notes(self) -> dict[str, Any]:
         return self.journal.get_journal_notes()
 
