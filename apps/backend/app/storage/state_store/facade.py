@@ -253,3 +253,9 @@ class StateStore:
 
     def record_assessment(self, level: str, score: int, passed: bool) -> None:
         self.learn.record_assessment(level, score, passed)
+
+    def get_completed_missions(self) -> dict[str, str]:
+        return self.learn.get_completed_missions()
+
+    def record_mission_complete(self, mission_id: str) -> None:
+        self.learn.record_mission_complete(mission_id)

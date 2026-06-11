@@ -38,6 +38,14 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_missions (
+                mission_id TEXT PRIMARY KEY,
+                completed_at TEXT NOT NULL
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -108,5 +116,20 @@ class LearnProgressStore:
                     taken_at = excluded.taken_at
                 """,
                 (level, score, int(passed), now_iso()),
+            )
+            connection.commit()
+
+    def get_completed_missions(self) -> dict[str, str]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT mission_id, completed_at FROM learn_missions"
+            ).fetchall()
+        return {row[0]: row[1] for row in rows}
+
+    def record_mission_complete(self, mission_id: str) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                "INSERT OR IGNORE INTO learn_missions (mission_id, completed_at) VALUES (?, ?)",
+                (mission_id, now_iso()),
             )
             connection.commit()
