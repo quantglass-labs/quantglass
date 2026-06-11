@@ -146,6 +146,13 @@
       "order": 5,
       "title": "Margin, Leverage & Short Selling",
       "description": "Borrowed buying power, liquidation math, short mechanics, and why amplification cuts both ways. Educational only — QuantGlass itself is spot, paper-first."
+    },
+    {
+      "id": "options-foundation",
+      "level": "advanced",
+      "order": 6,
+      "title": "Options Foundation",
+      "description": "Calls, puts, premium, time decay, and the buyer/seller asymmetry — enough to understand options and to know why they are out of engine scope."
     }
   ]
 }

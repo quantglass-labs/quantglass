@@ -1238,5 +1238,229 @@
       "screen": "dashboard",
       "cta": "Confirm your paper account's construction: spot, unlevered, stop-defined risk — the baseline every Academy statistic assumes."
     }
+  },
+  {
+    "id": "advanced-29-options-basics",
+    "module_id": "advanced",
+    "track_id": "options-foundation",
+    "tier": "advanced",
+    "order": 29,
+    "title": "Calls and Puts: Rights, Not Obligations",
+    "summary": "The contract anatomy: strike, expiry, premium.",
+    "concept": "An **option** is a contract conveying a *right without obligation*. A **call** is the right to **buy** an asset at a fixed **strike price** until **expiry**; a **put** is the right to **sell** at the strike. For that right, the buyer pays a **premium** — paid once, kept by the seller no matter what.\n\nExample: a call on stock XYZ, strike 100, one month out, premium 3. If XYZ rallies to 112, the right to buy at 100 is worth 12 — minus the 3 paid, a 9 profit on 3 risked. If XYZ never exceeds 100, the option expires worthless: the loss is the premium, the whole premium, and nothing but the premium.\n\nThat is the structural novelty versus everything in this Academy so far: the **payoff is asymmetric by contract**, not by stop discipline. A spot trader builds asymmetry with stops and ladders; an option buyer purchases it outright — and the premium is the price of that purchase, every single time.",
+    "key_terms": [
+      {
+        "term": "Call",
+        "definition": "The right to buy at the strike until expiry."
+      },
+      {
+        "term": "Put",
+        "definition": "The right to sell at the strike until expiry."
+      },
+      {
+        "term": "Strike",
+        "definition": "The contract's fixed transaction price."
+      },
+      {
+        "term": "Premium",
+        "definition": "The non-refundable price of the right."
+      },
+      {
+        "term": "Expiry",
+        "definition": "When the right ceases to exist."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "You buy a 100-strike call for a 3 premium. The stock finishes expiry at 97. What is your outcome?",
+      "options": [
+        "A 3 loss — the premium, your maximum possible loss on this trade.",
+        "A 6 loss — premium plus the shortfall to the strike.",
+        "You are forced to buy the stock at 100.",
+        "Break-even."
+      ],
+      "correct_index": 0,
+      "explanation": "Below the strike the right to buy at 100 is worth nothing, so it expires unexercised. Rights, unlike obligations, cap the downside at exactly the premium paid."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Compare with the spot version: a stop-defined long risks 1R by discipline; the call buyer's 1R is the premium, capped by contract."
+    }
+  },
+  {
+    "id": "advanced-30-intrinsic-time-value",
+    "module_id": "advanced",
+    "track_id": "options-foundation",
+    "tier": "advanced",
+    "order": 30,
+    "title": "Intrinsic Value, Time Value, and Decay",
+    "summary": "What a premium is made of — and how it evaporates.",
+    "concept": "Every option premium splits into two parts. **Intrinsic value** is what exercising right now would be worth: a 100-strike call with the stock at 108 has 8 intrinsic (it is **in the money**); with the stock at 95 it has zero (out of the money — intrinsic is never negative). **Time value** is everything else: the market price of *possibility*, of the time remaining for the stock to move.\n\nTime value obeys a cruel rule: it decays to exactly **zero at expiry** — at expiry an option is worth its intrinsic value and not a cent more. Worse, the decay (**theta**) accelerates as expiry nears: the final weeks burn far faster than the early ones.\n\nThe consequence every option buyer must internalize: **you can be right about direction and still lose**. A stock that drifts up too slowly can fail to outrun the decay; the option bleeds while the thesis works. Buying options is renting time, and the rent rises as the lease runs out.",
+    "key_terms": [
+      {
+        "term": "Intrinsic value",
+        "definition": "Immediate exercise value — max(0, distance into the money)."
+      },
+      {
+        "term": "Time value",
+        "definition": "Premium minus intrinsic: the priced possibility of movement."
+      },
+      {
+        "term": "Moneyness",
+        "definition": "In/at/out of the money — where price sits versus strike."
+      },
+      {
+        "term": "Theta decay",
+        "definition": "Time value's accelerating erosion toward zero at expiry."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A 100-strike call trades at 5.50 with the stock at 103. How does the premium decompose?",
+      "options": [
+        "5.50 intrinsic, 0 time value.",
+        "3 intrinsic (103 − 100), 2.50 time value — the rest is priced possibility.",
+        "0 intrinsic, 5.50 time value.",
+        "Premiums do not decompose."
+      ],
+      "correct_index": 1,
+      "explanation": "Intrinsic = max(0, 103 − 100) = 3. The remaining 2.50 is time value — the part guaranteed to reach zero by expiry, fast or slow."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Look at a symbol's ATR: time value is, loosely, the market charging for that volatility over the option's remaining life."
+    }
+  },
+  {
+    "id": "advanced-31-greeks-intuition",
+    "module_id": "advanced",
+    "track_id": "options-foundation",
+    "tier": "advanced",
+    "order": 31,
+    "title": "The Greeks, Intuitively",
+    "summary": "Delta, theta, vega — the three dials that move a premium.",
+    "concept": "Option prices respond to more than direction, and the **Greeks** name the sensitivities. **Delta**: how much the premium moves per 1-point move in the asset — deep in-the-money calls approach +1 (they behave like stock), far out-of-the-money approach 0 (lottery tickets). **Theta**: the daily bleed of time value you met last lesson. **Vega**: sensitivity to **implied volatility** — the market's priced expectation of future movement.\n\nVega is the famous trap. Implied volatility *inflates before known events* (earnings, big announcements) and collapses after — the **volatility crush**. A trader who buys calls before earnings, watches the stock gap up, and still loses money has just met vega: the move happened, but the priced-in *possibility* deflated faster than the direction paid.\n\nThe disciplined summary: an option position is simultaneously a bet on direction (delta), on timing (theta), and on volatility expectations (vega). Spot trading asks you to be right once; options ask you to be right three ways at the same time.",
+    "key_terms": [
+      {
+        "term": "Delta",
+        "definition": "Premium sensitivity to the underlying's price move."
+      },
+      {
+        "term": "Theta",
+        "definition": "Daily time-value decay — the rent."
+      },
+      {
+        "term": "Vega",
+        "definition": "Premium sensitivity to implied volatility changes."
+      },
+      {
+        "term": "Volatility crush",
+        "definition": "IV collapsing after an event, deflating premiums despite the move."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A stock gaps up 4% on earnings, yet the calls bought yesterday OPEN LOWER. What happened?",
+      "options": [
+        "The exchange mispriced the open.",
+        "Volatility crush: the event's uncertainty was priced into the premium, and implied volatility's collapse (vega) outweighed the favorable move (delta).",
+        "Earnings always reduce option prices.",
+        "Theta only acts on weekends."
+      ],
+      "correct_index": 1,
+      "explanation": "The premium contained the *possibility* of a big move. Once the event resolved, that possibility deflated — being right on direction lost to being wrong on volatility."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Recall the regime lessons: implied volatility is the options market's forward-looking cousin of the ATR-based regimes you already read."
+    }
+  },
+  {
+    "id": "advanced-32-buyer-seller-asymmetry",
+    "module_id": "advanced",
+    "track_id": "options-foundation",
+    "tier": "advanced",
+    "order": 32,
+    "title": "Buyers and Sellers: Opposite Risk Universes",
+    "summary": "Defined risk on one side; obligation on the other.",
+    "concept": "Every option has two parties living in opposite risk universes. The **buyer** pays premium for a right: maximum loss = premium, defined at entry, period. The **seller (writer)** collects premium and assumes an **obligation**: deliver (calls) or purchase (puts) at the strike if assigned. A 'covered' seller holds offsetting assets; a **naked** seller holds nothing but hope.\n\nThe seller's bargain is statistically seductive and structurally dangerous: most options expire worthless, so sellers win *often* — small premiums, high win rate. You met this exact profile in the statistics track: **high win rate, negative skew** — many small wins funded by rare catastrophic losses. A naked call seller's worst case is unbounded (price has no ceiling); entire funds have evaporated in a single squeeze.\n\nThe Academy's verdict is symmetry-aware: buying options is *defined-risk but rent-paying*; selling them is *income-collecting but tail-exposed*. Neither is free money. Both demand the same expectancy arithmetic as everything else — with the seller's tail risk priced honestly, which is precisely what its win rate hides.",
+    "key_terms": [
+      {
+        "term": "Writer",
+        "definition": "The option seller — premium collector, obligation holder."
+      },
+      {
+        "term": "Assignment",
+        "definition": "The obligation triggering: the buyer exercises against the seller."
+      },
+      {
+        "term": "Covered vs naked",
+        "definition": "Obligation backed by assets versus backed by nothing."
+      },
+      {
+        "term": "Negative skew",
+        "definition": "Frequent small wins, rare huge losses — the seller's profile."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Selling naked calls wins 90% of the time in a backtest. From the statistics track, what is the first question before believing this strategy?",
+      "options": [
+        "How to scale it to maximum size immediately.",
+        "What do the losing 10% cost? High win rates with unbounded tail losses are the classic negative-skew trap — the expectancy may be deeply negative.",
+        "Whether 90% can reach 95%.",
+        "Which broker has the lowest fees."
+      ],
+      "correct_index": 1,
+      "explanation": "Win rate without payoff distribution is the vanity metric the metrics-suite lesson warned about. Unbounded tails turn '90% winners' into a countdown."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Re-read the metrics lesson's example of the 84%-win-rate losing strategy — option selling is its purest real-world incarnation."
+    }
+  },
+  {
+    "id": "advanced-33-options-as-insurance",
+    "module_id": "advanced",
+    "track_id": "options-foundation",
+    "tier": "advanced",
+    "order": 33,
+    "title": "Options as Insurance — and the Scope Line",
+    "summary": "The legitimate use case, and why the engine stays spot.",
+    "concept": "Strip the speculation away and an option is **insurance**. A put on a holding is a price floor: you pay a premium, and below the strike your losses stop — exactly a deductible-and-policy structure. Calls can insure against missing upside while capital waits elsewhere. Priced fairly, options *transfer risk*; that is their honest economic job.\n\nWhy, then, does QuantGlass stay **spot-only**? Three Academy-consistent reasons. **Embedded leverage**: option payoffs are inherently levered, and the previous track showed what leverage does to the survivability math. **Dimensionality**: every statistic this engine reports — expectancy in R, conformal ranges, ATR stops — assumes a position whose value tracks one variable (price); options add time and volatility as live risk axes, invalidating those tools without a full rebuild. **Honesty**: an engine that cannot model theta and vega correctly should not narrate option trades — and this one refuses to pretend.\n\nSo the scope line: understand options (you now do, at foundation level), use spot mastery as the prerequisite, and treat any future derivatives education the way this Academy treats live trading — as something to be *unlocked by demonstrated readiness*, never stumbled into.",
+    "key_terms": [
+      {
+        "term": "Protective put",
+        "definition": "A put held against a position — a paid price floor."
+      },
+      {
+        "term": "Risk transfer",
+        "definition": "Options' honest function: moving risk to a willing seller for a price."
+      },
+      {
+        "term": "Embedded leverage",
+        "definition": "Option payoffs are levered by construction."
+      },
+      {
+        "term": "Scope honesty",
+        "definition": "The engine declines to narrate what it cannot model."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does QuantGlass deliberately exclude options from its engine and paper account?",
+      "options": [
+        "Options are illegal in most countries.",
+        "Option values move on time and volatility as well as price — the engine's R-based statistics and ATR geometry would be silently wrong, and the design rule is to never display a number it cannot defend.",
+        "Options never suit any investor.",
+        "Licensing fees for options data."
+      ],
+      "correct_index": 1,
+      "explanation": "Same principle as the fact-guarded narration: scope is an honesty feature. Tools should refuse territory where their numbers stop being true."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Read any signal's confidence basis and note every statistic assumes spot — the scope line this track just explained."
+    }
   }
 ]
