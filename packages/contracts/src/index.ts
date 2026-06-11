@@ -372,6 +372,11 @@ export interface PaperTradeIntentRequest {
   side: PaperTradeSide;
   quantity: number;
   entryPrice: number;
+  planStop?: number;
+  planTarget?: number;
+  planRiskPercent?: number;
+  planReason?: string;
+  planEmotion?: string;
 }
 
 export interface PaperTradeIntentRecord {

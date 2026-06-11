@@ -178,6 +178,10 @@ export default function App() {
   const [alertChannel, setAlertChannel] = useState<AlertRecord['channel']>('desktop');
   const [paperTradeQty, setPaperTradeQty] = useState(1);
   const [paperTradeSide, setPaperTradeSide] = useState<'long' | 'short'>('long');
+  const [planStop, setPlanStop] = useState('');
+  const [planTarget, setPlanTarget] = useState('');
+  const [planReason, setPlanReason] = useState('');
+  const [planEmotion, setPlanEmotion] = useState('calm');
   const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -236,6 +240,15 @@ export default function App() {
   const paperTradeRecord = paperTradeSignalId
     ? (signalRecords.find((record) => record.id === paperTradeSignalId) ?? null)
     : null;
+
+  // Prefill the trade plan from the signal whenever the ticket opens (MSN-1).
+  useEffect(() => {
+    if (!paperTradeRecord) return;
+    setPlanStop(String(paperTradeRecord.signal.stop_loss));
+    setPlanTarget(String(paperTradeRecord.signal.take_profit[1] ?? ''));
+    setPlanReason('');
+    setPlanEmotion('calm');
+  }, [paperTradeRecord?.id]);
   const isLiveTradingMode = tradingMode === 'live';
 
   function pushToast(title: string, description?: string) {
@@ -1129,9 +1142,14 @@ export default function App() {
 
   function handleConfirmPaperTrade() {
     if (!paperTradeRecord) return;
+    if (!planReason.trim() || !(Number(planStop) > 0)) return;
 
     const entryPrice =
       (paperTradeRecord.signal.entry_zone[0] + paperTradeRecord.signal.entry_zone[1]) / 2;
+    const stopValue = Number(planStop);
+    const balance = paperAccount.balance > 0 ? paperAccount.balance : 0;
+    const planRiskPercent =
+      balance > 0 ? (Math.abs(entryPrice - stopValue) * paperTradeQty * 100) / balance : 0;
 
     if (backendStatus !== 'online') {
       pushToast(
@@ -1150,6 +1168,11 @@ export default function App() {
           side: paperTradeSide,
           quantity: paperTradeQty,
           entryPrice,
+          planStop: stopValue,
+          planTarget: Number(planTarget) > 0 ? Number(planTarget) : undefined,
+          planRiskPercent: Number(planRiskPercent.toFixed(3)),
+          planReason: planReason.trim(),
+          planEmotion,
         });
         setPaperAccount(response.account);
         pushToast(
@@ -1438,8 +1461,91 @@ export default function App() {
               </label>
             </div>
 
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="space-y-2 text-sm text-muted">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Stop loss (required)
+                </span>
+                <input
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={planStop}
+                  onChange={(event) => setPlanStop(event.target.value)}
+                />
+              </label>
+              <label className="space-y-2 text-sm text-muted">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Target
+                </span>
+                <input
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={planTarget}
+                  onChange={(event) => setPlanTarget(event.target.value)}
+                />
+              </label>
+            </div>
+
+            <label className="block space-y-2 text-sm text-muted">
+              <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                Why this trade? (required)
+              </span>
+              <input
+                className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                placeholder="One sentence: the setup, the regime, the reason."
+                maxLength={280}
+                value={planReason}
+                onChange={(event) => setPlanReason(event.target.value)}
+              />
+            </label>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="space-y-2 text-sm text-muted">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Emotional state
+                </span>
+                <select
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                  value={planEmotion}
+                  onChange={(event) => setPlanEmotion(event.target.value)}
+                >
+                  <option value="calm">Calm</option>
+                  <option value="confident">Confident</option>
+                  <option value="anxious">Anxious</option>
+                  <option value="fomo">FOMO</option>
+                  <option value="frustrated">Frustrated</option>
+                  <option value="tired">Tired</option>
+                </select>
+              </label>
+              <div className="space-y-2 text-sm text-muted">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Planned risk
+                </span>
+                <p className="rounded-2xl border border-border bg-white/[0.03] px-4 py-3 text-ink">
+                  {(() => {
+                    const entry =
+                      (paperTradeRecord.signal.entry_zone[0] +
+                        paperTradeRecord.signal.entry_zone[1]) /
+                      2;
+                    const stop = Number(planStop);
+                    if (!(stop > 0) || paperAccount.balance <= 0) return '—';
+                    const pct =
+                      (Math.abs(entry - stop) * paperTradeQty * 100) / paperAccount.balance;
+                    return `≈ ${pct.toFixed(2)}% of paper balance`;
+                  })()}
+                </p>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-3">
-              <Button onClick={handleConfirmPaperTrade}>
+              <Button
+                disabled={!planReason.trim() || !(Number(planStop) > 0)}
+                onClick={handleConfirmPaperTrade}
+              >
                 {isLiveTradingMode ? 'Submit live trade' : 'Confirm paper trade'}
               </Button>
               <button

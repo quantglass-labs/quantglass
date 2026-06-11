@@ -81,7 +81,7 @@ areas become Learn · Missions · Paper · Journal · Review (Safety renders as 
 status panel inside Review, not a sixth tab). The spine is the feedback loop:
 **capture → score → detect → prescribe → gate**.
 
-- [ ] MSN-1 Plan-aware trade ticket (stop, target, risk%, reason, emotion) — [#44](https://github.com/quantglass-labs/quantglass/issues/44)
+- [x] MSN-1 Plan-aware trade ticket (stop, target, risk%, reason, emotion) — [#44](https://github.com/quantglass-labs/quantglass/issues/44)
 - [ ] MSN-2 Process score + decision-vs-outcome 2×2 ("dangerous success") — [#45](https://github.com/quantglass-labs/quantglass/issues/45)
 - [ ] MSN-3 Mission engine + starter missions feeding the unlock ladder — [#46](https://github.com/quantglass-labs/quantglass/issues/46)
 - [ ] MSN-4 Journal + Review surfaces with adaptive recommendations — [#47](https://github.com/quantglass-labs/quantglass/issues/47)
