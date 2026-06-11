@@ -349,13 +349,11 @@ export default function App() {
         );
         const extensionSettingsResponses = await Promise.all(
           extensionRegistryResponse.extensions.map((extension) =>
-            backendClient
-              .getExtensionSettings(extension.id)
-              .catch(() => ({
-                extensionId: extension.id,
-                settings: {} as Record<string, unknown>,
-                schema: [],
-              })),
+            backendClient.getExtensionSettings(extension.id).catch(() => ({
+              extensionId: extension.id,
+              settings: {} as Record<string, unknown>,
+              schema: [],
+            })),
           ),
         );
 
