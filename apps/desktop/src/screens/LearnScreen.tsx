@@ -27,6 +27,7 @@ import type {
   LessonTier,
 } from '@quantglass/contracts';
 import { backendClient } from '../lib/backend';
+import { LessonVisuals } from './learn/LessonVisuals';
 import type { BackendStatus } from '../types';
 import {
   BookOpen,
@@ -721,6 +722,8 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
           className="text-sm text-zinc-300 leading-relaxed space-y-1 prose-zinc"
           dangerouslySetInnerHTML={{ __html: renderMarkdown(lesson.concept) }}
         />
+
+        <LessonVisuals visuals={lesson.visuals} />
       </div>
 
       {/* Key Terms */}

@@ -190,6 +190,43 @@
         "round_trip_cost",
         "stop_distance_pct"
       ]
+    },
+    "visuals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "enum": [
+              "candle_anatomy",
+              "candle_comparison",
+              "magnitude_bars",
+              "flowchart",
+              "labeled_inputs",
+              "process_steps",
+              "mini_chart",
+              "candle_builder",
+              "risk_sandbox",
+              "indicator_playground",
+              "auction_sim",
+              "payoff_explorer",
+              "regime_scrubber",
+              "monte_carlo",
+              "conformal_visualizer"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object"
+          }
+        }
+      }
     }
   }
 }

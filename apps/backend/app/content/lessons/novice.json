@@ -310,7 +310,39 @@
       "screen": "backtest",
       "cta": "Open Backtesting and find the fees/slippage assumptions on a preset — they match the defaults this lesson used."
     },
-    "live_exercise": "round_trip_cost"
+    "live_exercise": "round_trip_cost",
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Round-trip cost per side, engine defaults.",
+        "params": {
+          "heading": "The Cost Stack",
+          "subtitle": "Paid twice — entry and exit.",
+          "items": [
+            {
+              "label": "Crypto fee",
+              "value": 0.1,
+              "note": "0.10% per side"
+            },
+            {
+              "label": "Crypto slippage",
+              "value": 0.05,
+              "note": "0.05% per side"
+            },
+            {
+              "label": "Stock fee",
+              "value": 0.02,
+              "note": "0.02% per side"
+            },
+            {
+              "label": "Stock slippage",
+              "value": 0.01,
+              "note": "0.01% per side"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-13-market-participants",
@@ -442,7 +474,23 @@
     "live_apply": {
       "screen": "dashboard",
       "cta": "Switch a chart between 15m and 1h — watch four small candles fuse into one larger one carrying the same OHLCV information."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "Compression destroys the path but keeps the extremes.",
+        "params": {
+          "heading": "From Ticks to a Candle",
+          "steps": [
+            "Trades (ticks)",
+            "Time window",
+            "O / H / L / C",
+            "+ Volume",
+            "One candle"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-01-candlestick",
@@ -498,7 +546,20 @@
       "screen": "dashboard",
       "cta": "Open the Dashboard, hover any candle on the chart, and verify the O/H/L/C values in the tooltip."
     },
-    "track_id": "chart-literacy"
+    "track_id": "chart-literacy",
+    "visuals": [
+      {
+        "type": "candle_anatomy",
+        "title": "Every candle encodes four prices.",
+        "params": {
+          "variant": "bullish"
+        }
+      },
+      {
+        "type": "candle_comparison",
+        "title": "The body's color is the period's verdict."
+      }
+    ]
   },
   {
     "id": "novice-02-trend",

@@ -702,6 +702,7 @@ export interface LessonRecord {
   exercise: LessonExercise;
   live_apply: LessonLiveApply;
   live_exercise?: string;
+  visuals?: { type: string; title?: string; params?: Record<string, unknown> }[];
   /** True when the authenticated user has completed this lesson. */
   completed: boolean;
 }
