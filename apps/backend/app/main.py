@@ -39,6 +39,7 @@ from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
 from app.services.signal_engine import SignalEngineService
 from app.services.strategy_registry import StrategyRegistry
+from app.services.trade_review import TradeReviewService
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
@@ -107,6 +108,7 @@ async def lifespan(app: FastAPI):
     learn_live_service = LearnLiveExerciseService(state_store, analytics_store)
     learn_readiness_service = LearnReadinessService(state_store, learn_moments_service)
     learn_assessment_service = LearnAssessmentService(state_store)
+    trade_review_service = TradeReviewService(state_store, analytics_store)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -131,6 +133,7 @@ async def lifespan(app: FastAPI):
     app.state.learn_live_service = learn_live_service
     app.state.learn_readiness_service = learn_readiness_service
     app.state.learn_assessment_service = learn_assessment_service
+    app.state.trade_review_service = trade_review_service
 
     try:
         yield

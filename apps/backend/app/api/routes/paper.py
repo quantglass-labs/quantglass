@@ -86,3 +86,9 @@ async def submit_paper_trade(
         "account": result.account,
         "trade": result.trade,
     }
+
+
+@router.get("/api/paper-trades/review")
+async def review_paper_trades(request: Request) -> dict[str, object]:
+    """Process scores, first-touch outcomes, and the decision/outcome 2x2."""
+    return request.app.state.trade_review_service.review()
