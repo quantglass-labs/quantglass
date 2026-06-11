@@ -1048,6 +1048,43 @@ export interface ReferenceResponse {
   sections: ReferenceSection[];
 }
 
+export interface MasteryBadge {
+  track_id: string;
+  title: string;
+  level: string;
+  earned: boolean;
+  progress: number;
+  total: number;
+}
+
+export interface MasteryResponse {
+  xp: number;
+  level: number;
+  level_title: string;
+  next_level_xp: number;
+  streak_days: number;
+  badges: MasteryBadge[];
+  review_due: number;
+  xp_breakdown: {
+    lessons: number;
+    assessments_passed: number;
+    missions: number;
+    scenarios_passed: number;
+    review_reps: number;
+  };
+}
+
+export interface ReviewCard {
+  term: string;
+  definition: string;
+  lesson_id: string;
+  status: "due" | "new";
+}
+
+export interface ReviewQueueResponse {
+  items: ReviewCard[];
+}
+
 export interface ScenarioGradeResponse {
   scenario_id: string;
   score: number;

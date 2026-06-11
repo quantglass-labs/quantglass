@@ -32,6 +32,7 @@ from app.services.extension_surface_registry import ExtensionSurfaceRegistry
 from app.services.indicator_registry import IndicatorRegistry
 from app.services.learn_assessments import LearnAssessmentService
 from app.services.learn_live import LearnLiveExerciseService
+from app.services.learn_mastery import LearnMasteryService
 from app.services.learn_moments import LearnMomentsService
 from app.services.learn_readiness import LearnReadinessService
 from app.services.learn_service import LearnService
@@ -119,6 +120,7 @@ async def lifespan(app: FastAPI):
     review_coach_service = ReviewCoachService(state_store, trade_review_service, learn_service)
     constitution_service = ConstitutionService(state_store)
     scenario_service = ScenarioService(state_store)
+    learn_mastery_service = LearnMasteryService(state_store, learn_service)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -148,6 +150,7 @@ async def lifespan(app: FastAPI):
     app.state.review_coach_service = review_coach_service
     app.state.constitution_service = constitution_service
     app.state.scenario_service = scenario_service
+    app.state.learn_mastery_service = learn_mastery_service
 
     try:
         yield

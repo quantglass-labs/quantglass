@@ -57,6 +57,28 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_review_cards (
+                term_key TEXT PRIMARY KEY,
+                term TEXT NOT NULL,
+                lesson_id TEXT NOT NULL,
+                interval_days REAL NOT NULL DEFAULT 0,
+                ease REAL NOT NULL DEFAULT 2.5,
+                due_at TEXT NOT NULL,
+                reps INTEGER NOT NULL DEFAULT 0,
+                lapses INTEGER NOT NULL DEFAULT 0
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_activity (
+                day TEXT PRIMARY KEY,
+                events INTEGER NOT NULL DEFAULT 1
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -78,6 +100,7 @@ class LearnProgressStore:
                 """,
                 (lesson_id, now),
             )
+            self._record_activity(connection)
             connection.commit()
 
     def record_lesson_attempt(self, lesson_id: str) -> None:
@@ -128,6 +151,7 @@ class LearnProgressStore:
                 """,
                 (level, score, int(passed), now_iso()),
             )
+            self._record_activity(connection)
             connection.commit()
 
     def get_completed_missions(self) -> dict[str, str]:
@@ -143,6 +167,7 @@ class LearnProgressStore:
                 "INSERT OR IGNORE INTO learn_missions (mission_id, completed_at) VALUES (?, ?)",
                 (mission_id, now_iso()),
             )
+            self._record_activity(connection)
             connection.commit()
 
     def get_scenario_results(self) -> dict[str, Any]:
@@ -174,4 +199,73 @@ class LearnProgressStore:
                 """,
                 (scenario_id, percent, int(passed), now_iso()),
             )
+            self._record_activity(connection)
             connection.commit()
+
+    # ------------------------------------------------------------------
+    # Mastery loop (ACAD-6): review cards and the daily activity streak.
+    # ------------------------------------------------------------------
+
+    def get_review_cards(self) -> dict[str, Any]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                """
+                SELECT term_key, term, lesson_id, interval_days, ease, due_at, reps, lapses
+                FROM learn_review_cards
+                """
+            ).fetchall()
+        return {
+            row[0]: {
+                "term": row[1],
+                "lesson_id": row[2],
+                "interval_days": row[3],
+                "ease": row[4],
+                "due_at": row[5],
+                "reps": row[6],
+                "lapses": row[7],
+            }
+            for row in rows
+        }
+
+    def upsert_review_card(self, term: str, lesson_id: str, card: dict[str, Any]) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                """
+                INSERT INTO learn_review_cards
+                    (term_key, term, lesson_id, interval_days, ease, due_at, reps, lapses)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(term_key) DO UPDATE SET
+                    interval_days = excluded.interval_days,
+                    ease = excluded.ease,
+                    due_at = excluded.due_at,
+                    reps = excluded.reps,
+                    lapses = excluded.lapses
+                """,
+                (
+                    term.lower(),
+                    term,
+                    lesson_id,
+                    card["interval_days"],
+                    card["ease"],
+                    card["due_at"],
+                    card["reps"],
+                    card["lapses"],
+                ),
+            )
+            self._record_activity(connection)
+            connection.commit()
+
+    def get_activity_days(self) -> list[str]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute("SELECT day FROM learn_activity ORDER BY day").fetchall()
+        return [row[0] for row in rows]
+
+    def _record_activity(self, connection: sqlite3.Connection) -> None:
+        day = now_iso()[:10]
+        connection.execute(
+            """
+            INSERT INTO learn_activity (day, events) VALUES (?, 1)
+            ON CONFLICT(day) DO UPDATE SET events = learn_activity.events + 1
+            """,
+            (day,),
+        )
