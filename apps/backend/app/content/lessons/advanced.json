@@ -226,5 +226,445 @@
       "cta": "Open any signal drawer and expand the Confidence Basis section.  Find a signal where OOS_validated = True and one where it is False."
     },
     "track_id": "statistical-honesty"
+  },
+  {
+    "id": "advanced-06-trend-pullback",
+    "module_id": "advanced",
+    "track_id": "strategy-families",
+    "tier": "advanced",
+    "order": 6,
+    "title": "The Trend Pullback: Buying Strength on Sale",
+    "summary": "The engine's flagship long setup, condition by condition.",
+    "concept": "The trend pullback buys a healthy trend at a discount. The engine's exact long conditions: **structure** — close > 21-EMA > 50-SMA (the bullish stack); **location** — price interacting with the 21-EMA (the bar straddles it, or the close sits within 0.8% of it); **momentum sanity** — RSI-14 between 46 and 72: warm enough to confirm the trend, not so hot the move is already spent; **regime** — trending or transitional only.\n\nThe trade geometry then follows mechanically: reference price near the EMA, an entry zone of −0.45 to +0.15 ATR around it, a stop at the volatility-regime multiple of ATR below, and the 2.4R-scaled ladder above. The premise being purchased: *in trends, pullbacks to the rising mean tend to resolve in the trend's direction.* The stop sits where that premise dies — below the pullback's foundation.\n\nIts mirror, the rejection short, inverts every condition (close < EMA < SMA, RSI 28–54).",
+    "key_terms": [
+      {
+        "term": "Bullish stack",
+        "definition": "Close above 21-EMA above 50-SMA — trend structure intact."
+      },
+      {
+        "term": "Pullback zone",
+        "definition": "Price interacting with the rising 21-EMA."
+      },
+      {
+        "term": "RSI window",
+        "definition": "46–72 for longs: confirming warmth without exhaustion."
+      },
+      {
+        "term": "Premise",
+        "definition": "The statistical claim a setup buys — here, trend resumption from the mean."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the pullback setup reject longs when RSI-14 is above 72?",
+      "options": [
+        "High RSI is illegal.",
+        "Above ~72 the push is already extended — the setup wants to buy the rest after the dip, not chase the crest of the move.",
+        "RSI cannot exceed 72 mathematically.",
+        "The EMA disappears at high RSI."
+      ],
+      "correct_index": 1,
+      "explanation": "The setup's edge is entering during the discount, not at peak heat. An RSI ceiling filters out chasing disguised as pullback-buying."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find an ema_reclaim_pullback or daily_trend_pullback signal and verify each of the four conditions in its reasons."
+    }
+  },
+  {
+    "id": "advanced-07-trend-rejection",
+    "module_id": "advanced",
+    "track_id": "strategy-families",
+    "tier": "advanced",
+    "order": 7,
+    "title": "The Rejection Short: Trends Die From Below",
+    "summary": "The bearish mirror — selling failed rallies in downtrends.",
+    "concept": "Downtrends offer the mirror trade: price rallies into the falling 21-EMA, gets **rejected**, and resumes lower. Engine conditions: bearish stack (close < 21-EMA < 50-SMA), the bar interacting with the EMA from below, RSI-14 between 28 and 54 (a real bounce, not a dead market), trending/transitional regime, with confluence credited when the MACD histogram is negative and the higher-timeframe drift points down.\n\nShorting deserves two honest asymmetry notes. **Risk shape**: a long's worst case is −100%; a short's theoretical worst case is unbounded — which is why the stop above the rejection high is even less negotiable than usual. **Behavior shape**: declines tend to be faster and sharper than rallies (fear liquidates faster than greed accumulates), so rejection shorts often resolve quicker than their long mirrors.\n\nIn QuantGlass paper trading you can practice the full mechanics symmetrically — the engine treats direction as a first-class parameter, not an afterthought.",
+    "key_terms": [
+      {
+        "term": "Rejection",
+        "definition": "A rally into resistance (here the falling EMA) that fails and closes away."
+      },
+      {
+        "term": "Bearish stack",
+        "definition": "Close below 21-EMA below 50-SMA."
+      },
+      {
+        "term": "Short asymmetry",
+        "definition": "Unbounded theoretical loss — stops are structurally mandatory."
+      },
+      {
+        "term": "Downside velocity",
+        "definition": "Declines typically travel faster than equivalent rallies."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why is the stop discipline on a short even stricter than on a long?",
+      "options": [
+        "Shorts are taxed differently.",
+        "A long can lose at most its value; a short's adverse move is theoretically unbounded, so an unstopped short has no worst case.",
+        "Stops execute faster on shorts.",
+        "It isn't — risk is symmetric."
+      ],
+      "correct_index": 1,
+      "explanation": "Price has a floor at zero and no ceiling. The rejection high is not just a reference — above it, the position has no defined risk at all."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find a trend_rejection_breakdown signal and trace its stop to the rejection structure above the entry."
+    }
+  },
+  {
+    "id": "advanced-08-breakout-retest",
+    "module_id": "advanced",
+    "track_id": "strategy-families",
+    "tier": "advanced",
+    "order": 8,
+    "title": "Breakout-Retest: Trading Escape Velocity",
+    "summary": "New extremes, volume attendance, and the trend's confirmation.",
+    "concept": "The breakout family bets that **new extremes extend**. Engine conditions for the long version: trending regime (mandatory — this family is the most regime-fragile), the bullish stack intact, the bar pushing through the **prior bar's 20-Donchian high** with the close holding within 0.3% of the level, and **volume at least at its recent average** — escape attempts without attendance are presumed fake.\n\nIt enters as a **WATCH** state with a higher confluence base (0.60) than the pullback: when a breakout is real it is the trend announcing itself, but the family pays for that quality with fragility — in ranges, the identical bar is the textbook fakeout, which is why the regime gate exists.\n\nThe 'retest' in the name is the maturity test: strong breakouts often return to kiss the broken level before continuing. The level that capped price becomes the level defending it — resistance turned support, the cleanest structure flip in trading.",
+    "key_terms": [
+      {
+        "term": "Escape velocity",
+        "definition": "A push through prior extremes strong enough to hold."
+      },
+      {
+        "term": "Volume attendance",
+        "definition": "Volume ratio ≥ 1.0 — participation validating the break."
+      },
+      {
+        "term": "Structure flip",
+        "definition": "Broken resistance acting as new support on the retest."
+      },
+      {
+        "term": "Regime fragility",
+        "definition": "The family's total dependence on the trending gate."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A bar pierces the prior Donchian high intraday but closes 1.2% back below it on average volume. Does the engine's breakout fire?",
+      "options": [
+        "Yes — touching the level is enough.",
+        "No — the close failed the hold test (within 0.3% of the level), making this a rejection wick, not an escape.",
+        "Yes, but only on Tuesdays.",
+        "No, because volume must be zero."
+      ],
+      "correct_index": 1,
+      "explanation": "The close test separates escapes from excursions: a pierce that closes well back below the level is evidence of supply at the highs — the opposite premise."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open a breakout_retest_continuation preset: its trade count is exactly how often these strict conditions co-occurred historically."
+    }
+  },
+  {
+    "id": "advanced-09-mean-reversion",
+    "module_id": "advanced",
+    "track_id": "strategy-families",
+    "tier": "advanced",
+    "order": 9,
+    "title": "Range Mean Reversion: Trading the Rubber Band",
+    "summary": "Washed-out extremes snapping back to the middle.",
+    "concept": "In a ranging regime the operative force is the **pull of the mean**. The engine's long conditions: ranging regime (ADX < 16), the **2-period RSI ≤ 8** — a deliberately twitchy oscillator reading near total washout — and the bar tagging the **lower Bollinger band** (low within 0.5% of it). Shorts mirror at RSI-2 ≥ 92 and the upper band.\n\nEverything about this family is built different because the premise is different. The target is not an open-ended ladder but the **middle band** — the mean doing the pulling — with the ladder compressed around it (60% of the span, the mean itself, 130% beyond). Confluence starts lower (base 0.50) because fading moves is structurally the more fragile bet: the same washout reading in a *trending* regime is not a rubber band, it is a freight train, which is why the regime gate is non-negotiable here.\n\nThis family teaches the deepest lesson in the track: identical chart geometry means opposite things in different regimes.",
+    "key_terms": [
+      {
+        "term": "RSI-2",
+        "definition": "A 2-period RSI — an intentionally hair-trigger washout detector."
+      },
+      {
+        "term": "Washout",
+        "definition": "RSI-2 ≤ 8 (or ≥ 92): one-sided exhaustion within the range."
+      },
+      {
+        "term": "Mean target",
+        "definition": "Exits aimed at the middle Bollinger band, not open-ended."
+      },
+      {
+        "term": "Freight-train risk",
+        "definition": "Fading 'stretched' prices in a trending regime."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the mean-reversion family target the middle Bollinger band instead of using the standard 2.4R ladder?",
+      "options": [
+        "Middle bands pay rebates.",
+        "Its premise is a snap back to the mean — once price reaches the mean, the engine's reason for the trade is spent.",
+        "Ladders require ADX above 22.",
+        "The middle band is always 2.4R away."
+      ],
+      "correct_index": 1,
+      "explanation": "Exits must match premises. A reversion trade that holds past the mean has become a trend trade nobody planned — the target keeps the trade honest to its idea."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "If a range_meanreversion signal exists, compare its take-profit levels to the symbol's middle band."
+    }
+  },
+  {
+    "id": "advanced-10-choosing-families",
+    "module_id": "advanced",
+    "track_id": "strategy-families",
+    "tier": "advanced",
+    "order": 10,
+    "title": "One Symbol, Many Setups: How the Engine Chooses",
+    "summary": "Competition by confluence, and the fallback states.",
+    "concept": "On every closed bar the engine evaluates **all families plus any extension strategies**, collects every candidate whose gates pass, and selects the **highest confluence score**. No hierarchy, no favoritism — the setup with the most independent agreement wins the card.\n\nWhen *no* family fires, the engine still reports honestly through **fallback states**: a bullish stack with no actionable setup → **HOLD** (trend intact, nothing to do); a bearish stack → **WATCH** the breakdown; neither → **WAIT**, flagged invalidated. These low-base states (0.30) exist because *'nothing to do'* is a legitimate, frequent, and valuable answer — the engine refuses to manufacture action.\n\nThe meta-lesson for your own trading: a strategy is not a single setup, it is a **portfolio of premises** with rules for when each applies and the humility to say 'none apply'. Most retail losses are the refusal to accept that third option.",
+    "key_terms": [
+      {
+        "term": "Candidate competition",
+        "definition": "All passing setups scored; the highest confluence is shown."
+      },
+      {
+        "term": "Fallback state",
+        "definition": "HOLD/WATCH/WAIT — the honest 'no setup' answers."
+      },
+      {
+        "term": "Premise portfolio",
+        "definition": "A strategy as a set of regime-gated ideas, not one pattern."
+      },
+      {
+        "term": "Manufactured action",
+        "definition": "Trading because you want a trade — the fallback states' enemy."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "All four families fail their gates on a symbol with an intact bullish stack. What does the engine emit?",
+      "options": [
+        "Nothing — the symbol disappears.",
+        "A HOLD state: trend structure intact, no actionable setup, low confluence base, no entry manufactured.",
+        "A forced BUY_ZONE at half confidence.",
+        "An error message."
+      ],
+      "correct_index": 1,
+      "explanation": "HOLD is information, not failure: stay with what is working, add nothing. The engine would rather be honestly idle than artificially busy."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Count today's HOLD/WATCH/WAIT states versus actionable ones — the ratio is the engine's honesty showing."
+    }
+  },
+  {
+    "id": "advanced-11-why-backtests-lie",
+    "module_id": "advanced",
+    "track_id": "statistical-honesty",
+    "tier": "advanced",
+    "order": 11,
+    "title": "Why Backtests Lie",
+    "summary": "The four classic frauds and the engine's defenses.",
+    "concept": "Most published backtests flatter their authors through four mechanisms. **Overfitting**: tuning parameters until history is memorized — the curve fits the noise, not the signal. **Look-ahead bias**: letting the simulation peek at data unavailable at decision time (using a bar's close to decide that bar's entry). **Survivorship bias**: testing on instruments that still exist, silently excluding the delisted and dead. **Cost amnesia**: simulating fills at frictionless prices.\n\nQuantGlass's structural defenses, none optional: decisions consume **closed candles only** and the backtester re-runs the *identical* detector the live signal uses, bar by bar; every simulated trade pays the **full round-trip cost model**; results are split **chronologically** into in-sample and out-of-sample with no blending; and parameters are fixed engine-wide rather than fitted per symbol — the opposite of curve-fitting's per-instrument massage.\n\nThe honest posture: treat any backtest, including ours, as an *upper bound* on live performance, not a promise.",
+    "key_terms": [
+      {
+        "term": "Overfitting",
+        "definition": "Memorizing history's noise via parameter tuning."
+      },
+      {
+        "term": "Look-ahead bias",
+        "definition": "Using information unavailable at decision time."
+      },
+      {
+        "term": "Survivorship bias",
+        "definition": "Testing only on assets that survived."
+      },
+      {
+        "term": "Cost amnesia",
+        "definition": "Ignoring fees and slippage in simulation."
+      },
+      {
+        "term": "Upper bound",
+        "definition": "The honest reading of any backtest result."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A vendor's strategy shows a 94% win rate after optimizing 12 parameters per symbol on 3 years of data. What is the most likely explanation?",
+      "options": [
+        "A genuine market inefficiency that ignores all costs.",
+        "Overfitting: 12 per-symbol knobs can memorize 3 years of noise; the result describes the past, not the future.",
+        "Skill that transfers automatically to live trading.",
+        "A typo — win rates cap at 60%."
+      ],
+      "correct_index": 1,
+      "explanation": "Enough parameters can fit anything, including randomness. Out-of-sample decay is the signature: memorized noise does not repeat."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Note that every QuantGlass preset uses the same engine-wide parameters — the absence of per-symbol knobs is the anti-overfitting defense."
+    }
+  },
+  {
+    "id": "advanced-12-is-oos",
+    "module_id": "advanced",
+    "track_id": "statistical-honesty",
+    "tier": "advanced",
+    "order": 12,
+    "title": "In-Sample, Out-of-Sample: The Honest Split",
+    "summary": "The engine's 70/30 chronological split and its validation bar.",
+    "concept": "The only convincing test of a rule is data it never touched. QuantGlass splits each symbol's simulated trades **chronologically** — the first 70% of trades are **in-sample (IS)**, the remaining 30% **out-of-sample (OOS)** — and reports the two blocks **separately, never blended**. Chronological (not random) splitting matters in markets: it preserves regime ordering and ensures the OOS block is genuinely *later* information.\n\nThe validation bar is explicit: a setup earns `out_of_sample_validated` only when the OOS block has **at least the minimum sample** (your safety setting, default 50) *and* **positive OOS expectancy**. Fail either and every confidence score is hard-capped at 62 — the engine structurally refuses to be excited about unvalidated patterns.\n\nWhen you read a preset, develop the analyst's reflex: skip the headline, compare IS to OOS. Stable across the split → robust; collapsing in OOS → memorized.",
+    "key_terms": [
+      {
+        "term": "Chronological split",
+        "definition": "First 70% of trades IS, last 30% OOS — time-ordered, never shuffled."
+      },
+      {
+        "term": "OOS validation",
+        "definition": "Minimum OOS sample AND positive OOS expectancy."
+      },
+      {
+        "term": "Confidence cap",
+        "definition": "Unvalidated setups cannot score above 62."
+      },
+      {
+        "term": "IS/OOS decay",
+        "definition": "Performance collapsing out-of-sample — overfitting's fingerprint."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A preset shows IS expectancy +0.42R and OOS expectancy −0.05R over a healthy sample. The honest conclusion?",
+      "options": [
+        "Average them: +0.18R of edge.",
+        "The pattern likely memorized its training window — the OOS collapse is the tell, and the engine will refuse validation.",
+        "OOS data is simply wrong.",
+        "Double the position size."
+      ],
+      "correct_index": 1,
+      "explanation": "Blending would launder the failure. The whole point of the untouched block is that it cannot be negotiated with — and it just said no."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Pick any preset and read IS vs OOS side by side before looking at the blended headline."
+    }
+  },
+  {
+    "id": "advanced-13-metrics-suite",
+    "module_id": "advanced",
+    "track_id": "statistical-honesty",
+    "tier": "advanced",
+    "order": 13,
+    "title": "Reading the Full Metrics Suite",
+    "summary": "Win rate, expectancy, profit factor, Sharpe, Sortino, drawdown — one story, six angles.",
+    "concept": "No single metric survives alone. **Win rate** without payoff size is a vanity number — 90% wins of +0.1R with −2R losses is ruin. **Expectancy** (mean R per trade) is the bottom line but hides its volatility. **Profit factor** (gross wins ÷ gross losses) reads robustness: below ~1.2 is fragile after costs. **Sharpe** scales mean by total volatility; **Sortino** divides by *downside* volatility only — kinder to strategies whose volatility is mostly upside, which is why trend-following often looks better in Sortino. **Max drawdown** is the psychological price of admission.\n\nThe engine computes all six from the same trade list on every preset, plus the equity and drawdown curves they summarize. Profiles to recognize: trend-following (40–50% win rate, high avg win, good Sortino, long flat drawdowns), mean reversion (high win rate, small wins, tail-risk drawdowns).\n\nAnalyst's habit: read metrics as a *consistency check* — if two of them disagree with the story you formed, your story is wrong.",
+    "key_terms": [
+      {
+        "term": "Profit factor",
+        "definition": "Gross profit ÷ gross loss — robustness after costs."
+      },
+      {
+        "term": "Sharpe ratio",
+        "definition": "Mean return scaled by total volatility."
+      },
+      {
+        "term": "Sortino ratio",
+        "definition": "Mean scaled by downside volatility only."
+      },
+      {
+        "term": "Metric profile",
+        "definition": "The characteristic metric pattern of a strategy family."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Strategy A: 84% win rate, expectancy −0.07R. Strategy B: 43% win rate, expectancy +0.31R. Which earns money over time?",
+      "options": [
+        "A — win rate is the bottom line.",
+        "B — expectancy is the bottom line; A's frequent small wins are funded by occasional catastrophic losses.",
+        "Both equally.",
+        "Neither, because win rates must exceed 90%."
+      ],
+      "correct_index": 1,
+      "explanation": "Expectancy already nets wins against losses. A's profile (high win rate, negative expectancy) is the classic signature of cut-winners-let-losers behavior."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Take one preset and read all six metrics in order: do they tell one consistent story?"
+    }
+  },
+  {
+    "id": "advanced-14-shrinkage",
+    "module_id": "advanced",
+    "track_id": "statistical-honesty",
+    "tier": "advanced",
+    "order": 14,
+    "title": "Sample Size and Shrinkage",
+    "summary": "Why the engine refuses to believe small samples — with the formula.",
+    "concept": "Three wins from three trades is a 100% win rate and statistically almost nothing. The engine encodes that skepticism as **empirical-Bayes shrinkage**: every win rate is pulled toward 50% in proportion to how thin its sample is.\n\nThe exact formula: `calibrated = (raw × n + 0.5 × k) ÷ (n + k)`, where **n** is the sample size and **k** is the prior strength — set to your minimum-backtest-sample setting (default 50). Worked example: a perfect 10-for-10 record gives (1.0×10 + 0.5×50) ÷ 60 = **58.3%** — impressive evidence reduced to a mild lean. A 60% win rate over 400 trades barely moves: (240 + 25) ÷ 450 = 58.9%. Same calibrated belief, wildly different evidence — exactly as it should be.\n\nPooling completes the defense: per-symbol samples are thin, so the engine aggregates outcomes per setup family and timeframe across symbols, and prefers pooled statistics whenever the pooled sample clears the bar. Believe slowly; update with evidence.",
+    "key_terms": [
+      {
+        "term": "Shrinkage",
+        "definition": "Pulling estimates toward neutral in proportion to sample thinness."
+      },
+      {
+        "term": "Prior strength",
+        "definition": "k in the formula — the engine uses your min-sample setting."
+      },
+      {
+        "term": "Pooled expectancy",
+        "definition": "Cross-symbol aggregation per setup family and timeframe."
+      },
+      {
+        "term": "Evidence weight",
+        "definition": "n ÷ (n + k): how much the data outvotes the prior."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "Using the engine's formula with prior strength k = 50: a setup is 10-for-10 (raw win rate 100%). What is the calibrated win rate, in percent?",
+      "hint": "(1.0 × 10 + 0.5 × 50) ÷ (10 + 50), then ×100",
+      "correct_answer": "58.3",
+      "tolerance_percent": 1.0,
+      "explanation": "(10 + 25) ÷ 60 = 0.5833 → **58.3%**. Ten perfect trades move the needle from 50% to 58% — evidence is respected, but small samples cannot shout."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find a signal with a small backtest sample and notice how modest its confidence stays — you just computed why."
+    }
+  },
+  {
+    "id": "advanced-15-honest-simulation",
+    "module_id": "advanced",
+    "track_id": "statistical-honesty",
+    "tier": "advanced",
+    "order": 15,
+    "title": "Inside the Honest Simulator",
+    "summary": "First-touch fills, the real ladder, costs, and the time stop.",
+    "concept": "What exactly happens when QuantGlass backtests a setup? For every historical bar where the *identical live detector* fires, the simulator walks forward bar by bar and plays the displayed trade with no hindsight: if the bar's range touches the **stop**, the remaining position exits there — stop first, conservatively, when both stop and target are inside one bar's range. Otherwise each **ladder rung** that the bar's range reaches fills its exact weight (50/30/20). If the position survives to the timeframe's **max hold** (24 bars on 1h, 12 on 1d), it exits at that bar's close — the time stop.\n\nThe result is netted of the **full round-trip cost** converted into R, then joins the chronological trade list that feeds every metric, the IS/OOS split, and the conformal calibration set.\n\nThe principle underneath: the backtest simulates **the trade you would actually see on the card** — same entry logic, same stop, same rungs, same costs. No idealized exits, no respecified trades. When a number can be checked against the simulation that produced it, trust becomes auditable.",
+    "key_terms": [
+      {
+        "term": "First-touch fill",
+        "definition": "Levels fill when a bar's range first reaches them; stops take priority within a bar."
+      },
+      {
+        "term": "Ladder fidelity",
+        "definition": "Simulated exits use the displayed 50/30/20 rungs exactly."
+      },
+      {
+        "term": "Max hold",
+        "definition": "The per-timeframe time stop — stalled setups exit at the close."
+      },
+      {
+        "term": "Displayed-trade principle",
+        "definition": "Backtest and signal card share one geometry."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Within a single simulated bar, price ranges across both the stop and the first ladder rung. How does the engine resolve it?",
+      "options": [
+        "Fills the profitable rung first — simulations deserve optimism.",
+        "Takes the stop on the remaining position — the conservative resolution, since the bar cannot reveal which level was touched first.",
+        "Splits the difference at the midpoint.",
+        "Skips the bar entirely."
+      ],
+      "correct_index": 1,
+      "explanation": "OHLCV destroys the within-bar path, so the simulator charges itself the worst case. Honest backtests resolve ambiguity against themselves."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Read a preset's trade count and expectancy knowing now precisely how each simulated trade was filled, costed, and closed."
+    }
   }
 ]
