@@ -1,6 +1,6 @@
 # QuantGlass Masterplan — recalibrated around the Academy
 
-**Recalibrated:** 2026-06-11. The learning platform is no longer a feature of
+**Recalibrated:** 2026-06-11. Curriculum vision blueprint: [academy.md](academy.md). The learning platform is no longer a feature of
 the app; it is the spine of the product. QuantGlass teaches a complete
 trading education — novice through expert, for *traders*, not just app
 users — and the workstation is the interactive lab where every concept is
@@ -59,10 +59,16 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
       overtrading cadence, journal-skipping
 - [ ] ACAD-9 **Scenario replay (LL4)**: drive paper trading through
       historical episodes with graded, engine-fact debriefs
-- [x] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
+- [ ] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
       extension SDK, schema-validated, surfaced through the registry (E7)
-- [x] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
+- [ ] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
       completion certificates
+- [ ] ACAD-12 **Wave 5 — blueprint expansion**: scams & fake gurus,
+      margin/leverage, options, fundamentals, macro, microstructure, risk
+      officer mode (from [academy.md](academy.md)) — [#42](https://github.com/quantglass-labs/quantglass/issues/42)
+- [ ] ACAD-13 **Gated progression**: five-dimension readiness scores,
+      level-unlock logic, guided simulations, staged real-trading unlock
+      (off by default) per [academy.md](academy.md) §3/8/11/12 — [#43](https://github.com/quantglass-labs/quantglass/issues/43)
 
 Shipped foundations: lesson JSON content + schema CI ✅ · lesson moments v1
 ([#25](https://github.com/quantglass-labs/quantglass/issues/25)) ✅ · live
