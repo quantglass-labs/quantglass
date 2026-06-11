@@ -153,6 +153,13 @@
       "order": 6,
       "title": "Options Foundation",
       "description": "Calls, puts, premium, time decay, and the buyer/seller asymmetry — enough to understand options and to know why they are out of engine scope."
+    },
+    {
+      "id": "fundamentals",
+      "level": "advanced",
+      "order": 7,
+      "title": "Fundamentals for Traders",
+      "description": "Earnings, tokenomics, and catalysts — fundamentals as volatility context for technical traders, not as a valuation course."
     }
   ]
 }
