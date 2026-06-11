@@ -47,7 +47,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 - [x] ACAD-3 **Content Wave 2 — Indicators, Risk, Regimes** (~30 lessons)
 - [x] ACAD-4 **Content Wave 3 — Strategy, Statistics, Execution,
       Psychology** (~25 lessons)
-- [ ] ACAD-5 **Content Wave 4 — Expert** (~15 lessons), paired 1:1 with
+- [x] ACAD-5 **Content Wave 4 — Expert** (~15 lessons), paired 1:1 with
       engine surfaces (conformal drawer, calibration table, SDK, MCP)
 - [ ] ACAD-6 **Mastery loop (LL3)**: spaced-repetition review queue,
       XP/streaks, per-track badges, level-gate assessments
