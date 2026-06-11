@@ -48,6 +48,7 @@ class LearnReadinessService:
             for intent in self._store.list_paper_trade_intents()
             if intent.get("status") == "executed"
         ]
+        assessments = self._store.get_assessments()
         moments = self._moments.get_moments()
         active_types = {moment["type"] for moment in moments if not moment["lesson_completed"]}
 
@@ -87,7 +88,7 @@ class LearnReadinessService:
         }
         return {
             "scores": scores,
-            "levels": self._level_unlocks(by_level, len(executed_trades), scores),
+            "levels": self._level_unlocks(by_level, len(executed_trades), scores, assessments),
             "executed_trades": len(executed_trades),
             "active_moments": sorted(active_types),
         }
@@ -102,7 +103,11 @@ class LearnReadinessService:
         by_level: dict[str, tuple[int, int]],
         executed_trades: int,
         scores: dict[str, int],
+        assessments: dict[str, Any],
     ) -> list[dict[str, Any]]:
+        def assessment_passed(level: str) -> bool:
+            return bool(assessments.get(level, {}).get("passed"))
+
         def level_complete(level: str) -> bool:
             done, total = by_level.get(level, (0, 0))
             return total > 0 and done == total
@@ -114,6 +119,7 @@ class LearnReadinessService:
 
         intermediate_reqs = [
             requirement("Complete all novice lessons", level_complete("novice")),
+            requirement("Pass the novice assessment", assessment_passed("novice")),
         ]
         intermediate = {
             "id": "intermediate",
@@ -128,6 +134,7 @@ class LearnReadinessService:
                 executed_trades >= ADVANCED_TRADE_BAR,
             ),
             requirement("No active severe risk moments", scores["risk"] >= 70),
+            requirement("Pass the intermediate assessment", assessment_passed("intermediate")),
         ]
         advanced = {
             "id": "advanced",
@@ -144,6 +151,7 @@ class LearnReadinessService:
                 f"Psychology score {EXPERT_PSYCHOLOGY_BAR}+",
                 scores["psychology"] >= EXPERT_PSYCHOLOGY_BAR,
             ),
+            requirement("Pass the advanced assessment", assessment_passed("advanced")),
         ]
         expert = {
             "id": "expert",

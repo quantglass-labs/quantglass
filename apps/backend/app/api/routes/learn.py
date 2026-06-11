@@ -23,6 +23,10 @@ class LiveAnswerRequest(BaseModel):
     params: dict
 
 
+class AssessmentSubmission(BaseModel):
+    answers: dict[str, int]
+
+
 # ---------------------------------------------------------------------------
 # Catalog & modules
 # ---------------------------------------------------------------------------
@@ -135,3 +139,21 @@ async def get_readiness(request: Request) -> dict:
     """Return the five readiness scores and per-level unlock requirements."""
     svc = request.app.state.learn_readiness_service
     return svc.get_readiness()
+
+
+@router.get("/assessment/{level}")
+async def get_assessment(level: str, request: Request) -> dict:
+    """Build a level assessment from that level's lesson exercises."""
+    svc = request.app.state.learn_assessment_service
+    if not svc.supports(level):
+        raise HTTPException(status_code=404, detail=f"Unknown level '{level}'.")
+    return svc.build_assessment(level)
+
+
+@router.post("/assessment/{level}")
+async def submit_assessment(level: str, body: AssessmentSubmission, request: Request) -> dict:
+    """Grade an assessment server-side and persist the best result."""
+    svc = request.app.state.learn_assessment_service
+    if not svc.supports(level):
+        raise HTTPException(status_code=404, detail=f"Unknown level '{level}'.")
+    return svc.grade(level, body.answers)

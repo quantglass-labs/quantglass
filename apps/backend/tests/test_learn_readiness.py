@@ -13,12 +13,16 @@ class _StateStore:
     def __init__(self) -> None:
         self.progress: dict[str, dict] = {}
         self.intents: list[dict] = []
+        self.assessments: dict[str, dict] = {}
 
     def get_learn_progress(self):
         return self.progress
 
     def list_paper_trade_intents(self):
         return self.intents
+
+    def get_assessments(self):
+        return self.assessments
 
 
 class _Moments:
@@ -33,6 +37,8 @@ def _complete_levels(store: _StateStore, levels: set[str]) -> None:
     for lesson in _load_lessons():
         if lesson["tier"] in levels:
             store.progress[lesson["id"]] = {"completed_at": "2026-06-01", "attempts": 1}
+    for level in levels:
+        store.assessments[level] = {"passed": True, "score": 90}
 
 
 def _service(store=None, moments=None):
@@ -121,6 +127,15 @@ class UnlockLadderTests(unittest.TestCase):
             _service(store=store, moments=_Moments(["rapid_fire_entries"])).get_readiness()
         )
         self.assertFalse(levels["expert"]["unlocked"])  # psychology 60 not > bar? 60 >= 60 ok
+
+    def test_lessons_complete_but_assessment_unpassed_keeps_lock(self) -> None:
+        store = _StateStore()
+        _complete_levels(store, {"novice"})
+        store.assessments = {}  # lessons done, exam not passed
+        levels = self._levels(_service(store=store).get_readiness())
+        self.assertFalse(levels["intermediate"]["unlocked"])
+        unmet = [r["label"] for r in levels["intermediate"]["requirements"] if not r["met"]]
+        self.assertEqual(unmet, ["Pass the novice assessment"])
 
     def test_requirements_carry_met_flags(self) -> None:
         levels = self._levels(_service().get_readiness())
