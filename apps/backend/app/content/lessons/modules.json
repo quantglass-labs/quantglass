@@ -132,6 +132,13 @@
       "order": 4,
       "title": "Going-Live Readiness",
       "description": "Broker plumbing, key custody, and safety gates. Educational only — never financial advice."
+    },
+    {
+      "id": "scam-defense",
+      "level": "novice",
+      "order": 4,
+      "title": "Scam Defense",
+      "description": "Recognize and refuse the scams that target new traders: fake gurus, signal sellers, phishing, and social-engineering schemes."
     }
   ]
 }
