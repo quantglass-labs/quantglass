@@ -27,6 +27,17 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_assessments (
+                level TEXT PRIMARY KEY,
+                score INTEGER NOT NULL,
+                passed INTEGER NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 1,
+                taken_at TEXT NOT NULL
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -67,4 +78,35 @@ class LearnProgressStore:
                     "INSERT OR IGNORE INTO learn_progress (lesson_id, completed_at, attempts) VALUES (?, '', 1)",
                     (lesson_id,),
                 )
+            connection.commit()
+
+    def get_assessments(self) -> dict[str, Any]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT level, score, passed, attempts, taken_at FROM learn_assessments"
+            ).fetchall()
+        return {
+            row[0]: {
+                "score": row[1],
+                "passed": bool(row[2]),
+                "attempts": row[3],
+                "taken_at": row[4],
+            }
+            for row in rows
+        }
+
+    def record_assessment(self, level: str, score: int, passed: bool) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                """
+                INSERT INTO learn_assessments (level, score, passed, attempts, taken_at)
+                VALUES (?, ?, ?, 1, ?)
+                ON CONFLICT(level) DO UPDATE SET
+                    score = MAX(learn_assessments.score, excluded.score),
+                    passed = MAX(learn_assessments.passed, excluded.passed),
+                    attempts = learn_assessments.attempts + 1,
+                    taken_at = excluded.taken_at
+                """,
+                (level, score, int(passed), now_iso()),
+            )
             connection.commit()

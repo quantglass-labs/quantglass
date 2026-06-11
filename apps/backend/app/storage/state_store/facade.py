@@ -246,3 +246,9 @@ class StateStore:
 
     def record_lesson_attempt(self, lesson_id: str) -> None:
         self.learn.record_lesson_attempt(lesson_id)
+
+    def get_assessments(self) -> dict[str, Any]:
+        return self.learn.get_assessments()
+
+    def record_assessment(self, level: str, score: int, passed: bool) -> None:
+        self.learn.record_assessment(level, score, passed)
