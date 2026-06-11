@@ -181,7 +181,13 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Open a symbol and imagine the candle's close as a bid/ask pair around it — the engine's slippage assumption models exactly that gap."
-    }
+    },
+    "visuals": [
+      {
+        "type": "auction_sim",
+        "title": "Press market buy and watch your urgency eat the book."
+      }
+    ]
   },
   {
     "id": "novice-10-order-types",
@@ -489,6 +495,10 @@
             "One candle"
           ]
         }
+      },
+      {
+        "type": "candle_builder",
+        "title": "Drag the four numbers; replay the compression."
       }
     ]
   },

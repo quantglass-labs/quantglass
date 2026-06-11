@@ -45,7 +45,18 @@
       "screen": "signals",
       "cta": "Open any signal and look at market_regime in the confidence_basis.  Find one 'ranging' and one 'trending' signal."
     },
-    "track_id": "strategy-families"
+    "track_id": "strategy-families",
+    "visuals": [
+      {
+        "type": "regime_scrubber",
+        "title": "Regime classification bar-by-bar.",
+        "params": {
+          "data": "live",
+          "symbol": "BTCUSD",
+          "timeframe": "1h"
+        }
+      }
+    ]
   },
   {
     "id": "advanced-02-macd",
@@ -537,7 +548,23 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Pick any preset and read IS vs OOS side by side before looking at the blended headline."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "The honest split: blocks never blend.",
+        "params": {
+          "heading": "Chronological Validation",
+          "steps": [
+            "All trades (time order)",
+            "First 70% = IS",
+            "Last 30% = OOS",
+            "Compare separately",
+            "Validate or cap"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-13-metrics-suite",
@@ -1105,7 +1132,16 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Check a crypto symbol's ATR as a percent of price, then compute which leverage would put liquidation inside one ordinary day's range."
-    }
+    },
+    "visuals": [
+      {
+        "type": "payoff_explorer",
+        "title": "Slide the leverage; watch liquidation enter the noise band.",
+        "params": {
+          "atrPercent": 3
+        }
+      }
+    ]
   },
   {
     "id": "advanced-26-liquidation",
@@ -1149,7 +1185,16 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Find a violent lower wick on a crypto chart and check the volume spike beneath it — the cascade's footprint."
-    }
+    },
+    "visuals": [
+      {
+        "type": "payoff_explorer",
+        "title": "At high multiples, ordinary noise is lethal.",
+        "params": {
+          "atrPercent": 3
+        }
+      }
+    ]
   },
   {
     "id": "advanced-27-short-selling",

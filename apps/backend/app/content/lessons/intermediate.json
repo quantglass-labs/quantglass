@@ -41,7 +41,16 @@
       "screen": "signals",
       "cta": "Filter Signals to BUY_ZONE.  Find a signal with setup_type = 'ema_reclaim_pullback' and inspect the reasons list."
     },
-    "track_id": "indicator-mastery"
+    "track_id": "indicator-mastery",
+    "visuals": [
+      {
+        "type": "indicator_playground",
+        "title": "Feel the lag grow with the period.",
+        "params": {
+          "indicator": "ema"
+        }
+      }
+    ]
   },
   {
     "id": "intermediate-02-rsi",
@@ -89,7 +98,16 @@
       "screen": "signals",
       "cta": "Look for a BUY_ZONE signal with setup_type = 'range_meanreversion_long' in the Signals screen."
     },
-    "track_id": "indicator-mastery"
+    "track_id": "indicator-mastery",
+    "visuals": [
+      {
+        "type": "indicator_playground",
+        "title": "Short periods twitch; long periods sleep.",
+        "params": {
+          "indicator": "rsi"
+        }
+      }
+    ]
   },
   {
     "id": "intermediate-06-macd",
@@ -450,7 +468,13 @@
       "cta": "Open a BTCUSD BUY_ZONE signal and verify the stop_loss distance from entry equals roughly 1.3–1.6× ATR."
     },
     "track_id": "risk-position-sizing",
-    "live_exercise": "atr_stop"
+    "live_exercise": "atr_stop",
+    "visuals": [
+      {
+        "type": "risk_sandbox",
+        "title": "Move the stop; watch 1R and position size respond."
+      }
+    ]
   },
   {
     "id": "intermediate-04-risk-reward",
@@ -495,7 +519,13 @@
       "cta": "Open Backtesting, pick any preset, and examine the Expectancy (avg_R), Win Rate, and Profit Factor metrics together."
     },
     "track_id": "risk-position-sizing",
-    "live_exercise": "target_price"
+    "live_exercise": "target_price",
+    "visuals": [
+      {
+        "type": "risk_sandbox",
+        "title": "R:R recomputes as you move either level."
+      }
+    ]
   },
   {
     "id": "intermediate-05-position-sizing",
@@ -532,7 +562,13 @@
       "cta": "Open a signal, note its entry and stop_loss, then calculate how many shares to buy with 1% risk on a $10,000 paper account."
     },
     "track_id": "risk-position-sizing",
-    "live_exercise": "position_size"
+    "live_exercise": "position_size",
+    "visuals": [
+      {
+        "type": "risk_sandbox",
+        "title": "Size always derives from the stop, never from conviction."
+      }
+    ]
   },
   {
     "id": "intermediate-13-r-multiples",
@@ -656,7 +692,39 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Open a preset's drawdown curve and find its deepest point — that valley is the strategy's true stress test."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Recovery requirements grow faster than the losses.",
+        "params": {
+          "heading": "Recovery Asymmetry",
+          "subtitle": "Gain required to repair each drawdown.",
+          "items": [
+            {
+              "label": "−10% loss",
+              "value": 11.1,
+              "note": "+11.1% to recover"
+            },
+            {
+              "label": "−20% loss",
+              "value": 25.0,
+              "note": "+25% to recover"
+            },
+            {
+              "label": "−33% loss",
+              "value": 50.0,
+              "note": "+50% to recover"
+            },
+            {
+              "label": "−50% loss",
+              "value": 100.0,
+              "note": "+100% to recover"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "intermediate-16-trade-plan",
@@ -920,7 +988,18 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Read the market_regime field on three signals and verify each setup family was legal in its regime."
-    }
+    },
+    "visuals": [
+      {
+        "type": "regime_scrubber",
+        "title": "The exact gates, over your own live candles.",
+        "params": {
+          "data": "live",
+          "symbol": "BTCUSD",
+          "timeframe": "1h"
+        }
+      }
+    ]
   },
   {
     "id": "intermediate-22-trading-with-regime",
@@ -1009,7 +1088,13 @@
       "screen": "symbol-detail",
       "cta": "Find a signal's volatility_regime in its basis and check the stop's distance is the matching ATR multiple."
     },
-    "live_exercise": "stop_distance_pct"
+    "live_exercise": "stop_distance_pct",
+    "visuals": [
+      {
+        "type": "regime_scrubber",
+        "title": "Scrub the playhead and watch regimes hand off."
+      }
+    ]
   },
   {
     "id": "intermediate-24-regime-transitions",
