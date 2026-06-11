@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.alerts import router as alerts_router
+from app.api.routes.constitution import router as constitution_router
 from app.api.routes.content import router as content_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
@@ -24,6 +25,7 @@ from app.core.config import apply_api_key_settings, get_settings
 from app.extensions.registry import load_extension_registry
 from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
+from app.services.constitution import ConstitutionService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
 from app.services.extension_surface_registry import ExtensionSurfaceRegistry
@@ -114,6 +116,7 @@ async def lifespan(app: FastAPI):
     trade_review_service = TradeReviewService(state_store, analytics_store)
     mission_service = MissionService(state_store, trade_review_service)
     review_coach_service = ReviewCoachService(state_store, trade_review_service, learn_service)
+    constitution_service = ConstitutionService(state_store)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -141,6 +144,7 @@ async def lifespan(app: FastAPI):
     app.state.trade_review_service = trade_review_service
     app.state.mission_service = mission_service
     app.state.review_coach_service = review_coach_service
+    app.state.constitution_service = constitution_service
 
     try:
         yield
@@ -185,4 +189,5 @@ app.include_router(alerts_router)
 app.include_router(events_router)
 app.include_router(learn_router)
 app.include_router(journal_router)
+app.include_router(constitution_router)
 app.include_router(mcp_router)

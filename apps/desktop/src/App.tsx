@@ -1190,12 +1190,16 @@ export default function App() {
             ? `${paperTradeRecord.signal.symbol} ${paperTradeSide} x ${paperTradeQty} was submitted to the configured live broker route.`
             : `${paperTradeRecord.signal.symbol} ${paperTradeSide} x ${paperTradeQty} was queued for backend execution.`,
         );
-      } catch {
+      } catch (error) {
+        const detail = error instanceof Error ? error.message : '';
+        const isConstitution = detail.includes('constitution');
         pushToast(
-          'Trade submission failed',
-          isLiveTradingMode
-            ? 'The backend rejected the live trade request. Check broker routing and configured credentials, then retry.'
-            : 'The backend paper trade request failed, so no persistent paper account change was recorded.',
+          isConstitution ? 'Blocked by your trading constitution' : 'Trade submission failed',
+          isConstitution
+            ? detail
+            : isLiveTradingMode
+              ? 'The backend rejected the live trade request. Check broker routing and configured credentials, then retry.'
+              : 'The backend paper trade request failed, so no persistent paper account change was recorded.',
         );
       } finally {
         setPaperTradeSignalId(null);

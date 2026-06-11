@@ -61,6 +61,21 @@ async def submit_paper_trade(
     payload: PaperTradePayload,
     request: Request,
 ) -> dict[str, object]:
+    plan = {
+        "stop": payload.planStop,
+        "target": payload.planTarget,
+        "riskPercent": payload.planRiskPercent,
+        "reason": payload.planReason,
+        "emotion": payload.planEmotion,
+    }
+    # Constitution (MSN-5): the user's own adopted rules gate the ticket.
+    violations = request.app.state.constitution_service.check_trade(plan)
+    if violations:
+        raise HTTPException(
+            status_code=422,
+            detail={"message": "Blocked by your trading constitution.", "violations": violations},
+        )
+
     try:
         result = request.app.state.trading_service.submit_trade(
             signal_id=payload.signalId,
@@ -68,13 +83,7 @@ async def submit_paper_trade(
             side=payload.side,
             quantity=payload.quantity,
             entry_price=payload.entryPrice,
-            plan={
-                "stop": payload.planStop,
-                "target": payload.planTarget,
-                "riskPercent": payload.planRiskPercent,
-                "reason": payload.planReason,
-                "emotion": payload.planEmotion,
-            },
+            plan=plan,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc

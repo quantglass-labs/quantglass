@@ -111,6 +111,11 @@ class _FailingTradingService:
         )
 
 
+class _NoopConstitution:
+    def check_trade(self, plan):
+        return []
+
+
 class TradingExecutionServiceTests(unittest.TestCase):
     def test_submit_trade_queues_paper_trades_in_paper_mode(self) -> None:
         state_store = _FakeStateStore(trading_mode="paper")
@@ -216,6 +221,7 @@ class PaperRouteTests(unittest.TestCase):
             BackendEventBus(),
         )
         app.state.trading_service = trading_service
+        app.state.constitution_service = _NoopConstitution()
 
         with TestClient(app) as client:
             response = client.post(
@@ -240,6 +246,7 @@ class PaperRouteTests(unittest.TestCase):
         app = FastAPI()
         app.include_router(paper_router)
         app.state.trading_service = _FailingTradingService()
+        app.state.constitution_service = _NoopConstitution()
 
         with TestClient(app) as client:
             response = client.post(

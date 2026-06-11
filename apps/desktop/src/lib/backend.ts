@@ -60,6 +60,9 @@ import type {
   JournalResponse,
   JournalAnnotation,
   CoachResponse,
+  ConstitutionResponse,
+  ConstitutionRules,
+  ConstitutionCompliance,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -162,7 +165,22 @@ async function requestJson<T>(
   }
 
   if (!response.ok) {
-    throw new Error(`Backend request failed: ${response.status} ${response.statusText}`);
+    let detailText = '';
+    try {
+      const body = (await response.json()) as { detail?: unknown };
+      const detail = body?.detail;
+      if (typeof detail === 'string') {
+        detailText = detail;
+      } else if (detail && typeof detail === 'object') {
+        const { message, violations } = detail as { message?: string; violations?: string[] };
+        detailText = [message, ...(violations ?? [])].filter(Boolean).join(' ');
+      }
+    } catch {
+      // Non-JSON error body; fall through to the generic message.
+    }
+    throw new Error(
+      detailText || `Backend request failed: ${response.status} ${response.statusText}`,
+    );
   }
 
   return response.json() as Promise<T>;
@@ -472,6 +490,19 @@ export const backendClient = {
   },
   getReviewCoach() {
     return requestJson<CoachResponse>('/api/review/coach');
+  },
+  getConstitution() {
+    return requestJson<ConstitutionResponse>('/api/constitution');
+  },
+  saveConstitution(rules: ConstitutionRules) {
+    return requestJson<ConstitutionResponse>('/api/constitution', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(rules),
+    });
+  },
+  getConstitutionCompliance() {
+    return requestJson<ConstitutionCompliance>('/api/constitution/compliance');
   },
   getLearnReadiness() {
     return requestJson<LearnReadiness>('/api/learn/readiness');
