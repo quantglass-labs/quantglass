@@ -1,67 +1,120 @@
-# QuantGlass Masterplan
+# QuantGlass Masterplan — recalibrated around the Academy
 
-**Tracking:** every item maps to a GitHub issue and a milestone
-(Phase A–D). This file is the single monitorable view; check items off in
-the same PR that closes the issue. Strategy and research behind each item:
-[modernization_roadmap.md](modernization_roadmap.md).
+**Recalibrated:** 2026-06-11. The learning platform is no longer a feature of
+the app; it is the spine of the product. QuantGlass teaches a complete
+trading education — novice through expert, for *traders*, not just app
+users — and the workstation is the interactive lab where every concept is
+applied against live data. Strategy and research behind the engineering
+items: [modernization_roadmap.md](modernization_roadmap.md).
 
-## Core pillars
+**Tracking:** every item maps to a GitHub issue and milestone. Check items
+off in the change that closes the issue.
 
-1. **Honest statistics with guarantees** — conformal confidence, calibration
-   tracking, purged walk-forward.
-2. **Live Learning (integral, not a tab)** — the curriculum watches real app
-   data and the user's own trading; every screen can teach. This is a
-   first-class product pillar with its own workstream below.
-3. **Grounded local AI** — structured outputs, fact guards, MCP server mode.
-4. **Trusted extensibility** — versioned SDK, reviewed registry, permission
-   consent.
+## Product thesis
 
-## Phase A — Pre-public polish (milestone 1)
+> Learn everything about trading in one place, prove every concept on your
+> own live data, and never be shown a number the engine cannot defend.
 
-- [x] A1 Structured-output narration + numeric fact guard — [#19](https://github.com/quantglass-labs/quantglass/issues/19)
-- [x] A2 lightweight-charts v5 (upgrade done; multi-pane follow-up in #20) + multi-pane indicators — [#20](https://github.com/quantglass-labs/quantglass/issues/20)
-- [x] A3 SQLite WAL + numbered migration framework — [#21](https://github.com/quantglass-labs/quantglass/issues/21)
-- [x] A4 Settings tab extraction complete (7/7 tabs; SettingsScreen 3,642 → 642 lines); restoring set-state-in-effect to error tracks in [#17](https://github.com/quantglass-labs/quantglass/issues/17)
-- [x] A5 Lesson JSON Schema validated in CI — [#22](https://github.com/quantglass-labs/quantglass/issues/22)
+Two rules bind the engine and the curriculum together:
 
-## Live Learning workstream (spans phases, flagship)
+1. **Teach what we build, build what we teach.** Every engine capability
+   (an indicator, a setup family, a statistic) ships with the lesson that
+   explains it; every advanced lesson is backed by a real engine surface
+   the learner can open.
+2. **Apply, don't just read.** Every lesson carries a `live_apply` surface,
+   and concept-bearing lessons get live exercises computed from the
+   learner's own candles and paper account.
 
-- [x] LL1 Lesson moments v1: teachable-event detection from the user's own
-      paper trades (position size vs account risk, stop distance vs ATR
-      regime), surfaced via `/api/learn/moments` — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
-- [x] LL2 Live-data exercises: ATR-stop and position-sizing lessons generate
-      exercises from the user's real candles and paper balance, checked
-      statelessly server-side
-- [ ] LL3 Mastery loop: spaced-repetition review queue, XP/streaks, module
-      badges
-- [ ] LL4 Scenario replay: drive paper trading through historical episodes
-      with graded debriefs from engine facts — [#29](https://github.com/quantglass-labs/quantglass/issues/29)
-- [ ] LL5 Community lesson packs via the extension SDK (`lessons`
-      capability), schema-validated — depends on A5, [#26](https://github.com/quantglass-labs/quantglass/issues/26)
+## The QuantGlass Academy — curriculum map (~100 lessons)
 
-## Phase B — Launch differentiators (milestone 2)
+Levels stay (novice → intermediate → advanced → expert); each level gains
+multiple **tracks**. Current content (20 lessons) seeds the tracks marked with †.
 
-- [x] B1 Coverage-guaranteed confidence (conformal); calibration table tracks in #16 — [#23](https://github.com/quantglass-labs/quantglass/issues/23), [#16](https://github.com/quantglass-labs/quantglass/issues/16)
-- [x] B2 MCP server mode (read-only engine facts on loopback) — [#24](https://github.com/quantglass-labs/quantglass/issues/24)
-- [x] B3 = LL1 Lesson moments v1 — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
+| Level | Tracks | Scope |
+|---|---|---|
+| **Novice** | Market Foundations · Chart Literacy† · Your First Signal† | instruments, exchanges, sessions, order types, spreads/liquidity; candles, trends, S/R, volume; reading a QuantGlass signal, paper trading basics |
+| **Intermediate** | Indicator Mastery† · Risk & Position Sizing† · Trade Planning & Journaling · Market Regimes | every built-in indicator family (MA, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner); R-multiples, sizing, portfolio heat; entries/exits/invalidation, journaling; trending/ranging/volatile regimes |
+| **Advanced** | Strategy Families · Backtesting & Statistical Honesty† · Execution & Costs · Trading Psychology | trend pullback, breakout retest, mean reversion, momentum — each tied to the engine's setup detectors; IS/OOS, overfitting, walk-forward, expectancy, Sharpe/Sortino/PF; fees, slippage, partial fills; biases, tilt, discipline routines |
+| **Expert** | Quantitative Validation† · Building Extensions† · AI-Assisted Research · Going-Live Readiness | conformal prediction, calibration, empirical Bayes, Monte Carlo drawdowns; custom indicators/strategies via the SDK; fact-guarded AI narration and MCP workflows; broker plumbing, keychain custody, safety gates (educational only — never advice) |
 
-## Phase C — Community wave (milestone 3)
+## Academy engineering workstream (milestone: QuantGlass Academy)
 
-- [ ] C1 Extension registry with automated review + trust labels — [#26](https://github.com/quantglass-labs/quantglass/issues/26)
-- [ ] C2 Incremental indicators — [#27](https://github.com/quantglass-labs/quantglass/issues/27)
-- [ ] C3 Parquet archive + dataset export — [#28](https://github.com/quantglass-labs/quantglass/issues/28)
-- [ ] C4 Orthogonal signal families — [#15](https://github.com/quantglass-labs/quantglass/issues/15)
-- [ ] C5 Multi-timeframe ingest — [#14](https://github.com/quantglass-labs/quantglass/issues/14)
-- [ ] C6 OS keychain enforcement for trade-capable keys — [#13](https://github.com/quantglass-labs/quantglass/issues/13)
+- [ ] ACAD-1 **Curriculum architecture**: multi-track catalog (modules.json
+      gains tracks-per-tier; catalog API and Learn sidebar group by level →
+      track), level checkpoints, schema migration for the existing 20 lessons
+- [ ] ACAD-2 **Content Wave 1 — Foundations** (~30 lessons): Market
+      Foundations, Chart Literacy, Your First Signal complete
+- [ ] ACAD-3 **Content Wave 2 — Indicators, Risk, Regimes** (~30 lessons)
+- [ ] ACAD-4 **Content Wave 3 — Strategy, Statistics, Execution,
+      Psychology** (~25 lessons)
+- [ ] ACAD-5 **Content Wave 4 — Expert** (~15 lessons), paired 1:1 with
+      engine surfaces (conformal drawer, calibration table, SDK, MCP)
+- [ ] ACAD-6 **Mastery loop (LL3)**: spaced-repetition review queue,
+      XP/streaks, per-track badges, level-gate assessments
+- [ ] ACAD-7 **Live-exercise framework (LL2 scale-up)**: generator registry
+      so any lesson can declare a live exercise (today: 2 lessons); target
+      every concept-bearing lesson in Waves 1–3
+- [ ] ACAD-8 **Lesson moments v2 (LL1 scale-up)**: detector library grows
+      with the curriculum — R-multiple violations, regime-mismatched setups,
+      overtrading cadence, journal-skipping
+- [ ] ACAD-9 **Scenario replay (LL4)**: drive paper trading through
+      historical episodes with graded, engine-fact debriefs
+- [ ] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
+      extension SDK, schema-validated, surfaced through the registry (E7)
+- [ ] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
+      completion certificates
 
-## Phase D — Depth (milestone 4)
+Shipped foundations: lesson JSON content + schema CI ✅ · lesson moments v1
+([#25](https://github.com/quantglass-labs/quantglass/issues/25)) ✅ · live
+exercises v1 ✅ · coaching panel on Learn ✅
 
-- [ ] D1 vectorbt adapter, mobile exploration, Vortex watch — [#29](https://github.com/quantglass-labs/quantglass/issues/29)
+## Engine work, re-sequenced to serve the Academy
+
+Each item lists the curriculum it unblocks — "teach what we build."
+
+- [ ] E1 Orthogonal setup families — [#15](https://github.com/quantglass-labs/quantglass/issues/15) → Strategy Families track teaches
+      exactly these detectors
+- [ ] E2 Multi-timeframe ingest — [#14](https://github.com/quantglass-labs/quantglass/issues/14) → multi-timeframe lessons in Chart
+      Literacy and Strategy tracks
+- [ ] E3 Calibration tracking table — [#16](https://github.com/quantglass-labs/quantglass/issues/16) → Quantitative Validation track's
+      capstone (predicted vs realized, in the learner's own app)
+- [ ] E4 Incremental indicators — [#27](https://github.com/quantglass-labs/quantglass/issues/27) → keeps live exercises instant as the
+      watchlist grows
+- [ ] E5 Parquet archive + dataset export — [#28](https://github.com/quantglass-labs/quantglass/issues/28) → "your trading history is a
+      dataset" lessons in the Expert track
+- [ ] E6 OS keychain enforcement — [#13](https://github.com/quantglass-labs/quantglass/issues/13) → Going-Live Readiness track
+- [ ] E7 Extension registry with automated review — [#26](https://github.com/quantglass-labs/quantglass/issues/26) → Building
+      Extensions track publishes to it; lesson packs (ACAD-10) flow through it
+- [ ] E8 Multi-pane indicator charts — [#20](https://github.com/quantglass-labs/quantglass/issues/20) → Indicator Mastery lessons point
+      at real panes
+- [ ] E9 Settings state-flow cleanup, restore lint rule to error — [#17](https://github.com/quantglass-labs/quantglass/issues/17)
+
+## Depth / optional
+
+- [ ] D1 vectorbt adapter, Tauri mobile exploration, Vortex watch — [#29](https://github.com/quantglass-labs/quantglass/issues/29)
+- [ ] D2 Walk-forward sweeps + Monte Carlo drawdown distributions (feeds
+      Advanced statistics lessons)
+
+## Release train to 1.0
+
+| Release | Contents | Gate |
+|---|---|---|
+| **v0.2.0** (now) | everything since 0.1.0: conformal confidence, MCP server, lesson moments, live exercises, refactors, charts v5 | Actions enabled ([#18](https://github.com/quantglass-labs/quantglass/issues/18)), CI green, Dependabot triage, repo public |
+| **v0.3.0** | ACAD-1 architecture + Wave 1 content + E8 panes | Academy navigable end-to-end at novice level |
+| **v0.4.0** | Waves 2–3 + ACAD-6 mastery loop + ACAD-7 live-exercise framework + E1/E2 | a novice can verifiably progress to advanced |
+| **v0.5.0** | Wave 4 + ACAD-8/9 + E3/E5 + E7 registry + ACAD-10 packs | community can contribute lessons and extensions safely |
+| **v1.0** | ACAD-11, E4/E6, D2, full polish | complete novice→expert path, every lesson live-applied, every number defended |
+
+## Completed (for the record)
+
+Phase A (structured narration, charts v5, WAL+migrations, settings
+decomposition, lesson schema) ✅ · Phase B (conformal confidence #23, MCP
+server #24, lesson moments #25) ✅ · module refactor of all six subsystems ✅
 
 ## Operating rules
 
-- Every item lands behind green CI (`npm run validate:backend`, desktop
+- Every item lands behind green checks (backend pytest + ruff, desktop
   lint/test/build) with tests in the same change.
+- Lesson content is JSON-only, schema-validated, and never financial
+  advice; numeric exercises must be internally consistent.
 - Behavior-affecting work updates docs and CHANGELOG in the same PR.
-- Public launch gate: Phase A complete, LL1 + B1 + B2 demoable, Actions
-  enabled ([#18](https://github.com/quantglass-labs/quantglass/issues/18)), release workflow green on all three OS targets.
