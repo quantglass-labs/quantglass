@@ -58,8 +58,14 @@ dependencies = ["quantglass-backend"]
 example = "quantglass_example.extension:ExampleExtension"
 ```
 
+`app.extensions.sdk` is the **stable authoring surface**: import every
+extension-facing name from there. It carries an `SDK_VERSION` and a
+compatibility promise — additions bump the minor version, breaking changes
+bump the major version and are announced in the changelog. Internal modules
+may reorganize without notice.
+
 ```python
-from app.extensions.base import ExtensionContext, ExtensionManifest, ExtensionSetting
+from app.extensions.sdk import ExtensionContext, ExtensionManifest, ExtensionSetting
 
 
 class ExampleExtension:

@@ -9,10 +9,14 @@ Package this module in a separate Python distribution and expose it with:
     example = "your_package.example_extension:ExampleExtension"
 """
 
-from app.extensions.base import ExtensionContext, ExtensionManifest, ExtensionSetting
-from app.services.extension_surface_registry import ExtensionSurfaceDefinition
-from app.services.indicator_registry import IndicatorDefinition
-from app.services.strategy_registry import StrategyDefinition
+from app.extensions.sdk import (
+    ExtensionContext,
+    ExtensionManifest,
+    ExtensionSetting,
+    ExtensionSurfaceDefinition,
+    IndicatorDefinition,
+    StrategyDefinition,
+)
 
 
 class ExampleExtension:
