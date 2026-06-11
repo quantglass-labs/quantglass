@@ -210,5 +210,325 @@
       "cta": "Open a signal, note its entry and stop_loss, then calculate how many shares to buy with 1% risk on a $10,000 paper account."
     },
     "track_id": "risk-position-sizing"
+  },
+  {
+    "id": "intermediate-06-macd",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 6,
+    "title": "MACD: Trend Momentum Made Visible",
+    "summary": "Two EMAs, their gap, and the histogram that times shifts in momentum.",
+    "concept": "**MACD** (Moving Average Convergence Divergence) starts from a simple idea: compare a fast lens to a slow one. The **MACD line** is the 12-period EMA minus the 26-period EMA — positive when recent prices run hot relative to the slower baseline. The **signal line** is a 9-period EMA *of the MACD line*. The **histogram** is their difference, and it is what QuantGlass actually consumes: `macd_hist > 0` counts as bullish agreement in setup confluence, `< 0` as bearish.\n\nReading it: the histogram crossing zero marks the fast/slow EMAs crossing; the histogram *shrinking* while price still pushes marks momentum fading before price turns — the classic early warning.\n\nLimits: MACD is built from EMAs, so it lags by construction, and in flat ranges it whipsaws. That is why the engine uses it as one **agreement vote** among several, never as a standalone trigger.",
+    "key_terms": [
+      {
+        "term": "MACD line",
+        "definition": "12-EMA minus 26-EMA of closes."
+      },
+      {
+        "term": "Signal line",
+        "definition": "9-EMA of the MACD line."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD line minus signal line — the engine's macd_hist value."
+      },
+      {
+        "term": "Momentum divergence",
+        "definition": "Price pushing on while the histogram shrinks."
+      },
+      {
+        "term": "Agreement vote",
+        "definition": "How the engine uses MACD: one confluence input, not a trigger."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "In QuantGlass's setup logic, what role does the MACD histogram play?",
+      "options": [
+        "It is the sole trigger for every signal.",
+        "Its sign acts as one agreement vote in the confluence score — bullish setups gain when it is positive, bearish when negative.",
+        "It sets the stop-loss distance.",
+        "It replaces volume analysis."
+      ],
+      "correct_index": 1,
+      "explanation": "The engine adds a fixed confluence bonus when macd_hist agrees with the setup direction. It is corroboration, never the trade idea itself."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Open a symbol's indicators and watch the MACD histogram's sign versus the current setup direction — agreement or disagreement?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 7,
+    "title": "Bollinger Bands: Volatility as a Corridor",
+    "summary": "A 20-bar mean wrapped in two standard deviations.",
+    "concept": "**Bollinger Bands** wrap price in a statistical corridor: the **middle band** is a 20-period moving average; the **upper and lower bands** sit 2 standard deviations above and below it, computed over the same 20 bars. Because standard deviation grows with volatility, the corridor breathes — wide in storms, narrow in calm.\n\nTwo readings matter. **Band tags**: price at a band is *statistically stretched*, not automatically reversing; in the engine's ranging regime, a lower-band tag with a washed-out fast RSI is the long mean-reversion setup, targeting the **middle band** rather than an open-ended ladder. **Bandwidth**: (upper − lower) ÷ middle measures the squeeze; extreme narrowness often precedes expansion.\n\nThe engine computes all four series — upper, lower, mid, bandwidth — from closed candles, and its mean-reversion exits literally target `bb_mid`, so this lesson is describing your actual take-profit logic.",
+    "key_terms": [
+      {
+        "term": "Middle band",
+        "definition": "20-period average — the corridor's center and the mean-reversion target."
+      },
+      {
+        "term": "Standard deviation",
+        "definition": "The 20-bar dispersion measure that sizes the corridor."
+      },
+      {
+        "term": "Bandwidth",
+        "definition": "(Upper − lower) ÷ middle — the squeeze gauge."
+      },
+      {
+        "term": "Band tag",
+        "definition": "Price touching a band: stretched, not necessarily reversing."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "In the engine's range mean-reversion setup, why does the take-profit target the middle band instead of a 3-rung ladder?",
+      "options": [
+        "Middle bands are easier to draw.",
+        "Mean reversion bets on a return to the average — the statistical magnet is the mean itself, so the exit logic targets it.",
+        "Ladders are only legal in uptrends.",
+        "The middle band never moves."
+      ],
+      "correct_index": 1,
+      "explanation": "The premise of the setup is reversion to the mean. Targeting bb_mid keeps the exit consistent with the idea that generated the entry."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Toggle the Bollinger overlay: find a recent band tag and check whether price reverted to the middle band afterward."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 8,
+    "title": "ADX: Measuring Trend Strength, Not Direction",
+    "summary": "The gauge behind the engine's trending/ranging regime call.",
+    "concept": "**ADX** answers one question: *is this market trending at all?* It is built from directional movement — how much today's high pushes above yesterday's (+DM) versus how much today's low pushes below (−DM) — smoothed, normalized by true range into +DI/−DI, and condensed into a 0–100 strength reading. Direction is deliberately discarded: a strong downtrend and a strong uptrend both read high.\n\nQuantGlass's regime gate uses exact thresholds: **ADX ≥ 22 → trending**, **ADX < 16 → ranging**, between them → transitional (with a separate volatility check that can override to *volatile*). Those numbers gate which setup families even run — pullback and breakout setups need the trending regime; mean reversion needs ranging.\n\nPractical reading: rising ADX = the move is strengthening (whatever its direction); falling ADX after a trend = the trend is exhaling. Pair it with structure for direction.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "0–100 trend-strength reading, direction-blind."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Directional indices from up-moves and down-moves, normalized by true range."
+      },
+      {
+        "term": "Regime gate",
+        "definition": "QuantGlass: ADX ≥ 22 trending, < 16 ranging, else transitional."
+      },
+      {
+        "term": "Trend exhaustion",
+        "definition": "Falling ADX during a mature trend."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "ADX reads 28 while price makes lower lows. What does the engine conclude?",
+      "options": [
+        "The market is ranging — 28 is low.",
+        "The market is in a trending regime (ADX ≥ 22), and the trend's direction (down) comes from price structure, not from ADX.",
+        "ADX broke — it should be negative in downtrends.",
+        "Only uptrends can have ADX above 22."
+      ],
+      "correct_index": 1,
+      "explanation": "ADX measures strength only. 28 clears the trending threshold; the lower-lows structure supplies the bearish direction."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Find the regime label on a signal, then check the ADX value behind it against the 22/16 thresholds this lesson gave you."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 9,
+    "title": "Donchian Channels: Trading the Extremes",
+    "summary": "The 20-bar high/low channel behind breakout detection.",
+    "concept": "The **Donchian channel** is the most honest indicator there is: the upper line is simply the **highest high of the last 20 bars**, the lower line the **lowest low**. No smoothing, no weights — pure extremes.\n\nIts logic: in a trending market, price making a *new 20-bar extreme* is the trend asserting itself. QuantGlass's breakout-retest setups fire when, in a trending regime, a candle pushes through the **prior bar's** channel edge and closes near or beyond it (within 0.3%), with volume at least at its recent average. Using the prior bar's channel avoids the self-reference trap where today's high *is* the channel it must break.\n\nThe channel's width also describes the playing field: a narrow channel is compression (energy storing), a wide one is an extended move. Donchian pairs naturally with ADX — channel breaks *in trending regimes* are continuation; the same break in a dead range is usually a fakeout.",
+    "key_terms": [
+      {
+        "term": "Donchian upper/lower",
+        "definition": "Highest high / lowest low over the lookback (20 bars in the engine)."
+      },
+      {
+        "term": "Breakout",
+        "definition": "A push through the prior bar's channel extreme."
+      },
+      {
+        "term": "Retest",
+        "definition": "Price returning to the broken level before continuing."
+      },
+      {
+        "term": "Fakeout",
+        "definition": "A channel break without regime or volume support."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the engine compare price against the PREVIOUS bar's Donchian channel when detecting breakouts?",
+      "options": [
+        "Previous bars have better data quality.",
+        "The current bar's high is part of the current channel — a bar always touches its own extreme, so the prior channel is the honest reference.",
+        "Donchian channels update only weekly.",
+        "It makes the math slower but prettier."
+      ],
+      "correct_index": 1,
+      "explanation": "Today's high defines today's channel top, so 'breaking' it would be trivially true. Testing against the prior bar's channel asks the real question: did we exceed what came before?"
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Find a breakout_retest preset and read its trade stats — every simulated entry came from this prior-bar channel rule."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 10,
+    "title": "Keltner Channels: The ATR Envelope",
+    "summary": "EMA ± 1.5 ATR — volatility bands that breathe with true range.",
+    "concept": "**Keltner channels** wrap a 21-period EMA in bands offset by **1.5 × ATR(14)**. Where Bollinger sizes its corridor by *statistical dispersion of closes*, Keltner sizes by **true range** — the actual bar-to-bar travel including gaps. The result is a smoother, steadier envelope that whipsaws less in choppy tape.\n\nReadings: price riding the upper Keltner band marks a strong trend (in trends, 'overbought' often just means strong); price oscillating between bands marks balance. The **squeeze** — Bollinger bands narrowing *inside* the Keltner channel — is a classic compression flag, since it means statistical volatility has fallen below typical bar travel.\n\nIn the engine, Keltner bands are computed alongside everything else from closed candles and serve as context for how stretched a move is relative to its own normal travel — the same ATR thinking that sizes your stops.",
+    "key_terms": [
+      {
+        "term": "Keltner channel",
+        "definition": "21-EMA ± 1.5 × ATR(14) in the engine."
+      },
+      {
+        "term": "True range",
+        "definition": "Bar travel including gaps — max of high−low and moves from prior close."
+      },
+      {
+        "term": "Riding the band",
+        "definition": "Sustained closes at one band: trend strength, not automatic reversal."
+      },
+      {
+        "term": "Squeeze",
+        "definition": "Bollinger inside Keltner — compression preceding expansion."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Bollinger and Keltner both wrap a moving average. What is the defining difference?",
+      "options": [
+        "Keltner uses standard deviation; Bollinger uses ATR.",
+        "Bollinger sizes bands by standard deviation of closes; Keltner sizes them by ATR — actual bar travel.",
+        "Bollinger only works on stocks.",
+        "There is no difference."
+      ],
+      "correct_index": 1,
+      "explanation": "Same skeleton, different volatility ruler: dispersion of closes (Bollinger) versus true range (Keltner). The choice changes how the bands behave in gaps and chop."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Overlay both envelopes: find a moment Bollinger pinched inside Keltner, and see what price did next."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 11,
+    "title": "The Four Indicator Families",
+    "summary": "Trend, momentum, volatility, volume — and why one of each beats five of one.",
+    "concept": "Every indicator you will ever meet answers one of four questions. **Trend**: which way is the baseline drifting? (EMA, SMA, MACD's skeleton). **Momentum**: how hard is price pushing relative to its recent pushes? (RSI, MACD histogram). **Volatility**: how big are the moves? (ATR, Bollinger bandwidth, Keltner width). **Volume**: who showed up? (volume ratio).\n\nThe cardinal sin is **redundancy**: stacking RSI + stochastic + MACD histogram is asking the same momentum question three ways and calling the echoes 'confirmation'. Real confirmation crosses families: trend says up, momentum says strong, volatility says orderly, volume says attended.\n\nThat is precisely how the engine's confluence score is assembled — one input per question: trend alignment (EMA vs SMA gap), volume confirmation (volume ratio), a momentum agreement vote (MACD histogram), and a higher-timeframe drift check. Four families, one vote each, no echoes.",
+    "key_terms": [
+      {
+        "term": "Trend family",
+        "definition": "Baseline direction: EMA, SMA."
+      },
+      {
+        "term": "Momentum family",
+        "definition": "Push strength: RSI, MACD histogram."
+      },
+      {
+        "term": "Volatility family",
+        "definition": "Move size: ATR, band widths."
+      },
+      {
+        "term": "Volume family",
+        "definition": "Participation: volume ratio."
+      },
+      {
+        "term": "Redundancy",
+        "definition": "Multiple indicators answering the same question and miscounted as confirmation."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A trader 'confirms' a long with RSI, stochastic, and MACD histogram all rising. What is the flaw?",
+      "options": [
+        "Three indicators is too few.",
+        "All three are momentum-family — one question asked three times, providing echoes rather than independent confirmation.",
+        "Momentum indicators cannot rise together.",
+        "Longs require exactly five indicators."
+      ],
+      "correct_index": 1,
+      "explanation": "Cross-family checks (trend + momentum + volatility + volume) add information; same-family stacks add only noise-correlated comfort."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal's reasons: identify which of the four families each listed reason comes from."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "module_id": "intermediate",
+    "track_id": "indicator-mastery",
+    "tier": "intermediate",
+    "order": 12,
+    "title": "Confluence: How the Engine Scores a Setup",
+    "summary": "The exact arithmetic behind the confluence score.",
+    "concept": "When several independent observations agree, evidence compounds — that is **confluence**. QuantGlass does not hand-wave it; the score is arithmetic you can audit.\n\nEach setup starts from a **base** reflecting the family's prior quality (0.55 for trend pullbacks, 0.60 for breakout retests, 0.50 for mean reversion). It then adds: **trend alignment × 0.15** (how decisively the 21-EMA sits away from the 50-SMA, scaled), **volume confirmation × 0.10** (volume ratio scaled), **+0.10 if the MACD histogram agrees** with the direction, **+0.10 if the higher-timeframe drift agrees**, and a **regime bonus** (e.g. +0.10–0.12 when the regime matches the family). The sum is clamped to [0, 1].\n\nWhen multiple setups compete on one symbol, the engine simply takes the **highest confluence** — and the score later feeds confidence with an 18-point weight. Every signal's confluence is printed in its basis, so you can recompute any score by hand from this paragraph.",
+    "key_terms": [
+      {
+        "term": "Confluence",
+        "definition": "Independent observations agreeing — scored, not vibed."
+      },
+      {
+        "term": "Base score",
+        "definition": "The setup family's starting quality before evidence."
+      },
+      {
+        "term": "Agreement bonus",
+        "definition": "+0.10 each for MACD and higher-timeframe alignment."
+      },
+      {
+        "term": "Regime bonus",
+        "definition": "Extra score when the regime matches the setup family."
+      },
+      {
+        "term": "Clamp",
+        "definition": "Scores bounded to [0, 1] — no infinite stacking."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A trend pullback has trend_alignment 0.8, volume_confirmation 0.5, MACD agreeing, higher timeframe agreeing, trending-regime bonus 0.10. What is its confluence?",
+      "options": [
+        "0.55 — the base is the score.",
+        "0.55 + 0.12 + 0.05 + 0.10 + 0.10 + 0.10 = 1.02, clamped to 1.00.",
+        "0.92: 0.55 + 0.8×0.15 + 0.5×0.10 + 0.10 + 0.10 + 0.10.",
+        "Confluence cannot be computed by hand."
+      ],
+      "correct_index": 2,
+      "explanation": "0.55 base + 0.12 (0.8×0.15) + 0.05 (0.5×0.10) + 0.10 MACD + 0.10 HTF + 0.10 regime = 0.92. Auditable arithmetic — that is the point."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Take any signal's confluence_score from its basis and recompute it from the formula in this lesson."
+    }
   }
 ]
