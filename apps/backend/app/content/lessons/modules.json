@@ -160,6 +160,20 @@
       "order": 7,
       "title": "Fundamentals for Traders",
       "description": "Earnings, tokenomics, and catalysts — fundamentals as volatility context for technical traders, not as a valuation course."
+    },
+    {
+      "id": "macro-intermarket",
+      "level": "expert",
+      "order": 5,
+      "title": "Macro & Intermarket",
+      "description": "Rates, the dollar, liquidity cycles, and cross-asset correlation — the tides under every chart."
+    },
+    {
+      "id": "microstructure",
+      "level": "expert",
+      "order": 6,
+      "title": "Market Microstructure",
+      "description": "How orders actually meet: auctions, makers and takers, order flow, and what moves price tick by tick."
     }
   ]
 }

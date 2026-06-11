@@ -646,5 +646,357 @@
       "screen": "settings",
       "cta": "Open Settings → Risk: find the trading-mode gate and its requirements — the staged unlock rendered as UI."
     }
+  },
+  {
+    "id": "expert-16-rates-liquidity",
+    "module_id": "expert",
+    "track_id": "macro-intermarket",
+    "tier": "expert",
+    "order": 16,
+    "title": "Interest Rates and the Liquidity Tide",
+    "summary": "The price of money sets the weather for every risk asset.",
+    "concept": "Interest rates are the gravity of finance: they set the return available for taking *no* risk, and therefore the bar every risky asset must clear. When central banks raise rates, safe yield competes capital away from stocks and crypto; when they cut and inject **liquidity**, that capital flows back out the risk curve — and the most speculative assets (small caps, alts) swing hardest at both ends.\n\nThis is why crypto, marketed as uncorrelated, has traded since 2020 like a **high-beta liquidity asset**: the same tide, amplified.\n\nThe trader's use is regime context, not prediction: know whether the liquidity tide is rising or falling, and expect trend-following to work *with* the tide and fight it poorly. Macro calendars (central-bank decisions, inflation prints) are the equity-earnings equivalent at market scale — scheduled volatility for every chart at once.",
+    "key_terms": [
+      {
+        "term": "Risk-free rate",
+        "definition": "The yield on safe assets — the hurdle all risk must clear."
+      },
+      {
+        "term": "Liquidity",
+        "definition": "The supply of investable money — the tide under valuations."
+      },
+      {
+        "term": "High beta",
+        "definition": "Amplified sensitivity to the common tide — alts at the extreme."
+      },
+      {
+        "term": "Macro calendar",
+        "definition": "Rate decisions and inflation prints — scheduled market-wide volatility."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why do central-bank rate decisions move crypto, which has no earnings or interest payments?",
+      "options": [
+        "They don't — crypto is uncorrelated.",
+        "Rates set the opportunity cost of all risk-taking: the liquidity tide that funds speculative assets rises and falls with policy, and crypto sits far out on the risk curve.",
+        "Central banks own most coins.",
+        "Crypto pays dividends indexed to rates."
+      ],
+      "correct_index": 1,
+      "explanation": "No cash flows are needed for the channel to work — only competition for capital. The most speculative assets are the last funded and first sold as money tightens."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Note the next major central-bank date and watch how every chart's volatility clusters around it."
+    }
+  },
+  {
+    "id": "expert-17-dollar-correlations",
+    "module_id": "expert",
+    "track_id": "macro-intermarket",
+    "tier": "expert",
+    "order": 17,
+    "title": "The Dollar and Cross-Asset Correlations",
+    "summary": "When everything moves together, diversification is an illusion.",
+    "concept": "Most globally traded assets are priced in dollars, so the **dollar's strength is everyone's denominator**: a sharply rising dollar mechanically pressures dollar-priced assets (crypto, commodities, emerging markets) and often accompanies risk-off flows into US safety.\n\nThe deeper lesson is **correlation regimes**. In calm markets, assets follow their own stories and correlations stay low; in stress, *correlations converge toward one* — everything risky sells together because the seller is the same: leveraged portfolios raising cash. You met the consequence in the portfolio-heat lesson: six 'different' longs become one trade exactly when it hurts most.\n\nThe practical instrument: watch a few intermarket dials (the dollar, broad equity indices, BTC for crypto beta). When they all lurch the same way at once, read it as a **regime event** — the engine's volatile-regime override at the single-asset level has a macro twin, and your heat budget should respect both.",
+    "key_terms": [
+      {
+        "term": "Dollar denominator",
+        "definition": "Dollar strength mechanically repricing dollar-quoted assets."
+      },
+      {
+        "term": "Correlation regime",
+        "definition": "Calm: low correlations. Stress: convergence toward one."
+      },
+      {
+        "term": "Risk-off",
+        "definition": "The synchronized flight from risk into safety."
+      },
+      {
+        "term": "Intermarket dials",
+        "definition": "A few cross-asset gauges watched for regime confirmation."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "In a sharp risk-off event, why do 'diversified' positions across stocks and several cryptos draw down together?",
+      "options": [
+        "Pure coincidence, repeatedly.",
+        "Stress converges correlations toward one: the marginal seller is the same deleveraging flow across all risk assets, so the diversification was only ever a calm-market property.",
+        "Exchanges synchronize prices by rule.",
+        "It cannot happen with more than three assets."
+      ],
+      "correct_index": 1,
+      "explanation": "Correlation is regime-dependent. Portfolio heat must be budgeted for the stressed correlation matrix, not the calm one — the macro version of the heat lesson."
+    },
+    "live_apply": {
+      "screen": "watchlist",
+      "cta": "Across your watchlist, count how many positions are really the same liquidity bet wearing different symbols."
+    }
+  },
+  {
+    "id": "expert-18-cycles-narratives",
+    "module_id": "expert",
+    "track_id": "macro-intermarket",
+    "tier": "expert",
+    "order": 18,
+    "title": "Cycles and Narratives",
+    "summary": "Markets move in psychological seasons; narratives are their weather reports.",
+    "concept": "Zoom far enough out and markets breathe in **cycles**: accumulation (quiet, disbelieving), markup (trending, increasingly believed), distribution (euphoric chop at highs), markdown (decline through denial). Crypto compresses these seasons into years instead of decades, historically rhyming with halving-anchored liquidity waves.\n\nEach phase carries a **narrative** — the story explaining why 'this time' the trend is destiny. Narratives are not noise: they coordinate flows and can sustain trends far past 'fair' value (reflexivity). But they are *lagging descriptions wearing prediction costumes* — loudest precisely at turns. 'New paradigm' peaks and 'asset class is dead' bottoms are the canonical pair.\n\nThe expert posture: trade the regime in front of you (the engine's job), locate yourself in the cycle for risk appetite (your job), and treat universal narrative agreement as a contrarian volatility warning, not a green light.",
+    "key_terms": [
+      {
+        "term": "Market cycle",
+        "definition": "Accumulation → markup → distribution → markdown."
+      },
+      {
+        "term": "Narrative",
+        "definition": "The coordinating story behind a flow — strongest at extremes."
+      },
+      {
+        "term": "Reflexivity",
+        "definition": "Prices changing the fundamentals-story that justifies prices."
+      },
+      {
+        "term": "Euphoria/despair markers",
+        "definition": "'New paradigm' tops and 'it's dead' bottoms."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "When a single bullish narrative is universally agreed upon and 'everyone is in', what does cycle logic imply?",
+      "options": [
+        "The trend is now safest — consensus is confirmation.",
+        "Fuel is exhausted: if everyone who can buy has bought, the marginal flow that sustained markup is gone, and distribution conditions are forming.",
+        "Narratives have no relation to flows.",
+        "Prices must rise another full cycle."
+      ],
+      "correct_index": 1,
+      "explanation": "Trends are fed by new buyers. Universal agreement means conversion is complete — the narrative's loudest moment and its flow's weakest are the same moment."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Look at a long equity curve's flat and steep stretches — strategies breathe with the cycle too; expectancy is not a constant of nature."
+    }
+  },
+  {
+    "id": "expert-19-macro-scope",
+    "module_id": "expert",
+    "track_id": "macro-intermarket",
+    "tier": "expert",
+    "order": 19,
+    "title": "Macro Humility and the Scope Line",
+    "summary": "Context, not crystal ball — and the engine's silence on macro is deliberate.",
+    "concept": "Close the track with calibration. Professional macro forecasting has a public, humbling record: recessions called late, rate paths wrong by whole percentage points, every year. If institutions wielding armies of economists cannot reliably predict the macro future, the retail trader's edge cannot be *out-forecasting* them.\n\nWhat macro literacy actually buys you: **risk posture** (tide rising or falling → heat budget up or down), **calendar awareness** (scheduled storms respected, as with earnings), and **correlation realism** (stress turns portfolios into one trade). All defensive, all real.\n\nAnd the scope line, one final time: QuantGlass computes **nothing macro**. No rate models, no cycle calls — closed candles only. The macro layer is deliberately left to you, with the tools to be a calibrated consumer rather than a confident forecaster. The Academy's recurring law: every system should know, and say, what it does not know. That includes the trader.",
+    "key_terms": [
+      {
+        "term": "Forecast humility",
+        "definition": "The documented unreliability of macro prediction."
+      },
+      {
+        "term": "Defensive macro",
+        "definition": "Using macro for posture, calendar, and correlation — not calls."
+      },
+      {
+        "term": "Calibrated consumer",
+        "definition": "Weighing macro commentary by its track record, not its confidence."
+      },
+      {
+        "term": "Scope law",
+        "definition": "Systems — and traders — declaring what they do not know."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Given forecasting's track record, what is macro literacy actually FOR in this Academy?",
+      "options": [
+        "Predicting next year's rate path better than banks.",
+        "Defensive posture: sizing risk with the tide, respecting the macro calendar, and expecting correlation convergence in stress — context that needs no crystal ball.",
+        "Choosing which forecasts to believe completely.",
+        "Nothing — charts contain all information."
+      ],
+      "correct_index": 1,
+      "explanation": "The value is in what macro context protects you from, not what it predicts. The same honesty standard the engine applies to itself applies to macro opinions."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Note that nowhere in the engine's settings is a macro input — scope honesty rendered as an absence."
+    }
+  },
+  {
+    "id": "expert-20-auction-mechanics",
+    "module_id": "expert",
+    "track_id": "microstructure",
+    "tier": "expert",
+    "order": 20,
+    "title": "The Continuous Auction",
+    "summary": "Price is not a number — it is the current state of a negotiation.",
+    "concept": "Beneath every candle runs a **continuous double auction**: resting limit orders form the book (the patient side), and incoming market orders consume it (the urgent side). A trade happens only when urgency meets patience; 'the price' is just the most recent such meeting.\n\nPrice *moves* when one side's urgency exhausts the other side's patience at a level — buy pressure eats the entire ask level, and the next ask becomes the price. This is why **volume validates moves** (the volume-ratio logic the engine uses): a move on heavy volume means real urgency burned through real resting supply; a drift on nothing can be repriced by a single order.\n\nStock markets add **opening and closing auctions** — batch matchings that concentrate enormous volume at the session's ends and set the prints your daily candles open and close on. Crypto's books simply never close. Same machine, different schedule.",
+    "key_terms": [
+      {
+        "term": "Double auction",
+        "definition": "Resting limits (patience) matched against market orders (urgency)."
+      },
+      {
+        "term": "Level exhaustion",
+        "definition": "Price moves when a book level is fully consumed."
+      },
+      {
+        "term": "Batch auction",
+        "definition": "Open/close matchings concentrating stock volume."
+      },
+      {
+        "term": "Urgency premium",
+        "definition": "Market orders pay the spread to demand immediacy."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Mechanically, what makes price tick UP one level?",
+      "options": [
+        "The exchange votes hourly.",
+        "Incoming buy urgency consumes every share resting at the current best ask, so the next, higher ask level becomes the market.",
+        "Sellers raise prices when happy.",
+        "Candles closing green."
+      ],
+      "correct_index": 1,
+      "explanation": "Price is the frontier where urgency last met patience. Moves are inventory events — a level emptied — which is why participation (volume) tells you whether a move was earned."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Watch a high-volume candle versus a quiet one and read them as auction events: how much patience did each side's urgency consume?"
+    }
+  },
+  {
+    "id": "expert-21-makers-takers",
+    "module_id": "expert",
+    "track_id": "microstructure",
+    "tier": "expert",
+    "order": 21,
+    "title": "Makers, Takers, and the Spread's Economics",
+    "summary": "Who earns the spread you pay — and what they want from you.",
+    "concept": "Every venue splits participants into **makers** (whose resting orders provide the book) and **takers** (whose market orders consume it) — fee schedules often literally price them differently, paying rebates to makers. The professional market maker's business: quote both sides, earn the spread repeatedly, and shed inventory risk as fast as possible.\n\nUnderstand their one fear and you understand short-term price behavior: **adverse selection** — being run over by an informed flow. When heavy one-sided pressure arrives, makers widen spreads and pull quotes (your slippage-dynamics lesson, now with a *why*), and they re-center quotes around flow rather than 'fair value'.\n\nFor you, two consequences: limit orders make you the maker (earning the spread's edge but risking adverse selection yourself — your resting bid is most likely to fill exactly when something bearish just happened), and fast markets are structurally the most expensive moment to demand immediacy.",
+    "key_terms": [
+      {
+        "term": "Maker/taker",
+        "definition": "Liquidity provider versus consumer — often distinct fee tiers."
+      },
+      {
+        "term": "Market maker",
+        "definition": "A professional quoting both sides to earn the spread."
+      },
+      {
+        "term": "Adverse selection",
+        "definition": "Being filled by better-informed flow — the maker's core risk."
+      },
+      {
+        "term": "Quote fade",
+        "definition": "Spreads widening and depth vanishing as informed pressure hits."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your resting limit buy fills instantly during a sudden plunge. Through the adverse-selection lens, what just happened?",
+      "options": [
+        "You got a lucky discount with no strings.",
+        "You were the patience that urgent, possibly informed selling consumed — limit fills cluster exactly when the flow against you is strongest.",
+        "The exchange gifted you shares.",
+        "Limit orders cannot fill in plunges."
+      ],
+      "correct_index": 1,
+      "explanation": "The maker's curse applies to you too: the market grants your price most readily when new information says that price was too generous. Not a reason to avoid limits — a reason to place them where your thesis already accepts the fill."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Reconsider the entry zone's lower edge: a fill there during a flush is adverse selection your setup must already have priced in."
+    }
+  },
+  {
+    "id": "expert-22-order-flow",
+    "module_id": "expert",
+    "track_id": "microstructure",
+    "tier": "expert",
+    "order": 22,
+    "title": "Order Flow, Imbalance, and Where Wicks Come From",
+    "summary": "Reading the tape's logic without pretending to read minds.",
+    "concept": "**Order flow** is the realized sequence of aggressive buying versus selling — the urgency ledger. Its imbalances explain familiar chart anatomy from below: **stop cascades** (price reaching a level where resting stops convert into a burst of market orders — the liquidation-cascade mechanics from the leverage track, generalized to all stops) carve the violent wicks; **absorption** (heavy aggressive selling that fails to move price because patient bids keep refilling) precedes many reversals — exhaustion meeting accumulation.\n\nThis is also where **manipulation** lives at the margins: spoofing (fake resting size meant to scare, pulled before filling) and wash trading (self-dealing volume on lax venues — a scam-defense callback for judging exchange volume claims).\n\nThe honest boundary: full order-flow trading demands data feeds and screen time beyond this app's scope. What transfers to candle-readers: wicks are flow events, volume is urgency, and levels obvious to everyone (round numbers, prior extremes) attract precisely the stop clusters that make them treacherous to park stops at.",
+    "key_terms": [
+      {
+        "term": "Order-flow imbalance",
+        "definition": "Net aggressive buying minus selling over a window."
+      },
+      {
+        "term": "Stop cascade",
+        "definition": "Stops converting to market orders in chains — the generalized liquidation wick."
+      },
+      {
+        "term": "Absorption",
+        "definition": "Aggression failing to move price into refilling patience — reversal fuel."
+      },
+      {
+        "term": "Spoofing",
+        "definition": "Fake resting size displayed to intimidate, cancelled before execution."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Price spikes down through an obvious round-number support, fills the wick with huge volume, then closes back above it. The microstructure reading?",
+      "options": [
+        "Support is now permanently broken.",
+        "A stop cascade: clustered stops below the obvious level converted to market sells, were absorbed by patient bids, and the forced flow's end let price recover — the level was a liquidity pocket, not a verdict.",
+        "The data is corrupted.",
+        "Round numbers repel prices."
+      ],
+      "correct_index": 1,
+      "explanation": "Obvious levels concentrate stops; stops are pre-committed urgency; urgency exhausts into patience. The wick-and-reclaim is that whole sentence drawn on a chart — and why stops parked at the obvious price pay a structural tax."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Find a long wick through an obvious level and check its volume — then reconsider where your own stops tend to sit."
+    }
+  },
+  {
+    "id": "expert-23-microstructure-scope",
+    "module_id": "expert",
+    "track_id": "microstructure",
+    "tier": "expert",
+    "order": 23,
+    "title": "Microstructure for the Candle Trader",
+    "summary": "What survives the zoom-out — and the engine's chosen altitude.",
+    "concept": "The synthesis question: trading from closed candles, what should microstructure change about your behavior? Four durable transfers. **Stops**: place them beyond obvious liquidity pools, not at them — the round number is the cascade's home, a volatility-buffered distance past it is yours (the ATR multiple logic, now with its microstructure justification). **Entries**: limit orders inside zones your thesis already accepts, never resting bids you would regret filling. **Timing**: avoid demanding immediacy in fast markets and dead hours — the spread's economics are against you at both extremes. **Volume**: read it as urgency-meeting-patience, which is exactly the interpretation the engine's volume-confirmation score encodes.\n\nAnd the altitude line: QuantGlass deliberately operates at **closed-candle altitude** — no tick feeds, no book data, no flow signals. Candles are the compression that makes deterministic, auditable, replayable analysis possible; the tape's chaos is real but lives below the engine's declared resolution. You now know what the engine sees, what it doesn't, and — the Academy's whole point — exactly which is which.",
+    "key_terms": [
+      {
+        "term": "Liquidity pool",
+        "definition": "Stop/order clusters at obvious levels — cascade fuel."
+      },
+      {
+        "term": "Buffered stop",
+        "definition": "An invalidation placed beyond the pool by a volatility margin."
+      },
+      {
+        "term": "Candle altitude",
+        "definition": "The engine's declared resolution: closed OHLCV, nothing below."
+      },
+      {
+        "term": "Auditable compression",
+        "definition": "Why candles: deterministic, replayable, verifiable analysis."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Knowing stop cascades cluster at obvious levels, where does this track tell you to place a long's stop relative to clear support?",
+      "options": [
+        "Exactly at the support price, where everyone can see it.",
+        "A volatility-buffered distance beyond the obvious level, so the routine sweep of the liquidity pool does not convert your planned 1R into a cascade fill.",
+        "No stop — cascades make stops pointless.",
+        "Above the entry, for safety."
+      ],
+      "correct_index": 1,
+      "explanation": "The engine's ATR-multiple stops have been doing this for you all along: the buffer is sized so the pool's normal raid passes underneath. Microstructure is the why behind the multiple."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Compare any signal's stop to the nearest obvious level — measure the buffer and recognize the cascade insurance you've been carrying."
+    }
   }
 ]
