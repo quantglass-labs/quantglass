@@ -18,6 +18,11 @@ Each lesson object has:
   `correct_answer`, `tolerance_percent`, `explanation`).
 - `live_apply` — `{screen, cta}` pointing the learner at a live app surface.
 
+Every lesson file is validated against
+[`lesson.schema.json`](lesson.schema.json) in CI
+(`tests/test_lesson_content.py`), including unique ids, sequential `order`
+per tier, and in-range `correct_index`.
+
 Content rules: educational only, never financial advice, and any numbers
 quoted in exercises must be internally consistent so the checker in
 `app/services/learn_service.py` validates them.
