@@ -998,5 +998,357 @@
       "screen": "signals",
       "cta": "Compare any signal's stop to the nearest obvious level — measure the buffer and recognize the cascade insurance you've been carrying."
     }
+  },
+  {
+    "id": "expert-24-two-hats",
+    "module_id": "expert",
+    "track_id": "risk-officer",
+    "tier": "expert",
+    "order": 24,
+    "title": "The Two Hats: Trader and Risk Officer",
+    "summary": "Professional firms separate the person taking risk from the person limiting it. So should you.",
+    "concept": "In every serious trading firm, the trader who wants the position and the **risk officer** who can veto it are different people — because the same mind cannot honestly want a trade and police it simultaneously. Solo traders cannot hire the second person, but they can install the second *role*: a set of rules written by you-at-your-calmest that **outrank** you-in-the-moment.\n\nThe separation is temporal, not personal: the risk officer works **before** (setting limits while flat) and **after** (reviewing breaches in the journal); the trader works **during**. Any rule renegotiated mid-trade was never a rule — it was a suggestion wearing a uniform.\n\nYou have already met the pattern everywhere in this Academy: pre-committed stops, the regime gates that refuse trades regardless of mood, the unlock ladder itself. This track makes the role explicit, gives it policies, and — the hard part — gives it the authority to overrule its more excited colleague.",
+    "key_terms": [
+      {
+        "term": "Risk officer",
+        "definition": "The role that sets and enforces limits — staffed by you, while calm."
+      },
+      {
+        "term": "Temporal separation",
+        "definition": "Limits set before, reviewed after; never negotiated during."
+      },
+      {
+        "term": "Rule authority",
+        "definition": "A rule that can be overridden in the moment is a suggestion."
+      },
+      {
+        "term": "Veto power",
+        "definition": "The risk role's defining right: no is a complete sentence."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why can't the in-the-moment trader also serve as their own risk officer at decision time?",
+      "options": [
+        "Regulations forbid it.",
+        "Wanting a position and policing it use the same mind in opposite directions — under arousal, the want wins, which is why limits must be set and enforced from a different moment in time.",
+        "Risk officers need certifications.",
+        "It works fine; firms separate them for payroll reasons."
+      ],
+      "correct_index": 1,
+      "explanation": "The conflict of interest is internal and neurological, not procedural. Temporal separation — calm-you legislating for excited-you — is the solo trader's version of the firm's two desks."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Risk and read its gates as your risk office's standing orders — written when calm, enforced regardless of mood."
+    }
+  },
+  {
+    "id": "expert-25-limits-policy",
+    "module_id": "expert",
+    "track_id": "risk-officer",
+    "tier": "expert",
+    "order": 25,
+    "title": "Limits as Written Policy",
+    "summary": "Per-trade, daily, heat, and drawdown limits — drafted once, obeyed always.",
+    "concept": "A risk policy fits on one page and covers four altitudes. **Per-trade**: maximum risk as a fraction of equity (the 1% you have used all course) and a maximum position size regardless of stop math (fat-finger insurance). **Per-day**: a loss limit in R (commonly 2–3R) after which the day ends — not because edge vanished, but because the psychology track showed what compounds after consecutive losses. **Portfolio**: the heat cap and a correlated-exposure cap (the macro track's stressed-correlation lesson, codified). **Account**: the drawdown pause rule — a depth at which everything stops for a full written review and a reduced-size restart.\n\nEach limit needs three written parts: the **threshold**, the **action** (reduce/stop/review — automatic, not advisory), and the **restart condition**. A limit without a pre-agreed restart becomes a permanent flinch; one without an automatic action becomes a journal entry about what should have happened.\n\nDraft yours now, while nothing hurts. That is the entire trick.",
+    "key_terms": [
+      {
+        "term": "Per-trade cap",
+        "definition": "Risk fraction plus an absolute size ceiling."
+      },
+      {
+        "term": "Daily stop",
+        "definition": "A loss level in R that ends the trading day."
+      },
+      {
+        "term": "Correlated-exposure cap",
+        "definition": "Heat budgeted against the stressed correlation matrix."
+      },
+      {
+        "term": "Restart condition",
+        "definition": "The pre-agreed path back from any triggered limit."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does every limit in the policy need a pre-written RESTART condition, not just a threshold and action?",
+      "options": [
+        "Paperwork completeness.",
+        "Without a defined path back, triggered limits decay into either permanent fear (never restarting) or improvised exceptions (restarting on mood) — the restart rule is what keeps the limit a system instead of a scar.",
+        "Restarts are required by brokers.",
+        "Limits should never be restarted."
+      ],
+      "correct_index": 1,
+      "explanation": "A circuit breaker that nobody knows how to reset gets bypassed next time. The restart condition — reviewed journal, reduced size, specific date — closes the loop and keeps authority with the policy."
+    },
+    "live_apply": {
+      "screen": "alerts",
+      "cta": "Encode one limit physically right now: an alert at your daily-stop equivalent on your largest open position."
+    }
+  },
+  {
+    "id": "expert-26-breach-review",
+    "module_id": "expert",
+    "track_id": "risk-officer",
+    "tier": "expert",
+    "order": 26,
+    "title": "Monitoring and Breach Review",
+    "summary": "The risk office's real product is honest paperwork about violations.",
+    "concept": "Limits get breached — by markets (gaps through stops) and by you (the trade taken at 1.4% risk because it 'looked exceptional'). The risk office's value is not preventing every breach; it is **recording and classifying** them honestly: *market breach* (the plan met conditions it couldn't control — review the plan's assumptions) versus *discipline breach* (the plan was overridden — review the operator).\n\nThe review ritual, borrowed from every serious risk desk: log each breach within a day, classify it, write the one-sentence cause, and — for discipline breaches — identify the *moment* the override happened and what state you were in (the journal's emotional tags become forensic evidence). Three same-typed discipline breaches in a month is not three incidents; it is one pattern wearing three dates.\n\nYour instrumentation already exists: the coaching panel flags risk moments as they happen, the journal holds adherence, and your paper history timestamps everything. The risk officer's job is reading them like an auditor — monthly, in writing, without mercy or melodrama.",
+    "key_terms": [
+      {
+        "term": "Market breach",
+        "definition": "Conditions outran the plan — an assumptions review."
+      },
+      {
+        "term": "Discipline breach",
+        "definition": "The plan was overridden — an operator review."
+      },
+      {
+        "term": "Breach log",
+        "definition": "Dated, classified violations with one-sentence causes."
+      },
+      {
+        "term": "Pattern threshold",
+        "definition": "Repeated same-type breaches treated as one systemic finding."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your stop was set correctly but an overnight gap filled you 2.3R down instead of 1R. How does the risk office classify and act?",
+      "options": [
+        "Discipline breach — punish the operator.",
+        "Market breach: the plan met gap risk it knowingly carried; the review targets assumptions (event calendar respected? overnight exposure sized for gaps?) rather than the operator's behavior.",
+        "Not a breach since a stop existed.",
+        "Delete the trade from the journal."
+      ],
+      "correct_index": 1,
+      "explanation": "Classification decides the remedy. Punishing the operator for a market breach teaches fear; excusing a discipline breach as bad luck teaches nothing. The taxonomy is the whole tool."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Audit your last ten paper trades: classify any plan deviations as market or discipline breaches, and look for the repeated type."
+    }
+  },
+  {
+    "id": "expert-27-capital-preservation",
+    "module_id": "expert",
+    "track_id": "risk-officer",
+    "tier": "expert",
+    "order": 27,
+    "title": "The Capital-Preservation Doctrine",
+    "summary": "Survival is the strategy; returns are what survival earns over time.",
+    "concept": "Every lesson in this track serves one doctrine: **you cannot compound from zero**. The arithmetic you met early — drawdown's asymmetric recovery, the 100/L wipeout line, ruin risk under streaks — all says the same thing: the trader who survives mediocre years beats the brilliant trader who didn't survive one bad week. Edge is rented; capital is the lease.\n\nThe doctrine's operating rules: size every trade as if the next seven could all lose (they someday will); cut size *first* when anything feels wrong — size is the only lever that works mid-storm; treat 'making it back' as the forbidden motive (the tilt and leverage tracks' shared villain); and measure yourself in down markets by how little you lost, not how much you made.\n\nThis is also the deepest read of the app you are using: paper-first, spot-only, gated progression, honest statistics — the entire architecture is the preservation doctrine rendered as software. The Academy taught you to trade; this doctrine is what lets you still be trading in ten years.",
+    "key_terms": [
+      {
+        "term": "Ruin asymmetry",
+        "definition": "Zero is the only result you cannot recover from."
+      },
+      {
+        "term": "Size-first response",
+        "definition": "Reducing size as the universal mid-storm action."
+      },
+      {
+        "term": "Forbidden motive",
+        "definition": "'Making it back' — the doctrine's named enemy."
+      },
+      {
+        "term": "Survival metric",
+        "definition": "Down-market performance judged by losses avoided."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Two traders over five years: A averages +22%/year but busts in year six's crash; B averages +9% and survives it. The doctrine's verdict?",
+      "options": [
+        "A was better — higher average while it lasted.",
+        "B wins everything that matters: compounding only exists for the survivor, and A's superior average was rented against a ruin risk that eventually billed him.",
+        "They tie at risk-adjusted parity.",
+        "Year six should be excluded as an outlier."
+      ],
+      "correct_index": 1,
+      "explanation": "Returns are conditional on survival; survival is not conditional on returns. The geometric mean of a sequence containing zero is zero — the whole doctrine in one multiplication."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Re-read any preset's max drawdown and ask the doctrine's question first: is survival certain through twice that depth?"
+    }
+  },
+  {
+    "id": "expert-28-trading-day",
+    "module_id": "expert",
+    "track_id": "pro-workflow",
+    "tier": "expert",
+    "order": 28,
+    "title": "The Operator's Day",
+    "summary": "Prepare, execute, review — the loop that replaces mood with process.",
+    "concept": "A professional trading day is a **loop**, not a vigil. **Prepare** (before any market decision): check the calendar (macro events, earnings on holdings), read overnight damage, review open positions against their plans, scan the coaching panel, set the day's risk budget given current drawdown state. **Execute** (during): act only on planned setups in valid regimes, place alerts instead of staring (the discipline-systems lesson), log entries with their one-sentence reasons at the moment they happen. **Review** (after, always): journal every exit, classify any breaches, note tomorrow's calendar, close the screens.\n\nThe sequence's law you met in the checklist lesson — *manage before you hunt* — extends to the whole day: preparation outranks execution, and review is not optional dessert; it is where the learning actually happens (the day itself is just data collection).\n\nThe trap this structure prevents has a name: **screen-watching as work**. Hours of staring produce impulse trades and fatigue, not edge. The operator's day is short, ordered, and mostly *not* spent watching candles form.",
+    "key_terms": [
+      {
+        "term": "Prepare-execute-review",
+        "definition": "The daily loop; learning lives in the third phase."
+      },
+      {
+        "term": "Risk-budget check",
+        "definition": "Sizing the day against current drawdown state, before trading."
+      },
+      {
+        "term": "Reason-at-entry",
+        "definition": "Logging the thesis when it is decided, not reconstructed later."
+      },
+      {
+        "term": "Screen-watching trap",
+        "definition": "Staring mistaken for work — the impulse-trade factory."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the operator's loop place journal review AFTER the session as a non-negotiable phase, rather than 'when there's time'?",
+      "options": [
+        "To fill the calendar.",
+        "Execution only generates data; review converts it into learning — skip the third phase and the loop degrades into repeating the same day with fresh mistakes.",
+        "Journals legally expire daily.",
+        "Review before sleep improves dreams."
+      ],
+      "correct_index": 1,
+      "explanation": "The statistics track showed your edge hides in your own aggregates. Aggregates only exist if the review phase runs — every skipped review is a tuition payment with the receipt thrown away."
+    },
+    "live_apply": {
+      "screen": "alerts",
+      "cta": "Build tomorrow's loop tonight: alerts on every decision level, so execution can be event-driven instead of stared-at."
+    }
+  },
+  {
+    "id": "expert-29-research-pipeline",
+    "module_id": "expert",
+    "track_id": "pro-workflow",
+    "tier": "expert",
+    "order": 29,
+    "title": "The Research Pipeline",
+    "summary": "Idea → hypothesis → backtest → forward test → size — with kill criteria at every stage.",
+    "concept": "Professionals separate **research** from **trading** as strictly as risk from desire. The pipeline: an **idea** (from a lesson, a pattern noticed, a regime observation) becomes a **hypothesis** — written precisely enough to be wrong ('pullbacks to the 21-EMA in trending regimes resolve trendward within N bars'). The hypothesis meets the **backtester** (the statistical-honesty track's machinery: IS/OOS, costs, sample size) — most ideas should die here, cheaply. Survivors go to **forward paper testing**: live data, real time, zero capital — the engine's whole paper apparatus exists for exactly this stage. Only then, with both historical and forward evidence agreeing, does **size** enter the conversation.\n\nEach stage needs a pre-written **kill criterion** — the result that sends the idea to the graveyard without appeal. Research without kill criteria isn't research; it is shopping for confirmation (the biases track, in lab coats).\n\nNote what this makes QuantGlass: not a signal feed but a **personal research lab** — detector, backtester, forward-test environment, and journal, sharing one honest data spine.",
+    "key_terms": [
+      {
+        "term": "Hypothesis",
+        "definition": "An idea written precisely enough to be falsified."
+      },
+      {
+        "term": "Cheap death",
+        "definition": "Backtests exist so bad ideas die before costing money."
+      },
+      {
+        "term": "Forward test",
+        "definition": "Live-data paper validation — the stage between history and capital."
+      },
+      {
+        "term": "Kill criterion",
+        "definition": "The pre-agreed result that ends an idea without appeal."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "An idea backtests beautifully but bleeds steadily through eight weeks of forward paper testing. The pipeline's ruling?",
+      "options": [
+        "Ship it — backtests outrank recent noise.",
+        "The forward stage exists precisely to catch this: regime change or overfit history — either way the kill criterion fires, and the idea returns to research rather than advancing to capital.",
+        "Average the two results.",
+        "Extend forward testing until it agrees."
+      ],
+      "correct_index": 1,
+      "explanation": "History can be memorized; the present cannot. Disagreement between stages is information, and 'extend the test until it confirms' is the confirmation bias the pipeline was built to kill."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Pick one strategy preset and write its kill criterion for a forward paper test: what 30-trade result would honestly end it?"
+    }
+  },
+  {
+    "id": "expert-30-pro-reporting",
+    "module_id": "expert",
+    "track_id": "pro-workflow",
+    "tier": "expert",
+    "order": 30,
+    "title": "Reporting Like a Professional",
+    "summary": "The monthly letter to your only investor: you.",
+    "concept": "Funds write investor letters; you write one to yourself, monthly, in R. The template: **headline numbers** (trades, win rate, expectancy, total R, max drawdown this period); **attribution** (which setups, regimes, and symbols produced and consumed the R — the slicing you learned in the journal-stats lesson); **breach report** (the risk office's log: market vs discipline, patterns flagged); **process metrics** (plan adherence rate, journal completion — the numbers that predict the other numbers); and **one change** — a single, specific adjustment for next month, because reports that demand five changes produce zero.\n\nThe discipline is writing it when the month was *bad*: the report you least want to write contains the most expensive information you own. And the format forces the professional frame — months are evaluated as samples (n of trades), not stories ('felt terrible'); a -3R month of perfect adherence is a *good report* with a red number.\n\nYour data spine already exists: paper history, journal, readiness scores, breach log. The letter is one honest hour, twelve times a year.",
+    "key_terms": [
+      {
+        "term": "Investor letter",
+        "definition": "The monthly self-report — numbers first, in R."
+      },
+      {
+        "term": "Attribution",
+        "definition": "R sliced by setup, regime, and symbol."
+      },
+      {
+        "term": "Process metrics",
+        "definition": "Adherence and completion — the leading indicators."
+      },
+      {
+        "term": "One-change rule",
+        "definition": "A single specific adjustment per report."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your month: −2.4R total, but 96% plan adherence and every loss inside its planned 1R. How does the professional report read it?",
+      "options": [
+        "A failed month — the number is red.",
+        "A well-operated month in an unpaying sample: process metrics passed, losses were planned-size, and the verdict on the method waits for more n — exactly what 'judge methods by aggregates' means.",
+        "Adherence caused the losses.",
+        "Reports are skipped in losing months."
+      ],
+      "correct_index": 1,
+      "explanation": "The report separates operator from outcome. Red months with green process are variance; green months with red process are the dangerous ones — the letter exists to tell those apart."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Draft this month's letter from your paper history: headline R, best/worst setup, adherence estimate, and the one change."
+    }
+  },
+  {
+    "id": "expert-31-complete-operator",
+    "module_id": "expert",
+    "track_id": "pro-workflow",
+    "tier": "expert",
+    "order": 31,
+    "title": "The Complete Operator",
+    "summary": "Every track, one identity — and what graduation actually means.",
+    "concept": "Assemble what you now carry. You read markets structurally (foundations, chart literacy, regimes) and know what the engine computes versus what you must judge (every scope-line lesson). You size from invalidation, budget heat against stressed correlations, and treat leverage as the rescaling of survival (risk, margin tracks). You demand statistical honesty — samples, OOS, calibration, conformal bounds — from any claim, including your own (statistics, validation tracks). You recognize the enemy within (psychology) and without (scam defense). You operate on a loop, research on a pipeline, report in R, and answer to a risk office you built yourself (this level).\n\nNotice what changed: none of it is prediction. The Academy never taught you what the market will do — it taught you to need no such knowledge: edges are found in process, expressed in risk units, validated honestly, and survived into compounding.\n\nGraduation, then, is not the live-trading unlock (which remains a choice, not a destination — paper mastery is a complete outcome). Graduation is this: **you can now defend every number you act on**. That standard — the engine's standard, now yours — is the entire curriculum in one sentence. Carry it.",
+    "key_terms": [
+      {
+        "term": "Complete operator",
+        "definition": "Structure-reader, risk-sizer, honest statistician, self-governed."
+      },
+      {
+        "term": "Process edge",
+        "definition": "Advantage located in operation, not prediction."
+      },
+      {
+        "term": "Defensible number",
+        "definition": "The graduation standard: every acted-on figure auditable."
+      },
+      {
+        "term": "Paper mastery",
+        "definition": "A complete, legitimate end state — not a waiting room."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "What is the Academy's actual graduation criterion, per this capstone?",
+      "options": [
+        "Unlocking live trading.",
+        "Being able to defend every number you act on — sample, source, assumption, and risk — the same standard the engine holds itself to.",
+        "Completing 113 lessons.",
+        "A profitable month."
+      ],
+      "correct_index": 1,
+      "explanation": "Lessons end; the standard doesn't. Live trading is one optional application of it; the defensible number is the identity you keep either way."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Scroll your completed tracks and pick the one lesson you'd reread monthly — every operator keeps one sharpening stone."
+    }
   }
 ]
