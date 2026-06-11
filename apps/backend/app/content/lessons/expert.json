@@ -84,131 +84,11 @@
     "track_id": "quant-validation"
   },
   {
-    "id": "expert-03-custom-indicator",
-    "module_id": "expert",
-    "tier": "expert",
-    "order": 3,
-    "title": "Writing a Custom Indicator Extension",
-    "summary": "Contribute a deterministic indicator to QuantGlass using the extension API.",
-    "concept": "Indicators in QuantGlass must satisfy these constraints:\n1. **Deterministic** — same inputs always produce same outputs\n2. **No network calls** — pure computation on provided candle data\n3. **No lookahead** — index N may only use candles 0…N\n4. **No hidden state** — stateless functions or classes that reset per call\n\n**Minimal indicator extension:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nDrop this file in `workspace/extensions/` and restart the backend.",
-    "key_terms": [
-      {
-        "term": "Extension Manifest",
-        "definition": "Declares id, name, version, capabilities, and required permissions."
-      },
-      {
-        "term": "Indicator Contract",
-        "definition": "compute(candles) → list of values, one per candle, no lookahead."
-      },
-      {
-        "term": "Deterministic",
-        "definition": "Same input → same output, always, with no side effects."
-      }
-    ],
-    "exercise": {
-      "type": "multiple_choice",
-      "question": "Which of these violates the QuantGlass indicator contract?",
-      "options": [
-        "Using candle[i] to compute a rolling sum of candle[0..i].",
-        "Making an HTTP request to fetch additional price data inside compute().",
-        "Returning None for the first N candles while the window warms up.",
-        "Accepting a 'period' parameter in the compute function signature."
-      ],
-      "correct_index": 1,
-      "explanation": "HTTP calls inside `compute()` violate the **no-network** rule.  Network calls introduce latency, non-determinism, and potential lookahead bias.  All data must be provided through the candles argument.  Returning None during warmup and accepting parameters are both valid and expected patterns."
-    },
-    "live_apply": {
-      "screen": "settings",
-      "cta": "Open Settings → Extensions.  Review the community_momentum_pack extension as a reference implementation."
-    },
-    "track_id": "building-extensions"
-  },
-  {
-    "id": "expert-04-custom-strategy",
-    "module_id": "expert",
-    "tier": "expert",
-    "order": 4,
-    "title": "Writing a Custom Strategy Extension",
-    "summary": "Author a complete strategy that integrates with the QuantGlass signal engine.",
-    "concept": "A strategy extension registers a `candidate_factory` — a function called by the signal engine that returns candidate setups in the same format as built-in families.\n\n**Required candidate fields:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Strategy contract rules:**\n1. Use only **closed candles** — no partial-bar peeking\n2. Include realistic **fees and slippage** in backtests\n3. Report **IS and OOS separately** — do not blend windows\n4. The **take_profit ladder shown to users must match what the backtest simulates**\n\nThis last rule is the one the production audit flagged as a common failure mode — QuantGlass enforces it by using `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` in the backtest simulator and displaying the same three levels in the signal output.",
-    "key_terms": [
-      {
-        "term": "candidate_factory",
-        "definition": "Function returning setup candidates from the signal engine context."
-      },
-      {
-        "term": "TP Ladder Consistency",
-        "definition": "The exits shown to users must exactly match the exits the backtest simulates."
-      },
-      {
-        "term": "Closed Candle Rule",
-        "definition": "Strategies may only use candles with status='closed' — no partial-bar data."
-      }
-    ],
-    "exercise": {
-      "type": "multiple_choice",
-      "question": "Your strategy shows TP at 3R to users, but the backtest exits at 2R.  What is the problem?",
-      "options": [
-        "No problem — showing a more optimistic TP encourages users.",
-        "The backtest expectancy is wrong — it understates real performance.",
-        "The backtest simulates lower exits than displayed — it overstates survivability but understates reward.  The strategy contract is violated.",
-        "No problem — TP is just a suggestion, not a hard rule."
-      ],
-      "correct_index": 2,
-      "explanation": "When the backtest exits at 2R but the display promises 3R, the backtest is simulating a different trade than what the user executes.  This makes the backtest results unreliable as a predictor of user experience.  QuantGlass enforces consistency via `_TP_LADDER_WEIGHTS`."
-    },
-    "live_apply": {
-      "screen": "settings",
-      "cta": "Review extensions/community_momentum_pack.py for a complete working strategy extension example."
-    },
-    "track_id": "building-extensions"
-  },
-  {
-    "id": "expert-05-trading-plan",
-    "module_id": "expert",
-    "tier": "expert",
-    "order": 5,
-    "title": "Building a Complete Trading Plan",
-    "summary": "Synthesize all concepts into a disciplined, rule-based trading plan.",
-    "concept": "A **trading plan** is a written set of rules that removes emotion from trade decisions.  It answers: *when to enter, how much to risk, when to exit, and how to review performance*.\n\n**QuantGlass-native trading plan template:**\n\n1. **Universe**: which corridor symbols and timeframes to trade\n2. **Signal gate**: minimum confidence, OOS_validated = True required?\n3. **Risk per trade**: e.g., 1% of paper account per signal\n4. **Entry rule**: enter only within the entry_zone, not outside it\n5. **Stop rule**: stop = signal's stop_loss, no manual override\n6. **Exit rule**: scale out at TP1 (50%), TP2 (30%), hold remainder to TP3\n7. **Daily review**: compare paper account equity vs benchmark (e.g., BTC or SPY)\n8. **Monthly calibration**: update min_confidence threshold based on realized hit rates\n\nThe plan is only as good as your adherence.  QuantGlass provides the signals; discipline provides the edge.",
-    "key_terms": [
-      {
-        "term": "Trading Plan",
-        "definition": "A written ruleset for entries, sizing, exits, and review — removes discretionary emotion."
-      },
-      {
-        "term": "Signal Gate",
-        "definition": "Minimum criteria a signal must meet before you act (e.g., confidence ≥ 65, OOS_validated)."
-      },
-      {
-        "term": "Monthly Calibration",
-        "definition": "Reviewing whether your min_confidence threshold matches your actual hit rate."
-      }
-    ],
-    "exercise": {
-      "type": "multiple_choice",
-      "question": "Over 3 months you took 40 paper trades with confidence ≥ 65.  Your actual win rate was 48%.  The engine's backtested win rate for these setups was 56%.  What should you do?",
-      "options": [
-        "Nothing — 8% gap is normal variance over 40 trades.",
-        "Raise min_confidence to ≥ 72 to filter for higher-quality setups, or investigate whether execution timing was off (entered outside entry_zone).",
-        "Lower min_confidence to ≥ 55 — the lower threshold will improve win rate.",
-        "Stop using QuantGlass — the model is broken."
-      ],
-      "correct_index": 1,
-      "explanation": "A persistent gap between backtested win rate (56%) and realized win rate (48%) over 40 trades suggests either execution slippage (entering too late, outside the entry_zone) or that the current confidence threshold selects setups where the gap is widest.  Raising the threshold to ≥ 72 filters for higher-quality setups with stronger OOS evidence.  Also audit your fills — did you enter within the entry_zone every time?"
-    },
-    "live_apply": {
-      "screen": "signals",
-      "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
-    },
-    "track_id": "going-live"
-  },
-  {
     "id": "expert-06-conformal-prediction",
     "module_id": "expert",
     "track_id": "quant-validation",
     "tier": "expert",
-    "order": 6,
+    "order": 3,
     "title": "Conformal Prediction: Guarantees Without Assumptions",
     "summary": "The math behind the signal drawer's coverage-guaranteed range.",
     "concept": "Most prediction intervals lean on assumptions markets refuse to honor (normality, stable variance). **Split-conformal prediction** needs almost nothing: take a calibration set of past outcomes — QuantGlass uses the **out-of-sample trade results in R** — sort them, and read off rank-adjusted quantiles. The resulting interval contains the *next* outcome with at least the stated probability, in finite samples, assuming only exchangeability (no peeking, no reordering).\n\nThe engine's exact mechanics for 90% coverage: with n calibration outcomes, the lower bound is the ⌊(n+1)·0.05⌋-th smallest and the upper the ⌈(n+1)·0.95⌉-th. Those ranks only exist when **n ≥ 19** — below that, the drawer shows *no* interval rather than an unbacked one. Honesty includes refusing to manufacture guarantees.\n\nReading the drawer's 'next-trade range −1.0R to +2.1R (90% guaranteed over 214 OOS trades)': it brackets outcomes, not profits — and the width is information: wide intervals are the data confessing its own dispersion.",
@@ -256,7 +136,7 @@
     "module_id": "expert",
     "track_id": "quant-validation",
     "tier": "expert",
-    "order": 7,
+    "order": 4,
     "title": "Calibration: Does Confidence Mean Anything?",
     "summary": "Predicted versus realized — the score's final exam.",
     "concept": "A confidence score earns trust only if it is **calibrated**: among all signals scored around 70, roughly the corresponding fraction should work out; 55-scored signals should succeed less often than 75-scored ones. Calibration is checked with one disarmingly simple table: bucket past signals by confidence, then compare each bucket's *predicted* level with its *realized* frequency.\n\nFailure modes have names: **overconfidence** (realized below predicted — the dangerous one) and the reliability-diagram patterns that expose where in the range the score lies. QuantGlass already fights overconfidence structurally — shrinkage, the 62-point unvalidated cap, the hard 89 ceiling — and the calibration tracking table (the engine's roadmap capstone) closes the loop by scoring the scorer against your own app's history.\n\nThe portable habit: any score anyone shows you — including ours — deserves the question *'calibrated against what?'* A confidence number without a calibration check is an adjective wearing a costume.",
@@ -300,7 +180,7 @@
     "module_id": "expert",
     "track_id": "quant-validation",
     "tier": "expert",
-    "order": 8,
+    "order": 5,
     "title": "Monte Carlo: One History Is Not Enough",
     "summary": "Resampling trade outcomes to see the futures you didn't get.",
     "concept": "A backtest's equity curve is **one draw** from the strategy's distribution — the particular order in which wins and losses happened. Reshuffle the same trades and the max drawdown changes, sometimes dramatically: sequence is luck, and your single history embodies one lucky-or-not sequence.\n\n**Monte Carlo resampling** makes that explicit: sample trades (with replacement) from your outcome list, build thousands of synthetic equity curves, and read *distributions* instead of points — median max drawdown, the 95th-percentile drawdown, the probability of hitting a ruin threshold before a target. A strategy whose backtest shows −12% max drawdown may show a 95th-percentile of −28% under resampling; the difference is the sequence risk the single curve hid.\n\nPractical uses: size so the *95th-percentile* drawdown stays survivable (not the historical one), and set the pause-rule depth from the distribution rather than from hope. The engine's per-trade R outcomes — the same list feeding conformal calibration — are exactly the resampling input.",
@@ -340,11 +220,91 @@
     }
   },
   {
+    "id": "expert-03-custom-indicator",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 6,
+    "title": "Writing a Custom Indicator Extension",
+    "summary": "Contribute a deterministic indicator to QuantGlass using the extension API.",
+    "concept": "Indicators in QuantGlass must satisfy these constraints:\n1. **Deterministic** — same inputs always produce same outputs\n2. **No network calls** — pure computation on provided candle data\n3. **No lookahead** — index N may only use candles 0…N\n4. **No hidden state** — stateless functions or classes that reset per call\n\n**Minimal indicator extension:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nDrop this file in `workspace/extensions/` and restart the backend.",
+    "key_terms": [
+      {
+        "term": "Extension Manifest",
+        "definition": "Declares id, name, version, capabilities, and required permissions."
+      },
+      {
+        "term": "Indicator Contract",
+        "definition": "compute(candles) → list of values, one per candle, no lookahead."
+      },
+      {
+        "term": "Deterministic",
+        "definition": "Same input → same output, always, with no side effects."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which of these violates the QuantGlass indicator contract?",
+      "options": [
+        "Using candle[i] to compute a rolling sum of candle[0..i].",
+        "Making an HTTP request to fetch additional price data inside compute().",
+        "Returning None for the first N candles while the window warms up.",
+        "Accepting a 'period' parameter in the compute function signature."
+      ],
+      "correct_index": 1,
+      "explanation": "HTTP calls inside `compute()` violate the **no-network** rule.  Network calls introduce latency, non-determinism, and potential lookahead bias.  All data must be provided through the candles argument.  Returning None during warmup and accepting parameters are both valid and expected patterns."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Extensions.  Review the community_momentum_pack extension as a reference implementation."
+    },
+    "track_id": "building-extensions"
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 7,
+    "title": "Writing a Custom Strategy Extension",
+    "summary": "Author a complete strategy that integrates with the QuantGlass signal engine.",
+    "concept": "A strategy extension registers a `candidate_factory` — a function called by the signal engine that returns candidate setups in the same format as built-in families.\n\n**Required candidate fields:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Strategy contract rules:**\n1. Use only **closed candles** — no partial-bar peeking\n2. Include realistic **fees and slippage** in backtests\n3. Report **IS and OOS separately** — do not blend windows\n4. The **take_profit ladder shown to users must match what the backtest simulates**\n\nThis last rule is the one the production audit flagged as a common failure mode — QuantGlass enforces it by using `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` in the backtest simulator and displaying the same three levels in the signal output.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Function returning setup candidates from the signal engine context."
+      },
+      {
+        "term": "TP Ladder Consistency",
+        "definition": "The exits shown to users must exactly match the exits the backtest simulates."
+      },
+      {
+        "term": "Closed Candle Rule",
+        "definition": "Strategies may only use candles with status='closed' — no partial-bar data."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your strategy shows TP at 3R to users, but the backtest exits at 2R.  What is the problem?",
+      "options": [
+        "No problem — showing a more optimistic TP encourages users.",
+        "The backtest expectancy is wrong — it understates real performance.",
+        "The backtest simulates lower exits than displayed — it overstates survivability but understates reward.  The strategy contract is violated.",
+        "No problem — TP is just a suggestion, not a hard rule."
+      ],
+      "correct_index": 2,
+      "explanation": "When the backtest exits at 2R but the display promises 3R, the backtest is simulating a different trade than what the user executes.  This makes the backtest results unreliable as a predictor of user experience.  QuantGlass enforces consistency via `_TP_LADDER_WEIGHTS`."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Review extensions/community_momentum_pack.py for a complete working strategy extension example."
+    },
+    "track_id": "building-extensions"
+  },
+  {
     "id": "expert-09-extension-sdk",
     "module_id": "expert",
     "track_id": "building-extensions",
     "tier": "expert",
-    "order": 9,
+    "order": 8,
     "title": "The Extension SDK: One Stable Surface",
     "summary": "Manifest, permissions, settings — extending the engine safely.",
     "concept": "Everything an extension author needs imports from one module: `app.extensions.sdk`. It carries an explicit **SDK_VERSION** and a compatibility promise — additions bump minor, breaks bump major — so internals can refactor freely while your extension keeps working.\n\nThe anatomy: an **ExtensionManifest** declares identity (a stable id), **capabilities** (what kinds of things you provide: indicator, strategy, notification, …) and **permissions** (what you ask to touch: read_market_data, network_access, …). **ExtensionSetting** entries declare typed, user-editable configuration that surfaces automatically in Settings → Extensions. A register hook receives the **ExtensionContext** and contributes definitions — an `IndicatorDefinition` computing from candles, a `StrategyDefinition` whose candidate hook receives the same context dict the built-in families see and returns candidates that compete on confluence like any native setup.\n\nDesign rule worth copying: extensions *declare* what they need and *contribute* definitions; they never reach into engine internals. That boundary is what lets a community ship code that users can trust and audit.",
@@ -388,7 +348,7 @@
     "module_id": "expert",
     "track_id": "building-extensions",
     "tier": "expert",
-    "order": 10,
+    "order": 9,
     "title": "Publishing: From Local Folder to Community Trust",
     "summary": "Loading paths, validation, and the trust pipeline.",
     "concept": "Shipping an extension has three maturity stages. **Local**: drop a module into the workspace `extensions/` folder (or the data-dir equivalent) and the registry loads it on startup — the development loop. **Packaged**: distribute via Python entry points under `quantglass.extensions`, installable with pip and gated behind an explicit opt-in flag, because installed code is trusted code. **Community**: the registry model — submissions reviewed, every version scanned automatically, permission diffs flagged, trusted-author labels earned — so a stranger's strategy can be installed with informed consent rather than blind faith.\n\nBefore any of that: validate. The repo ships fixture tooling that exercises an extension's contributions against known data, and your indicator/strategy must behave on closed candles only — the same honesty rules the engine obeys. An extension that peeks at the forming bar will look brilliant in dev and lie in production.\n\nThe cultural point: in most trading ecosystems, community code touching money is unreviewed by design. Making review and permissions first-class is the differentiator worth contributing to.",
@@ -432,7 +392,7 @@
     "module_id": "expert",
     "track_id": "ai-assisted-research",
     "tier": "expert",
-    "order": 11,
+    "order": 10,
     "title": "Fact-Guarded Narration",
     "summary": "How the app lets a model speak without letting it invent.",
     "concept": "Language models are fluent and unreliable — a dangerous pairing around money. QuantGlass's narration pipeline assumes the model will eventually hallucinate and builds the cage first.\n\nThe layers: the model receives **only engine-computed facts** (the signal's numbers as JSON) with instructions to restate, not invent; generation is **schema-constrained** (structured outputs force a `{summary}` envelope — no freeform rambling to parse); the returned text passes a **numeric fact guard** that extracts every number and verifies it traces to a provided fact — one fabricated price and the entire output is discarded; and on any failure the **deterministic template** takes over, labeled as such. The narration source is always displayed, so you know whether a model or the template is speaking.\n\nThe transferable principle for any AI-assisted research you do: generation is cheap, **verification is the product**. Use models to explain verified numbers; never use them as the source of numbers.",
@@ -476,7 +436,7 @@
     "module_id": "expert",
     "track_id": "ai-assisted-research",
     "tier": "expert",
-    "order": 12,
+    "order": 11,
     "title": "Local Models and Gateways",
     "summary": "Privacy, latency, and the gateway abstraction.",
     "concept": "Where the narration model runs is a real decision. **Local** (Ollama, LM Studio, vLLM, llama.cpp): your signals, balances, and habits never leave the machine; latency is hardware-bound; capability tops out at what your GPU hosts. **API** (OpenAI-compatible clouds, Anthropic, Gemini, and routers like OpenRouter): stronger models, but your research context travels to a third party under their retention policies.\n\nQuantGlass's **model gateway** abstracts the choice: one interface, per-provider modules, runtime health checks, model discovery, and the same structured-output + fact-guard pipeline regardless of backend — switching providers is a settings change, not an architecture change. The fact guard's presence also rebalances the trade-off: since models only *restate* engine numbers here, a small local model is usually entirely sufficient, and the privacy argument for local-first gets the last word for sensitive research.\n\nMatch the tool to the stakes: local for anything touching your positions; cloud, if ever, for generic explanation where the context is public knowledge.",
@@ -520,7 +480,7 @@
     "module_id": "expert",
     "track_id": "ai-assisted-research",
     "tier": "expert",
-    "order": 13,
+    "order": 12,
     "title": "MCP: Your Engine as an Agent's Ground Truth",
     "summary": "Read-only tools that let AI assistants use your local engine.",
     "concept": "The **Model Context Protocol** standardizes how AI assistants call external tools. QuantGlass ships an MCP server on loopback exposing exactly four **read-only** tools: list_signals, list_backtest_presets, get_paper_account, list_watchlist. Connect Claude or any MCP client and 'what does my watchlist's engine say today?' stops being a hallucination opportunity — the agent *calls your engine* and reasons over verified JSON.\n\nThe design choices are the lesson. **Read-only**: no order tools, no settings tools, no secrets — an agent compromise cannot move money or change configuration. **Loopback-only**: the server binds to your machine. **Self-describing honesty**: every tool's description carries the educational-not-advice framing, so even the agent's context inherits the posture.\n\nThis inverts the usual AI-trading pitch: instead of an AI inventing trades for you to trust, your deterministic engine supplies facts for an AI to explain. The intelligence stays auditable; the language stays fluent; the authority stays with the math.",
@@ -558,6 +518,46 @@
       "screen": "settings",
       "cta": "The MCP endpoint runs at 127.0.0.1:8000/mcp whenever the backend is up — connect an MCP-capable assistant and ask it for your signals."
     }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 13,
+    "title": "Building a Complete Trading Plan",
+    "summary": "Synthesize all concepts into a disciplined, rule-based trading plan.",
+    "concept": "A **trading plan** is a written set of rules that removes emotion from trade decisions.  It answers: *when to enter, how much to risk, when to exit, and how to review performance*.\n\n**QuantGlass-native trading plan template:**\n\n1. **Universe**: which corridor symbols and timeframes to trade\n2. **Signal gate**: minimum confidence, OOS_validated = True required?\n3. **Risk per trade**: e.g., 1% of paper account per signal\n4. **Entry rule**: enter only within the entry_zone, not outside it\n5. **Stop rule**: stop = signal's stop_loss, no manual override\n6. **Exit rule**: scale out at TP1 (50%), TP2 (30%), hold remainder to TP3\n7. **Daily review**: compare paper account equity vs benchmark (e.g., BTC or SPY)\n8. **Monthly calibration**: update min_confidence threshold based on realized hit rates\n\nThe plan is only as good as your adherence.  QuantGlass provides the signals; discipline provides the edge.",
+    "key_terms": [
+      {
+        "term": "Trading Plan",
+        "definition": "A written ruleset for entries, sizing, exits, and review — removes discretionary emotion."
+      },
+      {
+        "term": "Signal Gate",
+        "definition": "Minimum criteria a signal must meet before you act (e.g., confidence ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Monthly Calibration",
+        "definition": "Reviewing whether your min_confidence threshold matches your actual hit rate."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Over 3 months you took 40 paper trades with confidence ≥ 65.  Your actual win rate was 48%.  The engine's backtested win rate for these setups was 56%.  What should you do?",
+      "options": [
+        "Nothing — 8% gap is normal variance over 40 trades.",
+        "Raise min_confidence to ≥ 72 to filter for higher-quality setups, or investigate whether execution timing was off (entered outside entry_zone).",
+        "Lower min_confidence to ≥ 55 — the lower threshold will improve win rate.",
+        "Stop using QuantGlass — the model is broken."
+      ],
+      "correct_index": 1,
+      "explanation": "A persistent gap between backtested win rate (56%) and realized win rate (48%) over 40 trades suggests either execution slippage (entering too late, outside the entry_zone) or that the current confidence threshold selects setups where the gap is widest.  Raising the threshold to ≥ 72 filters for higher-quality setups with stronger OOS evidence.  Also audit your fills — did you enter within the entry_zone every time?"
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
+    },
+    "track_id": "going-live"
   },
   {
     "id": "expert-14-key-custody",

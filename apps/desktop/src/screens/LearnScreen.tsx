@@ -820,7 +820,15 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
     if (backendStatus !== 'online') return;
     backendClient
       .getLearnCatalog()
-      .then(setCatalog)
+      .then((response) => {
+        if (!Array.isArray(response?.levels)) {
+          setError(
+            'The backend is older than this app version and cannot serve the Academy catalog. Restart the app (or the backend) so both are up to date.',
+          );
+          return;
+        }
+        setCatalog(response);
+      })
       .catch(() => setError('Failed to load the learning catalog. Is the backend running?'));
   }, [backendStatus]);
 
@@ -992,6 +1000,14 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             />
           ) : (
             <>
+              {!catalog && !error ? (
+                <div className="max-w-3xl space-y-3" aria-busy="true">
+                  <p className="text-sm text-zinc-500">Loading the Academy…</p>
+                  {[1, 2, 3].map((n) => (
+                    <div key={n} className="h-24 rounded-xl bg-zinc-800/60 animate-pulse" />
+                  ))}
+                </div>
+              ) : null}
               {moments.length > 0 && (
                 <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
