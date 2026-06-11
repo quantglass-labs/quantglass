@@ -54,7 +54,8 @@ class LearnRouteTests(unittest.TestCase):
         self.assertIn("chart-literacy", track_ids)
         self.assertIn("first-signal", track_ids)
         chart = next(t for t in novice["tracks"] if t["id"] == "chart-literacy")
-        self.assertEqual(chart["total"], 4)
+        self.assertGreaterEqual(chart["total"], 4)
+        self.assertEqual(chart["total"], len(chart["lessons"]))
         first_lesson = chart["lessons"][0]
         for field in ("id", "order", "title", "summary", "tier", "completed"):
             self.assertIn(field, first_lesson)

@@ -674,5 +674,405 @@
       "screen": "dashboard",
       "cta": "Switch a chart between 15m and 1h — watch four small candles fuse into one larger one carrying the same OHLCV information."
     }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "module_id": "novice",
+    "track_id": "chart-literacy",
+    "tier": "novice",
+    "order": 16,
+    "title": "Timeframes: One Market, Many Lenses",
+    "summary": "The same price action looks different at 15m, 1h, 4h, and 1d.",
+    "concept": "A **timeframe** is the window each candle summarizes. Lower timeframes (15m) show fine detail and more noise; higher timeframes (1d) show structure and less noise. Neither is 'more true' — they are different compressions of the same tick stream.\n\nTwo practical rules. First, **trend is timeframe-relative**: a 15m downtrend can live inside a 1h uptrend inside a 1d range. Always name the timeframe when you name a trend. Second, **signals inherit their timeframe**: a QuantGlass signal generated on 1h candles has 1h-scale stops, targets, and holding times — judging it against a 1d chart misreads it.\n\nThe engine's setups even consult a slower lens internally: the higher-timeframe slope check compares the 50-bar baseline now versus 10 bars ago, rewarding setups aligned with the larger drift.",
+    "key_terms": [
+      {
+        "term": "Timeframe",
+        "definition": "The window length each candle summarizes."
+      },
+      {
+        "term": "Noise",
+        "definition": "Short-horizon fluctuation that disappears at higher compression."
+      },
+      {
+        "term": "Higher-timeframe alignment",
+        "definition": "Agreement between a setup's timeframe and the slower trend — a confluence input in QuantGlass."
+      },
+      {
+        "term": "Holding time",
+        "definition": "How long a position is expected to stay open — scales with the timeframe."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A symbol is falling on the 15m chart but rising on the 1d chart. Which statement is correct?",
+      "options": [
+        "The data feed is broken.",
+        "Both are true: trend is relative to the timeframe you measure it on.",
+        "The 15m chart always overrides the 1d chart.",
+        "The symbol has no trend."
+      ],
+      "correct_index": 1,
+      "explanation": "Trends nest. A short-lens pullback inside a long-lens uptrend is the normal anatomy of trending markets — and the basis of pullback setups."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Flip a chart through 15m → 1h → 4h → 1d and write down the trend you would call at each lens."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "module_id": "novice",
+    "track_id": "chart-literacy",
+    "tier": "novice",
+    "order": 17,
+    "title": "Swings, Trendlines, and Structure",
+    "summary": "Higher highs, higher lows, and the skeleton under every chart.",
+    "concept": "Price moves in **swings** — pushes and pullbacks. Mark the turning points and you get the market's skeleton: an **uptrend** is a staircase of higher highs (HH) and higher lows (HL); a **downtrend** is lower highs (LH) and lower lows (LL); a **range** is overlapping swings with no staircase.\n\nA **trendline** connects successive swing lows (in an uptrend) or swing highs (in a downtrend). It is not magic — it is a visual summary of the staircase's pace. When a staircase breaks (price takes out the last HL in an uptrend), the structure is damaged, and structure damage is the chartist's first warning, long before any indicator turns.\n\nQuantGlass's signal reasons often cite recent swing extremes — the invalidation anchor on a long setup is typically the recent swing low, because that is where the staircase logic itself fails.",
+    "key_terms": [
+      {
+        "term": "Swing high/low",
+        "definition": "A local turning point in price."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "The staircase patterns defining up- and downtrends."
+      },
+      {
+        "term": "Trendline",
+        "definition": "A line through successive swing points summarizing trend pace."
+      },
+      {
+        "term": "Structure break",
+        "definition": "Price violating the most recent swing of the prevailing staircase."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "In an uptrend defined by higher highs and higher lows, which single event most directly damages the trend's structure?",
+      "options": [
+        "A red candle of any size.",
+        "Price breaking below the most recent higher low.",
+        "Volume declining for one bar.",
+        "A weekend gap."
+      ],
+      "correct_index": 1,
+      "explanation": "The staircase survives red candles and quiet volume. It is defined by its swing lows — losing the latest higher low is what breaks the pattern."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "On a symbol's chart, mark the last three swing lows mentally — then find the signal's invalidation level and see how it relates to them."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "module_id": "novice",
+    "track_id": "chart-literacy",
+    "tier": "novice",
+    "order": 18,
+    "title": "Gaps, Wicks, and What They Reveal",
+    "summary": "The chart's punctuation marks: rejection, surprise, and absence.",
+    "concept": "A **wick** (shadow) is the part of a candle outside its body: price went there and was pushed back within the same bar. A long upper wick on a rally candle means sellers absorbed the push — **rejection**. A long lower wick after a decline means buyers stepped in. Wicks at key levels (support, resistance, moving averages) are how rejection setups announce themselves.\n\nA **gap** is a jump between one candle's close and the next candle's open. Stock charts gap routinely — news lands while the exchange is closed. Crypto, trading 24/7, rarely gaps; a crypto 'gap' usually means a data outage, which QuantGlass's integrity checks flag rather than silently bridge.\n\nReading rule: a wick is information about *within-bar* battle; a gap is information about *between-bar* surprise. Neither is a signal alone — both are context that strengthens or weakens a setup.",
+    "key_terms": [
+      {
+        "term": "Wick / shadow",
+        "definition": "The candle's range outside its body — visited but rejected prices."
+      },
+      {
+        "term": "Rejection",
+        "definition": "A push to a level that closed back away from it."
+      },
+      {
+        "term": "Gap",
+        "definition": "Open differing from prior close — common in stocks, anomalous in crypto."
+      },
+      {
+        "term": "Data gap",
+        "definition": "A missing-candle artifact the integrity layer detects."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A crypto 1h series shows a large gap between one candle's close and the next candle's open. What is the most likely explanation?",
+      "options": [
+        "Crypto exchanges close overnight like stock markets.",
+        "A data outage — continuous markets rarely produce true price gaps, so QuantGlass flags missing candles.",
+        "The protocol reset the price.",
+        "Gaps are impossible to represent in OHLCV."
+      ],
+      "correct_index": 1,
+      "explanation": "Crypto trades around the clock, so consecutive candles normally touch. A gap usually marks missing data — an integrity event, not a market event."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Find a candle with a pronounced wick near a moving average — that geometry is the raw material of the engine's rejection setups."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "module_id": "novice",
+    "track_id": "chart-literacy",
+    "tier": "novice",
+    "order": 19,
+    "title": "Reading Levels Like the Engine Does",
+    "summary": "From hand-drawn lines to reproducible levels.",
+    "concept": "Classic support/resistance is drawn by eye — useful, but irreproducible: two traders draw two different lines. QuantGlass prefers **computable levels** so every level you see can be recomputed and audited.\n\nThe engine's level vocabulary: **recent extremes** (the highest high / lowest low of the last ~20 bars — the Donchian channel), **moving averages** as dynamic support (the 21-EMA pullback zone in trend setups), and **volatility envelopes** (Keltner: EMA ± a multiple of ATR; Bollinger: mean ± a multiple of standard deviation). Each is a precise formula over closed candles — no artistic license.\n\nWhen a signal says 'pullback into the EMA zone' or anchors invalidation 'near the recent swing low', those phrases map one-to-one onto these computed levels. Hand-drawn lines remain a fine thinking tool; the engine just refuses to *trade* anything it cannot recompute.",
+    "key_terms": [
+      {
+        "term": "Computable level",
+        "definition": "A support/resistance level derived from a formula, not a hand drawing."
+      },
+      {
+        "term": "Donchian channel",
+        "definition": "Highest high and lowest low over N bars — the engine's recent-extreme level."
+      },
+      {
+        "term": "Dynamic support",
+        "definition": "A moving average acting as a rising/falling level, e.g. the 21-EMA."
+      },
+      {
+        "term": "Volatility envelope",
+        "definition": "Bands around a center line sized by ATR (Keltner) or standard deviation (Bollinger)."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does QuantGlass anchor its levels to formulas (Donchian, EMA, ATR bands) instead of hand-drawn lines?",
+      "options": [
+        "Formulas always predict the future correctly.",
+        "Computed levels are reproducible and auditable — every level on screen can be recomputed from the same candles.",
+        "Drawing tools are patented.",
+        "Hand-drawn lines are always wrong."
+      ],
+      "correct_index": 1,
+      "explanation": "The point is honesty, not prophecy: a formula-derived level can be verified by anyone with the same data, which is the standard the whole engine holds itself to."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Toggle the band overlays on a chart and watch how price interacts with the computed envelope edges."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "module_id": "novice",
+    "track_id": "first-signal",
+    "tier": "novice",
+    "order": 20,
+    "title": "Anatomy of a QuantGlass Signal",
+    "summary": "Every field on the signal card, and why it exists.",
+    "concept": "A QuantGlass signal is a structured claim, not a tip. Its parts: the **state** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) names what the engine sees; the **setup type** names the pattern family that produced it; the **entry zone** brackets where the setup makes sense to act on; the **stop-loss** is the single price at which the idea is wrong; the **take-profit ladder** stages exits at three levels with fixed weights (50% / 30% / 20%); and **risk:reward** compares the middle target's distance to the stop's distance.\n\nTwo honesty fields complete the card: the **reasons** list the closed-candle facts behind the state, and the **confidence basis** exposes every statistic that fed the confidence number — sample sizes included.\n\nNothing on the card is advice. It is the engine showing its work, so you can agree or disagree with the *reasoning*, not just the conclusion.",
+    "key_terms": [
+      {
+        "term": "Signal state",
+        "definition": "The engine's read: BUY_ZONE, SELL, WATCH, HOLD, or WAIT."
+      },
+      {
+        "term": "Setup type",
+        "definition": "The pattern family that generated the state."
+      },
+      {
+        "term": "Entry zone",
+        "definition": "The price bracket where the setup is actionable."
+      },
+      {
+        "term": "TP ladder",
+        "definition": "Three staged exit levels weighted 50/30/20."
+      },
+      {
+        "term": "Confidence basis",
+        "definition": "The exposed statistics behind the confidence number."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "What does the stop-loss on a QuantGlass signal fundamentally represent?",
+      "options": [
+        "A guaranteed exit price.",
+        "The price at which the setup's premise is invalidated — the idea is wrong there, so the position should not exist.",
+        "The lowest price of the year.",
+        "A fee threshold."
+      ],
+      "correct_index": 1,
+      "explanation": "The stop is the falsification point of the trade idea. Execution may slip past it, but its meaning is 'beyond here, the reasoning no longer holds'."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open any signal and locate all seven parts: state, setup, entry zone, stop, ladder, risk:reward, reasons."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "module_id": "novice",
+    "track_id": "first-signal",
+    "tier": "novice",
+    "order": 21,
+    "title": "What the Confidence Number Means",
+    "summary": "A calibrated score with visible inputs — not a probability of profit.",
+    "concept": "The confidence score (20–89) blends the setup's **trend alignment**, **volume confirmation**, **confluence**, and the **backtested record** of this setup family — with the statistics deliberately shrunk toward neutral when samples are thin. A 100%-win record over 3 trades is treated as nearly meaningless, exactly as it should be.\n\nTwo caps keep the number honest: confidence cannot exceed 62 unless the setup is **out-of-sample validated**, and it never exceeds 89 at all — certainty is not on the menu. When enough out-of-sample trades exist, the signal also shows a **coverage-guaranteed range** for the next trade's outcome, a distribution-free bound that holds with stated probability.\n\nRead it as: *how much evidence supports this setup pattern*, never as *the chance this particular trade wins*. Single trades stay unpredictable; only the long run has statistics.",
+    "key_terms": [
+      {
+        "term": "Confidence",
+        "definition": "A 20–89 evidence score with all inputs exposed."
+      },
+      {
+        "term": "Shrinkage",
+        "definition": "Pulling thin-sample statistics toward neutral so small samples cannot shout."
+      },
+      {
+        "term": "OOS-validated",
+        "definition": "The setup's edge held on data the engine never tuned on."
+      },
+      {
+        "term": "Coverage guarantee",
+        "definition": "A distribution-free range for the next trade's outcome at a stated probability."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A signal shows confidence 58 with backtest sample size 7. How should you read it?",
+      "options": [
+        "A 58% chance this trade profits.",
+        "Moderate pattern evidence, heavily shrunk because seven trades is statistically almost nothing.",
+        "A guarantee of 58 ticks of profit.",
+        "The engine is 58% finished computing."
+      ],
+      "correct_index": 1,
+      "explanation": "Confidence is evidence strength, not win probability — and at n=7 the shrinkage means the score leans mostly on the setup's structural quality, not its tiny track record."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal's confidence basis and find the sample sizes — notice how the score treats small ones."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "module_id": "novice",
+    "track_id": "first-signal",
+    "tier": "novice",
+    "order": 22,
+    "title": "Freshness and Invalidation: When a Signal Dies",
+    "summary": "Signals expire two ways — by time and by price.",
+    "concept": "A signal is a statement about the market *as of its last closed candle*. It dies in two ways.\n\n**By time**: each new closed candle re-evaluates the world; the freshness badge shows the age of the data behind what you see. Fresh (within ~2 bars) means current; delayed and stale badges mean the picture may have moved on — never act on a stale signal without refreshing.\n\n**By price**: every signal states its **invalidation** — typically a close beyond the stop level. Once price closes there, the setup's premise is falsified, and the signal's status flips to invalidated. There is no shame in an invalidated idea; there is only error in continuing to act on one.\n\nThe discipline this teaches generalizes: every trade idea you ever hold should have a written expiry condition in both dimensions — *when* it goes stale and *where* it becomes wrong.",
+    "key_terms": [
+      {
+        "term": "Freshness badge",
+        "definition": "Fresh / delayed / stale, based on the age of the last closed candle versus the timeframe."
+      },
+      {
+        "term": "Invalidation",
+        "definition": "The stated condition (usually a close beyond the stop) that falsifies the setup."
+      },
+      {
+        "term": "Stale signal",
+        "definition": "A signal whose underlying candle is many bars old — refresh before acting."
+      },
+      {
+        "term": "Re-evaluation",
+        "definition": "Each closed candle triggers a fresh engine read."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A 1h signal shows a freshness badge of 7 hours. What is the correct response?",
+      "options": [
+        "Act immediately — old signals are wine.",
+        "Refresh the data first: seven closed candles have elapsed, and the engine's current read may differ.",
+        "Double the position size to compensate.",
+        "Freshness only matters for stocks."
+      ],
+      "correct_index": 1,
+      "explanation": "Seven bars of new information exist that the displayed signal has not seen. Refresh, let the engine re-evaluate, and act only on a current read."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find the freshness badge on each signal — then refresh the corridor and watch the badges reset."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "module_id": "novice",
+    "track_id": "first-signal",
+    "tier": "novice",
+    "order": 23,
+    "title": "Placing Your First Paper Trade",
+    "summary": "From signal to simulated position, with zero dollars at risk.",
+    "concept": "Paper trading is rehearsal with real market data and fake money. In QuantGlass: open a signal, choose **Paper trade**, set a quantity, and submit. The intent is queued and filled at the next available price — including the realistic indignity of not getting the exact chart price. Your paper account tracks balance, buying power, open positions, and realized PnL.\n\nUse the signal's own geometry: size the position so that if price hits the stop, you lose a fixed small fraction of the account (the Risk track turns this into a formula). Then — this is the rehearsal part — **manage the trade as if it were real**: respect the stop, take the ladder exits, and write down why you entered.\n\nEverything you do here feeds the learning loop: the coaching panel watches your paper trades and surfaces the lesson you need when a habit slips.",
+    "key_terms": [
+      {
+        "term": "Paper trading",
+        "definition": "Simulated execution against real market data."
+      },
+      {
+        "term": "Trade intent",
+        "definition": "Your queued order, filled at the next available price."
+      },
+      {
+        "term": "Buying power",
+        "definition": "Account capacity remaining after open positions."
+      },
+      {
+        "term": "Realized PnL",
+        "definition": "Profit and loss from closed positions only."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "What is the single most valuable way to treat a paper trade?",
+      "options": [
+        "As a lottery ticket — size it absurdly since it's fake.",
+        "Exactly as if it were real: planned size, respected stop, recorded reasoning.",
+        "As a way to test order buttons only.",
+        "Ignore it after entry."
+      ],
+      "correct_index": 1,
+      "explanation": "Paper trading builds the habits you will keep. Practicing fantasy sizing or ignored stops rehearses exactly the behaviors that destroy real accounts."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Pick the freshest signal, place a small paper trade using its entry zone and stop, and note your reasoning in one sentence."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "module_id": "novice",
+    "track_id": "first-signal",
+    "tier": "novice",
+    "order": 24,
+    "title": "After the Trade: Reading Your Results",
+    "summary": "Positions, PnL, and the difference between outcome and decision.",
+    "concept": "Once filled, your position appears with an average price and a live unrealized PnL mark; closing converts it to realized PnL. The numbers are simple — the psychology is not.\n\nCore distinction: **a good decision can lose and a bad decision can win.** One trade's outcome is dominated by noise; only across many trades does decision quality show up in the statistics. So judge each trade by *process* — was the setup valid, the size planned, the stop respected? — and judge your *method* by aggregates: win rate, average R, expectancy.\n\nThis is why QuantGlass insists on R-multiples and sample sizes everywhere: they convert a pile of individual stories into evidence. Your paper history is your first dataset. The Risk and Statistics tracks teach you to read it like an analyst rather than a gambler.",
+    "key_terms": [
+      {
+        "term": "Unrealized PnL",
+        "definition": "Mark-to-market profit/loss on open positions."
+      },
+      {
+        "term": "Realized PnL",
+        "definition": "Locked-in result from closed positions."
+      },
+      {
+        "term": "Process vs outcome",
+        "definition": "Decisions are judged by their reasoning; methods by their long-run statistics."
+      },
+      {
+        "term": "R-multiple",
+        "definition": "A result expressed in units of the planned risk — the engine's native unit."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your well-planned trade hit its stop for a -1R loss. What does this prove about the decision to take it?",
+      "options": [
+        "The decision was bad — losses prove mistakes.",
+        "Almost nothing by itself: single outcomes are noise; the decision is judged by its process and the method by many trades.",
+        "The stop caused the loss.",
+        "You should remove stops in the future."
+      ],
+      "correct_index": 1,
+      "explanation": "A -1R on a valid setup with planned size is the system working as designed. Mistake-hunting belongs at the process level, and verdicts at the sample level."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Open your paper account summary: separate in your mind which numbers are outcomes (PnL) and which are process (your sizing and stops)."
+    }
   }
 ]
