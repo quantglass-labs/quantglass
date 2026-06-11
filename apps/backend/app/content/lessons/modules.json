@@ -139,6 +139,13 @@
       "order": 4,
       "title": "Scam Defense",
       "description": "Recognize and refuse the scams that target new traders: fake gurus, signal sellers, phishing, and social-engineering schemes."
+    },
+    {
+      "id": "leverage-margin",
+      "level": "advanced",
+      "order": 5,
+      "title": "Margin, Leverage & Short Selling",
+      "description": "Borrowed buying power, liquidation math, short mechanics, and why amplification cuts both ways. Educational only — QuantGlass itself is spot, paper-first."
     }
   ]
 }

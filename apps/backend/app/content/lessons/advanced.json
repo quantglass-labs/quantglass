@@ -1022,5 +1022,221 @@
       "screen": "backtest",
       "cta": "Read your main preset's max drawdown and write down, in advance, your personal pause depth and restart rule."
     }
+  },
+  {
+    "id": "advanced-24-margin-basics",
+    "module_id": "advanced",
+    "track_id": "leverage-margin",
+    "tier": "advanced",
+    "order": 24,
+    "title": "Margin: Trading With a Loan",
+    "summary": "Borrowed buying power is a real loan with real terms.",
+    "concept": "**Margin** is a loan from your broker collateralized by your account. Deposit 10,000 with 2:1 margin and you can hold 20,000 of positions — but the borrowed 10,000 accrues **interest**, and the broker's claim on it outranks yours. Your true stake is the **equity**: position value minus the loan.\n\nThe loan's terms bite through the **maintenance requirement**: equity must stay above a set fraction of position value. Because the loan is fixed while the position fluctuates, *losses come entirely out of your equity* — a 10% position drop at 2:1 is a 20% equity drop. The margin didn't change the market; it changed how much of the market's move lands on you.\n\nNothing in this mechanic is hidden — it is arithmetic — yet margin remains the leading converter of survivable mistakes into account-ending ones, because every risk number you learned (1% risk, heat caps, drawdown math) silently assumed *unlevered* equity. On margin, recompute everything against equity, not position size.",
+    "key_terms": [
+      {
+        "term": "Margin loan",
+        "definition": "Broker credit collateralized by your account, with interest."
+      },
+      {
+        "term": "Equity",
+        "definition": "Position value minus the loan — your actual stake."
+      },
+      {
+        "term": "Maintenance requirement",
+        "definition": "The minimum equity fraction before forced action."
+      },
+      {
+        "term": "Amplified PnL",
+        "definition": "Position moves land on the smaller equity base."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "You hold a 20,000 position on 10,000 equity (2:1). The position falls 10%. What happened to your equity?",
+      "options": [
+        "Down 10% — losses match the position move.",
+        "Down 20% — the 2,000 loss lands entirely on your 10,000 equity, because the loan does not absorb losses.",
+        "Down 5% — the broker shares the loss.",
+        "Unchanged until you sell."
+      ],
+      "correct_index": 1,
+      "explanation": "The lender is made whole first. Leverage L multiplies every position move by L on your equity: the core equation of margin."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Re-read a preset's max drawdown and double it mentally — that is the same strategy's equity drawdown at 2:1."
+    }
+  },
+  {
+    "id": "advanced-25-leverage-arithmetic",
+    "module_id": "advanced",
+    "track_id": "leverage-margin",
+    "tier": "advanced",
+    "order": 25,
+    "title": "Leverage Arithmetic and Liquidation Distance",
+    "summary": "The move that wipes you is 100% divided by your leverage.",
+    "concept": "Leverage has one master equation: at **L×**, a price move of **100%/L against you erases your equity entirely**. 2× → 50% adverse move to zero. 5× → 20%. 10× → 10%. 100× (offered openly by some crypto venues) → a 1% wiggle — *ordinary hourly noise* — is total loss.\n\nIn practice you are liquidated **before** zero: the venue closes you when equity hits the maintenance level, so the real distance is even shorter, minus fees. Compare that distance to the ATR you have studied: if an asset's daily ATR is 3% and your liquidation sits 2% away, your position's life expectancy is measured in noise, not in thesis.\n\nThis is why 'more leverage = more profit' is a beginner's misreading. Leverage doesn't add edge; it **rescales the game board** until normal volatility becomes lethal. Professionals who use leverage use *small* multiples on *low-volatility* structures — never max multiples on crypto majors.",
+    "key_terms": [
+      {
+        "term": "Liquidation distance",
+        "definition": "≈100%/L adverse move (less maintenance and fees) to forced closure."
+      },
+      {
+        "term": "Noise lethality",
+        "definition": "Liquidation distance smaller than routine ATR moves."
+      },
+      {
+        "term": "Rescaled risk",
+        "definition": "Leverage shrinks the survivable move; it never adds edge."
+      },
+      {
+        "term": "Maintenance buffer",
+        "definition": "Liquidation fires before equity reaches zero."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "At 5x leverage (ignoring fees and maintenance buffer), what percentage adverse price move erases 100% of your equity?",
+      "hint": "wipeout% = 100 ÷ leverage",
+      "correct_answer": "20",
+      "tolerance_percent": 1.0,
+      "explanation": "100 ÷ 5 = **20%**. Every position move is ×5 on equity, so a 20% adverse move is −100%. Real liquidation fires even sooner, at the maintenance level."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Check a crypto symbol's ATR as a percent of price, then compute which leverage would put liquidation inside one ordinary day's range."
+    }
+  },
+  {
+    "id": "advanced-26-liquidation",
+    "module_id": "advanced",
+    "track_id": "leverage-margin",
+    "tier": "advanced",
+    "order": 26,
+    "title": "Margin Calls and Liquidation Cascades",
+    "summary": "Forced exits happen at the worst prices, by design.",
+    "concept": "When equity breaches maintenance, two things can happen. A **margin call** asks you to add funds or reduce positions — under time pressure, at a moment of loss, which the psychology track will recognize as the worst possible decision conditions. Or, on most crypto venues, no call at all: the engine **liquidates automatically**, market-selling your position into whatever liquidity exists.\n\nForced selling has a market-structure consequence: liquidations cluster at similar price levels (people lever at similar points), so one wave of forced sells pushes price into the *next* wave — a **liquidation cascade**. These produce the violent wicks that hunt every stop and liquidation level in their path, then often retrace. If you have ever seen a 10% crypto wick on a quiet day: that was leverage, not news.\n\nTwo defenses if margin is ever used: **isolated margin** (each position's loan is ring-fenced, so one liquidation cannot consume the whole account — versus cross margin, where it can), and pre-funded buffers so a routine wick cannot reach the line. The best defense remains the unlevered alternative: a stop *you* choose beats an exit the venue chooses.",
+    "key_terms": [
+      {
+        "term": "Margin call",
+        "definition": "A demand to add funds or cut positions under deadline."
+      },
+      {
+        "term": "Auto-liquidation",
+        "definition": "The venue force-closing you at market — no negotiation."
+      },
+      {
+        "term": "Liquidation cascade",
+        "definition": "Forced sells triggering further forced sells in chains."
+      },
+      {
+        "term": "Isolated vs cross",
+        "definition": "Ring-fenced per-position loans versus the whole account as collateral."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why do liquidation cascades create long wicks that then partially retrace?",
+      "options": [
+        "Exchanges draw wicks for decoration.",
+        "Clustered forced market-sells exhaust each level's liquidity and trigger the next cluster; once the forced flow ends, the artificial pressure vanishes and price rebounds.",
+        "News always reverses itself.",
+        "Wicks are data errors."
+      ],
+      "correct_index": 1,
+      "explanation": "The selling is mechanical, price-insensitive, and finite. When the cascade's fuel (leveraged positions) burns out, the discount it created attracts real buyers — the signature wick-and-recover."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Find a violent lower wick on a crypto chart and check the volume spike beneath it — the cascade's footprint."
+    }
+  },
+  {
+    "id": "advanced-27-short-selling",
+    "module_id": "advanced",
+    "track_id": "leverage-margin",
+    "tier": "advanced",
+    "order": 27,
+    "title": "Short Selling Mechanics",
+    "summary": "Sell first, buy later — with borrowed shares and unbounded risk.",
+    "concept": "A **short sale** inverts the trade: borrow the asset, sell it now, repurchase ('cover') later, return it, keep the difference. Profit when price falls. The mechanics add costs and risks longs never meet: **borrow fees** (hard-to-borrow names charge double-digit annual rates), **dividends/funding** owed while short, the possibility of a **recall** (the lender wants the shares back at the worst time), and the asymmetry you met in the rejection-short lesson — losses are theoretically **unbounded** because price has no ceiling.\n\nThat asymmetry breeds a predator: the **short squeeze**. When a heavily-shorted asset rises, shorts must *buy* to cap their losses — and their buying fuels the rise that squeezes the next short. Crowded shorts are pre-loaded rocket fuel, which is why short interest is itself a risk metric.\n\nNote the QuantGlass framing: the engine's SELL/rejection signals describe bearish *structure*; the paper account simulates the position symmetrically. The borrow-fee, recall, and squeeze realities live one layer below — and must be priced in before any real-world short is ever contemplated.",
+    "key_terms": [
+      {
+        "term": "Borrow fee",
+        "definition": "The rental cost of shorted shares — punitive on crowded names."
+      },
+      {
+        "term": "Cover",
+        "definition": "Buying back to close a short."
+      },
+      {
+        "term": "Short squeeze",
+        "definition": "Rising prices forcing shorts to buy, fueling further rises."
+      },
+      {
+        "term": "Recall risk",
+        "definition": "The lender demanding shares back, forcing an untimely cover."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does heavy short interest make an asset MORE prone to violent upward moves?",
+      "options": [
+        "Shorts legally cap how high prices may go.",
+        "Every short is a guaranteed future buyer under duress: rallies force covering, and covering is buying, which extends the rally into the next short's pain.",
+        "Short sellers spread optimism.",
+        "It doesn't — shorts only affect downside."
+      ],
+      "correct_index": 1,
+      "explanation": "Crowded shorts are latent demand with a stress trigger. The squeeze is reflexive: the move that hurts shorts is amplified by their own forced exits."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find a SELL-state signal and note its stop above the rejection structure — in a real short, that stop is also squeeze insurance."
+    }
+  },
+  {
+    "id": "advanced-28-leverage-discipline",
+    "module_id": "advanced",
+    "track_id": "leverage-margin",
+    "tier": "advanced",
+    "order": 28,
+    "title": "Leverage Discipline (and the Case for None)",
+    "summary": "If ever used: small, isolated, risk-sized — and never to 'recover'.",
+    "concept": "After four lessons of mechanics, the synthesis. Leverage is a tool with exactly one honest use: **capital efficiency on a strategy that already works unlevered** — and even then at small multiples with isolated margin and liquidation distances several ATRs away. Every other use is one of the failure patterns: levering to make a small account 'meaningful' (rescaling noise into lethality), levering to recover a drawdown (the tilt spiral with a multiplier), or levering because a venue's slider goes to 100× (it goes there because liquidations are revenue).\n\nThe discipline checklist if margin is ever touched: position risk still computed from **stop distance against equity** (the sizing formula survives; only the collateral math changes); liquidation distance ≥ 3–4× the asset's ATR; isolated margin only; total borrowed exposure capped; and a standing rule that **no leverage decision is made inside a drawdown**.\n\nAnd the deliberate design fact to close the track: QuantGlass's engine and paper account are **spot-only, unlevered, by construction**. Every statistic this Academy taught you — expectancy, drawdown, conformal ranges — was measured on the unlevered game. Master that game first. Most never need the other one.",
+    "key_terms": [
+      {
+        "term": "Capital efficiency",
+        "definition": "Leverage's one honest purpose — never added edge."
+      },
+      {
+        "term": "Drawdown rule",
+        "definition": "No leverage decisions made while losing."
+      },
+      {
+        "term": "ATR buffer",
+        "definition": "Liquidation distance held at multiples of normal volatility."
+      },
+      {
+        "term": "Spot-only design",
+        "definition": "QuantGlass's deliberate unlevered construction."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which motivation for adding leverage is the single most reliable predictor of ruin?",
+      "options": [
+        "Capital efficiency on a proven, low-volatility strategy.",
+        "Recovering a drawdown faster — it combines the tilt spiral with a loss multiplier at the exact moment judgment is worst.",
+        "A venue offering isolated margin.",
+        "Curiosity in a paper account."
+      ],
+      "correct_index": 1,
+      "explanation": "Revenge trading you met in the psychology track; leverage hands it a bigger weapon mid-tilt. The recovery motive fails on both the math and the mind."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Confirm your paper account's construction: spot, unlevered, stop-defined risk — the baseline every Academy statistic assumes."
+    }
   }
 ]
