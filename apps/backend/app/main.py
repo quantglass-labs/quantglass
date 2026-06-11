@@ -33,6 +33,7 @@ from app.services.learn_moments import LearnMomentsService
 from app.services.learn_readiness import LearnReadinessService
 from app.services.learn_service import LearnService
 from app.services.market_corridor import MarketCorridorService
+from app.services.missions import MissionService
 from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
@@ -109,6 +110,7 @@ async def lifespan(app: FastAPI):
     learn_readiness_service = LearnReadinessService(state_store, learn_moments_service)
     learn_assessment_service = LearnAssessmentService(state_store)
     trade_review_service = TradeReviewService(state_store, analytics_store)
+    mission_service = MissionService(state_store, trade_review_service)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -134,6 +136,7 @@ async def lifespan(app: FastAPI):
     app.state.learn_readiness_service = learn_readiness_service
     app.state.learn_assessment_service = learn_assessment_service
     app.state.trade_review_service = trade_review_service
+    app.state.mission_service = mission_service
 
     try:
         yield

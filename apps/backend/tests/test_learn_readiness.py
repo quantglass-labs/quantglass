@@ -14,6 +14,7 @@ class _StateStore:
         self.progress: dict[str, dict] = {}
         self.intents: list[dict] = []
         self.assessments: dict[str, dict] = {}
+        self.missions: dict[str, str] = {}
 
     def get_learn_progress(self):
         return self.progress
@@ -23,6 +24,9 @@ class _StateStore:
 
     def get_assessments(self):
         return self.assessments
+
+    def get_completed_missions(self):
+        return self.missions
 
 
 class _Moments:
@@ -39,6 +43,10 @@ def _complete_levels(store: _StateStore, levels: set[str]) -> None:
             store.progress[lesson["id"]] = {"completed_at": "2026-06-01", "attempts": 1}
     for level in levels:
         store.assessments[level] = {"passed": True, "score": 90}
+    if "intermediate" in levels:
+        store.missions["risk-discipline"] = "2026-06-01"
+    if "advanced" in levels:
+        store.missions["the-operator"] = "2026-06-01"
 
 
 def _service(store=None, moments=None):

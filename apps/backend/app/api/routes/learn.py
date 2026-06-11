@@ -157,3 +157,9 @@ async def submit_assessment(level: str, body: AssessmentSubmission, request: Req
     if not svc.supports(level):
         raise HTTPException(status_code=404, detail=f"Unknown level '{level}'.")
     return svc.grade(level, body.answers)
+
+
+@router.get("/missions")
+async def list_missions(request: Request) -> dict:
+    """Behavioral missions evaluated over the user's own paper trading."""
+    return request.app.state.mission_service.list_missions()

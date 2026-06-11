@@ -1,0 +1,37 @@
+[
+  {
+    "id": "risk-discipline",
+    "title": "Risk Discipline",
+    "level": "intermediate",
+    "description": "Twenty trades where every position is planned, every stop exists, risk never exceeds policy, and no profit comes from broken process.",
+    "lesson_links": ["intermediate-05-position-sizing", "expert-25-limits-policy"],
+    "criteria": [
+      { "type": "min_trades", "value": 20, "label": "Execute 20 planned paper trades" },
+      { "type": "all_have_stops", "label": "Every trade has a stop" },
+      { "type": "max_risk_percent_each", "value": 1.0, "label": "Risk ≤ 1% on every trade" },
+      { "type": "max_dangerous_success", "value": 0, "label": "Zero dangerous successes" }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Accept the Planned Loss",
+    "level": "intermediate",
+    "description": "Losses are part of the system. Take at least three clean, planned-size losses — stops respected, process intact — without a single stopless trade.",
+    "lesson_links": ["intermediate-03-atr", "advanced-23-drawdown-psychology"],
+    "criteria": [
+      { "type": "min_classification", "value": 3, "classification": "well_played_loss", "label": "3+ well-played losses (good process, stop took it)" },
+      { "type": "all_have_stops", "label": "No trade without a stop" },
+      { "type": "min_trades", "value": 5, "label": "At least 5 trades on record" }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "The Operator",
+    "level": "advanced",
+    "description": "Ten consecutive trades at or above the process bar — the habit, not the streak of luck.",
+    "lesson_links": ["expert-28-trading-day", "intermediate-20-review-stats"],
+    "criteria": [
+      { "type": "consecutive_process_scores", "value": 10, "min_score": 70, "label": "10 consecutive trades with process ≥ 70" }
+    ]
+  }
+]
