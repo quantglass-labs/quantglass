@@ -41,6 +41,7 @@ class TradingExecutionService:
         side: str,
         quantity: float,
         entry_price: float,
+        plan: dict | None = None,
     ) -> TradeExecutionResult:
         safety_settings = self._state_store.get_safety_settings()
         if safety_settings.trading_mode == "paper":
@@ -51,6 +52,7 @@ class TradingExecutionService:
                 quantity=quantity,
                 entry_price=entry_price,
                 trading_mode=safety_settings.trading_mode,
+                plan=plan,
             )
             return TradeExecutionResult(
                 accepted=True,

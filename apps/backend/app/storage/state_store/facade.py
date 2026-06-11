@@ -206,9 +206,10 @@ class StateStore:
         quantity: float,
         entry_price: float,
         trading_mode: str,
+        plan: dict[str, Any] | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         return self.trading.submit_paper_trade(
-            signal_id, symbol, side, quantity, entry_price, trading_mode
+            signal_id, symbol, side, quantity, entry_price, trading_mode, plan=plan
         )
 
     def record_live_trade(
