@@ -55,6 +55,7 @@ import type {
   LearnCatalogResponse,
   LearnMomentsResponse,
   LearnReadiness,
+  TradeReviewResponse,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -448,6 +449,9 @@ export const backendClient = {
       method: 'POST',
       body: JSON.stringify({ answers }),
     });
+  },
+  getTradeReview() {
+    return requestJson<TradeReviewResponse>('/api/paper-trades/review');
   },
   getLearnReadiness() {
     return requestJson<LearnReadiness>('/api/learn/readiness');

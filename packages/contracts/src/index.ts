@@ -808,6 +808,36 @@ export interface LearnReadiness {
   active_moments: string[];
 }
 
+export interface TradeReviewItem {
+  id: string;
+  symbol: string;
+  side: string;
+  submittedAt: string;
+  planReason: string | null;
+  planEmotion: string | null;
+  process_score: number;
+  process_notes: string[];
+  outcome_status: 'stopped' | 'target' | 'open' | 'unscored';
+  outcome_r: number | null;
+  classification:
+    | 'earned_win'
+    | 'well_played_loss'
+    | 'honest_tuition'
+    | 'dangerous_success'
+    | null;
+}
+
+export interface TradeReviewResponse {
+  items: TradeReviewItem[];
+  summary: {
+    trades: number;
+    average_process_score: number;
+    quadrants: Record<string, number>;
+    dangerous_success_count: number;
+    process_good_bar: number;
+  };
+}
+
 export interface LearnMomentsResponse {
   items: LearnMoment[];
 }

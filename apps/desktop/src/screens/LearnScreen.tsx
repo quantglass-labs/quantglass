@@ -20,6 +20,7 @@ import type {
   LearnCatalogResponse,
   LearnMoment,
   LearnReadiness,
+  TradeReviewResponse,
   Assessment,
   AssessmentResult,
   LessonRecord,
@@ -812,6 +813,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [catalog, setCatalog] = useState<LearnCatalogResponse | null>(null);
   const [moments, setMoments] = useState<LearnMoment[]>([]);
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
+  const [tradeReview, setTradeReview] = useState<TradeReviewResponse | null>(null);
   const [assessmentLevel, setAssessmentLevel] = useState<LessonTier | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [screenHeight, setScreenHeight] = useState('calc(100dvh - 12rem)');
@@ -890,6 +892,15 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       .getLearnReadiness()
       .then(setReadiness)
       .catch(() => setReadiness(null));
+  }, [backendStatus, activeLessonId]);
+
+  // Process review over the user's executed paper trades (MSN-2)
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    backendClient
+      .getTradeReview()
+      .then(setTradeReview)
+      .catch(() => setTradeReview(null));
   }, [backendStatus, activeLessonId]);
 
   // Auto-select first incomplete lesson once catalog arrives
@@ -1086,6 +1097,51 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   {[1, 2, 3].map((n) => (
                     <div key={n} className="h-24 rounded-xl bg-zinc-800/60 animate-pulse" />
                   ))}
+                </div>
+              ) : null}
+              {tradeReview && tradeReview.summary.trades > 0 ? (
+                <div className="mb-4 rounded-xl border border-zinc-700/60 bg-zinc-900/40 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                    Your process review
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-4 text-sm">
+                    <span className="text-zinc-300">
+                      Avg process score{' '}
+                      <span
+                        className={
+                          tradeReview.summary.average_process_score >=
+                          tradeReview.summary.process_good_bar
+                            ? 'text-emerald-300 font-semibold'
+                            : 'text-amber-300 font-semibold'
+                        }
+                      >
+                        {tradeReview.summary.average_process_score}
+                      </span>
+                      /100 over {tradeReview.summary.trades} trades
+                    </span>
+                    {tradeReview.summary.dangerous_success_count > 0 ? (
+                      <span className="text-red-300 font-medium">
+                        ⚠ {tradeReview.summary.dangerous_success_count} dangerous success
+                        {tradeReview.summary.dangerous_success_count > 1 ? 'es' : ''} — profits that
+                        rewarded a broken process
+                      </span>
+                    ) : null}
+                  </div>
+                  {(() => {
+                    const flagged = tradeReview.items
+                      .filter((item) => item.process_notes.length > 0)
+                      .slice(0, 3);
+                    return flagged.length ? (
+                      <ul className="mt-2 space-y-1 text-xs text-zinc-400">
+                        {flagged.map((item) => (
+                          <li key={item.id}>
+                            {item.symbol} {item.side} ({item.process_score}/100):{' '}
+                            {item.process_notes[0]}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null;
+                  })()}
                 </div>
               ) : null}
               {moments.length > 0 && (
