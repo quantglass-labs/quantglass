@@ -26,6 +26,7 @@ from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
 from app.services.extension_surface_registry import ExtensionSurfaceRegistry
 from app.services.indicator_registry import IndicatorRegistry
+from app.services.learn_moments import LearnMomentsService
 from app.services.learn_service import LearnService
 from app.services.market_corridor import MarketCorridorService
 from app.services.model_gateway import ModelGateway
@@ -98,6 +99,7 @@ async def lifespan(app: FastAPI):
         signal_engine=signal_engine,
     )
     learn_service = LearnService(state_store)
+    learn_moments_service = LearnMomentsService(state_store)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -118,6 +120,7 @@ async def lifespan(app: FastAPI):
     app.state.rate_limiter = rate_limiter
     app.state.model_gateway = model_gateway
     app.state.learn_service = learn_service
+    app.state.learn_moments_service = learn_moments_service
 
     try:
         yield

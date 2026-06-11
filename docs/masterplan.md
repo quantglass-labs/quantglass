@@ -20,13 +20,13 @@ the same PR that closes the issue. Strategy and research behind each item:
 
 - [ ] A1 Structured-output narration + numeric fact guard — [#19](https://github.com/quantglass-labs/quantglass/issues/19)
 - [ ] A2 lightweight-charts v5 + multi-pane indicators — [#20](https://github.com/quantglass-labs/quantglass/issues/20)
-- [ ] A3 SQLite WAL + numbered migration framework — [#21](https://github.com/quantglass-labs/quantglass/issues/21)
+- [x] A3 SQLite WAL + numbered migration framework — [#21](https://github.com/quantglass-labs/quantglass/issues/21)
 - [ ] A4 Finish settings tab extraction, restore set-state-in-effect to error — [#17](https://github.com/quantglass-labs/quantglass/issues/17)
-- [ ] A5 Lesson JSON Schema validated in CI — [#22](https://github.com/quantglass-labs/quantglass/issues/22)
+- [x] A5 Lesson JSON Schema validated in CI — [#22](https://github.com/quantglass-labs/quantglass/issues/22)
 
 ## Live Learning workstream (spans phases, flagship)
 
-- [ ] LL1 Lesson moments v1: teachable-event detection from the user's own
+- [x] LL1 Lesson moments v1: teachable-event detection from the user's own
       paper trades (position size vs account risk, stop distance vs ATR
       regime), surfaced via `/api/learn/moments` — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
 - [ ] LL2 Live-data exercises: lesson checks evaluated against current
@@ -42,7 +42,7 @@ the same PR that closes the issue. Strategy and research behind each item:
 
 - [ ] B1 Coverage-guaranteed confidence (conformal) + calibration table — [#23](https://github.com/quantglass-labs/quantglass/issues/23), [#16](https://github.com/quantglass-labs/quantglass/issues/16)
 - [ ] B2 MCP server mode (read-only engine facts on loopback) — [#24](https://github.com/quantglass-labs/quantglass/issues/24)
-- [ ] B3 = LL1 Lesson moments v1 — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
+- [x] B3 = LL1 Lesson moments v1 — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
 
 ## Phase C — Community wave (milestone 3)
 

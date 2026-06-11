@@ -731,6 +731,20 @@ export interface LearnCatalogResponse {
   progress: LearnProgress;
 }
 
+export interface LearnMoment {
+  id: string;
+  type: string;
+  lesson_id: string;
+  severity: number;
+  message: string;
+  evidence: Record<string, unknown>;
+  lesson_completed: boolean;
+}
+
+export interface LearnMomentsResponse {
+  items: LearnMoment[];
+}
+
 export interface AnswerRequest {
   answer: string;
 }
