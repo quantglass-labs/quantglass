@@ -54,6 +54,8 @@ import type {
   ExerciseResult,
   LearnCatalogResponse,
   LearnMomentsResponse,
+  LiveExercise,
+  LiveExerciseResult,
   LearnProgress,
   LessonRecord,
 } from '@quantglass/contracts';
@@ -423,6 +425,17 @@ export const backendClient = {
       method: 'POST',
       body: JSON.stringify(answer),
     });
+  },
+  getLiveExercise(lessonId: string) {
+    return requestJson<LiveExercise>(
+      `/api/learn/lesson/${encodeURIComponent(lessonId)}/live-exercise`,
+    );
+  },
+  checkLiveAnswer(lessonId: string, body: { answer: string; params: Record<string, unknown> }) {
+    return requestJson<LiveExerciseResult>(
+      `/api/learn/lesson/${encodeURIComponent(lessonId)}/live-check`,
+      { method: 'POST', body: JSON.stringify(body) },
+    );
   },
   getLearnMoments() {
     return requestJson<LearnMomentsResponse>('/api/learn/moments');

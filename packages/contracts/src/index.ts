@@ -759,3 +759,16 @@ export interface ExerciseResult {
   explanation: string;
   score: number;
 }
+
+export interface LiveExercise {
+  lesson_id: string;
+  type: 'live_numeric';
+  question: string;
+  hint: string;
+  params: Record<string, number | string>;
+  tolerance_percent: number;
+}
+
+export interface LiveExerciseResult extends ExerciseResult {
+  expected: number;
+}

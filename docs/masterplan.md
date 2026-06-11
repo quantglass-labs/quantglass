@@ -29,8 +29,9 @@ the same PR that closes the issue. Strategy and research behind each item:
 - [x] LL1 Lesson moments v1: teachable-event detection from the user's own
       paper trades (position size vs account risk, stop distance vs ATR
       regime), surfaced via `/api/learn/moments` — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
-- [ ] LL2 Live-data exercises: lesson checks evaluated against current
-      engine values, not canned numbers (extends `live_apply`)
+- [x] LL2 Live-data exercises: ATR-stop and position-sizing lessons generate
+      exercises from the user's real candles and paper balance, checked
+      statelessly server-side
 - [ ] LL3 Mastery loop: spaced-repetition review queue, XP/streaks, module
       badges
 - [ ] LL4 Scenario replay: drive paper trading through historical episodes

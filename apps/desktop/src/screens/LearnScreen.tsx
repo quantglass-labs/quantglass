@@ -15,6 +15,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   ExerciseResult,
+  LiveExercise,
+  LiveExerciseResult,
   LearnCatalogResponse,
   LearnMoment,
   LessonRecord,
@@ -230,6 +232,96 @@ function ModuleSection({
 // ---------------------------------------------------------------------------
 // Exercise renderer
 // ---------------------------------------------------------------------------
+
+const LIVE_EXERCISE_LESSONS = new Set(['intermediate-03-atr', 'intermediate-05-position-sizing']);
+
+function LiveExercisePanel({ lessonId, onComplete }: { lessonId: string; onComplete: () => void }) {
+  const [exercise, setExercise] = useState<LiveExercise | null>(null);
+  const [answer, setAnswer] = useState('');
+  const [result, setResult] = useState<LiveExerciseResult | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+
+  if (!LIVE_EXERCISE_LESSONS.has(lessonId)) return null;
+
+  async function loadExercise() {
+    setResult(null);
+    setAnswer('');
+    setStatus(null);
+    try {
+      setExercise(await backendClient.getLiveExercise(lessonId));
+    } catch {
+      setStatus('Live market data is not available yet. Refresh the dashboard first.');
+    }
+  }
+
+  async function submit() {
+    if (!exercise || !answer.trim()) return;
+    try {
+      const res = await backendClient.checkLiveAnswer(lessonId, {
+        answer: answer.trim(),
+        params: exercise.params,
+      });
+      setResult(res);
+      if (res.correct) onComplete();
+    } catch {
+      setStatus('Could not reach the backend. Try again.');
+    }
+  }
+
+  return (
+    <div className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+        Practice with live data
+      </p>
+      <p className="mt-2 text-sm text-zinc-400">
+        Same concept, but with your real market data and paper balance instead of textbook numbers.
+      </p>
+      {!exercise ? (
+        <button
+          type="button"
+          className="mt-3 rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
+          onClick={() => void loadExercise()}
+        >
+          Generate live exercise
+        </button>
+      ) : (
+        <div className="mt-3 space-y-3">
+          <p className="text-sm text-zinc-200">{exercise.question}</p>
+          <p className="text-xs text-zinc-500">{exercise.hint}</p>
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100"
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              placeholder="Your answer"
+            />
+            <button
+              type="button"
+              className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
+              onClick={() => void submit()}
+            >
+              Check
+            </button>
+            <button
+              type="button"
+              className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
+              onClick={() => void loadExercise()}
+            >
+              New numbers
+            </button>
+          </div>
+          {result ? (
+            <p className={`text-sm ${result.correct ? 'text-emerald-300' : 'text-amber-300'}`}>
+              {result.correct ? 'Correct. ' : 'Not quite. '}
+              {result.explanation}
+            </p>
+          ) : null}
+        </div>
+      )}
+      {status ? <p className="mt-3 text-sm text-amber-300">{status}</p> : null}
+    </div>
+  );
+}
 
 // Wrapped version that captures the answer before calling parent:
 interface ExerciseControllerProps {
@@ -465,6 +557,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
       {/* Exercise */}
       <ExerciseController lesson={lesson} onComplete={onLessonCompleted} />
+      <LiveExercisePanel lessonId={lesson.id} onComplete={onLessonCompleted} />
 
       {/* Try It Live */}
       {lesson.live_apply && (
