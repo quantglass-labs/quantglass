@@ -230,5 +230,449 @@
       "cta": "Click any BUY_ZONE signal and locate entry_zone, stop_loss, take_profit, and risk_reward in the detail drawer."
     },
     "track_id": "first-signal"
+  },
+  {
+    "id": "novice-06-asset-classes",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 6,
+    "title": "What You Can Trade: Asset Classes",
+    "summary": "Stocks, ETFs, and crypto — what each instrument actually represents.",
+    "concept": "An **asset class** is a family of instruments that behave similarly. **Stocks** (equities) are ownership shares in a company: their value tracks the business and they trade during exchange hours. **ETFs** bundle many assets into one tradable share. **Cryptocurrencies** are bearer digital assets traded on always-open venues — no company, no earnings, just supply, demand, and protocol rules.\n\nQuantGlass focuses on **US equities** and **crypto spot** because both have free public data and transparent pricing. *Spot* means you buy the asset itself; derivatives (futures, options) reference an asset's price with leverage and expiries, and are out of scope here.\n\nWhy it matters: the same chart pattern means different things on a stock (driven by earnings, sessions, gaps) than on crypto (24/7, sentiment-heavy, volatile). The engine therefore treats `market_type` as a first-class field on every symbol.",
+    "key_terms": [
+      {
+        "term": "Asset class",
+        "definition": "A family of instruments with similar behavior and rules — equities, crypto, bonds, commodities."
+      },
+      {
+        "term": "Equity / stock",
+        "definition": "A share of ownership in a company."
+      },
+      {
+        "term": "ETF",
+        "definition": "Exchange-traded fund: a basket of assets trading as one share."
+      },
+      {
+        "term": "Spot market",
+        "definition": "Buying or selling the asset itself for immediate settlement."
+      },
+      {
+        "term": "Derivative",
+        "definition": "A contract whose value references another asset's price — out of QuantGlass scope."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which statement about crypto spot markets is accurate?",
+      "options": [
+        "They close at 16:00 New York time like stock exchanges.",
+        "You own the asset itself, and trading continues around the clock.",
+        "Every crypto trade is a leveraged futures contract.",
+        "Prices are set once per day by the protocol."
+      ],
+      "correct_index": 1,
+      "explanation": "Spot crypto trades the asset itself on venues that never close. Stock exchanges have sessions; futures and leverage are derivative features, not spot."
+    },
+    "live_apply": {
+      "screen": "watchlist",
+      "cta": "Open the Watchlist and note which symbols are crypto and which are stocks — the market type tag drives how the engine treats each."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 7,
+    "title": "Exchanges and Venues",
+    "summary": "Where trades actually happen, and why the venue affects your price.",
+    "concept": "An **exchange** is a venue that matches buyers and sellers under published rules. US stocks trade on regulated exchanges (NYSE, Nasdaq) plus dozens of alternative venues, all stitched together by regulation into one national best price. Crypto is different: each exchange (Coinbase, Kraken, Binance) is its **own island** with its own order book, so the *same* coin can trade at slightly different prices on different venues at the same moment.\n\nThat is why QuantGlass lets you choose **provider routes** — primary, secondary, and fallback data sources per market. When Coinbase data is unavailable the engine can fall back to Kraken; the candles will be nearly, but not exactly, identical.\n\nRule of thumb: always know *which venue's price* you are looking at. A signal computed on one venue's candles applies to that venue's prices.",
+    "key_terms": [
+      {
+        "term": "Exchange",
+        "definition": "A rule-governed venue matching buyers and sellers."
+      },
+      {
+        "term": "Order book",
+        "definition": "The exchange's live list of resting buy and sell orders."
+      },
+      {
+        "term": "Fragmentation",
+        "definition": "The same asset trading on multiple venues at slightly different prices."
+      },
+      {
+        "term": "Provider route",
+        "definition": "QuantGlass's primary/secondary/fallback choice of data venue per market."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "BTC shows 67,950 on one exchange and 68,010 on another at the same time. Why?",
+      "options": [
+        "One of the two prices must be an error.",
+        "Each crypto exchange has its own order book, so prices can differ slightly between venues.",
+        "Bitcoin's protocol sets a different price per country.",
+        "One exchange is showing yesterday's close."
+      ],
+      "correct_index": 1,
+      "explanation": "Crypto venues are independent order books. Small price differences are normal and are kept in line by arbitrage traders."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Providers and find the crypto route: which venue is primary, and which is the fallback?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 8,
+    "title": "Sessions and the Market Clock",
+    "summary": "When markets are open, why it matters, and how crypto differs.",
+    "concept": "US stock exchanges run a **regular session** (09:30–16:00 New York time) book-ended by thinner pre-market and after-hours sessions. Volume and liquidity concentrate near the **open** and the **close**; lunchtime is typically quiet. Crypto never closes — but it still has rhythm: activity clusters around US and Asian waking hours, and weekends are thinner.\n\nSessions matter to a signal reader for one big reason: **candles need to close**. A 1-day stock candle closes at 16:00 New York; a 1-hour crypto candle closes at the top of each hour. QuantGlass evaluates **closed candles only** — a pattern that appears mid-candle can vanish before the close, so acting on an unfinished candle is acting on noise.\n\nThe signal's freshness badge tells you how old the last *closed* candle is, so you always know which clock you are on.",
+    "key_terms": [
+      {
+        "term": "Regular session",
+        "definition": "The main trading hours of an exchange — 09:30–16:00 New York for US stocks."
+      },
+      {
+        "term": "Pre/after-market",
+        "definition": "Thinner stock sessions around the regular one, with wider spreads."
+      },
+      {
+        "term": "Candle close",
+        "definition": "The moment a timeframe's bar is finalized — the only price the engine evaluates."
+      },
+      {
+        "term": "Freshness",
+        "definition": "How old the latest closed candle is, shown on every QuantGlass signal."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does QuantGlass wait for a candle to close before evaluating a setup?",
+      "options": [
+        "Closed candles download faster.",
+        "Until the close, the candle's final high, low, and close can still change — mid-candle patterns can vanish.",
+        "Exchanges only publish data once per day.",
+        "Open candles are illegal to analyze."
+      ],
+      "correct_index": 1,
+      "explanation": "A candle is only a fact after it closes. The engine's closed-candle rule prevents acting on patterns that may not survive the bar."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open Signals and check a freshness badge: how old is the last closed candle behind the newest signal?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 9,
+    "title": "The Order Book, Bid, Ask, and Spread",
+    "summary": "Every price you see is really two prices.",
+    "concept": "At any moment an exchange holds resting orders: the highest price a buyer will pay is the **bid**; the lowest price a seller will accept is the **ask**. The gap between them is the **spread**. A 'price' quote is usually the last trade, which bounced between those two walls.\n\nThe spread is your first, invisible cost: buy at the ask, and you are instantly down one spread if you were to sell back at the bid. Liquid markets (major stocks, BTC, ETH) keep spreads at a few hundredths of a percent; thin markets can have spreads of 1% or more — large enough to erase a small edge entirely.\n\nQuantGlass's backtests charge a **slippage** allowance on every simulated fill precisely because real fills happen at the spread's edges, not at the midpoint shown on a chart.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "The highest resting buy price."
+      },
+      {
+        "term": "Ask (offer)",
+        "definition": "The lowest resting sell price."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask minus bid — the instant round-trip cost of crossing the book."
+      },
+      {
+        "term": "Last price",
+        "definition": "The most recent trade — it bounces between bid and ask."
+      },
+      {
+        "term": "Slippage",
+        "definition": "The difference between the chart price and your actual fill price."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A coin shows bid 99.95 / ask 100.05. You buy at market and immediately sell at market. Ignoring fees, what happens?",
+      "options": [
+        "You break exactly even.",
+        "You lose about 0.10 — you bought at the ask and sold at the bid.",
+        "You gain the spread as a rebate.",
+        "Both orders fill at 100.00, the midpoint."
+      ],
+      "correct_index": 1,
+      "explanation": "Market orders cross the spread: buy at 100.05, sell at 99.95 — a 0.10 loss. The spread is a real cost the chart's single price line hides."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Open a symbol and imagine the candle's close as a bid/ask pair around it — the engine's slippage assumption models exactly that gap."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 10,
+    "title": "Order Types: Market and Limit",
+    "summary": "The two fundamental orders, and what each trades away.",
+    "concept": "A **market order** says *fill me now at the best available price* — execution is certain, price is not. A **limit order** says *fill me only at my price or better* — price is certain, execution is not. Everything fancier (stop-loss, stop-limit, take-profit) is built from these two primitives plus a trigger.\n\nA **stop-loss** is a resting trigger: when price touches your stop level, it fires a market order to exit. That is exactly the geometry every QuantGlass signal shows — an **entry zone** (where a limit-style entry makes sense), a **stop-loss** level (your exit trigger if wrong), and a **take-profit ladder** (staged limit exits if right).\n\nQuantGlass paper trading fills intents at the next available price — modeling a simple market order — so you experience execution uncertainty honestly rather than getting perfect textbook fills.",
+    "key_terms": [
+      {
+        "term": "Market order",
+        "definition": "Execute immediately at the best available price — certain fill, uncertain price."
+      },
+      {
+        "term": "Limit order",
+        "definition": "Execute only at a chosen price or better — certain price, uncertain fill."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "A trigger level that fires an exit order when price touches it."
+      },
+      {
+        "term": "Take-profit",
+        "definition": "A resting exit at a target price — QuantGlass shows a three-rung ladder."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "You must exit a losing position right now in a fast-falling market. Which order guarantees you get out?",
+      "options": [
+        "A limit order at your entry price.",
+        "A market order — you accept whatever price the book offers.",
+        "A take-profit order above the market.",
+        "No order type can ever exit a position."
+      ],
+      "correct_index": 1,
+      "explanation": "Only a market order guarantees execution, at the cost of price certainty. A limit at your entry would likely never fill in a falling market."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal and identify its three order-type components: the entry zone, the stop-loss trigger, and the take-profit ladder."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 11,
+    "title": "Liquidity and Volume",
+    "summary": "Why size moves price, and how volume validates a move.",
+    "concept": "**Liquidity** is how much you can trade without moving the price; **volume** is how much *was* traded. They are related but not identical: volume is the receipt, liquidity is the capacity.\n\nWhen a market is deep (thick order book), even large orders barely move price. When it is thin, a modest market order eats through several price levels at once — that is slippage in action. Liquidity also dries up at night, on weekends (crypto), and around news.\n\nFor a signal reader, volume is a **confirmation tool**: a breakout on twice the recent average volume means real participation; the same breakout on dead volume is suspect. QuantGlass encodes this as the **volume ratio** (current volume ÷ recent average) and folds it into a signal's `volume_confirmation` score — one of the confidence inputs you can inspect on every signal.",
+    "key_terms": [
+      {
+        "term": "Liquidity",
+        "definition": "How much can be traded without moving the price."
+      },
+      {
+        "term": "Volume",
+        "definition": "The amount actually traded in a period."
+      },
+      {
+        "term": "Volume ratio",
+        "definition": "Current bar's volume divided by the recent average — QuantGlass's participation gauge."
+      },
+      {
+        "term": "Thin market",
+        "definition": "Low liquidity: small orders cause outsized price moves."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A breakout candle prints on volume 2.3× its recent average. What does that ratio tell you?",
+      "options": [
+        "Nothing — volume is unrelated to price moves.",
+        "Participation is unusually high, which strengthens the breakout's credibility.",
+        "The exchange is malfunctioning.",
+        "Liquidity has disappeared from the book."
+      ],
+      "correct_index": 1,
+      "explanation": "Volume ratio compares the bar to its own recent baseline. Breakouts on elevated participation are historically more reliable than dead-volume moves."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Open a symbol's detail and find the volume metrics — compare the latest bar's volume against the recent baseline."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 12,
+    "title": "Fees and Slippage: The Round-Trip Cost",
+    "summary": "Every trade pays twice — compute the true cost before counting any edge.",
+    "concept": "Two costs hit every single trade. **Fees** are explicit: exchanges charge a percentage per side (crypto taker fees are commonly around 0.10%; US equity commissions are near zero but other frictions remain). **Slippage** is implicit: the gap between the chart price and your real fill, born from the spread and book depth.\n\nBoth are paid **twice** — once entering, once exiting. QuantGlass's default cost model assumes, per side, **0.10% fee + 0.05% slippage for crypto** and **0.02% + 0.01% for stocks**, and the backtester deducts the full round trip from every simulated trade. A strategy that looks profitable before costs and unprofitable after them has no edge — it has an illusion.\n\nExample: a 10,000 crypto position pays (0.10% + 0.05%) × 2 = **0.30%** round trip — 30 before the trade has gone anywhere.",
+    "key_terms": [
+      {
+        "term": "Fee",
+        "definition": "The explicit percentage an exchange or broker charges per side."
+      },
+      {
+        "term": "Slippage",
+        "definition": "The implicit cost between chart price and actual fill."
+      },
+      {
+        "term": "Round trip",
+        "definition": "Entry plus exit — costs are paid on both."
+      },
+      {
+        "term": "Cost-aware backtest",
+        "definition": "A simulation that deducts fees and slippage from every trade, as QuantGlass does by default."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "Using QuantGlass's crypto defaults (0.10% fee + 0.05% slippage per side), what is the total round-trip cost in dollars on a 10,000 position?",
+      "hint": "cost = position × (fee% + slippage%) × 2 sides",
+      "correct_answer": "30",
+      "tolerance_percent": 2.0,
+      "explanation": "(0.0010 + 0.0005) × 2 = 0.0030; 10,000 × 0.0030 = **30**. The engine deducts exactly this from every simulated crypto round trip."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open Backtesting and find the fees/slippage assumptions on a preset — they match the defaults this lesson used."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 13,
+    "title": "Who Is on the Other Side",
+    "summary": "Market makers, institutions, algos, and you.",
+    "concept": "Every fill has a counterparty. **Market makers** quote both bid and ask all day, earning the spread while providing liquidity. **Institutions** (funds, treasuries) move size slowly to avoid impact — their footprints are sustained volume trends. **Algorithmic traders** range from microsecond arbitrage to slow systematic strategies, and account for most modern volume. **Retail traders** — you — are the smallest and slowest participants.\n\nThis is not a reason for despair; it is a reason for **discipline**. A retail trader's edge is never speed. It is selectivity (trade only clean setups), patience (let the closed candle confirm), risk control (size from the stop, not from conviction), and honesty about statistics — exactly the four things QuantGlass's engine enforces mechanically.\n\nKnowing who you trade against tells you which games not to play: you cannot out-react a co-located algo, but you can out-wait it.",
+    "key_terms": [
+      {
+        "term": "Market maker",
+        "definition": "A participant quoting both sides continuously, earning the spread."
+      },
+      {
+        "term": "Institutional flow",
+        "definition": "Large, slow orders worked over time to limit market impact."
+      },
+      {
+        "term": "Algorithmic trading",
+        "definition": "Automated strategies — the majority of modern volume."
+      },
+      {
+        "term": "Retail edge",
+        "definition": "Selectivity, patience, and risk control — not speed."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which of these is a realistic edge for a retail trader?",
+      "options": [
+        "Reacting to news faster than co-located algorithms.",
+        "Being selective, waiting for closed-candle confirmation, and sizing every trade from its stop.",
+        "Trading more frequently than market makers.",
+        "Getting better fees than institutions."
+      ],
+      "correct_index": 1,
+      "explanation": "Speed, frequency, and fee games belong to professionals. Selectivity, patience, and mechanical risk control are the edges that survive at retail scale."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Revisit the position-sizing lesson in Risk & Position Sizing — it is the most concrete expression of the retail edge."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 14,
+    "title": "Crypto vs Equities Inside QuantGlass",
+    "summary": "Same engine, two very different markets.",
+    "concept": "QuantGlass runs one deterministic engine over two market types, and the differences are encoded rather than ignored.\n\n**Hours**: crypto candles flow 24/7; stock candles only exist for exchange sessions, so a 1-day stock candle is a session, not a calendar day. **Volatility**: crypto's typical ATR as a share of price runs far higher, which is why stops are ATR-multiples instead of fixed percentages. **Costs**: the default round-trip model charges crypto 0.30% and stocks 0.06% — the backtester applies whichever matches the symbol's `market_type`. **Symbols**: crypto pairs are quoted like `BTCUSD` (asset/quote currency), stocks are exchange tickers like `AAPL`.\n\nPractical consequence: never copy position sizes or stop distances across market types. The engine's regime and volatility logic adapts automatically; your expectations should too.",
+    "key_terms": [
+      {
+        "term": "Market type",
+        "definition": "QuantGlass's first-class crypto/stocks distinction on every symbol."
+      },
+      {
+        "term": "ATR-relative stop",
+        "definition": "A stop sized as a multiple of current volatility, not a fixed percent."
+      },
+      {
+        "term": "Trading pair",
+        "definition": "A crypto symbol quoting one asset in another, e.g. BTC in USD."
+      },
+      {
+        "term": "Session candle",
+        "definition": "A stock daily candle covering exchange hours only."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does QuantGlass size stops as ATR multiples instead of a fixed percentage for all symbols?",
+      "options": [
+        "Fixed percentages are illegal.",
+        "Volatility differs enormously across symbols and market types — an ATR multiple adapts the stop to each market's actual movement.",
+        "ATR is easier to compute than a percentage.",
+        "Stops are decorative."
+      ],
+      "correct_index": 1,
+      "explanation": "A 2% stop might be huge for a quiet stock and tiny for a volatile coin. ATR multiples normalize the stop to how much the instrument actually moves."
+    },
+    "live_apply": {
+      "screen": "watchlist",
+      "cta": "Compare a crypto and a stock symbol's recent candle ranges — notice how differently they move, then find that difference expressed in their ATR values."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "module_id": "novice",
+    "track_id": "market-foundations",
+    "tier": "novice",
+    "order": 15,
+    "title": "From Ticks to Candles: How OHLCV Is Made",
+    "summary": "Where the engine's raw material comes from.",
+    "concept": "Markets produce a stream of individual trades — **ticks**. A candle compresses all ticks inside a time window into five numbers: **O**pen (first trade), **H**igh, **L**ow, **C**lose (last trade), and **V**olume (total traded). Change the window and you change the story: the same hour is one 1h candle, four 15m candles, or a quarter of a 4h candle.\n\nQuantGlass ingests OHLCV at fixed timeframes (**15m, 1h, 4h, 1d**), stores them locally, and stamps every series with its **source** venue and ingestion time. Each candle also carries its `open_time_utc` — the engine's freshness math derives the close time from it plus the timeframe length.\n\nTwo data rules keep analysis honest: candles are **immutable once closed** (a changed history is a provider bug, and the integrity layer flags it), and **every number you see traces to a venue** — no blended, untraceable prices.",
+    "key_terms": [
+      {
+        "term": "Tick",
+        "definition": "A single executed trade."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — the five numbers summarizing a window of ticks."
+      },
+      {
+        "term": "Timeframe",
+        "definition": "The window length of each candle — 15m, 1h, 4h, or 1d in QuantGlass."
+      },
+      {
+        "term": "Data integrity",
+        "definition": "Checks that closed candles never mutate and gaps are detected."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A 1-hour candle shows O=100, H=104, L=99, C=103. What is the one thing you can NOT conclude from it?",
+      "options": [
+        "The first trade of the hour was at 100.",
+        "Price touched 104 at some point during the hour.",
+        "The exact path price took between those levels.",
+        "The last trade of the hour was at 103."
+      ],
+      "correct_index": 2,
+      "explanation": "A candle is a summary: it preserves the extremes and endpoints but destroys the path. Price could have hit the low before the high or vice versa — the candle cannot say."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Switch a chart between 15m and 1h — watch four small candles fuse into one larger one carrying the same OHLCV information."
+    }
   }
 ]
