@@ -13,6 +13,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+from app.storage.state_store.db import connect
 from app.storage.state_store.defaults import default_paper_account, now_iso
 
 
@@ -64,7 +65,6 @@ class PaperTradingStore:
             )
             """
         )
-        self._ensure_paper_trade_intent_columns(connection)
         self.ensure_account_row(connection)
 
     def ensure_account_row(self, connection: sqlite3.Connection) -> None:
@@ -88,7 +88,7 @@ class PaperTradingStore:
             )
 
     def get_paper_account(self) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             row = connection.execute(
                 """
                 SELECT balance, buying_power, realized_pnl
@@ -117,13 +117,13 @@ class PaperTradingStore:
         }
 
     def replace_paper_account(self, account: dict[str, Any]) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self._write_paper_account(connection, account)
             connection.commit()
         return self.get_paper_account()
 
     def list_paper_trade_intents(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 """
                 SELECT id, signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
@@ -146,7 +146,7 @@ class PaperTradingStore:
         submitted_at = now_iso()
         symbol_id = symbol.upper().replace("/", "")
 
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self.ensure_account_row(connection)
             connection.execute(
                 """
@@ -192,7 +192,7 @@ class PaperTradingStore:
         status = "executed" if executed_at else "submitted"
         symbol_id = symbol.upper().replace("/", "")
 
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             connection.execute(
                 """
                 INSERT INTO paper_trade_intents (
@@ -243,7 +243,7 @@ class PaperTradingStore:
         executed: list[dict[str, Any]] = []
         executed_at = now_iso()
 
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self.ensure_account_row(connection)
             rows = connection.execute(
                 """
@@ -300,7 +300,7 @@ class PaperTradingStore:
 
     def refresh_paper_position_marks(self, latest_prices: dict[str, float]) -> dict[str, Any]:
         updated_at = now_iso()
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 """
                 SELECT symbol_id, side, quantity, average_price
@@ -358,26 +358,6 @@ class PaperTradingStore:
                 updated_at,
             ),
         )
-
-    def _ensure_paper_trade_intent_columns(self, connection: sqlite3.Connection) -> None:
-        columns = {
-            row[1]
-            for row in connection.execute("PRAGMA table_info(paper_trade_intents)").fetchall()
-        }
-        if "status" not in columns:
-            connection.execute(
-                "ALTER TABLE paper_trade_intents ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'"
-            )
-        if "executed_at" not in columns:
-            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN executed_at TEXT")
-        if "executed_price" not in columns:
-            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN executed_price REAL")
-        if "provider" not in columns:
-            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN provider TEXT")
-        if "external_order_id" not in columns:
-            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN external_order_id TEXT")
-        if "broker_status" not in columns:
-            connection.execute("ALTER TABLE paper_trade_intents ADD COLUMN broker_status TEXT")
 
     def _apply_trade_fill(
         self,

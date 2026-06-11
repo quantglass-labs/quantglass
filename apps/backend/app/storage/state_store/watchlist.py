@@ -8,6 +8,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
+from app.storage.state_store.db import connect
 from app.storage.state_store.defaults import now_iso
 
 
@@ -28,7 +29,7 @@ class WatchlistStore:
         )
 
     def list_watchlist(self) -> list[dict[str, str | None]]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 "SELECT symbol, market_type, notes, created_at FROM watchlist_entries ORDER BY symbol"
             ).fetchall()
@@ -54,7 +55,7 @@ class WatchlistStore:
             "notes": notes,
             "created_at": now_iso(),
         }
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             connection.execute(
                 """
                 INSERT INTO watchlist_entries (symbol, market_type, notes, created_at)
@@ -69,7 +70,7 @@ class WatchlistStore:
         return payload
 
     def delete_watchlist_symbol(self, symbol: str) -> bool:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
                 "DELETE FROM watchlist_entries WHERE symbol = ?",
                 (symbol.upper(),),

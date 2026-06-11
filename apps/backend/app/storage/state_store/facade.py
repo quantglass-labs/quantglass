@@ -10,14 +10,15 @@ schema and queries.
 
 from __future__ import annotations
 
-import sqlite3
 from pathlib import Path
 from typing import Any
 
 from app.core.config import AiSettings, ProviderSettings, SafetySettings
 from app.storage.secret_store import EncryptedSecretStore
 from app.storage.state_store.alerts import AlertsStore
+from app.storage.state_store.db import connect
 from app.storage.state_store.learn import LearnProgressStore
+from app.storage.state_store.migrations import run_migrations
 from app.storage.state_store.settings import SettingsStore
 from app.storage.state_store.strategies import SavedStrategiesStore
 from app.storage.state_store.trading import PaperTradingStore
@@ -49,13 +50,14 @@ class StateStore:
         ai_settings: AiSettings,
     ) -> None:
         self.sqlite_path.parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self.watchlist.ensure_schema(connection)
             self.settings.ensure_schema(connection)
             self.alerts.ensure_schema(connection)
             self.strategies.ensure_schema(connection)
             self.trading.ensure_schema(connection)
             self.learn.ensure_schema(connection)
+            run_migrations(connection)
             self.settings.ensure_defaults(
                 connection, provider_settings, safety_settings, ai_settings
             )

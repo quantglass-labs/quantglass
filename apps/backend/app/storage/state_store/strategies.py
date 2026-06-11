@@ -9,6 +9,8 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+from app.storage.state_store.db import connect
+
 
 class SavedStrategiesStore:
     def __init__(self, sqlite_path: Path) -> None:
@@ -29,7 +31,7 @@ class SavedStrategiesStore:
         )
 
     def list_saved_strategies(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 """
                 SELECT id, name, symbol_id, setup_type, timeframe, saved_at
@@ -40,7 +42,7 @@ class SavedStrategiesStore:
         return [self._serialize_saved_strategy_row(row) for row in rows]
 
     def save_strategy(self, payload: dict[str, Any]) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             connection.execute(
                 """
                 INSERT INTO saved_strategies (id, name, symbol_id, setup_type, timeframe, saved_at)
@@ -58,7 +60,7 @@ class SavedStrategiesStore:
         return payload
 
     def delete_saved_strategy(self, strategy_id: str) -> bool:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
                 "DELETE FROM saved_strategies WHERE id = ?",
                 (strategy_id,),
