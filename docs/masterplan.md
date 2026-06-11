@@ -74,6 +74,22 @@ Shipped foundations: lesson JSON content + schema CI ✅ · lesson moments v1
 ([#25](https://github.com/quantglass-labs/quantglass/issues/25)) ✅ · live
 exercises v1 ✅ · coaching panel on Learn ✅
 
+## Missions & Feedback Loop workstream (milestone: Missions & Feedback Loop)
+
+Behavioral training layer per [tradingmission.md](tradingmission.md): the app's
+areas become Learn · Missions · Paper · Journal · Review (Safety renders as a
+status panel inside Review, not a sixth tab). The spine is the feedback loop:
+**capture → score → detect → prescribe → gate**.
+
+- [ ] MSN-1 Plan-aware trade ticket (stop, target, risk%, reason, emotion) — [#44](https://github.com/quantglass-labs/quantglass/issues/44)
+- [ ] MSN-2 Process score + decision-vs-outcome 2×2 ("dangerous success") — [#45](https://github.com/quantglass-labs/quantglass/issues/45)
+- [ ] MSN-3 Mission engine + starter missions feeding the unlock ladder — [#46](https://github.com/quantglass-labs/quantglass/issues/46)
+- [ ] MSN-4 Journal + Review surfaces with adaptive recommendations — [#47](https://github.com/quantglass-labs/quantglass/issues/47)
+- [ ] MSN-5 Personal Trading Constitution (enforced user policy) — [#48](https://github.com/quantglass-labs/quantglass/issues/48)
+- [ ] MSN-6 Replay missions; subsumes ACAD-9 — [#49](https://github.com/quantglass-labs/quantglass/issues/49)
+- [ ] MSN-7 Academy bridges, common mistakes, glossary, reference library,
+      test-out placement — [#50](https://github.com/quantglass-labs/quantglass/issues/50)
+
 ## Engine work, re-sequenced to serve the Academy
 
 Each item lists the curriculum it unblocks — "teach what we build."
