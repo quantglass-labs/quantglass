@@ -3,10 +3,13 @@
 
 from __future__ import annotations
 
-from app.extensions.base import ExtensionManifest, ExtensionSetting
-from app.services.extension_surface_registry import ExtensionSurfaceDefinition
-from app.services.indicator_registry import IndicatorDefinition
-from app.services.strategy_registry import StrategyDefinition
+from app.extensions.sdk import (
+    ExtensionManifest,
+    ExtensionSetting,
+    ExtensionSurfaceDefinition,
+    IndicatorDefinition,
+    StrategyDefinition,
+)
 
 
 def _community_momentum_candidates(context: dict[str, object]) -> list[dict[str, object]]:
