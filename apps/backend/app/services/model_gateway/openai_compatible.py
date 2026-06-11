@@ -15,7 +15,12 @@ from app.services.model_gateway.models import (
 
 
 class OpenAICompatibleProviderMixin:
-    def _call_openai_compatible(self, settings: AiSettings, prompt: str) -> ModelResponse | None:
+    def _call_openai_compatible(
+        self,
+        settings: AiSettings,
+        prompt: str,
+        response_schema: dict | None = None,
+    ) -> ModelResponse | None:
         payload = {
             "model": settings.model,
             "messages": [
@@ -32,6 +37,15 @@ class OpenAICompatibleProviderMixin:
             "max_tokens": settings.max_tokens,
             "stream": False,
         }
+        if response_schema is not None:
+            payload["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "quantglass_narration",
+                    "schema": response_schema,
+                    "strict": True,
+                },
+            }
         headers = {}
         api_key = self._api_key_provider(settings.api_key_id)
         if api_key:

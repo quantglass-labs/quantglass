@@ -185,12 +185,17 @@ class ModelGateway(
             "runtimeDetail": f"{selected_model} is not installed on the configured Ollama endpoint.",
         }
 
-    def complete(self, settings: AiSettings, prompt: str) -> ModelResponse | None:
+    def complete(
+        self,
+        settings: AiSettings,
+        prompt: str,
+        response_schema: dict | None = None,
+    ) -> ModelResponse | None:
         self.last_error = None
         if settings.provider == "template":
             return None
         if settings.provider == "ollama":
-            return self._call_ollama_generate(settings, prompt)
+            return self._call_ollama_generate(settings, prompt, response_schema=response_schema)
         if settings.provider == "anthropic":
             return self._call_anthropic_messages(settings, prompt)
         if settings.provider == "google_gemini":
@@ -201,4 +206,4 @@ class ModelGateway(
             return self._call_bedrock_invoke_model(settings, prompt)
         if settings.provider == "vertex":
             return self._call_vertex_generate(settings, prompt)
-        return self._call_openai_compatible(settings, prompt)
+        return self._call_openai_compatible(settings, prompt, response_schema=response_schema)

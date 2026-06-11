@@ -62,7 +62,9 @@ class _Gateway:
     def __init__(self, response: ModelResponse | None) -> None:
         self.response = response
 
-    def complete(self, _settings: AiSettings, _prompt: str) -> ModelResponse | None:
+    def complete(
+        self, _settings: AiSettings, _prompt: str, response_schema: dict | None = None
+    ) -> ModelResponse | None:
         return self.response
 
 
@@ -94,3 +96,60 @@ def test_narration_falls_back_when_gateway_fabricates_number() -> None:
 
     assert source == "template-guarded"
     assert "12345" not in text
+
+
+class _StructuredGateway:
+    def __init__(self, text: str) -> None:
+        self._text = text
+        self.captured_schema: dict | None = None
+
+    def complete(
+        self, _settings: AiSettings, _prompt: str, response_schema: dict | None = None
+    ) -> ModelResponse | None:
+        self.captured_schema = response_schema
+        return ModelResponse(text=self._text, source="ollama:test")
+
+
+def _structured_service(text: str) -> tuple[NarrationService, _StructuredGateway]:
+    settings = AiSettings(model="qwen3:14b-q4_K_M", cloud_enabled=True)
+    gateway = _StructuredGateway(text)
+    return NarrationService(ai_settings_provider=lambda: settings, model_gateway=gateway), gateway
+
+
+def test_structured_summary_envelope_is_unwrapped() -> None:
+    service, gateway = _structured_service(
+        '{"summary": "BTCUSD prints a BUY_ZONE with 58 confidence and 0.32R expectancy."}'
+    )
+    text, source = service.narrate(_FACTS)
+    assert source == "ollama:test"
+    assert text.startswith("BTCUSD prints")
+    assert gateway.captured_schema is not None
+    assert gateway.captured_schema["required"] == ["summary"]
+
+
+def test_invalid_json_envelope_falls_back_to_template() -> None:
+    service, _ = _structured_service('{"summary": ')
+    _, source = service.narrate(_FACTS)
+    assert source == "template-fallback"
+
+
+def test_hallucinated_number_in_envelope_is_guarded() -> None:
+    service, _ = _structured_service('{"summary": "BTCUSD is heading to 12345 next week."}')
+    _, source = service.narrate(_FACTS)
+    assert source == "template-guarded"
+
+
+def test_ollama_payload_carries_format_schema() -> None:
+    from app.services.model_gateway import ModelGateway
+
+    gateway = ModelGateway()
+    captured: dict = {}
+
+    def fake_post_json(url, payload, timeout, headers=None):
+        captured.update(payload)
+        return {"response": "ok"}
+
+    gateway._post_json = fake_post_json  # type: ignore[method-assign]
+    settings = AiSettings(model="qwen3:14b-q4_K_M", cloud_enabled=True)
+    gateway._call_ollama_generate(settings, "prompt", response_schema={"type": "object"})
+    assert captured["format"] == {"type": "object"}

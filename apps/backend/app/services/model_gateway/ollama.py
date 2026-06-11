@@ -14,7 +14,12 @@ from app.services.model_gateway.models import (
 
 
 class OllamaProviderMixin:
-    def _call_ollama_generate(self, settings: AiSettings, prompt: str) -> ModelResponse | None:
+    def _call_ollama_generate(
+        self,
+        settings: AiSettings,
+        prompt: str,
+        response_schema: dict | None = None,
+    ) -> ModelResponse | None:
         payload = {
             "model": settings.model,
             "prompt": prompt,
@@ -24,6 +29,9 @@ class OllamaProviderMixin:
                 "num_predict": settings.max_tokens,
             },
         }
+        if response_schema is not None:
+            # Ollama structured outputs: constrain generation to the JSON schema.
+            payload["format"] = response_schema
         body = self._post_json(
             f"{settings.base_url.rstrip('/')}/api/generate",
             payload,
