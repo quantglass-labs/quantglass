@@ -18,6 +18,11 @@ class AnswerRequest(BaseModel):
     answer: str
 
 
+class LiveAnswerRequest(BaseModel):
+    answer: str
+    params: dict
+
+
 # ---------------------------------------------------------------------------
 # Catalog & modules
 # ---------------------------------------------------------------------------
@@ -94,3 +99,32 @@ async def get_moments(request: Request) -> dict:
     """Return teachable moments detected from the user's own paper trading."""
     svc = request.app.state.learn_moments_service
     return {"items": svc.get_moments()}
+
+
+# ---------------------------------------------------------------------------
+# Live-data exercises (real market numbers, stateless answer checking)
+# ---------------------------------------------------------------------------
+
+
+@router.get("/lesson/{lesson_id}/live-exercise")
+async def get_live_exercise(lesson_id: str, request: Request) -> dict:
+    """Generate an exercise from live engine values for supported lessons."""
+    svc = request.app.state.learn_live_service
+    if not svc.supports(lesson_id):
+        raise HTTPException(status_code=404, detail=f"Lesson '{lesson_id}' has no live exercise.")
+    exercise = svc.build_exercise(lesson_id)
+    if exercise is None:
+        raise HTTPException(
+            status_code=409,
+            detail="Live market data is not available yet. Refresh the dashboard first.",
+        )
+    return exercise
+
+
+@router.post("/lesson/{lesson_id}/live-check")
+async def check_live_answer(lesson_id: str, body: LiveAnswerRequest, request: Request) -> dict:
+    """Check a live-exercise answer by recomputing from the shown parameters."""
+    svc = request.app.state.learn_live_service
+    if not svc.supports(lesson_id):
+        raise HTTPException(status_code=404, detail=f"Lesson '{lesson_id}' has no live exercise.")
+    return svc.check_answer(lesson_id, body.answer, body.params)
