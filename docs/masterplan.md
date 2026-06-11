@@ -40,8 +40,8 @@ the same PR that closes the issue. Strategy and research behind each item:
 
 ## Phase B — Launch differentiators (milestone 2)
 
-- [ ] B1 Coverage-guaranteed confidence (conformal) + calibration table — [#23](https://github.com/quantglass-labs/quantglass/issues/23), [#16](https://github.com/quantglass-labs/quantglass/issues/16)
-- [ ] B2 MCP server mode (read-only engine facts on loopback) — [#24](https://github.com/quantglass-labs/quantglass/issues/24)
+- [x] B1 Coverage-guaranteed confidence (conformal); calibration table tracks in #16 — [#23](https://github.com/quantglass-labs/quantglass/issues/23), [#16](https://github.com/quantglass-labs/quantglass/issues/16)
+- [x] B2 MCP server mode (read-only engine facts on loopback) — [#24](https://github.com/quantglass-labs/quantglass/issues/24)
 - [x] B3 = LL1 Lesson moments v1 — [#25](https://github.com/quantglass-labs/quantglass/issues/25)
 
 ## Phase C — Community wave (milestone 3)

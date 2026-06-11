@@ -141,3 +141,18 @@ Runtime settings are resolved in this order:
 
 Stored API keys override environment keys when a stored value exists. If no
 stored key exists, supported environment keys remain active.
+
+## MCP server
+
+The backend exposes a read-only [Model Context Protocol](https://modelcontextprotocol.io)
+endpoint at `POST http://127.0.0.1:8000/mcp` (streamable HTTP transport).
+Tools: `list_signals`, `list_backtest_presets`, `get_paper_account`,
+`list_watchlist`. Point an MCP client at the URL while the backend is
+running, e.g. for Claude Code:
+
+```bash
+claude mcp add --transport http quantglass http://127.0.0.1:8000/mcp
+```
+
+The server never exposes secrets and accepts no write operations. All data
+is educational decision support, not financial advice.

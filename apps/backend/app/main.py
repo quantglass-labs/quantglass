@@ -13,6 +13,7 @@ from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
 from app.api.routes.learn import router as learn_router
 from app.api.routes.market import router as market_router
+from app.api.routes.mcp import router as mcp_router
 from app.api.routes.paper import router as paper_router
 from app.api.routes.providers import router as providers_router
 from app.api.routes.settings import router as settings_router
@@ -164,3 +165,4 @@ app.include_router(watchlist_router)
 app.include_router(alerts_router)
 app.include_router(events_router)
 app.include_router(learn_router)
+app.include_router(mcp_router)
