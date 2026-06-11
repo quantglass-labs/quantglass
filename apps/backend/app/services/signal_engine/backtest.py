@@ -163,6 +163,7 @@ def run_backtest(
             "profit_factor": 0.0,
             "equity_curve": [100.0],
             "drawdown_curve": [0.0],
+            "out_of_sample_outcomes": [],
             "test_period": test_period(candles),
         }
 
@@ -213,5 +214,6 @@ def run_backtest(
         "profit_factor": profit_factor(outcomes),
         "equity_curve": equity_values,
         "drawdown_curve": drawdown_values,
+        "out_of_sample_outcomes": out_of_sample,
         "test_period": test_period(candles),
     }

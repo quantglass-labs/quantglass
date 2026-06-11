@@ -199,6 +199,15 @@ export function SignalDetailDrawer({
                       value={signalRecord.signal.confidence_basis.confluence_score.toFixed(2)}
                     />
                   ) : null}
+                  {signalRecord.signal.confidence_basis.conformal_guaranteed &&
+                  typeof signalRecord.signal.confidence_basis.conformal_lower_r === 'number' &&
+                  typeof signalRecord.signal.confidence_basis.conformal_upper_r === 'number' ? (
+                    <MetricStat
+                      label="Next-trade range (90% guaranteed)"
+                      value={`${signalRecord.signal.confidence_basis.conformal_lower_r.toFixed(2)}R to ${signalRecord.signal.confidence_basis.conformal_upper_r.toFixed(2)}R`}
+                      helper={`Distribution-free conformal bound over ${signalRecord.signal.confidence_basis.conformal_sample_size ?? 0} OOS trades`}
+                    />
+                  ) : null}
                   {typeof signalRecord.signal.confidence_basis.pooled_sample_size === 'number' ? (
                     <MetricStat
                       label="Pooled sample"

@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from math import sqrt
+from math import ceil, floor, sqrt
 
 
 def calibrate_win_rate(raw_win_rate: float, sample_size: int, prior_strength: float) -> float:
@@ -69,3 +69,36 @@ def standard_deviation(values: list[float]) -> float:
     mean = sum(values) / len(values)
     variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
     return sqrt(variance)
+
+
+def conformal_interval(
+    calibration_outcomes: list[float],
+    coverage: float = 0.9,
+) -> dict[str, float | int | bool] | None:
+    """Split-conformal prediction interval for the next trade outcome (in R).
+
+    Treats the out-of-sample trade outcomes as the calibration set and returns
+    a distribution-free interval that contains the next outcome with
+    probability >= ``coverage``, assuming exchangeability. Finite-sample valid:
+    no normality or variance assumptions. Returns ``None`` when the
+    calibration set is too small for the requested coverage (the honest
+    answer, rather than an interval without a guarantee).
+    """
+    n = len(calibration_outcomes)
+    if n == 0 or not 0.0 < coverage < 1.0:
+        return None
+    alpha = 1.0 - coverage
+    # Conformal rank adjustment: quantiles of the augmented sample of size n+1.
+    # Epsilon guards keep binary floating point (e.g. 1 - 0.9) from shifting ranks.
+    lower_rank = floor((n + 1) * (alpha / 2) + 1e-9)
+    upper_rank = ceil((n + 1) * (1 - alpha / 2) - 1e-9)
+    if lower_rank < 1 or upper_rank > n:
+        return None
+    ordered = sorted(calibration_outcomes)
+    return {
+        "coverage": coverage,
+        "lower_r": ordered[lower_rank - 1],
+        "upper_r": ordered[upper_rank - 1],
+        "calibration_sample_size": n,
+        "guaranteed": True,
+    }

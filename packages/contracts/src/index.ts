@@ -30,6 +30,11 @@ export interface ConfidenceBasis {
   pooled_winrate?: number;
   pooled_expectancy_R?: number;
   confluence_score?: number;
+  conformal_coverage?: number | null;
+  conformal_lower_r?: number | null;
+  conformal_upper_r?: number | null;
+  conformal_sample_size?: number;
+  conformal_guaranteed?: boolean;
 }
 
 export interface CanonicalSignal {
