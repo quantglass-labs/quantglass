@@ -530,5 +530,525 @@
       "screen": "signals",
       "cta": "Take any signal's confluence_score from its basis and recompute it from the formula in this lesson."
     }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "module_id": "intermediate",
+    "track_id": "risk-position-sizing",
+    "tier": "intermediate",
+    "order": 13,
+    "title": "R-Multiples: The Trader's Native Unit",
+    "summary": "Measure every result in units of planned risk.",
+    "concept": "Define **1R** as the dollars you planned to lose if the stop is hit. Every outcome then becomes an **R-multiple**: stop out = −1R; an exit at twice the stop's distance = +2R. The unit travels across symbols, prices, and account sizes — a +1.5R on a $3 coin and a +1.5R on a $900 stock are the *same achievement*.\n\nWhy it matters: dollars mislead (they conflate skill with size), percentages mislead (they conflate skill with volatility), but R isolates **decision quality against planned risk**. A method's history in R is directly comparable across everything you trade.\n\nQuantGlass speaks R natively: backtest expectancy is reported in R, the take-profit ladder is placed at R-based distances, costs are converted into R before deduction, and the conformal range brackets the *next trade's R*. Learn to think in R and every number in the app becomes one language.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "The planned loss if the stop is hit."
+      },
+      {
+        "term": "R-multiple",
+        "definition": "A result divided by planned risk: stop-out = −1R."
+      },
+      {
+        "term": "Expectancy (R)",
+        "definition": "Average R per trade across a sample."
+      },
+      {
+        "term": "Risk normalization",
+        "definition": "Comparing trades across symbols by measuring in R."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "Entry 200.00, stop 192.00, you sell the full position at 212.00. What is the result in R?",
+      "hint": "R = (exit − entry) ÷ (entry − stop)",
+      "correct_answer": "1.5",
+      "tolerance_percent": 1.0,
+      "explanation": "Risk per unit = 200 − 192 = 8. Gain per unit = 212 − 200 = 12. 12 ÷ 8 = **+1.5R** — the same answer whether you traded 10 shares or 10,000."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open any preset's metrics: expectancy and avgR are exactly this unit, computed over every simulated trade."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "module_id": "intermediate",
+    "track_id": "risk-position-sizing",
+    "tier": "intermediate",
+    "order": 14,
+    "title": "Portfolio Heat: Risk Across All Positions",
+    "summary": "Per-trade risk is not enough — cap the total.",
+    "concept": "Sizing one trade at 1% means little if you open eight of them. **Portfolio heat** is the sum of open risk: if every stop were hit at once, what fraction of the account burns? Eight 1% positions = 8% heat — and if those positions are *correlated* (three majors in a crypto selloff move as one), the 'eight independent stops' fantasy collapses into one large bet.\n\nWorking rules: cap total heat (4–6% is a common discipline), count correlated positions as overlapping risk rather than independent bets, and treat heat as a budget — a new trade must fit the remaining budget or not be taken.\n\nYour QuantGlass paper account makes heat auditable: each open position's distance to its intended stop times its size, summed. The coaching panel's oversized-position moment is the single-position version of this check; the portfolio version is yours to run before every new entry.",
+    "key_terms": [
+      {
+        "term": "Portfolio heat",
+        "definition": "Total loss if every open stop is hit."
+      },
+      {
+        "term": "Correlation",
+        "definition": "Positions that move together — overlapping, not independent, risk."
+      },
+      {
+        "term": "Heat budget",
+        "definition": "A hard cap on total open risk."
+      },
+      {
+        "term": "Concentration",
+        "definition": "Excess exposure to one symbol or theme."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "You risk 1% per trade and hold six open crypto longs in a market where majors move together. What is your realistic exposure?",
+      "options": [
+        "1% — per-trade risk is all that matters.",
+        "About 6% of the account behaving like one large bet, because correlated positions tend to hit their stops together.",
+        "0% — diversification cancels risk.",
+        "60% of the account."
+      ],
+      "correct_index": 1,
+      "explanation": "Heat sums to ~6%, and correlation means the six stops are likely to fire in the same storm. Correlated heat is one big trade wearing six costumes."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Sum your open paper positions' risk-to-stop. What is your current heat as a percent of balance?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "module_id": "intermediate",
+    "track_id": "risk-position-sizing",
+    "tier": "intermediate",
+    "order": 15,
+    "title": "Drawdown: The Arithmetic of Losing Streaks",
+    "summary": "Why losses hurt more than the same-size gains help.",
+    "concept": "**Drawdown** is the drop from a peak to a subsequent trough in your equity. Its cruelty is asymmetric arithmetic: lose 20% and you need **+25%** to recover; lose 50% and you need **+100%**. Recovery requirements grow faster than the losses that created them.\n\nLosing streaks are not anomalies — they are certainties. With a 50% win rate, a 7-loss streak has roughly a 1-in-128 chance *per any 7 trades*, which over hundreds of trades approaches inevitability. Risking 1% per trade, that streak dents the account ~7%; risking 5%, it carves ~30% and the recovery math turns vicious.\n\nQuantGlass reports **max drawdown** and the full drawdown curve on every backtest, computed from the simulated equity path. Read it before admiring any win rate: the drawdown curve is what holding the strategy would have *felt* like.",
+    "key_terms": [
+      {
+        "term": "Drawdown",
+        "definition": "Peak-to-trough equity decline."
+      },
+      {
+        "term": "Max drawdown",
+        "definition": "The deepest such decline in a record."
+      },
+      {
+        "term": "Recovery asymmetry",
+        "definition": "A −X% loss needs more than +X% to repair."
+      },
+      {
+        "term": "Losing streak",
+        "definition": "Consecutive losses — a statistical certainty over enough trades."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "An account falls 20% from its peak. What percentage gain (on the reduced balance) is required just to return to the peak?",
+      "hint": "From 100 to 80; what % of 80 gets back to 100?",
+      "correct_answer": "25",
+      "tolerance_percent": 1.0,
+      "explanation": "80 × 1.25 = 100, so **25%**. The deeper the hole, the steeper the climb — at −50% the requirement becomes +100%."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open a preset's drawdown curve and find its deepest point — that valley is the strategy's true stress test."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "module_id": "intermediate",
+    "track_id": "trade-planning",
+    "tier": "intermediate",
+    "order": 16,
+    "title": "The Written Trade Plan",
+    "summary": "Five sentences that separate a trade from a gamble.",
+    "concept": "A trade without a plan is a mood with money attached. A complete plan answers five questions **before entry**, in writing: **Setup** — what pattern, on what timeframe, justifies this? **Entry** — at what price or zone? **Invalidation** — where is the idea wrong (the stop), in price terms decided *now*, not negotiated later? **Targets** — where and how will you exit if right? **Size** — how many units so that invalidation costs the planned fraction of the account?\n\nNotice that a QuantGlass signal card is literally a pre-filled version of this template: setup type, entry zone, stop, ladder, and the sizing lesson's formula. Your job is not to invent the form — it is to *agree or disagree with each line* before acting.\n\nThe plan's power is timing: every answer is written while you are calm and the money is theoretical. Execution becomes clerical, which is exactly what it should be.",
+    "key_terms": [
+      {
+        "term": "Trade plan",
+        "definition": "Written setup, entry, invalidation, targets, and size — before entry."
+      },
+      {
+        "term": "Invalidation-first",
+        "definition": "Deciding where you are wrong before deciding how much to buy."
+      },
+      {
+        "term": "Pre-commitment",
+        "definition": "Locking decisions in while calm so execution is clerical."
+      },
+      {
+        "term": "Plan adherence",
+        "definition": "The discipline metric a journal makes visible."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which element of a trade plan must be fixed FIRST, because every other number depends on it?",
+      "options": [
+        "The profit target.",
+        "The invalidation (stop) level — size is derived from it, and targets are measured against it.",
+        "The order type.",
+        "The trade's nickname."
+      ],
+      "correct_index": 1,
+      "explanation": "Risk-first planning: invalidation defines 1R; size comes from the account's risk budget divided by that distance; targets are expressed in R against it."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal and read it as a five-line trade plan — which line, if any, do you disagree with?"
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "module_id": "intermediate",
+    "track_id": "trade-planning",
+    "tier": "intermediate",
+    "order": 17,
+    "title": "The Trade Journal",
+    "summary": "Your only honest mirror.",
+    "concept": "Memory is a flattering editor: it remembers your wins as skill and your losses as bad luck. A **journal** is the unedited record. For every trade, log: the plan (all five lines), the *reason* in one sentence, the execution (did you follow the plan?), the result in R, and the emotional state at entry and exit.\n\nThe payoff is pattern discovery your memory will never volunteer: 'my breakout trades in ranging regimes lose', 'I cut winners early after two losses', 'every revenge trade follows a stop-out within an hour'. These are *fixable* once visible — and invisible without the record.\n\nYour QuantGlass paper history already records the mechanical half automatically (entries, exits, sizes, results). The written half — reason and emotional state — is the part only you can supply, and it is the half where the lessons live.",
+    "key_terms": [
+      {
+        "term": "Trade journal",
+        "definition": "The unedited record of plans, executions, results, and states of mind."
+      },
+      {
+        "term": "Plan adherence",
+        "definition": "Whether the executed trade matched the written plan."
+      },
+      {
+        "term": "Pattern discovery",
+        "definition": "Recurring, fixable behaviors the journal exposes."
+      },
+      {
+        "term": "Emotional tagging",
+        "definition": "Recording your state at entry/exit — tilt's early-warning system."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "What is the single most diagnostic field in a trade journal?",
+      "options": [
+        "The trade's profit in dollars.",
+        "Whether the execution matched the written plan — deviations, not losses, are where the fixable mistakes hide.",
+        "The time of day.",
+        "The number of indicators used."
+      ],
+      "correct_index": 1,
+      "explanation": "Losses on followed plans are tuition; profits on broken plans are loans. Plan adherence is the field that tells those apart."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Look at your last three paper trades: for each, write the one-sentence reason you entered — if you cannot, that is the finding."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "module_id": "intermediate",
+    "track_id": "trade-planning",
+    "tier": "intermediate",
+    "order": 18,
+    "title": "Entries and Exits: Where Discipline Lives",
+    "summary": "Good entries are patient; good exits are pre-decided.",
+    "concept": "**Entries**: the engine's entry zone is a bracket, not a starting gun. Chasing price beyond the zone silently worsens every number you planned: your real stop distance grows, your real R:R shrinks, and your size — computed for the planned distance — becomes oversized for the actual one. If the zone is gone, the trade is gone; another bus always comes.\n\n**Exits** are harder because they are decided under emotion — unless they are not. The pre-decided exit set: the **stop** (full exit, no negotiation), the **ladder** (the engine's staged 50/30/20 takes profit while leaving room), and **time** (a setup that goes nowhere for many bars has failed quietly — the backtester itself enforces a max holding period per timeframe).\n\nThe quiet rule underneath both: every discretionary deviation you allow yourself becomes the precedent for the next, larger one.",
+    "key_terms": [
+      {
+        "term": "Chasing",
+        "definition": "Entering beyond the planned zone — silently degrading stop, R:R, and size."
+      },
+      {
+        "term": "Scaling out",
+        "definition": "Staged exits, like the engine's 50/30/20 ladder."
+      },
+      {
+        "term": "Time stop",
+        "definition": "Exiting when a setup stalls — the backtest's max-hold rule."
+      },
+      {
+        "term": "Exit discipline",
+        "definition": "Executing pre-decided exits without renegotiation."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Price runs 1.5% above the signal's entry zone and you enter anyway with the planned size. What actually changed?",
+      "options": [
+        "Nothing — entries are approximate.",
+        "Your true stop distance grew and your R:R shrank, while your size still assumes the old distance — the planned trade no longer exists.",
+        "The stop moved up automatically.",
+        "Your fees went down."
+      ],
+      "correct_index": 1,
+      "explanation": "All three planned numbers (risk distance, reward ratio, size-for-risk) were computed from the zone. Entering elsewhere is taking a different, worse trade with the old labels."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Compare a signal's entry zone to the current price — is the trade still the one the engine measured, or has the bus left?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "module_id": "intermediate",
+    "track_id": "trade-planning",
+    "tier": "intermediate",
+    "order": 19,
+    "title": "Checklists and Routines",
+    "summary": "Borrowed from aviation: discipline as a procedure, not a mood.",
+    "concept": "Pilots do not skip the pre-flight checklist on days they feel sharp — *especially* not on those days. A trading checklist serves the same purpose: it makes the minimum standard mechanical.\n\nA pre-trade checklist worth stealing: **(1)** Is the signal fresh (closed candle, current badge)? **(2)** Does the regime match the setup family? **(3)** Is confluence acceptable and do I understand each reason? **(4)** Is invalidation defined and does size match my risk budget? **(5)** Does this fit my portfolio heat? **(6)** Have I written the one-sentence reason?\n\nA daily routine wraps it: review open positions against their plans, scan the coaching panel for moments, log yesterday's exits in the journal, *then* look for new setups — in that order, so management precedes shopping. Routines feel bureaucratic precisely until the volatile day when they are the only part of you still thinking clearly.",
+    "key_terms": [
+      {
+        "term": "Pre-trade checklist",
+        "definition": "Mechanical minimum checks before any entry."
+      },
+      {
+        "term": "Routine",
+        "definition": "A fixed daily order: manage, review, then hunt."
+      },
+      {
+        "term": "Regime match",
+        "definition": "Setup family agreeing with the current market regime."
+      },
+      {
+        "term": "Heat check",
+        "definition": "Confirming the new trade fits the remaining risk budget."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the daily routine put position management BEFORE looking for new trades?",
+      "options": [
+        "New trades are more fun.",
+        "Open risk is live risk — managing existing positions and stops protects the account before any new exposure is added.",
+        "Markets reward alphabetical order.",
+        "It doesn't matter."
+      ],
+      "correct_index": 1,
+      "explanation": "Existing positions can hurt you today; prospective ones cannot. Securing live risk first is triage, not preference."
+    },
+    "live_apply": {
+      "screen": "alerts",
+      "cta": "Set an alert on one open position's invalidation level — turning a checklist item into an automated guard."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "module_id": "intermediate",
+    "track_id": "trade-planning",
+    "tier": "intermediate",
+    "order": 20,
+    "title": "Reviewing Your Own Statistics",
+    "summary": "Turn your paper history into evidence about you.",
+    "concept": "After 20–30 journaled trades you own a dataset, and it answers questions opinions cannot. Compute your **win rate** (wins ÷ trades), **average R**, and **expectancy** (mean R per trade) — then slice them: by setup family, by regime, by day, by whether the plan was followed.\n\nRead it like an analyst: a positive expectancy with a 40% win rate is a healthy trend-following profile (small losses, larger wins); a 70% win rate with negative expectancy means tiny wins and occasional catastrophes — the profile of stop-negotiation. The single most valuable slice is **followed-plan vs broke-plan**: if your followed-plan expectancy beats your broke-plan expectancy (it almost always does), you have personal, numerical proof that your discipline — not your cleverness — is the edge.\n\nMind the sample-size lesson the engine keeps teaching: 10 trades is an anecdote. The shrinkage math that disciplines the engine's confidence applies to your stats too.",
+    "key_terms": [
+      {
+        "term": "Win rate",
+        "definition": "Wins ÷ total trades — meaningless without average R beside it."
+      },
+      {
+        "term": "Expectancy",
+        "definition": "Mean R per trade — the number that decides if a method earns."
+      },
+      {
+        "term": "Slicing",
+        "definition": "Computing stats per setup, regime, or adherence to find where the edge lives."
+      },
+      {
+        "term": "Anecdote threshold",
+        "definition": "Small samples: treat early stats as direction, not verdicts."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your journal shows: followed-plan trades average +0.31R over 25 trades; broke-plan trades average −0.58R over 11. What is the finding?",
+      "options": [
+        "You should trade more often.",
+        "Quantified proof that plan adherence is your edge: the same trader, minus discipline, is net-losing.",
+        "The 11 broke-plan trades were unlucky.",
+        "Win rate is missing, so nothing can be concluded."
+      ],
+      "correct_index": 1,
+      "explanation": "Same person, same market, different behavior, opposite expectancy. This is the most persuasive statistic a journal ever produces — and only a journal can produce it."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "The engine slices its stats by setup and regime in every preset — apply the identical method to your own paper history."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "module_id": "intermediate",
+    "track_id": "market-regimes",
+    "tier": "intermediate",
+    "order": 21,
+    "title": "Detecting the Regime",
+    "summary": "Trending, ranging, volatile, transitional — the engine's exact rules.",
+    "concept": "A **regime** is the market's prevailing character, and QuantGlass classifies it with auditable rules on every closed bar. First the volatility override: if ATR as a share of price is at least **1.7×** its 50-bar median, the regime is **volatile** — storms outrank everything. Otherwise ADX decides: **≥ 22 → trending**, **< 16 → ranging**, and the awkward middle (16–22) → **transitional**.\n\nWhy these mechanics matter to you: the regime is not commentary, it is a **gate**. Pullback and breakout families only fire in trending (pullbacks also in transitional); mean reversion only fires in ranging. A 'beautiful' setup in the wrong regime is, to the engine, no setup at all.\n\nEvery signal prints its regime in the confidence basis, so you can always trace which gate was open when the signal fired.",
+    "key_terms": [
+      {
+        "term": "Regime",
+        "definition": "The market's prevailing character: trending, ranging, volatile, transitional."
+      },
+      {
+        "term": "Volatility override",
+        "definition": "ATR% ≥ 1.7× its 50-bar median → volatile, regardless of ADX."
+      },
+      {
+        "term": "ADX thresholds",
+        "definition": "≥22 trending, <16 ranging, between → transitional."
+      },
+      {
+        "term": "Setup gating",
+        "definition": "Families only fire in their compatible regimes."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "ADX is 30, but ATR-as-percent-of-price is double its 50-bar median. What regime does the engine report?",
+      "options": [
+        "Trending — ADX 30 is decisive.",
+        "Volatile — the volatility override outranks the ADX reading.",
+        "Ranging.",
+        "No regime can be computed."
+      ],
+      "correct_index": 1,
+      "explanation": "The volatile check runs first: 2.0× ≥ 1.7× median triggers it. A strong trend inside a storm is still a storm, and storm rules apply."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Read the market_regime field on three signals and verify each setup family was legal in its regime."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "module_id": "intermediate",
+    "track_id": "market-regimes",
+    "tier": "intermediate",
+    "order": 22,
+    "title": "Trading With the Regime, Not Against It",
+    "summary": "The same setup has opposite outcomes in different regimes.",
+    "concept": "Every setup family carries an implicit regime assumption. **Pullback buying** assumes a trend that resumes — in a range it is catching falling knives at midline. **Breakout trading** assumes extremes extend — in a range, the extreme *is* the reversal point, which is why ranging-regime breakouts are the canonical fakeout. **Mean reversion** assumes a magnetic average — in a trend, 'stretched' just gets more stretched while you fade it.\n\nThis is why the engine refuses cross-regime trades structurally and why its breakout family demands the trending gate *plus* volume at the recent average: regime answers 'is this market the kind where this idea works?', and that question precedes any entry geometry.\n\nYour discretionary corollary: before judging any setup — the engine's or your own — name the regime aloud. Most bad trades are good setups in the wrong weather.",
+    "key_terms": [
+      {
+        "term": "Regime assumption",
+        "definition": "The market character a setup family implicitly requires."
+      },
+      {
+        "term": "Fakeout",
+        "definition": "A range-bound 'breakout' that reverses at the extreme."
+      },
+      {
+        "term": "Fading",
+        "definition": "Trading against the prevailing direction — lethal in trends."
+      },
+      {
+        "term": "Weather check",
+        "definition": "Naming the regime before judging any setup."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why are breakouts in a ranging regime systematically unreliable?",
+      "options": [
+        "Breakouts require lunar alignment.",
+        "In a range, the prior extreme is exactly where supply/demand reversed before — pushing through it without trend energy usually mean-reverts.",
+        "Volume is illegal in ranges.",
+        "They are reliable; ranges are ideal for breakouts."
+      ],
+      "correct_index": 1,
+      "explanation": "Range extremes are the proven reversal zones of that range. Without a trending regime supplying follow-through, the break is statistically a stretch, not an escape."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Compare a breakout preset's stats to a mean-reversion preset's — each earns its keep only in its own regime."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "module_id": "intermediate",
+    "track_id": "market-regimes",
+    "tier": "intermediate",
+    "order": 23,
+    "title": "Volatility Regimes: Compressed, Normal, Expanded",
+    "summary": "The second regime axis — and how it sizes your stop.",
+    "concept": "Independent of direction, volatility itself cycles. QuantGlass measures the current **ATR as a percent of price** against its **30-bar median**: at or below **0.8×** → **compressed**; at or above **1.25×** → **expanded**; between → **normal**.\n\nThe classification has teeth — it sets the **stop multiple** on every setup: compressed → **1.3×** ATR, normal → **1.45×**, expanded → **1.6×**. The logic: in expanded conditions, ordinary noise swings are larger, so a stop must stand farther back to measure the *idea* rather than the static. And because position size derives from stop distance, expanded volatility automatically means smaller size for the same account risk — the system breathes with the market.\n\nCompression has its own message: volatility is mean-reverting, so long quiet spells store energy. The squeeze you met in the Keltner lesson is this regime wearing its chart costume.",
+    "key_terms": [
+      {
+        "term": "ATR percent",
+        "definition": "ATR ÷ price — volatility normalized for comparison."
+      },
+      {
+        "term": "Compression",
+        "definition": "ATR% ≤ 0.8× its 30-bar median — energy storing."
+      },
+      {
+        "term": "Expansion",
+        "definition": "ATR% ≥ 1.25× median — wider noise, wider stops, smaller size."
+      },
+      {
+        "term": "Adaptive stop multiple",
+        "definition": "1.3 / 1.45 / 1.6 × ATR by volatility regime."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Volatility shifts from normal to expanded. For the same setup and the same account risk, what does the engine's logic imply?",
+      "options": [
+        "Tighter stop, bigger size.",
+        "A wider stop (1.6× ATR instead of 1.45×) and therefore a smaller position for the same dollar risk.",
+        "No change — volatility is cosmetic.",
+        "Skip all trades forever."
+      ],
+      "correct_index": 1,
+      "explanation": "Wider noise demands a wider stop to avoid being shaken out by static; the sizing formula then divides the same risk budget by a larger distance — smaller size, same risk."
+    },
+    "live_apply": {
+      "screen": "symbol-detail",
+      "cta": "Find a signal's volatility_regime in its basis and check the stop's distance is the matching ATR multiple."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "module_id": "intermediate",
+    "track_id": "market-regimes",
+    "tier": "intermediate",
+    "order": 24,
+    "title": "Regime Transitions: Where Most Money Is Lost",
+    "summary": "Markets change character faster than habits do.",
+    "concept": "Regimes end. Trends decay into ranges (ADX bleeding from the high 20s toward 16), ranges erupt into trends (often via a compressed-volatility squeeze breaking out), and anything can detonate into the volatile regime in a single bar of news. The dangerous moment is never the regime — it is the **handoff**, because traders keep playing yesterday's game: buying pullbacks after the trend has died, fading extremes just as the range breaks.\n\nThe engine's defenses are visible in its rules: the **transitional** band (ADX 16–22) keeps the most regime-sensitive families cautious; classification is re-run on **every closed candle**, so a change of character shows up within bars; and the volatility override yanks setups off the table the moment storm conditions hit.\n\nYour behavioral mirror: when your previously-working approach produces three losses in a row, check the regime *before* checking your self-worth. Often the method is fine — the weather changed.",
+    "key_terms": [
+      {
+        "term": "Regime transition",
+        "definition": "The handoff between market characters — the high-loss zone."
+      },
+      {
+        "term": "ADX decay",
+        "definition": "Trend strength bleeding toward the ranging threshold."
+      },
+      {
+        "term": "Squeeze breakout",
+        "definition": "Compression resolving into a new trend."
+      },
+      {
+        "term": "Per-bar re-classification",
+        "definition": "The engine re-runs regime detection on every closed candle."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your pullback entries worked for weeks, then three in a row fail. What is the FIRST diagnostic to run?",
+      "options": [
+        "Double the size to win it back.",
+        "Check the current regime — pullback setups assume a trend, and ADX may have decayed below the gate while your habits kept trading.",
+        "Switch to a new indicator immediately.",
+        "Conclude trading is impossible."
+      ],
+      "correct_index": 1,
+      "explanation": "Three losses is exactly what a dead trend does to pullback buyers. The regime check separates 'the weather changed' from 'the method is broken' — and the engine runs that check every single bar."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Note today's regimes across your watchlist, then again tomorrow — count the handoffs the per-bar classifier caught."
+    }
   }
 ]
