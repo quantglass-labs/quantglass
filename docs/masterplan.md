@@ -19,7 +19,7 @@ the same PR that closes the issue. Strategy and research behind each item:
 ## Phase A — Pre-public polish (milestone 1)
 
 - [x] A1 Structured-output narration + numeric fact guard — [#19](https://github.com/quantglass-labs/quantglass/issues/19)
-- [ ] A2 lightweight-charts v5 + multi-pane indicators — [#20](https://github.com/quantglass-labs/quantglass/issues/20)
+- [x] A2 lightweight-charts v5 (upgrade done; multi-pane follow-up in #20) + multi-pane indicators — [#20](https://github.com/quantglass-labs/quantglass/issues/20)
 - [x] A3 SQLite WAL + numbered migration framework — [#21](https://github.com/quantglass-labs/quantglass/issues/21)
 - [ ] A4 Finish settings tab extraction, restore set-state-in-effect to error — [#17](https://github.com/quantglass-labs/quantglass/issues/17)
 - [x] A5 Lesson JSON Schema validated in CI — [#22](https://github.com/quantglass-labs/quantglass/issues/22)

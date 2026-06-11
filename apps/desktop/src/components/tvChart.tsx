@@ -1,7 +1,15 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ColorType, CrosshairMode, LineStyle, createChart } from 'lightweight-charts';
+import {
+  CandlestickSeries,
+  ColorType,
+  CrosshairMode,
+  LineSeries,
+  LineStyle,
+  createChart,
+  createSeriesMarkers,
+} from 'lightweight-charts';
 import { useEffect, useMemo, useRef } from 'react';
 import type { Candle } from '../types';
 
@@ -254,7 +262,7 @@ export function TradingViewCandlestickChart({
       },
     });
 
-    const series = chart.addCandlestickSeries({
+    const series = chart.addSeries(CandlestickSeries, {
       upColor: '#18c37f',
       downColor: '#f05b78',
       wickUpColor: '#18c37f',
@@ -266,7 +274,7 @@ export function TradingViewCandlestickChart({
     const targetMarker = candles.length ? candles[Math.max(0, candles.length - 8)] : undefined;
 
     series.setData(candleData);
-    series.setMarkers([
+    createSeriesMarkers(series, [
       ...(entryMarker
         ? [
             {
@@ -336,24 +344,36 @@ export function TradingViewCandlestickChart({
       }
     }
 
-    const emaSeries = chart.addLineSeries({ color: '#8db7ff', lineWidth: 2, visible: showEma });
+    const emaSeries = chart.addSeries(LineSeries, {
+      color: '#8db7ff',
+      lineWidth: 2,
+      visible: showEma,
+    });
     emaSeries.setData(lineData(candles, ema));
-    const smaSeries = chart.addLineSeries({ color: '#f0b84b', lineWidth: 2, visible: showSma });
+    const smaSeries = chart.addSeries(LineSeries, {
+      color: '#f0b84b',
+      lineWidth: 2,
+      visible: showSma,
+    });
     smaSeries.setData(lineData(candles, sma));
-    const upperSeries = chart.addLineSeries({
+    const upperSeries = chart.addSeries(LineSeries, {
       color: 'rgba(79,139,255,0.65)',
       lineWidth: 1,
       visible: showBollinger,
     });
     upperSeries.setData(lineData(candles, bollingerUpper));
-    const lowerSeries = chart.addLineSeries({
+    const lowerSeries = chart.addSeries(LineSeries, {
       color: 'rgba(79,139,255,0.65)',
       lineWidth: 1,
       visible: showBollinger,
     });
     lowerSeries.setData(lineData(candles, bollingerLower));
     priceSeries.forEach((line) => {
-      const customSeries = chart.addLineSeries({ color: line.color, lineWidth: 2, visible: true });
+      const customSeries = chart.addSeries(LineSeries, {
+        color: line.color,
+        lineWidth: 2,
+        visible: true,
+      });
       customSeries.setData(lineData(candles, line.values));
     });
 
