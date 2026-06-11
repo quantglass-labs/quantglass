@@ -40,18 +40,25 @@ class LearnRouteTests(unittest.TestCase):
     def setUp(self) -> None:
         self.client, self.store = _build_client()
 
-    def test_catalog_lists_all_tiers_and_lessons(self) -> None:
+    def test_catalog_groups_levels_into_tracks(self) -> None:
         response = self.client.get("/api/learn/catalog")
         self.assertEqual(response.status_code, 200)
         payload = response.json()
-        tiers = [module["id"] for module in payload["modules"]]
-        self.assertEqual(tiers, ["novice", "intermediate", "advanced", "expert"])
-        total = sum(module["total"] for module in payload["modules"])
+        levels = [level["id"] for level in payload["levels"]]
+        self.assertEqual(levels, ["novice", "intermediate", "advanced", "expert"])
+        total = sum(level["total"] for level in payload["levels"])
         self.assertEqual(payload["progress"]["total"], total)
         self.assertEqual(payload["progress"]["completed"], 0)
-        first_lesson = payload["modules"][0]["lessons"][0]
+        novice = payload["levels"][0]
+        track_ids = [track["id"] for track in novice["tracks"]]
+        self.assertIn("chart-literacy", track_ids)
+        self.assertIn("first-signal", track_ids)
+        chart = next(t for t in novice["tracks"] if t["id"] == "chart-literacy")
+        self.assertEqual(chart["total"], 4)
+        first_lesson = chart["lessons"][0]
         for field in ("id", "order", "title", "summary", "tier", "completed"):
             self.assertIn(field, first_lesson)
+        self.assertEqual(sum(track["total"] for track in novice["tracks"]), novice["total"])
 
     def test_get_lesson_returns_full_content(self) -> None:
         response = self.client.get("/api/learn/lesson/novice-01-candlestick")

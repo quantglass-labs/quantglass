@@ -44,7 +44,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open any signal and look at market_regime in the confidence_basis.  Find one 'ranging' and one 'trending' signal."
-    }
+    },
+    "track_id": "strategy-families"
   },
   {
     "id": "advanced-02-macd",
@@ -87,7 +88,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find a HOLD or WATCH signal — these often have MACD not agreeing with direction, lowering confidence."
-    }
+    },
+    "track_id": "strategy-families"
   },
   {
     "id": "advanced-03-bollinger-bands",
@@ -130,7 +132,8 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find a range_meanreversion signal.  The entry zone will be near the BB Lower (long) or BB Upper (short)."
-    }
+    },
+    "track_id": "strategy-families"
   },
   {
     "id": "advanced-04-backtest-reading",
@@ -177,7 +180,8 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Open Backtesting, select any preset, and compare IS Win Rate vs OOS Win Rate.  Find one where OOS is close to IS."
-    }
+    },
+    "track_id": "statistical-honesty"
   },
   {
     "id": "advanced-05-confidence-basis",
@@ -220,6 +224,7 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open any signal drawer and expand the Confidence Basis section.  Find a signal where OOS_validated = True and one where it is False."
-    }
+    },
+    "track_id": "statistical-honesty"
   }
 ]

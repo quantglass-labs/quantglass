@@ -39,7 +39,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 
 ## Academy engineering workstream (milestone: QuantGlass Academy)
 
-- [ ] ACAD-1 **Curriculum architecture**: multi-track catalog (modules.json
+- [x] ACAD-1 **Curriculum architecture**: multi-track catalog (modules.json
       gains tracks-per-tier; catalog API and Learn sidebar group by level →
       track), level checkpoints, schema migration for the existing 20 lessons
 - [ ] ACAD-2 **Content Wave 1 — Foundations** (~30 lessons): Market
@@ -59,9 +59,9 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
       overtrading cadence, journal-skipping
 - [ ] ACAD-9 **Scenario replay (LL4)**: drive paper trading through
       historical episodes with graded, engine-fact debriefs
-- [ ] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
+- [x] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
       extension SDK, schema-validated, surfaced through the registry (E7)
-- [ ] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
+- [x] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
       completion certificates
 
 Shipped foundations: lesson JSON content + schema CI ✅ · lesson moments v1

@@ -162,21 +162,16 @@ function ProgressBar({ done, total, tier }: { done: number; total: number; tier?
 // Sidebar module item
 // ---------------------------------------------------------------------------
 
-interface ModuleSectionProps {
-  module: LearnCatalogResponse['modules'][0];
+interface LevelSectionProps {
+  level: LearnCatalogResponse['levels'][0];
   activeLessonId: string | null;
   onSelectLesson: (lesson: LessonStub) => void;
   defaultOpen: boolean;
 }
 
-function ModuleSection({
-  module,
-  activeLessonId,
-  onSelectLesson,
-  defaultOpen,
-}: ModuleSectionProps) {
+function LevelSection({ level, activeLessonId, onSelectLesson, defaultOpen }: LevelSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
-  const c = TIER_COLORS[module.tier];
+  const c = TIER_COLORS[level.id];
   return (
     <div className="mb-2">
       <button
@@ -192,36 +187,48 @@ function ModuleSection({
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-sm font-medium text-zinc-200 truncate">{module.title}</span>
-            <TierBadge tier={module.tier} />
+            <span className="text-sm font-medium text-zinc-200 truncate">{level.title}</span>
+            <TierBadge tier={level.id} />
           </div>
-          <ProgressBar done={module.completed} total={module.total} tier={module.tier} />
+          <ProgressBar done={level.completed} total={level.total} tier={level.id} />
         </div>
       </button>
 
       {open && (
-        <div className="ml-5 mt-0.5 space-y-0.5">
-          {module.lessons.map((lesson) => (
-            <button
-              key={lesson.id}
-              onClick={() => onSelectLesson(lesson)}
-              className={clsx(
-                'w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-left transition-colors',
-                activeLessonId === lesson.id
-                  ? 'bg-indigo-600/30 text-indigo-200'
-                  : 'hover:bg-zinc-800/60 text-zinc-400 hover:text-zinc-200',
-              )}
-            >
-              {lesson.completed ? (
-                <CheckCircle2
-                  size={14}
-                  className={clsx('shrink-0', c.dot.replace('bg-', 'text-'))}
-                />
-              ) : (
-                <Circle size={14} className="shrink-0 text-zinc-600" />
-              )}
-              <span className="text-xs truncate">{lesson.title}</span>
-            </button>
+        <div className="ml-4 mt-0.5 space-y-1">
+          {level.tracks.map((track) => (
+            <div key={track.id}>
+              <p className="px-3 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                {track.title}
+                <span className="ml-2 font-normal normal-case tracking-normal">
+                  {track.completed}/{track.total}
+                </span>
+              </p>
+              <div className="space-y-0.5">
+                {track.lessons.map((lesson) => (
+                  <button
+                    key={lesson.id}
+                    onClick={() => onSelectLesson(lesson)}
+                    className={clsx(
+                      'w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-left transition-colors',
+                      activeLessonId === lesson.id
+                        ? 'bg-indigo-600/30 text-indigo-200'
+                        : 'hover:bg-zinc-800/60 text-zinc-400 hover:text-zinc-200',
+                    )}
+                  >
+                    {lesson.completed ? (
+                      <CheckCircle2
+                        size={14}
+                        className={clsx('shrink-0', c.dot.replace('bg-', 'text-'))}
+                      />
+                    ) : (
+                      <Circle size={14} className="shrink-0 text-zinc-600" />
+                    )}
+                    <span className="text-xs truncate">{lesson.title}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )}
@@ -643,11 +650,13 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   // Auto-select first incomplete lesson once catalog arrives
   useEffect(() => {
     if (!catalog || activeLessonId) return;
-    for (const mod of catalog.modules) {
-      const first = mod.lessons.find((l) => !l.completed) ?? mod.lessons[0];
-      if (first) {
-        setActiveLessonId(first.id);
-        break;
+    for (const level of catalog.levels) {
+      for (const track of level.tracks) {
+        const first = track.lessons.find((l) => !l.completed) ?? track.lessons[0];
+        if (first) {
+          setActiveLessonId(first.id);
+          return;
+        }
       }
     }
   }, [catalog]);
@@ -723,13 +732,18 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               ))}
             </div>
           )}
-          {catalog?.modules.map((mod, i) => (
-            <ModuleSection
-              key={mod.id}
-              module={mod}
+          {catalog?.levels.map((level, i) => (
+            <LevelSection
+              key={level.id}
+              level={level}
               activeLessonId={activeLessonId}
               onSelectLesson={handleSelectLesson}
-              defaultOpen={i === 0 || mod.lessons.some((l) => l.id === activeLessonId)}
+              defaultOpen={
+                i === 0 ||
+                level.tracks.some((track) =>
+                  track.lessons.some((lesson) => lesson.id === activeLessonId),
+                )
+              }
             />
           ))}
         </aside>

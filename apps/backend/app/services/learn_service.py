@@ -30,18 +30,22 @@ def _load_catalog_meta() -> dict[str, Any]:
 @lru_cache(maxsize=1)
 def _load_lessons() -> tuple[dict[str, Any], ...]:
     lessons: list[dict[str, Any]] = []
-    for tier in _load_catalog_meta()["tier_order"]:
+    for tier in _load_catalog_meta()["level_order"]:
         with open(_CONTENT_DIR / f"{tier}.json", encoding="utf-8") as handle:
             lessons.extend(json.load(handle))
     return tuple(lessons)
 
 
 def _tier_order() -> list[str]:
-    return _load_catalog_meta()["tier_order"]
+    return _load_catalog_meta()["level_order"]
 
 
-def _module_meta() -> dict[str, dict[str, str]]:
-    return _load_catalog_meta()["modules"]
+def _level_meta() -> dict[str, dict[str, str]]:
+    return _load_catalog_meta()["levels"]
+
+
+def _tracks() -> list[dict[str, str]]:
+    return _load_catalog_meta()["tracks"]
 
 
 # ---------------------------------------------------------------------------
@@ -56,26 +60,43 @@ class LearnService:
     def get_catalog(self) -> dict[str, Any]:
         progress = self._store.get_learn_progress()
         completed_ids = {lid for lid, data in progress.items() if data.get("completed_at")}
-        modules = []
-        for tier in _tier_order():
-            meta = _module_meta()[tier]
-            tier_lessons = sorted(
-                [les for les in _load_lessons() if les["module_id"] == tier],
-                key=lambda les: les["order"],
-            )
-            module_completed = sum(1 for les in tier_lessons if les["id"] in completed_ids)
-            modules.append(
+        levels = []
+        for level_id in _tier_order():
+            meta = _level_meta()[level_id]
+            level_tracks = []
+            level_completed = 0
+            level_total = 0
+            for track in sorted(
+                (t for t in _tracks() if t["level"] == level_id),
+                key=lambda t: t["order"],
+            ):
+                track_lessons = sorted(
+                    (les for les in _load_lessons() if les.get("track_id") == track["id"]),
+                    key=lambda les: les["order"],
+                )
+                track_completed = sum(1 for les in track_lessons if les["id"] in completed_ids)
+                level_completed += track_completed
+                level_total += len(track_lessons)
+                level_tracks.append(
+                    {
+                        **track,
+                        "lessons": [self._lesson_stub(les, completed_ids) for les in track_lessons],
+                        "completed": track_completed,
+                        "total": len(track_lessons),
+                    }
+                )
+            levels.append(
                 {
                     **meta,
-                    "lessons": [self._lesson_stub(les, completed_ids) for les in tier_lessons],
-                    "completed": module_completed,
-                    "total": len(tier_lessons),
+                    "tracks": level_tracks,
+                    "completed": level_completed,
+                    "total": level_total,
                 }
             )
         total = len(_load_lessons())
         done = len(completed_ids & {les["id"] for les in _load_lessons()})
         return {
-            "modules": modules,
+            "levels": levels,
             "progress": {
                 "total": total,
                 "completed": done,
