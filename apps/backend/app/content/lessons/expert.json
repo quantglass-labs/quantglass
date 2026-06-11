@@ -202,5 +202,449 @@
       "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
     },
     "track_id": "going-live"
+  },
+  {
+    "id": "expert-06-conformal-prediction",
+    "module_id": "expert",
+    "track_id": "quant-validation",
+    "tier": "expert",
+    "order": 6,
+    "title": "Conformal Prediction: Guarantees Without Assumptions",
+    "summary": "The math behind the signal drawer's coverage-guaranteed range.",
+    "concept": "Most prediction intervals lean on assumptions markets refuse to honor (normality, stable variance). **Split-conformal prediction** needs almost nothing: take a calibration set of past outcomes — QuantGlass uses the **out-of-sample trade results in R** — sort them, and read off rank-adjusted quantiles. The resulting interval contains the *next* outcome with at least the stated probability, in finite samples, assuming only exchangeability (no peeking, no reordering).\n\nThe engine's exact mechanics for 90% coverage: with n calibration outcomes, the lower bound is the ⌊(n+1)·0.05⌋-th smallest and the upper the ⌈(n+1)·0.95⌉-th. Those ranks only exist when **n ≥ 19** — below that, the drawer shows *no* interval rather than an unbacked one. Honesty includes refusing to manufacture guarantees.\n\nReading the drawer's 'next-trade range −1.0R to +2.1R (90% guaranteed over 214 OOS trades)': it brackets outcomes, not profits — and the width is information: wide intervals are the data confessing its own dispersion.",
+    "key_terms": [
+      {
+        "term": "Split-conformal",
+        "definition": "Distribution-free intervals from rank statistics of a calibration set."
+      },
+      {
+        "term": "Exchangeability",
+        "definition": "The only assumption: calibration and future outcomes are order-indifferent."
+      },
+      {
+        "term": "Coverage",
+        "definition": "The guaranteed probability the next outcome falls inside the interval."
+      },
+      {
+        "term": "Minimum n",
+        "definition": "n ≥ 19 for 90% coverage — below it the engine shows nothing."
+      },
+      {
+        "term": "Interval width",
+        "definition": "Honest dispersion: wide ranges mean noisy setups."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the signal drawer sometimes show NO next-trade range at all?",
+      "options": [
+        "The feature is paid-only.",
+        "The OOS calibration set is below the minimum (19 trades for 90%) — the rank math cannot deliver the guarantee, so the engine refuses to fake one.",
+        "Conformal intervals only exist for stocks.",
+        "The range is hidden when it looks bad."
+      ],
+      "correct_index": 1,
+      "explanation": "A guarantee that cannot be computed must not be displayed. The absence of the interval is itself honest information about sample size."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal drawer with a large OOS sample and read its guaranteed range — then find one without it and check the sample size."
+    }
+  },
+  {
+    "id": "expert-07-calibration",
+    "module_id": "expert",
+    "track_id": "quant-validation",
+    "tier": "expert",
+    "order": 7,
+    "title": "Calibration: Does Confidence Mean Anything?",
+    "summary": "Predicted versus realized — the score's final exam.",
+    "concept": "A confidence score earns trust only if it is **calibrated**: among all signals scored around 70, roughly the corresponding fraction should work out; 55-scored signals should succeed less often than 75-scored ones. Calibration is checked with one disarmingly simple table: bucket past signals by confidence, then compare each bucket's *predicted* level with its *realized* frequency.\n\nFailure modes have names: **overconfidence** (realized below predicted — the dangerous one) and the reliability-diagram patterns that expose where in the range the score lies. QuantGlass already fights overconfidence structurally — shrinkage, the 62-point unvalidated cap, the hard 89 ceiling — and the calibration tracking table (the engine's roadmap capstone) closes the loop by scoring the scorer against your own app's history.\n\nThe portable habit: any score anyone shows you — including ours — deserves the question *'calibrated against what?'* A confidence number without a calibration check is an adjective wearing a costume.",
+    "key_terms": [
+      {
+        "term": "Calibration",
+        "definition": "Agreement between predicted confidence and realized frequency."
+      },
+      {
+        "term": "Reliability bucket",
+        "definition": "Signals grouped by score band, compared predicted-vs-realized."
+      },
+      {
+        "term": "Overconfidence",
+        "definition": "Realized success below predicted — the costly miscalibration."
+      },
+      {
+        "term": "Scoring the scorer",
+        "definition": "Auditing the confidence model itself against outcomes."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Signals scored 70–79 in your history succeeded 48% of the time. What is the finding?",
+      "options": [
+        "Nothing — scores are decorative.",
+        "The score is overconfident in that band: predictions outran reality, so either inputs or weighting need recalibration.",
+        "48% rounds to 75%.",
+        "Success rates cannot be measured."
+      ],
+      "correct_index": 1,
+      "explanation": "That gap is precisely what a calibration table exists to expose. A well-calibrated 70s bucket should realize near its claim — persistent shortfall means the model flatters itself."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Note the confidence of your next five acted-on signals and their outcomes — five rows of your own calibration table."
+    }
+  },
+  {
+    "id": "expert-08-monte-carlo",
+    "module_id": "expert",
+    "track_id": "quant-validation",
+    "tier": "expert",
+    "order": 8,
+    "title": "Monte Carlo: One History Is Not Enough",
+    "summary": "Resampling trade outcomes to see the futures you didn't get.",
+    "concept": "A backtest's equity curve is **one draw** from the strategy's distribution — the particular order in which wins and losses happened. Reshuffle the same trades and the max drawdown changes, sometimes dramatically: sequence is luck, and your single history embodies one lucky-or-not sequence.\n\n**Monte Carlo resampling** makes that explicit: sample trades (with replacement) from your outcome list, build thousands of synthetic equity curves, and read *distributions* instead of points — median max drawdown, the 95th-percentile drawdown, the probability of hitting a ruin threshold before a target. A strategy whose backtest shows −12% max drawdown may show a 95th-percentile of −28% under resampling; the difference is the sequence risk the single curve hid.\n\nPractical uses: size so the *95th-percentile* drawdown stays survivable (not the historical one), and set the pause-rule depth from the distribution rather than from hope. The engine's per-trade R outcomes — the same list feeding conformal calibration — are exactly the resampling input.",
+    "key_terms": [
+      {
+        "term": "Sequence risk",
+        "definition": "The dependence of drawdown on the order of outcomes."
+      },
+      {
+        "term": "Resampling",
+        "definition": "Drawing trades with replacement to generate synthetic histories."
+      },
+      {
+        "term": "Drawdown distribution",
+        "definition": "Percentiles of max drawdown across simulations."
+      },
+      {
+        "term": "Ruin probability",
+        "definition": "The fraction of paths breaching a survival threshold."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Two strategies share identical trade outcomes but different orderings, giving max drawdowns of −9% and −22%. What explains the difference?",
+      "options": [
+        "One backtest is corrupted.",
+        "Sequence: the same outcomes in unlucky order cluster losses — drawdown is path-dependent, which is exactly why Monte Carlo resamples orderings.",
+        "Drawdown is random noise with no meaning.",
+        "The −9% strategy has a better win rate."
+      ],
+      "correct_index": 1,
+      "explanation": "Same trades, same expectancy, different luck of arrangement. Judging robustness on one ordering is judging a die by one roll."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Take a preset's outcome stats and ask: if these same trades arrived in their worst plausible order, would your sizing survive it?"
+    }
+  },
+  {
+    "id": "expert-09-extension-sdk",
+    "module_id": "expert",
+    "track_id": "building-extensions",
+    "tier": "expert",
+    "order": 9,
+    "title": "The Extension SDK: One Stable Surface",
+    "summary": "Manifest, permissions, settings — extending the engine safely.",
+    "concept": "Everything an extension author needs imports from one module: `app.extensions.sdk`. It carries an explicit **SDK_VERSION** and a compatibility promise — additions bump minor, breaks bump major — so internals can refactor freely while your extension keeps working.\n\nThe anatomy: an **ExtensionManifest** declares identity (a stable id), **capabilities** (what kinds of things you provide: indicator, strategy, notification, …) and **permissions** (what you ask to touch: read_market_data, network_access, …). **ExtensionSetting** entries declare typed, user-editable configuration that surfaces automatically in Settings → Extensions. A register hook receives the **ExtensionContext** and contributes definitions — an `IndicatorDefinition` computing from candles, a `StrategyDefinition` whose candidate hook receives the same context dict the built-in families see and returns candidates that compete on confluence like any native setup.\n\nDesign rule worth copying: extensions *declare* what they need and *contribute* definitions; they never reach into engine internals. That boundary is what lets a community ship code that users can trust and audit.",
+    "key_terms": [
+      {
+        "term": "SDK_VERSION",
+        "definition": "The versioned compatibility promise of app.extensions.sdk."
+      },
+      {
+        "term": "Manifest",
+        "definition": "Identity + capabilities + permissions, declared up front."
+      },
+      {
+        "term": "Permission",
+        "definition": "An explicit grant request (network, market data, …) shown to the user."
+      },
+      {
+        "term": "Candidate hook",
+        "definition": "A strategy extension's entry into the same confluence competition as built-ins."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why must an extension declare its permissions in the manifest instead of just doing whatever its code wants?",
+      "options": [
+        "Manifests make files larger.",
+        "Declared permissions make the extension auditable and consentable — users and reviewers see exactly what is requested before any code runs.",
+        "Python requires it.",
+        "Permissions are decorative."
+      ],
+      "correct_index": 1,
+      "explanation": "The manifest is a contract shown to humans. Security reviews, registry scanning, and install-time consent all hang off that declaration — undeclared access is the definition of untrustworthy."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Extensions and read an installed extension's declared capabilities and settings — the manifest rendered as UI."
+    }
+  },
+  {
+    "id": "expert-10-publishing-extensions",
+    "module_id": "expert",
+    "track_id": "building-extensions",
+    "tier": "expert",
+    "order": 10,
+    "title": "Publishing: From Local Folder to Community Trust",
+    "summary": "Loading paths, validation, and the trust pipeline.",
+    "concept": "Shipping an extension has three maturity stages. **Local**: drop a module into the workspace `extensions/` folder (or the data-dir equivalent) and the registry loads it on startup — the development loop. **Packaged**: distribute via Python entry points under `quantglass.extensions`, installable with pip and gated behind an explicit opt-in flag, because installed code is trusted code. **Community**: the registry model — submissions reviewed, every version scanned automatically, permission diffs flagged, trusted-author labels earned — so a stranger's strategy can be installed with informed consent rather than blind faith.\n\nBefore any of that: validate. The repo ships fixture tooling that exercises an extension's contributions against known data, and your indicator/strategy must behave on closed candles only — the same honesty rules the engine obeys. An extension that peeks at the forming bar will look brilliant in dev and lie in production.\n\nThe cultural point: in most trading ecosystems, community code touching money is unreviewed by design. Making review and permissions first-class is the differentiator worth contributing to.",
+    "key_terms": [
+      {
+        "term": "Workspace loading",
+        "definition": "Dropping extensions into the local folder for development."
+      },
+      {
+        "term": "Entry point",
+        "definition": "Pip-installable distribution under quantglass.extensions, behind opt-in."
+      },
+      {
+        "term": "Permission diff",
+        "definition": "Registry alarm when a new version requests more access."
+      },
+      {
+        "term": "Closed-candle rule",
+        "definition": "Extensions must obey the same no-peeking discipline as the engine."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A community extension's update requests network_access where v1 needed none. What should the trust pipeline do?",
+      "options": [
+        "Auto-approve — updates are improvements.",
+        "Flag the permission diff for review and re-consent: scope expansion is exactly the moment supply-chain attacks happen.",
+        "Block all updates forever.",
+        "Permissions cannot change."
+      ],
+      "correct_index": 1,
+      "explanation": "Version N earning trust does not transfer to version N+1's new powers. Diffing declared permissions per release is the cheapest, highest-value check a registry performs."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Find the extension entry-point opt-in in your configuration — note that installed code requires an explicit flag, never silence."
+    }
+  },
+  {
+    "id": "expert-11-fact-guarded-ai",
+    "module_id": "expert",
+    "track_id": "ai-assisted-research",
+    "tier": "expert",
+    "order": 11,
+    "title": "Fact-Guarded Narration",
+    "summary": "How the app lets a model speak without letting it invent.",
+    "concept": "Language models are fluent and unreliable — a dangerous pairing around money. QuantGlass's narration pipeline assumes the model will eventually hallucinate and builds the cage first.\n\nThe layers: the model receives **only engine-computed facts** (the signal's numbers as JSON) with instructions to restate, not invent; generation is **schema-constrained** (structured outputs force a `{summary}` envelope — no freeform rambling to parse); the returned text passes a **numeric fact guard** that extracts every number and verifies it traces to a provided fact — one fabricated price and the entire output is discarded; and on any failure the **deterministic template** takes over, labeled as such. The narration source is always displayed, so you know whether a model or the template is speaking.\n\nThe transferable principle for any AI-assisted research you do: generation is cheap, **verification is the product**. Use models to explain verified numbers; never use them as the source of numbers.",
+    "key_terms": [
+      {
+        "term": "Fact grounding",
+        "definition": "The model may only restate engine-computed values."
+      },
+      {
+        "term": "Structured output",
+        "definition": "Schema-constrained generation — the {summary} envelope."
+      },
+      {
+        "term": "Numeric fact guard",
+        "definition": "Every number in the output must trace to a provided fact."
+      },
+      {
+        "term": "Template fallback",
+        "definition": "The deterministic, labeled path when the model fails or lies."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "The narration model outputs a fluent summary containing a price target that appears nowhere in the engine's facts. What happens?",
+      "options": [
+        "The target ships — fluency implies accuracy.",
+        "The fact guard rejects the entire output and the deterministic template renders instead, with the source labeled.",
+        "The price is silently deleted.",
+        "The model is asked to apologize."
+      ],
+      "correct_index": 1,
+      "explanation": "One untraceable number poisons the whole text — partial trust is no trust. Discard-and-fallback keeps every displayed sentence defensible."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → AI: whatever provider you choose, the guard and template fallback sit between every model and your screen."
+    }
+  },
+  {
+    "id": "expert-12-local-models",
+    "module_id": "expert",
+    "track_id": "ai-assisted-research",
+    "tier": "expert",
+    "order": 12,
+    "title": "Local Models and Gateways",
+    "summary": "Privacy, latency, and the gateway abstraction.",
+    "concept": "Where the narration model runs is a real decision. **Local** (Ollama, LM Studio, vLLM, llama.cpp): your signals, balances, and habits never leave the machine; latency is hardware-bound; capability tops out at what your GPU hosts. **API** (OpenAI-compatible clouds, Anthropic, Gemini, and routers like OpenRouter): stronger models, but your research context travels to a third party under their retention policies.\n\nQuantGlass's **model gateway** abstracts the choice: one interface, per-provider modules, runtime health checks, model discovery, and the same structured-output + fact-guard pipeline regardless of backend — switching providers is a settings change, not an architecture change. The fact guard's presence also rebalances the trade-off: since models only *restate* engine numbers here, a small local model is usually entirely sufficient, and the privacy argument for local-first gets the last word for sensitive research.\n\nMatch the tool to the stakes: local for anything touching your positions; cloud, if ever, for generic explanation where the context is public knowledge.",
+    "key_terms": [
+      {
+        "term": "Local inference",
+        "definition": "Models on your hardware — private, latency-bound, capability-capped."
+      },
+      {
+        "term": "Model gateway",
+        "definition": "One interface over Ollama/OpenAI-compatible/native providers."
+      },
+      {
+        "term": "Data residency",
+        "definition": "Where your research context physically goes."
+      },
+      {
+        "term": "Capability sufficiency",
+        "definition": "Restating guarded facts needs far less model than inventing analysis."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "For narrating signals that include your paper positions, why is a small local model often the rational default?",
+      "options": [
+        "Local models are always smarter.",
+        "The task is restating engine-verified facts under a guard — modest capability suffices, and position data never leaving the machine wins the tiebreak.",
+        "Cloud APIs cannot produce text.",
+        "Latency does not exist locally."
+      ],
+      "correct_index": 1,
+      "explanation": "The pipeline deliberately shrinks the model's job to fluent restatement. When capability requirements drop, privacy becomes the deciding criterion."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "In Settings → AI, list which configured providers run locally versus via API — and which your narration currently uses."
+    }
+  },
+  {
+    "id": "expert-13-mcp-agents",
+    "module_id": "expert",
+    "track_id": "ai-assisted-research",
+    "tier": "expert",
+    "order": 13,
+    "title": "MCP: Your Engine as an Agent's Ground Truth",
+    "summary": "Read-only tools that let AI assistants use your local engine.",
+    "concept": "The **Model Context Protocol** standardizes how AI assistants call external tools. QuantGlass ships an MCP server on loopback exposing exactly four **read-only** tools: list_signals, list_backtest_presets, get_paper_account, list_watchlist. Connect Claude or any MCP client and 'what does my watchlist's engine say today?' stops being a hallucination opportunity — the agent *calls your engine* and reasons over verified JSON.\n\nThe design choices are the lesson. **Read-only**: no order tools, no settings tools, no secrets — an agent compromise cannot move money or change configuration. **Loopback-only**: the server binds to your machine. **Self-describing honesty**: every tool's description carries the educational-not-advice framing, so even the agent's context inherits the posture.\n\nThis inverts the usual AI-trading pitch: instead of an AI inventing trades for you to trust, your deterministic engine supplies facts for an AI to explain. The intelligence stays auditable; the language stays fluent; the authority stays with the math.",
+    "key_terms": [
+      {
+        "term": "MCP",
+        "definition": "Model Context Protocol — a standard for assistant-to-tool calls."
+      },
+      {
+        "term": "Read-only surface",
+        "definition": "Facts out, never actions in — the server's security posture."
+      },
+      {
+        "term": "Loopback binding",
+        "definition": "The server answers only your own machine."
+      },
+      {
+        "term": "Grounded agent",
+        "definition": "An assistant whose market claims come from tool calls, not memory."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why does the MCP server deliberately expose no order-submission tool?",
+      "options": [
+        "MCP cannot encode orders.",
+        "Capability is risk: an agent that can only read facts cannot be tricked, prompted, or bugged into moving money — the boundary is structural, not behavioral.",
+        "Orders are too fast for AI.",
+        "It will be added for premium users."
+      ],
+      "correct_index": 1,
+      "explanation": "Security by construction beats security by instruction. No matter what a prompt says, a tool that does not exist cannot be misused."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "The MCP endpoint runs at 127.0.0.1:8000/mcp whenever the backend is up — connect an MCP-capable assistant and ask it for your signals."
+    }
+  },
+  {
+    "id": "expert-14-key-custody",
+    "module_id": "expert",
+    "track_id": "going-live",
+    "tier": "expert",
+    "order": 14,
+    "title": "Key Custody and the Secrets Boundary",
+    "summary": "Where credentials live, and the tiers of damage they can do.",
+    "concept": "Every external credential is a delegation of power, and not equally: a **read-only data key** (news, candles) leaks at worst your curiosity; a **trade-capable key** (broker key + secret) is money wearing a string costume. Custody must scale with that tier.\n\nQuantGlass's boundary: secrets never sit in plaintext rows. They live in an **encrypted local secret store**, with **OS keychain routing** for trade-capable keys where a usable keychain exists — and the keys are flagged `tradeEnabled` so the app itself knows which credentials are dangerous. The settings UI scrubs values after save; the API returns metadata, not secrets; the MCP surface exposes nothing credential-shaped at all.\n\nYour operational hygiene completes the system: create broker keys with the **minimum scopes** offered (data-only if data is all you need), prefer keys that *cannot withdraw*, rotate after any suspicion, and treat 'paste your API key' requests anywhere outside the settings screen as the scam they almost certainly are.",
+    "key_terms": [
+      {
+        "term": "Trade-capable key",
+        "definition": "A credential that can move money — the highest custody tier."
+      },
+      {
+        "term": "Encrypted secret store",
+        "definition": "Local encrypted storage; never plaintext database rows."
+      },
+      {
+        "term": "Keychain routing",
+        "definition": "OS-level custody for the dangerous tier when available."
+      },
+      {
+        "term": "Minimum scope",
+        "definition": "Keys created with the least power that does the job."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your broker offers key scopes: read-only, trade, trade+withdraw. You want QuantGlass market data and eventual paper-parity testing. Which scope is correct?",
+      "options": [
+        "trade+withdraw — maximum flexibility.",
+        "read-only now; trade only if and when live execution is deliberately unlocked; withdraw never — no app needs your withdrawal rights.",
+        "Whichever is first in the dropdown.",
+        "Scopes are equivalent."
+      ],
+      "correct_index": 1,
+      "explanation": "Scope is blast radius. Withdrawal rights in an API key convert any compromise into theft; trade rights before they are needed are pure liability."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → API Keys and identify which fields are flagged trade-capable — the app's own custody tiers made visible."
+    }
+  },
+  {
+    "id": "expert-15-going-live-gate",
+    "module_id": "expert",
+    "track_id": "going-live",
+    "tier": "expert",
+    "order": 15,
+    "title": "The Going-Live Gate",
+    "summary": "Staged exposure, earned unlocks, and the discipline of staying paper.",
+    "concept": "QuantGlass ships with **live trading off** — not as a missing feature but as a product principle: real execution should be *unlocked by demonstrated readiness*, never stumbled into. The staged path mirrors the safety engineering you have met all course: paper trading with live data (where you are now) → live mode *visible but gated* behind explicit broker credentials, a separate confirmation, and backend safety checks → if ever enabled, **tiny-size mode first**, where mistakes cost tuition rather than capital.\n\nA readiness bar worth writing down before any stage change (education, not advice): a meaningful paper sample (think 100+ trades, not 10) with positive or controlled expectancy; journal discipline near-perfect; no severe risk violations in your recent record; a written trading plan; passing your own honest review of the psychology track; and the cooling-off rule — any unlock decision made on a *different day* than the urge to make it.\n\nAnd the quiet truth this whole Academy stands on: **remaining in paper mode indefinitely is a legitimate, complete outcome.** The skills, the statistics, the discipline — all of it is real, whether or not real money is ever attached.",
+    "key_terms": [
+      {
+        "term": "Staged exposure",
+        "definition": "Paper → gated visibility → tiny-size → user-limited live."
+      },
+      {
+        "term": "Readiness bar",
+        "definition": "Written, multi-dimensional criteria — sample, discipline, plan, psychology."
+      },
+      {
+        "term": "Cooling-off rule",
+        "definition": "Unlock decisions deferred to a calmer, later day."
+      },
+      {
+        "term": "Paper as outcome",
+        "definition": "Staying in simulation is a valid end state, not a failure."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "What is the strongest argument for making live trading opt-in behind demonstrated readiness, rather than on by default?",
+      "options": [
+        "It increases subscription revenue.",
+        "Defaults are destiny: most harm comes from undertrained users meeting real leverage early, and a readiness gate converts the default path into the safe path.",
+        "Brokers require it.",
+        "Paper trading uses less electricity."
+      ],
+      "correct_index": 1,
+      "explanation": "Safety engineering puts the guard rail where the cliff is. A gate that must be consciously, demonstrably earned makes the dangerous path deliberate and the safe path automatic."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Risk: find the trading-mode gate and its requirements — the staged unlock rendered as UI."
+    }
   }
 ]
