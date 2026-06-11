@@ -756,6 +756,27 @@ export interface LearnMoment {
   lesson_completed: boolean;
 }
 
+export interface AssessmentQuestion {
+  lesson_id: string;
+  title: string;
+  question: string;
+  options: string[];
+}
+
+export interface Assessment {
+  level: LessonTier;
+  pass_percent: number;
+  questions: AssessmentQuestion[];
+}
+
+export interface AssessmentResult {
+  level: LessonTier;
+  score: number;
+  passed: boolean;
+  pass_percent: number;
+  results: { lesson_id: string; correct: boolean; explanation: string }[];
+}
+
 export interface ReadinessRequirement {
   label: string;
   met: boolean;

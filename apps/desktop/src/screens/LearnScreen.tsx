@@ -20,6 +20,8 @@ import type {
   LearnCatalogResponse,
   LearnMoment,
   LearnReadiness,
+  Assessment,
+  AssessmentResult,
   LessonRecord,
   LessonStub,
   LessonTier,
@@ -32,6 +34,7 @@ import {
   CheckCircle2,
   Circle,
   GraduationCap,
+  ListChecks,
   Lock,
   Lightbulb,
   SquareArrowOutUpRight,
@@ -171,6 +174,7 @@ interface LevelSectionProps {
   defaultOpen: boolean;
   locked?: boolean;
   lockReasons?: string[];
+  onTakeAssessment: (level: LessonTier) => void;
 }
 
 function LevelSection({
@@ -180,6 +184,7 @@ function LevelSection({
   defaultOpen,
   locked,
   lockReasons,
+  onTakeAssessment,
 }: LevelSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   const c = TIER_COLORS[level.id];
@@ -208,6 +213,21 @@ function LevelSection({
           </div>
           <ProgressBar done={level.completed} total={level.total} tier={level.id} />
         </div>
+        <span
+          role="button"
+          tabIndex={0}
+          title={`Take the ${level.id} assessment`}
+          className="shrink-0 rounded-md p-1 text-zinc-500 hover:text-indigo-300 hover:bg-zinc-800"
+          onClick={(event) => {
+            event.stopPropagation();
+            onTakeAssessment(level.id);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') onTakeAssessment(level.id);
+          }}
+        >
+          <ListChecks size={14} />
+        </span>
       </button>
 
       {open && (
@@ -255,6 +275,144 @@ function LevelSection({
 // ---------------------------------------------------------------------------
 // Exercise renderer
 // ---------------------------------------------------------------------------
+
+function AssessmentView({
+  level,
+  onClose,
+  onGraded,
+}: {
+  level: LessonTier;
+  onClose: () => void;
+  onGraded: () => void;
+}) {
+  const [exam, setExam] = useState<Assessment | null>(null);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    backendClient
+      .getAssessment(level)
+      .then(setExam)
+      .catch(() => setError('Could not load the assessment. Is the backend running?'));
+  }, [level]);
+
+  async function submit() {
+    try {
+      const graded = await backendClient.submitAssessment(level, answers);
+      setResult(graded);
+      onGraded();
+    } catch {
+      setError('Could not submit the assessment. Try again.');
+    }
+  }
+
+  const resultByLesson = new Map((result?.results ?? []).map((r) => [r.lesson_id, r]));
+
+  return (
+    <div className="max-w-3xl">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-zinc-100 capitalize">{level} assessment</h2>
+        <button
+          type="button"
+          className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
+          onClick={onClose}
+        >
+          Back to lessons
+        </button>
+      </div>
+      <p className="mt-1 text-sm text-zinc-500">
+        {exam ? `${exam.questions.length} questions · pass at ${exam.pass_percent}%` : 'Loading…'}
+        {' · '}graded by the backend, best result kept.
+      </p>
+      {error ? <p className="mt-4 text-sm text-amber-300">{error}</p> : null}
+      {result ? (
+        <div
+          className={`mt-4 rounded-xl border p-4 text-sm ${
+            result.passed
+              ? 'border-emerald-500/40 bg-emerald-600/10 text-emerald-200'
+              : 'border-amber-500/40 bg-amber-600/10 text-amber-200'
+          }`}
+        >
+          {result.passed ? 'Passed' : 'Not yet'} — score {result.score}% (bar {result.pass_percent}
+          %).{' '}
+          {result.passed
+            ? 'This gate is now permanently met.'
+            : 'Review the explanations below and retake any time.'}
+        </div>
+      ) : null}
+      <div className="mt-5 space-y-5">
+        {exam?.questions.map((q, qi) => {
+          const feedback = resultByLesson.get(q.lesson_id);
+          return (
+            <div key={q.lesson_id} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">
+                Question {qi + 1} · {q.title}
+              </p>
+              <p className="mt-2 text-sm text-zinc-200">{q.question}</p>
+              <div className="mt-3 space-y-1.5">
+                {q.options.map((option, oi) => (
+                  <label
+                    key={oi}
+                    className={`flex items-start gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer ${
+                      answers[q.lesson_id] === oi
+                        ? 'border-indigo-500/60 bg-indigo-600/15 text-zinc-100'
+                        : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      className="mt-0.5 accent-indigo-500"
+                      name={q.lesson_id}
+                      checked={answers[q.lesson_id] === oi}
+                      disabled={Boolean(result)}
+                      onChange={() => setAnswers((current) => ({ ...current, [q.lesson_id]: oi }))}
+                    />
+                    <span>{option}</span>
+                  </label>
+                ))}
+              </div>
+              {feedback ? (
+                <p
+                  className={`mt-3 text-sm ${feedback.correct ? 'text-emerald-300' : 'text-amber-300'}`}
+                >
+                  {feedback.correct ? 'Correct. ' : 'Incorrect. '}
+                  {feedback.explanation}
+                </p>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+      {exam && !result ? (
+        <button
+          type="button"
+          disabled={Object.keys(answers).length < exam.questions.length}
+          className="mt-5 rounded-lg border border-indigo-500/50 px-4 py-2 text-sm text-indigo-200 hover:bg-indigo-600/20 disabled:opacity-40 disabled:cursor-not-allowed"
+          onClick={() => void submit()}
+        >
+          Submit answers
+        </button>
+      ) : null}
+      {result && !result.passed ? (
+        <button
+          type="button"
+          className="mt-5 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+          onClick={() => {
+            setResult(null);
+            setAnswers({});
+            backendClient
+              .getAssessment(level)
+              .then(setExam)
+              .catch(() => undefined);
+          }}
+        >
+          Retake with fresh questions
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 const LIVE_EXERCISE_LESSONS = new Set(['intermediate-03-atr', 'intermediate-05-position-sizing']);
 
@@ -641,6 +799,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [catalog, setCatalog] = useState<LearnCatalogResponse | null>(null);
   const [moments, setMoments] = useState<LearnMoment[]>([]);
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
+  const [assessmentLevel, setAssessmentLevel] = useState<LessonTier | null>(null);
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
   const [activeLesson, setActiveLesson] = useState<LessonRecord | null>(null);
   const [lessonLoading, setLessonLoading] = useState(false);
@@ -792,6 +951,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               level={level}
               activeLessonId={activeLessonId}
               onSelectLesson={handleSelectLesson}
+              onTakeAssessment={(lvl) => setAssessmentLevel(lvl)}
               locked={readiness?.levels.find((l) => l.id === level.id)?.unlocked === false}
               lockReasons={readiness?.levels
                 .find((l) => l.id === level.id)
@@ -809,54 +969,73 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6">
-          {moments.length > 0 && (
-            <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
-                Coaching moments from your paper trading
-              </p>
-              <div className="mt-3 space-y-2">
-                {moments.slice(0, 3).map((moment) => (
-                  <button
-                    key={moment.id}
-                    type="button"
-                    className="block w-full rounded-lg border border-zinc-700/60 bg-zinc-900/40 p-3 text-left text-sm text-zinc-300 hover:border-indigo-400/60"
-                    onClick={() => setActiveLessonId(moment.lesson_id)}
-                  >
-                    {moment.message}
-                    <span className="mt-1 block text-xs text-indigo-300">Open the lesson →</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {error && (
-            <div className="rounded-xl border border-red-500/30 bg-red-600/10 p-4 text-sm text-red-300 mb-4">
-              {error}
-            </div>
-          )}
-
-          {lessonLoading && (
-            <div className="space-y-4">
-              {[200, 120, 80, 240].map((h, i) => (
-                <div
-                  key={i}
-                  className="rounded-xl bg-zinc-800/60 animate-pulse"
-                  style={{ height: h }}
-                />
-              ))}
-            </div>
-          )}
-
-          {!lessonLoading && !activeLesson && !error && (
-            <EmptyLearnState message={catalog ? 'Select a lesson to begin.' : 'Loading catalog…'} />
-          )}
-
-          {!lessonLoading && activeLesson && (
-            <LessonViewer
-              lesson={activeLesson}
-              onNavigate={onNavigate}
-              onLessonCompleted={handleLessonCompleted}
+          {assessmentLevel ? (
+            <AssessmentView
+              level={assessmentLevel}
+              onClose={() => setAssessmentLevel(null)}
+              onGraded={() => {
+                backendClient
+                  .getLearnReadiness()
+                  .then(setReadiness)
+                  .catch(() => undefined);
+              }}
             />
+          ) : (
+            <>
+              {moments.length > 0 && (
+                <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+                    Coaching moments from your paper trading
+                  </p>
+                  <div className="mt-3 space-y-2">
+                    {moments.slice(0, 3).map((moment) => (
+                      <button
+                        key={moment.id}
+                        type="button"
+                        className="block w-full rounded-lg border border-zinc-700/60 bg-zinc-900/40 p-3 text-left text-sm text-zinc-300 hover:border-indigo-400/60"
+                        onClick={() => setActiveLessonId(moment.lesson_id)}
+                      >
+                        {moment.message}
+                        <span className="mt-1 block text-xs text-indigo-300">
+                          Open the lesson →
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {error && (
+                <div className="rounded-xl border border-red-500/30 bg-red-600/10 p-4 text-sm text-red-300 mb-4">
+                  {error}
+                </div>
+              )}
+
+              {lessonLoading && (
+                <div className="space-y-4">
+                  {[200, 120, 80, 240].map((h, i) => (
+                    <div
+                      key={i}
+                      className="rounded-xl bg-zinc-800/60 animate-pulse"
+                      style={{ height: h }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {!lessonLoading && !activeLesson && !error && (
+                <EmptyLearnState
+                  message={catalog ? 'Select a lesson to begin.' : 'Loading catalog…'}
+                />
+              )}
+
+              {!lessonLoading && activeLesson && (
+                <LessonViewer
+                  lesson={activeLesson}
+                  onNavigate={onNavigate}
+                  onLessonCompleted={handleLessonCompleted}
+                />
+              )}
+            </>
           )}
         </main>
       </div>

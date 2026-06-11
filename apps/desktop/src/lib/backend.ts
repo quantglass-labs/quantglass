@@ -55,6 +55,8 @@ import type {
   LearnCatalogResponse,
   LearnMomentsResponse,
   LearnReadiness,
+  Assessment,
+  AssessmentResult,
   LiveExercise,
   LiveExerciseResult,
   LearnProgress,
@@ -437,6 +439,15 @@ export const backendClient = {
       `/api/learn/lesson/${encodeURIComponent(lessonId)}/live-check`,
       { method: 'POST', body: JSON.stringify(body) },
     );
+  },
+  getAssessment(level: string) {
+    return requestJson<Assessment>(`/api/learn/assessment/${encodeURIComponent(level)}`);
+  },
+  submitAssessment(level: string, answers: Record<string, number>) {
+    return requestJson<AssessmentResult>(`/api/learn/assessment/${encodeURIComponent(level)}`, {
+      method: 'POST',
+      body: JSON.stringify({ answers }),
+    });
   },
   getLearnReadiness() {
     return requestJson<LearnReadiness>('/api/learn/readiness');
