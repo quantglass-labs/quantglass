@@ -414,15 +414,21 @@ function AssessmentView({
   );
 }
 
-const LIVE_EXERCISE_LESSONS = new Set(['intermediate-03-atr', 'intermediate-05-position-sizing']);
-
-function LiveExercisePanel({ lessonId, onComplete }: { lessonId: string; onComplete: () => void }) {
+function LiveExercisePanel({
+  lessonId,
+  enabled,
+  onComplete,
+}: {
+  lessonId: string;
+  enabled: boolean;
+  onComplete: () => void;
+}) {
   const [exercise, setExercise] = useState<LiveExercise | null>(null);
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState<LiveExerciseResult | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 
-  if (!LIVE_EXERCISE_LESSONS.has(lessonId)) return null;
+  if (!enabled) return null;
 
   async function loadExercise() {
     setResult(null);
@@ -738,7 +744,11 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
       {/* Exercise */}
       <ExerciseController lesson={lesson} onComplete={onLessonCompleted} />
-      <LiveExercisePanel lessonId={lesson.id} onComplete={onLessonCompleted} />
+      <LiveExercisePanel
+        lessonId={lesson.id}
+        enabled={Boolean(lesson.live_exercise)}
+        onComplete={onLessonCompleted}
+      />
 
       {/* Try It Live */}
       {lesson.live_apply && (

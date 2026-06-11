@@ -181,6 +181,15 @@
     "track_id": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$"
+    },
+    "live_exercise": {
+      "enum": [
+        "atr_stop",
+        "position_size",
+        "target_price",
+        "round_trip_cost",
+        "stop_distance_pct"
+      ]
     }
   }
 }

@@ -135,3 +135,42 @@ class LearnLiveExerciseTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GeneratorRegistryTests(unittest.TestCase):
+    def test_declared_lessons_supported(self) -> None:
+        service, _ = _service()
+        for lesson_id in (
+            "intermediate-03-atr",
+            "intermediate-04-risk-reward",
+            "intermediate-05-position-sizing",
+            "intermediate-23-volatility-regimes",
+            "novice-12-fees-slippage",
+        ):
+            self.assertTrue(service.supports(lesson_id), lesson_id)
+
+    def test_target_price_generator(self) -> None:
+        service, _ = _service()
+        exercise = service.build_exercise("intermediate-04-risk-reward")
+        assert exercise is not None
+        # close 100, ATR 4: target = 100 + 4*1.45*2.4 = 113.92
+        result = service.check_answer("intermediate-04-risk-reward", "113.92", exercise["params"])
+        self.assertTrue(result["correct"])
+
+    def test_round_trip_cost_generator(self) -> None:
+        service, _ = _service()
+        exercise = service.build_exercise("novice-12-fees-slippage")
+        assert exercise is not None
+        # one unit at close 100 -> 100 * 0.003 = 0.30
+        result = service.check_answer("novice-12-fees-slippage", "0.30", exercise["params"])
+        self.assertTrue(result["correct"])
+
+    def test_stop_distance_pct_generator(self) -> None:
+        service, _ = _service()
+        exercise = service.build_exercise("intermediate-23-volatility-regimes")
+        assert exercise is not None
+        # 4*1.45/100*100 = 5.8%
+        result = service.check_answer(
+            "intermediate-23-volatility-regimes", "5.8", exercise["params"]
+        )
+        self.assertTrue(result["correct"])

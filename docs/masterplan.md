@@ -51,7 +51,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with â
       engine surfaces (conformal drawer, calibration table, SDK, MCP)
 - [ ] ACAD-6 **Mastery loop (LL3)**: spaced-repetition review queue,
       XP/streaks, per-track badges, level-gate assessments
-- [ ] ACAD-7 **Live-exercise framework (LL2 scale-up)**: generator registry
+- [x] ACAD-7 **Live-exercise framework (LL2 scale-up)**: generator registry
       so any lesson can declare a live exercise (today: 2 lessons); target
       every concept-bearing lesson in Waves 1â€“3
 - [ ] ACAD-8 **Lesson moments v2 (LL1 scale-up)**: detector library grows

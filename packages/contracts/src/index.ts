@@ -696,6 +696,7 @@ export interface LessonRecord {
   key_terms: LessonKeyTerm[];
   exercise: LessonExercise;
   live_apply: LessonLiveApply;
+  live_exercise?: string;
   /** True when the authenticated user has completed this lesson. */
   completed: boolean;
 }

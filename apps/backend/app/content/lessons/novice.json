@@ -541,7 +541,8 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Open Backtesting and find the fees/slippage assumptions on a preset — they match the defaults this lesson used."
-    }
+    },
+    "live_exercise": "round_trip_cost"
   },
   {
     "id": "novice-13-market-participants",
