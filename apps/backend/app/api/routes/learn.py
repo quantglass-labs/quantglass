@@ -163,3 +163,31 @@ async def submit_assessment(level: str, body: AssessmentSubmission, request: Req
 async def list_missions(request: Request) -> dict:
     """Behavioral missions evaluated over the user's own paper trading."""
     return request.app.state.mission_service.list_missions()
+
+
+@router.get("/scenarios")
+async def list_scenarios(request: Request) -> dict:
+    """Replay missions: historical-episode scenarios with best scores."""
+    return request.app.state.scenario_service.list_scenarios()
+
+
+@router.get("/scenarios/{scenario_id}")
+async def get_scenario(scenario_id: str, request: Request) -> dict:
+    """One scenario: candles and checkpoint questions, without the answers."""
+    scenario = request.app.state.scenario_service.get_scenario(scenario_id)
+    if scenario is None:
+        raise HTTPException(status_code=404, detail="Unknown scenario")
+    return scenario
+
+
+class ScenarioAnswers(BaseModel):
+    answers: dict[str, str]
+
+
+@router.post("/scenarios/{scenario_id}/grade")
+async def grade_scenario(scenario_id: str, body: ScenarioAnswers, request: Request) -> dict:
+    """Grade the run: points, pass/fail, and the engine-fact debrief."""
+    result = request.app.state.scenario_service.grade(scenario_id, body.answers)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Unknown scenario")
+    return result

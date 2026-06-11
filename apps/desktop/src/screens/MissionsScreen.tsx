@@ -10,13 +10,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { CheckCircle2, Circle, Target } from 'lucide-react';
+import { CheckCircle2, Circle, PlayCircle, Target } from 'lucide-react';
 
 import { backendClient } from '../lib/backend';
-import type { BackendStatus, MissionRecord } from '../types';
+import { ScenarioPlayer } from './missions/ScenarioPlayer';
+import type { BackendStatus, MissionRecord, ScenarioDetail, ScenarioSummary } from '../types';
 
 export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus }) {
   const [missions, setMissions] = useState<MissionRecord[] | null>(null);
+  const [scenarios, setScenarios] = useState<ScenarioSummary[] | null>(null);
+  const [activeScenario, setActiveScenario] = useState<ScenarioDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,7 +28,29 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       .getMissions()
       .then((response) => setMissions(response.items))
       .catch(() => setError('Could not load missions. Is the backend running?'));
+    backendClient
+      .getScenarios()
+      .then((response) => setScenarios(response.items))
+      .catch(() => setScenarios([]));
   }, [backendStatus]);
+
+  const openScenario = (scenarioId: string) => {
+    void backendClient.getScenario(scenarioId).then(setActiveScenario);
+  };
+
+  if (activeScenario) {
+    return (
+      <div className="mx-auto max-w-4xl">
+        <ScenarioPlayer
+          scenario={activeScenario}
+          onExit={() => {
+            setActiveScenario(null);
+            void backendClient.getScenarios().then((response) => setScenarios(response.items));
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -109,6 +134,52 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </div>
         ))}
       </div>
+      {scenarios && scenarios.length > 0 ? (
+        <>
+          <h2 className="mt-10 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+            <PlayCircle size={15} className="text-indigo-400" />
+            Replay missions
+          </h2>
+          <p className="mt-1 text-xs text-zinc-600">
+            Stylized recreations of real market episodes. Play them bar by bar and make the calls —
+            the debrief grades the decision, not the outcome.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {scenarios.map((scenario) => (
+              <button
+                key={scenario.id}
+                type="button"
+                onClick={() => openScenario(scenario.id)}
+                className={`rounded-xl border p-5 text-left transition-colors hover:border-indigo-400/50 ${
+                  scenario.passed
+                    ? 'border-emerald-500/40 bg-emerald-600/10'
+                    : 'border-zinc-800 bg-zinc-900/40'
+                }`}
+              >
+                <p className="font-semibold text-zinc-100">
+                  {scenario.title}
+                  <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+                    {scenario.level}
+                  </span>
+                </p>
+                <p className="mt-1 line-clamp-3 text-sm text-zinc-400">{scenario.description}</p>
+                <p className="mt-3 text-xs text-zinc-500">
+                  {scenario.checkpoints} decisions · pass at {scenario.pass_percent}%
+                  {scenario.best_percent !== null ? (
+                    <span
+                      className={`ml-2 font-semibold ${
+                        scenario.passed ? 'text-emerald-300' : 'text-amber-300'
+                      }`}
+                    >
+                      best {scenario.best_percent}%
+                    </span>
+                  ) : null}
+                </p>
+              </button>
+            ))}
+          </div>
+        </>
+      ) : null}
       <p className="mt-6 text-xs text-zinc-600">
         Completing missions unlocks Academy levels. Educational use only — not financial advice.
       </p>
