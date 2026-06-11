@@ -128,3 +128,10 @@ async def check_live_answer(lesson_id: str, body: LiveAnswerRequest, request: Re
     if not svc.supports(lesson_id):
         raise HTTPException(status_code=404, detail=f"Lesson '{lesson_id}' has no live exercise.")
     return svc.check_answer(lesson_id, body.answer, body.params)
+
+
+@router.get("/readiness")
+async def get_readiness(request: Request) -> dict:
+    """Return the five readiness scores and per-level unlock requirements."""
+    svc = request.app.state.learn_readiness_service
+    return svc.get_readiness()
