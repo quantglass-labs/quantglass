@@ -49,7 +49,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with â
       Psychology** (~25 lessons)
 - [x] ACAD-5 **Content Wave 4 â€” Expert** (~15 lessons), paired 1:1 with
       engine surfaces (conformal drawer, calibration table, SDK, MCP)
-- [ ] ACAD-6 **Mastery loop (LL3)**: spaced-repetition review queue,
+- [x] ACAD-6 **Mastery loop (LL3)**: spaced-repetition review queue,
       XP/streaks, per-track badges, level-gate assessments
 - [x] ACAD-7 **Live-exercise framework (LL2 scale-up)**: generator registry
       so any lesson can declare a live exercise (today: 2 lessons); target
@@ -57,7 +57,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with â
 - [ ] ACAD-8 **Lesson moments v2 (LL1 scale-up)**: detector library grows
       with the curriculum â€” R-multiple violations, regime-mismatched setups,
       overtrading cadence, journal-skipping
-- [ ] ACAD-9 **Scenario replay (LL4)**: drive paper trading through
+- [x] ACAD-9 (subsumed by MSN-6) **Scenario replay (LL4)**: drive paper trading through
       historical episodes with graded, engine-fact debriefs
 - [ ] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
       extension SDK, schema-validated, surfaced through the registry (E7)

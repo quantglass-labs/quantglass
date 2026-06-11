@@ -165,6 +165,31 @@ async def list_missions(request: Request) -> dict:
     return request.app.state.mission_service.list_missions()
 
 
+@router.get("/mastery")
+async def get_mastery(request: Request) -> dict:
+    """XP, level, streak, track badges, and the review-queue count."""
+    return request.app.state.learn_mastery_service.mastery()
+
+
+@router.get("/review-queue")
+async def get_review_queue(request: Request) -> dict:
+    """Due and new spaced-repetition cards over completed lessons' key terms."""
+    return request.app.state.learn_mastery_service.review_queue()
+
+
+class ReviewGrade(BaseModel):
+    term: str
+    grade: str  # again | good | easy
+
+
+@router.post("/review-grade")
+async def grade_review_card(body: ReviewGrade, request: Request) -> dict:
+    """Self-graded recall; reschedules the card with SM-2-lite."""
+    if body.grade not in {"again", "good", "easy"}:
+        raise HTTPException(status_code=422, detail="grade must be again, good, or easy")
+    return request.app.state.learn_mastery_service.grade(body.term, body.grade)
+
+
 @router.get("/glossary")
 async def get_glossary(request: Request) -> dict:
     """Global glossary aggregated from every lesson's key terms."""

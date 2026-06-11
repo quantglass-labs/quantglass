@@ -68,6 +68,8 @@ import type {
   ScenarioGradeResponse,
   GlossaryResponse,
   ReferenceResponse,
+  MasteryResponse,
+  ReviewQueueResponse,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -508,6 +510,19 @@ export const backendClient = {
   },
   getConstitutionCompliance() {
     return requestJson<ConstitutionCompliance>('/api/constitution/compliance');
+  },
+  getMastery() {
+    return requestJson<MasteryResponse>('/api/learn/mastery');
+  },
+  getReviewQueue() {
+    return requestJson<ReviewQueueResponse>('/api/learn/review-queue');
+  },
+  gradeReviewCard(term: string, grade: 'again' | 'good' | 'easy') {
+    return requestJson<{ term: string; interval_days: number }>('/api/learn/review-grade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ term, grade }),
+    });
   },
   getGlossary() {
     return requestJson<GlossaryResponse>('/api/learn/glossary');
