@@ -6,6 +6,27 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Coverage-guaranteed signal confidence: split-conformal next-trade R
+  intervals over out-of-sample trades, shown in the signal drawer.
+- Model Context Protocol server at `POST /mcp` exposing read-only engine
+  facts (signals, backtest presets, paper account, watchlist).
+- Lesson moments: coaching derived from the user's own paper trading,
+  served at `/api/learn/moments` and surfaced on the Learn screen.
+- Structured-output narration with a numeric fact guard across Ollama and
+  OpenAI-compatible providers.
+- Numbered SQLite migration framework with WAL journaling.
+- JSON Schema validation for lesson content in CI.
+- Stable extension authoring surface `app.extensions.sdk` with SDK_VERSION.
+
+### Changed
+
+- lightweight-charts upgraded to v5 (new series API, markers plugin).
+- Signal engine, state store, model gateway, and learn content refactored
+  into focused modules/packages; settings screen decomposed into per-tab
+  components.
+
 ## [0.1.0] - 2026-06-11
 
 First public preview release.
