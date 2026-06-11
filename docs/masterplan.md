@@ -63,7 +63,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
       extension SDK, schema-validated, surfaced through the registry (E7)
 - [ ] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
       completion certificates
-- [ ] ACAD-12 **Wave 5 — blueprint expansion**: scams & fake gurus,
+- [x] ACAD-12 **Wave 5 — blueprint expansion**: scams & fake gurus,
       margin/leverage, options, fundamentals, macro, microstructure, risk
       officer mode (from [academy.md](academy.md)) — [#42](https://github.com/quantglass-labs/quantglass/issues/42)
 - [x] ACAD-13 (v1 soft gating) **Gated progression**: five-dimension readiness scores,
