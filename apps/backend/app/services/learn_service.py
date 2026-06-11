@@ -36,6 +36,13 @@ def _load_lessons() -> tuple[dict[str, Any], ...]:
     return tuple(lessons)
 
 
+@lru_cache(maxsize=1)
+def _load_reference() -> tuple[dict[str, Any], ...]:
+    reference_file = _CONTENT_DIR.parent / "reference" / "reference.json"
+    with open(reference_file, encoding="utf-8") as handle:
+        return tuple(json.load(handle))
+
+
 def _tier_order() -> list[str]:
     return _load_catalog_meta()["level_order"]
 
@@ -113,6 +120,26 @@ class LearnService:
                 },
             },
         }
+
+    def get_glossary(self) -> dict[str, Any]:
+        """Every key term across the catalog, deduped, with its source lesson."""
+        seen: dict[str, dict[str, Any]] = {}
+        for lesson in _load_lessons():
+            for key_term in lesson.get("key_terms", []):
+                term = key_term["term"]
+                if term.lower() not in seen:
+                    seen[term.lower()] = {
+                        "term": term,
+                        "definition": key_term["definition"],
+                        "lesson_id": lesson["id"],
+                        "lesson_title": lesson["title"],
+                    }
+        items = sorted(seen.values(), key=lambda entry: entry["term"].lower())
+        return {"items": items}
+
+    def get_reference(self) -> dict[str, Any]:
+        """The reference library: indicators, order types, formulas, red flags."""
+        return {"sections": list(_load_reference())}
 
     def get_lesson(self, lesson_id: str) -> dict[str, Any] | None:
         lesson = next((les for les in _load_lessons() if les["id"] == lesson_id), None)

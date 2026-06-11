@@ -256,6 +256,10 @@
         "type": "monte_carlo",
         "title": "Two hundred shuffles of the same trades."
       }
+    ],
+    "common_mistakes": [
+      "Reading the median path as the expectation. The spread of paths - especially the 95th percentile drawdown - is the decision-relevant output.",
+      "Resampling without considering regime clustering. Shuffled returns underestimate streaks; real losses arrive in bunches."
     ]
   },
   {
@@ -649,7 +653,11 @@
       "screen": "signals",
       "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
     },
-    "track_id": "going-live"
+    "track_id": "going-live",
+    "common_mistakes": [
+      "Writing a constitution and never amending it. A policy that does not evolve with evidence becomes a relic; review it on schedule, not on impulse.",
+      "Making rules so strict they get abandoned in week two. A constitution you actually follow at 80% strictness beats a perfect one you ignore."
+    ]
   },
   {
     "id": "expert-14-key-custody",
@@ -752,6 +760,10 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Going live to make paper trading 'feel real'. If paper discipline is missing, money makes it worse, not better.",
+      "Scaling to full size immediately after the gate. Live execution has costs and emotions paper never models - earn size in stages."
     ]
   },
   {

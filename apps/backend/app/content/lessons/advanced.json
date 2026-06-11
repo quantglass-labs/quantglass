@@ -623,6 +623,11 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Tuning parameters until the curve looks perfect. That curve describes the past you optimized for, not the future.",
+      "Testing on the same data that suggested the idea. In-sample discovery demands out-of-sample proof - no exceptions.",
+      "Ignoring costs. A strategy with 0.2R average edge dies entirely to spread and slippage."
     ]
   },
   {
@@ -1139,6 +1144,10 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Believing knowing a bias defeats it. Biases operate pre-consciously; only process (checklists, plans, automation) defends against them.",
+      "Cherry-picking remembered wins as evidence of skill. The journal exists because memory is the most biased dataset you own."
     ]
   },
   {
@@ -1199,7 +1208,16 @@
           ]
         }
       }
-    ]
+    ],
+    "common_mistakes": [
+      "Trading to win back a loss. Revenge trades are sized by anger and timed by impatience - the two worst portfolio managers.",
+      "Believing tilt only follows losses. Winning streaks tilt traders into oversizing just as reliably ('dangerous success').",
+      "Trying to out-discipline tilt in the moment. The fix is structural: daily caps and cool-downs decided in advance."
+    ],
+    "bridge": {
+      "cta": "Apply it: The Operator mission requires ten consecutive disciplined trades - tilt resets the streak.",
+      "mission_id": "the-operator"
+    }
   },
   {
     "id": "advanced-22-discipline-systems",
@@ -1243,6 +1261,9 @@
     "live_apply": {
       "screen": "alerts",
       "cta": "Replace one chart-watching habit right now: set alerts at your open positions' decision levels and close the chart."
+    },
+    "bridge": {
+      "cta": "Apply it: adopt your Trading Constitution in Review - the ticket will hold you to it."
     }
   },
   {
@@ -1287,6 +1308,10 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Read your main preset's max drawdown and write down, in advance, your personal pause depth and restart rule."
+    },
+    "bridge": {
+      "cta": "Apply it: replay The Gap Down and manage a liquidity shock with process, not adrenaline.",
+      "scenario_id": "the-gap-down"
     }
   },
   {
@@ -1412,6 +1437,10 @@
           "atrPercent": 3
         }
       }
+    ],
+    "common_mistakes": [
+      "Reading 10x leverage as 10x profit. It is 10x exposure: a 10% adverse move is the entire account.",
+      "Forgetting funding and borrow costs. Leveraged positions bleed carry daily, even when price goes nowhere."
     ]
   },
   {
@@ -1465,6 +1494,10 @@
           "atrPercent": 3
         }
       }
+    ],
+    "common_mistakes": [
+      "Treating the liquidation price as a stop. Liquidation seizes the position at the worst price plus penalty; a stop is your choice at your level.",
+      "Adding margin to defend a losing leveraged position - converting a bounded loss into an unbounded one."
     ]
   },
   {

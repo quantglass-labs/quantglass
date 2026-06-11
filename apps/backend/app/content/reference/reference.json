@@ -1,0 +1,159 @@
+[
+  {
+    "id": "indicators",
+    "title": "Indicator Reference",
+    "description": "Every indicator the engine computes, what it measures, and how to read it.",
+    "items": [
+      {
+        "name": "EMA (Exponential Moving Average)",
+        "formula": "EMA_t = price * k + EMA_{t-1} * (1 - k),  k = 2 / (n + 1)",
+        "notes": "Trend direction and dynamic support/resistance. Recent bars weigh more than old ones; the 20/50 pair defines the engine's trend read."
+      },
+      {
+        "name": "RSI (Relative Strength Index)",
+        "formula": "RSI = 100 - 100 / (1 + avg_gain / avg_loss), over 14 bars",
+        "notes": "Momentum oscillator, 0-100. Above 70 stretched, below 30 washed out - but in strong trends RSI stays pinned, so read it with the regime gate, never alone."
+      },
+      {
+        "name": "ATR (Average True Range)",
+        "formula": "TR = max(high - low, |high - prev_close|, |low - prev_close|); ATR = avg(TR, 14)",
+        "notes": "Volatility in price units. The engine sizes stop distances in ATR multiples (1.3-1.6x) so stops scale with conditions instead of feelings."
+      },
+      {
+        "name": "ADX (Average Directional Index)",
+        "formula": "ADX = avg(100 * |+DI - -DI| / (+DI + -DI))",
+        "notes": "Trend strength, not direction. The engine's regime gate reads trending above 22, ranging below 16, with a volatile override at 1.7x median ATR%."
+      },
+      {
+        "name": "MACD",
+        "formula": "MACD = EMA(12) - EMA(26); signal = EMA(MACD, 9); histogram = MACD - signal",
+        "notes": "Momentum shifts via moving-average convergence. Histogram flips lead crossovers; both lag price by construction."
+      },
+      {
+        "name": "Bollinger Bands",
+        "formula": "middle = SMA(20); bands = middle +/- 2 * stdev(20)",
+        "notes": "Volatility envelope. Touches are information, not signals - walks down the band are how crashes look."
+      },
+      {
+        "name": "VWAP",
+        "formula": "VWAP = sum(price * volume) / sum(volume), session-anchored",
+        "notes": "The volume-weighted average participant entry. Institutional benchmark: above it buyers are in control on the session."
+      }
+    ]
+  },
+  {
+    "id": "order-types",
+    "title": "Order Types",
+    "description": "What each order actually instructs the venue to do, and what can go wrong.",
+    "items": [
+      {
+        "name": "Market order",
+        "notes": "Execute now at the best available price. Guarantees the fill, never the price - in thin books the slippage is yours."
+      },
+      {
+        "name": "Limit order",
+        "notes": "Execute at your price or better. Guarantees the price, never the fill - the market can run without you."
+      },
+      {
+        "name": "Stop order",
+        "notes": "Becomes a market order when the stop price trades. The standard exit mechanism; gaps can fill it far beyond the stop (see The Gap Down replay)."
+      },
+      {
+        "name": "Stop-limit order",
+        "notes": "Becomes a limit order at the stop. Caps slippage but can fail to fill entirely in a fast market - a stop that might not stop."
+      },
+      {
+        "name": "Trailing stop",
+        "notes": "A stop that follows price by a fixed distance or percent. Locks in trend profits; too tight and ordinary noise takes you out."
+      },
+      {
+        "name": "OCO (one-cancels-other)",
+        "notes": "A stop and a target bracket; whichever fills first cancels the other. This is the shape of a planned trade and the QuantGlass ticket's mental model."
+      }
+    ]
+  },
+  {
+    "id": "formulas",
+    "title": "Core Formulas",
+    "description": "The arithmetic every plan rests on. All of these appear in lessons and live exercises.",
+    "items": [
+      {
+        "name": "Position size",
+        "formula": "size = (account * risk%) / |entry - stop|",
+        "notes": "The only sizing formula. Risk is chosen first; size is derived, never the other way around."
+      },
+      {
+        "name": "R-multiple",
+        "formula": "R = (exit - entry) / (entry - stop)",
+        "notes": "Results in units of initial risk. A -1R loss is a plan working; results only compare across trades in R."
+      },
+      {
+        "name": "Risk:reward ratio",
+        "formula": "RR = (target - entry) / (entry - stop)",
+        "notes": "Bound before entry. At RR 2:1 you can be wrong 60% of the time and still grow."
+      },
+      {
+        "name": "Expectancy",
+        "formula": "E = win_rate * avg_win_R - (1 - win_rate) * avg_loss_R",
+        "notes": "Average R per trade over many trades. Positive expectancy with survivable drawdowns is the entire game."
+      },
+      {
+        "name": "Breakeven win rate",
+        "formula": "BE = 1 / (1 + RR)",
+        "notes": "The win rate a given risk:reward needs just to tread water. At 1:1 it is 50%; at 3:1 only 25%."
+      },
+      {
+        "name": "Drawdown recovery",
+        "formula": "required gain = DD / (1 - DD)",
+        "notes": "A 50% drawdown needs a 100% gain to recover. The asymmetry is why risk caps exist."
+      }
+    ]
+  },
+  {
+    "id": "scam-checklist",
+    "title": "Scam & Red-Flag Checklist",
+    "description": "If any of these are present, the correct position size is zero.",
+    "items": [
+      {
+        "name": "Guaranteed returns",
+        "notes": "Markets price risk. Anyone guaranteeing returns is either lying about the returns or hiding the risk."
+      },
+      {
+        "name": "Pressure to act now",
+        "notes": "Real opportunities survive a day of thought. Urgency is a tool for preventing it."
+      },
+      {
+        "name": "Unsolicited contact",
+        "notes": "Strangers with profitable secrets do not need you. Romance-to-investing pivots ('pig butchering') are an industrial-scale crime."
+      },
+      {
+        "name": "Pay to withdraw",
+        "notes": "Any platform demanding fees or taxes before releasing 'your' money has already stolen it. Paying releases nothing."
+      },
+      {
+        "name": "Unverifiable track record",
+        "notes": "Screenshots are free to fabricate. Audited, third-party-verified results or nothing."
+      },
+      {
+        "name": "Secret strategy",
+        "notes": "Every legitimate edge can be described, even if not given away. 'Proprietary AI the SEC hates' is a plot, not a product."
+      },
+      {
+        "name": "Recruitment rewards",
+        "notes": "When the returns come from new joiners, you are the product. That is the definition of a Ponzi structure."
+      },
+      {
+        "name": "Fake celebrity endorsement",
+        "notes": "Deepfaked endorsements cost cents to make. No public figure is giving away crypto doubled-back."
+      },
+      {
+        "name": "Wallet 'validation' requests",
+        "notes": "No legitimate service ever needs your seed phrase or private key. Sharing it is handing over the account."
+      },
+      {
+        "name": "Too-smooth equity curve",
+        "notes": "Real trading has drawdowns. A curve that only goes up at 45 degrees is either fabricated or hiding tail risk that has not fired yet."
+      }
+    ]
+  }
+]

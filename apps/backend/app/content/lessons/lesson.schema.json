@@ -227,6 +227,34 @@
           }
         }
       }
+    },
+    "common_mistakes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 10
+      },
+      "description": "Mistakes traders repeatedly make with this concept; rendered as a warning panel."
+    },
+    "bridge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cta"
+      ],
+      "properties": {
+        "cta": {
+          "type": "string",
+          "minLength": 10
+        },
+        "mission_id": {
+          "type": "string"
+        },
+        "scenario_id": {
+          "type": "string"
+        }
+      },
+      "description": "Lesson -> mission/scenario bridge: where to apply this concept next."
     }
   }
 }

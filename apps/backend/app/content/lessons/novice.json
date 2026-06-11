@@ -292,6 +292,11 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Using market orders in thin books and being surprised by the fill price. The guarantee is execution, never price.",
+      "Setting a stop-limit and assuming it protects like a stop. In a fast market the limit leg can go unfilled and the position rides through.",
+      "Placing stops at obvious round numbers where everyone else's sit - the exact pools that get swept."
     ]
   },
   {
@@ -712,6 +717,11 @@
         "type": "candle_comparison",
         "title": "The body's color is the period's verdict."
       }
+    ],
+    "common_mistakes": [
+      "Reading a single candle as a signal. One candle is one auction; only its context (trend, level, volume) gives it meaning.",
+      "Memorizing pattern names instead of the buying/selling pressure they encode. The label is trivia; the pressure is the information.",
+      "Ignoring the timeframe. The same 'hammer' on a 1-minute chart and a weekly chart carry completely different weight."
     ]
   },
   {
@@ -816,7 +826,12 @@
       "screen": "signals",
       "cta": "Find a WATCH signal with setup type 'breakout_retest_continuation' — the entry zone is near the flipped level."
     },
-    "track_id": "chart-literacy"
+    "track_id": "chart-literacy",
+    "common_mistakes": [
+      "Treating levels as exact prices instead of zones. Markets respect areas; precise lines get wicked through constantly.",
+      "Drawing a level through every touch until the chart is unusable. Two or three clean, widely-respected zones beat twelve noisy lines.",
+      "Forgetting that broken support tends to become resistance. Old levels do not disappear when breached - they switch sides."
+    ]
   },
   {
     "id": "novice-04-volume",
@@ -1330,6 +1345,10 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Acting on a stale signal. A setup computed hours ago describes a market that no longer exists.",
+      "Treating invalidation as a suggestion. When the level breaks, the trade idea is dead - holding it is a new, unplanned trade."
     ]
   },
   {
@@ -1374,7 +1393,11 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Pick the freshest signal, place a small paper trade using its entry zone and stop, and note your reasoning in one sentence."
-    }
+    },
+    "common_mistakes": [
+      "Skipping the plan because 'it is only paper'. Paper trading exists to train the planning habit - skip it and you are practicing improvisation.",
+      "Oversizing because the money is not real. The habits formed at fake 10% risk transfer to real accounts intact."
+    ]
   },
   {
     "id": "novice-24-after-the-trade",
@@ -1691,6 +1714,10 @@
           ]
         }
       }
+    ],
+    "common_mistakes": [
+      "Assuming intelligence is protection. Scams are engineered for smart, confident people - the checklist works precisely because it does not rely on judgment in the moment.",
+      "Checking the list only for strangers. Friends and family forward scams they believe in; the list applies to the message, not the messenger."
     ]
   }
 ]

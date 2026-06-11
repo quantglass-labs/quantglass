@@ -165,6 +165,18 @@ async def list_missions(request: Request) -> dict:
     return request.app.state.mission_service.list_missions()
 
 
+@router.get("/glossary")
+async def get_glossary(request: Request) -> dict:
+    """Global glossary aggregated from every lesson's key terms."""
+    return request.app.state.learn_service.get_glossary()
+
+
+@router.get("/reference")
+async def get_reference(request: Request) -> dict:
+    """Reference library: indicators, order types, formulas, scam checklist."""
+    return request.app.state.learn_service.get_reference()
+
+
 @router.get("/scenarios")
 async def list_scenarios(request: Request) -> dict:
     """Replay missions: historical-episode scenarios with best scores."""

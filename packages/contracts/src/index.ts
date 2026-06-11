@@ -747,6 +747,12 @@ export interface LessonRecord {
     title?: string;
     params?: Record<string, unknown>;
   }[];
+  common_mistakes?: string[];
+  bridge?: {
+    cta: string;
+    mission_id?: string;
+    scenario_id?: string;
+  };
   /** True when the authenticated user has completed this lesson. */
   completed: boolean;
 }
@@ -1012,6 +1018,34 @@ export interface ScenarioDebriefItem {
   max_points: number;
   debrief: string;
   best_choice: string | null;
+}
+
+export interface GlossaryEntry {
+  term: string;
+  definition: string;
+  lesson_id: string;
+  lesson_title: string;
+}
+
+export interface GlossaryResponse {
+  items: GlossaryEntry[];
+}
+
+export interface ReferenceItem {
+  name: string;
+  formula?: string;
+  notes: string;
+}
+
+export interface ReferenceSection {
+  id: string;
+  title: string;
+  description: string;
+  items: ReferenceItem[];
+}
+
+export interface ReferenceResponse {
+  sections: ReferenceSection[];
 }
 
 export interface ScenarioGradeResponse {

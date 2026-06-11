@@ -101,7 +101,7 @@ status panel inside Review, not a sixth tab). The spine is the feedback loop:
 - [x] MSN-4 Journal + Review surfaces with adaptive recommendations — [#47](https://github.com/quantglass-labs/quantglass/issues/47)
 - [x] MSN-5 Personal Trading Constitution (enforced user policy) — [#48](https://github.com/quantglass-labs/quantglass/issues/48)
 - [x] MSN-6 Replay missions; subsumes ACAD-9 — [#49](https://github.com/quantglass-labs/quantglass/issues/49)
-- [ ] MSN-7 Academy bridges, common mistakes, glossary, reference library,
+- [x] MSN-7 Academy bridges, common mistakes, glossary, reference library,
       test-out placement — [#50](https://github.com/quantglass-labs/quantglass/issues/50)
 
 ## Engine work, re-sequenced to serve the Academy

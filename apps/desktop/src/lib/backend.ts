@@ -66,6 +66,8 @@ import type {
   ScenariosResponse,
   ScenarioDetail,
   ScenarioGradeResponse,
+  GlossaryResponse,
+  ReferenceResponse,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -506,6 +508,12 @@ export const backendClient = {
   },
   getConstitutionCompliance() {
     return requestJson<ConstitutionCompliance>('/api/constitution/compliance');
+  },
+  getGlossary() {
+    return requestJson<GlossaryResponse>('/api/learn/glossary');
+  },
+  getReference() {
+    return requestJson<ReferenceResponse>('/api/learn/reference');
   },
   getScenarios() {
     return requestJson<ScenariosResponse>('/api/learn/scenarios');
