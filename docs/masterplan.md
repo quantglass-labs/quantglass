@@ -82,11 +82,11 @@ explorers — all via a schema-validated widget registry (no markup in content;
 live-data capable).
 
 - [x] VIS-1 (foundation: 4 diagram types live) Visual registry + diagram archetypes — [#51](https://github.com/quantglass-labs/quantglass/issues/51)
-- [ ] VIS-2 Interactive widgets (candle builder, risk sandbox, indicator
+- [x] VIS-2 Interactive widgets (candle builder, risk sandbox, indicator
       playground, auction sim, payoff explorer) — [#52](https://github.com/quantglass-labs/quantglass/issues/52)
-- [ ] VIS-3 Engine-true explorers (regime scrubber, Monte Carlo animator,
+- [x] VIS-3 Engine-true explorers (regime scrubber, Monte Carlo animator,
       conformal visualizer) — [#53](https://github.com/quantglass-labs/quantglass/issues/53)
-- [ ] VIS-4 Visual content pass across all levels — [#54](https://github.com/quantglass-labs/quantglass/issues/54)
+- [x] VIS-4 (first pass: 22 lessons across all levels) Visual content pass across all levels — [#54](https://github.com/quantglass-labs/quantglass/issues/54)
 
 ## Missions & Feedback Loop workstream (milestone: Missions & Feedback Loop)
 

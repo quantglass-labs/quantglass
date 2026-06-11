@@ -129,7 +129,13 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open a signal drawer with a large OOS sample and read its guaranteed range — then find one without it and check the sample size."
-    }
+    },
+    "visuals": [
+      {
+        "type": "conformal_visualizer",
+        "title": "Drop n below the minimum and the guarantee honestly vanishes."
+      }
+    ]
   },
   {
     "id": "expert-07-calibration",
@@ -217,7 +223,13 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Take a preset's outcome stats and ask: if these same trades arrived in their worst plausible order, would your sizing survive it?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "monte_carlo",
+        "title": "Two hundred shuffles of the same trades."
+      }
+    ]
   },
   {
     "id": "expert-03-custom-indicator",
@@ -865,7 +877,13 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Watch a high-volume candle versus a quiet one and read them as auction events: how much patience did each side's urgency consume?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "auction_sim",
+        "title": "Price ticks up when a level is fully consumed."
+      }
+    ]
   },
   {
     "id": "expert-21-makers-takers",
@@ -909,7 +927,13 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Reconsider the entry zone's lower edge: a fill there during a flush is adverse selection your setup must already have priced in."
-    }
+    },
+    "visuals": [
+      {
+        "type": "auction_sim",
+        "title": "Your market order pays the spread; the maker earns it."
+      }
+    ]
   },
   {
     "id": "expert-22-order-flow",
@@ -1261,7 +1285,23 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Pick one strategy preset and write its kill criterion for a forward paper test: what 30-trade result would honestly end it?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "Kill criteria at every stage.",
+        "params": {
+          "heading": "The Research Pipeline",
+          "steps": [
+            "Idea",
+            "Hypothesis",
+            "Backtest (IS/OOS)",
+            "Forward paper test",
+            "Size"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-30-pro-reporting",
