@@ -38,3 +38,6 @@ apps/desktop/tailwind.config.js
 apps/desktop/tailwind.config.d.ts
 apps/desktop/vite.config.js
 apps/desktop/vite.config.d.ts
+
+# Personal Claude Code settings
+.claude/settings.local.json
