@@ -756,6 +756,30 @@ export interface LearnMoment {
   lesson_completed: boolean;
 }
 
+export interface ReadinessRequirement {
+  label: string;
+  met: boolean;
+}
+
+export interface ReadinessLevel {
+  id: LessonTier;
+  unlocked: boolean;
+  requirements: ReadinessRequirement[];
+}
+
+export interface LearnReadiness {
+  scores: {
+    knowledge: number;
+    execution: number;
+    risk: number;
+    psychology: number;
+    consistency: number;
+  };
+  levels: ReadinessLevel[];
+  executed_trades: number;
+  active_moments: string[];
+}
+
 export interface LearnMomentsResponse {
   items: LearnMoment[];
 }

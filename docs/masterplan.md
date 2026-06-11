@@ -66,7 +66,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 - [ ] ACAD-12 **Wave 5 — blueprint expansion**: scams & fake gurus,
       margin/leverage, options, fundamentals, macro, microstructure, risk
       officer mode (from [academy.md](academy.md)) — [#42](https://github.com/quantglass-labs/quantglass/issues/42)
-- [ ] ACAD-13 **Gated progression**: five-dimension readiness scores,
+- [x] ACAD-13 (v1 soft gating) **Gated progression**: five-dimension readiness scores,
       level-unlock logic, guided simulations, staged real-trading unlock
       (off by default) per [academy.md](academy.md) §3/8/11/12 — [#43](https://github.com/quantglass-labs/quantglass/issues/43)
 
