@@ -17,6 +17,18 @@ _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
 _ALWAYS_ALLOWED = {0.0, 1.0, 2.0, 3.0, 100.0}
 
 
+NARRATION_SCHEMA: dict = {
+    "type": "object",
+    "properties": {
+        "summary": {
+            "type": "string",
+            "description": "Two to three plain-English sentences restating only the provided facts.",
+        }
+    },
+    "required": ["summary"],
+}
+
+
 class NarrationService:
     """Generates signal narration from local/API models with a strict fact guard.
 
@@ -40,14 +52,34 @@ class NarrationService:
         if not settings.cloud_enabled:
             return self._template(facts), "template"
 
-        response = self._model_gateway.complete(settings, self._build_prompt(facts))
+        response = self._model_gateway.complete(
+            settings, self._build_prompt(facts), response_schema=NARRATION_SCHEMA
+        )
         if response is None:
             return self._template(facts), "template-fallback"
 
-        if not self._passes_fact_guard(response.text, facts):
+        text = self._extract_summary(response.text)
+        if not text:
+            return self._template(facts), "template-fallback"
+
+        if not self._passes_fact_guard(text, facts):
             return self._template(facts), "template-guarded"
 
-        return response.text.strip(), response.source
+        return text, response.source
+
+    @staticmethod
+    def _extract_summary(raw: str) -> str:
+        """Unwrap the structured {"summary": ...} envelope; accept plain text from
+        providers without schema support."""
+        stripped = raw.strip()
+        if stripped.startswith("{"):
+            try:
+                parsed = json.loads(stripped)
+            except ValueError:
+                return ""
+            summary = parsed.get("summary") if isinstance(parsed, dict) else None
+            return summary.strip() if isinstance(summary, str) else ""
+        return stripped
 
     def _build_prompt(self, facts: dict[str, Any]) -> str:
         facts_json = json.dumps(facts, indent=2, default=str)
