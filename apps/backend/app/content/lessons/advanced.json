@@ -666,5 +666,361 @@
       "screen": "backtest",
       "cta": "Read a preset's trade count and expectancy knowing now precisely how each simulated trade was filled, costed, and closed."
     }
+  },
+  {
+    "id": "advanced-16-cost-stack",
+    "module_id": "advanced",
+    "track_id": "execution-costs",
+    "tier": "advanced",
+    "order": 16,
+    "title": "The Full Cost Stack",
+    "summary": "Spread, fees, slippage, and the edge they must clear.",
+    "concept": "Every strategy competes against its own cost stack. Layer one: the **spread** — crossing the book costs half a spread each way even before anyone charges you anything. Layer two: **fees** — explicit percentages per side. Layer three: **slippage** — fills drifting from intended prices in fast or thin conditions.\n\nQuantGlass's default model charges, per side, 0.10% fee + 0.05% slippage on crypto and 0.02% + 0.01% on stocks; the backtester converts the round trip into R and subtracts it from every simulated trade. The strategic consequence is **cost gravity**: a strategy's gross edge per trade must clearly exceed its round-trip cost or the cost *is* the result. Short-timeframe strategies suffer most — smaller average moves against a fixed percentage toll mean the 15m trader pays proportionally far more of their edge to friction than the 1d trader.\n\nReading rule: when comparing presets across timeframes, mentally divide expectancy by cost burden — the slower strategy with equal expectancy is the more robust one.",
+    "key_terms": [
+      {
+        "term": "Cost stack",
+        "definition": "Spread + fees + slippage, paid both ways."
+      },
+      {
+        "term": "Cost gravity",
+        "definition": "The fixed toll every gross edge must clear."
+      },
+      {
+        "term": "Cost-to-edge ratio",
+        "definition": "Round-trip cost as a share of average trade profit."
+      },
+      {
+        "term": "Timeframe penalty",
+        "definition": "Shorter timeframes pay proportionally more friction."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Two presets show +0.20R expectancy: one trades 15m candles, one trades 1d. Why is the 1d result more trustworthy?",
+      "options": [
+        "Daily candles are prettier.",
+        "The 15m strategy's smaller average moves mean costs consumed a larger share of its gross edge — its +0.20R sits closer to the noise floor of friction.",
+        "15m data is always wrong.",
+        "It is not — expectancy is expectancy."
+      ],
+      "correct_index": 1,
+      "explanation": "Same net number, different gross-to-cost ratios. The strategy that cleared a higher friction hurdle with margin to spare degrades more gracefully when live conditions worsen."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Compare the feesPercent/slippagePercent on a crypto preset versus a stock preset — then find them deducted in the expectancy."
+    }
+  },
+  {
+    "id": "advanced-17-slippage-dynamics",
+    "module_id": "advanced",
+    "track_id": "execution-costs",
+    "tier": "advanced",
+    "order": 17,
+    "title": "Slippage: When and Why Fills Drift",
+    "summary": "The three conditions that widen the gap between chart and fill.",
+    "concept": "Slippage is not a constant — it is a function of three variables. **Volatility**: in fast markets, price moves between your decision and your fill; stops fire into air pockets and fill well beyond their level. **Size relative to depth**: a market order eats the book level by level; if your size exceeds the top-of-book, *you* move the price you pay. **Liquidity hour**: the same order at a dead hour (crypto weekends, stock lunchtime) crosses a thinner book.\n\nNote what this implies about stops: a stop-loss guarantees the *trigger*, never the *price* — in a gap or cascade, the fill is wherever liquidity next exists. This is why the engine's expanded-volatility regime widens stops and shrinks size simultaneously: both adjustments reduce the chance of being filled deep beyond plan.\n\nQuantGlass paper trading fills intents at the next available price rather than the chart's print — a deliberately humble model that keeps the rehearsal honest.",
+    "key_terms": [
+      {
+        "term": "Air pocket",
+        "definition": "A price zone with no resting liquidity — where stop fills land far from their level."
+      },
+      {
+        "term": "Book depth",
+        "definition": "Resting size at each level; your size versus it determines self-impact."
+      },
+      {
+        "term": "Stop guarantee",
+        "definition": "Stops guarantee triggering, never the fill price."
+      },
+      {
+        "term": "Liquidity hour",
+        "definition": "Time-of-day/week depth variation."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your stop sits at 95.00; overnight news gaps the open to 91.40. Where does your stop-loss fill?",
+      "options": [
+        "At 95.00 — stops lock their price.",
+        "Around 91.40 — the trigger fired at the first opportunity, and the fill is wherever liquidity actually exists.",
+        "It cancels itself in shame.",
+        "At the midpoint, 93.20."
+      ],
+      "correct_index": 1,
+      "explanation": "A stop is a trigger plus a market order. When price jumps the level, the order executes in the new reality — the 3.6-point difference is gap risk made tangible."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Compare a paper fill's executed price to the chart price at submission — that gap is this lesson in one number."
+    }
+  },
+  {
+    "id": "advanced-18-liquidity-traps",
+    "module_id": "advanced",
+    "track_id": "execution-costs",
+    "tier": "advanced",
+    "order": 18,
+    "title": "Liquidity Traps: Trades to Refuse",
+    "summary": "Some setups are perfect except for the part where you can't get out.",
+    "concept": "Entry is optional; exit is mandatory. A **liquidity trap** is any position whose exit depends on depth that may not exist when needed: thin alt-coins where your size is a meaningful share of hourly volume, wide-spread instruments where the round trip starts −1%, dead-hour markets where books are skeletal, and event windows (major releases) where makers pull quotes precisely when you would need them.\n\nPre-trade liquidity checks worth making mechanical: is the spread a small fraction of your expected move? Is your intended size trivially small versus recent bar volume? Could you exit *at the stop, during a panic*, without moving the market against yourself? If any answer is no, the correct size is smaller — or zero.\n\nThe asymmetric insight: illiquidity costs little on the way in (you can wait) and everything on the way out (you cannot). Plan exits for the worst hour you might face, not the average one.",
+    "key_terms": [
+      {
+        "term": "Liquidity trap",
+        "definition": "A position whose exit assumes depth that may vanish."
+      },
+      {
+        "term": "Exit liquidity",
+        "definition": "Depth available when you must leave — the only kind that matters."
+      },
+      {
+        "term": "Event window",
+        "definition": "Scheduled news periods when quotes thin out."
+      },
+      {
+        "term": "Size-to-volume",
+        "definition": "Your order as a share of typical traded volume — keep it trivial."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A thin alt-coin setup looks textbook-perfect, but your intended position equals 20% of its average hourly volume. What is the disciplined call?",
+      "options": [
+        "Take it — patterns outrank plumbing.",
+        "Shrink size drastically or skip: any urgent exit at that scale would move the market against you, making the stop a fiction.",
+        "Double the size for conviction.",
+        "Remove the stop so it cannot slip."
+      ],
+      "correct_index": 1,
+      "explanation": "A stop you cannot execute at meaningful size is decoration. Liquidity is a position-sizing input just like ATR — and sometimes the right size is zero."
+    },
+    "live_apply": {
+      "screen": "watchlist",
+      "cta": "Rank your watchlist by typical volume: which symbols could absorb your paper size at the worst hour, and which could not?"
+    }
+  },
+  {
+    "id": "advanced-19-paper-vs-live",
+    "module_id": "advanced",
+    "track_id": "execution-costs",
+    "tier": "advanced",
+    "order": 19,
+    "title": "Paper vs Live: The Honest Gap",
+    "summary": "What rehearsal teaches, what it cannot, and how to bridge.",
+    "concept": "Paper trading is rehearsal, and rehearsals differ from performances in known ways. **Fills**: paper fills at the next available price with modeled costs; live fills face queues (limit orders need sellers to reach you), partial executions, and adversarial microstructure. **Impact**: paper assumes the market ignores you — true for small live sizes, false beyond. **Psychology**: this is the chasm. Fake losses cannot produce real fear, and fear, not arithmetic, is what breaks rules.\n\nWhat paper genuinely certifies: mechanics, plan discipline, journaling habits, and a statistical baseline of *your decisions* across regimes. What only live exposure certifies: your behavior when money is real.\n\nThe disciplined bridge, when someone eventually chooses it (never financial advice): graduate only after a written criterion is met on paper — e.g., 30+ trades with positive expectancy *and* high plan adherence — then start at the smallest meaningful size, where tuition is cheap. The skills transfer; the calm must be re-earned.",
+    "key_terms": [
+      {
+        "term": "Queue position",
+        "definition": "Limit orders wait their turn — paper skips the line."
+      },
+      {
+        "term": "Partial fill",
+        "definition": "Live orders may execute in pieces or not at all."
+      },
+      {
+        "term": "Psychological gap",
+        "definition": "Fake losses cannot rehearse real fear."
+      },
+      {
+        "term": "Graduation criterion",
+        "definition": "A written paper-record bar before any size change."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which element of trading does paper practice fundamentally NOT certify?",
+      "options": [
+        "Order mechanics and plan execution.",
+        "Your emotional behavior when losses are real — fear has no paper equivalent.",
+        "Journaling habits.",
+        "Reading signals and regimes."
+      ],
+      "correct_index": 1,
+      "explanation": "Everything procedural transfers from rehearsal. The psychological load of real loss is the one variable paper cannot simulate — which is why graduation, if ever, starts tiny."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Review your paper stats: would they pass a written graduation criterion of 30+ trades, positive expectancy, and high adherence?"
+    }
+  },
+  {
+    "id": "advanced-20-biases",
+    "module_id": "advanced",
+    "track_id": "trading-psychology",
+    "tier": "advanced",
+    "order": 20,
+    "title": "The Biases That Price Your Mistakes",
+    "summary": "Loss aversion, sunk cost, recency, confirmation — and their trading costumes.",
+    "concept": "Four cognitive biases do most of the damage. **Loss aversion**: losses hurt roughly twice as much as equal gains please — so traders hold losers (avoiding the pain of realizing) and cut winners (banking relief). The exact inversion of edge. **Sunk cost**: 'I'm already down 8%, I can't exit now' — but the market does not know your entry; the only question is whether the position deserves to exist at *today's* price. **Recency**: three wins feel like mastery, three losses like doom; both are noise wearing a trend costume. **Confirmation**: once positioned, you grade evidence by agreement — bullish tweets get bookmarked, bearish structure gets excused.\n\nThe honest frame: these are not character flaws, they are firmware — everyone runs them. The professional difference is not feeling differently; it is **deciding at a different time**: every QuantGlass-style pre-commitment (stop fixed before entry, plan written while flat) moves the decision to a moment when the bias is not loaded.",
+    "key_terms": [
+      {
+        "term": "Loss aversion",
+        "definition": "Losses weigh ~2× equal gains — the hold-losers/cut-winners engine."
+      },
+      {
+        "term": "Sunk cost",
+        "definition": "Letting your entry price argue about today's decision."
+      },
+      {
+        "term": "Recency bias",
+        "definition": "Extrapolating the last few outcomes into a regime."
+      },
+      {
+        "term": "Confirmation bias",
+        "definition": "Grading evidence by whether it agrees with your position."
+      },
+      {
+        "term": "Pre-commitment",
+        "definition": "Deciding before the bias is loaded — the structural antidote."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A trader refuses to exit a losing position 'because I'd be selling at the bottom of MY entry'. Which bias is speaking, and what is the correct question?",
+      "options": [
+        "Recency bias; the question is how the last three trades went.",
+        "Sunk cost; the only valid question is whether this position deserves to exist at today's price and structure.",
+        "Confirmation bias; the question is what Twitter thinks.",
+        "No bias; entries are sacred."
+      ],
+      "correct_index": 1,
+      "explanation": "The market carries no memory of anyone's entry. Re-underwrite the position as if flat: would you open it here, now? If not, the entry price is the only thing holding it."
+    },
+    "live_apply": {
+      "screen": "dashboard",
+      "cta": "Pick one open paper position and re-underwrite it: knowing only today's chart, would you open it now?"
+    }
+  },
+  {
+    "id": "advanced-21-tilt",
+    "module_id": "advanced",
+    "track_id": "trading-psychology",
+    "tier": "advanced",
+    "order": 21,
+    "title": "Tilt and Revenge Trading",
+    "summary": "The loss-spiral mechanism — and the detector watching for it.",
+    "concept": "**Tilt** is decision-making hijacked by emotional arousal after losses. Its trading signature is the **revenge trade**: re-entering the same symbol quickly, oversized, with a thesis of 'getting it back' rather than a setup. The spiral is mechanical: loss → arousal narrows attention → standards drop ('close enough' setups) → size rises ('to recover faster') → a worse loss → repeat. Casinos build businesses on this loop.\n\nCircuit breakers that work are *physical and pre-committed*, not aspirational: a fixed pause after any stop-out (even 30 minutes breaks the arousal cycle), a daily stop (two planned losses → done for the day), and a re-entry rule (same symbol only on a *new* closed-candle setup, never on proximity to your last exit).\n\nQuantGlass's coaching panel runs a rapid-fire detector over your own paper intents — repeated orders on one symbol inside a short window — and surfaces this exact lesson when the pattern appears. The machine can spot the spiral's footprint; only your pre-commitments can interrupt it.",
+    "key_terms": [
+      {
+        "term": "Tilt",
+        "definition": "Post-loss arousal degrading decision quality."
+      },
+      {
+        "term": "Revenge trade",
+        "definition": "Re-entry driven by recovery urge instead of setup."
+      },
+      {
+        "term": "Circuit breaker",
+        "definition": "A pre-committed physical pause or daily stop."
+      },
+      {
+        "term": "Rapid-fire pattern",
+        "definition": "The repeated-entries footprint the coaching panel detects."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "After a stop-out, you feel a strong urge to re-enter the same symbol immediately at larger size. What is the defining feature that makes this a revenge trade?",
+      "options": [
+        "The symbol is the same.",
+        "The motivation is recovering the loss rather than a new closed-candle setup — the trade exists to fix a feeling, not to express an edge.",
+        "The size is larger.",
+        "It happens after a loss."
+      ],
+      "correct_index": 1,
+      "explanation": "Symbol, size, and timing are symptoms; the disease is motivation. A new valid setup five minutes later is legitimate — 'getting it back' never is."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Check your coaching panel after active paper sessions — the rapid-fire moment appearing is your own tilt made visible."
+    }
+  },
+  {
+    "id": "advanced-22-discipline-systems",
+    "module_id": "advanced",
+    "track_id": "trading-psychology",
+    "tier": "advanced",
+    "order": 22,
+    "title": "Systems Beat Willpower",
+    "summary": "Engineering discipline instead of summoning it.",
+    "concept": "Willpower is a depleting resource that fails exactly when needed most — at peak stress, late in the day, mid-drawdown. Durable discipline is **engineered**: change the environment so the right action is the default and the wrong one requires effort.\n\nThe engineering toolkit, mapped to your setup: **pre-commitment** (stops and sizes decided while flat — the signal card's whole design); **friction asymmetry** (alerts notify you instead of you staring at charts; staring manufactures trades); **mechanical gates** (the engine's regime/confluence gates refuse trades no matter your mood — borrow the pattern for your own rules); **externalized memory** (journals and checklists, because under arousal you will not remember your standards); and **automated review** (the coaching panel as a tireless, unoffendable accountability partner).\n\nThe identity shift this implies: your job is less 'making great decisions in the moment' and more **designing a system whose defaults are great decisions** — then complying with your own design.",
+    "key_terms": [
+      {
+        "term": "Willpower depletion",
+        "definition": "Self-control as a finite resource that fails under load."
+      },
+      {
+        "term": "Default design",
+        "definition": "Making the right action the path of least resistance."
+      },
+      {
+        "term": "Friction asymmetry",
+        "definition": "Easy compliance, effortful deviation."
+      },
+      {
+        "term": "Externalized discipline",
+        "definition": "Rules living in systems (gates, alerts, checklists) instead of mood."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Why are price alerts a discipline tool and not just a convenience?",
+      "options": [
+        "They make pleasant sounds.",
+        "They replace continuous chart-watching — and watching manufactures impulse trades; the alert turns monitoring into a default-safe, event-driven act.",
+        "They improve fill prices.",
+        "They are required by exchanges."
+      ],
+      "correct_index": 1,
+      "explanation": "Every hour at the screen is an hour of temptation drawing on finite willpower. Alerts move you from polling (active temptation) to interrupts (designed safety)."
+    },
+    "live_apply": {
+      "screen": "alerts",
+      "cta": "Replace one chart-watching habit right now: set alerts at your open positions' decision levels and close the chart."
+    }
+  },
+  {
+    "id": "advanced-23-drawdown-psychology",
+    "module_id": "advanced",
+    "track_id": "trading-psychology",
+    "tier": "advanced",
+    "order": 23,
+    "title": "Surviving Drawdowns",
+    "summary": "Expected pain, diagnostic discipline, and when to pause.",
+    "concept": "You learned drawdown's arithmetic in the Risk track; this lesson is the psychology of living inside one. Step one is **expectation setting**: your method's historical max drawdown (printed on every preset) is not its worst case — live, expect deeper. If the strategy's curve shows −14%, a person trading it will someday sit at −14% *not knowing if it ever turns* — that unknowing is the actual experience.\n\nStep two is the **diagnostic ladder**, run in order during pain: (1) Am I following the plan? (journal adherence check). (2) Has the regime changed? (the engine re-classifies every bar — look). (3) Has the edge itself decayed? (compare recent expectancy to the backtest's OOS block). Only a 'yes' at level 3 justifies changing the method; levels 1–2 justify changing *behavior* or *waiting*.\n\nStep three is the **pause rule**: pre-commit to a drawdown depth (in R or percent) at which you stop, review the full journal, and restart only at reduced size. Pausing is not defeat — it is the system protecting its operator.",
+    "key_terms": [
+      {
+        "term": "Expected drawdown",
+        "definition": "The backtest's max drawdown as a floor, not a ceiling, for live pain."
+      },
+      {
+        "term": "Diagnostic ladder",
+        "definition": "Plan adherence → regime change → edge decay, checked in order."
+      },
+      {
+        "term": "Edge decay",
+        "definition": "Recent results materially below the OOS baseline at meaningful sample."
+      },
+      {
+        "term": "Pause rule",
+        "definition": "A pre-committed depth that triggers stop, review, restart-small."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Mid-drawdown, your journal shows full plan adherence and the regime has flipped from trending to ranging. What does the diagnostic ladder conclude?",
+      "options": [
+        "The method is broken — rebuild everything.",
+        "Behavior is fine and the weather changed: trend setups in a ranging regime underperform by design — wait or trade the regime-appropriate family.",
+        "Double size to exit the drawdown faster.",
+        "Delete the journal."
+      ],
+      "correct_index": 1,
+      "explanation": "Level 1 passes, level 2 explains the pain, level 3 never gets reached. The correct move is regime-patience, not method-surgery — the most expensive mistake is fixing what isn't broken."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Read your main preset's max drawdown and write down, in advance, your personal pause depth and restart rule."
+    }
   }
 ]
