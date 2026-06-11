@@ -188,7 +188,37 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find an ema_reclaim_pullback or daily_trend_pullback signal and verify each of the four conditions in its reasons."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "The flagship long, condition by condition.",
+        "params": {
+          "heading": "Pullback Gate",
+          "steps": [
+            {
+              "text": "Close > EMA21 > SMA50?",
+              "yes": "next",
+              "no": "no setup"
+            },
+            {
+              "text": "Price interacting with EMA21?",
+              "yes": "next",
+              "no": "no setup"
+            },
+            {
+              "text": "RSI 46–72?",
+              "yes": "next",
+              "no": "too cold / too hot"
+            },
+            {
+              "text": "Regime trending/transitional?",
+              "yes": "BUY_ZONE candidate"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-07-trend-rejection",
@@ -276,7 +306,37 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Open a breakout_retest_continuation preset: its trade count is exactly how often these strict conditions co-occurred historically."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "Escape velocity has three tests.",
+        "params": {
+          "heading": "Breakout Gate",
+          "steps": [
+            {
+              "text": "Trending regime?",
+              "yes": "next",
+              "no": "fakeout territory"
+            },
+            {
+              "text": "Through PRIOR bar's Donchian high?",
+              "yes": "next",
+              "no": "no break"
+            },
+            {
+              "text": "Close holds within 0.3%?",
+              "yes": "next",
+              "no": "rejection wick"
+            },
+            {
+              "text": "Volume ≥ recent average?",
+              "yes": "WATCH candidate"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-09-mean-reversion",
@@ -364,7 +424,38 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Count today's HOLD/WATCH/WAIT states versus actionable ones — the ratio is the engine's honesty showing."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Highest confluence wins the card.",
+        "params": {
+          "heading": "Candidate Competition",
+          "hub": "Signal",
+          "inputs": [
+            {
+              "label": "Trend pullback",
+              "note": "base 0.55"
+            },
+            {
+              "label": "Breakout retest",
+              "note": "base 0.60"
+            },
+            {
+              "label": "Mean reversion",
+              "note": "base 0.50"
+            },
+            {
+              "label": "Extension strategies"
+            },
+            {
+              "label": "Fallback HOLD/WATCH/WAIT",
+              "note": "honest idle"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-04-backtest-reading",
@@ -504,7 +595,35 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Note that every QuantGlass preset uses the same engine-wide parameters — the absence of per-symbol knobs is the anti-overfitting defense."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Four frauds, four defenses.",
+        "params": {
+          "heading": "Backtest Frauds",
+          "hub": "Defenses",
+          "inputs": [
+            {
+              "label": "Overfitting",
+              "note": "engine-wide params"
+            },
+            {
+              "label": "Look-ahead",
+              "note": "closed candles only"
+            },
+            {
+              "label": "Survivorship",
+              "note": "your own watchlist"
+            },
+            {
+              "label": "Cost amnesia",
+              "note": "full round trip charged"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-12-is-oos",
@@ -648,7 +767,39 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find a signal with a small backtest sample and notice how modest its confidence stays — you just computed why."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Small samples cannot shout.",
+        "params": {
+          "heading": "Calibrated Win Rate (k = 50)",
+          "subtitle": "Raw 100% record, shrunk by sample size.",
+          "items": [
+            {
+              "label": "3-for-3",
+              "value": 52.8,
+              "note": "→ 52.8%"
+            },
+            {
+              "label": "10-for-10",
+              "value": 58.3,
+              "note": "→ 58.3%"
+            },
+            {
+              "label": "30-for-30",
+              "value": 68.8,
+              "note": "→ 68.8%"
+            },
+            {
+              "label": "100-for-100",
+              "value": 83.3,
+              "note": "→ 83.3%"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-15-honest-simulation",
@@ -692,7 +843,24 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Read a preset's trade count and expectancy knowing now precisely how each simulated trade was filled, costed, and closed."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "The displayed trade is the simulated trade.",
+        "params": {
+          "heading": "First-Touch Simulation",
+          "steps": [
+            "Detector fires",
+            "Walk bars forward",
+            "Stop first if ambiguous",
+            "Ladder 50/30/20",
+            "Time stop",
+            "− costs → R"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-16-cost-stack",
@@ -736,7 +904,34 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Compare the feesPercent/slippagePercent on a crypto preset versus a stock preset — then find them deducted in the expectancy."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "The toll every edge must clear.",
+        "params": {
+          "heading": "Cost Stack (crypto)",
+          "subtitle": "Per round trip.",
+          "items": [
+            {
+              "label": "Spread",
+              "value": 0.04,
+              "note": "~0.04% crossing"
+            },
+            {
+              "label": "Fees",
+              "value": 0.2,
+              "note": "0.10% × 2"
+            },
+            {
+              "label": "Slippage",
+              "value": 0.1,
+              "note": "0.05% × 2"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-17-slippage-dynamics",
@@ -916,7 +1111,35 @@
     "live_apply": {
       "screen": "dashboard",
       "cta": "Pick one open paper position and re-underwrite it: knowing only today's chart, would you open it now?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Firmware, not character flaws.",
+        "params": {
+          "heading": "The Four Biases",
+          "hub": "Pre-commit",
+          "inputs": [
+            {
+              "label": "Loss aversion",
+              "note": "hold losers, cut winners"
+            },
+            {
+              "label": "Sunk cost",
+              "note": "entry price arguing"
+            },
+            {
+              "label": "Recency",
+              "note": "3 trades = a 'trend'"
+            },
+            {
+              "label": "Confirmation",
+              "note": "grading by agreement"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-21-tilt",
@@ -960,7 +1183,23 @@
     "live_apply": {
       "screen": "learn",
       "cta": "Check your coaching panel after active paper sessions — the rapid-fire moment appearing is your own tilt made visible."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "The spiral, mapped — break it with pre-commitments.",
+        "params": {
+          "heading": "The Tilt Spiral",
+          "steps": [
+            "Loss",
+            "Arousal narrows focus",
+            "Standards drop",
+            "Size rises",
+            "Worse loss"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-22-discipline-systems",
@@ -1092,7 +1331,39 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Re-read a preset's max drawdown and double it mentally — that is the same strategy's equity drawdown at 2:1."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Losses land on equity, not the loan.",
+        "params": {
+          "heading": "A 10% Drop, by Leverage",
+          "subtitle": "Equity damage from the same move.",
+          "items": [
+            {
+              "label": "1× (spot)",
+              "value": 10,
+              "note": "−10% equity"
+            },
+            {
+              "label": "2×",
+              "value": 20,
+              "note": "−20%"
+            },
+            {
+              "label": "5×",
+              "value": 50,
+              "note": "−50%"
+            },
+            {
+              "label": "10×",
+              "value": 100,
+              "note": "wiped out"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-25-leverage-arithmetic",
@@ -1374,7 +1645,41 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Look at a symbol's ATR: time value is, loosely, the market charging for that volatility over the option's remaining life."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Time value always reaches zero.",
+        "params": {
+          "heading": "Premium Decay (time value)",
+          "subtitle": "Theta accelerates toward expiry.",
+          "items": [
+            {
+              "label": "60 days out",
+              "value": 100,
+              "note": "full time value"
+            },
+            {
+              "label": "30 days",
+              "value": 70
+            },
+            {
+              "label": "14 days",
+              "value": 45
+            },
+            {
+              "label": "5 days",
+              "value": 20
+            },
+            {
+              "label": "Expiry",
+              "value": 1,
+              "note": "zero"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "advanced-31-greeks-intuition",
