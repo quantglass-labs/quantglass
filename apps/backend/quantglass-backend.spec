@@ -27,7 +27,7 @@ hiddenimports += [
     "uvicorn.lifespan.on",
 ]
 
-datas: list = []
+datas: list = [("app/content", "app/content")]
 binaries: list = []
 for package in ("apscheduler", "tzlocal"):
     pkg_datas, pkg_binaries, pkg_hidden = collect_all(package)

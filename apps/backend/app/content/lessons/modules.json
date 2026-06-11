@@ -1,0 +1,34 @@
+{
+  "tier_order": [
+    "novice",
+    "intermediate",
+    "advanced",
+    "expert"
+  ],
+  "modules": {
+    "novice": {
+      "id": "novice",
+      "tier": "novice",
+      "title": "Candle to Signal",
+      "description": "Build the foundational vocabulary.  By the end you will read any candlestick, identify a trend, find support/resistance, and interpret your first QuantGlass signal."
+    },
+    "intermediate": {
+      "id": "intermediate",
+      "tier": "intermediate",
+      "title": "Indicators & Risk",
+      "description": "Go deeper: moving averages, RSI momentum, ATR-based stop sizing, risk:reward arithmetic, and position sizing.  After this module you can calculate every number in a QuantGlass signal yourself."
+    },
+    "advanced": {
+      "id": "advanced",
+      "tier": "advanced",
+      "title": "Engine Deep-Dive",
+      "description": "Understand how the signal engine thinks: market regimes, MACD, Bollinger Bands, honest backtesting, and the full confidence_basis derivation.  You will be able to explain *why* any signal was generated."
+    },
+    "expert": {
+      "id": "expert",
+      "tier": "expert",
+      "title": "Build & Calibrate",
+      "description": "Walk-forward OOS validation, empirical Bayes calibration, writing custom indicator and strategy extensions, and synthesizing everything into a disciplined personal trading plan."
+    }
+  }
+}
