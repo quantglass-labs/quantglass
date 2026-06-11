@@ -1,0 +1,201 @@
+[
+  {
+    "id": "expert-01-oos-validation",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 1,
+    "title": "Walk-Forward OOS Validation",
+    "summary": "Understand the statistical basis for honest backtesting.",
+    "concept": "**Walk-forward analysis** repeatedly tests a strategy on rolling out-of-sample windows instead of a single fixed split.  The intuition: if a strategy is robust, it should show positive expectancy across *multiple* independent OOS windows, not just one.\n\n**QuantGlass OOS validation criteria:**\n1. OOS trade count ≥ `min_backtest_sample` (default: 50 trades)\n2. OOS expectancy > 0.0R (the setup earned money in the held-out period)\n\nBoth must be true for `out_of_sample_validated = True`.\n\n**Why sample size matters**: a 5-trade OOS win rate of 80% is statistically meaningless.  The **Empirical Bayes shrinkage** in `_calibrate_win_rate` handles this by pulling thin-sample win rates toward 50% in proportion to sample thinness.",
+    "key_terms": [
+      {
+        "term": "Walk-Forward",
+        "definition": "Rolling window backtesting across multiple OOS periods."
+      },
+      {
+        "term": "min_backtest_sample",
+        "definition": "Minimum OOS trade count required before OOS validation is claimed."
+      },
+      {
+        "term": "OOS Expectancy",
+        "definition": "Average R per trade in the held-out 30% of data."
+      },
+      {
+        "term": "Empirical Bayes Shrinkage",
+        "definition": "Pulling raw win rates toward 50% when sample is thin — prevents overfitting."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A setup has 8 OOS trades with 75% win rate and +0.9R expectancy.  min_backtest_sample = 50.  Is OOS validated?",
+      "options": [
+        "Yes — 75% win rate is strong evidence.",
+        "No — OOS trade count (8) < min_backtest_sample (50).  Both conditions must be met.",
+        "Yes — positive expectancy alone is sufficient.",
+        "No — 75% win rate is too high; it suggests lookahead bias."
+      ],
+      "correct_index": 1,
+      "explanation": "Even though expectancy is positive (+0.9R), OOS trade count (8) is below the minimum (50).  **Both** conditions must pass: `oos_count ≥ min_sample AND oos_expectancy > 0`.  8 trades is far too small a sample — even a 75% win rate from 8 trades is statistically insignificant.  Confidence will be capped at 62 and flagged as not validated."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "In Settings → Safety, try reducing min_backtest_sample to 10 and see how more signals show OOS_validated=True — then think about whether that's trustworthy."
+    }
+  },
+  {
+    "id": "expert-02-empirical-bayes",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 2,
+    "title": "Empirical Bayes Confidence Calibration",
+    "summary": "Learn how the engine prevents small-sample backtest results from inflating confidence.",
+    "concept": "**The problem**: a strategy with 3 winning trades out of 3 has a 100% observed win rate.  Treating this as 100% confidence would be dangerously misleading.\n\n**Empirical Bayes shrinkage** solves this by incorporating a *prior* (a skeptical belief that the true win rate is 50%) and updating it with evidence:\n\n`calibrated_win_rate = (raw_win_rate × sample_size + 0.5 × prior_strength) / (sample_size + prior_strength)`\n\nwhere `prior_strength = min_backtest_sample` (default: 50).\n\n**Effect:**\n- 3-of-3 (100% raw): calibrated = (3 + 25) / (3 + 50) = 52.8% → nearly neutral\n- 40-of-50 (80% raw): calibrated = (40 + 25) / (50 + 50) = 65% → moderate confidence\n- 100-of-120 (83% raw): calibrated = (100 + 25) / (120 + 50) = 73.5% → high confidence\n\nMore data = less shrinkage = calibrated score approaches raw reality.",
+    "key_terms": [
+      {
+        "term": "Prior",
+        "definition": "Starting belief (50% win rate) before seeing any data."
+      },
+      {
+        "term": "Prior Strength",
+        "definition": "How much the prior dominates — equals min_backtest_sample (50 pseudo-trades)."
+      },
+      {
+        "term": "Shrinkage",
+        "definition": "Pulling the estimate toward the prior when sample is small."
+      },
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Bayesian-adjusted win rate — more reliable than raw win rate from small samples."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "raw_win_rate = 0.70, sample_size = 20, prior_strength = 50.  What is the calibrated_win_rate? (round to 2 decimal places, e.g. 0.63)",
+      "hint": "calibrated = (raw × n + 0.5 × prior) / (n + prior)",
+      "correct_answer": "0.61",
+      "tolerance_percent": 2.0,
+      "explanation": "calibrated = (0.70 × 20 + 0.5 × 50) / (20 + 50) = (14 + 25) / 70 = 39 / 70 = **0.557 ≈ 0.56**.  A 70% raw win rate from 20 trades shrinks to ~56% — close to neutral.  This prevents overconfidence in thin backtests."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Compare a setup with 10 OOS trades vs one with 80 OOS trades.  Notice how confidence differs even for similar raw win rates."
+    }
+  },
+  {
+    "id": "expert-03-custom-indicator",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 3,
+    "title": "Writing a Custom Indicator Extension",
+    "summary": "Contribute a deterministic indicator to QuantGlass using the extension API.",
+    "concept": "Indicators in QuantGlass must satisfy these constraints:\n1. **Deterministic** — same inputs always produce same outputs\n2. **No network calls** — pure computation on provided candle data\n3. **No lookahead** — index N may only use candles 0…N\n4. **No hidden state** — stateless functions or classes that reset per call\n\n**Minimal indicator extension:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nDrop this file in `workspace/extensions/` and restart the backend.",
+    "key_terms": [
+      {
+        "term": "Extension Manifest",
+        "definition": "Declares id, name, version, capabilities, and required permissions."
+      },
+      {
+        "term": "Indicator Contract",
+        "definition": "compute(candles) → list of values, one per candle, no lookahead."
+      },
+      {
+        "term": "Deterministic",
+        "definition": "Same input → same output, always, with no side effects."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which of these violates the QuantGlass indicator contract?",
+      "options": [
+        "Using candle[i] to compute a rolling sum of candle[0..i].",
+        "Making an HTTP request to fetch additional price data inside compute().",
+        "Returning None for the first N candles while the window warms up.",
+        "Accepting a 'period' parameter in the compute function signature."
+      ],
+      "correct_index": 1,
+      "explanation": "HTTP calls inside `compute()` violate the **no-network** rule.  Network calls introduce latency, non-determinism, and potential lookahead bias.  All data must be provided through the candles argument.  Returning None during warmup and accepting parameters are both valid and expected patterns."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Open Settings → Extensions.  Review the community_momentum_pack extension as a reference implementation."
+    }
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 4,
+    "title": "Writing a Custom Strategy Extension",
+    "summary": "Author a complete strategy that integrates with the QuantGlass signal engine.",
+    "concept": "A strategy extension registers a `candidate_factory` — a function called by the signal engine that returns candidate setups in the same format as built-in families.\n\n**Required candidate fields:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Strategy contract rules:**\n1. Use only **closed candles** — no partial-bar peeking\n2. Include realistic **fees and slippage** in backtests\n3. Report **IS and OOS separately** — do not blend windows\n4. The **take_profit ladder shown to users must match what the backtest simulates**\n\nThis last rule is the one the production audit flagged as a common failure mode — QuantGlass enforces it by using `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` in the backtest simulator and displaying the same three levels in the signal output.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Function returning setup candidates from the signal engine context."
+      },
+      {
+        "term": "TP Ladder Consistency",
+        "definition": "The exits shown to users must exactly match the exits the backtest simulates."
+      },
+      {
+        "term": "Closed Candle Rule",
+        "definition": "Strategies may only use candles with status='closed' — no partial-bar data."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Your strategy shows TP at 3R to users, but the backtest exits at 2R.  What is the problem?",
+      "options": [
+        "No problem — showing a more optimistic TP encourages users.",
+        "The backtest expectancy is wrong — it understates real performance.",
+        "The backtest simulates lower exits than displayed — it overstates survivability but understates reward.  The strategy contract is violated.",
+        "No problem — TP is just a suggestion, not a hard rule."
+      ],
+      "correct_index": 2,
+      "explanation": "When the backtest exits at 2R but the display promises 3R, the backtest is simulating a different trade than what the user executes.  This makes the backtest results unreliable as a predictor of user experience.  QuantGlass enforces consistency via `_TP_LADDER_WEIGHTS`."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Review extensions/community_momentum_pack.py for a complete working strategy extension example."
+    }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "module_id": "expert",
+    "tier": "expert",
+    "order": 5,
+    "title": "Building a Complete Trading Plan",
+    "summary": "Synthesize all concepts into a disciplined, rule-based trading plan.",
+    "concept": "A **trading plan** is a written set of rules that removes emotion from trade decisions.  It answers: *when to enter, how much to risk, when to exit, and how to review performance*.\n\n**QuantGlass-native trading plan template:**\n\n1. **Universe**: which corridor symbols and timeframes to trade\n2. **Signal gate**: minimum confidence, OOS_validated = True required?\n3. **Risk per trade**: e.g., 1% of paper account per signal\n4. **Entry rule**: enter only within the entry_zone, not outside it\n5. **Stop rule**: stop = signal's stop_loss, no manual override\n6. **Exit rule**: scale out at TP1 (50%), TP2 (30%), hold remainder to TP3\n7. **Daily review**: compare paper account equity vs benchmark (e.g., BTC or SPY)\n8. **Monthly calibration**: update min_confidence threshold based on realized hit rates\n\nThe plan is only as good as your adherence.  QuantGlass provides the signals; discipline provides the edge.",
+    "key_terms": [
+      {
+        "term": "Trading Plan",
+        "definition": "A written ruleset for entries, sizing, exits, and review — removes discretionary emotion."
+      },
+      {
+        "term": "Signal Gate",
+        "definition": "Minimum criteria a signal must meet before you act (e.g., confidence ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Monthly Calibration",
+        "definition": "Reviewing whether your min_confidence threshold matches your actual hit rate."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Over 3 months you took 40 paper trades with confidence ≥ 65.  Your actual win rate was 48%.  The engine's backtested win rate for these setups was 56%.  What should you do?",
+      "options": [
+        "Nothing — 8% gap is normal variance over 40 trades.",
+        "Raise min_confidence to ≥ 72 to filter for higher-quality setups, or investigate whether execution timing was off (entered outside entry_zone).",
+        "Lower min_confidence to ≥ 55 — the lower threshold will improve win rate.",
+        "Stop using QuantGlass — the model is broken."
+      ],
+      "correct_index": 1,
+      "explanation": "A persistent gap between backtested win rate (56%) and realized win rate (48%) over 40 trades suggests either execution slippage (entering too late, outside the entry_zone) or that the current confidence threshold selects setups where the gap is widest.  Raising the threshold to ≥ 72 filters for higher-quality setups with stronger OOS evidence.  Also audit your fills — did you enter within the entry_zone every time?"
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Draft your trading plan on paper.  For your next 10 paper trades, record: entry price, why you entered, result, and whether you followed your rules."
+    }
+  }
+]

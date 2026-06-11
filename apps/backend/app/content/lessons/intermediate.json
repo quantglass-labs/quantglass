@@ -1,0 +1,209 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "module_id": "intermediate",
+    "tier": "intermediate",
+    "order": 1,
+    "title": "Moving Averages — EMA vs SMA",
+    "summary": "Understand why the EMA reacts faster and when that matters.",
+    "concept": "Both the **EMA** (Exponential Moving Average) and **SMA** (Simple Moving Average) smooth price noise into a single line.  The difference is *weighting*:\n\n- **SMA**: every close in the window gets equal weight.  SMA-50 = average of the last 50 closes.\n- **EMA**: recent closes receive exponentially greater weight.  EMA-21 reacts to new price faster than SMA-50, turning before the SMA when trend changes.\n\n**Practical use in QuantGlass:**\n- EMA-21 acts as dynamic *support in uptrends* and *resistance in downtrends*.\n- A pullback to the EMA-21 within a bullish stack (Close > EMA > SMA) is the entry trigger for the `ema_reclaim_pullback` and `daily_trend_pullback` setups.\n- The *slope* of SMA-50 over the last 10 bars (`htf_slope`) is used as a higher-timeframe directional filter — entries only allowed when SMA-50 slopes in trade direction.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Simple average of the last 50 closing prices — lagging but stable."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Exponentially weighted 21-period average — faster to react to recent moves."
+      },
+      {
+        "term": "Dynamic Support/Resistance",
+        "definition": "A moving average acting as S/R that adjusts with price."
+      },
+      {
+        "term": "HTF Slope",
+        "definition": "Higher-timeframe slope: (SMA50[now] - SMA50[10 bars ago]) / SMA50[10 bars ago]."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Price has been in an uptrend.  It pulls back to touch the EMA-21 while the SMA-50 is below both.  What setup does QuantGlass look for?",
+      "options": [
+        "A range mean-reversion short.",
+        "A trend-pullback long entry (ema_reclaim_pullback or daily_trend_pullback).",
+        "A breakdown watch.",
+        "No setup — QuantGlass ignores moving average touches."
+      ],
+      "correct_index": 1,
+      "explanation": "When Close > EMA21 > SMA50 and price pulls back near EMA-21 with RSI in the 46–72 zone, the engine generates `ema_reclaim_pullback` (intraday) or `daily_trend_pullback` (daily) — a BUY_ZONE signal targeting continuation of the uptrend."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Filter Signals to BUY_ZONE.  Find a signal with setup_type = 'ema_reclaim_pullback' and inspect the reasons list."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "module_id": "intermediate",
+    "tier": "intermediate",
+    "order": 2,
+    "title": "RSI — Measuring Momentum",
+    "summary": "Use RSI to identify exhaustion and momentum confirmation.",
+    "concept": "The **Relative Strength Index (RSI-14)** measures momentum: how fast and how far price has moved relative to its recent history.  It oscillates between 0 and 100:\n\n- **RSI > 70**: overbought (momentum extended, watch for exhaustion)\n- **RSI < 30**: oversold (momentum extended to the downside)\n- **RSI 46–72**: healthy uptrend zone — pullback entries preferred here\n\nQuantGlass also uses **RSI-2** (ultra-fast 2-period RSI) for mean-reversion setups:\n- RSI-2 ≤ 8 near the lower Bollinger Band → extreme short-term oversold → BUY_ZONE\n- RSI-2 ≥ 92 near the upper Bollinger Band → extreme short-term overbought → SELL\n\n**Divergence**: price makes a higher high but RSI makes a lower high → bearish divergence, momentum weakening even as price rises.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "14-period Relative Strength Index — primary momentum oscillator."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "2-period RSI — extreme short-term mean-reversion indicator."
+      },
+      {
+        "term": "Overbought",
+        "definition": "RSI > 70 — momentum extended upward, risk of reversal rises."
+      },
+      {
+        "term": "Oversold",
+        "definition": "RSI < 30 — momentum extended downward, potential bounce zone."
+      },
+      {
+        "term": "RSI Divergence",
+        "definition": "Price and RSI moving in opposite directions — signals weakening momentum."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "In a ranging market, RSI-2 drops to 5 and price touches the lower Bollinger Band.  What signal does QuantGlass generate?",
+      "options": [
+        "SELL — price is at the bottom, confirming a breakdown.",
+        "BUY_ZONE with setup type 'range_meanreversion_long'.",
+        "WAIT — insufficient evidence in a ranging market.",
+        "HOLD — no new entry in ranging markets."
+      ],
+      "correct_index": 1,
+      "explanation": "In a `ranging` regime, RSI-2 ≤ 8 *and* price at the lower Bollinger Band triggers the `range_meanreversion_long` setup.  The mean-reversion target is the Bollinger Band midline.  The TP ladder is anchored to that midline, not an open-ended ATR multiple."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Look for a BUY_ZONE signal with setup_type = 'range_meanreversion_long' in the Signals screen."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "module_id": "intermediate",
+    "tier": "intermediate",
+    "order": 3,
+    "title": "ATR — Measuring Volatility & Sizing Stops",
+    "summary": "Learn to size stops and positions using actual market volatility.",
+    "concept": "The **Average True Range (ATR-14)** measures volatility: the average of the 'true range' over 14 bars.  True Range = max(High − Low, |High − PrevClose|, |Low − PrevClose|).\n\n**Why ATR-based stops beat fixed-dollar stops:**\nA flat $500 stop on a volatile stock will be hit by normal noise.  An ATR-based stop adjusts to the current volatility — in quiet markets it tightens, in volatile markets it widens.\n\n**QuantGlass stop formula (long entry):**\n`stop_loss = reference_price − (ATR × stop_multiple)`\nwhere stop_multiple = 1.3 (compressed), 1.45 (normal), 1.6 (expanded).\n\n**ATR % of price** = ATR ÷ Close × 100.  If ATR% < 1% → low risk.  ATR% > 2.6% → high risk.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "14-period Average True Range — measures recent price volatility."
+      },
+      {
+        "term": "True Range",
+        "definition": "The largest of: High-Low, |High-PrevClose|, |Low-PrevClose|."
+      },
+      {
+        "term": "Stop Multiple",
+        "definition": "ATR multiplier for stop placement: 1.3 (compressed) to 1.6 (expanded)."
+      },
+      {
+        "term": "ATR % of Price",
+        "definition": "ATR ÷ Close × 100 — the normalized volatility as a percentage."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "BTCUSD is at $65,000.  ATR-14 = $1,300.  Volatility regime is 'normal' (stop_multiple = 1.45).  What is the stop-loss for a long entry?",
+      "hint": "stop_loss = entry − (ATR × stop_multiple)",
+      "correct_answer": "63115",
+      "tolerance_percent": 0.5,
+      "explanation": "stop_loss = 65,000 − (1,300 × 1.45) = 65,000 − 1,885 = **63,115**.  The stop is placed 1.45 ATR below entry — far enough to survive normal price noise but close enough that the risk per trade is quantifiable."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a BTCUSD BUY_ZONE signal and verify the stop_loss distance from entry equals roughly 1.3–1.6× ATR."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "module_id": "intermediate",
+    "tier": "intermediate",
+    "order": 4,
+    "title": "Risk:Reward Ratio",
+    "summary": "Understand why R:R determines long-term edge independent of win rate.",
+    "concept": "**Risk:Reward (R:R)** = (TP_exit − Entry) ÷ (Entry − Stop_loss) for longs.\n\nA 2.0 R:R means you risk 1 to potentially gain 2.  Even if you only win 40% of trades, a 2.0 R:R produces positive expectancy:\n`Expectancy = (Win% × Avg_win) − (Loss% × Avg_loss) = (0.4 × 2R) − (0.6 × 1R) = +0.2R`\n\n**QuantGlass R:R targets:**\n- BUY_ZONE / SELL setups: reward_multiple = 2.4× risk_distance (to TP2)\n- HOLD / WATCH / WAIT setups: reward_multiple = 1.8×\n\nThe engine uses a **3-rung ladder** to scale out: TP1 (50% of position), TP2 (30%), TP3 (20%).  This ensures partial profit is secured while letting part of the position run.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Risk:Reward ratio — potential profit ÷ risk per trade."
+      },
+      {
+        "term": "Expectancy",
+        "definition": "Average profit per trade: (Win% × Avg_win) − (Loss% × Avg_loss)."
+      },
+      {
+        "term": "TP Ladder",
+        "definition": "Scaled exit at TP1 (50%), TP2 (30%), TP3 (20%) of position size."
+      },
+      {
+        "term": "Positive Expectancy",
+        "definition": "Expectancy > 0 — the edge survives over many trades."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "You win 35% of trades with an average win of 3R and lose 65% with an average loss of 1R.  Is your edge positive?",
+      "options": [
+        "No — 35% win rate is too low to be profitable.",
+        "Yes — Expectancy = (0.35 × 3) − (0.65 × 1) = +0.4R per trade.",
+        "No — a 65% loss rate always means negative expectancy.",
+        "Unknown — you need more data."
+      ],
+      "correct_index": 1,
+      "explanation": "Expectancy = (0.35 × 3R) − (0.65 × 1R) = 1.05 − 0.65 = **+0.4R per trade**.  This means over 100 trades you'd expect +40R of profit.  High R:R allows you to be profitable even with a sub-50% win rate — which is realistic for trend-following."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open Backtesting, pick any preset, and examine the Expectancy (avg_R), Win Rate, and Profit Factor metrics together."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "module_id": "intermediate",
+    "tier": "intermediate",
+    "order": 5,
+    "title": "Position Sizing — How Much to Risk",
+    "summary": "Calculate the correct trade size so no single loss is ruinous.",
+    "concept": "**Position sizing** determines how many units to buy/sell so that if the stop is hit, you lose no more than your pre-defined *risk per trade* (e.g., 1% of account).\n\n**Fixed-fractional formula:**\n`Position size = (Account × Risk%) ÷ (Entry − Stop_loss)`\n\nExample: $10,000 account, 1% risk per trade, entry at $100, stop at $96:\n`Size = ($10,000 × 0.01) ÷ ($100 − $96) = $100 ÷ $4 = 25 shares`\n\nIf those 25 shares all hit the stop at $96, you lose 25 × $4 = **$100 exactly** — 1% of account.\n\n**Why this matters**: risking a fixed percentage keeps losses small during drawdowns while allowing position size to grow as the account grows (compounding).",
+    "key_terms": [
+      {
+        "term": "Risk Per Trade",
+        "definition": "The maximum dollar loss acceptable if the stop is hit (e.g., 1% of account)."
+      },
+      {
+        "term": "Fixed-Fractional Sizing",
+        "definition": "Size = (Account × Risk%) ÷ (Entry − Stop) — scales with account."
+      },
+      {
+        "term": "Drawdown",
+        "definition": "Peak-to-trough decline in account equity during a losing streak."
+      }
+    ],
+    "exercise": {
+      "type": "numeric_input",
+      "question": "Account = $25,000.  Risk per trade = 1%.  Entry = $200, Stop = $192.  How many shares?",
+      "hint": "Position size = (Account × Risk%) ÷ (Entry − Stop)",
+      "correct_answer": "31",
+      "tolerance_percent": 2.0,
+      "explanation": "Risk amount = $25,000 × 1% = $250.  Risk per share = $200 − $192 = $8.  Position size = $250 ÷ $8 = **31.25 → 31 shares**.  If the stop fires: 31 × $8 = $248 lost — just under 1% of account."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open a signal, note its entry and stop_loss, then calculate how many shares to buy with 1% risk on a $10,000 paper account."
+    }
+  }
+]

@@ -1,0 +1,225 @@
+[
+  {
+    "id": "advanced-01-market-regimes",
+    "module_id": "advanced",
+    "tier": "advanced",
+    "order": 1,
+    "title": "Market Regimes",
+    "summary": "Understand why the same indicator works differently in each regime.",
+    "concept": "QuantGlass classifies the current market into one of four **regimes** before generating a signal.  The regime gates which strategy families are eligible:\n\n| Regime | Condition | Active strategies |\n|---|---|---|\n| **Trending** | ADX ≥ 22 | Pullback, Breakout-retest |\n| **Ranging** | ADX < 16 | Mean-reversion (RSI-2 + BB) |\n| **Volatile** | ATR% ≥ 1.7× median ATR% | All entries suppressed / reduced confidence |\n| **Transitional** | ADX 16–22 | Pullback only, reduced confluence |\n\n**ADX (Average Directional Index)** measures trend *strength*, not direction.  High ADX = strong trend (either up or down); low ADX = weak/ranging market.",
+    "key_terms": [
+      {
+        "term": "ADX-14",
+        "definition": "14-period Average Directional Index — measures trend strength (0–100)."
+      },
+      {
+        "term": "Trending",
+        "definition": "ADX ≥ 22 — a directional trend is in place."
+      },
+      {
+        "term": "Ranging",
+        "definition": "ADX < 16 — no meaningful trend; mean-reversion strategies preferred."
+      },
+      {
+        "term": "Volatile",
+        "definition": "ATR% ≥ 1.7× its 50-bar median — abnormal volatility, confidence capped."
+      },
+      {
+        "term": "Transitional",
+        "definition": "ADX 16–22 — market shifting between trending and ranging."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "ADX = 12, ATR% is near its historical median.  Which setup family does QuantGlass evaluate?",
+      "options": [
+        "Breakout-retest only.",
+        "Mean-reversion (range_meanreversion_long/short) using RSI-2 and Bollinger Bands.",
+        "Trend-pullback only.",
+        "All families simultaneously."
+      ],
+      "correct_index": 1,
+      "explanation": "ADX = 12 < 16 → **ranging** regime.  The engine skips the trend-pullback and breakout families and evaluates only the mean-reversion family: RSI-2 at extremes near Bollinger Bands.  The wrong strategy in the wrong regime is a primary source of signal failure."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open any signal and look at market_regime in the confidence_basis.  Find one 'ranging' and one 'trending' signal."
+    }
+  },
+  {
+    "id": "advanced-02-macd",
+    "module_id": "advanced",
+    "tier": "advanced",
+    "order": 2,
+    "title": "MACD Histogram — Momentum Confirmation",
+    "summary": "Use the MACD histogram as a secondary momentum confirmation filter.",
+    "concept": "**MACD** (Moving Average Convergence/Divergence) measures the gap between two EMAs:\n`MACD Line = EMA(12) − EMA(26)`\n`Signal Line = EMA(9) of MACD Line`\n`Histogram = MACD Line − Signal Line`\n\n**Histogram interpretation:**\n- Histogram > 0 and growing → accelerating bullish momentum\n- Histogram < 0 and shrinking → bearish momentum fading (possible reversal)\n- **Divergence**: price makes new high, histogram does not → hidden weakness\n\n**Role in QuantGlass:** MACD histogram sign is a `macd_agree` boolean in the confluence formula.  If histogram agrees with trade direction, confluence score gains 0.10.  It is a confirmation filter, not a primary trigger.",
+    "key_terms": [
+      {
+        "term": "MACD Line",
+        "definition": "EMA(12) − EMA(26) — the core momentum line."
+      },
+      {
+        "term": "Signal Line",
+        "definition": "EMA(9) of the MACD line — smoothed version."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD Line − Signal Line — shows the rate of momentum change."
+      },
+      {
+        "term": "MACD Divergence",
+        "definition": "Price and MACD moving in opposite directions — weakening move."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Price is above EMA-21 > SMA-50.  MACD histogram is at −0.02.  Does the engine add the 'macd_agree' bonus?",
+      "options": [
+        "Yes — the histogram is near zero, which counts as neutral agreement.",
+        "No — macd_agree requires histogram > 0 for a BUY_ZONE setup.",
+        "Yes — being in a bullish stack always earns the bonus.",
+        "The MACD is not used in QuantGlass at all."
+      ],
+      "correct_index": 1,
+      "explanation": "For a long/bullish setup, `macd_agree = macd_histogram > 0`.  A negative histogram (−0.02) means bearish momentum despite the bullish price stack — the +0.10 confluence bonus is withheld.  Signals can still fire, but with lower confidence."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find a HOLD or WATCH signal — these often have MACD not agreeing with direction, lowering confidence."
+    }
+  },
+  {
+    "id": "advanced-03-bollinger-bands",
+    "module_id": "advanced",
+    "tier": "advanced",
+    "order": 3,
+    "title": "Bollinger Bands — Volatility Envelope",
+    "summary": "Use BB squeeze and expansion to time entries with volatility.",
+    "concept": "**Bollinger Bands** consist of:\n- `BB Mid` = SMA(20)\n- `BB Upper` = SMA(20) + 2 × StdDev(20)\n- `BB Lower` = SMA(20) − 2 × StdDev(20)\n- `BB Bandwidth` = (Upper − Lower) / Mid × 100\n\n**Squeeze**: bands narrow → low volatility → energy compresses → breakout imminent.\n**Expansion**: bands widen → volatility spike → trend underway.\n\n**In QuantGlass (ranging regime):**\n- Price at BB Lower + RSI-2 ≤ 8 → `range_meanreversion_long` (BUY_ZONE)\n- Price at BB Upper + RSI-2 ≥ 92 → `range_meanreversion_short` (SELL)\n- Target for mean-reversion: BB Mid (the 20-period SMA)\n\nBandwidth is also used to set the `volatility_regime` stop multiplier.",
+    "key_terms": [
+      {
+        "term": "BB Upper",
+        "definition": "SMA(20) + 2 standard deviations — upper envelope."
+      },
+      {
+        "term": "BB Lower",
+        "definition": "SMA(20) − 2 standard deviations — lower envelope."
+      },
+      {
+        "term": "BB Bandwidth",
+        "definition": "(Upper − Lower) / Mid × 100 — width of the bands, a volatility proxy."
+      },
+      {
+        "term": "BB Squeeze",
+        "definition": "Bands narrowing — volatility is compressing before a directional move."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "BB Bandwidth has been contracting for 10 bars and just reached its 6-month minimum.  What should you prepare for?",
+      "options": [
+        "A sustained period of low volatility — nothing will happen.",
+        "A volatility expansion / breakout — the squeeze releases energy.",
+        "An immediate reversal to the BB midline.",
+        "The signal engine will suppress all signals."
+      ],
+      "correct_index": 1,
+      "explanation": "A BB squeeze to multi-month lows is a classic setup for an imminent volatility expansion.  The direction is not predicted by the bands alone — you need the trend stack and a volume trigger to choose long vs short.  This is why QuantGlass combines BB with ADX and RSI-2."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Find a range_meanreversion signal.  The entry zone will be near the BB Lower (long) or BB Upper (short)."
+    }
+  },
+  {
+    "id": "advanced-04-backtest-reading",
+    "module_id": "advanced",
+    "tier": "advanced",
+    "order": 4,
+    "title": "Reading a Backtest — IS vs OOS",
+    "summary": "Interpret in-sample and out-of-sample metrics to judge setup quality.",
+    "concept": "QuantGlass splits historical candles 70/30 by time:\n\n- **In-Sample (IS, 70%)**: the training window.  The engine can 'see' this period when producing the current signal.  IS metrics tell you how the setup performed in history.\n- **Out-of-Sample (OOS, 30%)**: a held-out window the engine didn't train on.  OOS metrics approximate future performance more honestly than IS.\n\n**Key metrics to read:**\n| Metric | What it means |\n|---|---|\n| Win Rate | % of trades that returned > 0R |\n| Expectancy | Average R per trade |\n| Profit Factor | Gross profit ÷ Gross loss |\n| Max Drawdown | Worst peak-to-trough loss |\n| Sharpe / Sortino | Risk-adjusted return |\n| OOS Validated | True when OOS has ≥ min_sample trades AND positive OOS expectancy |\n\nA signal with high IS metrics but OOS_Validated = False should be treated with caution.",
+    "key_terms": [
+      {
+        "term": "In-Sample (IS)",
+        "definition": "Historical window the model trained on — 70% by time."
+      },
+      {
+        "term": "Out-of-Sample (OOS)",
+        "definition": "Held-out window — 30% of history, simulates forward performance."
+      },
+      {
+        "term": "Profit Factor",
+        "definition": "Gross wins ÷ Gross losses.  > 1.3 is generally positive."
+      },
+      {
+        "term": "Max Drawdown",
+        "definition": "The worst decline from peak equity in the backtest — shows worst-case pain."
+      },
+      {
+        "term": "OOS Validated",
+        "definition": "True when OOS has enough trades (≥ min_sample) with positive expectancy."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A backtest shows IS win rate 65%, OOS win rate 41%, OOS expectancy −0.12R.  Is this setup reliable?",
+      "options": [
+        "Yes — 65% IS win rate is strong.",
+        "No — the IS/OOS gap suggests overfitting; OOS expectancy is negative.",
+        "Maybe — wait for more trades in the OOS period.",
+        "Yes — negative OOS expectancy is normal for mean-reversion."
+      ],
+      "correct_index": 1,
+      "explanation": "A large IS/OOS gap (65% vs 41%) and negative OOS expectancy (−0.12R) strongly suggests the setup is **overfitted** to the IS period — it captured noise, not signal.  QuantGlass sets `out_of_sample_validated = False` and caps confidence at 62 in this case."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open Backtesting, select any preset, and compare IS Win Rate vs OOS Win Rate.  Find one where OOS is close to IS."
+    }
+  },
+  {
+    "id": "advanced-05-confidence-basis",
+    "module_id": "advanced",
+    "tier": "advanced",
+    "order": 5,
+    "title": "The Confidence Basis — What Drives the Score",
+    "summary": "Reverse-engineer confidence scores by reading each sub-component.",
+    "concept": "The `confidence` number (0–100) is derived from these weighted sub-scores:\n\n| Component | Weight | Source |\n|---|---|---|\n| base | Fixed (42–58) | Signal type (WAIT=42, HOLD/WATCH=52, BUY/SELL=58) |\n| trend_alignment | × 14 | |EMA-SMA gap| / close |\n| volume_confirmation | × 8 | volume_ratio / 1.75 |\n| confluence_score − 0.5 | × 18 | Multi-factor score from signal family |\n| calibrated_win_rate − 0.5 | × 32 | Bayesian-shrunk win rate from pooled expectancy |\n| expectancy | × 10 | Pooled expectancy R (capped ±1) |\n| thin-sample penalty | −8 | Applied when pooled_sample < min_sample |\n| OOS cap | max 62 | Applied when out_of_sample_validated = False |\n\nFinal confidence is clamped to [20, 89] — the engine never claims certainty.",
+    "key_terms": [
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Bayesian shrinkage: raw win rate → 0.5 proportional to sample thinness."
+      },
+      {
+        "term": "Pooled Expectancy",
+        "definition": "Cross-symbol aggregated expectancy for this setup type across the corridor."
+      },
+      {
+        "term": "Confluence Score",
+        "definition": "Multi-factor combined score: trend, volume, MACD, HTF slope, regime bonus."
+      },
+      {
+        "term": "OOS Cap",
+        "definition": "Confidence hard-capped at 62 when out_of_sample_validated is False."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A BUY_ZONE signal has perfect trend alignment (1.0) but OOS_validated = False and pooled_sample = 12 (< min_sample=50).  What is the approximate max confidence?",
+      "options": [
+        "89 — perfect trend alignment earns maximum confidence.",
+        "≈ 62 — OOS cap applies; thin-sample penalty reduces further.",
+        "20 — the minimum floor kicks in.",
+        "50 — neutral default."
+      ],
+      "correct_index": 1,
+      "explanation": "OOS cap sets hard ceiling at 62.  The thin-sample penalty (−8) is also applied since pooled_sample (12) < min_sample (50).  Starting from BUY base 58 + perfect alignment (14) = 72, minus 8 (thin sample) = 64, then capped at 62.  The engine won't claim high confidence without evidence."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Open any signal drawer and expand the Confidence Basis section.  Find a signal where OOS_validated = True and one where it is False."
+    }
+  }
+]
