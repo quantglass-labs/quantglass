@@ -74,6 +74,20 @@ Shipped foundations: lesson JSON content + schema CI ✅ · lesson moments v1
 ([#25](https://github.com/quantglass-labs/quantglass/issues/25)) ✅ · live
 exercises v1 ✅ · coaching panel on Learn ✅
 
+## Visual Learning workstream (milestone: QuantGlass Academy)
+
+Visual spec: [reading_candlestick_tutorial.html](reading_candlestick_tutorial.html).
+Three tiers — declarative diagrams, interactive widgets, engine-true
+explorers — all via a schema-validated widget registry (no markup in content;
+live-data capable).
+
+- [ ] VIS-1 Visual registry + diagram archetypes — [#51](https://github.com/quantglass-labs/quantglass/issues/51)
+- [ ] VIS-2 Interactive widgets (candle builder, risk sandbox, indicator
+      playground, auction sim, payoff explorer) — [#52](https://github.com/quantglass-labs/quantglass/issues/52)
+- [ ] VIS-3 Engine-true explorers (regime scrubber, Monte Carlo animator,
+      conformal visualizer) — [#53](https://github.com/quantglass-labs/quantglass/issues/53)
+- [ ] VIS-4 Visual content pass across all levels — [#54](https://github.com/quantglass-labs/quantglass/issues/54)
+
 ## Missions & Feedback Loop workstream (milestone: Missions & Feedback Loop)
 
 Behavioral training layer per [tradingmission.md](tradingmission.md): the app's
