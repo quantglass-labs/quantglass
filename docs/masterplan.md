@@ -42,7 +42,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 - [x] ACAD-1 **Curriculum architecture**: multi-track catalog (modules.json
       gains tracks-per-tier; catalog API and Learn sidebar group by level →
       track), level checkpoints, schema migration for the existing 20 lessons
-- [ ] ACAD-2 **Content Wave 1 — Foundations** (~30 lessons): Market
+- [x] ACAD-2 **Content Wave 1 — Foundations** (~30 lessons): Market
       Foundations, Chart Literacy, Your First Signal complete
 - [ ] ACAD-3 **Content Wave 2 — Indicators, Risk, Regimes** (~30 lessons)
 - [ ] ACAD-4 **Content Wave 3 — Strategy, Statistics, Execution,
