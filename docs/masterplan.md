@@ -45,7 +45,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 - [x] ACAD-2 **Content Wave 1 — Foundations** (~30 lessons): Market
       Foundations, Chart Literacy, Your First Signal complete
 - [x] ACAD-3 **Content Wave 2 — Indicators, Risk, Regimes** (~30 lessons)
-- [ ] ACAD-4 **Content Wave 3 — Strategy, Statistics, Execution,
+- [x] ACAD-4 **Content Wave 3 — Strategy, Statistics, Execution,
       Psychology** (~25 lessons)
 - [ ] ACAD-5 **Content Wave 4 — Expert** (~15 lessons), paired 1:1 with
       engine surfaces (conformal drawer, calibration table, SDK, MCP)
