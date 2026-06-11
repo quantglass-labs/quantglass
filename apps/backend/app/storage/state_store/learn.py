@@ -9,6 +9,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+from app.storage.state_store.db import connect
 from app.storage.state_store.defaults import now_iso
 
 
@@ -28,7 +29,7 @@ class LearnProgressStore:
         )
 
     def get_learn_progress(self) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 "SELECT lesson_id, completed_at, attempts FROM learn_progress"
             ).fetchall()
@@ -36,7 +37,7 @@ class LearnProgressStore:
 
     def mark_lesson_complete(self, lesson_id: str) -> None:
         now = now_iso()
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             connection.execute(
                 """
                 INSERT INTO learn_progress (lesson_id, completed_at, attempts)
@@ -50,7 +51,7 @@ class LearnProgressStore:
             connection.commit()
 
     def record_lesson_attempt(self, lesson_id: str) -> None:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             existing = connection.execute(
                 "SELECT attempts FROM learn_progress WHERE lesson_id = ?",
                 (lesson_id,),

@@ -16,6 +16,7 @@ from typing import Any
 
 from app.core.config import AiSettings, ProviderSettings, SafetySettings
 from app.storage.secret_store import EncryptedSecretStore
+from app.storage.state_store.db import connect
 from app.storage.state_store.defaults import (
     CUSTOM_PROVIDER_AUTH_TYPES,
     CUSTOM_PROVIDER_CAPABILITIES,
@@ -60,7 +61,7 @@ class SettingsStore:
         payload = self._read_settings_payload("provider_settings", ProviderSettings().model_dump())
         normalized_payload = self._normalize_provider_settings_payload(payload)
         if normalized_payload != payload:
-            with sqlite3.connect(self.sqlite_path) as connection:
+            with connect(self.sqlite_path) as connection:
                 self._write_settings_payload(
                     connection,
                     "provider_settings",
@@ -79,7 +80,7 @@ class SettingsStore:
         provider_settings: ProviderSettings,
         safety_settings: SafetySettings,
     ) -> None:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self._write_settings_payload(
                 connection,
                 "provider_settings",
@@ -96,13 +97,13 @@ class SettingsStore:
         payload = self._read_settings_payload("ai_settings", AiSettings().model_dump())
         normalized_payload = self._normalize_ai_settings_payload(payload)
         if normalized_payload != payload:
-            with sqlite3.connect(self.sqlite_path) as connection:
+            with connect(self.sqlite_path) as connection:
                 self._write_settings_payload(connection, "ai_settings", normalized_payload)
                 connection.commit()
         return AiSettings.model_validate(normalized_payload)
 
     def update_ai_settings(self, ai_settings: AiSettings) -> AiSettings:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self._write_settings_payload(
                 connection,
                 "ai_settings",
@@ -128,7 +129,7 @@ class SettingsStore:
         ]
         profiles.append(normalized_profile)
         profiles = sorted(profiles, key=lambda item: item["id"])
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             self._write_settings_payload(connection, "custom_provider_profiles", profiles)
             connection.commit()
         return normalized_profile
@@ -139,7 +140,7 @@ class SettingsStore:
         remaining = [item for item in profiles if item["id"] != normalized_id]
         deleted = len(remaining) != len(profiles)
         if deleted:
-            with sqlite3.connect(self.sqlite_path) as connection:
+            with connect(self.sqlite_path) as connection:
                 self._write_settings_payload(connection, "custom_provider_profiles", remaining)
                 connection.commit()
         return deleted
@@ -158,7 +159,7 @@ class SettingsStore:
         extension_id: str,
         settings: dict[str, Any],
     ) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             payload = self._read_settings_payload("extension_settings", {})
             payload[extension_id] = settings
             self._write_settings_payload(connection, "extension_settings", payload)
@@ -243,7 +244,7 @@ class SettingsStore:
         settings_key: str,
         fallback: dict[str, Any],
     ) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             row = connection.execute(
                 "SELECT payload FROM provider_settings WHERE settings_key = ?",
                 (settings_key,),
@@ -416,7 +417,7 @@ class SettingsStore:
             self._secret_store.write_values(migrated_secret_values)
 
         if payload != scrubbed_payload:
-            with sqlite3.connect(self.sqlite_path) as connection:
+            with connect(self.sqlite_path) as connection:
                 self._write_settings_payload(connection, "api_keys", scrubbed_payload)
                 connection.commit()
 

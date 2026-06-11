@@ -9,6 +9,7 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
+from app.storage.state_store.db import connect
 from app.storage.state_store.defaults import now_iso
 
 
@@ -41,10 +42,9 @@ class AlertsStore:
             )
             """
         )
-        self._ensure_alerts_columns(connection)
 
     def list_alerts(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 """
                 SELECT id, symbol, condition, channel, status, last_fired
@@ -62,7 +62,7 @@ class AlertsStore:
         status: str = "armed",
     ) -> dict[str, Any]:
         created_at = now_iso()
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
                 """
                 INSERT INTO alerts (symbol, condition, channel, status, last_fired, created_at)
@@ -75,7 +75,7 @@ class AlertsStore:
         return self.get_alert(str(alert_id))
 
     def get_alert(self, alert_id: str) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             row = connection.execute(
                 """
                 SELECT id, symbol, condition, channel, status, last_fired
@@ -96,7 +96,7 @@ class AlertsStore:
         channel: str,
         status: str,
     ) -> dict[str, Any]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
                 """
                 UPDATE alerts
@@ -111,7 +111,7 @@ class AlertsStore:
         return self.get_alert(alert_id)
 
     def list_alert_history(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             rows = connection.execute(
                 """
                 SELECT id, symbol, message, channel, fired_at
@@ -137,7 +137,7 @@ class AlertsStore:
         fired_at: str | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         observed_at = fired_at or now_iso()
-        with sqlite3.connect(self.sqlite_path) as connection:
+        with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
                 """
                 UPDATE alerts
@@ -169,17 +169,6 @@ class AlertsStore:
             "firedAt": observed_at,
         }
         return self.get_alert(alert_id), history_item
-
-    def _ensure_alerts_columns(self, connection: sqlite3.Connection) -> None:
-        columns = {row[1] for row in connection.execute("PRAGMA table_info(alerts)").fetchall()}
-        if "channel" not in columns:
-            connection.execute(
-                "ALTER TABLE alerts ADD COLUMN channel TEXT NOT NULL DEFAULT 'desktop'"
-            )
-        if "status" not in columns:
-            connection.execute("ALTER TABLE alerts ADD COLUMN status TEXT NOT NULL DEFAULT 'armed'")
-        if "last_fired" not in columns:
-            connection.execute("ALTER TABLE alerts ADD COLUMN last_fired TEXT")
 
     def _serialize_alert_row(self, row: tuple[Any, ...]) -> dict[str, Any]:
         return {
