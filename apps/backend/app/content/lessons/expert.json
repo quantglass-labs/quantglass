@@ -179,7 +179,34 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Note the confidence of your next five acted-on signals and their outcomes — five rows of your own calibration table."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Predicted vs realized — the score's final exam.",
+        "params": {
+          "heading": "Calibration Buckets",
+          "subtitle": "Realized success by confidence band (illustrative).",
+          "items": [
+            {
+              "label": "50s band",
+              "value": 52,
+              "note": "realized 52% — calibrated"
+            },
+            {
+              "label": "60s band",
+              "value": 61,
+              "note": "realized 61% — calibrated"
+            },
+            {
+              "label": "70s band",
+              "value": 48,
+              "note": "realized 48% — overconfident!"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-08-monte-carlo",
@@ -441,7 +468,32 @@
     "live_apply": {
       "screen": "settings",
       "cta": "Open Settings → AI: whatever provider you choose, the guard and template fallback sit between every model and your screen."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "The cage is built before the model speaks.",
+        "params": {
+          "heading": "Narration Pipeline",
+          "steps": [
+            {
+              "text": "Engine facts only (JSON in)"
+            },
+            {
+              "text": "Schema-constrained generation"
+            },
+            {
+              "text": "Every number traces to a fact?",
+              "yes": "display, labeled",
+              "no": "discard"
+            },
+            {
+              "text": "Deterministic template fallback"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-12-local-models",
@@ -529,7 +581,35 @@
     "live_apply": {
       "screen": "settings",
       "cta": "The MCP endpoint runs at 127.0.0.1:8000/mcp whenever the backend is up — connect an MCP-capable assistant and ask it for your signals."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Facts out; never actions in.",
+        "params": {
+          "heading": "MCP Read-Only Surface",
+          "hub": "Agent",
+          "inputs": [
+            {
+              "label": "list_signals"
+            },
+            {
+              "label": "list_backtest_presets"
+            },
+            {
+              "label": "get_paper_account"
+            },
+            {
+              "label": "list_watchlist"
+            },
+            {
+              "label": "No orders. No settings. No secrets.",
+              "note": "by construction"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-05-trading-plan",
@@ -657,7 +737,22 @@
     "live_apply": {
       "screen": "settings",
       "cta": "Open Settings → Risk: find the trading-mode gate and its requirements — the staged unlock rendered as UI."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "Exposure is earned in stages.",
+        "params": {
+          "heading": "The Staged Unlock",
+          "steps": [
+            "Paper + live data",
+            "Gated visibility",
+            "Tiny-size mode",
+            "User-limited live"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-16-rates-liquidity",
@@ -1109,7 +1204,35 @@
     "live_apply": {
       "screen": "alerts",
       "cta": "Encode one limit physically right now: an alert at your daily-stop equivalent on your largest open position."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "One page, four altitudes.",
+        "params": {
+          "heading": "The Risk Policy",
+          "hub": "Survive",
+          "inputs": [
+            {
+              "label": "Per-trade",
+              "note": "1% + size ceiling"
+            },
+            {
+              "label": "Per-day",
+              "note": "2–3R stop"
+            },
+            {
+              "label": "Portfolio",
+              "note": "heat + correlation caps"
+            },
+            {
+              "label": "Account",
+              "note": "drawdown pause rule"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-26-breach-review",
@@ -1197,7 +1320,29 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Re-read any preset's max drawdown and ask the doctrine's question first: is survival certain through twice that depth?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "You cannot compound from zero.",
+        "params": {
+          "heading": "Five Years, Two Traders",
+          "subtitle": "Survival beats brilliance.",
+          "items": [
+            {
+              "label": "A: +22%/yr, busts yr 6",
+              "value": 0,
+              "note": "final: 0"
+            },
+            {
+              "label": "B: +9%/yr, survives",
+              "value": 54,
+              "note": "final: +54%"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-28-trading-day",
@@ -1241,7 +1386,22 @@
     "live_apply": {
       "screen": "alerts",
       "cta": "Build tomorrow's loop tonight: alerts on every decision level, so execution can be event-driven instead of stared-at."
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "A loop, not a vigil.",
+        "params": {
+          "heading": "The Operator's Day",
+          "steps": [
+            "Prepare",
+            "Execute",
+            "Review",
+            "Close the screens"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "expert-29-research-pipeline",
@@ -1389,6 +1549,36 @@
     "live_apply": {
       "screen": "learn",
       "cta": "Scroll your completed tracks and pick the one lesson you'd reread monthly — every operator keeps one sharpening stone."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Every track, one identity.",
+        "params": {
+          "heading": "The Complete Operator",
+          "hub": "Defensible numbers",
+          "inputs": [
+            {
+              "label": "Structure reader"
+            },
+            {
+              "label": "Risk-first sizer"
+            },
+            {
+              "label": "Honest statistician"
+            },
+            {
+              "label": "Scam-immune"
+            },
+            {
+              "label": "Self-governed (risk office)"
+            },
+            {
+              "label": "Process over prediction"
+            }
+          ]
+        }
+      }
+    ]
   }
 ]

@@ -285,11 +285,156 @@ function ProcessSteps({ params }: { params: Record<string, unknown> }) {
   );
 }
 
+function Flowchart({ params }: { params: Record<string, unknown> }) {
+  const steps = (params.steps as { text: string; yes?: string; no?: string }[]) ?? [];
+  const height = 120 + steps.length * 96;
+  return (
+    <Frame
+      title={String(params.heading ?? 'Decision Flow')}
+      viewBox={`0 0 1000 ${height}`}
+      label={`${String(params.heading ?? 'Decision flow')} flowchart`}
+    >
+      {steps.map((step, i) => {
+        const y = 100 + i * 96;
+        return (
+          <g key={step.text}>
+            <rect
+              x={250}
+              y={y}
+              width={500}
+              height={62}
+              rx={12}
+              fill="#0e2238"
+              stroke={PALETTE.leader}
+            />
+            <text
+              x={500}
+              y={y + 28}
+              textAnchor="middle"
+              fill={PALETTE.ink}
+              fontSize={16}
+              fontWeight={700}
+            >
+              {step.text}
+            </text>
+            {step.yes ? (
+              <text x={500} y={y + 50} textAnchor="middle" fill={PALETTE.muted} fontSize={12}>
+                yes → {step.yes}
+                {step.no ? `  ·  no → ${step.no}` : ''}
+              </text>
+            ) : null}
+            {i < steps.length - 1 ? (
+              <line
+                x1={500}
+                y1={y + 62}
+                x2={500}
+                y2={y + 96}
+                stroke={PALETTE.up}
+                strokeWidth={3}
+                markerEnd="url(#arrow)"
+              />
+            ) : null}
+          </g>
+        );
+      })}
+      <defs>
+        <marker
+          id="arrow"
+          viewBox="0 0 10 10"
+          refX={8}
+          refY={5}
+          markerWidth={7}
+          markerHeight={7}
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" fill={PALETTE.up} />
+        </marker>
+      </defs>
+    </Frame>
+  );
+}
+
+function LabeledInputs({ params }: { params: Record<string, unknown> }) {
+  const inputs = (params.inputs as { label: string; note?: string }[]) ?? [];
+  const hub = String(params.hub ?? 'Output');
+  const height = Math.max(360, 140 + inputs.length * 64);
+  const cy = height / 2 + 20;
+  return (
+    <Frame
+      title={String(params.heading ?? 'Inputs')}
+      viewBox={`0 0 1000 ${height}`}
+      label={`${String(params.heading ?? 'Inputs')} diagram`}
+    >
+      {inputs.map((input, i) => {
+        const y = 110 + i * 64;
+        return (
+          <g key={input.label}>
+            <rect
+              x={50}
+              y={y}
+              width={300}
+              height={48}
+              rx={10}
+              fill="#0e2238"
+              stroke={PALETTE.leader}
+            />
+            <text
+              x={200}
+              y={y + 22}
+              textAnchor="middle"
+              fill={PALETTE.ink}
+              fontSize={14}
+              fontWeight={700}
+            >
+              {input.label}
+            </text>
+            {input.note ? (
+              <text x={200} y={y + 40} textAnchor="middle" fill={PALETTE.muted} fontSize={11}>
+                {input.note}
+              </text>
+            ) : null}
+            <line
+              x1={350}
+              y1={y + 24}
+              x2={620}
+              y2={cy}
+              stroke={PALETTE.leader}
+              strokeWidth={2}
+              opacity={0.7}
+            />
+          </g>
+        );
+      })}
+      <circle
+        cx={700}
+        cy={cy}
+        r={84}
+        fill={PALETTE.up}
+        opacity={0.16}
+        stroke={PALETTE.up}
+        strokeWidth={2.5}
+      />
+      <text
+        x={700}
+        y={cy + 6}
+        textAnchor="middle"
+        fill={PALETTE.ink}
+        fontSize={18}
+        fontWeight={800}
+      >
+        {hub}
+      </text>
+    </Frame>
+  );
+}
+
 const REGISTRY: Record<string, (props: { params: Record<string, unknown> }) => JSX.Element> = {
   candle_anatomy: CandleAnatomy,
   candle_comparison: () => <CandleComparison />,
   magnitude_bars: MagnitudeBars,
   process_steps: ProcessSteps,
+  flowchart: Flowchart,
+  labeled_inputs: LabeledInputs,
   risk_sandbox: RiskSandbox,
   candle_builder: () => <CandleBuilder />,
   indicator_playground: IndicatorPlayground,

@@ -45,7 +45,27 @@
     "live_apply": {
       "screen": "watchlist",
       "cta": "Open the Watchlist and note which symbols are crypto and which are stocks — the market type tag drives how the engine treats each."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Two markets, one engine.",
+        "params": {
+          "heading": "What QuantGlass Trades",
+          "hub": "Engine",
+          "inputs": [
+            {
+              "label": "US equities",
+              "note": "session hours, gaps, tickers"
+            },
+            {
+              "label": "Crypto spot",
+              "note": "24/7, pairs like BTCUSD"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-07-exchanges-venues",
@@ -133,7 +153,23 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open Signals and check a freshness badge: how old is the last closed candle behind the newest signal?"
-    }
+    },
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "Only closed candles become facts.",
+        "params": {
+          "heading": "The Candle Clock",
+          "steps": [
+            "Bar opens",
+            "Trades accumulate",
+            "Bar closes",
+            "Engine evaluates",
+            "Signal updates"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-09-order-book-spread",
@@ -231,7 +267,32 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open a signal and identify its three order-type components: the entry zone, the stop-loss trigger, and the take-profit ladder."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "Every fancy order is built from these.",
+        "params": {
+          "heading": "Choosing an Order",
+          "steps": [
+            {
+              "text": "Need certainty of FILL?",
+              "yes": "market order",
+              "no": "next question"
+            },
+            {
+              "text": "Need certainty of PRICE?",
+              "yes": "limit order",
+              "no": "reconsider the trade"
+            },
+            {
+              "text": "Exit if price hits a level?",
+              "yes": "stop trigger + market"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-11-liquidity-volume",
@@ -275,7 +336,39 @@
     "live_apply": {
       "screen": "symbol-detail",
       "cta": "Open a symbol's detail and find the volume metrics — compare the latest bar's volume against the recent baseline."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Volume ratio is the engine's participation gauge.",
+        "params": {
+          "heading": "Volume vs Baseline",
+          "subtitle": "Current bar versus 20-bar average.",
+          "items": [
+            {
+              "label": "Dead drift",
+              "value": 0.4,
+              "note": "0.4× — suspect moves"
+            },
+            {
+              "label": "Normal",
+              "value": 1.0,
+              "note": "1.0× — baseline"
+            },
+            {
+              "label": "Confirmed",
+              "value": 1.75,
+              "note": "1.75× — full confirmation score"
+            },
+            {
+              "label": "Climax",
+              "value": 3.0,
+              "note": "3.0× — possible exhaustion"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-12-fees-slippage",
@@ -392,7 +485,35 @@
     "live_apply": {
       "screen": "learn",
       "cta": "Revisit the position-sizing lesson in Risk & Position Sizing — it is the most concrete expression of the retail edge."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Know which games not to play.",
+        "params": {
+          "heading": "Who Sets the Price",
+          "hub": "Price",
+          "inputs": [
+            {
+              "label": "Market makers",
+              "note": "earn the spread"
+            },
+            {
+              "label": "Institutions",
+              "note": "slow size"
+            },
+            {
+              "label": "Algorithms",
+              "note": "most volume"
+            },
+            {
+              "label": "Retail (you)",
+              "note": "edge = discipline"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-14-crypto-vs-equities",
@@ -436,7 +557,29 @@
     "live_apply": {
       "screen": "watchlist",
       "cta": "Compare a crypto and a stock symbol's recent candle ranges — notice how differently they move, then find that difference expressed in their ATR values."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "Same engine, different cost gravity.",
+        "params": {
+          "heading": "Round-Trip Costs",
+          "subtitle": "Engine defaults, both sides.",
+          "items": [
+            {
+              "label": "Crypto",
+              "value": 0.3,
+              "note": "0.30% round trip"
+            },
+            {
+              "label": "Stocks",
+              "value": 0.06,
+              "note": "0.06% round trip"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-15-candles-from-ticks",
@@ -613,7 +756,23 @@
       "screen": "signals",
       "cta": "Open Signals, click any BUY_ZONE signal, and look at the Reasons section — find the trend alignment reason."
     },
-    "track_id": "chart-literacy"
+    "track_id": "chart-literacy",
+    "visuals": [
+      {
+        "type": "process_steps",
+        "title": "The staircase that defines an uptrend.",
+        "params": {
+          "heading": "Trend Structure",
+          "steps": [
+            "Higher low",
+            "Higher high",
+            "Higher low",
+            "Higher high",
+            "Structure intact"
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-03-support-resistance",
@@ -741,7 +900,38 @@
     "live_apply": {
       "screen": "dashboard",
       "cta": "Flip a chart through 15m → 1h → 4h → 1d and write down the trend you would call at each lens."
-    }
+    },
+    "visuals": [
+      {
+        "type": "magnitude_bars",
+        "title": "One hour, four lenses.",
+        "params": {
+          "heading": "Candles per Day",
+          "items": [
+            {
+              "label": "15m",
+              "value": 96,
+              "note": "96 bars — detail + noise"
+            },
+            {
+              "label": "1h",
+              "value": 24,
+              "note": "24 bars"
+            },
+            {
+              "label": "4h",
+              "value": 6,
+              "note": "6 bars"
+            },
+            {
+              "label": "1d",
+              "value": 1,
+              "note": "1 bar — structure"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-17-swing-structure",
@@ -969,7 +1159,37 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open any signal and locate all seven parts: state, setup, entry zone, stop, ladder, risk:reward, reasons."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "A signal is a structured claim.",
+        "params": {
+          "heading": "Signal Card Anatomy",
+          "hub": "Signal",
+          "inputs": [
+            {
+              "label": "State + setup type"
+            },
+            {
+              "label": "Entry zone"
+            },
+            {
+              "label": "Stop (invalidation)"
+            },
+            {
+              "label": "TP ladder 50/30/20"
+            },
+            {
+              "label": "Reasons (closed-candle facts)"
+            },
+            {
+              "label": "Confidence basis"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-21-confidence-meaning",
@@ -1013,7 +1233,39 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Open a signal's confidence basis and find the sample sizes — notice how the score treats small ones."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Every input is printed in the basis.",
+        "params": {
+          "heading": "What Feeds Confidence",
+          "hub": "20–89",
+          "inputs": [
+            {
+              "label": "Trend alignment",
+              "note": "×14"
+            },
+            {
+              "label": "Volume confirmation",
+              "note": "×8"
+            },
+            {
+              "label": "Confluence",
+              "note": "×18"
+            },
+            {
+              "label": "Calibrated win rate",
+              "note": "shrunk by sample"
+            },
+            {
+              "label": "OOS validation",
+              "note": "cap 62 without it"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-22-freshness-invalidation",
@@ -1057,7 +1309,28 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Find the freshness badge on each signal — then refresh the corridor and watch the badges reset."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "Two ways a signal dies.",
+        "params": {
+          "heading": "Is This Signal Still Alive?",
+          "steps": [
+            {
+              "text": "Is the freshness badge current?",
+              "yes": "continue",
+              "no": "refresh first"
+            },
+            {
+              "text": "Has price closed beyond the stop?",
+              "yes": "invalidated — stand down",
+              "no": "signal stands"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-23-first-paper-trade",
@@ -1233,7 +1506,30 @@
     "live_apply": {
       "screen": "backtest",
       "cta": "Open any preset: losses, drawdown, and sample sizes are printed beside the wins. That completeness is what real reporting looks like."
-    }
+    },
+    "visuals": [
+      {
+        "type": "flowchart",
+        "title": "The funnel, mapped.",
+        "params": {
+          "heading": "The Guru Funnel",
+          "steps": [
+            {
+              "text": "Lifestyle content catches you"
+            },
+            {
+              "text": "Unverifiable wins build belief"
+            },
+            {
+              "text": "Private group isolates you"
+            },
+            {
+              "text": "Course / signals extract the money"
+            }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "novice-27-platform-scams",
@@ -1365,6 +1661,36 @@
     "live_apply": {
       "screen": "signals",
       "cta": "Run the checklist against QuantGlass itself, item by item — the engine should pass precisely because every claim on screen is auditable."
-    }
+    },
+    "visuals": [
+      {
+        "type": "labeled_inputs",
+        "title": "Three flags is a verdict.",
+        "params": {
+          "heading": "Red Flags",
+          "hub": "Walk away",
+          "inputs": [
+            {
+              "label": "Guaranteed returns"
+            },
+            {
+              "label": "Urgency pressure"
+            },
+            {
+              "label": "They contacted you"
+            },
+            {
+              "label": "Private-channel move"
+            },
+            {
+              "label": "Unverifiable record"
+            },
+            {
+              "label": "Pay to withdraw"
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
