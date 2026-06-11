@@ -12,7 +12,7 @@
  *  - Top bar       : overall progress bar
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   ExerciseResult,
   LiveExercise,
@@ -813,7 +813,46 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [moments, setMoments] = useState<LearnMoment[]>([]);
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
   const [assessmentLevel, setAssessmentLevel] = useState<LessonTier | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [screenHeight, setScreenHeight] = useState('calc(100dvh - 12rem)');
+  const screenRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query || !catalog) return null;
+    const results: { lesson: LessonStub; trackTitle: string; level: LessonTier }[] = [];
+    for (const level of catalog.levels) {
+      for (const track of level.tracks) {
+        for (const lessonStub of track.lessons) {
+          const haystack = `${lessonStub.title} ${lessonStub.summary} ${track.title}`.toLowerCase();
+          if (haystack.includes(query)) {
+            results.push({ lesson: lessonStub, trackTitle: track.title, level: level.id });
+          }
+        }
+      }
+    }
+    return results.slice(0, 30);
+  }, [searchQuery, catalog]);
+
+  // Bound the screen to the viewport so the sidebar and lesson pane scroll
+  // independently instead of sharing the window scroll.
+  useEffect(() => {
+    function measure() {
+      const top = screenRef.current?.getBoundingClientRect().top ?? 0;
+      setScreenHeight(`calc(100dvh - ${Math.max(top, 0) + 12}px)`);
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
+
+  // The lesson pane starts at the top for every newly opened lesson.
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0 });
+  }, [activeLessonId, assessmentLevel]);
   const [activeLesson, setActiveLesson] = useState<LessonRecord | null>(null);
   const [lessonLoading, setLessonLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -907,7 +946,11 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const progress = catalog?.progress;
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <div
+      ref={screenRef}
+      className="flex flex-col min-h-0 overflow-hidden"
+      style={{ height: screenHeight }}
+    >
       {/* Top bar */}
       <div className="shrink-0 border-b border-zinc-800 px-6 py-3 flex items-center gap-4">
         <div className="flex items-center gap-2">
@@ -959,37 +1002,71 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Sidebar */}
         <aside className="w-72 shrink-0 border-r border-zinc-800 overflow-y-auto p-3 hidden md:block">
-          {!catalog && (
-            <div className="space-y-3 p-2">
-              {[1, 2, 3, 4].map((n) => (
-                <div key={n} className="h-12 rounded-lg bg-zinc-800 animate-pulse" />
+          <input
+            type="search"
+            placeholder="Search lessons…"
+            aria-label="Search lessons"
+            className="mb-3 w-full rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+          {searchResults ? (
+            <div className="space-y-0.5">
+              {searchResults.length === 0 ? (
+                <p className="px-3 py-2 text-xs text-zinc-500">No lessons match.</p>
+              ) : null}
+              {searchResults.map(({ lesson: result, trackTitle, level }) => (
+                <button
+                  key={result.id}
+                  onClick={() => handleSelectLesson(result)}
+                  className={clsx(
+                    'w-full rounded-md px-3 py-2 text-left transition-colors',
+                    activeLessonId === result.id
+                      ? 'bg-indigo-600/30 text-indigo-200'
+                      : 'hover:bg-zinc-800/60 text-zinc-400 hover:text-zinc-200',
+                  )}
+                >
+                  <span className="block text-xs font-medium truncate">{result.title}</span>
+                  <span className="block text-[10px] text-zinc-600">
+                    {level} · {trackTitle}
+                  </span>
+                </button>
               ))}
             </div>
-          )}
-          {catalog?.levels.map((level, i) => (
-            <LevelSection
-              key={level.id}
-              level={level}
-              activeLessonId={activeLessonId}
-              onSelectLesson={handleSelectLesson}
-              onTakeAssessment={(lvl) => setAssessmentLevel(lvl)}
-              locked={readiness?.levels.find((l) => l.id === level.id)?.unlocked === false}
-              lockReasons={readiness?.levels
-                .find((l) => l.id === level.id)
-                ?.requirements.filter((r) => !r.met)
-                .map((r) => r.label)}
-              defaultOpen={
-                i === 0 ||
-                level.tracks.some((track) =>
-                  track.lessons.some((lesson) => lesson.id === activeLessonId),
-                )
-              }
-            />
-          ))}
+          ) : null}
+          <div className={searchResults ? 'hidden' : undefined}>
+            {!catalog && (
+              <div className="space-y-3 p-2">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="h-12 rounded-lg bg-zinc-800 animate-pulse" />
+                ))}
+              </div>
+            )}
+            {catalog?.levels.map((level, i) => (
+              <LevelSection
+                key={level.id}
+                level={level}
+                activeLessonId={activeLessonId}
+                onSelectLesson={handleSelectLesson}
+                onTakeAssessment={(lvl) => setAssessmentLevel(lvl)}
+                locked={readiness?.levels.find((l) => l.id === level.id)?.unlocked === false}
+                lockReasons={readiness?.levels
+                  .find((l) => l.id === level.id)
+                  ?.requirements.filter((r) => !r.met)
+                  .map((r) => r.label)}
+                defaultOpen={
+                  i === 0 ||
+                  level.tracks.some((track) =>
+                    track.lessons.some((lesson) => lesson.id === activeLessonId),
+                  )
+                }
+              />
+            ))}
+          </div>
         </aside>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main ref={mainRef} className="flex-1 overflow-y-auto p-6">
           {assessmentLevel ? (
             <AssessmentView
               level={assessmentLevel}
