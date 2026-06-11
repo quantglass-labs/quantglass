@@ -1075,5 +1075,225 @@
       "screen": "dashboard",
       "cta": "Open your paper account summary: separate in your mind which numbers are outcomes (PnL) and which are process (your sizing and stops)."
     }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "module_id": "novice",
+    "track_id": "scam-defense",
+    "tier": "novice",
+    "order": 25,
+    "title": "The Anatomy of a Trading Scam",
+    "summary": "Every scheme runs on the same three promises.",
+    "concept": "Trading scams are endlessly re-skinned but structurally identical. They sell some mix of three impossible promises: **guaranteed returns** ('1% daily, risk-free'), **secret knowledge** ('the indicator THEY don't want you to know'), and **effortless wealth** ('the bot trades while you sleep'). Each promise contradicts something you have already learned in this Academy: returns carry risk by definition (drawdown math), persistent public edges decay (statistical honesty), and costs plus competition make effortless profit a contradiction.\n\nThe operational pattern is also constant: **urgency** ('only 5 spots left'), **social proof you cannot verify** (screenshots, testimonials, rented Lamborghinis), and an **isolation funnel** (move you from public platforms to private Telegram/WhatsApp groups where platform moderation and witnesses disappear).\n\nThe single most protective habit: when an offer's *claimed returns* would make its seller rich without needing your money, ask why they need your money. Real edges are traded quietly, not sold loudly.",
+    "key_terms": [
+      {
+        "term": "Guaranteed return",
+        "definition": "A promise that contradicts the definition of market risk — the universal scam marker."
+      },
+      {
+        "term": "Urgency pressure",
+        "definition": "Artificial deadlines designed to prevent verification."
+      },
+      {
+        "term": "Isolation funnel",
+        "definition": "Moving marks to private channels away from moderation and witnesses."
+      },
+      {
+        "term": "Seller's paradox",
+        "definition": "If the edge were real, selling it would be unnecessary and self-defeating."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "An ad promises '2% per day, guaranteed, withdraw anytime'. Before any other red flag, what makes this mathematically a scam?",
+      "options": [
+        "2% is too small to bother with.",
+        "Guaranteed daily compounding at that rate would exceed the world's wealth within years — returns without risk do not exist, so the promise itself is the proof.",
+        "Withdrawals are never allowed anywhere.",
+        "Only percentages above 5% are scams."
+      ],
+      "correct_index": 1,
+      "explanation": "2% daily compounds to roughly 1,377% per year. Anyone who actually had that would never need depositors. The promise is self-refuting before you check anything else."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Revisit the drawdown lesson: the recovery math you computed there is exactly what 'risk-free returns' pretends away."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "module_id": "novice",
+    "track_id": "scam-defense",
+    "tier": "novice",
+    "order": 26,
+    "title": "Fake Gurus and Signal Sellers",
+    "summary": "Lifestyle marketing, unverifiable track records, and the courses funnel.",
+    "concept": "The guru business model is selling the *image* of trading success to fund a lifestyle that trading does not. Its tells: **lifestyle-first content** (cars, watches, beach laptops — never audited statements), **cherry-picked screenshots** (winners posted, losers deleted; demo accounts presented as real), **unverifiable claims** ('turned $1k into $1M' with no broker statements), and revenue that visibly comes from **courses, signals, and affiliate links** rather than trading.\n\n**Signal sellers** deserve special caution: paying someone to tell you when to buy combines all the risk (yours) with none of the understanding (also yours). You cannot size, manage, or exit a position whose reasoning you do not know — which is why this Academy teaches you to *read the engine's reasons* rather than trust its conclusions.\n\nThe honest contrast you now own: QuantGlass shows sample sizes, out-of-sample splits, costs, and drawdowns on every claim, *because that is what honest performance reporting looks like*. Demand the same standard from any human: audited, complete, risk-adjusted, with losses included. Almost none survive the request.",
+    "key_terms": [
+      {
+        "term": "Lifestyle marketing",
+        "definition": "Selling wealth imagery in place of verifiable performance."
+      },
+      {
+        "term": "Cherry-picking",
+        "definition": "Publishing winners while deleting losers — survivorship bias as a sales tool."
+      },
+      {
+        "term": "Signal selling",
+        "definition": "Charging for entry calls whose reasoning and risk stay hidden."
+      },
+      {
+        "term": "Audited track record",
+        "definition": "Complete, broker-verified performance including losses — the standard gurus avoid."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A guru posts 47 winning-trade screenshots this month. As a statistically-trained reader, what is the first question?",
+      "options": [
+        "Which broker has the prettiest interface?",
+        "Where are the losers? A sample with no losses is curated, not earned — the same survivorship bias that fakes backtests fakes track records.",
+        "How can I subscribe fastest?",
+        "What watch is that?"
+      ],
+      "correct_index": 1,
+      "explanation": "You learned this as survivorship bias in the backtesting track. Screenshots are a sample you cannot audit, selected by the person selling to you."
+    },
+    "live_apply": {
+      "screen": "backtest",
+      "cta": "Open any preset: losses, drawdown, and sample sizes are printed beside the wins. That completeness is what real reporting looks like."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "module_id": "novice",
+    "track_id": "scam-defense",
+    "tier": "novice",
+    "order": 27,
+    "title": "Platform Scams and Phishing",
+    "summary": "Fake exchanges, withdrawal traps, and credential theft.",
+    "concept": "The second scam family attacks your *access* rather than your judgment. **Fake platforms**: polished exchange/broker sites that accept deposits, display fictional profits to encourage more deposits, then block withdrawal ('pay the tax/fee first' — the **withdrawal trap**, always a second theft, never a real fee). **Phishing**: lookalike sites and emails harvesting your exchange login or seed phrase; one wrong paste and custody is gone. **Fake support**: scammers in community channels DM'ing 'help' that ends with you revealing credentials — real support never DMs first and never needs your password or seed phrase.\n\nDefenses are mechanical, not clever: access exchanges by **bookmark only** (never search-ad links), enable **withdrawal allowlists and 2FA**, give **API keys minimum scope** (the custody lesson's rule — data-only keys for data-only apps, never withdrawal rights), and treat any 'pay to unlock your withdrawal' demand as the confession it is.\n\nNote the QuantGlass posture you can verify: keys live in an encrypted local store, the app never asks for passwords or seed phrases, and nothing here can withdraw — by design.",
+    "key_terms": [
+      {
+        "term": "Withdrawal trap",
+        "definition": "Fake fees demanded to 'release' funds — a second theft, never legitimate."
+      },
+      {
+        "term": "Phishing",
+        "definition": "Lookalike sites/messages harvesting credentials or seed phrases."
+      },
+      {
+        "term": "Fake support",
+        "definition": "Unsolicited 'help' that ends in credential disclosure."
+      },
+      {
+        "term": "Bookmark discipline",
+        "definition": "Reaching financial sites only through saved, verified links."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "A 'platform' shows your balance grew to $11,400 but demands a $900 'release fee' to withdraw. What is the correct model of this situation?",
+      "options": [
+        "A normal regulatory fee — pay it.",
+        "The displayed balance is fiction and the fee is a second theft attempt; no legitimate venue charges a fee to permit withdrawal of your own funds.",
+        "Negotiate the fee down to $450.",
+        "Deposit more to qualify for free withdrawals."
+      ],
+      "correct_index": 1,
+      "explanation": "The number on the screen was always just pixels. Paying 'release' fees only signals you can be billed again — the correct spend is zero and the correct action is reporting."
+    },
+    "live_apply": {
+      "screen": "settings",
+      "cta": "Check your API keys screen: scopes, encryption, no withdrawal rights anywhere — verify the posture this lesson described."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "module_id": "novice",
+    "track_id": "scam-defense",
+    "tier": "novice",
+    "order": 28,
+    "title": "Social Engineering and Long-Con Schemes",
+    "summary": "Pig-butchering, romance funnels, and trust as the attack surface.",
+    "concept": "The most financially devastating scams attack trust, slowly. The **long-con** pattern (crudely named 'pig butchering'): a stranger initiates contact (wrong number, dating app, social media), invests weeks in friendly or romantic rapport, casually reveals their trading success, and eventually offers to 'help you invest' — on a platform they control. Small withdrawals are honored early to manufacture trust; the theft happens after the victim escalates to life savings. Losses in this category are routinely catastrophic precisely because the relationship feels real.\n\nStructural defenses, because in-the-moment judgment is exactly what the con disables: **the channel rule** — anyone who initiates contact AND eventually steers to investing is presumed hostile, no matter how long the rapport took; **the platform rule** — never use a venue introduced by an online acquaintance; **the verification rule** — discuss any new 'opportunity' with someone offline who loves you and gains nothing; and **the exit rule** — early 'successful withdrawals' prove nothing, since honoring small exits is the scheme's working capital.\n\nIf this has happened to you or someone near you: it is organized industrial crime, not gullibility — report it, and never pay 'recovery services' (the follow-up scam that targets victims twice).",
+    "key_terms": [
+      {
+        "term": "Long-con",
+        "definition": "Weeks of manufactured rapport before the financial ask."
+      },
+      {
+        "term": "Trust capital",
+        "definition": "Honored small withdrawals used to unlock larger deposits."
+      },
+      {
+        "term": "Channel rule",
+        "definition": "Initiated-contact + investment-steering = presumed hostile."
+      },
+      {
+        "term": "Recovery scam",
+        "definition": "Fake services that charge victims to 'retrieve' stolen funds."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "An online friend of two months, who has never asked for anything, mentions their uncle's trading platform and offers to walk you through it. Which single fact dominates the risk assessment?",
+      "options": [
+        "Two months is long enough to establish trust.",
+        "They initiated the original contact and the path now leads to an investment platform they introduced — the full long-con signature, regardless of how genuine the rapport feels.",
+        "Uncles are generally trustworthy.",
+        "The platform's website looks professional."
+      ],
+      "correct_index": 1,
+      "explanation": "The con's entire design is that the relationship feels real and unhurried. Pattern beats feeling: initiated contact plus steered investing is the signature, and the only safe response is the channel rule."
+    },
+    "live_apply": {
+      "screen": "learn",
+      "cta": "Share the channel rule with one person you know who is new to investing — defense spreads by being said out loud."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "module_id": "novice",
+    "track_id": "scam-defense",
+    "tier": "novice",
+    "order": 29,
+    "title": "The Scam Checklist",
+    "summary": "Ten questions that filter nearly everything.",
+    "concept": "Compressed from this track, a checklist to run against any opportunity — each 'yes' is a red flag, three is a verdict:\n\n1. Are returns **guaranteed** or 'risk-free'?\n2. Is there **urgency** (deadlines, limited spots)?\n3. Did **they contact you** first?\n4. Are you being moved to a **private channel**?\n5. Is the track record **unverifiable** (screenshots, no audited statements)?\n6. Does the seller earn from **fees/courses/referrals** rather than trading?\n7. Must you use **their platform** or pay to withdraw?\n8. Do they want **credentials, seed phrases, or remote access**?\n9. Is the strategy **secret** ('can't reveal how it works')?\n10. Would the claimed returns make selling **unnecessary** if real?\n\nNotice the pattern in what survives this filter: boring things. Self-custodied learning, audited public data, tools that show their work, returns claimed in honest R-multiples with drawdowns attached. The Academy's closing irony is intentional: everything that made the engine trustworthy — visible reasoning, sample sizes, out-of-sample honesty, costs included, no promises — is the exact inverse of every red flag above. You now know what honesty looks like in this domain. Demand it everywhere.",
+    "key_terms": [
+      {
+        "term": "Red-flag stacking",
+        "definition": "One flag is suspicion; three is a verdict."
+      },
+      {
+        "term": "Verifiability",
+        "definition": "The dividing line between marketing and evidence."
+      },
+      {
+        "term": "Boring survivor",
+        "definition": "What passes the filter: audited, transparent, promise-free."
+      },
+      {
+        "term": "Honesty inverse",
+        "definition": "Every engine transparency feature mirrors a scam red flag."
+      }
+    ],
+    "exercise": {
+      "type": "multiple_choice",
+      "question": "Which property do essentially ALL offers that survive the ten-question checklist share?",
+      "options": [
+        "Higher promised returns than the scams.",
+        "Verifiable transparency: auditable claims, visible reasoning, included losses, and no dependence on urgency or secrecy.",
+        "Celebrity endorsements.",
+        "Private Telegram access."
+      ],
+      "correct_index": 1,
+      "explanation": "The filter doesn't find hidden gems — it finds honesty. Legitimate tools and teachers survive because they show their work; everything else needs the flags to function."
+    },
+    "live_apply": {
+      "screen": "signals",
+      "cta": "Run the checklist against QuantGlass itself, item by item — the engine should pass precisely because every claim on screen is auditable."
+    }
   }
 ]
