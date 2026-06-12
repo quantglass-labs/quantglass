@@ -113,7 +113,7 @@ async def mcp_endpoint(request: Request) -> Response:
             {
                 "protocolVersion": PROTOCOL_VERSION,
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "quantglass", "version": "0.1.0"},
+                "serverInfo": {"name": "quantglass", "version": "0.2.0"},
                 "instructions": (
                     "Read-only access to a local QuantGlass research engine: "
                     "deterministic signals, honest backtests, paper account, and "

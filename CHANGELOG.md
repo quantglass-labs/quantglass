@@ -72,6 +72,40 @@ prescribe → gate):
   timeframes the corridor actually stores.
 - Behavioral dataset export (trades, journal, calibration as local CSVs).
 
+**Trading at platform parity** (paper venue, honest closed-candle fills):
+
+- Order types on the ticket: market, limit, and stop entries; Day/GTC/GTD
+  time in force with self-expiry; trailing stops that ratchet from the
+  best closed price; the plan's stop and target enforced as a live OCO
+  bracket. Limit/stop unlock with the Order Types lesson; stop-limit is
+  deliberately not simulated and is taught in a drill instead.
+- Portfolio screen: account tiles, open positions with full and partial
+  close (Close ½), working orders with cancel, and a permanent closure
+  ledger recording every exit with PnL, R-multiple, and exit kind.
+- Account guards: orders above buying power are rejected with the maximum
+  affordable size; opposing positions must be closed first (no netting);
+  shorts reserve full notional.
+- Live order-type mapping: the full ticket reaches broker clients; the
+  Alpaca reference mapping produces native limit/stop/bracket/OTO orders
+  and refuses what the broker cannot express (GTD, entry-attached trails)
+  instead of silently downgrading.
+
+**AI everywhere v2**:
+
+- QuantGlass Copilot: a chat drawer on every screen answering questions
+  about your own workstation over the read-only tool registry — the model
+  proposes tools, the engine executes them, the model narrates only those
+  results behind the fact guard.
+- AI daily brief on the Dashboard; natural-language alert creation
+  (model proposes, deterministic parser validates); per-screen AI insights
+  for journal, watchlist, missions, and portfolio; drill instructor
+  debriefs and per-trade postmortems that grade the decision, not the
+  outcome.
+- Every AI panel renders three states (loading / narration with source
+  chip / explicit unavailable) — an AI surface is never silently absent.
+- The MCP server registry extended with closed-trade and trade-review
+  tools and shared with the in-app Copilot.
+
 **Platform**:
 
 - AI everywhere on the narration covenant: backtest research review,
@@ -85,6 +119,11 @@ prescribe → gate):
   usable keychain.
 - Boot splash, backend-status notices on every screen, signal feed error
   surfacing, and signal polling with per-candle caching.
+- Modals cap at viewport height with a pinned header and scrollable body,
+  and close on Escape and backdrop click; drawers close on Escape.
+- Documentation refresh: Portfolio and AI-features user-guide chapters,
+  full API reference, AI surface map, and a streaming-quotes assessment
+  (websockets deferred; fills stay on closed candles).
 
 ### Changed
 

@@ -1,7 +1,7 @@
 {
   "name": "quantglass",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "backend:backup": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export",
