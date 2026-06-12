@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.alerts import router as alerts_router
 from app.api.routes.constitution import router as constitution_router
 from app.api.routes.content import router as content_router
+from app.api.routes.copilot import router as copilot_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
@@ -27,6 +28,7 @@ from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.ai_coach import AiCoachService
 from app.services.constitution import ConstitutionService
+from app.services.copilot import CopilotService
 from app.services.dataset_export import DatasetExportService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
@@ -143,6 +145,10 @@ async def lifespan(app: FastAPI):
         learn_service=learn_service,
         model_gateway=model_gateway,
     )
+    copilot_service = CopilotService(
+        ai_settings_provider=state_store.get_ai_settings,
+        model_gateway=model_gateway,
+    )
     dataset_export_service = DatasetExportService(
         state_store, analytics_store, settings.data_dir / "exports"
     )
@@ -180,6 +186,7 @@ async def lifespan(app: FastAPI):
     app.state.learn_mastery_service = learn_mastery_service
     app.state.risk_meta_service = risk_meta_service
     app.state.ai_coach_service = ai_coach_service
+    app.state.copilot_service = copilot_service
     app.state.dataset_export_service = dataset_export_service
 
     try:
@@ -227,3 +234,4 @@ app.include_router(learn_router)
 app.include_router(journal_router)
 app.include_router(constitution_router)
 app.include_router(mcp_router)
+app.include_router(copilot_router)

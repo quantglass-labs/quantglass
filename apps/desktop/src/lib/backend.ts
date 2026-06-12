@@ -559,6 +559,22 @@ export const backendClient = {
       30_000,
     );
   },
+  askCopilot(question: string) {
+    return requestJson<{
+      answer: string;
+      source: string;
+      toolsUsed: string[];
+      error?: string;
+    }>(
+      '/api/copilot/ask',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question }),
+      },
+      120_000,
+    );
+  },
   getPostmortem(kind: 'drill' | 'trade', facts: Record<string, unknown>) {
     return requestJson<{ summary: string; source: string }>(
       '/api/ai/postmortem',

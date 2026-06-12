@@ -10,14 +10,14 @@ Settings is where you control **data providers, API keys, risk/safety, AI narrat
   <img src="../assets/screenshots/settings-providers.png" alt="Settings — Providers" width="900">
 </p>
 
-| Tab | Purpose |
-|-----|---------|
-| [Providers](#providers) | Which data sources are used and in what priority. |
-| [API Keys](#api-keys) | Encrypted keys for paid providers and notification channels. |
-| [Risk & Safety](#risk--safety) | Paper/live mode, partial candles, minimum backtest sample. |
-| [AI](#ai) | Local/API narration model selection. |
-| [Extensions](#extensions) | Installed extension registry and loading status. |
-| [Strategies](#strategies) | Strategies you saved from Backtesting. |
+| Tab                            | Purpose                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| [Providers](#providers)        | Which data sources are used and in what priority.            |
+| [API Keys](#api-keys)          | Encrypted keys for paid providers and notification channels. |
+| [Risk & Safety](#risk--safety) | Paper/live mode, partial candles, minimum backtest sample.   |
+| [AI](#ai)                      | Local/API narration model selection.                         |
+| [Extensions](#extensions)      | Installed extension registry and loading status.             |
+| [Strategies](#strategies)      | Strategies you saved from Backtesting.                       |
 
 ---
 
@@ -46,14 +46,14 @@ The **Provider registry status** list shows each provider, its capabilities (`oh
 
 Add optional keys to unlock paid data and notification channels. Keys are **masked** in the UI and **encrypted at rest**.
 
-| Key | Unlocks |
-|-----|---------|
-| **Finnhub** | News and additional equity data. |
-| **Polygon / Twelve Data** | Additional equity OHLCV. |
-| **Alpaca** | Optional equity data. Live broker execution is not available in the public preview. |
-| **Telegram bot token + chat ID** | Telegram alert delivery. |
-| **SMTP host/port/credentials** | Email alert delivery. |
-| **OpenAI / OpenAI-compatible API keys** | Optional hosted or private model gateway narration. |
+| Key                                     | Unlocks                                                                             |
+| --------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Finnhub**                             | News and additional equity data.                                                    |
+| **Polygon / Twelve Data**               | Additional equity OHLCV.                                                            |
+| **Alpaca**                              | Optional equity data. Live broker execution is not available in the public preview. |
+| **Telegram bot token + chat ID**        | Telegram alert delivery.                                                            |
+| **SMTP host/port/credentials**          | Email alert delivery.                                                               |
+| **OpenAI / OpenAI-compatible API keys** | Optional hosted or private model gateway narration.                                 |
 
 > **Security:** keys are encrypted on disk in local app data. Trade-capable keys
 > use the operating system keychain when it is available, but may fall back to
@@ -70,11 +70,11 @@ Add optional keys to unlock paid data and notification channels. Keys are **mask
   <img src="../assets/screenshots/settings-risk.png" alt="Settings — Risk & Safety" width="900">
 </p>
 
-| Control | Default | Meaning |
-|---------|---------|---------|
-| **Trading mode** | `paper` | Switch between paper and live. Live requires explicit confirmation; only paper execution is active by default. |
-| **Partial candles** | `false` (enforced) | Signals use **closed candles only**; partial bars are never acted on. |
-| **Minimum backtest sample** | `50` trades | Strategies below this threshold show an instability warning in Backtesting. |
+| Control                     | Default            | Meaning                                                                                                        |
+| --------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **Trading mode**            | `paper`            | Switch between paper and live. Live requires explicit confirmation; only paper execution is active by default. |
+| **Partial candles**         | `false` (enforced) | Signals use **closed candles only**; partial bars are never acted on.                                          |
+| **Minimum backtest sample** | `50` trades        | Strategies below this threshold show an instability warning in Backtesting.                                    |
 
 > The live‑trading switch is a **deliberate safety gate**, but real-money live execution is not available in the public preview. Read [Paper vs live trading](12-paper-trading.md) before changing it.
 
@@ -88,16 +88,22 @@ Add optional keys to unlock paid data and notification channels. Keys are **mask
 
 Controls how signal explanations ("narration") are generated.
 
-| Setting | Default | Notes |
-|---------|---------|-------|
-| **Provider** | `ollama` | Template, Ollama, LM Studio, OpenAI, or OpenAI-compatible. |
-| **Model** | `qwen3:14b-q4_K_M` | Provider model id used for narration. |
-| **Base URL** | `http://127.0.0.1:11434` | Ollama native endpoint or OpenAI-compatible `/v1` endpoint. |
-| **API key** | None | Optional stored key for OpenAI or private gateways. |
-| **Cloud narration** | Off | Kept off by default to preserve the local‑first hot path. |
-| **Request timeout** | 8 s | Narration falls back to a template if the model is slow. |
+| Setting             | Default                  | Notes                                                       |
+| ------------------- | ------------------------ | ----------------------------------------------------------- |
+| **Provider**        | `ollama`                 | Template, Ollama, LM Studio, OpenAI, or OpenAI-compatible.  |
+| **Model**           | `qwen3:14b-q4_K_M`       | Provider model id used for narration.                       |
+| **Base URL**        | `http://127.0.0.1:11434` | Ollama native endpoint or OpenAI-compatible `/v1` endpoint. |
+| **API key**         | None                     | Optional stored key for OpenAI or private gateways.         |
+| **Cloud narration** | Off                      | Kept off by default to preserve the local‑first hot path.   |
+| **Request timeout** | 8 s                      | Narration falls back to a template if the model is slow.    |
 
 If the configured model server isn't running, QuantGlass automatically uses **template‑based** explanations — every signal still gets a clear, fact‑checked write‑up. See [Core concepts → AI narration](11-core-concepts.md#ai-narration-and-the-fact-guard).
+
+The same model also powers the **QuantGlass Copilot** — the sparkle button in the
+bottom-right corner of every screen. Ask it about your own signals, paper account,
+watchlist, backtests, closed trades, or trade review. It answers only from the
+engine's read-only data (it cannot place orders or change settings), and without a
+model it still answers deterministically from the same facts.
 
 Common local presets:
 

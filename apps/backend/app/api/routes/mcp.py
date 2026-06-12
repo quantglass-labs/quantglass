@@ -23,51 +23,62 @@ router = APIRouter(prefix="/mcp", tags=["mcp"])
 
 PROTOCOL_VERSION = "2025-06-18"
 
+TOOL_DESCRIPTIONS: dict[str, str] = {
+    "list_signals": (
+        "List the current deterministic trading signals with entry zone, stop, "
+        "take-profit ladder, confidence basis, backtest statistics, and data "
+        "freshness. Educational decision support, not financial advice."
+    ),
+    "list_backtest_presets": (
+        "List backtest presets with honest in-sample/out-of-sample metrics "
+        "(win rate, expectancy, Sharpe, Sortino, drawdown) per symbol and setup."
+    ),
+    "get_paper_account": (
+        "Get the paper-trading account: balance, buying power, realized PnL, "
+        "and open simulated positions."
+    ),
+    "list_watchlist": "List the user's watchlist symbols with market type and notes.",
+    "list_paper_closures": (
+        "List closed paper trades: side, quantity, entry/exit price, exit kind "
+        "(manual, stop, target, trail), PnL, and R-multiple."
+    ),
+    "get_trade_review": (
+        "Review executed paper trades: process scores, first-touch outcomes, "
+        "and the decision/outcome 2x2 (earned wins, dangerous successes...)."
+    ),
+}
+
+
+def build_tool_registry(state: Any) -> dict[str, Any]:
+    """Read-only engine facts shared by the MCP server and the in-app Copilot.
+
+    Every callable is side-effect free: no orders, no settings writes, no secrets.
+    """
+    return {
+        "list_signals": lambda: {"items": state.signal_engine.list_signals()},
+        "list_backtest_presets": lambda: {"items": state.signal_engine.list_backtest_presets()},
+        "get_paper_account": lambda: state.state_store.get_paper_account(),
+        "list_watchlist": lambda: {"items": state.state_store.list_watchlist()},
+        "list_paper_closures": lambda: {"items": state.state_store.list_paper_closures()},
+        "get_trade_review": lambda: state.trade_review_service.review(),
+    }
+
+
 TOOLS: list[dict[str, Any]] = [
     {
-        "name": "list_signals",
-        "description": (
-            "List the current deterministic trading signals with entry zone, stop, "
-            "take-profit ladder, confidence basis, backtest statistics, and data "
-            "freshness. Educational decision support, not financial advice."
-        ),
+        "name": name,
+        "description": description,
         "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
-    },
-    {
-        "name": "list_backtest_presets",
-        "description": (
-            "List backtest presets with honest in-sample/out-of-sample metrics "
-            "(win rate, expectancy, Sharpe, Sortino, drawdown) per symbol and setup."
-        ),
-        "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
-    },
-    {
-        "name": "get_paper_account",
-        "description": (
-            "Get the paper-trading account: balance, buying power, realized PnL, "
-            "and open simulated positions."
-        ),
-        "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
-    },
-    {
-        "name": "list_watchlist",
-        "description": "List the user's watchlist symbols with market type and notes.",
-        "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
-    },
+    }
+    for name, description in TOOL_DESCRIPTIONS.items()
 ]
 
 
 async def _call_tool(request: Request, name: str) -> Any:
-    state = request.app.state
-    if name == "list_signals":
-        return {"items": await run_in_threadpool(state.signal_engine.list_signals)}
-    if name == "list_backtest_presets":
-        return {"items": await run_in_threadpool(state.signal_engine.list_backtest_presets)}
-    if name == "get_paper_account":
-        return await run_in_threadpool(state.state_store.get_paper_account)
-    if name == "list_watchlist":
-        return {"items": await run_in_threadpool(state.state_store.list_watchlist)}
-    raise KeyError(name)
+    registry = build_tool_registry(request.app.state)
+    if name not in registry:
+        raise KeyError(name)
+    return await run_in_threadpool(registry[name])
 
 
 def _result(message_id: Any, result: dict[str, Any]) -> JSONResponse:

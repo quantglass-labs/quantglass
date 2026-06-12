@@ -27,11 +27,20 @@ class _StateStore:
     def list_watchlist(self):
         return [{"symbol": "BTCUSD", "market_type": "crypto"}]
 
+    def list_paper_closures(self):
+        return [{"symbolId": "BTCUSD", "pnl": 12.5}]
+
+
+class _TradeReview:
+    def review(self):
+        return {"summary": {"trades": 2, "average_process_score": 80}}
+
 
 def _client() -> TestClient:
     app = FastAPI()
     app.state.signal_engine = _SignalEngine()
     app.state.state_store = _StateStore()
+    app.state.trade_review_service = _TradeReview()
     app.include_router(mcp_router)
     return TestClient(app)
 
@@ -59,7 +68,14 @@ class McpServerTests(unittest.TestCase):
         names = {tool["name"] for tool in result["tools"]}
         self.assertEqual(
             names,
-            {"list_signals", "list_backtest_presets", "get_paper_account", "list_watchlist"},
+            {
+                "list_signals",
+                "list_backtest_presets",
+                "get_paper_account",
+                "list_watchlist",
+                "list_paper_closures",
+                "get_trade_review",
+            },
         )
         for tool in result["tools"]:
             self.assertIn("inputSchema", tool)

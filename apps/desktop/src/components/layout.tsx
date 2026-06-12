@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Copilot } from './copilot';
 import { DisclaimerChip, PillTabs } from './ui';
 import type { BackendStatus, MarketType, SymbolRecord } from '../types';
 
@@ -272,6 +273,8 @@ export function AppShell({
           ))}
         </div>
       </nav>
+
+      <Copilot backendStatus={backendStatus} />
 
       <footer className="border-t border-border/70 px-4 py-4 text-xs text-muted lg:ml-72 lg:px-8">
         Educational use only. Not financial advice.{' '}
