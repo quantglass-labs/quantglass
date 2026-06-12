@@ -190,6 +190,18 @@ async def grade_review_card(body: ReviewGrade, request: Request) -> dict:
     return request.app.state.learn_mastery_service.grade(body.term, body.grade)
 
 
+@router.get("/analytics")
+async def get_learn_analytics(request: Request) -> dict:
+    """Per-level and per-track mastery, weekly pace, and certificate states."""
+    return request.app.state.learn_mastery_service.analytics()
+
+
+@router.get("/certificate/{level}")
+async def get_certificate(level: str, request: Request) -> dict:
+    """A local completion certificate, or the unmet requirements."""
+    return request.app.state.learn_mastery_service.certificate(level)
+
+
 @router.get("/glossary")
 async def get_glossary(request: Request) -> dict:
     """Global glossary aggregated from every lesson's key terms."""

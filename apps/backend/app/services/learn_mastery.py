@@ -13,6 +13,7 @@ activity. Badges are earned by completing every lesson in a track.
 
 from __future__ import annotations
 
+import hashlib
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -200,3 +201,98 @@ class LearnMasteryService:
             if entry["lesson_id"] in completed_ids:
                 definitions[entry["term"].lower()] = entry
         return definitions
+
+    # ------------------------------------------------------------------
+    # Progress analytics + certificates (ACAD-11).
+    # ------------------------------------------------------------------
+
+    def analytics(self) -> dict[str, Any]:
+        progress = self._store.get_learn_progress()
+        completed = {lid: data for lid, data in progress.items() if data.get("completed_at")}
+        assessments = self._store.get_assessments()
+        catalog = self._learn.get_catalog()
+
+        levels = []
+        for level in catalog.get("levels", []):
+            done = level.get("completed", 0)
+            total = level.get("total", 0)
+            assessment = assessments.get(level["id"])
+            levels.append(
+                {
+                    "id": level["id"],
+                    "title": level.get("title", level["id"]),
+                    "completed": done,
+                    "total": total,
+                    "percent": round(100 * done / total) if total else 0,
+                    "assessment": (
+                        {"score": assessment["score"], "passed": assessment["passed"]}
+                        if assessment
+                        else None
+                    ),
+                    "certificate_earned": self._certificate_earned(level, assessment),
+                }
+            )
+
+        # Lessons completed per ISO week, most recent 8 weeks.
+        weekly: dict[str, int] = {}
+        for data in completed.values():
+            stamp = str(data["completed_at"])[:10]
+            try:
+                day = datetime.fromisoformat(stamp)
+            except ValueError:
+                continue
+            year, week, _ = day.isocalendar()
+            weekly[f"{year}-W{week:02d}"] = weekly.get(f"{year}-W{week:02d}", 0) + 1
+        recent_weeks = sorted(weekly)[-8:]
+
+        mastery = self.mastery()
+        return {
+            "levels": levels,
+            "tracks": mastery["badges"],
+            "weekly": [{"week": week, "lessons": weekly[week]} for week in recent_weeks],
+            "totals": {
+                "lessons_completed": len(completed),
+                "xp": mastery["xp"],
+                "streak_days": mastery["streak_days"],
+                "badges_earned": sum(1 for badge in mastery["badges"] if badge["earned"]),
+            },
+        }
+
+    @staticmethod
+    def _certificate_earned(level: dict[str, Any], assessment: dict[str, Any] | None) -> bool:
+        total = level.get("total", 0)
+        return bool(
+            total and level.get("completed", 0) == total and assessment and assessment["passed"]
+        )
+
+    def certificate(self, level_id: str) -> dict[str, Any]:
+        catalog = self._learn.get_catalog()
+        level = next(
+            (entry for entry in catalog.get("levels", []) if entry["id"] == level_id), None
+        )
+        if level is None:
+            return {"earned": False, "requirements": ["Unknown level."]}
+        assessment = self._store.get_assessments().get(level_id)
+
+        requirements = []
+        total = level.get("total", 0)
+        done = level.get("completed", 0)
+        if not total or done < total:
+            requirements.append(f"Complete all {total} {level_id} lessons ({done} done).")
+        if not assessment or not assessment.get("passed"):
+            requirements.append(f"Pass the {level_id} assessment.")
+        if requirements:
+            return {"earned": False, "level": level_id, "requirements": requirements}
+
+        issued_at = str(assessment.get("taken_at") or _now().isoformat())
+        payload = f"quantglass:{level_id}:{total}:{assessment['score']}:{issued_at}"
+        verification = hashlib.sha256(payload.encode()).hexdigest()[:16]
+        return {
+            "earned": True,
+            "level": level_id,
+            "level_title": level.get("title", level_id),
+            "lesson_count": total,
+            "exam_score": assessment["score"],
+            "issued_at": issued_at,
+            "verification": verification,
+        }

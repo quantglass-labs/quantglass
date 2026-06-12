@@ -59,9 +59,9 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with â
       overtrading cadence, journal-skipping
 - [x] ACAD-9 (subsumed by MSN-6) **Scenario replay (LL4)**: drive paper trading through
       historical episodes with graded, engine-fact debriefs
-- [ ] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
+- [x] ACAD-10 **Community lesson packs (LL5)**: `lessons` capability in the
       extension SDK, schema-validated, surfaced through the registry (E7)
-- [ ] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
+- [x] ACAD-11 **Progress analytics**: per-track mastery dashboard and local
       completion certificates
 - [x] ACAD-12 **Wave 5 â€” blueprint expansion**: scams & fake gurus,
       margin/leverage, options, fundamentals, macro, microstructure, risk
