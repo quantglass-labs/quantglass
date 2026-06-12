@@ -240,6 +240,11 @@ function LevelSection({
             <div key={track.id}>
               <p className="px-3 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
                 {track.title}
+                {track.source === 'community' ? (
+                  <span className="ml-1.5 rounded-full border border-sky-500/40 px-1.5 font-normal normal-case tracking-normal text-sky-300">
+                    community
+                  </span>
+                ) : null}
                 <span className="ml-2 font-normal normal-case tracking-normal">
                   {track.completed}/{track.total}
                 </span>

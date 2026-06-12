@@ -61,8 +61,15 @@ def _tracks() -> list[dict[str, str]]:
 
 
 class LearnService:
-    def __init__(self, state_store: StateStore) -> None:
+    def __init__(self, state_store: StateStore, lesson_pack_registry: Any | None = None) -> None:
         self._store = state_store
+        self._packs = lesson_pack_registry
+
+    def _all_lessons(self) -> list[dict[str, Any]]:
+        lessons = list(_load_lessons())
+        if self._packs is not None:
+            lessons.extend(self._packs.all_lessons())
+        return lessons
 
     def get_catalog(self) -> dict[str, Any]:
         progress = self._store.get_learn_progress()
@@ -92,6 +99,22 @@ class LearnService:
                         "total": len(track_lessons),
                     }
                 )
+            if self._packs is not None:
+                for track in self._packs.tracks_for_level(level_id):
+                    pack_lessons = track["lessons"]
+                    pack_completed = sum(1 for les in pack_lessons if les["id"] in completed_ids)
+                    level_completed += pack_completed
+                    level_total += len(pack_lessons)
+                    level_tracks.append(
+                        {
+                            **track,
+                            "lessons": [
+                                self._lesson_stub(les, completed_ids) for les in pack_lessons
+                            ],
+                            "completed": pack_completed,
+                            "total": len(pack_lessons),
+                        }
+                    )
             levels.append(
                 {
                     **meta,
@@ -124,7 +147,7 @@ class LearnService:
     def get_glossary(self) -> dict[str, Any]:
         """Every key term across the catalog, deduped, with its source lesson."""
         seen: dict[str, dict[str, Any]] = {}
-        for lesson in _load_lessons():
+        for lesson in self._all_lessons():
             for key_term in lesson.get("key_terms", []):
                 term = key_term["term"]
                 if term.lower() not in seen:
@@ -142,7 +165,7 @@ class LearnService:
         return {"sections": list(_load_reference())}
 
     def get_lesson(self, lesson_id: str) -> dict[str, Any] | None:
-        lesson = next((les for les in _load_lessons() if les["id"] == lesson_id), None)
+        lesson = next((les for les in self._all_lessons() if les["id"] == lesson_id), None)
         if lesson is None:
             return None
         progress = self._store.get_learn_progress()
@@ -150,7 +173,7 @@ class LearnService:
         return {**lesson, "completed": lesson_id in completed_ids}
 
     def check_answer(self, lesson_id: str, answer: str) -> dict[str, Any]:
-        lesson = next((les for les in _load_lessons() if les["id"] == lesson_id), None)
+        lesson = next((les for les in self._all_lessons() if les["id"] == lesson_id), None)
         if lesson is None:
             return {"correct": False, "explanation": "Lesson not found.", "score": 0}
 
