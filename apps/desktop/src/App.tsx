@@ -1720,7 +1720,6 @@ export default function App() {
                       </button>
                     );
                   })}
-                  <span>the Academy's sizing formula, as a button</span>
                 </div>
               ) : null}
               <label className="space-y-2 text-sm text-muted">
@@ -1788,7 +1787,7 @@ export default function App() {
                     step="0.5"
                     placeholder="Trailing stop % (optional)"
                     disabled={!orderTypesUnlocked}
-                    className="w-56 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none disabled:opacity-40"
+                    className="w-56 shrink-0 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none disabled:opacity-40"
                     value={trailPercent}
                     onChange={(event) => setTrailPercent(event.target.value)}
                   />

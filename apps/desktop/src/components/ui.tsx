@@ -3,6 +3,7 @@
 
 import { clsx } from 'clsx';
 import { AlertTriangle, CheckCircle2, Info, RefreshCcw, X } from 'lucide-react';
+import { useEffect } from 'react';
 import type { PropsWithChildren, ReactNode } from 'react';
 import type { ScreenState, SignalType } from '../types';
 
@@ -325,6 +326,17 @@ export function DataStateView({
   return <>{populated}</>;
 }
 
+function useEscapeToClose(open: boolean, onClose: () => void) {
+  useEffect(() => {
+    if (!open) return;
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [open, onClose]);
+}
+
 export function Modal({
   open,
   title,
@@ -338,24 +350,27 @@ export function Modal({
   children: ReactNode;
   onClose: () => void;
 }) {
+  useEscapeToClose(open, onClose);
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm">
-      <div className="glass-panel w-full max-w-2xl rounded-[28px] p-6">
-        <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="absolute inset-0" onClick={onClose} aria-hidden />
+      <div className="glass-panel relative flex max-h-[calc(100vh-2rem)] w-full max-w-2xl flex-col rounded-[28px] p-6">
+        <div className="mb-6 flex shrink-0 items-start justify-between gap-4">
           <div className="space-y-1">
             <h3 className="text-xl font-semibold text-ink">{title}</h3>
             {description ? <p className="text-sm text-muted">{description}</p> : null}
           </div>
           <button
             type="button"
+            aria-label="Close"
             className="rounded-full p-2 text-muted transition hover:bg-white/5 hover:text-ink"
             onClick={onClose}
           >
             <X className="size-4" />
           </button>
         </div>
-        {children}
+        <div className="-mr-2 min-h-0 flex-1 overflow-y-auto pr-2">{children}</div>
       </div>
     </div>
   );
@@ -374,6 +389,7 @@ export function Drawer({
   children: ReactNode;
   onClose: () => void;
 }) {
+  useEscapeToClose(open, onClose);
   if (!open) return null;
 
   return (
