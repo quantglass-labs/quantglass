@@ -21,6 +21,7 @@ from app.services.signal_engine import setups as setups_module
 from app.services.signal_engine import statistics as statistics_module
 from app.services.signal_engine.composites import derive_composite_flags
 from app.services.signal_engine.confidence import derive_confidence
+from app.services.signal_engine.macro_context import derive_macro_context, upcoming_event_context
 from app.services.signal_engine.models import SeriesIndicators, SignalNarrator
 from app.services.signal_engine.statistics import conformal_interval
 from app.services.signal_engine.taxonomy import derive_quality, taxonomy_for
@@ -216,6 +217,15 @@ class SignalEngineService:
                     "data_source": series["source"],
                 }
             )
+        # Macro / breadth / event families (SIG-8): ETF proxies + calendar.
+        returns_by_symbol = {
+            entry["record"]["symbol_id"]: entry["return_20"]
+            for entries in cross_sectional.values()
+            for entry in entries
+        }
+        items.extend(derive_macro_context(returns_by_symbol))
+        items.extend(upcoming_event_context())
+
         # Relative strength family (SIG-6): leader and laggard per timeframe
         # cohort. Rank means nothing in a cohort of two, so require four.
         for entries in cross_sectional.values():
