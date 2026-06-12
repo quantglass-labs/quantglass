@@ -25,6 +25,12 @@ from app.services.signal_engine.macro_context import derive_macro_context, upcom
 from app.services.signal_engine.models import SeriesIndicators, SignalNarrator
 from app.services.signal_engine.statistics import conformal_interval
 from app.services.signal_engine.taxonomy import derive_quality, taxonomy_for
+from app.services.signal_engine.workbench import (
+    bias_gates,
+    experiment_fingerprint,
+    monte_carlo_drawdowns,
+    stress_table,
+)
 from app.storage.analytics_store import AnalyticsStore
 
 
@@ -38,8 +44,12 @@ class SignalEngineService:
     ) -> None:
         self._analytics_store = analytics_store
         self._min_backtest_sample = min_backtest_sample
+        self._research_review = None  # set via attach_research_review
         self._narrator = narrator
         self._strategy_registry = strategy_registry
+
+    def attach_research_review(self, service: Any) -> None:
+        self._research_review = service
 
     def list_signals(self) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
@@ -358,15 +368,17 @@ class SignalEngineService:
             walk_forward=walk_forward,
         )
 
-        return self._build_backtest_preset(
+        effective_fees = fees_percent if fees_percent is not None else default_fees_percent
+        effective_slippage = (
+            slippage_percent if slippage_percent is not None else default_slippage_percent
+        )
+        preset = self._build_backtest_preset(
             symbol_id=symbol_id,
             market_type=market_type,
             timeframe=timeframe,
             setup_type=selected_setup_type,
-            fees_percent=fees_percent if fees_percent is not None else default_fees_percent,
-            slippage_percent=slippage_percent
-            if slippage_percent is not None
-            else default_slippage_percent,
+            fees_percent=effective_fees,
+            slippage_percent=effective_slippage,
             train_test_split=train_test_split,
             walk_forward=walk_forward,
             backtest=backtest,
@@ -374,6 +386,58 @@ class SignalEngineService:
                 selected_setup_type, market_type, timeframe
             ),
         )
+
+        # Workbench (BT-1..3 + AI-1): stress, Monte Carlo, gates, fingerprint, review.
+        def rerun(fees: float, slip: float) -> dict[str, Any]:
+            return self._run_backtest(
+                candles=candles,
+                indicators=indicators,
+                market_type=market_type,
+                timeframe=timeframe,
+                setup_type=selected_setup_type,
+                direction=selected_direction,
+                fees_percent=fees,
+                slippage_percent=slip,
+                train_test_split=train_test_split,
+                walk_forward=walk_forward,
+            )
+
+        stress = stress_table(rerun, effective_fees, effective_slippage, backtest)
+        # Monte Carlo runs on the OOS block only - the unbiased sample.
+        monte_carlo = monte_carlo_drawdowns(backtest.get("out_of_sample_outcomes", []))
+        gates = bias_gates(
+            backtest,
+            self._min_backtest_sample,
+            effective_fees,
+            effective_slippage,
+            walk_forward,
+        )
+        fingerprint = experiment_fingerprint(
+            symbol_id=symbol_id,
+            timeframe=timeframe,
+            setup_type=selected_setup_type,
+            direction=selected_direction,
+            fees_percent=effective_fees,
+            slippage_percent=effective_slippage,
+            train_test_split=train_test_split,
+            first_candle=str(candles[0].get("open_time_utc") or ""),
+            last_candle=str(candles[-1].get("open_time_utc") or ""),
+        )
+        ai_review = (
+            self._research_review.review(backtest, gates, monte_carlo, stress)
+            if self._research_review is not None
+            else None
+        )
+        preset["workbench"] = {
+            "stress": stress,
+            "monte_carlo": monte_carlo,
+            "bias_gates": gates,
+            "fingerprint": fingerprint,
+            "equity_curve": backtest.get("equity_curve", []),
+            "drawdown_curve": backtest.get("drawdown_curve", []),
+            "ai_review": ai_review,
+        }
+        return preset
 
     # ------------------------------------------------------------------
     # Strategy registry integration

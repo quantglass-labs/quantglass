@@ -44,6 +44,7 @@ from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
+from app.services.research_review import ResearchReviewService
 from app.services.review_coach import ReviewCoachService
 from app.services.risk_meta import RiskMetaService
 from app.services.scenarios import ScenarioService
@@ -111,6 +112,11 @@ async def lifespan(app: FastAPI):
         narrator=narration_service,
         strategy_registry=strategy_registry,
     )
+    research_review_service = ResearchReviewService(
+        ai_settings_provider=state_store.get_ai_settings,
+        model_gateway=model_gateway,
+    )
+    signal_engine.attach_research_review(research_review_service)
     scheduler_service = SchedulerService(
         execution_engine,
         event_bus,
