@@ -5,6 +5,7 @@ import {
   CandlestickSeries,
   ColorType,
   CrosshairMode,
+  HistogramSeries,
   LineSeries,
   LineStyle,
   createChart,
@@ -27,6 +28,8 @@ export interface ChartLineSeries {
 function finitePrice(value: number | undefined | null): value is number {
   return typeof value === 'number' && Number.isFinite(value) && value > 0;
 }
+
+import { movingAverageConvergenceDivergence, relativeStrengthIndex } from '../lib/analytics';
 
 function lineData(candles: Candle[], values: number[]) {
   return candles
@@ -376,6 +379,67 @@ export function TradingViewCandlestickChart({
       });
       customSeries.setData(lineData(candles, line.values));
     });
+
+    // Indicator panes (E8): volume, RSI, and MACD in dedicated panes so
+    // oscillators never distort the price scale.
+    const volumeSeries = chart.addSeries(
+      HistogramSeries,
+      { priceFormat: { type: 'volume' }, color: 'rgba(141,183,255,0.45)' },
+      1,
+    );
+    volumeSeries.setData(
+      candleData.map((bar, index) => ({
+        time: bar.time,
+        value: candles[index]?.volume ?? 0,
+        color: bar.close >= bar.open ? 'rgba(24,195,127,0.45)' : 'rgba(240,91,120,0.45)',
+      })),
+    );
+
+    const closes = candles.map((candle) => candle.close);
+    const rsiValues = relativeStrengthIndex(closes, 14);
+    const rsiSeries = chart.addSeries(
+      LineSeries,
+      { color: '#c084fc', lineWidth: 2, priceFormat: { type: 'price', precision: 1 } },
+      2,
+    );
+    rsiSeries.setData(lineData(candles, rsiValues));
+    rsiSeries.createPriceLine({
+      price: 70,
+      color: 'rgba(240,91,120,0.5)',
+      lineStyle: LineStyle.Dashed,
+      title: '70',
+    });
+    rsiSeries.createPriceLine({
+      price: 30,
+      color: 'rgba(24,195,127,0.5)',
+      lineStyle: LineStyle.Dashed,
+      title: '30',
+    });
+
+    const macd = movingAverageConvergenceDivergence(closes);
+    const macdHistogram = chart.addSeries(
+      HistogramSeries,
+      { priceFormat: { type: 'price', precision: 3 } },
+      3,
+    );
+    macdHistogram.setData(
+      candleData.map((bar, index) => {
+        const value = macd.histogram[index] ?? 0;
+        return {
+          time: bar.time,
+          value,
+          color: value >= 0 ? 'rgba(24,195,127,0.6)' : 'rgba(240,91,120,0.6)',
+        };
+      }),
+    );
+
+    // Price keeps most of the height; indicator panes stay compact.
+    const panes = chart.panes();
+    if (panes.length >= 4) {
+      panes[1].setHeight(70);
+      panes[2].setHeight(80);
+      panes[3].setHeight(70);
+    }
 
     chart.timeScale().fitContent();
 
