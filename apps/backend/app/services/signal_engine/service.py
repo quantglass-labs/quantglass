@@ -22,6 +22,7 @@ from app.services.signal_engine import statistics as statistics_module
 from app.services.signal_engine.confidence import derive_confidence
 from app.services.signal_engine.models import SeriesIndicators, SignalNarrator
 from app.services.signal_engine.statistics import conformal_interval
+from app.services.signal_engine.taxonomy import derive_quality, taxonomy_for
 from app.storage.analytics_store import AnalyticsStore
 
 
@@ -371,6 +372,8 @@ class SignalEngineService:
                 "signal": state["signal"],
                 "risk_level": state["risk_level"],
                 "confidence": confidence,
+                "quality": derive_quality(state, risk_reward, data_age_seconds),
+                **taxonomy_for(state["setup_type"]),
                 "confidence_basis": {
                     "trend_alignment": round(state["trend_alignment"], 2),
                     "volume_confirmation": round(state["volume_confirmation"], 2),

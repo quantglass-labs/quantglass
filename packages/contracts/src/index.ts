@@ -61,6 +61,15 @@ export interface CanonicalSignal {
   generated_at_utc: string;
   ai_explanation: string;
   disclaimer: string;
+  // Signal taxonomy (SIG-1, optional): family/layer/class placement,
+  // geometry quality (evidence-independent), and display metadata.
+  family?: string;
+  layer?: "beginner" | "advanced" | "expert";
+  signal_class?: "setup" | "context" | "risk";
+  display_name?: string;
+  tags?: string[];
+  lesson_id?: string;
+  quality?: number;
   // Engine v2 freshness + provenance additions (optional).
   data_age_seconds?: number;
   last_candle_close_at?: string;
