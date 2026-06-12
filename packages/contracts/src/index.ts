@@ -450,6 +450,8 @@ export interface PaperTradeIntentRequest {
   planRiskPercent?: number;
   planReason?: string;
   planEmotion?: string;
+  orderType?: "market" | "limit" | "stop";
+  limitPrice?: number;
 }
 
 export interface PaperTradeIntentRecord {

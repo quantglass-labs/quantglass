@@ -42,6 +42,8 @@ class TradingExecutionService:
         quantity: float,
         entry_price: float,
         plan: dict | None = None,
+        order_type: str = "market",
+        limit_price: float | None = None,
     ) -> TradeExecutionResult:
         safety_settings = self._state_store.get_safety_settings()
         if safety_settings.trading_mode == "paper":
@@ -53,6 +55,8 @@ class TradingExecutionService:
                 entry_price=entry_price,
                 trading_mode=safety_settings.trading_mode,
                 plan=plan,
+                order_type=order_type,
+                limit_price=limit_price,
             )
             return TradeExecutionResult(
                 accepted=True,

@@ -238,6 +238,9 @@ class StateStore:
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         return self.trading.process_pending_paper_trades(latest_prices)
 
+    def enforce_paper_brackets(self, latest_prices: dict[str, float]) -> list[dict[str, Any]]:
+        return self.trading.enforce_paper_brackets(latest_prices)
+
     def refresh_paper_position_marks(self, latest_prices: dict[str, float]) -> dict[str, Any]:
         return self.trading.refresh_paper_position_marks(latest_prices)
 

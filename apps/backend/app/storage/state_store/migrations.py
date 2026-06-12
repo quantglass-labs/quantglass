@@ -65,10 +65,24 @@ def _add_trade_plan_columns(connection: sqlite3.Connection) -> None:
             connection.execute(ddl)
 
 
+def _add_order_type_columns(connection: sqlite3.Connection) -> None:
+    columns = _columns(connection, "paper_trade_intents")
+    for name, ddl in [
+        (
+            "order_type",
+            "ALTER TABLE paper_trade_intents ADD COLUMN order_type TEXT NOT NULL DEFAULT 'market'",
+        ),
+        ("limit_price", "ALTER TABLE paper_trade_intents ADD COLUMN limit_price REAL"),
+    ]:
+        if name not in columns:
+            connection.execute(ddl)
+
+
 MIGRATIONS: list[tuple[int, str, Callable[[sqlite3.Connection], None]]] = [
     (1, "add_alert_channel_status_columns", _add_alert_columns),
     (2, "add_trade_intent_execution_columns", _add_trade_intent_columns),
     (3, "add_trade_plan_columns", _add_trade_plan_columns),
+    (4, "add_order_type_columns", _add_order_type_columns),
 ]
 
 

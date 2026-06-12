@@ -192,6 +192,8 @@ export default function App() {
   const [planTarget, setPlanTarget] = useState('');
   const [planReason, setPlanReason] = useState('');
   const [planEmotion, setPlanEmotion] = useState('calm');
+  const [orderType, setOrderType] = useState<'market' | 'limit' | 'stop'>('market');
+  const [orderTrigger, setOrderTrigger] = useState('');
   const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -1219,6 +1221,9 @@ export default function App() {
           planRiskPercent: Number(planRiskPercent.toFixed(3)),
           planReason: planReason.trim(),
           planEmotion,
+          orderType,
+          limitPrice:
+            orderType !== 'market' && Number(orderTrigger) > 0 ? Number(orderTrigger) : undefined,
         });
         setPaperAccount(response.account);
         pushToast(
@@ -1577,6 +1582,42 @@ export default function App() {
                   <option value="frustrated">Frustrated</option>
                   <option value="tired">Tired</option>
                 </select>
+              </label>
+              <label className="space-y-2 text-sm text-muted">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+                  Order type
+                </span>
+                <div className="flex gap-2">
+                  <select
+                    className="flex-1 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                    value={orderType}
+                    onChange={(event) => setOrderType(event.target.value as typeof orderType)}
+                  >
+                    <option value="market">Market — fill at next tick</option>
+                    <option value="limit">Limit — fill at my price or better</option>
+                    <option value="stop">Stop — fill when price breaks through</option>
+                  </select>
+                  {orderType !== 'market' ? (
+                    <input
+                      type="number"
+                      min={0}
+                      step="any"
+                      placeholder={orderType === 'limit' ? 'Limit price' : 'Trigger price'}
+                      className="w-36 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                      value={orderTrigger}
+                      onChange={(event) => setOrderTrigger(event.target.value)}
+                    />
+                  ) : null}
+                </div>
+                <span className="block text-xs">
+                  {orderType === 'market'
+                    ? 'Executes on the next backend tick at the latest closed price.'
+                    : orderType === 'limit'
+                      ? 'Waits until price reaches your limit (long: at or below; short: at or above).'
+                      : 'Waits for a breakout through the trigger (long: at or above; short: at or below).'}{' '}
+                  Your stop and target act as a live OCO bracket: the position closes automatically
+                  when either level trades.
+                </span>
               </label>
               <div className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">

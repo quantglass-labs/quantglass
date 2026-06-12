@@ -97,7 +97,24 @@ class ExecutionEngineService:
         price_map = {symbol: snapshot.price for symbol, snapshot in snapshots.items()}
         account_before = self._state_store.get_paper_account()
         executed_trades, _ = self._state_store.process_pending_paper_trades(price_map)
+        bracket_closures = (
+            self._state_store.enforce_paper_brackets(price_map)
+            if hasattr(self._state_store, "enforce_paper_brackets")
+            else []
+        )
         account_after = self._state_store.refresh_paper_position_marks(price_map)
+
+        for closure in bracket_closures:
+            self._event_bus.publish(
+                "paper.position.closed",
+                {
+                    "symbolId": closure["symbolId"],
+                    "side": closure["side"],
+                    "exitKind": closure["exitKind"],
+                    "exitPrice": closure["exitPrice"],
+                    "closedAt": closure["closedAt"],
+                },
+            )
 
         for trade in executed_trades:
             snapshot = snapshots.get(trade["symbol"])

@@ -35,6 +35,10 @@ class PaperTradePayload(BaseModel):
     planRiskPercent: float | None = Field(default=None, gt=0, le=100)
     planReason: str | None = Field(default=None, max_length=280)
     planEmotion: str | None = Field(default=None, max_length=32)
+    # Entry order semantics: market fills next tick; limit/stop wait for the
+    # trigger price on closed candles (the only venue paper trading has).
+    orderType: str = Field(default="market", pattern="^(market|limit|stop)$")
+    limitPrice: float | None = Field(default=None, gt=0)
 
 
 @router.get("/api/paper-account")
@@ -84,6 +88,8 @@ async def submit_paper_trade(
             quantity=payload.quantity,
             entry_price=payload.entryPrice,
             plan=plan,
+            order_type=payload.orderType,
+            limit_price=payload.limitPrice,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc

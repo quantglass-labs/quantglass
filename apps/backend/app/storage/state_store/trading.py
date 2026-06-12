@@ -144,6 +144,8 @@ class PaperTradingStore:
         entry_price: float,
         trading_mode: str,
         plan: dict[str, Any] | None = None,
+        order_type: str = "market",
+        limit_price: float | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         submitted_at = now_iso()
         symbol_id = symbol.upper().replace("/", "")
@@ -156,9 +158,10 @@ class PaperTradingStore:
                 INSERT INTO paper_trade_intents (
                     signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
                     status, provider, broker_status,
-                    plan_stop, plan_target, plan_risk_percent, plan_reason, plan_emotion
+                    plan_stop, plan_target, plan_risk_percent, plan_reason, plan_emotion,
+                    order_type, limit_price
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued', ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued', ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     signal_id,
@@ -173,6 +176,8 @@ class PaperTradingStore:
                     plan.get("riskPercent"),
                     plan.get("reason"),
                     plan.get("emotion"),
+                    order_type if order_type in {"market", "limit", "stop"} else "market",
+                    limit_price,
                 ),
             )
             trade_id = connection.execute("SELECT last_insert_rowid()").fetchone()[0]
@@ -271,7 +276,8 @@ class PaperTradingStore:
             rows = connection.execute(
                 """
                 SELECT id, signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
-                       status, executed_at, executed_price, provider, external_order_id, broker_status
+                       status, executed_at, executed_price, provider, external_order_id, broker_status,
+                       order_type, limit_price
                 FROM paper_trade_intents
                 WHERE status = 'pending'
                 ORDER BY submitted_at ASC, id ASC
@@ -280,7 +286,30 @@ class PaperTradingStore:
 
             for row in rows:
                 symbol_id = row[2]
-                executed_price = float(latest_prices.get(symbol_id, row[5]))
+                side = str(row[3])
+                latest = float(latest_prices.get(symbol_id, row[5]))
+                order_type = str(row[14] or "market")
+                trigger = float(row[15]) if row[15] is not None else None
+                # Order semantics on closed-candle prices (the venue we have):
+                #   market -> fill at the latest close
+                #   limit  -> long fills when price <= limit; short when >=
+                #   stop   -> long fills when price >= trigger; short when <=
+                if order_type == "limit" and trigger is not None:
+                    if side == "long" and latest > trigger:
+                        continue
+                    if side == "short" and latest < trigger:
+                        continue
+                    executed_price = (
+                        min(latest, trigger) if side == "long" else max(latest, trigger)
+                    )
+                elif order_type == "stop" and trigger is not None:
+                    if side == "long" and latest < trigger:
+                        continue
+                    if side == "short" and latest > trigger:
+                        continue
+                    executed_price = latest
+                else:
+                    executed_price = latest
                 self._apply_trade_fill(
                     connection=connection,
                     symbol_id=symbol_id,
@@ -320,6 +349,70 @@ class PaperTradingStore:
             connection.commit()
 
         return executed, self.get_paper_account()
+
+    def enforce_paper_brackets(self, latest_prices: dict[str, float]) -> list[dict[str, Any]]:
+        """OCO semantics for the plan (E-bracket): when the latest closed price
+        touches a position's planned stop or target, close it at that level.
+        Conservative tie-break: the stop wins if both are beyond price."""
+        closures: list[dict[str, Any]] = []
+        closed_at = now_iso()
+        with connect(self.sqlite_path) as connection:
+            self.ensure_account_row(connection)
+            positions = connection.execute(
+                "SELECT symbol_id, side, quantity, average_price FROM paper_positions"
+            ).fetchall()
+            for symbol_id, side, quantity, average_price in positions:
+                price = latest_prices.get(symbol_id)
+                if price is None:
+                    continue
+                intent = connection.execute(
+                    """
+                    SELECT plan_stop, plan_target FROM paper_trade_intents
+                    WHERE symbol = ? AND side = ? AND status = 'executed'
+                    ORDER BY executed_at DESC, id DESC LIMIT 1
+                    """,
+                    (symbol_id, side),
+                ).fetchone()
+                if intent is None:
+                    continue
+                stop, target = intent
+                exit_price: float | None = None
+                exit_kind: str | None = None
+                if side == "long":
+                    if stop is not None and price <= float(stop):
+                        exit_price, exit_kind = float(stop), "stop"
+                    elif target is not None and price >= float(target):
+                        exit_price, exit_kind = float(target), "target"
+                else:
+                    if stop is not None and price >= float(stop):
+                        exit_price, exit_kind = float(stop), "stop"
+                    elif target is not None and price <= float(target):
+                        exit_price, exit_kind = float(target), "target"
+                if exit_price is None:
+                    continue
+                # Closing = the opposite fill for the full quantity.
+                self._apply_trade_fill(
+                    connection=connection,
+                    symbol_id=symbol_id,
+                    side="short" if side == "long" else "long",
+                    quantity=float(quantity),
+                    executed_price=exit_price,
+                    executed_at=closed_at,
+                )
+                closures.append(
+                    {
+                        "symbolId": symbol_id,
+                        "side": side,
+                        "quantity": float(quantity),
+                        "entryPrice": float(average_price),
+                        "exitPrice": exit_price,
+                        "exitKind": exit_kind,
+                        "closedAt": closed_at,
+                    }
+                )
+            if closures:
+                connection.commit()
+        return closures
 
     def refresh_paper_position_marks(self, latest_prices: dict[str, float]) -> dict[str, Any]:
         updated_at = now_iso()
