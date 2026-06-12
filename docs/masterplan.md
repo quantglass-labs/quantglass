@@ -54,7 +54,7 @@ multiple **tracks**. Current content (20 lessons) seeds the tracks marked with �
 - [x] ACAD-7 **Live-exercise framework (LL2 scale-up)**: generator registry
       so any lesson can declare a live exercise (today: 2 lessons); target
       every concept-bearing lesson in Waves 1–3
-- [ ] ACAD-8 **Lesson moments v2 (LL1 scale-up)**: detector library grows
+- [x] ACAD-8 **Lesson moments v2 (LL1 scale-up)**: detector library grows
       with the curriculum — R-multiple violations, regime-mismatched setups,
       overtrading cadence, journal-skipping
 - [x] ACAD-9 (subsumed by MSN-6) **Scenario replay (LL4)**: drive paper trading through

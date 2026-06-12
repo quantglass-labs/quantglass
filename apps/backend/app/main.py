@@ -111,7 +111,7 @@ async def lifespan(app: FastAPI):
         signal_engine=signal_engine,
     )
     learn_service = LearnService(state_store)
-    learn_moments_service = LearnMomentsService(state_store)
+    learn_moments_service = LearnMomentsService(state_store, analytics_store)
     learn_live_service = LearnLiveExerciseService(state_store, analytics_store)
     learn_readiness_service = LearnReadinessService(state_store, learn_moments_service)
     learn_assessment_service = LearnAssessmentService(state_store)
