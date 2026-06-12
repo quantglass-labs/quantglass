@@ -25,9 +25,10 @@ from app.extensions.base import (
 from app.services.extension_surface_registry import ExtensionSurfaceDefinition
 from app.services.indicator_registry import IndicatorDefinition
 from app.services.lesson_pack_registry import LessonPackDefinition
+from app.services.mission_pack_registry import MissionPackDefinition
 from app.services.strategy_registry import StrategyDefinition
 
-SDK_VERSION = "0.2.0"
+SDK_VERSION = "0.3.0"
 
 __all__ = [
     "SDK_VERSION",
@@ -40,6 +41,7 @@ __all__ = [
     "ExtensionSurfaceDefinition",
     "IndicatorDefinition",
     "LessonPackDefinition",
+    "MissionPackDefinition",
     "QuantGlassExtension",
     "StrategyDefinition",
 ]

@@ -162,3 +162,14 @@ by pack id and tracks render after first-party content with a community
 badge. Engine-coupled fields (`visuals`, `live_exercise`, `live_apply`,
 `bridge`) are first-party only, so a pack can never inject markup or code.
 See `extensions/community_lesson_pack_example.py` for a complete example.
+
+## Mission Packs
+
+Capability: `missions`. Contribute behavioral missions as declarative JSON —
+title, level, category, and typed criteria from the engine's fixed
+vocabulary (`app.services.missions.CRITERIA_TYPES`, 23 types covering trade
+reviews, journaling, scenarios, Academy progress, streaks, and the
+constitution). Unknown criterion types and out-of-bounds values are rejected
+at registration, ids are namespaced by pack id, and evaluation runs through
+the same engine as built-in missions, so a pack can never execute code.
+See `extensions/community_mission_pack_example.py` for a complete example.

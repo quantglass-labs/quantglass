@@ -22,6 +22,7 @@ ExtensionCapability = Literal[
     "data_quality",
     "ui_panel",
     "lessons",
+    "missions",
 ]
 
 ExtensionPermission = Literal[
@@ -67,6 +68,7 @@ class ExtensionContext:
     indicator_registry: Any | None = None
     surface_registry: Any | None = None
     lesson_pack_registry: Any | None = None
+    mission_pack_registry: Any | None = None
     extension_id: str = "unknown"
     enabled: bool = True
     permissions: tuple[ExtensionPermission, ...] = ()
@@ -146,6 +148,16 @@ class ExtensionContext:
         problems = self.lesson_pack_registry.register(definition)
         for problem in problems:
             self.diagnostics.append(f"Lesson pack {definition.id} rejected: {problem}")
+
+    def register_mission_pack(self, definition: Any) -> None:
+        if not self.require_enabled("Mission pack registration"):
+            return
+        if self.mission_pack_registry is None:
+            self.diagnostics.append("Mission pack registry is unavailable.")
+            return
+        problems = self.mission_pack_registry.register(definition)
+        for problem in problems:
+            self.diagnostics.append(f"Mission pack {definition.id} rejected: {problem}")
 
 
 @runtime_checkable

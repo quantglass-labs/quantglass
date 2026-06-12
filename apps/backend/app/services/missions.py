@@ -1,22 +1,62 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-"""Mission engine (MSN-3): behavioral certifications over real paper trading.
+"""Mission engine (MSN-3, expanded): behavioral certifications over real use.
 
-Missions are declarative JSON (app/content/missions) — objectives plus typed
-criteria evaluated over the trade-review data (process scores, first-touch
-outcomes, the 2x2). Completion is persisted, and the readiness ladder reads
-it: trade-count bars mature into conduct bars. Educational only.
+Missions are declarative JSON — objectives plus typed criteria evaluated
+over the user's own activity: trade reviews (process scores, first-touch
+outcomes, the 2x2), journal annotations, replay scenarios, Academy progress,
+review reps, streaks, and the constitution. The catalog spans basic to
+sophisticated missions for every level, and community packs can contribute
+more through the extension SDK — criteria are declarative only, so a pack
+can never run code. Completion is persisted and the readiness ladder reads
+it. Educational only.
 """
 
 from __future__ import annotations
 
 import json
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 _MISSIONS_FILE = Path(__file__).resolve().parent.parent / "content" / "missions" / "missions.json"
+
+# Every criterion type the engine evaluates. Community packs are validated
+# against this set, so the vocabulary doubles as the contribution contract.
+CRITERIA_TYPES = frozenset(
+    {
+        # Trade review spine
+        "min_trades",
+        "all_have_stops",
+        "max_risk_percent_each",
+        "max_dangerous_success",
+        "min_classification",
+        "consecutive_process_scores",
+        "min_process_average",
+        "min_planned_losses_taken",
+        "min_resolved",
+        "min_symbol_diversity",
+        "max_daily_trades",
+        "min_trades_with_reason",
+        "min_emotions_logged",
+        "zero_tilt_entries",
+        # Journal
+        "min_journaled",
+        "min_tagged",
+        # Replay scenarios
+        "scenario_passed",
+        "min_scenarios_passed",
+        # Academy
+        "min_lessons_completed",
+        "assessment_passed",
+        "min_review_reps",
+        "min_streak_days",
+        # Constitution
+        "constitution_adopted",
+    }
+)
 
 
 @lru_cache(maxsize=1)
@@ -26,18 +66,29 @@ def _load_missions() -> tuple[dict[str, Any], ...]:
 
 
 class MissionService:
-    def __init__(self, state_store: Any, trade_review_service: Any) -> None:
+    def __init__(
+        self,
+        state_store: Any,
+        trade_review_service: Any,
+        mission_pack_registry: Any | None = None,
+    ) -> None:
         self._store = state_store
         self._review = trade_review_service
+        self._packs = mission_pack_registry
+
+    def _all_missions(self) -> list[dict[str, Any]]:
+        missions = list(_load_missions())
+        if self._packs is not None:
+            missions.extend(self._packs.all_missions())
+        return missions
 
     def list_missions(self) -> dict[str, Any]:
-        review = self._review.review()
-        items = review["items"]
+        context = self._build_context()
         completed = self._store.get_completed_missions()
 
         missions = []
-        for mission in _load_missions():
-            criteria = [self._evaluate(criterion, items) for criterion in mission["criteria"]]
+        for mission in self._all_missions():
+            criteria = [self._evaluate(criterion, context) for criterion in mission["criteria"]]
             done = all(criterion["met"] for criterion in criteria)
             if done and mission["id"] not in completed:
                 self._store.record_mission_complete(mission["id"])
@@ -47,8 +98,10 @@ class MissionService:
                     "id": mission["id"],
                     "title": mission["title"],
                     "level": mission["level"],
+                    "category": mission.get("category", "general"),
                     "description": mission["description"],
                     "lesson_links": mission.get("lesson_links", []),
+                    "source": mission.get("source", "builtin"),
                     "criteria": criteria,
                     "completed": mission["id"] in completed,
                     "completed_at": completed.get(mission["id"]),
@@ -57,12 +110,35 @@ class MissionService:
         return {"items": missions}
 
     # ------------------------------------------------------------------
-    # Typed criteria over the review items
+    # Evaluation context: one snapshot of everything criteria can read.
     # ------------------------------------------------------------------
 
-    def _evaluate(self, criterion: dict[str, Any], items: list[dict[str, Any]]) -> dict[str, Any]:
+    def _build_context(self) -> dict[str, Any]:
+        review = self._review.review()
+        return {
+            "items": review["items"],
+            "journal_notes": self._maybe(self._store, "get_journal_notes", {}),
+            "scenarios": self._maybe(self._store, "get_scenario_results", {}),
+            "progress": self._maybe(self._store, "get_learn_progress", {}),
+            "assessments": self._maybe(self._store, "get_assessments", {}),
+            "activity_days": self._maybe(self._store, "get_activity_days", []),
+            "review_cards": self._maybe(self._store, "get_review_cards", {}),
+            "constitution": self._maybe(self._store, "get_constitution", None),
+        }
+
+    @staticmethod
+    def _maybe(store: Any, method: str, default: Any) -> Any:
+        getter = getattr(store, method, None)
+        return getter() if callable(getter) else default
+
+    # ------------------------------------------------------------------
+    # Typed criteria over the context
+    # ------------------------------------------------------------------
+
+    def _evaluate(self, criterion: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         kind = criterion["type"]
         label = criterion["label"]
+        items = context["items"]
 
         if kind == "min_trades":
             current = len(items)
@@ -70,7 +146,7 @@ class MissionService:
 
         if kind == "all_have_stops":
             stopless = sum(
-                1 for item in items if any("No stop" in note for note in item["process_notes"])
+                1 for item in items if any("No stop" in note for note in item.get("process_notes", []))
             )
             return self._result(label, len(items) > 0 and stopless == 0, stopless, 0)
 
@@ -78,17 +154,17 @@ class MissionService:
             violations = sum(
                 1
                 for item in items
-                if any("exceeds" in note or "double" in note for note in item["process_notes"])
+                if any("exceeds" in note or "double" in note for note in item.get("process_notes", []))
             )
             return self._result(label, len(items) > 0 and violations == 0, violations, 0)
 
         if kind == "max_dangerous_success":
-            count = sum(1 for item in items if item["classification"] == "dangerous_success")
+            count = sum(1 for item in items if item.get("classification") == "dangerous_success")
             return self._result(label, count <= criterion["value"], count, criterion["value"])
 
         if kind == "min_classification":
             count = sum(
-                1 for item in items if item["classification"] == criterion["classification"]
+                1 for item in items if item.get("classification") == criterion["classification"]
             )
             return self._result(label, count >= criterion["value"], count, criterion["value"])
 
@@ -97,12 +173,104 @@ class MissionService:
             run = 0
             # review items are newest-first; chronological order for streaks
             for item in reversed(items):
-                if item["process_score"] >= criterion["min_score"]:
+                if item.get("process_score", 0) >= criterion["min_score"]:
                     run += 1
                     best = max(best, run)
                 else:
                     run = 0
             return self._result(label, best >= criterion["value"], best, criterion["value"])
+
+        if kind == "min_process_average":
+            scores = [item.get("process_score", 0) for item in items]
+            average = round(sum(scores) / len(scores)) if scores else 0
+            return self._result(
+                label, bool(scores) and average >= criterion["value"], average, criterion["value"]
+            )
+
+        if kind == "min_planned_losses_taken":
+            count = sum(1 for item in items if item.get("outcome_status") == "stopped")
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_resolved":
+            count = sum(1 for item in items if item.get("outcome_status") in {"stopped", "target"})
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_symbol_diversity":
+            count = len({item.get("symbol") for item in items if item.get("symbol")})
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "max_daily_trades":
+            days = Counter(str(item.get("submittedAt") or "")[:10] for item in items)
+            worst = max(days.values()) if days else 0
+            met = len(items) > 0 and worst <= criterion["value"]
+            return self._result(label, met, worst, criterion["value"])
+
+        if kind == "min_trades_with_reason":
+            count = sum(1 for item in items if str(item.get("planReason") or "").strip())
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_emotions_logged":
+            count = sum(1 for item in items if str(item.get("planEmotion") or "").strip())
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "zero_tilt_entries":
+            count = sum(
+                1 for item in items if any("tilt states" in note for note in item.get("process_notes", []))
+            )
+            return self._result(label, len(items) > 0 and count == 0, count, 0)
+
+        if kind == "min_journaled":
+            notes = context["journal_notes"]
+            count = sum(
+                1
+                for item in items
+                if notes.get(str(item.get("id")), {}).get("note")
+                or notes.get(str(item.get("id")), {}).get("tags")
+            )
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_tagged":
+            notes = context["journal_notes"]
+            count = sum(1 for item in items if notes.get(str(item.get("id")), {}).get("tags"))
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "scenario_passed":
+            result = context["scenarios"].get(criterion["scenario_id"])
+            passed = bool(result and result.get("passed"))
+            return self._result(label, passed, 1 if passed else 0, 1)
+
+        if kind == "min_scenarios_passed":
+            count = sum(1 for result in context["scenarios"].values() if result.get("passed"))
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_lessons_completed":
+            count = sum(1 for data in context["progress"].values() if data.get("completed_at"))
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "assessment_passed":
+            result = context["assessments"].get(criterion["level"])
+            passed = bool(result and result.get("passed"))
+            return self._result(label, passed, 1 if passed else 0, 1)
+
+        if kind == "min_review_reps":
+            count = sum(card["reps"] for card in context["review_cards"].values())
+            return self._result(label, count >= criterion["value"], count, criterion["value"])
+
+        if kind == "min_streak_days":
+            days = set(context["activity_days"])
+            from datetime import UTC, datetime, timedelta
+
+            today = datetime.now(UTC).date()
+            cursor = today if today.isoformat() in days else today - timedelta(days=1)
+            streak = 0
+            while cursor.isoformat() in days:
+                streak += 1
+                cursor -= timedelta(days=1)
+            return self._result(label, streak >= criterion["value"], streak, criterion["value"])
+
+        if kind == "constitution_adopted":
+            adopted = context["constitution"] is not None
+            return self._result(label, adopted, 1 if adopted else 0, 1)
 
         return self._result(label, False, 0, 0)
 
