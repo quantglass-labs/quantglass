@@ -136,6 +136,36 @@ export function ExtensionsTab({
                   </span>
                 </div>
                 <p className="mt-3 text-sm text-muted">{extension.description}</p>
+                {extension.trust ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span
+                      className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                        extension.trust.level === 'trusted-content'
+                          ? 'border-buy/35 text-buy'
+                          : extension.trust.level === 'caution'
+                            ? 'border-sell/35 text-sell'
+                            : 'border-border text-muted'
+                      }`}
+                    >
+                      {extension.trust.level}
+                    </span>
+                    {extension.trust.labels.map((label) => (
+                      <span
+                        key={label}
+                        className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted"
+                      >
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {extension.trust?.findings.length ? (
+                  <ul className="mt-2 space-y-1 text-xs text-hold">
+                    {extension.trust.findings.map((finding) => (
+                      <li key={finding}>⚠ {finding}</li>
+                    ))}
+                  </ul>
+                ) : null}
                 <p className="mt-3 text-xs text-muted">
                   Capabilities: {extension.capabilities.join(', ') || 'none'}
                 </p>

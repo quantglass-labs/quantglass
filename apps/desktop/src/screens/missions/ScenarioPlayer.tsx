@@ -103,9 +103,7 @@ export function ScenarioPlayer({
 
   useEffect(() => {
     if (reducedMotion()) {
-      const jump = requestAnimationFrame(() =>
-        setRevealed((current) => Math.max(current, target)),
-      );
+      const jump = requestAnimationFrame(() => setRevealed((current) => Math.max(current, target)));
       return () => cancelAnimationFrame(jump);
     }
     const id = window.setInterval(() => {

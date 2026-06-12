@@ -696,6 +696,12 @@ export interface ExtensionRegistryEntry {
   enabled: boolean;
   diagnostics: string[];
   health: Record<string, unknown>;
+  /** Local automated review (E7): trust level, scannable labels, findings. */
+  trust?: {
+    level: "trusted-content" | "reviewed" | "caution";
+    labels: string[];
+    findings: string[];
+  };
 }
 
 export interface ExtensionRegistryResponse {

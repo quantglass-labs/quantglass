@@ -312,3 +312,51 @@ def test_extension_surface_registry_exposes_remaining_surfaces() -> None:
         "ui_panel",
     }.issubset(categories)
     assert registry.items("execution")
+
+
+def _trust_manifest(**overrides):
+    defaults = {
+        "id": "x",
+        "name": "X",
+        "version": "1.0",
+        "description": "Does things.",
+        "capabilities": (),
+        "permissions": (),
+    }
+    defaults.update(overrides)
+    return ExtensionManifest(**defaults)
+
+
+def test_content_only_pack_is_trusted_content():
+    from app.extensions.validation import review_extension
+
+    review = review_extension(_trust_manifest(capabilities=("lessons",)), [])
+    assert review["level"] == "trusted-content"
+    assert "content-only" in review["labels"]
+
+
+def test_high_risk_permissions_flag_caution():
+    from app.extensions.validation import review_extension
+
+    review = review_extension(
+        _trust_manifest(capabilities=("trading",), permissions=("submit_orders",)), []
+    )
+    assert review["level"] == "caution"
+    assert "high-risk permissions" in review["labels"]
+
+
+def test_trading_without_permission_is_finding():
+    from app.extensions.validation import review_extension
+
+    review = review_extension(_trust_manifest(capabilities=("trading",)), [])
+    assert any("submit_orders" in finding for finding in review["findings"])
+
+
+def test_rejected_pack_diagnostics_force_caution():
+    from app.extensions.validation import review_extension
+
+    review = review_extension(
+        _trust_manifest(capabilities=("lessons",)),
+        ["Lesson pack x rejected: lesson[0] missing concept"],
+    )
+    assert review["level"] == "caution"

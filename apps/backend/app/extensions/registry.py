@@ -24,8 +24,11 @@ class ExtensionRecord:
     health: dict[str, object] = field(default_factory=dict)
 
     def as_dict(self) -> dict[str, Any]:
+        from app.extensions.validation import review_extension
+
         return {
             **asdict(self.manifest),
+            "trust": review_extension(self.manifest, self.diagnostics),
             "capabilities": list(self.manifest.capabilities),
             "permissions": list(self.manifest.permissions),
             "settings": [asdict(item) for item in self.manifest.settings],

@@ -71,3 +71,55 @@ def _parse_utc(value: str) -> datetime | None:
     if parsed.tzinfo is None:
         return None
     return parsed
+
+
+# ---------------------------------------------------------------------------
+# Automated extension review (E7): local static checks -> trust labels.
+# No external service - the review runs at load time on the manifest the
+# extension declares and the registries it actually touched.
+# ---------------------------------------------------------------------------
+
+CONTENT_ONLY_CAPABILITIES = {"lessons", "missions"}
+HIGH_RISK_PERMISSIONS = {"submit_orders", "read_secrets"}
+
+
+def review_extension(manifest: Any, diagnostics: list[str]) -> dict[str, Any]:
+    """Static trust review. Returns a level, scannable labels, and findings."""
+    findings: list[str] = []
+    labels: list[str] = []
+
+    capabilities = set(getattr(manifest, "capabilities", ()) or ())
+    permissions = set(getattr(manifest, "permissions", ()) or ())
+
+    if not getattr(manifest, "description", ""):
+        findings.append("Manifest has no description.")
+    if not getattr(manifest, "version", ""):
+        findings.append("Manifest has no version.")
+
+    if capabilities and capabilities <= CONTENT_ONLY_CAPABILITIES and not permissions:
+        labels.append("content-only")
+        level = "trusted-content"
+    else:
+        if "trading" in capabilities and "submit_orders" not in permissions:
+            findings.append(
+                "Declares the trading capability without the submit_orders permission - "
+                "trade registration will be refused at runtime."
+            )
+        risky = permissions & HIGH_RISK_PERMISSIONS
+        if risky:
+            labels.append("high-risk permissions")
+            findings.append(
+                f"Requests {', '.join(sorted(risky))} - only enable if you trust the author."
+            )
+        if "network_access" in permissions:
+            labels.append("network")
+        level = "caution" if risky else "reviewed"
+
+    rejected = [d for d in diagnostics if "rejected" in d.lower()]
+    if rejected:
+        findings.extend(rejected)
+        level = "caution"
+
+    if not findings:
+        labels.append("clean review")
+    return {"level": level, "labels": labels, "findings": findings}
