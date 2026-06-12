@@ -247,9 +247,15 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
     };
     raf.current = requestAnimationFrame(step);
   }
-  useEffect(() => () => {
-    if (raf.current) cancelAnimationFrame(raf.current);
-  });
+  // Auto-run on mount; cleanup only on unmount. A dependency-less cleanup
+  // would cancel the animation frame after every render and freeze the run.
+  useEffect(() => {
+    run();
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const drawdowns = paths.map((path) => {
     let peak = path[0] ?? 100;

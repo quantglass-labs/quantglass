@@ -532,6 +532,21 @@ export default function App() {
     };
   }, [backendStatus]);
 
+  // Signals are generated continuously from corridor ingests; a one-shot
+  // bootstrap fetch races the first ingest and leaves every screen empty.
+  // Poll while online - fast until signals first appear, then relaxed.
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    const delay = signalRecords.length === 0 ? 10_000 : 60_000;
+    const id = window.setInterval(() => {
+      void backendClient
+        .getSignals()
+        .then((response) => setSignalRecords(response.items))
+        .catch(() => undefined);
+    }, delay);
+    return () => window.clearInterval(id);
+  }, [backendStatus, signalRecords.length]);
+
   function refreshMarketCorridor() {
     if (marketCorridorRefreshing) {
       return;

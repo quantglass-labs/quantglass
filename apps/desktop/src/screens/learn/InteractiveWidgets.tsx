@@ -229,9 +229,13 @@ export function CandleBuilder() {
     };
     raf.current = requestAnimationFrame(tick);
   }
-  useEffect(() => () => {
-    if (raf.current) cancelAnimationFrame(raf.current);
-  });
+  useEffect(() => {
+    replay();
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pathLen = 500;
   return (
