@@ -95,6 +95,15 @@ def _load_missions() -> tuple[dict[str, Any], ...]:
         return tuple(json.load(handle))
 
 
+_DRILLS_FILE = Path(__file__).resolve().parent.parent / "content" / "missions" / "drills.json"
+
+
+@lru_cache(maxsize=1)
+def _load_drills() -> dict[str, dict[str, Any]]:
+    with open(_DRILLS_FILE, encoding="utf-8") as handle:
+        return {drill["category"]: drill for drill in json.load(handle)}
+
+
 class MissionService:
     def __init__(
         self,
@@ -120,6 +129,24 @@ class MissionService:
         missions = []
         for mission in self._all_missions():
             criteria = []
+            drill = (
+                _load_drills().get(mission.get("category"))
+                if mission.get("source", "builtin") == "builtin"
+                else None
+            )
+            if drill is not None:
+                result = context["drills"].get(mission["category"], {})
+                passed = bool(result.get("passed"))
+                criteria.append(
+                    {
+                        "label": f"Pass the decision drill: {drill['title']}",
+                        "met": passed,
+                        "current": 1 if passed else 0,
+                        "target": 1,
+                        "action": {"route": "/missions", "cta": "Run the decision drill"},
+                        "drill": mission["category"],
+                    }
+                )
             for criterion in mission["criteria"]:
                 evaluated = self._evaluate(criterion, context)
                 evaluated["action"] = ACTION_HINTS.get(criterion["type"])
@@ -172,6 +199,102 @@ class MissionService:
         self._maybe_call("clear_mission_active", mission_id)
         return {"ok": True}
 
+    # ------------------------------------------------------------------
+    # Decision drills: scenario -> checkpoints -> process/risk/discipline.
+    # ------------------------------------------------------------------
+
+    def get_drill(self, category: str) -> dict[str, Any] | None:
+        drill = _load_drills().get(category)
+        if drill is None:
+            return None
+        result = self._maybe(self._store, "get_drill_results", {}).get(category)
+        # Options go out without points, severity, or feedback - grading
+        # happens server-side, exactly like replay scenarios.
+        return {
+            "category": drill["category"],
+            "title": drill["title"],
+            "scenario": drill["scenario"],
+            "pass_percent": drill["pass_percent"],
+            "best_percent": result["best_percent"] if result else None,
+            "passed": bool(result and result["passed"]),
+            "checkpoints": [
+                {
+                    "question": checkpoint["question"],
+                    "options": [
+                        {"id": option["id"], "label": option["label"]}
+                        for option in checkpoint["options"]
+                    ],
+                }
+                for checkpoint in drill["checkpoints"]
+            ],
+        }
+
+    def grade_drill(self, category: str, answers: dict[str, str]) -> dict[str, Any] | None:
+        drill = _load_drills().get(category)
+        if drill is None:
+            return None
+
+        totals = {"process": 0, "risk": 0, "discipline": 0}
+        maxima = {"process": 0, "risk": 0, "discipline": 0}
+        severe = False
+        debrief = []
+        for index, checkpoint in enumerate(drill["checkpoints"]):
+            for dimension in totals:
+                maxima[dimension] += max(option[dimension] for option in checkpoint["options"])
+            chosen = next(
+                (
+                    option
+                    for option in checkpoint["options"]
+                    if option["id"] == answers.get(str(index))
+                ),
+                None,
+            )
+            if chosen is not None:
+                for dimension in totals:
+                    totals[dimension] += chosen[dimension]
+                if chosen.get("severe"):
+                    severe = True
+            best = max(checkpoint["options"], key=lambda option: option["process"])
+            debrief.append(
+                {
+                    "question": checkpoint["question"],
+                    "chosen": chosen["label"] if chosen else None,
+                    "severe": bool(chosen and chosen.get("severe")),
+                    "feedback": chosen["feedback"] if chosen else "No answer was given.",
+                    "best_choice": (
+                        best["label"] if not chosen or chosen["id"] != best["id"] else None
+                    ),
+                }
+            )
+
+        scores = {
+            dimension: round(100 * totals[dimension] / maxima[dimension])
+            if maxima[dimension]
+            else 0
+            for dimension in totals
+        }
+        passed = scores["process"] >= drill["pass_percent"] and not severe
+        self._maybe_call("record_drill_result", category, scores["process"], passed)
+        return {
+            "category": category,
+            "scores": scores,
+            "severe_violation": severe,
+            "passed": passed,
+            "pass_percent": drill["pass_percent"],
+            "checkpoints": debrief,
+            "officer_note": (
+                "Severe risk violation: this run trained a dangerous habit. Review the "
+                "consequences below and replay the drill."
+                if severe
+                else (
+                    "Good process. You protected capital, followed rules, and treated the "
+                    "mission as decision training rather than a profit chase."
+                    if passed
+                    else "Below the bar. Read each consequence, study the linked lessons, retry."
+                )
+            ),
+        }
+
     def _maybe_call(self, method: str, *args: Any) -> None:
         handler = getattr(self._store, method, None)
         if callable(handler):
@@ -192,6 +315,7 @@ class MissionService:
             "activity_days": self._maybe(self._store, "get_activity_days", []),
             "review_cards": self._maybe(self._store, "get_review_cards", {}),
             "constitution": self._maybe(self._store, "get_constitution", None),
+            "drills": self._maybe(self._store, "get_drill_results", {}),
         }
 
     @staticmethod

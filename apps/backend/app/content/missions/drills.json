@@ -1,0 +1,1036 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "The Sizing Decision",
+    "scenario": "Account: $10,000 paper. A setup you like appears: entry 100, the structure says invalidation is at 95. You want in. The next three decisions decide whether this is a trade or a gamble.",
+    "checkpoints": [
+      {
+        "question": "How do you size the position?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Risk 1% of the account: ($10,000 x 1%) / (100 - 95) = 20 shares",
+            "process": 10,
+            "risk": 10,
+            "discipline": 8,
+            "feedback": "Correct. Risk is chosen first; size is derived. The stop distance — not conviction — sets the share count."
+          },
+          {
+            "id": "round",
+            "label": "Buy 100 shares — a nice round number that feels meaningful",
+            "process": 2,
+            "risk": 0,
+            "discipline": 2,
+            "feedback": "Round-number sizing means your risk is whatever the chart decides later: here 100 shares risks 5% of the account, five times policy."
+          },
+          {
+            "id": "allin",
+            "label": "Use full buying power — the setup looks too good to waste",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "All-in sizing makes one adverse bar fatal. This is the exact habit that ends accounts.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Where does the stop go?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "At 95, below the level that invalidates the thesis",
+            "process": 10,
+            "risk": 10,
+            "discipline": 8,
+            "feedback": "Correct. The stop lives where the idea is proven wrong, not at a dollar amount that feels acceptable."
+          },
+          {
+            "id": "tight",
+            "label": "At 99 — tighter stop means I can buy more shares",
+            "process": 3,
+            "risk": 4,
+            "discipline": 4,
+            "feedback": "A stop inside ordinary noise isn't risk control, it's a donation. You sized bigger to lose more often."
+          },
+          {
+            "id": "none",
+            "label": "No stop — I'll watch it and exit manually if needed",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "An unwatched screen, a meeting, a gap: 'mental stops' fail precisely when they're needed. Invalidation undefined means risk unbounded.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Price drops to 96.20 then stalls. Your stop at 95 is intact. What now?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Nothing. The plan is intact until 95 trades",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. A pullback above your invalidation is noise by definition. The plan, not the discomfort, makes the decisions."
+          },
+          {
+            "id": "widen",
+            "label": "Move the stop to 93 to give it more room",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "Widening a stop converts a planned small loss into an unplanned large one. The constitution exists to forbid exactly this.",
+            "severe": true
+          },
+          {
+            "id": "panic",
+            "label": "Exit now — protect what's left",
+            "process": 4,
+            "risk": 6,
+            "discipline": 3,
+            "feedback": "Exiting above invalidation means your stomach overruled your plan. You kept the money but trained the habit of abandoning plans."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "process-quality",
+    "title": "The Pre-Flight Check",
+    "scenario": "You spot a pullback in an uptrend. The chart looks right. Before the order goes in, the process score is already being written.",
+    "checkpoints": [
+      {
+        "question": "What goes on the ticket before you confirm?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Stop, target, risk %, written reason, and how I feel right now",
+            "process": 10,
+            "risk": 10,
+            "discipline": 10,
+            "feedback": "Correct. The five plan fields are the whole process score: invalidation, exit, size, thesis, state of mind."
+          },
+          {
+            "id": "partial",
+            "label": "Stop and target — the reason is obvious from the chart",
+            "process": 5,
+            "risk": 7,
+            "discipline": 4,
+            "feedback": "A thesis that's 'obvious' today is unreadable in next week's review. Unwritten reasons score zero and teach nothing."
+          },
+          {
+            "id": "speed",
+            "label": "Just the entry — fill first, plan later, price won't wait",
+            "process": 0,
+            "risk": 2,
+            "discipline": 0,
+            "feedback": "Plan-later is plan-never. Entering before defining risk is the single biggest process-score penalty.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Your written reason reads 'it looks bullish'. Good enough?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "No — rewrite it: 'pullback to EMA20 in ADX-confirmed uptrend, volume contracting'",
+            "process": 10,
+            "risk": 8,
+            "discipline": 9,
+            "feedback": "Correct. A thesis names the structure, the regime, and what would break it. 'Looks bullish' can't be reviewed or learned from."
+          },
+          {
+            "id": "fine",
+            "label": "It's fine — I know what I meant",
+            "process": 3,
+            "risk": 5,
+            "discipline": 3,
+            "feedback": "You won't in 40 trades. The journal is a letter to a future self who has forgotten everything."
+          },
+          {
+            "id": "skip",
+            "label": "Reasons are for analysts — P&L is the only truth",
+            "process": 0,
+            "risk": 4,
+            "discipline": 1,
+            "feedback": "Outcome without process is noise. The 2x2 exists because profitable bad decisions are the most expensive kind."
+          }
+        ]
+      },
+      {
+        "question": "The trade wins +2R but you never set the stop you wrote down. The review calls it a dangerous success. Your response?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Log it honestly — the win doesn't excuse the broken process",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. Bad decision + good outcome trains the habit that eventually bills the account. Naming it is the fix."
+          },
+          {
+            "id": "argue",
+            "label": "Override it — a win is a win",
+            "process": 0,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "Arguing with your own instrumentation defeats its purpose. The next 'win' like this will be sized bigger."
+          },
+          {
+            "id": "ignore",
+            "label": "Skip the review entirely this week",
+            "process": 2,
+            "risk": 4,
+            "discipline": 0,
+            "feedback": "Unreviewed trades teach nothing. The dangerous success you don't examine is the one you repeat."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "The Stop Approaches",
+    "scenario": "Long from 50, stop at 47.50, planned -1R = $100. Price is at 47.80 and falling. Every trader meets this moment; few meet it correctly.",
+    "checkpoints": [
+      {
+        "question": "Price ticks 47.55. The stop is about to trade. What do you do?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Nothing. The stop is the plan working, not the plan failing",
+            "process": 10,
+            "risk": 10,
+            "discipline": 10,
+            "feedback": "Correct. You bought a defined risk. -1R was always one of the two planned outcomes."
+          },
+          {
+            "id": "cancel",
+            "label": "Cancel the stop — it always bounces right after I'm out",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "Cancelling the stop converts $100 of planned risk into an open-ended hole. Every blow-up post-mortem contains this step.",
+            "severe": true
+          },
+          {
+            "id": "average",
+            "label": "Buy more here to lower the break-even",
+            "process": 0,
+            "risk": 1,
+            "discipline": 0,
+            "feedback": "Averaging into a losing trade moves break-even closer and total risk further. This is how single trades kill accounts.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Stopped at 47.50, -1R. Five minutes later price reclaims 50. How do you read it?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "A well-played loss — good decision, variance took it. Journal and move on",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. The classifier exists for this exact sting: outcome quality and decision quality are different axes."
+          },
+          {
+            "id": "broken",
+            "label": "Proof my stop was wrong — next time I'll use a wider one without resizing",
+            "process": 3,
+            "risk": 2,
+            "discipline": 3,
+            "feedback": "Widening stops without re-deriving size just raises the dollar loss. If structure needs more room, size smaller."
+          },
+          {
+            "id": "revenge",
+            "label": "Re-enter immediately at 50 — it owes me",
+            "process": 0,
+            "risk": 2,
+            "discipline": 0,
+            "feedback": "An entry whose reason is your last loss is a revenge trade. The market keeps no accounts receivable."
+          }
+        ]
+      },
+      {
+        "question": "Three planned losses in a row, all at stops, all journaled. Process average: 85. What changes?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Nothing structural — review for pattern, keep size, keep system",
+            "process": 10,
+            "risk": 9,
+            "discipline": 9,
+            "feedback": "Correct. Three -1R losses are well inside ordinary variance for any real system. Changing systems after every losing streak guarantees you never have one."
+          },
+          {
+            "id": "halve",
+            "label": "Halve size until a winner shows up",
+            "process": 6,
+            "risk": 8,
+            "discipline": 5,
+            "feedback": "Defensible but premature at three trades — and it asymmetrically shrinks the winners that pay for the losses."
+          },
+          {
+            "id": "abandon",
+            "label": "The system is broken — find a new one tonight",
+            "process": 1,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "Monte Carlo says a 50% win-rate system spends a third of its life in drawdown. System-hopping resets the sample every time."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "tilt-control",
+    "title": "The Red Morning",
+    "scenario": "Two stop-outs before lunch, both planned, both -1R. You notice your jaw is tight and the chart refresh is getting compulsive. The next decision is the whole game.",
+    "checkpoints": [
+      {
+        "question": "A third setup appears. It's marginal — not your A-setup. What happens?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Skip it and log the emotion: 'frustrated, wanted it back'",
+            "process": 10,
+            "risk": 10,
+            "discipline": 10,
+            "feedback": "Correct. Naming the state out loud is what catches tilt early. Marginal setup + hot state = the classic third loss."
+          },
+          {
+            "id": "smaller",
+            "label": "Take it at half size — compromise with the urge",
+            "process": 4,
+            "risk": 6,
+            "discipline": 3,
+            "feedback": "Half-size tilt is still tilt. The entry reason is your morning, not the market."
+          },
+          {
+            "id": "double",
+            "label": "Take it at double size — win the morning back in one trade",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "Doubling after losses is martingale wearing a hoodie. This is the highest-severity pattern the risk officer knows.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "You skipped it. The marginal setup would have won. How do you file that?",
+        "options": [
+          {
+            "id": "good",
+            "label": "A good decision. Skipping B-setups while tilted is policy, and policy is judged over 100 trades",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. The counterfactual win changes nothing: the decision was right when made. Outcome-judging skipped trades reopens the tilt door."
+          },
+          {
+            "id": "regret",
+            "label": "Proof I should trust my gut when frustrated",
+            "process": 1,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "One sample against policy is how dangerous habits get hired. The gut that wanted that trade also wanted the double-size revenge entry."
+          },
+          {
+            "id": "rule_off",
+            "label": "Turn the daily-cap rule off — it's costing money",
+            "process": 0,
+            "risk": 2,
+            "discipline": 0,
+            "feedback": "Deleting the guardrail at the exact moment it engaged is the constitution failing its only test."
+          }
+        ]
+      },
+      {
+        "question": "What ends the session correctly?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Journal all three decisions, tag the emotion, close the terminal",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. The day's value was never the P&L — it was a clean record of conduct under irritation."
+          },
+          {
+            "id": "watch",
+            "label": "Keep watching the tape 'just to learn' — no orders though",
+            "process": 5,
+            "risk": 7,
+            "discipline": 4,
+            "feedback": "Screen-watching while tilted is how 'no orders' becomes one order. Learning happens in the journal, not the refresh loop."
+          },
+          {
+            "id": "binge",
+            "label": "Stay until a winner makes the day green",
+            "process": 0,
+            "risk": 1,
+            "discipline": 0,
+            "feedback": "Needing a green day is the tilt talking. Days are accounting fictions; the process average is the real score."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "journaling",
+    "title": "The Honest Entry",
+    "scenario": "Market's closed. Three executed trades sit unjournaled: a clean win, a sloppy win, and a planned loss. Ten minutes of honesty available.",
+    "checkpoints": [
+      {
+        "question": "Which trade gets journaled first and deepest?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "The sloppy win — chased entry, no logged emotion, lucky exit",
+            "process": 10,
+            "risk": 8,
+            "discipline": 9,
+            "feedback": "Correct. The sloppy win is the dangerous one: rewarded mistakes get repeated. Wins need autopsies more than losses do."
+          },
+          {
+            "id": "loss",
+            "label": "The loss — losses are where lessons live",
+            "process": 7,
+            "risk": 7,
+            "discipline": 7,
+            "feedback": "Reasonable, but this loss was planned and clean — it confirms the system. The sloppy win is where the new information is."
+          },
+          {
+            "id": "best",
+            "label": "The clean win — end on a high note",
+            "process": 3,
+            "risk": 5,
+            "discipline": 3,
+            "feedback": "Journaling only what flatters you produces a diary, not a dataset."
+          }
+        ]
+      },
+      {
+        "question": "What does a useful note on the sloppy win say?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "'Chased 0.8% above plan entry after it started moving. FOMO. Won anyway — tagged dangerous habit'",
+            "process": 10,
+            "risk": 8,
+            "discipline": 10,
+            "feedback": "Correct. Specific behavior, named emotion, honest tag. This note feeds the coach's detectors and your future self."
+          },
+          {
+            "id": "vague",
+            "label": "'Entry could have been better. Good result though'",
+            "process": 4,
+            "risk": 5,
+            "discipline": 4,
+            "feedback": "Vague notes can't be aggregated, detected, or learned from. 'Could have been better' describes every trade ever taken."
+          },
+          {
+            "id": "victory",
+            "label": "'Nailed it. +1.8R. More of these'",
+            "process": 0,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "'More of these' — more chased entries? The note just endorsed the mistake because it paid once."
+          }
+        ]
+      },
+      {
+        "question": "It's been a long day and the third note feels optional. Decide.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Write it — two sentences. Unjournaled trades teach nothing",
+            "process": 10,
+            "risk": 8,
+            "discipline": 10,
+            "feedback": "Correct. The streak of complete records is worth more than any single insight. Three of three, every day."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Do it tomorrow with fresh eyes",
+            "process": 4,
+            "risk": 6,
+            "discipline": 3,
+            "feedback": "Tomorrow's memory is fiction garnished with hindsight. The entry-time state is already evaporating."
+          },
+          {
+            "id": "skip2",
+            "label": "Skip it — it was just a planned loss, nothing to learn",
+            "process": 2,
+            "risk": 5,
+            "discipline": 1,
+            "feedback": "Planned losses confirm the system works — that confirmation is data. Journal-skipping is a detector for a reason."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "selectivity",
+    "title": "The Quiet Tape",
+    "scenario": "Tuesday, 11:40. You've taken one good trade today. The tape has gone quiet and choppy. Your daily cap is 3. The cursor hovers.",
+    "checkpoints": [
+      {
+        "question": "Nothing matches your setup list, but you're 'in rhythm'. What now?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Stay flat. No setup, no trade — rhythm isn't a setup",
+            "process": 10,
+            "risk": 10,
+            "discipline": 10,
+            "feedback": "Correct. The hardest position is flat. Selectivity IS the edge; activity is its tax."
+          },
+          {
+            "id": "hunt",
+            "label": "Drop to the 1-minute chart to find something",
+            "process": 2,
+            "risk": 4,
+            "discipline": 2,
+            "feedback": "Zooming in until noise looks like signal is how 'no setups' becomes five bad ones."
+          },
+          {
+            "id": "boredom",
+            "label": "Take a small 'boredom trade' to stay engaged",
+            "process": 1,
+            "risk": 3,
+            "discipline": 0,
+            "feedback": "Boredom trades are tilt's polite cousin: the entry reason is your mood. Small bad trades train big bad habits."
+          }
+        ]
+      },
+      {
+        "question": "A genuinely good setup appears on a symbol you've never traded. Cap allows it. Decide.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Run the full pre-flight on the new symbol — liquidity, spread, volatility — then size normally if it passes",
+            "process": 10,
+            "risk": 9,
+            "discipline": 9,
+            "feedback": "Correct. New symbols deserve the same process plus a venue check. Breadth done correctly is diversification of judgment."
+          },
+          {
+            "id": "familiar",
+            "label": "Skip it — only trade what you know",
+            "process": 6,
+            "risk": 8,
+            "discipline": 6,
+            "feedback": "Defensible, but 'what I know' shrinking to one chart narrows the evidence your skills rest on."
+          },
+          {
+            "id": "yolo",
+            "label": "Take it instantly — setups are setups",
+            "process": 3,
+            "risk": 4,
+            "discipline": 3,
+            "feedback": "The setup might transfer; the spread, liquidity, and gap behavior might not. Unexamined venue risk is still risk."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "The 2x2 Reading",
+    "scenario": "Weekly review. Four trades on the screen: an earned win, a well-played loss, an honest tuition, and a dangerous success. How you read them decides what next week looks like.",
+    "checkpoints": [
+      {
+        "question": "Which quadrant is the most dangerous?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "The dangerous success — a bad decision the market paid",
+            "process": 10,
+            "risk": 9,
+            "discipline": 9,
+            "feedback": "Correct. Rewarded mistakes compound: next time it's bigger size and more confidence, and the bill arrives with interest."
+          },
+          {
+            "id": "tuition",
+            "label": "The honest tuition — it lost money AND was a bad decision",
+            "process": 4,
+            "risk": 6,
+            "discipline": 5,
+            "feedback": "Tuition hurts but teaches cleanly: bad process, bad outcome, lesson legible. It rarely gets repeated at size."
+          },
+          {
+            "id": "loss",
+            "label": "The well-played loss — losses are always the problem",
+            "process": 1,
+            "risk": 3,
+            "discipline": 2,
+            "feedback": "Calling well-played losses 'the problem' is outcome-worship. That loss is the system working."
+          }
+        ]
+      },
+      {
+        "question": "Your earned win and dangerous success made the same +1.5R. What separates them?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "The earned win's process can be repeated on purpose; the dangerous success was rented from variance",
+            "process": 10,
+            "risk": 8,
+            "discipline": 9,
+            "feedback": "Correct. Identical P&L, opposite information. Only one of them is evidence of skill."
+          },
+          {
+            "id": "same",
+            "label": "Nothing — R is R",
+            "process": 0,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "R measures outcome, not decision quality. If R were everything, lottery winners would be investors."
+          },
+          {
+            "id": "luck_all",
+            "label": "Both were luck — single trades mean nothing at all",
+            "process": 4,
+            "risk": 5,
+            "discipline": 4,
+            "feedback": "Single outcomes are noisy, but decisions are evaluable immediately. That asymmetry is the whole point of process scoring."
+          }
+        ]
+      },
+      {
+        "question": "Next week's one corrective action?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Re-read the dangerous success's entry conditions and write the rule that would have blocked it",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. One specific, written rule per detected pattern — that's the feedback loop closing."
+          },
+          {
+            "id": "more_wins",
+            "label": "Target more wins — raise the win rate",
+            "process": 2,
+            "risk": 4,
+            "discipline": 2,
+            "feedback": "Win rate is an output. Chasing it directly usually means cutting winners early and widening stops — both corrosive."
+          },
+          {
+            "id": "trade_more",
+            "label": "Trade more to grow the sample faster",
+            "process": 3,
+            "risk": 3,
+            "discipline": 2,
+            "feedback": "A bigger sample of unexamined decisions is just more noise. Fix the generator before scaling the output."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Reading the Replay",
+    "scenario": "You're about to run a historical episode in the simulator. How you use the replay decides whether it trains judgment or just entertains.",
+    "checkpoints": [
+      {
+        "question": "Mid-replay, you recognize the episode — you know how it ends. What's the honest move?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Answer from process anyway: what SHOULD a trader do at this bar without hindsight?",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. The replay grades decisions, not predictions. Hindsight-keying teaches you to be right about the past."
+          },
+          {
+            "id": "exploit",
+            "label": "Use the knowledge — points are points",
+            "process": 1,
+            "risk": 4,
+            "discipline": 1,
+            "feedback": "You just trained 'act on information you won't have live'. The score goes up; the skill goes down."
+          },
+          {
+            "id": "quit",
+            "label": "Quit and find an episode you don't know",
+            "process": 6,
+            "risk": 7,
+            "discipline": 6,
+            "feedback": "Reasonable instinct, but recognizing episodes IS market literacy — the discipline is answering from process anyway."
+          }
+        ]
+      },
+      {
+        "question": "You failed the debrief at 55%. Next action?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Read every checkpoint's consequence, study the linked lessons, retry tomorrow",
+            "process": 10,
+            "risk": 8,
+            "discipline": 10,
+            "feedback": "Correct. The debrief names the better play and why. Spaced retry beats immediate re-guessing."
+          },
+          {
+            "id": "retry_now",
+            "label": "Retry immediately — you remember the right answers now",
+            "process": 4,
+            "risk": 5,
+            "discipline": 3,
+            "feedback": "Immediate retries test memory, not judgment. Tomorrow's pass means something; tonight's means you have a working short-term memory."
+          },
+          {
+            "id": "dismiss",
+            "label": "Dismiss it — simulators aren't real trading anyway",
+            "process": 1,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "The simulator is exactly as real as your decisions in it. Pilots who dismiss simulators don't get the plane."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "academy-scholar",
+    "title": "How to Actually Learn",
+    "scenario": "Twenty minutes for the Academy tonight. The goal is knowledge that survives contact with a live chart.",
+    "checkpoints": [
+      {
+        "question": "Best use of the twenty minutes?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "One new lesson, then grade the due review cards, then its live exercise on real candles",
+            "process": 10,
+            "risk": 8,
+            "discipline": 9,
+            "feedback": "Correct. Acquire, retrieve, apply — the triad that makes knowledge available under pressure."
+          },
+          {
+            "id": "binge2",
+            "label": "Speed-read four lessons — volume is progress",
+            "process": 3,
+            "risk": 5,
+            "discipline": 3,
+            "feedback": "Unretrieved reading evaporates in days. Four skimmed lessons are one forgotten one, four times."
+          },
+          {
+            "id": "reread",
+            "label": "Re-read your favorite lesson again — it feels solid",
+            "process": 2,
+            "risk": 4,
+            "discipline": 2,
+            "feedback": "Re-reading feels like fluency and tests as nothing. The cards exist because recognition isn't recall."
+          }
+        ]
+      },
+      {
+        "question": "A review card comes up: 'ATR'. You blank completely. What's the right grade?",
+        "options": [
+          {
+            "id": "again",
+            "label": "'Again' — honest blanks reschedule the card sooner, which is the system working",
+            "process": 10,
+            "risk": 7,
+            "discipline": 10,
+            "feedback": "Correct. Grading honestly is the entire algorithm. A flattering 'good' just schedules your ignorance further away."
+          },
+          {
+            "id": "peek_good",
+            "label": "Reveal, recognize it, grade 'good' — close enough",
+            "process": 2,
+            "risk": 4,
+            "discipline": 2,
+            "feedback": "Recognition after reveal is not recall before it. You just taught the scheduler to stop helping you."
+          },
+          {
+            "id": "easy_all",
+            "label": "Grade everything 'easy' to clear the queue faster",
+            "process": 0,
+            "risk": 3,
+            "discipline": 0,
+            "feedback": "An empty queue of unlearned cards is a clean-looking failure. The queue is not the enemy; forgetting is."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "consistency",
+    "title": "The Streak Question",
+    "scenario": "Day 13 of a daily streak. Tonight you're exhausted, and the streak counter is staring at you.",
+    "checkpoints": [
+      {
+        "question": "What's the minimum honest unit of showing up tonight?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Five review cards, graded honestly. Small and real beats big and skipped",
+            "process": 10,
+            "risk": 7,
+            "discipline": 10,
+            "feedback": "Correct. Streaks survive on minimum viable sessions. The habit is the asset; tonight's volume is irrelevant."
+          },
+          {
+            "id": "force",
+            "label": "Force a full lesson plus exercises — streaks demand real work",
+            "process": 5,
+            "risk": 6,
+            "discipline": 5,
+            "feedback": "Heroic tired sessions produce shallow learning and resentment. Resentment kills streaks deader than rest does."
+          },
+          {
+            "id": "fake",
+            "label": "Open the app, click a lesson complete without reading — keep the counter alive",
+            "process": 0,
+            "risk": 3,
+            "discipline": 0,
+            "feedback": "A gamed streak measures clicking, not learning. You'd be lying to the only audience that matters."
+          }
+        ]
+      },
+      {
+        "question": "Day 14: the streak dies anyway — you simply forgot. Reaction?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Start streak day 1 tomorrow. The 13 days of learning are still yours",
+            "process": 10,
+            "risk": 7,
+            "discipline": 10,
+            "feedback": "Correct. The counter resets; the knowledge doesn't. Treating a broken streak as catastrophe is how people quit entirely."
+          },
+          {
+            "id": "spiral",
+            "label": "The system failed — abandon daily practice",
+            "process": 1,
+            "risk": 3,
+            "discipline": 0,
+            "feedback": "One missed day deleting the habit is all-or-nothing thinking — the same cognitive bug that blows up accounts."
+          },
+          {
+            "id": "backfill",
+            "label": "Look for a way to backdate yesterday's activity",
+            "process": 0,
+            "risk": 3,
+            "discipline": 0,
+            "feedback": "Gaming your own instrumentation. If the numbers are negotiable, none of them mean anything."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "constitution",
+    "title": "Writing Rules That Hold",
+    "scenario": "You're drafting your Trading Constitution. The rules you write tonight will block your own orders later — write them for the worst version of you.",
+    "checkpoints": [
+      {
+        "question": "Which max-risk rule belongs in the document?",
+        "options": [
+          {
+            "id": "one",
+            "label": "1% per trade — survivable losing streaks, boring by design",
+            "process": 10,
+            "risk": 10,
+            "discipline": 9,
+            "feedback": "Correct. At 1%, ten straight losses cost ~10%. The constitution's job is making ruin arithmetic impossible."
+          },
+          {
+            "id": "five",
+            "label": "5% — you're here to grow, not crawl",
+            "process": 2,
+            "risk": 1,
+            "discipline": 2,
+            "feedback": "At 5%, seven ordinary losses are a third of the account. The drawdown-recovery curve is merciless from there."
+          },
+          {
+            "id": "flex",
+            "label": "'Flexible based on conviction' — rules should breathe",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "A rule with a conviction escape hatch is not a rule. Conviction is highest exactly when discipline matters most.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Week 3: a trade you're sure about needs 2% risk to fit its stop. The ticket blocks it. Decide.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Halve the size so the same stop costs 1% — the rule stands",
+            "process": 10,
+            "risk": 10,
+            "discipline": 10,
+            "feedback": "Correct. The stop is structural; size is the free variable. The constitution just did its only job."
+          },
+          {
+            "id": "amend_now",
+            "label": "Amend the constitution right now to allow 2% — then take the trade",
+            "process": 1,
+            "risk": 2,
+            "discipline": 0,
+            "feedback": "Amending mid-impulse to permit the impulse isn't governance, it's costume. Amendments happen on review days, never trade days."
+          },
+          {
+            "id": "disable",
+            "label": "Toggle enforcement off for one trade",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "An enforcement system with a snooze button protects nothing. This is the highest-severity governance failure.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "When is the right time to amend the constitution?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "On a scheduled monthly review, with the journal open and no positions on",
+            "process": 10,
+            "risk": 9,
+            "discipline": 10,
+            "feedback": "Correct. Rules evolve on evidence, decided by the calm version of you — never by the one holding a position."
+          },
+          {
+            "id": "after_win",
+            "label": "After a big winning week — you've earned looser rules",
+            "process": 2,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "Loosening risk after wins is how dangerous successes graduate into account-sized lessons."
+          },
+          {
+            "id": "never",
+            "label": "Never — a constitution is forever",
+            "process": 4,
+            "risk": 6,
+            "discipline": 5,
+            "feedback": "Rules that never evolve with evidence become relics that get ignored wholesale. Scheduled amendment IS the discipline."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  },
+  {
+    "category": "capstone",
+    "title": "The Operator's Hour",
+    "scenario": "One hour, real conditions: an open position near its stop, a fresh A-setup on another symbol, two unjournaled trades from yesterday, and review cards due. Allocate yourself.",
+    "checkpoints": [
+      {
+        "question": "First five minutes?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Check the open position's risk: stop live, size right, nothing to decide unless 94.80 trades",
+            "process": 10,
+            "risk": 10,
+            "discipline": 9,
+            "feedback": "Correct. Open risk is always priority zero. Confirm the machine is armed, then leave it alone."
+          },
+          {
+            "id": "new_first",
+            "label": "The A-setup — opportunities expire, admin doesn't",
+            "process": 4,
+            "risk": 4,
+            "discipline": 4,
+            "feedback": "Entering new risk while open risk is unverified is how two 1% positions become one 4% surprise."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Refresh the P&L a few times to see where you stand",
+            "process": 2,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "The P&L is an output. Watching it changes nothing and primes outcome-thinking before a decision hour."
+          }
+        ]
+      },
+      {
+        "question": "The A-setup is valid and your daily cap allows it. The open position is 0.4R from its stop. Take the new trade?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Yes, at normal 1% size — each trade independent, both inside policy, combined heat checked",
+            "process": 10,
+            "risk": 9,
+            "discipline": 9,
+            "feedback": "Correct. Two independent 1% risks inside a checked heat limit is the system working at capacity, not over it."
+          },
+          {
+            "id": "wait_out",
+            "label": "No — never two positions at once",
+            "process": 6,
+            "risk": 8,
+            "discipline": 6,
+            "feedback": "Survivable but arbitrary: if heat limits and sizing are real, serial-only trading is leaving the system's capacity unused out of fear."
+          },
+          {
+            "id": "double_up",
+            "label": "Yes, at 2% — the first one's basically lost anyway",
+            "process": 0,
+            "risk": 0,
+            "discipline": 0,
+            "feedback": "'Basically lost' is pre-spending a stop that hasn't traded, then doubling exposure on tilt math.",
+            "severe": true
+          }
+        ]
+      },
+      {
+        "question": "Twenty minutes left. Journal backlog or review cards?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Journal the two trades while context survives, cards with what's left",
+            "process": 10,
+            "risk": 8,
+            "discipline": 10,
+            "feedback": "Correct. Journal context decays in hours; card scheduling tolerates a day. Perishable work first."
+          },
+          {
+            "id": "cards_first",
+            "label": "Cards first — the streak metric is visible and the journal isn't",
+            "process": 4,
+            "risk": 5,
+            "discipline": 4,
+            "feedback": "Optimizing the visible metric over the valuable one. The journal feeds every detector the coach has."
+          },
+          {
+            "id": "neither",
+            "label": "Neither — scan for one more setup instead",
+            "process": 1,
+            "risk": 3,
+            "discipline": 1,
+            "feedback": "The hour's leverage was never a third trade. Operators are paid for the boring twenty minutes."
+          }
+        ]
+      }
+    ],
+    "pass_percent": 80
+  }
+]

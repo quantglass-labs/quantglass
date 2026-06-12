@@ -75,6 +75,16 @@ class _Store:
     def clear_mission_active(self, mission_id):
         getattr(self, "active", {}).pop(mission_id, None)
 
+    def get_drill_results(self):
+        return dict(getattr(self, "drills", {}))
+
+    def record_drill_result(self, category, percent, passed):
+        if not hasattr(self, "drills"):
+            self.drills = {}
+        best = self.drills.get(category)
+        if best is None or percent > best["best_percent"]:
+            self.drills[category] = {"best_percent": percent, "passed": passed}
+
 
 def _item(**overrides):
     base = {
@@ -294,6 +304,7 @@ class ActiveMissionTests(unittest.TestCase):
     def test_completion_auto_clears_the_active_slot(self) -> None:
         store = _Store()
         store.progress = {"l1": {"completed_at": "x"}}
+        store.record_drill_result("academy-scholar", 90, True)
         service = MissionService(store, _Review([]))
         service.accept("first-steps-lesson")
         listing = service.list_missions()
@@ -309,6 +320,63 @@ class ActiveMissionTests(unittest.TestCase):
         actions = [c["action"] for c in mission["criteria"]]
         self.assertTrue(all(a and a["route"] and a["cta"] for a in actions))
         self.assertEqual(listing["max_active"], 3)
+
+
+class DecisionDrillTests(unittest.TestCase):
+    def test_every_category_has_a_drill_and_no_answer_leak(self) -> None:
+        from app.services.missions import _load_drills
+
+        categories = {m.get("category") for m in _load_missions()}
+        drills = _load_drills()
+        self.assertEqual(categories, set(drills))
+        service = MissionService(_Store(), _Review([]))
+        payload = service.get_drill("risk-discipline")
+        for checkpoint in payload["checkpoints"]:
+            for option in checkpoint["options"]:
+                self.assertEqual(set(option), {"id", "label"})
+
+    def test_perfect_run_passes_and_persists(self) -> None:
+        from app.services.missions import _load_drills
+
+        drill = _load_drills()["risk-discipline"]
+        answers = {
+            str(i): max(c["options"], key=lambda o: o["process"])["id"]
+            for i, c in enumerate(drill["checkpoints"])
+        }
+        store = _Store()
+        service = MissionService(store, _Review([]))
+        result = service.grade_drill("risk-discipline", answers)
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["scores"]["process"], 100)
+        self.assertFalse(result["severe_violation"])
+        self.assertTrue(store.get_drill_results()["risk-discipline"]["passed"])
+
+    def test_severe_choice_fails_even_with_high_score(self) -> None:
+        from app.services.missions import _load_drills
+
+        drill = _load_drills()["constitution"]
+        answers = {}
+        for i, checkpoint in enumerate(drill["checkpoints"]):
+            severe = next((o for o in checkpoint["options"] if o.get("severe")), None)
+            best = max(checkpoint["options"], key=lambda o: o["process"])
+            answers[str(i)] = severe["id"] if i == 0 and severe else best["id"]
+        result = MissionService(_Store(), _Review([])).grade_drill("constitution", answers)
+        self.assertTrue(result["severe_violation"])
+        self.assertFalse(result["passed"])
+        self.assertIn("dangerous habit", result["officer_note"])
+
+    def test_drill_criterion_gates_builtin_missions(self) -> None:
+        store = _Store()
+        service = MissionService(store, _Review([]))
+        listing = service.list_missions()
+        mission = next(m for m in listing["items"] if m["id"] == "first-steps-lesson")
+        drill_criterion = mission["criteria"][0]
+        self.assertIn("decision drill", drill_criterion["label"])
+        self.assertFalse(drill_criterion["met"])
+        store.record_drill_result("academy-scholar", 90, True)
+        listing = service.list_missions()
+        mission = next(m for m in listing["items"] if m["id"] == "first-steps-lesson")
+        self.assertTrue(mission["criteria"][0]["met"])
 
 
 if __name__ == "__main__":

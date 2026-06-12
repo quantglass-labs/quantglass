@@ -5,6 +5,8 @@ import type { MarketType, ViewMode } from '@quantglass/contracts';
 
 export type {
   MissionRecord,
+  DrillDetail,
+  DrillGradeResponse,
   JournalItem,
   JournalResponse,
   CoachDetection,
