@@ -88,6 +88,22 @@ export function ExtensionsTab({
               indicators, strategies, and notification channels. External extension loading is
               opt-in from the backend environment.
             </p>
+            <ul className="mt-3 space-y-1 text-sm text-muted">
+              <li>
+                <span className="text-ink">Where extensions act:</span> provider extensions join the
+                data routing on the Providers tab; strategy extensions appear as setup presets on
+                the Backtesting screen and feed the signal engine;
+              </li>
+              <li>
+                indicator extensions register alongside the built-in catalog below; lesson packs add
+                tracks to the Academy (Learn) and mission packs add challenges to Missions — both as
+                validated content that can never run code;
+              </li>
+              <li>
+                notification extensions add alert delivery channels. Two example packs ship in the
+                repo's <span className="text-ink">extensions/</span> folder to copy from.
+              </li>
+            </ul>
           </div>
           <Plug className="size-5 text-accent" />
         </div>

@@ -196,8 +196,11 @@ export function StrategiesTab({
         <div>
           <p className="font-medium text-ink">Strategy library</p>
           <p className="text-sm text-muted">
-            Persisted backtest strategies can be exported, imported, or removed from backend
-            storage.
+            Where these come from: the <span className="text-ink">Save strategy</span> button on the
+            Backtesting screen snapshots a run you liked — symbol, setup, timeframe, cost model, and
+            validation split. Reopening Backtesting lists them as presets so you can re-run or tweak
+            them later, and Import/Export moves them between machines as JSON. Deleting one only
+            removes the saved preset, never any data.
           </p>
           {savedStrategies.length ? (
             <p className="mt-2 text-xs text-muted">

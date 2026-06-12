@@ -1238,6 +1238,11 @@ export default function App() {
         onMarketFilterChange={setMarketFilter}
         backendStatus={backendStatus}
         backendErrorMessage={backendErrorMessage}
+        aiStatusLabel={
+          aiSettings?.cloudEnabled && aiSettings.model
+            ? `${aiSettings.model}${aiSettings.provider === 'ollama' || aiSettings.provider === 'lm_studio' || aiSettings.provider === 'vllm' || aiSettings.provider === 'llama_cpp' ? ' · local' : ''}`
+            : null
+        }
         symbols={displaySymbols}
         onSelectSymbol={handleSelectSymbol}
       >
@@ -1621,10 +1626,32 @@ export default function App() {
               Condition
             </span>
             <textarea
-              className="min-h-32 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+              className="min-h-24 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
               value={alertCondition}
               onChange={(event) => setAlertCondition(event.target.value)}
+              placeholder="e.g. crosses above 50000"
             />
+            <div className="flex flex-wrap gap-2">
+              {['crosses above ', 'crosses below ', 'above ', 'below '].map((snippet) => (
+                <button
+                  key={snippet}
+                  type="button"
+                  onClick={() => setAlertCondition(snippet)}
+                  className="rounded-full border border-border px-3 py-1 text-xs text-muted transition hover:text-ink"
+                >
+                  {snippet.trim()} …
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-muted">
+              Supported conditions (evaluated on each closed candle of this symbol's stored series):{' '}
+              <span className="text-ink">crosses above N</span>,{' '}
+              <span className="text-ink">crosses below N</span>,{' '}
+              <span className="text-ink">above N</span> (also "&gt;= N" / "over N"),{' '}
+              <span className="text-ink">below N</span> (also "&lt;= N" / "under N") — where N is a
+              price. "Crosses" fires once when price moves through N; "above/below" fires while
+              price is beyond it.
+            </p>
           </label>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">Channel</span>

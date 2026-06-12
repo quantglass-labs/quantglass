@@ -67,6 +67,7 @@ export function AppShell({
   onMarketFilterChange,
   backendStatus,
   backendErrorMessage,
+  aiStatusLabel,
   symbols,
   onSelectSymbol,
 }: {
@@ -75,6 +76,8 @@ export function AppShell({
   onMarketFilterChange: (value: MarketType | 'all') => void;
   backendStatus: BackendStatus;
   backendErrorMessage?: string | null;
+  /** e.g. "qwen3.6:35b · local" when a model is configured; null otherwise. */
+  aiStatusLabel?: string | null;
   symbols: SymbolRecord[];
   onSelectSymbol: (symbolId: string) => void;
 }) {
@@ -190,6 +193,23 @@ export function AppShell({
                     ? 'Backend Connecting'
                     : 'Backend Offline'}
               </span>
+              <NavLink
+                to="/settings"
+                title={
+                  aiStatusLabel
+                    ? 'AI is active across Signals, Backtesting, Review, and Learn. Click to manage.'
+                    : 'No AI model configured - narration and coaching use deterministic templates. Click to set one up.'
+                }
+                className={clsx(
+                  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]',
+                  aiStatusLabel
+                    ? 'border-accent/35 bg-accentStrong/12 text-accent'
+                    : 'border-border bg-white/[0.04] text-muted',
+                )}
+              >
+                <span className="size-2 rounded-full bg-current" />
+                {aiStatusLabel ? `AI · ${aiStatusLabel}` : 'AI off · templates'}
+              </NavLink>
               <div className="hidden xl:block">
                 <DisclaimerChip compact />
               </div>
@@ -203,6 +223,21 @@ export function AppShell({
       </header>
 
       <main className="px-4 py-6 pb-24 sm:px-6 lg:ml-72 lg:px-8">
+        {backendStatus === 'connecting' ? (
+          <div
+            className="mb-6 flex items-center gap-3 rounded-3xl border border-hold/25 bg-hold/10 px-4 py-4 text-sm text-muted"
+            role="status"
+          >
+            <span className="size-4 shrink-0 animate-spin rounded-full border-2 border-hold/30 border-t-hold motion-reduce:animate-none" />
+            <div>
+              <p className="font-medium text-ink">Starting the local engine…</p>
+              <p className="mt-1">
+                The backend is booting and loading market data. The first launch can take up to half
+                a minute; panels below fill in as data arrives.
+              </p>
+            </div>
+          </div>
+        ) : null}
         {backendStatus === 'offline' && backendErrorMessage ? (
           <div className="mb-6 flex items-start gap-3 rounded-3xl border border-sell/25 bg-sell/10 px-4 py-4 text-sm text-muted">
             <ShieldAlert className="mt-0.5 size-4 shrink-0 text-sell" />

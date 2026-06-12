@@ -139,6 +139,37 @@ export function BacktestScreen({
         description="Strategy selector, cost model inputs, in-sample vs out-of-sample metrics, and low-sample warnings. Parameter changes rerun the backend quant engine against stored corridor candles."
       />
 
+      <Panel>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+          What this screen does
+        </p>
+        <p className="mt-2 text-sm text-muted">
+          It replays one setup's exact entry/stop/target rules over the candles stored on this
+          machine and reports how that setup <span className="text-ink">would have</span> traded —
+          win rate, expectancy in R, equity and drawdown — with fees and slippage charged on every
+          round trip. It validates honestly: the sample is split chronologically into train/test so
+          the headline numbers must survive data the rules never saw, and every run gets the
+          workbench below — cost-stress scenarios, Monte Carlo drawdowns, bias gates, and the AI
+          research review.
+        </p>
+        <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted">
+          <li>
+            Pick a preset — presets are generated from the engine's live signals (one per
+            symbol/setup the engine currently detects) plus anything you saved earlier.
+          </li>
+          <li>Adjust fees, slippage, and the train/test split; the run re-executes instantly.</li>
+          <li>Read the out-of-sample row and the workbench before trusting anything else.</li>
+          <li>
+            Like a configuration? <span className="text-ink">Save strategy</span> stores it under
+            Settings → Strategies for re-running later.
+          </li>
+        </ol>
+        <p className="mt-3 text-xs text-muted">
+          A backtest is evidence about the past, never a promise about the future. The matching
+          Academy track (Backtesting & Statistical Honesty) teaches every number on this screen.
+        </p>
+      </Panel>
+
       <div className="grid gap-6 xl:grid-cols-[0.9fr,1.4fr]">
         <Panel>
           <div className="space-y-5">
@@ -151,13 +182,22 @@ export function BacktestScreen({
                 value={selectedPresetId}
                 onChange={(event) => setSelectedPresetId(event.target.value)}
               >
-                {!presets.length ? <option value="">No presets available</option> : null}
+                {!presets.length ? (
+                  <option value="">No presets yet — engine still warming up</option>
+                ) : null}
                 {presets.map((entry) => (
                   <option key={entry.id} value={entry.id}>
                     {entry.name}
                   </option>
                 ))}
               </select>
+              {!presets.length ? (
+                <p className="mt-2 text-xs text-muted">
+                  Presets appear automatically once the engine has generated signals from stored
+                  market data — on a fresh install that takes a minute after the first corridor
+                  ingest. Check the Signals screen; when it has rows, presets exist here too.
+                </p>
+              ) : null}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
