@@ -49,6 +49,7 @@ class SignalEngineService:
         # new closed candle. The scheduler's interval job keeps this warm, so
         # API polls return in milliseconds instead of re-running detection.
         self._signal_cache: dict[tuple[str, str], tuple[str, dict[str, Any]]] = {}
+        self._narration_facts: dict[tuple[str, str], dict[str, Any]] = {}
         self._narrator = narrator
         self._strategy_registry = strategy_registry
 
@@ -945,15 +946,30 @@ class SignalEngineService:
             "out_of_sample_validated": backtest["out_of_sample_validated"],
             "reasons": reasons,
         }
+        # Feed narration is always the instant deterministic template: a slow
+        # or unreachable model must never multiply across every series and
+        # stall /api/signals (26 series x an 8s model timeout is minutes).
+        # Model narration runs on demand per signal via narrate_signal().
+        self._narration_facts[facts["symbol"], facts["timeframe"]] = facts
+        return narration_module.template_explanation(facts), "template-feed"
+
+    def narrate_signal(self, symbol: str, timeframe: str) -> dict[str, Any] | None:
+        """Model narration for one signal, on demand (drawer open). One model
+        call, fact-guarded by the narrator, template fallback on failure."""
+        facts = self._narration_facts.get((symbol, timeframe))
+        if facts is None:
+            return None
         if self._narrator is not None:
             try:
                 text, source = self._narrator.narrate(facts)
                 if text:
-                    return text, source
-            except Exception:
-                # Any narrator failure degrades to the deterministic template below.
+                    return {"ai_explanation": text, "narration_source": source}
+            except Exception:  # noqa: BLE001 - degrade, never break the drawer
                 pass
-        return narration_module.template_explanation(facts), "template"
+        return {
+            "ai_explanation": narration_module.template_explanation(facts),
+            "narration_source": "template",
+        }
 
     def _data_freshness(
         self, timeframe: str, generated_at_utc: str

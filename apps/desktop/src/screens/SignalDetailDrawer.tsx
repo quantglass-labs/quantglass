@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { useEffect, useState } from 'react';
+
 import { Bell, Clipboard, ShieldAlert } from 'lucide-react';
 import {
   Drawer,
@@ -13,6 +15,7 @@ import {
   Panel,
   SignalChip,
 } from '../components/ui';
+import { backendClient } from '../lib/backend';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import type { ScreenState, SignalRecord, SymbolRecord } from '../types';
@@ -38,7 +41,24 @@ export function SignalDetailDrawer({
 }) {
   const retryMockView = () => window.location.reload();
 
-  const narrationSource = signalRecord?.signal.narration_source ?? 'template';
+  // Feed records carry the instant deterministic template; the model
+  // narration (if a model is configured) is fetched lazily on drawer open
+  // so a slow model never stalls the signal feed.
+  const [liveNarration, setLiveNarration] = useState<{
+    ai_explanation: string;
+    narration_source: string;
+  } | null>(null);
+  useEffect(() => {
+    setLiveNarration(null);
+    if (!open || !signalRecord) return;
+    backendClient
+      .narrateSignal(signalRecord.signal.symbol, signalRecord.signal.timeframe)
+      .then(setLiveNarration)
+      .catch(() => setLiveNarration(null));
+  }, [open, signalRecord]);
+
+  const narrationSource =
+    liveNarration?.narration_source ?? signalRecord?.signal.narration_source ?? 'template';
   const isModelNarration = narrationSource.startsWith('ollama');
   const narrationLabel = isModelNarration
     ? 'AI narration (local model, fact-checked against engine numbers):'
@@ -283,7 +303,8 @@ export function SignalDetailDrawer({
                   AI explanation
                 </p>
                 <p className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">
-                  {narrationLabel} {signalRecord.signal.ai_explanation}
+                  {narrationLabel}{' '}
+                  {liveNarration?.ai_explanation ?? signalRecord.signal.ai_explanation}
                 </p>
                 <p className="mt-2 text-xs text-muted">Source: {narrationSourceDisplay}</p>
                 <p className="mt-3 text-xs text-muted">{signalRecord.signal.disclaimer}</p>

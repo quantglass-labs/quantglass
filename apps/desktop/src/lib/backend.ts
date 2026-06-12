@@ -570,6 +570,13 @@ export const backendClient = {
       body: JSON.stringify({ term, grade }),
     });
   },
+  narrateSignal(symbol: string, timeframe: string) {
+    return requestJson<{ ai_explanation: string; narration_source: string }>(
+      `/api/signals/narrate?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`,
+      undefined,
+      30_000,
+    );
+  },
   getContextSignals() {
     return requestJson<{ items: ContextSignal[] }>('/api/signals/context');
   },

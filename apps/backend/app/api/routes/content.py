@@ -42,6 +42,15 @@ def _news_service(request: Request) -> NewsService:
     )
 
 
+@router.get("/api/signals/narrate")
+async def narrate_signal(symbol: str, timeframe: str, request: Request) -> dict[str, object]:
+    """On-demand model narration for one signal (drawer open)."""
+    result = await run_in_threadpool(_signal_engine(request).narrate_signal, symbol, timeframe)
+    if result is None:
+        raise HTTPException(status_code=404, detail="No narration facts for this signal yet.")
+    return result
+
+
 @router.get("/api/signals/calibration")
 async def get_calibration(request: Request) -> dict[str, object]:
     """Predicted vs realized win rate per confidence bucket (E3)."""
