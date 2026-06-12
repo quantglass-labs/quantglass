@@ -72,6 +72,49 @@ class SignalEngineService:
         items.sort(key=lambda item: item["signal"]["generated_at_utc"], reverse=True)
         return items
 
+    def calibration_report(self) -> dict[str, Any]:
+        """Resolve pending calibration rows by first-touch replay, then report
+        predicted-vs-realized win rates per confidence bucket (E3)."""
+        lister = getattr(self._analytics_store, "list_unresolved_calibrations", None)
+        if not callable(lister):
+            return {"buckets": [], "resolved_count": 0, "pending_count": 0}
+        for row in lister():
+            payload = self._analytics_store.list_market_candles(
+                row["symbol"], row["timeframe"], limit=320
+            )
+            candles = [
+                c
+                for c in payload.get("items", [])
+                if str(c.get("open_time_utc") or "") > row["generated_at"]
+            ]
+            if not candles:
+                continue
+            outcome: str | None = None
+            outcome_r: float | None = None
+            risk = abs(row["entry"] - row["stop_loss"]) or 1e-9
+            for candle in candles[:60]:
+                high = float(candle["high"])
+                low = float(candle["low"])
+                if row["direction"] == "long":
+                    if low <= row["stop_loss"]:
+                        outcome, outcome_r = "stopped", -1.0
+                        break
+                    if row["target"] is not None and high >= row["target"]:
+                        outcome, outcome_r = "target", (row["target"] - row["entry"]) / risk
+                        break
+                else:
+                    if high >= row["stop_loss"]:
+                        outcome, outcome_r = "stopped", -1.0
+                        break
+                    if row["target"] is not None and low <= row["target"]:
+                        outcome, outcome_r = "target", (row["entry"] - row["target"]) / risk
+                        break
+            if outcome is None and len(candles) >= 60:
+                outcome = "expired"  # horizon passed without touching either level
+            if outcome is not None:
+                self._analytics_store.resolve_calibration(row["signal_id"], outcome, outcome_r)
+        return self._analytics_store.calibration_report()
+
     def list_context_signals(self) -> list[dict[str, Any]]:
         """Regime family (SIG-2): the classifier's read on every tracked
         series, published as context-class signals with no trade geometry.
@@ -592,6 +635,23 @@ class SignalEngineService:
         ingested_at = candles[-1].get("ingested_at")
         display_symbol = self._display_symbol(symbol_id, market_type)
         signal_id = self._build_signal_id(symbol_id, timeframe, state["signal"], generated_at_utc)
+
+        recorder = getattr(self._analytics_store, "record_signal_calibration", None)
+        if callable(recorder) and state["signal"] in {"BUY_ZONE", "SELL"}:
+            recorder(
+                {
+                    "signal_id": signal_id,
+                    "symbol": symbol_id,
+                    "timeframe": timeframe,
+                    "setup_type": state["setup_type"],
+                    "direction": state["direction"],
+                    "confidence": confidence,
+                    "entry": state["reference_price"],
+                    "stop_loss": state["stop_loss"],
+                    "target": state["take_profit"][0] if state["take_profit"] else None,
+                    "generated_at": generated_at_utc,
+                }
+            )
 
         stop_loss = round(state["stop_loss"], 2)
         take_profit = [round(level, 2) for level in state["take_profit"]]

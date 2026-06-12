@@ -42,6 +42,12 @@ def _news_service(request: Request) -> NewsService:
     )
 
 
+@router.get("/api/signals/calibration")
+async def get_calibration(request: Request) -> dict[str, object]:
+    """Predicted vs realized win rate per confidence bucket (E3)."""
+    return await run_in_threadpool(_signal_engine(request).calibration_report)
+
+
 @router.get("/api/signals/risk")
 async def list_risk_signals(request: Request) -> dict[str, object]:
     """Portfolio/risk meta-signals: brakes derived from the user's own account."""

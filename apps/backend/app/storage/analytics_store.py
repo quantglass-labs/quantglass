@@ -118,7 +118,135 @@ class AnalyticsStore:
                 )
                 """
             )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS signal_calibration (
+                    signal_id VARCHAR PRIMARY KEY,
+                    symbol VARCHAR NOT NULL,
+                    timeframe VARCHAR NOT NULL,
+                    setup_type VARCHAR NOT NULL,
+                    direction VARCHAR NOT NULL,
+                    confidence INTEGER NOT NULL,
+                    entry DOUBLE NOT NULL,
+                    stop_loss DOUBLE NOT NULL,
+                    target DOUBLE,
+                    generated_at VARCHAR NOT NULL,
+                    resolved BOOLEAN NOT NULL DEFAULT FALSE,
+                    outcome VARCHAR,
+                    outcome_r DOUBLE,
+                    resolved_at VARCHAR
+                )
+                """
+            )
             self._ensure_market_ingest_run_columns(connection)
+
+    # ------------------------------------------------------------------
+    # Confidence calibration (E3): every emitted confidence is a promise;
+    # this table holds the engine to it against realized outcomes.
+    # ------------------------------------------------------------------
+
+    def record_signal_calibration(self, payload: dict[str, Any]) -> None:
+        with self._connection() as connection:
+            connection.execute(
+                """
+                INSERT OR IGNORE INTO signal_calibration
+                    (signal_id, symbol, timeframe, setup_type, direction, confidence,
+                     entry, stop_loss, target, generated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                [
+                    payload["signal_id"],
+                    payload["symbol"],
+                    payload["timeframe"],
+                    payload["setup_type"],
+                    payload["direction"],
+                    int(payload["confidence"]),
+                    float(payload["entry"]),
+                    float(payload["stop_loss"]),
+                    float(payload["target"]) if payload.get("target") is not None else None,
+                    payload["generated_at"],
+                ],
+            )
+
+    def list_unresolved_calibrations(self, limit: int = 200) -> list[dict[str, Any]]:
+        with self._connection() as connection:
+            rows = connection.execute(
+                """
+                SELECT signal_id, symbol, timeframe, setup_type, direction, confidence,
+                       entry, stop_loss, target, generated_at
+                FROM signal_calibration WHERE resolved = FALSE
+                ORDER BY generated_at LIMIT ?
+                """,
+                [limit],
+            ).fetchall()
+        keys = [
+            "signal_id",
+            "symbol",
+            "timeframe",
+            "setup_type",
+            "direction",
+            "confidence",
+            "entry",
+            "stop_loss",
+            "target",
+            "generated_at",
+        ]
+        return [dict(zip(keys, row)) for row in rows]
+
+    def resolve_calibration(self, signal_id: str, outcome: str, outcome_r: float | None) -> None:
+        with self._connection() as connection:
+            connection.execute(
+                """
+                UPDATE signal_calibration
+                SET resolved = TRUE, outcome = ?, outcome_r = ?, resolved_at = now()::VARCHAR
+                WHERE signal_id = ?
+                """,
+                [outcome, outcome_r, signal_id],
+            )
+
+    def calibration_report(self) -> dict[str, Any]:
+        with self._connection() as connection:
+            rows = connection.execute(
+                """
+                SELECT (confidence // 10) * 10 AS bucket,
+                       AVG(confidence) AS predicted,
+                       AVG(CASE WHEN outcome = 'target' THEN 1.0 ELSE 0.0 END) AS realized,
+                       COUNT(*) AS sample
+                FROM signal_calibration
+                WHERE resolved = TRUE AND outcome IN ('target', 'stopped')
+                GROUP BY bucket ORDER BY bucket
+                """
+            ).fetchall()
+            pending = connection.execute(
+                "SELECT COUNT(*) FROM signal_calibration WHERE resolved = FALSE"
+            ).fetchone()[0]
+            expired = connection.execute(
+                "SELECT COUNT(*) FROM signal_calibration WHERE outcome = 'expired'"
+            ).fetchone()[0]
+        buckets = [
+            {
+                "bucket": int(row[0]),
+                "predicted_confidence": round(float(row[1]), 1),
+                "realized_win_rate_pct": round(float(row[2]) * 100, 1),
+                "sample": int(row[3]),
+                "drift_pts": round(abs(float(row[1]) - float(row[2]) * 100), 1),
+            }
+            for row in rows
+        ]
+        weighted = sum(b["drift_pts"] * b["sample"] for b in buckets)
+        total = sum(b["sample"] for b in buckets)
+        return {
+            "buckets": buckets,
+            "resolved_count": total,
+            "pending_count": int(pending),
+            "expired_count": int(expired),
+            "average_drift_pts": round(weighted / total, 1) if total else None,
+            "note": (
+                "Confidence is a calibrated promise: in a well-calibrated engine the "
+                "60-bucket wins about 60% of the time. Drift above ~15 points on a real "
+                "sample means the confidence model needs retraining."
+            ),
+        }
 
     def status(self) -> dict[str, str]:
         return {
