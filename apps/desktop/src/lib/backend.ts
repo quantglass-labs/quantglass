@@ -72,6 +72,8 @@ import type {
   ReferenceResponse,
   ContextSignal,
   RiskSignal,
+  CoachNarrative,
+  TutorResponse,
   MasteryResponse,
   ReviewQueueResponse,
   LearnAnalytics,
@@ -519,6 +521,16 @@ export const backendClient = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(annotation),
+    });
+  },
+  getCoachNarrative() {
+    return requestJson<CoachNarrative>('/api/review/coach/narrative');
+  },
+  askTutor(lessonId: string, question: string) {
+    return requestJson<TutorResponse>(`/api/learn/lesson/${lessonId}/tutor`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
     });
   },
   getReviewCoach() {

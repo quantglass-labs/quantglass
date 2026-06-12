@@ -34,6 +34,12 @@ async def annotate_trade(intent_id: str, body: JournalAnnotation, request: Reque
     return request.app.state.review_coach_service.annotate(intent_id, body.note, body.tags)
 
 
+@router.get("/review/coach/narrative")
+async def get_coach_narrative(request: Request) -> dict:
+    """AI weekly coaching narrative over the review's own facts (AI-2)."""
+    return request.app.state.ai_coach_service.weekly_narrative()
+
+
 @router.get("/review/coach")
 async def get_coach(request: Request) -> dict:
     """Weekly summary, repeated-mistake detections, and prescriptions."""

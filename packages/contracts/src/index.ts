@@ -520,6 +520,8 @@ export interface BacktestMetrics {
 export interface StrategyPreset {
   id: string;
   name: string;
+  /** Workbench payload (BT-1..3 + AI-1); present on fresh runs. */
+  workbench?: BacktestWorkbench;
   symbolId: string;
   setupType: string;
   timeframe: Timeframe;
@@ -549,6 +551,49 @@ export interface BacktestRunRequest {
   slippagePercent: number;
   trainTestSplit: number;
   walkForward: boolean;
+}
+
+export interface BacktestWorkbench {
+  stress: {
+    scenario: string;
+    expectancy_r: number;
+    win_rate: number;
+    profit_factor: number;
+    trade_count: number;
+  }[];
+  monte_carlo: {
+    available: boolean;
+    reason?: string;
+    runs?: number;
+    sample?: number;
+    median_max_drawdown_r?: number;
+    p95_max_drawdown_r?: number;
+    caveat?: string;
+  };
+  bias_gates: { id: string; label: string; status: string; evidence: string }[];
+  fingerprint: { experiment_id: string; dataset_range: string };
+  equity_curve: number[];
+  drawdown_curve: number[];
+  ai_review: {
+    verdict: string;
+    overfit_risk: string;
+    next_action: string;
+    live_readiness: string;
+    summary: string;
+    source: string;
+  } | null;
+}
+
+export interface CoachNarrative {
+  summary: string;
+  source: string;
+}
+
+export interface TutorResponse {
+  answer: string;
+  source: string;
+  error?: string;
+  disclaimer?: string;
 }
 
 export interface BacktestRunResponse {

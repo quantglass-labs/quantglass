@@ -239,6 +239,16 @@ async def get_certificate(level: str, request: Request) -> dict:
     return request.app.state.learn_mastery_service.certificate(level)
 
 
+class TutorQuestion(BaseModel):
+    question: str
+
+
+@router.post("/lesson/{lesson_id}/tutor")
+async def ask_tutor(lesson_id: str, body: TutorQuestion, request: Request) -> dict:
+    """Ask the lesson tutor (AI-3): grounded in the lesson's own content."""
+    return request.app.state.ai_coach_service.tutor(lesson_id, body.question)
+
+
 @router.get("/glossary")
 async def get_glossary(request: Request) -> dict:
     """Global glossary aggregated from every lesson's key terms."""

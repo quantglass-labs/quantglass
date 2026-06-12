@@ -425,6 +425,144 @@ export function BacktestScreen({
           />
         </Panel>
       </div>
+
+      {activePreset?.workbench ? <WorkbenchPanels workbench={activePreset.workbench} /> : null}
+    </div>
+  );
+}
+
+function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset['workbench']> }) {
+  const review = workbench.ai_review;
+  const mc = workbench.monte_carlo;
+  const statusTone: Record<string, string> = {
+    pass: 'text-buy',
+    warn: 'text-amber-300',
+    fail: 'text-sell',
+    info: 'text-muted',
+  };
+  return (
+    <div className="space-y-6">
+      {review ? (
+        <Panel>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+              AI research review
+            </p>
+            <span
+              className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
+                review.verdict.startsWith('Paper')
+                  ? 'border-buy/40 text-buy'
+                  : 'border-sell/40 text-sell'
+              }`}
+            >
+              {review.verdict}
+            </span>
+            <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted">
+              {review.source}
+            </span>
+          </div>
+          <p className="mt-3 text-sm leading-relaxed text-ink">{review.summary}</p>
+          <div className="mt-3 grid gap-2 text-xs text-muted sm:grid-cols-3">
+            <p>
+              <span className="text-ink">Overfit risk:</span> {review.overfit_risk}
+            </p>
+            <p>
+              <span className="text-ink">Next action:</span> {review.next_action}
+            </p>
+            <p>
+              <span className="text-ink">Live readiness:</span> {review.live_readiness}
+            </p>
+          </div>
+        </Panel>
+      ) : null}
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Panel>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+            Cost stress scenarios
+          </p>
+          <table className="mt-3 w-full text-left text-sm">
+            <thead>
+              <tr className="text-xs uppercase tracking-[0.14em] text-muted">
+                <th className="py-1 pr-3">Scenario</th>
+                <th className="py-1 pr-3">Expectancy</th>
+                <th className="py-1 pr-3">Win rate</th>
+                <th className="py-1">PF</th>
+              </tr>
+            </thead>
+            <tbody>
+              {workbench.stress.map((row) => (
+                <tr key={row.scenario} className="border-t border-border/60">
+                  <td className="py-2 pr-3 text-ink">{row.scenario}</td>
+                  <td
+                    className={`metric-text py-2 pr-3 ${
+                      row.expectancy_r > 0 ? 'text-buy' : 'text-sell'
+                    }`}
+                  >
+                    {row.expectancy_r.toFixed(2)}R
+                  </td>
+                  <td className="metric-text py-2 pr-3 text-ink">
+                    {(row.win_rate * 100).toFixed(0)}%
+                  </td>
+                  <td className="metric-text py-2 text-ink">{row.profit_factor.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-2 text-xs text-muted">
+            Same simulation, worse costs. An edge that dies at 2x slippage was never an edge.
+          </p>
+        </Panel>
+
+        <Panel>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+            Monte Carlo drawdowns (out-of-sample)
+          </p>
+          {mc.available ? (
+            <>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
+                  <p className="metric-text text-xl text-ink">{mc.median_max_drawdown_r}R</p>
+                  <p className="mt-1 text-xs text-muted">Median max drawdown</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
+                  <p className="metric-text text-xl text-sell">{mc.p95_max_drawdown_r}R</p>
+                  <p className="mt-1 text-xs text-muted">95th-percentile drawdown</p>
+                </div>
+              </div>
+              <p className="mt-2 text-xs text-muted">
+                {mc.runs} resamples of {mc.sample} OOS trades. {mc.caveat}
+              </p>
+            </>
+          ) : (
+            <p className="mt-3 text-sm text-muted">{mc.reason}</p>
+          )}
+        </Panel>
+      </div>
+
+      <Panel>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+            Bias & quality gates
+          </p>
+          <span className="ml-auto text-[11px] text-muted">
+            experiment {workbench.fingerprint.experiment_id} · {workbench.fingerprint.dataset_range}
+          </span>
+        </div>
+        <ul className="mt-3 space-y-2">
+          {workbench.bias_gates.map((gate) => (
+            <li key={gate.id} className="flex items-start gap-3 text-sm">
+              <span
+                className={`w-12 shrink-0 text-xs font-semibold uppercase ${statusTone[gate.status] ?? 'text-muted'}`}
+              >
+                {gate.status}
+              </span>
+              <span className="w-44 shrink-0 text-ink">{gate.label}</span>
+              <span className="text-muted">{gate.evidence}</span>
+            </li>
+          ))}
+        </ul>
+      </Panel>
     </div>
   );
 }

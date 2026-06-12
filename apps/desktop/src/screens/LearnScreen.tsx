@@ -683,6 +683,71 @@ interface LessonViewerProps {
   onLessonCompleted: () => void;
 }
 
+function TutorPanel({ lessonId }: { lessonId: string }) {
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [source, setSource] = useState<string | null>(null);
+  const [asking, setAsking] = useState(false);
+
+  const ask = async () => {
+    if (!question.trim() || asking) return;
+    setAsking(true);
+    setAnswer(null);
+    setNotice(null);
+    try {
+      const response = await backendClient.askTutor(lessonId, question);
+      if (response.error) {
+        setNotice(response.error);
+      } else {
+        setAnswer(response.answer);
+        setSource(response.source);
+      }
+    } catch {
+      setNotice('The tutor request failed. Check Settings → AI and retry.');
+    } finally {
+      setAsking(false);
+    }
+  };
+
+  return (
+    <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
+      <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+        Ask the tutor
+      </h2>
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') void ask();
+          }}
+          placeholder="Confused by something here? Ask in your own words…"
+          className="flex-1 rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-indigo-500 focus:outline-none"
+        />
+        <button
+          type="button"
+          disabled={asking || !question.trim()}
+          onClick={() => void ask()}
+          className="rounded-lg border border-indigo-500/50 px-4 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-40"
+        >
+          {asking ? 'Thinking…' : 'Ask'}
+        </button>
+      </div>
+      {notice ? <p className="mt-3 text-sm text-amber-300">{notice}</p> : null}
+      {answer ? (
+        <div className="mt-3 rounded-lg border border-zinc-700/60 bg-zinc-950/40 p-3">
+          <p className="text-sm leading-relaxed text-zinc-200">{answer}</p>
+          <p className="mt-2 text-[11px] text-zinc-600">
+            {source} · grounded in this lesson · educational only, never financial advice
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerProps) {
   const c = TIER_COLORS[lesson.tier];
   const conceptRef = useRef<HTMLDivElement>(null);
@@ -779,6 +844,9 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
         enabled={Boolean(lesson.live_exercise)}
         onComplete={onLessonCompleted}
       />
+
+      {/* AI tutor (AI-3) */}
+      <TutorPanel lessonId={lesson.id} />
 
       {/* Try It Live */}
       {/* Bridge: lesson -> mission/scenario */}

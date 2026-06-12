@@ -25,6 +25,7 @@ from app.core.config import apply_api_key_settings, get_settings
 from app.extensions.registry import load_extension_registry
 from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
+from app.services.ai_coach import AiCoachService
 from app.services.constitution import ConstitutionService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
@@ -135,6 +136,12 @@ async def lifespan(app: FastAPI):
     scenario_service = ScenarioService(state_store)
     learn_mastery_service = LearnMasteryService(state_store, learn_service)
     risk_meta_service = RiskMetaService(state_store, trade_review_service, constitution_service)
+    ai_coach_service = AiCoachService(
+        ai_settings_provider=state_store.get_ai_settings,
+        review_coach_service=review_coach_service,
+        learn_service=learn_service,
+        model_gateway=model_gateway,
+    )
     scheduler_service.start()
 
     app.state.settings = settings
@@ -168,6 +175,7 @@ async def lifespan(app: FastAPI):
     app.state.scenario_service = scenario_service
     app.state.learn_mastery_service = learn_mastery_service
     app.state.risk_meta_service = risk_meta_service
+    app.state.ai_coach_service = ai_coach_service
 
     try:
         yield

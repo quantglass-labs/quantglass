@@ -16,6 +16,7 @@ import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import type {
   BackendStatus,
+  CoachNarrative,
   CoachResponse,
   ConstitutionCompliance,
   ConstitutionRules,
@@ -181,6 +182,7 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
 
 export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }) {
   const [coach, setCoach] = useState<CoachResponse | null>(null);
+  const [narrative, setNarrative] = useState<CoachNarrative | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -189,6 +191,10 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
       .getReviewCoach()
       .then(setCoach)
       .catch(() => setError('Could not load the review. Is the backend running?'));
+    backendClient
+      .getCoachNarrative()
+      .then(setNarrative)
+      .catch(() => setNarrative(null));
   }, [backendStatus]);
 
   const summary = coach?.summary;
@@ -258,6 +264,20 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
               </div>
             ))}
           </div>
+
+          {narrative ? (
+            <div className="mt-6 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
+              <div className="flex items-center gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-indigo-300">
+                  Coach's note
+                </p>
+                <span className="rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] text-zinc-500">
+                  {narrative.source}
+                </span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-200">{narrative.summary}</p>
+            </div>
+          ) : null}
 
           <h2 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-400">
             What keeps happening
