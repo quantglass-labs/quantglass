@@ -6,26 +6,112 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-12
+
 ### Added
+
+**QuantGlass Academy** — the learning platform became the spine of the product:
+
+- 121 lessons across 23 tracks and 4 levels (novice → expert), with level
+  exams (80% bar, persisted best), test-out placement, key terms, common
+  mistakes, and lesson → mission bridges.
+- Visual learning system: declarative diagrams, interactive widgets (risk
+  sandbox, candle builder, indicator playground, auction sim, payoff
+  explorer) and engine-true explorers (regime scrubber, Monte Carlo
+  animator, conformal visualizer) on 62 lessons.
+- Mastery loop: spaced-repetition flashcards (SM-2-lite) over completed
+  lessons' key terms, derived XP with named levels, daily streaks, and
+  per-track badges in a Practice view.
+- Library views: global glossary (460+ deduped terms), reference library
+  (indicators, order types, formulas, scam checklist), progress analytics
+  with weekly pace, and local completion certificates.
+- AI lesson tutor: ask any lesson a question, grounded in its own content.
+
+**Missions & the behavioral feedback loop** (capture → score → detect →
+prescribe → gate):
+
+- Plan-aware paper ticket (stop, target, risk %, reason, emotion) with
+  process scores and the decision-vs-outcome 2×2 (earned win, well-played
+  loss, honest tuition, dangerous success).
+- A 108-mission catalog across 12 categories with tiered ladders for every
+  level, active mission slots (accept / stand down, max 3), per-objective
+  deep links, and decision drills: 12 interactive scenario drills scored on
+  Process / Risk / Discipline where severe choices fail the run.
+- Replay missions: stylized market episodes played bar-by-bar with graded,
+  engine-fact debriefs.
+- Journal (notes + mistake tags) and Review (weekly summary, repeated-
+  mistake detection with lesson/mission prescriptions, AI coach narrative).
+- Personal Trading Constitution: user-authored rules enforced at the
+  ticket; violating submissions are rejected with the rules named.
+- Community lesson packs and mission packs via the extension SDK
+  (validated declarative content; SDK 0.3.0).
+
+**Signal engine v3**:
+
+- Signal taxonomy: 32 setup types across 10 families with family/layer/
+  class placement, taxonomy display names, quality scored separately from
+  confidence, and Academy-gated expert-layer signals.
+- Context signals (regimes, volatility states, z-score extremes,
+  relative-strength ranks, ETF-proxy macro/breadth reads, FOMC/CPI event
+  watches) and portfolio/risk meta-signals (heat, clusters, drawdown,
+  cooldown, kill switch) wired to the constitution.
+- Honest composite flags derived from pooled backtests (follow-through
+  probability, false-break probability, signal decay).
+- Confidence calibration ledger: predicted vs realized win rate per
+  confidence decile with drift reporting.
+- Multi-timeframe corridor matrix (26 series) including macro proxy ETFs.
+
+**Backtesting workbench**:
+
+- Cost-stress scenarios, out-of-sample Monte Carlo drawdown distribution,
+  seven bias/quality gates, experiment fingerprint, and an AI research
+  review whose verdict is computed deterministically from the run.
+- Workflow redesign: collapsible explainer, readiness checklist, primary
+  Run action, guided empty states with a demo strategy, result previews,
+  and a manual composer (symbol × setup family × timeframe) constrained to
+  timeframes the corridor actually stores.
+- Behavioral dataset export (trades, journal, calibration as local CSVs).
+
+**Platform**:
+
+- AI everywhere on the narration covenant: backtest research review,
+  weekly coach narrative, lesson tutor, and on-demand signal narration —
+  fact-guarded, template fallback, source always labeled, with a header
+  chip showing the active model.
+- Volume/RSI/MACD in dedicated chart panes (lightweight-charts v5 panes).
+- Local automated extension review with trust labels (trusted-content /
+  reviewed / caution).
+- OS keychain enforcement: live-trading confirmation refuses without a
+  usable keychain.
+- Boot splash, backend-status notices on every screen, signal feed error
+  surfacing, and signal polling with per-candle caching.
+
+### Changed
 
 - Coverage-guaranteed signal confidence: split-conformal next-trade R
   intervals over out-of-sample trades, shown in the signal drawer.
 - Model Context Protocol server at `POST /mcp` exposing read-only engine
   facts (signals, backtest presets, paper account, watchlist).
-- Lesson moments: coaching derived from the user's own paper trading,
-  served at `/api/learn/moments` and surfaced on the Learn screen.
 - Structured-output narration with a numeric fact guard across Ollama and
-  OpenAI-compatible providers.
-- Numbered SQLite migration framework with WAL journaling.
-- JSON Schema validation for lesson content in CI.
-- Stable extension authoring surface `app.extensions.sdk` with SDK_VERSION.
+  OpenAI-compatible providers; feed narration is always the instant
+  deterministic template, model narration runs per signal on demand.
+- lightweight-charts upgraded to v5; signal engine, state store, model
+  gateway, and learn content refactored into focused packages.
+- Numbered SQLite migration framework with WAL journaling; JSON Schema
+  validation for lesson content in CI; stable extension SDK surface.
+- `react-hooks/set-state-in-effect` restored to error with zero
+  violations; eslint runs clean at full strictness.
+- CI and release workflows skip on private repositories so no metered
+  Actions minutes are ever consumed; they activate automatically when the
+  repository goes public.
 
-### Changed
+### Security
 
-- lightweight-charts upgraded to v5 (new series API, markers plugin).
-- Signal engine, state store, model gateway, and learn content refactored
-  into focused modules/packages; settings screen decomposed into per-tab
-  components.
+- Trade-enabled credentials require the OS keychain; file fallback is
+  refused for live-trading enablement.
+- glib advisory (GHSA, medium) triaged as upstream-blocked: pinned by
+  tauri 2.x → gtk 0.18; the unsound API is not invoked. Re-evaluated on
+  each Tauri bump.
 
 ## [0.1.0] - 2026-06-11
 

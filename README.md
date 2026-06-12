@@ -4,11 +4,14 @@
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/quantglass-labs/quantglass?include_prereleases)](https://github.com/quantglass-labs/quantglass/releases)
 
-QuantGlass is an open-source, local-first market research and paper-trading
-workstation for crypto and US equities. It combines a FastAPI backend, a
-React/Tauri desktop app, typed contracts, deterministic signal and backtest
-logic, provider adapters, alerting, extension registries, and optional local/API
-AI narration.
+QuantGlass is an open-source, local-first trading education and research
+workstation for crypto and US equities — a complete trading academy (121
+lessons, missions, decision drills) fused with a working quant lab
+(evidence-backed signals, statistically honest backtesting, paper trading,
+behavioral coaching). Every number the engine shows is one it can defend,
+and every concept it teaches can be applied against your own market data.
+FastAPI backend, React/Tauri desktop app, typed contracts, extension
+registries, and optional local/API AI on a strict fact-guard covenant.
 
 <p align="center">
   <img src="docs/assets/screenshots/dashboard.png" alt="QuantGlass dashboard with market corridor chart and signals" width="900">
@@ -35,15 +38,37 @@ and extension development**. It is not yet a production trading product.
 
 Current working surface:
 
-- Local desktop UI with a loopback-only backend sidecar.
-- Public crypto and US equity market data defaults.
-- Deterministic indicators, signal generation, alerts, saved strategies, and
-  paper-trading state.
-- Backtest and confidence plumbing with sample-size warnings.
-- AI narration through template fallback plus local/API model gateway support.
+- **QuantGlass Academy**: 121 lessons across 23 tracks (novice → expert)
+  with exams, live exercises on your own market data, interactive visuals,
+  spaced-repetition practice, glossary/reference library, progress
+  analytics, and local completion certificates.
+- **Missions**: a 108-mission behavioral catalog with interactive decision
+  drills (scored on Process / Risk / Discipline), replay missions over
+  stylized market episodes, and an unlock ladder gated by conduct.
+- **The feedback loop**: plan-aware paper ticket → process scores and the
+  decision-vs-outcome 2×2 → Journal (notes, mistake tags) → Review (weekly
+  coach, repeated-mistake detection with lesson/mission prescriptions) →
+  a user-authored Trading Constitution enforced at the ticket.
+- **Signal engine v3**: 32 setup types across 10 taxonomy families with
+  evidence-backed confidence (pooled backtests, empirical-Bayes shrinkage,
+  conformal intervals, calibration tracking), context signals (regimes,
+  volatility, relative strength, macro proxies, event watches), and
+  portfolio/risk meta-signals wired to the constitution.
+- **Backtesting workbench**: honest train/test splits, cost-stress
+  scenarios, Monte Carlo drawdowns, bias/quality gates, experiment
+  fingerprints, an AI research review, and a strategy composer constrained
+  to data the corridor actually stores.
+- **AI on the narration covenant**: local or API models (Ollama, LM Studio,
+  OpenAI-compatible, Anthropic, Gemini, Azure, Bedrock) narrate engine
+  facts behind a numeric fact guard — signal narration, backtest review,
+  weekly coaching, and a lesson tutor — with deterministic template
+  fallback when no model is configured.
+- Local desktop UI with a loopback-only backend sidecar; public crypto and
+  US equity market data defaults; multi-timeframe corridor with Parquet
+  archive and behavioral dataset export.
 - Extension registries for providers, AI gateways, strategies, indicators,
-  backtest models, execution adapters, notifications, import/export,
-  data-quality checks, and future UI panels.
+  lesson packs, mission packs, notifications, and more — with local
+  automated review and trust labels.
 
 Known limitations:
 

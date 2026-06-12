@@ -29,6 +29,7 @@ This is the **end‑user manual**. It explains how to install, configure and use
 | 13 | [Backup & recovery](13-backup-recovery.md) | Protecting your data and restoring it |
 | 14 | [Troubleshooting & FAQ](14-troubleshooting-faq.md) | Fixing common problems |
 | 15 | [Glossary](15-glossary.md) | Every term, indicator and acronym defined |
+| 15 | [Academy, Missions & the Feedback Loop](16-academy-and-missions.md) | Every term, indicator and acronym defined |
 
 ---
 
