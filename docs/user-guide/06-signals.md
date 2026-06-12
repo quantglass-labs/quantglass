@@ -16,13 +16,13 @@ The Signals screen is the **filterable inventory** of every signal QuantGlass cu
 
 Every signal carries one of five labels. They describe the **current state**, not a promise of the future.
 
-| Label | Colour cue | Meaning |
-|-------|-----------|---------|
-| `BUY_ZONE` | Green | Price is in a defined entry zone for a long setup, with a stop and targets attached. |
-| `SELL` | Red | A short/exit setup is active. |
-| `HOLD` | Neutral | A position thesis remains valid; no new action. |
-| `WAIT` | Amber | Conditions are forming but the trigger hasn't been met — stand by. |
-| `WATCH` | Blue | On the radar; monitor for a setup to develop. |
+| Label      | Colour cue | Meaning                                                                              |
+| ---------- | ---------- | ------------------------------------------------------------------------------------ |
+| `BUY_ZONE` | Green      | Price is in a defined entry zone for a long setup, with a stop and targets attached. |
+| `SELL`     | Red        | A short/exit setup is active.                                                        |
+| `HOLD`     | Neutral    | A position thesis remains valid; no new action.                                      |
+| `WAIT`     | Amber      | Conditions are forming but the trigger hasn't been met — stand by.                   |
+| `WATCH`    | Blue       | On the radar; monitor for a setup to develop.                                        |
 
 Each signal also has a **status**: `active`, `invalidated` (the setup's conditions broke) or `closed`. Invalidated signals are shown dimmed.
 
@@ -34,14 +34,14 @@ Each signal also has a **status**: `active`, `invalidated` (the setup's conditio
 
 Use the filter controls to narrow the inventory:
 
-| Filter | What it does |
-|--------|--------------|
-| **Signal type** | Show only `BUY_ZONE`, `SELL`, `HOLD`, `WAIT` or `WATCH`. |
-| **Min confidence** | Hide signals below a confidence threshold (e.g. only ≥ 60%). |
-| **Timeframe** | Restrict to `15m`, `1h`, `4h` or `1d`. |
-| **Market filter** (top bar) | All Markets / Crypto / Stocks. |
+| Filter                      | What it does                                                 |
+| --------------------------- | ------------------------------------------------------------ |
+| **Signal type**             | Show only `BUY_ZONE`, `SELL`, `HOLD`, `WAIT` or `WATCH`.     |
+| **Min confidence**          | Hide signals below a confidence threshold (e.g. only ≥ 60%). |
+| **Timeframe**               | Restrict to `15m`, `1h`, `4h` or `1d`.                       |
+| **Market filter** (top bar) | All Markets / Crypto / Stocks.                               |
 
-Combine filters to answer questions like *"show me only high‑confidence 1h buy zones in crypto."*
+Combine filters to answer questions like _"show me only high‑confidence 1h buy zones in crypto."_
 
 ---
 
@@ -50,7 +50,7 @@ Combine filters to answer questions like *"show me only high‑confidence 1h buy
 Each signal exposes the key decision data at a glance:
 
 - **Symbol · timeframe** — what and when.
-- **Setup type** — e.g. *ema reclaim pullback*, *trend rejection breakdown*, *range reset*.
+- **Setup type** — e.g. _ema reclaim pullback_, _trend rejection breakdown_, _range reset_.
 - **Confidence** — the evidence‑based score (see below).
 - **Expectancy (R)** — the average reward per unit of risk from the backtest.
 - **Status** — active / invalidated / closed.

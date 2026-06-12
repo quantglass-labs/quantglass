@@ -8,7 +8,7 @@
 
 ### Backend shows "unavailable"
 
-The top bar shows **Backend Online** when the bundled engine is reachable, and an *unavailable / offline* state otherwise.
+The top bar shows **Backend Online** when the bundled engine is reachable, and an _unavailable / offline_ state otherwise.
 
 ```mermaid
 flowchart TB
@@ -49,7 +49,7 @@ If Ollama isn't running or is slow, narration falls back to the **template** wri
 ## FAQ
 
 **Is QuantGlass financial advice?**
-No. It is an educational, quantitative research tool. Signals are deterministic hypotheses, not recommendations. *Educational use only. Not financial advice.*
+No. It is an educational, quantitative research tool. Signals are deterministic hypotheses, not recommendations. _Educational use only. Not financial advice._
 
 **Does my data go to the cloud?**
 No. It runs entirely on your machine. AI narration uses a **local** model by default and cloud narration is off. Only the market/news data you fetch comes from public/keyed providers.

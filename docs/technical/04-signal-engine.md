@@ -32,17 +32,17 @@ Extensions exposes a broader indicator catalog for community implementations and
 future chart overlays; catalog-only entries do not affect signals until wired
 into an executable path.
 
-| Indicator | Parameters | Role |
-|-----------|------------|------|
-| EMA | 21 | Short‑term trend. |
-| SMA | 50 | Intermediate trend baseline. |
-| RSI | 14 (+ fast RSI 2) | Momentum / OB‑OS. |
-| MACD | 12, 26, 9 | Trend‑momentum, crossovers. |
-| ATR | 14 | Volatility per bar; stop sizing + regime. |
-| ADX | 14 | Trend strength; regime driver. |
-| Bollinger Bands | 20, 2σ | Volatility envelope / mean reversion. |
-| Keltner Channels | 1.5 × ATR | Volatility envelope. |
-| Donchian | 20 | Breakout reference. |
+| Indicator        | Parameters        | Role                                      |
+| ---------------- | ----------------- | ----------------------------------------- |
+| EMA              | 21                | Short‑term trend.                         |
+| SMA              | 50                | Intermediate trend baseline.              |
+| RSI              | 14 (+ fast RSI 2) | Momentum / OB‑OS.                         |
+| MACD             | 12, 26, 9         | Trend‑momentum, crossovers.               |
+| ATR              | 14                | Volatility per bar; stop sizing + regime. |
+| ADX              | 14                | Trend strength; regime driver.            |
+| Bollinger Bands  | 20, 2σ            | Volatility envelope / mean reversion.     |
+| Keltner Channels | 1.5 × ATR         | Volatility envelope.                      |
+| Donchian         | 20                | Breakout reference.                       |
 
 ---
 
@@ -50,11 +50,11 @@ into an executable path.
 
 Primarily from ADX (trend strength) and ATR (volatility):
 
-| Regime | Heuristic |
-|--------|-----------|
-| **Trending** | ADX ≥ ~22 |
-| **Ranging** | ADX < ~16 |
-| **Volatile** | ATR% ≥ ~1.7× its baseline |
+| Regime           | Heuristic                  |
+| ---------------- | -------------------------- |
+| **Trending**     | ADX ≥ ~22                  |
+| **Ranging**      | ADX < ~16                  |
+| **Volatile**     | ATR% ≥ ~1.7× its baseline  |
 | **Transitional** | shifting between the above |
 
 The regime selects which setup family is eligible and feeds the confidence calculation.
@@ -63,13 +63,13 @@ The regime selects which setup family is eligible and feeds the confidence calcu
 
 ## Setup families
 
-| Family | Trigger idea |
-|--------|--------------|
+| Family                            | Trigger idea                                         |
+| --------------------------------- | ---------------------------------------------------- |
 | **Trend pullback / continuation** | Buy dips with the trend (e.g. EMA reclaim pullback). |
-| **Trend rejection / breakdown** | Fade failed pushes against the trend. |
-| **Breakout / breakdown retest** | Trade confirmed Donchian breaks on retest. |
-| **Mean reversion / range reset** | Fade extremes inside a range. |
-| **Momentum confirmation** | Act when momentum and trend agree. |
+| **Trend rejection / breakdown**   | Fade failed pushes against the trend.                |
+| **Breakout / breakdown retest**   | Trade confirmed Donchian breaks on retest.           |
+| **Mean reversion / range reset**  | Fade extremes inside a range.                        |
+| **Momentum confirmation**         | Act when momentum and trend agree.                   |
 
 Each produces a trade plan: entry zone, stop loss, and a **three‑rung take‑profit ladder (50 / 30 / 20%)**, yielding an R:R.
 
@@ -109,16 +109,16 @@ flowchart LR
     style W fill:#b91c1c,color:#fff
 ```
 
-| Field | Contribution |
-|-------|--------------|
-| `trend_alignment` | Setup with/against dominant trend. |
-| `volume_confirmation` | Participation behind the move. |
-| `volatility_regime` | Regime suitability for the setup. |
-| `setup_type` | Which family fired. |
-| `backtested_winrate` / `backtested_expectancy_R` | Historical edge of this setup. |
-| `backtest_sample_size` | Reliability weighting; < 50 ⇒ penalty + warning. |
-| `out_of_sample_validated` | Whether the edge held on held‑out data. |
-| `confluence_score`, `pooled_*`, `market_regime` | Optional robustness signals. |
+| Field                                            | Contribution                                     |
+| ------------------------------------------------ | ------------------------------------------------ |
+| `trend_alignment`                                | Setup with/against dominant trend.               |
+| `volume_confirmation`                            | Participation behind the move.                   |
+| `volatility_regime`                              | Regime suitability for the setup.                |
+| `setup_type`                                     | Which family fired.                              |
+| `backtested_winrate` / `backtested_expectancy_R` | Historical edge of this setup.                   |
+| `backtest_sample_size`                           | Reliability weighting; < 50 ⇒ penalty + warning. |
+| `out_of_sample_validated`                        | Whether the edge held on held‑out data.          |
+| `confluence_score`, `pooled_*`, `market_regime`  | Optional robustness signals.                     |
 
 The result is deterministic: identical candle history yields identical confidence.
 

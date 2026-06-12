@@ -14,11 +14,11 @@ Alerts notify you when a condition you care about is met, so you don't have to s
 
 ## Delivery channels
 
-| Channel | How it works | Setup required |
-|---------|--------------|----------------|
-| **Desktop** | A local OS notification plus the in-app alert toast. | Allow OS notification permission when prompted. |
-| **Telegram** | A message from your bot to your chat. | Bot token + chat ID in [Settings → API Keys](10-settings.md#api-keys). |
-| **Email** | An email via your SMTP server. | SMTP host, port and credentials in [Settings → API Keys](10-settings.md#api-keys). |
+| Channel      | How it works                                         | Setup required                                                                     |
+| ------------ | ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Desktop**  | A local OS notification plus the in-app alert toast. | Allow OS notification permission when prompted.                                    |
+| **Telegram** | A message from your bot to your chat.                | Bot token + chat ID in [Settings → API Keys](10-settings.md#api-keys).             |
+| **Email**    | An email via your SMTP server.                       | SMTP host, port and credentials in [Settings → API Keys](10-settings.md#api-keys). |
 
 > You can send a **test notification** for any channel from [Settings → API Keys](10-settings.md#api-keys) to confirm delivery before relying on it. Desktop tests request OS permission through the desktop shell; Telegram and email tests use the saved backend credentials.
 
@@ -34,12 +34,28 @@ You can create an alert from several places:
 
 An alert has:
 
-| Field | Example |
-|-------|---------|
-| **Symbol** | `BTC/USD` |
+| Field         | Example                                                                        |
+| ------------- | ------------------------------------------------------------------------------ |
+| **Symbol**    | `BTC/USD`                                                                      |
 | **Condition** | A price/level rule (e.g. crosses above resistance, signal becomes `BUY_ZONE`). |
-| **Channel** | desktop / telegram / email |
-| **Status** | `armed`, `paused`, or `fired` |
+| **Channel**   | desktop / telegram / email                                                     |
+| **Status**    | `armed`, `paused`, or `fired`                                                  |
+
+### Writing the condition
+
+Two ways:
+
+- **Plain English** — type something like _"alert me when BTC crosses 100k"_
+  into the natural-language box. The AI proposes a structured condition, a
+  deterministic parser validates it, and the dialog shows you the **exact
+  parsed condition** before you save. Nothing fires off an unvalidated guess.
+- **The grammar directly** — conditions follow a small, deterministic grammar:
+  `crosses above N`, `crosses below N`, `above N`, `below N` (synonyms like
+  `over` / `under` / `>=` work). Crosses fire once on the transition; above/
+  below fire while the level holds.
+
+Conditions evaluate against **closed candles** on the backend's schedule, so an
+intrabar wick that touches your level fires on the candle close that confirms it.
 
 ---
 

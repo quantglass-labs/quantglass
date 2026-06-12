@@ -22,11 +22,11 @@ flowchart LR
     style D fill:#0f766e,color:#fff
 ```
 
-| Store | Backend | Purpose |
-|-------|---------|---------|
-| **StateStore** | SQLite | Operational state — fast, transactional, single‑user. |
-| **AnalyticsStore** | DuckDB + Parquet | Columnar time‑series + backtest analytics; Parquet is the durable archive. |
-| **SecretStore** | Fernet + optional keychain | Encrypted API keys for data, notification, optional AI providers, and trade-capable credentials. |
+| Store              | Backend                    | Purpose                                                                                          |
+| ------------------ | -------------------------- | ------------------------------------------------------------------------------------------------ |
+| **StateStore**     | SQLite                     | Operational state — fast, transactional, single‑user.                                            |
+| **AnalyticsStore** | DuckDB + Parquet           | Columnar time‑series + backtest analytics; Parquet is the durable archive.                       |
+| **SecretStore**    | Fernet + optional keychain | Encrypted API keys for data, notification, optional AI providers, and trade-capable credentials. |
 
 ---
 
@@ -34,19 +34,19 @@ flowchart LR
 
 [app/storage/state_store.py](../../apps/backend/app/storage/state_store.py). Initialised with default provider/safety/AI settings. Tables include:
 
-| Table | Holds |
-|-------|-------|
-| `watchlist_entries` | User‑curated symbols. |
-| `saved_strategies` | Strategies saved from Backtesting. |
-| `alerts` | Alert definitions + status. |
-| `alert_history` | Firing audit log. |
-| `paper_account` | Simulated balance / buying power. |
-| `paper_positions` | Open simulated positions. |
-| `paper_trade_intents` | Queued/working paper orders. |
-| `provider_settings` | Persisted provider routing + view mode. |
-| `safety_settings` | Trading mode, partial‑candle flag, min sample, live confirm. |
-| `ai_settings` | Model, cloud flag, Ollama URL, timeout. |
-| `api_keys` | API‑key metadata (values via `SecretStore`). |
+| Table                 | Holds                                                        |
+| --------------------- | ------------------------------------------------------------ |
+| `watchlist_entries`   | User‑curated symbols.                                        |
+| `saved_strategies`    | Strategies saved from Backtesting.                           |
+| `alerts`              | Alert definitions + status.                                  |
+| `alert_history`       | Firing audit log.                                            |
+| `paper_account`       | Simulated balance / buying power.                            |
+| `paper_positions`     | Open simulated positions.                                    |
+| `paper_trade_intents` | Queued/working paper orders.                                 |
+| `provider_settings`   | Persisted provider routing + view mode.                      |
+| `safety_settings`     | Trading mode, partial‑candle flag, min sample, live confirm. |
+| `ai_settings`         | Model, cloud flag, Ollama URL, timeout.                      |
+| `api_keys`            | API‑key metadata (values via `SecretStore`).                 |
 
 ---
 
@@ -54,13 +54,13 @@ flowchart LR
 
 [app/storage/analytics_store.py](../../apps/backend/app/storage/analytics_store.py). DuckDB is the hot query store; on every closed‑candle ingest a durable Parquet copy is written.
 
-| Table | Holds |
-|-------|-------|
-| `market_candles` | OHLCV per symbol/timeframe (closed candles). |
-| `backtest_snapshots` | Stored backtest results. |
-| `setup_expectancy` | Pooled expectancy per setup family. |
-| `market_integrity_diagnostics` | Gap/partial‑candle/quality checks. |
-| `market_ingest_runs` | Ingest run metadata. |
+| Table                          | Holds                                        |
+| ------------------------------ | -------------------------------------------- |
+| `market_candles`               | OHLCV per symbol/timeframe (closed candles). |
+| `backtest_snapshots`           | Stored backtest results.                     |
+| `setup_expectancy`             | Pooled expectancy per setup family.          |
+| `market_integrity_diagnostics` | Gap/partial‑candle/quality checks.           |
+| `market_ingest_runs`           | Ingest run metadata.                         |
 
 Parquet layout:
 

@@ -35,22 +35,24 @@ flowchart TB
 ```
 
 ### Top bar
-| Element | Purpose |
-|---------|---------|
-| **Search symbol or name** | Jump to any symbol's detail screen. |
-| **All Markets / Crypto / Stocks** | Filter what's shown across the app to one asset class. |
-| **Backend status pill** | Live connection health (Online / Connecting / Unavailable). |
-| **Educational use only** | The standing disclaimer — QuantGlass is not financial advice. |
+
+| Element                           | Purpose                                                       |
+| --------------------------------- | ------------------------------------------------------------- |
+| **Search symbol or name**         | Jump to any symbol's detail screen.                           |
+| **All Markets / Crypto / Stocks** | Filter what's shown across the app to one asset class.        |
+| **Backend status pill**           | Live connection health (Online / Connecting / Unavailable).   |
+| **Educational use only**          | The standing disclaimer — QuantGlass is not financial advice. |
 
 ### Left navigation rail
-| Item | Screen | Guide |
-|------|--------|-------|
-| Dashboard | Cross‑market overview | [Chapter 4](04-dashboard.md) |
-| Signals | Filterable signal inventory | [Chapter 6](06-signals.md) |
-| Watchlist | Curated symbols + ranking | [Chapter 5](05-watchlist.md) |
-| Backtesting | Strategy validation | [Chapter 8](08-backtesting.md) |
-| Alerts | Triggers + history | [Chapter 9](09-alerts.md) |
-| Settings | Providers, keys, risk, AI | [Chapter 10](10-settings.md) |
+
+| Item        | Screen                      | Guide                          |
+| ----------- | --------------------------- | ------------------------------ |
+| Dashboard   | Cross‑market overview       | [Chapter 4](04-dashboard.md)   |
+| Signals     | Filterable signal inventory | [Chapter 6](06-signals.md)     |
+| Watchlist   | Curated symbols + ranking   | [Chapter 5](05-watchlist.md)   |
+| Backtesting | Strategy validation         | [Chapter 8](08-backtesting.md) |
+| Alerts      | Triggers + history          | [Chapter 9](09-alerts.md)      |
+| Settings    | Providers, keys, risk, AI   | [Chapter 10](10-settings.md)   |
 
 ---
 
@@ -80,12 +82,12 @@ That's the core loop: **observe → select → validate → monitor**.
 
 ## Optional setup you may want next
 
-| Goal | Where to go |
-|------|-------------|
-| Use richer, AI‑written explanations | Install Ollama, then [Settings → AI](10-settings.md#ai) |
-| Add paid data providers (Finnhub, Polygon, Alpaca…) | [Settings → API Keys](10-settings.md#api-keys) |
-| Send alerts to Telegram or email | [Settings → API Keys](10-settings.md#api-keys) + [Alerts](09-alerts.md) |
-| Understand the terminology | [Glossary](15-glossary.md) |
+| Goal                                                | Where to go                                                             |
+| --------------------------------------------------- | ----------------------------------------------------------------------- |
+| Use richer, AI‑written explanations                 | Install Ollama, then [Settings → AI](10-settings.md#ai)                 |
+| Add paid data providers (Finnhub, Polygon, Alpaca…) | [Settings → API Keys](10-settings.md#api-keys)                          |
+| Send alerts to Telegram or email                    | [Settings → API Keys](10-settings.md#api-keys) + [Alerts](09-alerts.md) |
+| Understand the terminology                          | [Glossary](15-glossary.md)                                              |
 
 ---
 

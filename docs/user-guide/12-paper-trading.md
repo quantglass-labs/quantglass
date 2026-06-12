@@ -27,6 +27,19 @@ Paper trading executes simulated orders through the backend scheduler against cl
 
 You can see this on the [Dashboard](04-dashboard.md) (Paper Balance, Realized P&L, Paper Account Snapshot). Paper trades let you test a strategy's behaviour with **zero financial risk**.
 
+### What the venue executes
+
+The venue supports the full order lifecycle on closed-candle semantics: market,
+limit and stop entries; Day / GTC / GTD time in force; trailing stops that
+ratchet from the best closed price; your plan's stop and target acting as a
+live OCO bracket; cancel for working orders; and full or partial closes. Every
+exit lands in the **closure ledger** with PnL and R-multiple. The day-to-day
+controls live on the [Portfolio screen](17-portfolio.md).
+
+Two account rules are enforced rather than fudged: orders above buying power
+are **rejected** (with the maximum affordable size), and opposing positions
+must be closed first — the venue does not net a long against a short.
+
 ---
 
 ## The future live‑trading safety gate

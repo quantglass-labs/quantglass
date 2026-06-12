@@ -58,11 +58,23 @@ Current working surface:
   scenarios, Monte Carlo drawdowns, bias/quality gates, experiment
   fingerprints, an AI research review, and a strategy composer constrained
   to data the corridor actually stores.
-- **AI on the narration covenant**: local or API models (Ollama, LM Studio,
-  OpenAI-compatible, Anthropic, Gemini, Azure, Bedrock) narrate engine
-  facts behind a numeric fact guard — signal narration, backtest review,
-  weekly coaching, and a lesson tutor — with deterministic template
-  fallback when no model is configured.
+- **Paper venue at platform parity**: market/limit/stop entries, Day/GTC/GTD
+  time in force, trailing stops, live OCO brackets from the trade plan,
+  cancel, partial close, account guards, and a closure ledger with
+  R-multiples — all on honest closed-candle fills, managed from a dedicated
+  Portfolio screen. Live mode maps the same ticket to broker APIs (Alpaca
+  reference mapping) and refuses what a broker cannot express instead of
+  silently downgrading.
+- **AI on every screen, all on the narration covenant**: local or API models
+  (Ollama, LM Studio, OpenAI-compatible, Anthropic, Gemini, Azure, Bedrock)
+  narrate engine facts behind a numeric fact guard — signal narration, an AI
+  daily brief, natural-language alert creation, per-screen insights, drill
+  and trade postmortems, backtest review, weekly coaching, a lesson tutor,
+  and the **QuantGlass Copilot** (grounded Q&A over read-only engine tools)
+  — with deterministic template fallback when no model is configured.
+- **MCP server**: the same read-only tools are exposed over the Model
+  Context Protocol, so Claude Desktop/Code or any MCP client can use the
+  local engine as a grounded market-facts source.
 - Local desktop UI with a loopback-only backend sidecar; public crypto and
   US equity market data defaults; multi-timeframe corridor with Parquet
   archive and behavioral dataset export.

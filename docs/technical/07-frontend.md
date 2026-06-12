@@ -28,16 +28,16 @@ apps/desktop/src/
 
 ### Screens
 
-| Screen | Route | Purpose |
-|--------|-------|---------|
-| `DashboardScreen` | `#/` | Cross‑market overview, regime, paper snapshot, signal feed. |
-| `SignalsScreen` | `#/signals` | Filterable signal inventory. |
-| `WatchlistScreen` | `#/watchlist` | Relative‑strength candidates + curation. |
-| `SymbolDetailScreen` | `#/symbol/:id` | Chart, overlays, decision card, catalysts. |
-| `BacktestScreen` | `#/backtest` | Strategy selection + IS/OOS metrics. |
-| `AlertsScreen` | `#/alerts` | Alert management + history. |
-| `SettingsScreen` | `#/settings` | Providers, API keys, risk, AI, strategies. |
-| `SignalDetailDrawer` | (overlay) | Inline signal detail. |
+| Screen               | Route          | Purpose                                                     |
+| -------------------- | -------------- | ----------------------------------------------------------- |
+| `DashboardScreen`    | `#/`           | Cross‑market overview, regime, paper snapshot, signal feed. |
+| `SignalsScreen`      | `#/signals`    | Filterable signal inventory.                                |
+| `WatchlistScreen`    | `#/watchlist`  | Relative‑strength candidates + curation.                    |
+| `SymbolDetailScreen` | `#/symbol/:id` | Chart, overlays, decision card, catalysts.                  |
+| `BacktestScreen`     | `#/backtest`   | Strategy selection + IS/OOS metrics.                        |
+| `AlertsScreen`       | `#/alerts`     | Alert management + history.                                 |
+| `SettingsScreen`     | `#/settings`   | Providers, API keys, risk, AI, strategies.                  |
+| `SignalDetailDrawer` | (overlay)      | Inline signal detail.                                       |
 
 ---
 
@@ -71,16 +71,16 @@ The resolved URL is memoised in a single promise so every request shares it.
 
 `backend.ts` is a typed client whose request/response shapes come from the shared **`@quantglass/contracts`** package (`packages/contracts`). This contracts‑first approach keeps the TypeScript types in lockstep with the backend's Pydantic schemas. Representative types:
 
-| Type | Used for |
-|------|----------|
-| `SignalsListResponse` / `CanonicalSignal` | `/api/signals`. |
-| `MarketRankingResponse` | `/api/market/ranking`. |
-| `MarketCandlesResponse` | corridor candles for charts. |
-| `BacktestRunRequest` / `BacktestRunResponse` | backtests. |
-| `AlertsListResponse` / `AlertUpsertRequest` | alerts CRUD. |
-| `PaperAccountResponse` / `PaperTradeIntentRequest` | paper trading. |
-| `ProviderSettingsResponse` / `ProviderRegistryResponse` | providers. |
-| `AiSettingsResponse` / `ApiKeySettingsResponse` | settings. |
+| Type                                                    | Used for                     |
+| ------------------------------------------------------- | ---------------------------- |
+| `SignalsListResponse` / `CanonicalSignal`               | `/api/signals`.              |
+| `MarketRankingResponse`                                 | `/api/market/ranking`.       |
+| `MarketCandlesResponse`                                 | corridor candles for charts. |
+| `BacktestRunRequest` / `BacktestRunResponse`            | backtests.                   |
+| `AlertsListResponse` / `AlertUpsertRequest`             | alerts CRUD.                 |
+| `PaperAccountResponse` / `PaperTradeIntentRequest`      | paper trading.               |
+| `ProviderSettingsResponse` / `ProviderRegistryResponse` | providers.                   |
+| `AiSettingsResponse` / `ApiKeySettingsResponse`         | settings.                    |
 
 The client also maps internal provider ids to display labels (`providerLabelById`, e.g. `ccxt_coinbase → Coinbase`).
 

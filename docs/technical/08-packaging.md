@@ -69,14 +69,14 @@ sequenceDiagram
 
 Key functions:
 
-| Function | Role |
-|----------|------|
-| `pick_free_port()` | Bind `127.0.0.1:0`, read the OS‑assigned port, release it for the backend. |
-| `start_backend()` | Spawn the sidecar on that port; continuously drain its pipes; `wait_for_port`. |
-| `wait_for_port()` | Poll TCP connect every 150 ms up to a 30 s deadline. |
-| `backend_base_url` (`#[tauri::command]`) | Hand the resolved URL to the frontend. |
-| `FALLBACK_BASE_URL` | `http://127.0.0.1:8000` when no sidecar is managed (e.g. `tauri dev`). |
-| `ExitRequested` handler | `child.kill()` so no orphan backend remains. |
+| Function                                 | Role                                                                           |
+| ---------------------------------------- | ------------------------------------------------------------------------------ |
+| `pick_free_port()`                       | Bind `127.0.0.1:0`, read the OS‑assigned port, release it for the backend.     |
+| `start_backend()`                        | Spawn the sidecar on that port; continuously drain its pipes; `wait_for_port`. |
+| `wait_for_port()`                        | Poll TCP connect every 150 ms up to a 30 s deadline.                           |
+| `backend_base_url` (`#[tauri::command]`) | Hand the resolved URL to the frontend.                                         |
+| `FALLBACK_BASE_URL`                      | `http://127.0.0.1:8000` when no sidecar is managed (e.g. `tauri dev`).         |
+| `ExitRequested` handler                  | `child.kill()` so no orphan backend remains.                                   |
 
 Stdout/stderr are drained continuously so the child's pipe never fills and stalls it.
 
@@ -84,11 +84,11 @@ Stdout/stderr are drained continuously so the child's pipe never fills and stall
 
 ## Artifacts
 
-| Platform | Outputs |
-|----------|---------|
-| **Linux** | `QuantGlass_0.1.0_amd64.AppImage`, `QuantGlass_0.1.0_amd64.deb`, `QuantGlass-0.1.0-1.x86_64.rpm` |
-| **Windows** | MSI / NSIS installer (`.exe`) |
-| **macOS** | `.dmg` / `.app` |
+| Platform    | Outputs                                                                                          |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| **Linux**   | `QuantGlass_0.1.0_amd64.AppImage`, `QuantGlass_0.1.0_amd64.deb`, `QuantGlass-0.1.0-1.x86_64.rpm` |
+| **Windows** | MSI / NSIS installer (`.exe`)                                                                    |
+| **macOS**   | `.dmg` / `.app`                                                                                  |
 
 > Distribution uses local build commands only — **no CI/CD pipeline** is required to produce installers.
 
@@ -98,11 +98,11 @@ Stdout/stderr are drained continuously so the child's pipe never fills and stall
 
 When frozen (`sys.frozen` is true), `config.py` resolves `data_dir` to the per‑user OS app‑data location instead of the source `.local` folder:
 
-| OS | Data folder |
-|----|-------------|
-| Linux | `~/.local/share/QuantGlass` |
-| Windows | `%APPDATA%\QuantGlass` |
-| macOS | `~/Library/Application Support/QuantGlass` |
+| OS      | Data folder                                |
+| ------- | ------------------------------------------ |
+| Linux   | `~/.local/share/QuantGlass`                |
+| Windows | `%APPDATA%\QuantGlass`                     |
+| macOS   | `~/Library/Application Support/QuantGlass` |
 
 A single `QUANTGLASS_DATA_DIR` env var relocates all state.
 

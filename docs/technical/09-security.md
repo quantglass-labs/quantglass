@@ -42,14 +42,14 @@ flowchart TB
     style F fill:#0f766e,color:#fff
 ```
 
-| Credential type | Storage |
-|-----------------|---------|
-| **Data/news/notification keys** | Fernet‑encrypted payload + key under `state/secrets/`. |
-| **Trade‑capable credentials** | Routed to the OS keychain when a usable keychain exists; otherwise they fall back to the encrypted file. Built-in live execution remains unavailable in the public preview. |
+| Credential type                 | Storage                                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Data/news/notification keys** | Fernet‑encrypted payload + key under `state/secrets/`.                                                                                                                      |
+| **Trade‑capable credentials**   | Routed to the OS keychain when a usable keychain exists; otherwise they fall back to the encrypted file. Built-in live execution remains unavailable in the public preview. |
 
 Keys are **masked** in the UI. `apply_api_key_settings()` overlays decrypted keys onto runtime settings only in memory at startup.
 
-> **Backups contain secrets.** A backup bundle includes the encrypted payload *and* its decryption key — treat bundles as sensitive and store them securely ([Backup & recovery](../backup_and_recovery.md)).
+> **Backups contain secrets.** A backup bundle includes the encrypted payload _and_ its decryption key — treat bundles as sensitive and store them securely ([Backup & recovery](../backup_and_recovery.md)).
 
 ---
 
@@ -94,12 +94,12 @@ tested, and a real broker execution client is intentionally registered.
 
 ## OWASP‑aligned notes
 
-| Risk | Mitigation |
-|------|------------|
-| Sensitive data exposure | Fernet-encrypted local secret payload; masked UI; loopback‑only API. |
-| Broken access control | Single‑user local app; no remote auth surface. |
-| Injection | Parameterised storage queries; typed Pydantic/contracts boundaries. |
-| Security misconfiguration | Restrictive CORS; safe defaults (paper, local AI). |
+| Risk                      | Mitigation                                                           |
+| ------------------------- | -------------------------------------------------------------------- |
+| Sensitive data exposure   | Fernet-encrypted local secret payload; masked UI; loopback‑only API. |
+| Broken access control     | Single‑user local app; no remote auth surface.                       |
+| Injection                 | Parameterised storage queries; typed Pydantic/contracts boundaries.  |
+| Security misconfiguration | Restrictive CORS; safe defaults (paper, local AI).                   |
 
 ---
 

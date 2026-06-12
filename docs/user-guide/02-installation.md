@@ -22,13 +22,13 @@ When you quit the app, the bundled backend is shut down with it. Nothing is left
 
 ## System requirements
 
-| Requirement | Minimum | Recommended |
-|-------------|---------|-------------|
-| Operating system | Linux (x86‑64), Windows 10, macOS 12 | Latest stable release |
-| Memory (RAM) | 4 GB | 8 GB+ |
-| Disk space | 500 MB for the app + data | 2 GB+ |
-| Network | Needed to download market data | Broadband |
-| Optional: local AI | — | [Ollama](https://ollama.com) for richer narration |
+| Requirement        | Minimum                              | Recommended                                       |
+| ------------------ | ------------------------------------ | ------------------------------------------------- |
+| Operating system   | Linux (x86‑64), Windows 10, macOS 12 | Latest stable release                             |
+| Memory (RAM)       | 4 GB                                 | 8 GB+                                             |
+| Disk space         | 500 MB for the app + data            | 2 GB+                                             |
+| Network            | Needed to download market data       | Broadband                                         |
+| Optional: local AI | —                                    | [Ollama](https://ollama.com) for richer narration |
 
 > AI narration is **optional**. Without Ollama installed, QuantGlass still produces clear, template‑based explanations for every signal. See [Settings → AI](10-settings.md#ai).
 
@@ -72,7 +72,7 @@ sudo dnf install ./QuantGlass-0.1.0-1.x86_64.rpm
 
 Run the installer (`QuantGlass_0.1.0_x64-setup.exe` / `.msi`) and follow the prompts, then launch **QuantGlass** from the Start menu.
 
-> **SmartScreen:** because the current build is not yet code‑signed, Windows may show *"Windows protected your PC."* Click **More info → Run anyway**. A signed build removes this warning.
+> **SmartScreen:** because the current build is not yet code‑signed, Windows may show _"Windows protected your PC."_ Click **More info → Run anyway**. A signed build removes this warning.
 
 ---
 
@@ -80,7 +80,7 @@ Run the installer (`QuantGlass_0.1.0_x64-setup.exe` / `.msi`) and follow the pro
 
 Open the `.dmg` and drag **QuantGlass** into **Applications**, then launch it from Launchpad.
 
-> **Gatekeeper:** an unsigned/un‑notarised build will report *"QuantGlass can't be opened because Apple cannot check it for malicious software."* Right‑click the app → **Open** → **Open**, or allow it under **System Settings → Privacy & Security**. A notarised build removes this step.
+> **Gatekeeper:** an unsigned/un‑notarised build will report _"QuantGlass can't be opened because Apple cannot check it for malicious software."_ Right‑click the app → **Open** → **Open**, or allow it under **System Settings → Privacy & Security**. A notarised build removes this step.
 
 ---
 
@@ -88,11 +88,11 @@ Open the `.dmg` and drag **QuantGlass** into **Applications**, then launch it fr
 
 On first launch the app creates a per‑user data folder. Nothing is stored system‑wide.
 
-| OS | Data location |
-|----|---------------|
-| **Linux** | `~/.local/share/QuantGlass` (or `$XDG_DATA_HOME/QuantGlass`) |
-| **Windows** | `%APPDATA%\QuantGlass` |
-| **macOS** | `~/Library/Application Support/QuantGlass` |
+| OS          | Data location                                                |
+| ----------- | ------------------------------------------------------------ |
+| **Linux**   | `~/.local/share/QuantGlass` (or `$XDG_DATA_HOME/QuantGlass`) |
+| **Windows** | `%APPDATA%\QuantGlass`                                       |
+| **macOS**   | `~/Library/Application Support/QuantGlass`                   |
 
 This folder holds your SQLite state database, the analytics store, downloaded candles, and your encrypted secrets. See [Backup & recovery](13-backup-recovery.md) to learn how to copy or restore it.
 

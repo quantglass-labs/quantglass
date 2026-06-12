@@ -8,7 +8,7 @@
 
 QuantGlass is a **desktop application** that helps you analyse markets the way a disciplined quantitative trader would. Instead of showing you a wall of indicators and leaving you to guess, it produces a single, explainable answer for each symbol and timeframe:
 
-> *"Here is the signal, here is exactly why, here is how it performed in a backtest, and here is how confident the evidence makes us."*
+> _"Here is the signal, here is exactly why, here is how it performed in a backtest, and here is how confident the evidence makes us."_
 
 It covers two asset classes out of the box:
 
@@ -21,12 +21,12 @@ Everything runs **on your own computer**. The app bundles its own analytics back
 
 ## Who is it for?
 
-| Audience | How QuantGlass helps |
-|----------|--------------------------|
-| **Active retail traders** | A consistent, rules‑based "second opinion" with honest backtest stats, not hype. |
-| **Quant‑curious learners** | See indicators, regimes and expectancy in one place and learn how they combine. |
-| **Researchers / tinkerers** | A local, inspectable pipeline you can study, extend and validate. |
-| **Privacy‑conscious users** | No accounts, no telemetry, no cloud dependency by default. |
+| Audience                    | How QuantGlass helps                                                             |
+| --------------------------- | -------------------------------------------------------------------------------- |
+| **Active retail traders**   | A consistent, rules‑based "second opinion" with honest backtest stats, not hype. |
+| **Quant‑curious learners**  | See indicators, regimes and expectancy in one place and learn how they combine.  |
+| **Researchers / tinkerers** | A local, inspectable pipeline you can study, extend and validate.                |
+| **Privacy‑conscious users** | No accounts, no telemetry, no cloud dependency by default.                       |
 
 ---
 
@@ -55,18 +55,23 @@ mindmap
 ```
 
 ### 1. Closed‑candle only
-Signals are computed **only on completed candles**. A 1‑hour signal updates when the hour closes — never mid‑bar. This prevents "repainting", where a signal appears and then vanishes as the live bar wiggles. You will see the reminder *"Closed‑candle only"* throughout the app.
+
+Signals are computed **only on completed candles**. A 1‑hour signal updates when the hour closes — never mid‑bar. This prevents "repainting", where a signal appears and then vanishes as the live bar wiggles. You will see the reminder _"Closed‑candle only"_ throughout the app.
 
 ### 2. Evidence over opinion
+
 A signal's **confidence** is not a vibe. It is assembled from measurable factors — trend alignment, volume confirmation, the backtested win rate and expectancy of that exact setup, and whether it was validated out‑of‑sample. See [Core concepts → Confidence](11-core-concepts.md#confidence-how-the-number-is-built).
 
 ### 3. Honest validation
+
 Backtests always separate **in‑sample** (training) from **out‑of‑sample** (held‑out) performance, and the app warns you loudly when a setup has **too few trades** to trust. Good‑looking numbers on 8 trades are treated as unstable, not as proof.
 
 ### 4. Local‑first and private
+
 Your watchlists, strategies, alerts, paper account and downloaded candles all live in a per‑user data folder on your machine. There is no login. See [Backup & recovery](13-backup-recovery.md) for where the files are.
 
 ### 5. Safety by default
+
 The app starts in **paper‑trading** mode. Built-in live broker execution is not
 available in the public preview; future live support must pass the explicit
 safety gate described in [Paper vs live trading](12-paper-trading.md).

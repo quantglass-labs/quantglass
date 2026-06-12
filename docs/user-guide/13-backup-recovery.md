@@ -12,22 +12,22 @@ Because QuantGlass is **local‑first**, everything you create — watchlists, a
 
 ## What gets backed up
 
-| Asset | Location (relative to the data folder) | Contains |
-|-------|----------------------------------------|----------|
-| **Operational state** (SQLite) | `state/quantglass.db` | Watchlist, alerts, paper account, saved strategies, settings. |
-| **Analytics** (DuckDB) | `analytics/quantglass.duckdb` | Market candles, backtest snapshots, expectancy stats. |
-| **Candle archive** (Parquet) | `parquet/symbol=…/timeframe=…/candles.parquet` | Durable, portable market history. |
-| **Secrets** | `state/secrets/` | Encrypted API‑key payload + its decryption key. |
+| Asset                          | Location (relative to the data folder)         | Contains                                                      |
+| ------------------------------ | ---------------------------------------------- | ------------------------------------------------------------- |
+| **Operational state** (SQLite) | `state/quantglass.db`                          | Watchlist, alerts, paper account, saved strategies, settings. |
+| **Analytics** (DuckDB)         | `analytics/quantglass.duckdb`                  | Market candles, backtest snapshots, expectancy stats.         |
+| **Candle archive** (Parquet)   | `parquet/symbol=…/timeframe=…/candles.parquet` | Durable, portable market history.                             |
+| **Secrets**                    | `state/secrets/`                               | Encrypted API‑key payload + its decryption key.               |
 
 The **data folder** depends on your OS:
 
-| OS | Data folder |
-|----|-------------|
-| **Linux** | `~/.local/share/QuantGlass` |
-| **Windows** | `%APPDATA%\QuantGlass` |
-| **macOS** | `~/Library/Application Support/QuantGlass` |
+| OS          | Data folder                                |
+| ----------- | ------------------------------------------ |
+| **Linux**   | `~/.local/share/QuantGlass`                |
+| **Windows** | `%APPDATA%\QuantGlass`                     |
+| **macOS**   | `~/Library/Application Support/QuantGlass` |
 
-> ⚠️ **The secrets folder is sensitive** — it contains your encrypted keys *and* the key to decrypt them. Store backups securely and outside the workspace.
+> ⚠️ **The secrets folder is sensitive** — it contains your encrypted keys _and_ the key to decrypt them. Store backups securely and outside the workspace.
 
 ---
 

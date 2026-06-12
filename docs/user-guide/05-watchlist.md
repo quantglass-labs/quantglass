@@ -14,16 +14,16 @@ The Watchlist is your **curated symbol monitor**. It groups the instruments you 
 
 ## Top relative‑strength candidates
 
-At the top, QuantGlass ranks your universe by **cross‑sectional momentum** — that is, how each symbol is performing *relative to its peers*, not just on its own.
+At the top, QuantGlass ranks your universe by **cross‑sectional momentum** — that is, how each symbol is performing _relative to its peers_, not just on its own.
 
 Each candidate chip shows:
 
-| Field | Meaning |
-|-------|---------|
-| **Symbol** & **timeframe** | e.g. *AAPL · 1d* |
-| **RS score** | Relative‑strength score from 0–100. |
-| **Trailing return** | The recent momentum (e.g. *+11.8%*). |
-| **Rank** | Position within its group, e.g. *#1 of 8 stocks*. |
+| Field                      | Meaning                                           |
+| -------------------------- | ------------------------------------------------- |
+| **Symbol** & **timeframe** | e.g. _AAPL · 1d_                                  |
+| **RS score**               | Relative‑strength score from 0–100.               |
+| **Trailing return**        | The recent momentum (e.g. _+11.8%_).              |
+| **Rank**                   | Position within its group, e.g. _#1 of 8 stocks_. |
 
 > Crypto and stocks are ranked **separately** (a percentile within each market type), because their volatility profiles differ. A 100 RS crypto name and a 100 RS stock are each the leader of their own group. See [Core concepts → Relative strength](11-core-concepts.md#relative-strength-ranking).
 
@@ -35,7 +35,7 @@ Click any candidate to jump straight to its [Symbol detail](07-symbol-detail.md)
 
 Below the ranking, your watched symbols are grouped by asset class (**crypto**, **stocks**). Each row shows:
 
-- **Ticker and name** (e.g. *BTC/USD — Bitcoin*).
+- **Ticker and name** (e.g. _BTC/USD — Bitcoin_).
 - **Last price** and **percent change**.
 - The current **signal chip** (`BUY ZONE`, `HOLD`, `WAIT`, …).
 - An **alert** button (bell) to create an alert for that symbol.

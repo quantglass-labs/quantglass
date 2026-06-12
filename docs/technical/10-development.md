@@ -12,13 +12,13 @@ the complete environment-variable reference, see
 
 ## Prerequisites
 
-| Tool | Used for |
-|------|----------|
-| **Python** (venv at `./.venv`) | Backend. |
-| **Node.js + npm** | Frontend + orchestration scripts. |
-| **Rust toolchain** | Tauri shell build. |
-| **Ollama** (optional) | Local AI narration. |
-| **PyInstaller** | Sidecar freeze (installed in the venv). |
+| Tool                           | Used for                                |
+| ------------------------------ | --------------------------------------- |
+| **Python** (venv at `./.venv`) | Backend.                                |
+| **Node.js + npm**              | Frontend + orchestration scripts.       |
+| **Rust toolchain**             | Tauri shell build.                      |
+| **Ollama** (optional)          | Local AI narration.                     |
+| **PyInstaller**                | Sidecar freeze (installed in the venv). |
 
 > The repository scripts assume the virtualenv at `./.venv`. From the workspace root the backend Python is `./.venv/bin/python`.
 
@@ -26,24 +26,24 @@ the complete environment-variable reference, see
 
 ## npm scripts (root `package.json`)
 
-| Script | Action |
-|--------|--------|
-| `backend:dev` | Run FastAPI on `127.0.0.1:8000` with reload. |
+| Script                   | Action                                                              |
+| ------------------------ | ------------------------------------------------------------------- |
+| `backend:dev`            | Run FastAPI on `127.0.0.1:8000` with reload.                        |
 | `backend:dev:extensions` | Run FastAPI with trusted local/installed extension loading enabled. |
-| `desktop:dev` | Vite dev server for the UI. |
-| `desktop:build` | Production frontend build. |
-| `desktop:preview` | Preview the built frontend. |
-| `desktop:tauri:dev` | Run the Tauri shell in dev (uses fallback backend URL). |
-| `desktop:tauri:build` | Build platform installers. |
-| `backend:bundle` | Freeze the backend sidecar (PyInstaller). |
-| `desktop:bundle` | `backend:bundle` + `desktop:tauri:build`. |
-| `backend:check` | Import the app and print title + route count. |
-| `backend:openapi` | Export the OpenAPI spec. |
-| `backend:smoke` | Run the smoke test. |
-| `backend:test` | Run the backend unittest suite. |
-| `backend:backup` | Export a timestamped state bundle. |
-| `validate:backend` | check + test + smoke + openapi. |
-| `validate:release` | validate:backend + frontend build + sidecar + Tauri bundle. |
+| `desktop:dev`            | Vite dev server for the UI.                                         |
+| `desktop:build`          | Production frontend build.                                          |
+| `desktop:preview`        | Preview the built frontend.                                         |
+| `desktop:tauri:dev`      | Run the Tauri shell in dev (uses fallback backend URL).             |
+| `desktop:tauri:build`    | Build platform installers.                                          |
+| `backend:bundle`         | Freeze the backend sidecar (PyInstaller).                           |
+| `desktop:bundle`         | `backend:bundle` + `desktop:tauri:build`.                           |
+| `backend:check`          | Import the app and print title + route count.                       |
+| `backend:openapi`        | Export the OpenAPI spec.                                            |
+| `backend:smoke`          | Run the smoke test.                                                 |
+| `backend:test`           | Run the backend unittest suite.                                     |
+| `backend:backup`         | Export a timestamped state bundle.                                  |
+| `validate:backend`       | check + test + smoke + openapi.                                     |
+| `validate:release`       | validate:backend + frontend build + sidecar + Tauri bundle.         |
 
 ---
 
@@ -88,11 +88,11 @@ flowchart LR
 
 ## Testing
 
-| Command | Scope |
-|---------|-------|
-| `npm run backend:test` | `unittest discover` over `apps/backend/tests/test_*.py`. |
-| `npm run backend:smoke` | End‑to‑end smoke of the app. |
-| `npm run backend:check` | Quick import + route‑count sanity. |
+| Command                   | Scope                                                            |
+| ------------------------- | ---------------------------------------------------------------- |
+| `npm run backend:test`    | `unittest discover` over `apps/backend/tests/test_*.py`.         |
+| `npm run backend:smoke`   | End‑to‑end smoke of the app.                                     |
+| `npm run backend:check`   | Quick import + route‑count sanity.                               |
 | `npm run backend:openapi` | Regenerate `docs/openapi/...json`; diff to catch contract drift. |
 
 ---

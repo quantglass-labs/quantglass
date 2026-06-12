@@ -1,4 +1,8 @@
-# The Academy, Missions, and the Feedback Loop
+# 16. The Academy, Missions, and the Feedback Loop
+
+[← Glossary](15-glossary.md) · [Contents](README.md) · [Next: Portfolio →](17-portfolio.md)
+
+---
 
 QuantGlass v0.2.0 added a complete trading education layer. This page maps
 the six areas and how they connect. Everything is educational — never
@@ -34,7 +38,13 @@ where you act on it. Most missions lead with a **decision drill**: a short
 interactive scenario scored on Process / Risk / Discipline where severe
 choices (no stop, averaging down, all-in) fail the run regardless of score.
 **Replay missions** play stylized market episodes bar-by-bar with graded
-debriefs.
+debriefs. After any drill run you can request the **AI instructor debrief**,
+which reviews your specific choices and scores
+(see [AI features](18-ai-features.md)).
+
+Completing the **Order Types lesson** unlocks limit/stop entries, time in
+force, and trailing stops on the trade ticket — the venue teaches before it
+arms ([Portfolio & order management](17-portfolio.md)).
 
 ## Paper → Journal → Review (the feedback loop)
 
@@ -63,3 +73,7 @@ conduct-based: advanced requires the Risk Discipline mission, expert
 requires The Operator, and live-trading confirmation additionally requires
 an OS keychain for credentials. The product's stance: prove the behavior
 on paper first.
+
+---
+
+[← Glossary](15-glossary.md) · [Contents](README.md) · [Next: Portfolio →](17-portfolio.md)
