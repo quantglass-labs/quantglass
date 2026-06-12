@@ -554,6 +554,13 @@ export const backendClient = {
       30_000,
     );
   },
+  getSurfaceInsight(surface: string) {
+    return requestJson<{ summary: string; source: string }>(
+      `/api/ai/insight/${surface}`,
+      undefined,
+      30_000,
+    );
+  },
   getDailyBrief() {
     return requestJson<{ summary: string; source: string }>(
       '/api/dashboard/brief',

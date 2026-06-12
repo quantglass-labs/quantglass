@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 import { NotebookPen } from 'lucide-react';
 
+import { AiInsight } from '../components/aiInsight';
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus, JournalItem, PaperTradeIntentRecord } from '../types';
@@ -181,6 +182,7 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
       </div>
 
       <BackendStatusNotice status={backendStatus} />
+      <AiInsight surface="journal" title="What your journal says" />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}

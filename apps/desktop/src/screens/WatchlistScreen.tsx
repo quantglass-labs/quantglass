@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Bell, Search, Trash2 } from 'lucide-react';
+import { AiInsight } from '../components/aiInsight';
 import { useMemo, useState } from 'react';
 import { Sparkline } from '../components/charts';
 import {
@@ -69,6 +70,8 @@ export function WatchlistScreen({
         action={
           <div className="relative w-full max-w-sm">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
+
+            <AiInsight surface="watchlist" title="Watchlist read" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}

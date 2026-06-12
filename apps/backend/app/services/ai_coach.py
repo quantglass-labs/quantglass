@@ -298,6 +298,56 @@ class AiCoachService:
         return f"Regimes - {regime_text}.{top_text}{risk_text}"
 
     # ------------------------------------------------------------------
+    # Generic surface insight: one covenant-shaped narration per screen.
+    # The route assembles the facts; this narrates them with per-surface
+    # instructions and an honest template fallback.
+    # ------------------------------------------------------------------
+
+    SURFACE_INSTRUCTIONS = {
+        "journal": (
+            "You are reading one trader's journal. From the JSON facts (their own "
+            "notes, mistake tags, and process scores), write 3-5 sentences about the "
+            "patterns their own words reveal."
+        ),
+        "watchlist": (
+            "Summarize the trader's watchlist from the JSON facts (regimes and any "
+            "active signals on watched symbols) in 3-4 sentences."
+        ),
+        "missions": (
+            "From the JSON facts about active missions and their objective progress, "
+            "write 2-4 sentences on what to do next to advance them."
+        ),
+        "portfolio": (
+            "From the JSON facts (open positions, exposure, risk warnings), write 3-4 "
+            "sentences describing the book's current shape and concentration."
+        ),
+    }
+
+    def surface_insight(self, surface: str, facts: dict[str, Any]) -> dict[str, Any]:
+        instructions = self.SURFACE_INSTRUCTIONS.get(surface)
+        if instructions is None:
+            return {"summary": "", "source": "error", "error": "Unknown surface."}
+        base_rules = (
+            "\nStrict rules: only state facts present in the JSON; never invent "
+            "numbers or symbols; never give financial advice or predictions. "
+            "Return only the text."
+        )
+        text, source = self._narrate(
+            facts,
+            COACH_SCHEMA,
+            instructions + base_rules,
+            lambda f: self._surface_template(surface, f),
+        )
+        return {"summary": text, "source": source}
+
+    @staticmethod
+    def _surface_template(surface: str, facts: dict[str, Any]) -> str:
+        highlights = facts.get("highlights", [])
+        if not highlights:
+            return "Nothing notable yet — this panel fills in as data accumulates."
+        return " ".join(str(item) for item in highlights[:5])
+
+    # ------------------------------------------------------------------
 
     def _narrate(
         self,

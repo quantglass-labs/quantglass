@@ -63,6 +63,93 @@ async def list_risk_signals(request: Request) -> dict[str, object]:
     return {"items": await run_in_threadpool(request.app.state.risk_meta_service.list_risk_signals)}
 
 
+@router.get("/api/ai/insight/{surface}")
+async def surface_insight(surface: str, request: Request) -> dict[str, object]:
+    """AI on every screen: per-surface facts narrated on the covenant."""
+
+    def build() -> dict[str, object]:
+        state = request.app.state
+        facts: dict[str, object] = {}
+        if surface == "journal":
+            journal = state.review_coach_service.journal()
+            tagged = [i for i in journal["items"] if i.get("tags") or i.get("journal_note")]
+            facts = {
+                "journaled_trades": len(tagged),
+                "total_trades": len(journal["items"]),
+                "recent_notes": [
+                    {
+                        "symbol": i.get("symbol"),
+                        "note": i.get("journal_note"),
+                        "tags": i.get("tags"),
+                    }
+                    for i in tagged[:5]
+                ],
+                "average_process_score": journal["summary"].get("average_process_score", 0),
+                "highlights": [
+                    f"{len(tagged)} of {len(journal['items'])} trades journaled; "
+                    f"average process score {journal['summary'].get('average_process_score', 0)}."
+                ],
+            }
+        elif surface == "watchlist":
+            watched = {entry["symbol"].upper() for entry in state.state_store.list_watchlist()}
+            context = state.signal_engine.list_context_signals()
+            regimes = [
+                f"{c['symbol_id']} {c['timeframe']}: {c['display_name']}"
+                for c in context
+                if c.get("family") == "regime" and c.get("symbol_id") in watched
+            ][:6]
+            facts = {"watched_symbols": sorted(watched), "regimes": regimes, "highlights": regimes}
+        elif surface == "missions":
+            listing = state.mission_service.list_missions()
+            active = [m for m in listing["items"] if m.get("active") and not m["completed"]]
+            facts = {
+                "active_missions": [
+                    {
+                        "title": m["title"],
+                        "next_objective": next(
+                            (c["label"] for c in m["criteria"] if not c["met"]), None
+                        ),
+                        "progress": f"{sum(1 for c in m['criteria'] if c['met'])}/{len(m['criteria'])}",
+                    }
+                    for m in active
+                ],
+                "completed_total": sum(1 for m in listing["items"] if m["completed"]),
+                "highlights": [
+                    f"{m['title']}: next - {next((c['label'] for c in m['criteria'] if not c['met']), 'done')}"
+                    for m in active
+                ][:3]
+                or [
+                    f"No active missions; {sum(1 for m in listing['items'] if m['completed'])} completed so far."
+                ],
+            }
+        elif surface == "portfolio":
+            account = state.state_store.get_paper_account()
+            risk = state.risk_meta_service.list_risk_signals()
+            positions = account.get("openPositions", [])
+            facts = {
+                "balance": account.get("balance"),
+                "positions": [
+                    {
+                        "symbol": p["symbolId"],
+                        "side": p["side"],
+                        "quantity": p["quantity"],
+                        "pnl": p["pnl"],
+                    }
+                    for p in positions
+                ],
+                "risk_warnings": [r["display_name"] for r in risk],
+                "highlights": [
+                    f"{len(positions)} open positions; "
+                    + ("; ".join(r["display_name"] for r in risk) if risk else "no risk warnings.")
+                ],
+            }
+        else:
+            raise HTTPException(status_code=404, detail="Unknown insight surface.")
+        return state.ai_coach_service.surface_insight(surface, facts)
+
+    return await run_in_threadpool(build)
+
+
 @router.get("/api/dashboard/brief")
 async def daily_brief(request: Request) -> dict[str, object]:
     """AI2-2: the morning brief, narrated from the engine's own reads."""

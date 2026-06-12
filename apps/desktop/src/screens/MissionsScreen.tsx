@@ -22,6 +22,7 @@ import {
   Target,
 } from 'lucide-react';
 
+import { AiInsight } from '../components/aiInsight';
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import { DecisionDrill } from './missions/DecisionDrill';
@@ -422,6 +423,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       ) : null}
 
       <BackendStatusNotice status={backendStatus} />
+      <AiInsight surface="missions" title="Mission coach" />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
