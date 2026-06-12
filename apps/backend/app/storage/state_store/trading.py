@@ -263,6 +263,10 @@ class PaperTradingStore:
         entry_price: float,
         provider: str,
         broker_trade: dict[str, Any],
+        order_type: str = "market",
+        limit_price: float | None = None,
+        tif: str = "gtc",
+        trail_percent: float | None = None,
     ) -> dict[str, Any]:
         submitted_at = str(broker_trade.get("submitted_at") or now_iso())
         executed_at = broker_trade.get("filled_at")
@@ -275,9 +279,10 @@ class PaperTradingStore:
                 """
                 INSERT INTO paper_trade_intents (
                     signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
-                    status, executed_at, executed_price, provider, external_order_id, broker_status
+                    status, executed_at, executed_price, provider, external_order_id, broker_status,
+                    order_type, limit_price, tif, trail_percent
                 )
-                VALUES (?, ?, ?, ?, ?, 'live', ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, 'live', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     signal_id,
@@ -292,6 +297,10 @@ class PaperTradingStore:
                     provider,
                     broker_trade.get("id"),
                     broker_trade.get("status"),
+                    order_type,
+                    limit_price,
+                    tif,
+                    trail_percent,
                 ),
             )
             trade_id = connection.execute("SELECT last_insert_rowid()").fetchone()[0]
@@ -312,6 +321,10 @@ class PaperTradingStore:
             "provider": provider,
             "externalOrderId": broker_trade.get("id"),
             "brokerStatus": broker_trade.get("status"),
+            "orderType": order_type,
+            "limitPrice": limit_price,
+            "tif": tif,
+            "trailPercent": trail_percent,
         }
 
     def process_pending_paper_trades(

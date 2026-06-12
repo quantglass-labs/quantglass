@@ -111,17 +111,95 @@ class AlpacaStocksOHLCVProvider:
             "as_of_utc": latest["open_time_utc"],
         }
 
-    def submit_order(self, symbol: str, side: str, quantity: float) -> dict[str, Any]:
-        order_side = "buy" if side == "long" else "sell"
+    @staticmethod
+    def build_order_payload(
+        symbol: str,
+        side: str,
+        quantity: float,
+        order_type: str = "market",
+        limit_price: float | None = None,
+        tif: str = "day",
+        trail_percent: float | None = None,
+        plan_stop: float | None = None,
+        plan_target: float | None = None,
+    ) -> dict[str, Any]:
+        """Map a QuantGlass ticket to an Alpaca /v2/orders payload (PAR-5).
+
+        Covenant: anything Alpaca cannot express is rejected loudly - a ticket
+        field is never silently dropped on the way to a real broker.
+        """
+        if tif == "gtd":
+            raise ValueError(
+                "Alpaca does not support good-till-date orders. Use Day or GTC "
+                "and cancel manually, or keep GTD tickets on the paper venue."
+            )
+        if trail_percent is not None:
+            raise ValueError(
+                "Alpaca cannot attach a trailing stop to an entry order. Enter "
+                "first, then submit a standalone trailing-stop exit; QuantGlass "
+                "refuses to drop the trail rather than send an unprotected order."
+            )
+        payload: dict[str, Any] = {
+            "symbol": symbol.upper().replace("/", ""),
+            "qty": quantity,
+            "side": "buy" if side == "long" else "sell",
+            "type": order_type,
+            "time_in_force": tif,
+        }
+        if order_type == "limit":
+            if limit_price is None:
+                raise ValueError("A limit order needs a limit price.")
+            payload["limit_price"] = limit_price
+        elif order_type == "stop":
+            if limit_price is None:
+                raise ValueError("A stop order needs a trigger price.")
+            payload["stop_price"] = limit_price
+        elif order_type != "market":
+            raise ValueError(f"Unsupported live order type: {order_type}")
+
+        if plan_stop is not None or plan_target is not None:
+            if order_type == "stop":
+                raise ValueError(
+                    "Alpaca only attaches bracket legs to market or limit entries. "
+                    "Use a market/limit entry, or manage exits manually."
+                )
+            if plan_stop is not None and plan_target is not None:
+                payload["order_class"] = "bracket"
+                payload["take_profit"] = {"limit_price": plan_target}
+                payload["stop_loss"] = {"stop_price": plan_stop}
+            elif plan_stop is not None:
+                payload["order_class"] = "oto"
+                payload["stop_loss"] = {"stop_price": plan_stop}
+            else:
+                payload["order_class"] = "oto"
+                payload["take_profit"] = {"limit_price": plan_target}
+        return payload
+
+    def submit_order(
+        self,
+        symbol: str,
+        side: str,
+        quantity: float,
+        order_type: str = "market",
+        limit_price: float | None = None,
+        tif: str = "day",
+        trail_percent: float | None = None,
+        plan_stop: float | None = None,
+        plan_target: float | None = None,
+    ) -> dict[str, Any]:
         payload = _post_json(
             f"{self._trading_base_url}/v2/orders",
-            payload={
-                "symbol": symbol.upper().replace("/", ""),
-                "qty": quantity,
-                "side": order_side,
-                "type": "market",
-                "time_in_force": "day",
-            },
+            payload=self.build_order_payload(
+                symbol,
+                side,
+                quantity,
+                order_type=order_type,
+                limit_price=limit_price,
+                tif=tif,
+                trail_percent=trail_percent,
+                plan_stop=plan_stop,
+                plan_target=plan_target,
+            ),
             headers=self._headers,
         )
         return {
@@ -135,6 +213,9 @@ class AlpacaStocksOHLCVProvider:
             "symbol": payload.get("symbol", symbol.upper().replace("/", "")),
             "side": side,
             "qty": float(payload.get("qty", quantity)),
+            "type": payload.get("type", order_type),
+            "order_class": payload.get("order_class", "simple"),
+            "time_in_force": payload.get("time_in_force", tif),
         }
 
 

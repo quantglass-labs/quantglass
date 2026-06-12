@@ -31,7 +31,21 @@ class NewsProvider(Protocol):
 
 @runtime_checkable
 class TradingProvider(Protocol):
-    def submit_order(self, order: dict[str, Any]) -> dict[str, Any]: ...
+    # PAR-5: the live path passes the full order ticket. Clients that keep the
+    # legacy (symbol, side, quantity) signature still receive plain market
+    # orders; everything else is refused upstream rather than downgraded.
+    def submit_order(
+        self,
+        symbol: str,
+        side: str,
+        quantity: float,
+        order_type: str = "market",
+        limit_price: float | None = None,
+        tif: str = "gtc",
+        trail_percent: float | None = None,
+        plan_stop: float | None = None,
+        plan_target: float | None = None,
+    ) -> dict[str, Any]: ...
 
     def get_positions(self) -> list[dict[str, Any]]: ...
 

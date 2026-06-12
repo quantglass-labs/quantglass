@@ -10,7 +10,7 @@ QuantGlass can **simulate** trades (paper) and is designed to eventually
 until broker execution, enforced OS-keychain credential storage, and safety gates
 are complete.
 
-> **Default state:** *Paper trading only.* You cannot place a real order from the public preview.
+> **Default state:** _Paper trading only._ You cannot place a real order from the public preview.
 
 ---
 
@@ -18,12 +18,12 @@ are complete.
 
 Paper trading executes simulated orders through the backend scheduler against closed‑candle prices. It maintains a realistic account:
 
-| Concept | Meaning |
-|---------|---------|
-| **Balance** | Simulated cash. |
-| **Buying power** | What you can deploy. |
+| Concept            | Meaning                                                 |
+| ------------------ | ------------------------------------------------------- |
+| **Balance**        | Simulated cash.                                         |
+| **Buying power**   | What you can deploy.                                    |
 | **Open positions** | Side (long/short), size, average entry, unrealized P&L. |
-| **Realized P&L** | Cumulative result of closed paper trades. |
+| **Realized P&L**   | Cumulative result of closed paper trades.               |
 
 You can see this on the [Dashboard](04-dashboard.md) (Paper Balance, Realized P&L, Paper Account Snapshot). Paper trades let you test a strategy's behaviour with **zero financial risk**.
 
@@ -57,13 +57,37 @@ Until those are complete, use paper trading only.
 
 ---
 
+## How the order ticket maps to a real broker
+
+The live path forwards your **whole ticket** — order type, prices, time in
+force, and plan stop/target — to the broker client. The mapping for Alpaca
+(the reference broker client):
+
+| Ticket                     | Alpaca order                  | Notes                                                                                         |
+| -------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| Market                     | `type: market`                |                                                                                               |
+| Limit @ price              | `type: limit` + `limit_price` |                                                                                               |
+| Stop @ trigger             | `type: stop` + `stop_price`   | Same trigger semantics as the paper venue.                                                    |
+| Plan stop **and** target   | `order_class: bracket`        | Both exit legs rest at the broker.                                                            |
+| Plan stop _or_ target only | `order_class: oto`            | Single exit leg attached.                                                                     |
+| TIF Day / GTC              | `time_in_force: day / gtc`    |                                                                                               |
+| TIF GTD                    | **Refused**                   | Alpaca has no good-till-date; use Day/GTC or cancel manually.                                 |
+| Trailing %                 | **Refused**                   | Alpaca cannot attach a trail to an entry; enter first, then place a standalone trailing stop. |
+
+**The honesty rule:** if a broker cannot express part of your ticket, the order
+is **rejected with an explanation** — it is never silently downgraded to an
+unprotected market order. The same applies to extension-provided broker
+clients that only implement the legacy market-order interface.
+
+---
+
 ## Which is right for you?
 
-| Use paper when… | Consider live when… |
-|------------------|---------------------|
-| Learning the app and your strategy. | A future release implements the live gate. |
+| Use paper when…                       | Consider live when…                                  |
+| ------------------------------------- | ---------------------------------------------------- |
+| Learning the app and your strategy.   | A future release implements the live gate.           |
 | Validating backtested setups forward. | You have validated an edge over a meaningful sample. |
-| You want zero financial risk. | You fully understand the risks and broker mechanics. |
+| You want zero financial risk.         | You fully understand the risks and broker mechanics. |
 
 > Even in live mode, QuantGlass is **not** financial advice and does not guarantee outcomes. Signals are deterministic hypotheses. You remain fully responsible for every order.
 

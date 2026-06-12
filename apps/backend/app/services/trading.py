@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import inspect
 from dataclasses import dataclass
 from typing import Any
 
@@ -21,6 +22,17 @@ class TradeExecutionResult:
     trading_mode: str
     trade: dict[str, Any]
     account: dict[str, Any]
+
+
+def _accepts_ticket(submit_order: Any) -> bool:
+    """True when the client's submit_order takes the extended order ticket."""
+    try:
+        parameters = inspect.signature(submit_order).parameters
+    except (TypeError, ValueError):
+        return False
+    return "order_type" in parameters or any(
+        parameter.kind is inspect.Parameter.VAR_KEYWORD for parameter in parameters.values()
+    )
 
 
 class TradingExecutionService:
@@ -78,6 +90,11 @@ class TradingExecutionService:
             quantity=quantity,
             entry_price=entry_price,
             safety_settings=safety_settings,
+            order_type=order_type,
+            limit_price=limit_price,
+            tif=tif,
+            trail_percent=trail_percent,
+            plan=plan,
         )
         self._event_bus.publish(
             "live.trade.submitted",
@@ -108,6 +125,11 @@ class TradingExecutionService:
         quantity: float,
         entry_price: float,
         safety_settings: Any,
+        order_type: str = "market",
+        limit_price: float | None = None,
+        tif: str = "gtc",
+        trail_percent: float | None = None,
+        plan: dict | None = None,
     ) -> dict[str, Any]:
         # Live execution is gated behind an explicit operator confirmation, not just the
         # trading_mode flag. A flipped mode alone must never reach a broker order.
@@ -126,7 +148,30 @@ class TradingExecutionService:
             if client is None or not hasattr(client, "submit_order"):
                 continue
 
-            broker_trade = client.submit_order(symbol=symbol, side=side, quantity=quantity)
+            # PAR-5: pass the full ticket to brokers that understand it. A client
+            # on the legacy (symbol, side, quantity) signature only gets plain
+            # market orders - resting orders, trails, and bracket legs are
+            # refused rather than silently downgraded to an unprotected market fill.
+            ticket = {
+                "order_type": order_type,
+                "limit_price": limit_price,
+                "tif": tif,
+                "trail_percent": trail_percent,
+                "plan_stop": (plan or {}).get("stop"),
+                "plan_target": (plan or {}).get("target"),
+            }
+            if _accepts_ticket(client.submit_order):
+                broker_trade = client.submit_order(
+                    symbol=symbol, side=side, quantity=quantity, **ticket
+                )
+            elif order_type != "market" or trail_percent is not None:
+                raise TradeExecutionError(
+                    f"Provider '{provider_name}' only supports plain market "
+                    "orders on the live path. Resting and trailing orders "
+                    "were not sent - nothing was downgraded silently."
+                )
+            else:
+                broker_trade = client.submit_order(symbol=symbol, side=side, quantity=quantity)
             return self._state_store.record_live_trade(
                 signal_id=signal_id,
                 symbol=symbol,
@@ -135,6 +180,10 @@ class TradingExecutionService:
                 entry_price=entry_price,
                 provider=provider_name,
                 broker_trade=broker_trade,
+                order_type=order_type,
+                limit_price=limit_price,
+                tif=tif,
+                trail_percent=trail_percent,
             )
 
         attempted_label = ", ".join(attempted_providers) if attempted_providers else "none"
