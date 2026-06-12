@@ -41,6 +41,39 @@ export function BacktestScreen({
   onSaveStrategy: (strategy: SavedStrategy) => void;
 }) {
   const [searchParams] = useSearchParams();
+  // Explainer: open on the very first visit, collapsed afterwards.
+  const [howToOpen, setHowToOpen] = useState<boolean>(() => {
+    const stored = window.localStorage.getItem('qg-backtest-howto');
+    if (stored === null) {
+      window.localStorage.setItem('qg-backtest-howto', 'closed');
+      return true;
+    }
+    return stored === 'open';
+  });
+  const [demoPreset, setDemoPreset] = useState<StrategyPreset | null>(null);
+  const [runNonce, setRunNonce] = useState(0);
+
+  const startDemo = () => {
+    // Educational demo: the built-in trend-pullback rules on the first
+    // stored series. Clearly labeled; identical engine, identical honesty.
+    const series = symbols.find((entry) => entry.id === 'BTCUSD') ?? symbols[0];
+    if (!series) return;
+    setDemoPreset({
+      id: 'demo-trend-pullback',
+      name: `Demo · ${series.symbol} trend pullback (educational sample)`,
+      symbolId: series.id,
+      setupType: 'daily_trend_pullback',
+      timeframe: '1h',
+      feesPercent: 0.1,
+      slippagePercent: 0.05,
+      trainTestSplit: 70,
+      walkForward: true,
+      metrics: {} as StrategyPreset['metrics'],
+      equityCurve: [],
+      drawdownCurve: [],
+    });
+    setSelectedPresetId('demo-trend-pullback');
+  };
   const navigate = useNavigate();
   const requestedSymbolId = searchParams.get('symbol');
   const requestedSetupType = searchParams.get('setup');
@@ -65,8 +98,8 @@ export function BacktestScreen({
   const retryMockView = () => window.location.reload();
 
   const preset = useMemo(
-    () => presets.find((entry) => entry.id === selectedPresetId) ?? initialPreset,
-    [initialPreset, presets, selectedPresetId],
+    () => presets.find((entry) => entry.id === selectedPresetId) ?? initialPreset ?? demoPreset,
+    [initialPreset, presets, selectedPresetId, demoPreset],
   );
   const symbol = preset
     ? (symbols.find((entry) => entry.id === preset.symbolId) ?? symbols[0] ?? null)
@@ -129,7 +162,7 @@ export function BacktestScreen({
     return () => {
       cancelled = true;
     };
-  }, [feesPercent, preset, slippagePercent, symbol, trainTestSplit, walkForward]);
+  }, [feesPercent, preset, slippagePercent, symbol, trainTestSplit, walkForward, runNonce]);
 
   return (
     <div className="space-y-8">
@@ -139,35 +172,65 @@ export function BacktestScreen({
         description="Strategy selector, cost model inputs, in-sample vs out-of-sample metrics, and low-sample warnings. Parameter changes rerun the backend quant engine against stored corridor candles."
       />
 
+      <div className="flex flex-wrap gap-2">
+        {['Past data only', 'Not a prediction', 'Costs included', 'Out-of-sample required'].map(
+          (chip) => (
+            <span
+              key={chip}
+              className="rounded-full border border-border bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted"
+            >
+              {chip}
+            </span>
+          ),
+        )}
+      </div>
+
       <Panel>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-          What this screen does
-        </p>
-        <p className="mt-2 text-sm text-muted">
-          It replays one setup's exact entry/stop/target rules over the candles stored on this
-          machine and reports how that setup <span className="text-ink">would have</span> traded —
-          win rate, expectancy in R, equity and drawdown — with fees and slippage charged on every
-          round trip. It validates honestly: the sample is split chronologically into train/test so
-          the headline numbers must survive data the rules never saw, and every run gets the
-          workbench below — cost-stress scenarios, Monte Carlo drawdowns, bias gates, and the AI
-          research review.
-        </p>
-        <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted">
-          <li>
-            Pick a preset — presets are generated from the engine's live signals (one per
-            symbol/setup the engine currently detects) plus anything you saved earlier.
-          </li>
-          <li>Adjust fees, slippage, and the train/test split; the run re-executes instantly.</li>
-          <li>Read the out-of-sample row and the workbench before trusting anything else.</li>
-          <li>
-            Like a configuration? <span className="text-ink">Save strategy</span> stores it under
-            Settings → Strategies for re-running later.
-          </li>
-        </ol>
-        <p className="mt-3 text-xs text-muted">
-          A backtest is evidence about the past, never a promise about the future. The matching
-          Academy track (Backtesting & Statistical Honesty) teaches every number on this screen.
-        </p>
+        <button
+          type="button"
+          onClick={() => {
+            const next = !howToOpen;
+            setHowToOpen(next);
+            window.localStorage.setItem('qg-backtest-howto', next ? 'open' : 'closed');
+          }}
+          className="flex w-full items-center justify-between text-left"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+            How this works
+          </p>
+          <span className="text-xs text-muted">{howToOpen ? 'Hide' : 'Show'}</span>
+        </button>
+        {howToOpen ? (
+          <>
+            <p className="mt-2 text-sm text-muted">
+              It replays one setup's exact entry/stop/target rules over the candles stored on this
+              machine and reports how that setup <span className="text-ink">would have</span> traded
+              — win rate, expectancy in R, equity and drawdown — with fees and slippage charged on
+              every round trip. It validates honestly: the sample is split chronologically into
+              train/test so the headline numbers must survive data the rules never saw, and every
+              run gets the workbench below — cost-stress scenarios, Monte Carlo drawdowns, bias
+              gates, and the AI research review.
+            </p>
+            <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted">
+              <li>
+                Pick a preset — presets are generated from the engine's live signals (one per
+                symbol/setup the engine currently detects) plus anything you saved earlier.
+              </li>
+              <li>
+                Adjust fees, slippage, and the train/test split; the run re-executes instantly.
+              </li>
+              <li>Read the out-of-sample row and the workbench before trusting anything else.</li>
+              <li>
+                Like a configuration? <span className="text-ink">Save strategy</span> stores it
+                under Settings → Strategies for re-running later.
+              </li>
+            </ol>
+            <p className="mt-3 text-xs text-muted">
+              A backtest is evidence about the past, never a promise about the future. The matching
+              Academy track (Backtesting & Statistical Honesty) teaches every number on this screen.
+            </p>
+          </>
+        ) : null}
       </Panel>
 
       <div className="grid gap-6 xl:grid-cols-[0.9fr,1.4fr]">
@@ -183,7 +246,7 @@ export function BacktestScreen({
                 onChange={(event) => setSelectedPresetId(event.target.value)}
               >
                 {!presets.length ? (
-                  <option value="">No presets yet — engine still warming up</option>
+                  <option value="">No strategy presets available yet</option>
                 ) : null}
                 {presets.map((entry) => (
                   <option key={entry.id} value={entry.id}>
@@ -193,9 +256,9 @@ export function BacktestScreen({
               </select>
               {!presets.length ? (
                 <p className="mt-2 text-xs text-muted">
-                  Presets appear automatically once the engine has generated signals from stored
-                  market data — on a fresh install that takes a minute after the first corridor
-                  ingest. Check the Signals screen; when it has rows, presets exist here too.
+                  Presets appear automatically after the signal engine detects setups from stored
+                  market data. You can also try the demo strategy below, or load one you saved
+                  earlier.
                 </p>
               ) : null}
             </div>
@@ -300,6 +363,35 @@ export function BacktestScreen({
                 <BookmarkPlus className="size-4" />
                 Save strategy
               </Button>
+              <Button
+                className="w-full"
+                onClick={() => setRunNonce((nonce) => nonce + 1)}
+                disabled={!preset || !symbol || runState === 'running'}
+              >
+                {runState === 'running' ? 'Running…' : 'Run backtest'}
+              </Button>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                Backtest readiness
+              </p>
+              <ul className="mt-2 space-y-1 text-sm">
+                {[
+                  { label: 'Strategy selected', ok: Boolean(preset) },
+                  { label: 'Market data stored for symbol', ok: Boolean(symbol) },
+                  { label: 'Costs configured', ok: feesPercent + slippagePercent > 0 },
+                  { label: 'Train/test split set', ok: trainTestSplit > 0 && trainTestSplit < 100 },
+                  { label: 'Walk-forward enabled', ok: walkForward },
+                ].map((check) => (
+                  <li key={check.label} className="flex items-center gap-2">
+                    <span className={check.ok ? 'text-buy' : 'text-hold'}>
+                      {check.ok ? '✓' : '⚠'}
+                    </span>
+                    <span className={check.ok ? 'text-muted' : 'text-ink'}>{check.label}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </Panel>
@@ -310,17 +402,56 @@ export function BacktestScreen({
             isEmpty={!displayedPreset}
             loading={<LoadingSkeleton chart rows={8} />}
             empty={
-              <EmptyState
-                title="No backtest results available"
-                description="The selector and cost inputs remain active, but this results surface is in its explicit empty-state variant."
-                action={
-                  presets[0] ? (
-                    <Button variant="secondary" onClick={() => setSelectedPresetId(presets[0].id)}>
-                      Load first preset
-                    </Button>
-                  ) : undefined
-                }
-              />
+              <div className="space-y-6">
+                <EmptyState
+                  title="Start your first statistically honest backtest"
+                  description="Choose a strategy source, confirm costs and the train/test split, then run it to see equity, drawdown, out-of-sample metrics, Monte Carlo, and the AI review."
+                  action={
+                    <div className="flex flex-wrap justify-center gap-3">
+                      {presets[0] ? (
+                        <Button onClick={() => setSelectedPresetId(presets[0].id)}>
+                          Use latest detected signal
+                        </Button>
+                      ) : null}
+                      <Button variant="secondary" onClick={startDemo} disabled={!symbols.length}>
+                        Try demo strategy
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => navigate('/settings?tab=strategies')}
+                      >
+                        Load saved strategy
+                      </Button>
+                    </div>
+                  }
+                />
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  {[
+                    'Equity curve',
+                    'Drawdown',
+                    'Win rate & expectancy',
+                    'Train/test comparison',
+                    'Cost stress table',
+                    'Monte Carlo drawdowns',
+                    'Bias & quality gates',
+                    'AI research review',
+                  ].map((label) => (
+                    <div
+                      key={label}
+                      className="rounded-2xl border border-dashed border-border/70 bg-white/[0.02] px-4 py-6 text-center"
+                    >
+                      <p className="text-sm text-muted/70">{label}</p>
+                      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted/50">
+                        appears after a run
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-xs text-muted">
+                  The demo runs the built-in trend-pullback rules on stored market data — an
+                  educational sample, not a live signal.
+                </p>
+              </div>
             }
             error={
               <ErrorState
