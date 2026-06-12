@@ -143,3 +143,34 @@ class DailyBriefTests(unittest.TestCase):
         self.assertIn("Trending Regime", result["summary"])
         self.assertIn("Breakout Retest", result["summary"])
         self.assertIn("Portfolio Heat Elevated", result["summary"])
+
+
+class PostmortemTests(unittest.TestCase):
+    def test_drill_template_carries_scores_and_severity(self) -> None:
+        result = _service().postmortem(
+            "drill",
+            {
+                "scores": {"process": 80, "risk": 60, "discipline": 70},
+                "severe_violation": True,
+            },
+        )
+        self.assertEqual(result["source"], "template")
+        self.assertIn("80", result["summary"])
+        self.assertIn("severe", result["summary"])
+
+    def test_trade_template_carries_score_and_classification(self) -> None:
+        result = _service().postmortem(
+            "trade",
+            {
+                "process_score": 45,
+                "classification": "dangerous_success",
+                "process_notes": ["No stop on the plan"],
+            },
+        )
+        self.assertEqual(result["source"], "template")
+        self.assertIn("45", result["summary"])
+        self.assertIn("dangerous_success", result["summary"])
+        self.assertIn("No stop on the plan", result["summary"])
+
+    def test_unknown_kind_rejected(self) -> None:
+        self.assertEqual(_service().postmortem("vibes", {})["source"], "error")

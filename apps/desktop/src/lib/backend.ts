@@ -521,9 +521,10 @@ export const backendClient = {
       method: 'POST',
     });
   },
-  closePaperPosition(symbolId: string) {
+  closePaperPosition(symbolId: string, quantity?: number) {
+    const query = quantity != null ? `?quantity=${quantity}` : '';
     return requestJson<{ closure: Record<string, unknown>; account: PaperAccount }>(
-      `/api/paper-positions/${symbolId}/close`,
+      `/api/paper-positions/${symbolId}/close${query}`,
       { method: 'POST' },
     );
   },
@@ -556,6 +557,17 @@ export const backendClient = {
         body: JSON.stringify({ text }),
       },
       30_000,
+    );
+  },
+  getPostmortem(kind: 'drill' | 'trade', facts: Record<string, unknown>) {
+    return requestJson<{ summary: string; source: string }>(
+      '/api/ai/postmortem',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind, facts }),
+      },
+      120_000,
     );
   },
   getSurfaceInsight(surface: string) {

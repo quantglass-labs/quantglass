@@ -214,3 +214,30 @@ class ClosureLedgerTests(PaperOrderTests):
         self.assertEqual(len(closures), 2)
         self.assertEqual(closures[0]["exitKind"], "manual")
         self.assertAlmostEqual(closures[0]["rMultiple"], -0.6, places=2)
+
+
+class PartialCloseTests(PaperOrderTests):
+    def test_scale_out_closes_part_and_keeps_rest(self) -> None:
+        trade, _ = self.store.submit_paper_trade(
+            signal_id="s",
+            symbol="BTCUSD",
+            side="long",
+            quantity=2.0,
+            entry_price=100.0,
+            trading_mode="paper",
+        )
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        closure = self.store.close_paper_position("BTCUSD", 105.0, quantity=0.5)
+        self.assertEqual(closure["quantity"], 0.5)
+        account = self.store.get_paper_account()
+        self.assertEqual(account["openPositions"][0]["quantity"], 1.5)
+        self.assertAlmostEqual(account["realizedPnl"], 2.5, places=2)
+        ledger = self.store.list_paper_closures()
+        self.assertEqual(ledger[0]["quantity"], 0.5)
+
+    def test_oversized_partial_clamps_to_held(self) -> None:
+        self._submit()
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        closure = self.store.close_paper_position("BTCUSD", 101.0, quantity=99.0)
+        self.assertEqual(closure["quantity"], 1.0)
+        self.assertEqual(self.store.get_paper_account()["openPositions"], [])

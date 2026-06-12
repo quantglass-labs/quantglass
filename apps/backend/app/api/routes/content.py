@@ -63,6 +63,19 @@ async def list_risk_signals(request: Request) -> dict[str, object]:
     return {"items": await run_in_threadpool(request.app.state.risk_meta_service.list_risk_signals)}
 
 
+class PostmortemRequest(BaseModel):
+    kind: str
+    facts: dict
+
+
+@router.post("/api/ai/postmortem")
+async def ai_postmortem(body: PostmortemRequest, request: Request) -> dict[str, object]:
+    """AI2-4: debrief a drill run or a single trade from its own facts."""
+    return await run_in_threadpool(
+        request.app.state.ai_coach_service.postmortem, body.kind, body.facts
+    )
+
+
 @router.get("/api/ai/insight/{surface}")
 async def surface_insight(surface: str, request: Request) -> dict[str, object]:
     """AI on every screen: per-surface facts narrated on the covenant."""
@@ -73,9 +86,15 @@ async def surface_insight(surface: str, request: Request) -> dict[str, object]:
         if surface == "journal":
             journal = state.review_coach_service.journal()
             tagged = [i for i in journal["items"] if i.get("tags") or i.get("journal_note")]
+            tag_counts: dict[str, int] = {}
+            for entry in journal["items"]:
+                for tag in entry.get("tags") or []:
+                    tag_counts[tag] = tag_counts.get(tag, 0) + 1
+            repeated = sorted(tag_counts.items(), key=lambda kv: -kv[1])[:5]
             facts = {
                 "journaled_trades": len(tagged),
                 "total_trades": len(journal["items"]),
+                "repeated_mistake_tags": [{"tag": tag, "count": count} for tag, count in repeated],
                 "recent_notes": [
                     {
                         "symbol": i.get("symbol"),
@@ -88,7 +107,12 @@ async def surface_insight(surface: str, request: Request) -> dict[str, object]:
                 "highlights": [
                     f"{len(tagged)} of {len(journal['items'])} trades journaled; "
                     f"average process score {journal['summary'].get('average_process_score', 0)}."
-                ],
+                ]
+                + (
+                    [f"Most repeated mistake tag: {repeated[0][0]} ({repeated[0][1]}x)."]
+                    if repeated
+                    else []
+                ),
             }
         elif surface == "watchlist":
             watched = {entry["symbol"].upper() for entry in state.state_store.list_watchlist()}

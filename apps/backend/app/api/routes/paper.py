@@ -119,9 +119,11 @@ async def cancel_paper_trade(intent_id: str, request: Request) -> dict[str, obje
 
 
 @router.post("/api/paper-positions/{symbol_id}/close")
-async def close_paper_position(symbol_id: str, request: Request) -> dict[str, object]:
-    """Manually close a position at the latest closed price."""
-    closure = request.app.state.execution_engine.close_position(symbol_id.upper())
+async def close_paper_position(
+    symbol_id: str, request: Request, quantity: float | None = None
+) -> dict[str, object]:
+    """Close a position at the latest closed price; ?quantity= for scale-out."""
+    closure = request.app.state.execution_engine.close_position(symbol_id.upper(), quantity)
     if closure is None:
         raise HTTPException(
             status_code=404,

@@ -62,9 +62,9 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
     refresh();
   }, [backendStatus, refresh]);
 
-  const closePosition = async (symbolId: string) => {
+  const closePosition = async (symbolId: string, quantity?: number) => {
     try {
-      await backendClient.closePaperPosition(symbolId);
+      await backendClient.closePaperPosition(symbolId, quantity);
       setNotice(`${symbolId} closed at the latest market price.`);
       refresh();
     } catch (error) {
@@ -167,6 +167,16 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 >
                   {money(position.pnl)}
                 </span>
+                {position.quantity > 1 ? (
+                  <button
+                    type="button"
+                    title="Scale out: close half the position at the latest closed price"
+                    onClick={() => void closePosition(position.symbolId, position.quantity / 2)}
+                    className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:border-amber-500/50 hover:text-amber-300"
+                  >
+                    Close ½
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   onClick={() => void closePosition(position.symbolId)}

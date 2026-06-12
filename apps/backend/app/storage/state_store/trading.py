@@ -500,8 +500,11 @@ class PaperTradingStore:
             connection.commit()
             return cursor.rowcount > 0
 
-    def close_paper_position(self, symbol_id: str, latest_price: float) -> dict[str, Any] | None:
-        """Manual market close of the full position at the latest closed price."""
+    def close_paper_position(
+        self, symbol_id: str, latest_price: float, quantity: float | None = None
+    ) -> dict[str, Any] | None:
+        """Manual market close at the latest closed price. A quantity closes
+        part of the position (scale-out); omitted closes all of it."""
         closed_at = now_iso()
         with connect(self.sqlite_path) as connection:
             row = connection.execute(
@@ -510,7 +513,10 @@ class PaperTradingStore:
             ).fetchone()
             if row is None:
                 return None
-            side, quantity, average_price = str(row[0]), float(row[1]), float(row[2])
+            side, held, average_price = str(row[0]), float(row[1]), float(row[2])
+            quantity = held if quantity is None else min(max(float(quantity), 0.0), held)
+            if quantity <= 0:
+                return None
             self._apply_trade_fill(
                 connection=connection,
                 symbol_id=symbol_id,

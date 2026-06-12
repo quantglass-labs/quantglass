@@ -348,6 +348,54 @@ class AiCoachService:
         return " ".join(str(item) for item in highlights[:5])
 
     # ------------------------------------------------------------------
+    # AI2-4: postmortems. The grade/review already computed every number;
+    # the model writes the debrief a mentor would.
+    # ------------------------------------------------------------------
+
+    POSTMORTEM_INSTRUCTIONS = {
+        "drill": (
+            "A trader just finished a decision drill. From the JSON facts (their "
+            "choices, per-dimension scores, severe violations), write a 3-4 sentence "
+            "debrief a flight instructor would give - direct, specific, naming the "
+            "decisive choice."
+        ),
+        "trade": (
+            "Write a 3-4 sentence postmortem of one paper trade from the JSON facts "
+            "(plan, process score and notes, outcome, classification). Grade the "
+            "decision, not the outcome."
+        ),
+    }
+
+    def postmortem(self, kind: str, facts: dict[str, Any]) -> dict[str, Any]:
+        instructions = self.POSTMORTEM_INSTRUCTIONS.get(kind)
+        if instructions is None:
+            return {"summary": "", "source": "error", "error": "Unknown postmortem kind."}
+        base_rules = (
+            "\nStrict rules: only state facts present in the JSON; never invent "
+            "numbers; never give financial advice or predictions. Return only the text."
+        )
+        text, source = self._narrate(
+            facts, COACH_SCHEMA, instructions + base_rules, self._postmortem_template
+        )
+        return {"summary": text, "source": source}
+
+    @staticmethod
+    def _postmortem_template(facts: dict[str, Any]) -> str:
+        if "scores" in facts:
+            scores = facts["scores"]
+            severe = facts.get("severe_violation")
+            return (
+                f"Process {scores.get('process')}, risk {scores.get('risk')}, discipline "
+                f"{scores.get('discipline')}."
+                + (" A severe choice failed the run - that habit ends accounts." if severe else "")
+            )
+        return (
+            f"Process score {facts.get('process_score')} - "
+            f"{facts.get('classification') or 'unresolved'}. "
+            + " ".join(str(n) for n in (facts.get("process_notes") or [])[:2])
+        )
+
+    # ------------------------------------------------------------------
 
     def _narrate(
         self,

@@ -92,13 +92,16 @@ class ExecutionEngineService:
 
         return fired_events
 
-    def close_position(self, symbol_id: str) -> dict[str, Any] | None:
-        """Manual market close at the latest closed price."""
+    def close_position(
+        self, symbol_id: str, quantity: float | None = None
+    ) -> dict[str, Any] | None:
+        """Manual market close at the latest closed price; partial when a
+        quantity is given (scale-out)."""
         snapshots = self._latest_market_snapshots()
         snapshot = snapshots.get(symbol_id)
         if snapshot is None:
             return None
-        closure = self._state_store.close_paper_position(symbol_id, snapshot.price)
+        closure = self._state_store.close_paper_position(symbol_id, snapshot.price, quantity)
         if closure is not None:
             self._event_bus.publish(
                 "paper.position.closed",

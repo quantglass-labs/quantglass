@@ -17,9 +17,13 @@ import { backendClient } from '../lib/backend';
 export function AiInsight({ surface, title }: { surface: string; title?: string }) {
   const [insight, setInsight] = useState<{ summary: string; source: string } | null>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [prevSurface, setPrevSurface] = useState(surface);
+  if (prevSurface !== surface) {
+    setPrevSurface(surface);
+    setState('loading');
+  }
 
   useEffect(() => {
-    setState('loading');
     backendClient
       .getSurfaceInsight(surface)
       .then((response) => {

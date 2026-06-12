@@ -288,7 +288,16 @@ export function BacktestScreen({
     return () => {
       cancelled = true;
     };
-  }, [feesPercent, preset, slippagePercent, symbol, trainTestSplit, walkForward, runNonce]);
+  }, [
+    feesPercent,
+    preset,
+    slippagePercent,
+    symbol,
+    timeframesBySymbol,
+    trainTestSplit,
+    walkForward,
+    runNonce,
+  ]);
 
   return (
     <div className="space-y-8">

@@ -170,6 +170,7 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               </div>
             ))}
           </div>
+          <AiDebrief grade={grade} />
           <div className="mt-4 flex justify-center gap-3">
             <button
               type="button"
@@ -186,6 +187,58 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               Back to missions
             </button>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
+  const [debrief, setDebrief] = useState<{ summary: string; source: string } | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const ask = async () => {
+    setLoading(true);
+    try {
+      setDebrief(
+        await backendClient.getPostmortem('drill', {
+          scores: grade.scores,
+          severe_violation: grade.severe_violation,
+          passed: grade.passed,
+          choices: grade.checkpoints.map((c) => ({
+            question: c.question,
+            chosen: c.chosen,
+            severe: c.severe,
+          })),
+        }),
+      );
+    } catch {
+      setDebrief({ summary: 'AI debrief unavailable right now.', source: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-3">
+      {!debrief ? (
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => void ask()}
+          className="w-full rounded-xl border border-indigo-500/30 bg-indigo-600/10 px-4 py-2.5 text-sm text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-50"
+        >
+          {loading ? 'The instructor is reviewing your run…' : 'Get the AI instructor debrief'}
+        </button>
+      ) : (
+        <div className="rounded-xl border border-indigo-500/25 bg-indigo-600/10 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-indigo-300">
+            Instructor debrief{' '}
+            <span className="ml-1 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] normal-case text-zinc-500">
+              {debrief.source}
+            </span>
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-200">{debrief.summary}</p>
         </div>
       )}
     </div>

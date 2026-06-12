@@ -129,6 +129,59 @@ function TradeCard({
           {saving ? 'Saving…' : 'Save'}
         </button>
       </div>
+      <TradePostmortem item={item} />
+    </div>
+  );
+}
+
+function TradePostmortem({ item }: { item: JournalItem }) {
+  const [result, setResult] = useState<{ summary: string; source: string } | null>(null);
+  const [loading, setLoading] = useState(false);
+  if (!item.classification) return null;
+
+  const ask = async () => {
+    setLoading(true);
+    try {
+      setResult(
+        await backendClient.getPostmortem('trade', {
+          symbol: item.symbol,
+          side: item.side,
+          plan_reason: item.planReason,
+          process_score: item.process_score,
+          process_notes: item.process_notes,
+          outcome_r: item.outcome_r,
+          classification: item.classification,
+        }),
+      );
+    } catch {
+      setResult({ summary: 'AI postmortem unavailable right now.', source: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-3">
+      {!result ? (
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => void ask()}
+          className="rounded-full border border-indigo-500/30 bg-indigo-600/10 px-3 py-1.5 text-xs text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-50"
+        >
+          {loading ? 'AI is reviewing this trade…' : 'AI postmortem'}
+        </button>
+      ) : (
+        <div className="rounded-lg border border-indigo-500/25 bg-indigo-600/10 p-3">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-300">
+            AI postmortem{' '}
+            <span className="ml-1 rounded-full border border-zinc-700 px-2 py-0.5 normal-case text-zinc-500">
+              {result.source}
+            </span>
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-zinc-200">{result.summary}</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -158,7 +211,6 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
       })
       .catch(() => setError('Could not load the journal. Is the backend running?'));
     loadPending();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backendStatus]);
 
   const handleSave = async (intentId: string, note: string, tags: string[]) => {
