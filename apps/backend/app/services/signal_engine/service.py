@@ -60,6 +60,58 @@ class SignalEngineService:
         items.sort(key=lambda item: item["signal"]["generated_at_utc"], reverse=True)
         return items
 
+    def list_context_signals(self) -> list[dict[str, Any]]:
+        """Regime family (SIG-2): the classifier's read on every tracked
+        series, published as context-class signals with no trade geometry.
+        Context names the environment; setups carry the trades."""
+        items: list[dict[str, Any]] = []
+        for series in self._analytics_store.list_market_series(minimum_candles=80):
+            payload = self._analytics_store.list_market_candles(
+                series["symbol"], series["timeframe"], limit=120
+            )
+            candles = payload["items"]
+            if len(candles) < 80:
+                continue
+            indicators = self._build_indicators(candles)
+            index = len(candles) - 1
+            close = float(candles[index]["close"])
+            atr = indicators.atr14[index]
+            regime = setups_module.market_regime(indicators, index)
+            vol_regime = (
+                setups_module.volatility_regime(indicators, index, atr, close)
+                if atr is not None and close > 0
+                else "normal"
+            )
+            display = {
+                "trending": "Trending Regime",
+                "ranging": "Ranging Regime",
+                "volatile": "High Volatility Regime",
+                "transitional": "Volatility Transition Regime",
+            }[regime]
+            items.append(
+                {
+                    "symbol": self._display_symbol(series["symbol"], series["market_type"]),
+                    "symbol_id": series["symbol"],
+                    "timeframe": series["timeframe"],
+                    "family": "regime",
+                    "layer": "advanced",
+                    "signal_class": "context",
+                    "display_name": display,
+                    "regime": regime,
+                    "volatility_regime": vol_regime,
+                    "lesson_id": "intermediate-21-regime-detection",
+                    "tags": ["Regime", vol_regime.title()],
+                    "message": (
+                        f"ADX/ATR classifier reads {regime} with {vol_regime} volatility. "
+                        "Context only — gates setup families, never a trade by itself."
+                    ),
+                    "generated_at_utc": candles[index]["open_time_utc"],
+                    "data_source": series["source"],
+                }
+            )
+        items.sort(key=lambda item: item["generated_at_utc"], reverse=True)
+        return items
+
     def list_backtest_presets(self) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
         seen: set[str] = set()

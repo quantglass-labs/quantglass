@@ -42,6 +42,12 @@ def _news_service(request: Request) -> NewsService:
     )
 
 
+@router.get("/api/signals/context")
+async def list_context_signals(request: Request) -> dict[str, object]:
+    """Regime context signals: environment reads, never trades."""
+    return {"items": await run_in_threadpool(_signal_engine(request).list_context_signals)}
+
+
 @router.get("/api/signals")
 async def get_signals(request: Request) -> dict[str, object]:
     return {
