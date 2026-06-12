@@ -17,6 +17,8 @@ import {
 import { Sparkline } from '../components/charts';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
+import { useEffect, useState } from 'react';
+import { backendClient } from '../lib/backend';
 import type {
   Candle,
   CorridorIngestResult,
@@ -300,6 +302,7 @@ export function DashboardScreen({
                 </div>
               </div>
 
+              <DailyBrief />
               <div className="space-y-3 rounded-[26px] border border-border bg-white/[0.03] p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                   Paper account snapshot
@@ -552,6 +555,31 @@ export function DashboardScreen({
           </div>
         </Panel>
       </div>
+    </div>
+  );
+}
+
+function DailyBrief() {
+  const [brief, setBrief] = useState<{ summary: string; source: string } | null>(null);
+  useEffect(() => {
+    backendClient
+      .getDailyBrief()
+      .then(setBrief)
+      .catch(() => setBrief(null));
+  }, []);
+  if (!brief) return null;
+  return (
+    <div className="space-y-2 rounded-[26px] border border-accent/25 bg-accentStrong/8 p-4">
+      <div className="flex items-center gap-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Morning brief</p>
+        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted">
+          {brief.source}
+        </span>
+      </div>
+      <p className="text-sm leading-relaxed text-ink">{brief.summary}</p>
+      <p className="text-[11px] text-muted">
+        Narrated from the engine's own reads — regimes, signals, risk. Never advice.
+      </p>
     </div>
   );
 }

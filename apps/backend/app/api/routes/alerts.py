@@ -7,6 +7,20 @@ from pydantic import BaseModel, Field
 router = APIRouter(prefix="/api/alerts", tags=["alerts"])
 
 
+class NlAlertRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=200)
+
+
+@router.post("/parse-nl")
+async def parse_nl_alert(body: NlAlertRequest, request: Request) -> dict:
+    """AI2-1: model proposes symbol+condition; the deterministic grammar decides."""
+    symbols = [
+        series["symbol"]
+        for series in request.app.state.analytics_store.list_market_series(minimum_candles=10)
+    ]
+    return request.app.state.ai_coach_service.parse_alert(body.text, sorted(set(symbols)))
+
+
 class AlertPayload(BaseModel):
     symbolId: str = Field(min_length=1, max_length=32)
     condition: str = Field(min_length=1, max_length=280)

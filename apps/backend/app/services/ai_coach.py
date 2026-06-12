@@ -190,6 +190,114 @@ class AiCoachService:
         }
 
     # ------------------------------------------------------------------
+    # AI2-1: natural-language alert parsing. The model proposes a symbol and
+    # condition; the engine's deterministic parser is the only authority on
+    # validity. Model proposes, parser disposes.
+    # ------------------------------------------------------------------
+
+    def parse_alert(self, text: str, known_symbols: list[str]) -> dict[str, Any]:
+        text = text.strip()[:200]
+        if not text:
+            return {"ok": False, "error": "Describe the alert first."}
+        settings = self._ai_settings_provider()
+        if not settings.cloud_enabled:
+            return {
+                "ok": False,
+                "error": (
+                    "Natural-language alerts need a configured AI model "
+                    "(Settings -> AI). You can always type the condition directly: "
+                    "'crosses above 100000'."
+                ),
+            }
+        prompt = (
+            'Convert the user\'s alert request into JSON {"symbol": str, "condition": str}.\n'
+            "Rules:\n"
+            f"1. symbol must be one of: {', '.join(known_symbols[:40])}\n"
+            "2. condition must use EXACTLY one of these grammars (N is a number):\n"
+            "   'crosses above N' | 'crosses below N' | 'above N' | 'below N'\n"
+            "3. Interpret k/m suffixes (100k -> 100000). No other text.\n\n"
+            f"REQUEST: {text}\n"
+        )
+        response = self._model_gateway.complete(
+            settings,
+            prompt,
+            response_schema={
+                "type": "object",
+                "properties": {"symbol": {"type": "string"}, "condition": {"type": "string"}},
+                "required": ["symbol", "condition"],
+            },
+        )
+        if response is None:
+            return {"ok": False, "error": "The model did not respond; type the condition directly."}
+        try:
+            parsed = json.loads(response.text)
+            symbol = str(parsed.get("symbol", "")).upper().replace("/", "")
+            condition = str(parsed.get("condition", "")).strip().lower()
+        except (ValueError, TypeError, AttributeError):
+            return {
+                "ok": False,
+                "error": "Could not parse the model output; type the condition directly.",
+            }
+        from app.services.execution_engine import parse_condition_text
+
+        spec = parse_condition_text(condition)
+        if spec is None or symbol not in {s.upper() for s in known_symbols}:
+            return {
+                "ok": False,
+                "error": (
+                    f"The model proposed '{symbol}: {condition}', which the alert engine "
+                    "rejected. Adjust and retry, or type the condition directly."
+                ),
+            }
+        return {
+            "ok": True,
+            "symbol": symbol,
+            "condition": condition,
+            "preview": f"{symbol}: fires when price {spec.mode.replace('_', ' ')} {spec.threshold:g} (closed candles)",
+            "source": response.source,
+        }
+
+    # ------------------------------------------------------------------
+    # AI2-2: the daily brief - a morning narrative over the engine's own
+    # context, signals, and risk reads.
+    # ------------------------------------------------------------------
+
+    def daily_brief(self, facts: dict[str, Any]) -> dict[str, Any]:
+        text, source = self._narrate(
+            facts,
+            COACH_SCHEMA,
+            "You are writing a trader's morning brief from their own engine's data. "
+            "Write 4-6 sentences. Strict rules:\n"
+            "1. Only state facts present in the JSON below.\n"
+            "2. Do NOT invent numbers, symbols, or market claims.\n"
+            "3. Never give financial advice or predictions - describe the environment "
+            "the engine measured.\n"
+            "4. Lead with regimes/risk warnings, then notable signals.\n"
+            "Return only the brief.",
+            self._brief_template,
+        )
+        return {"summary": text, "source": source}
+
+    @staticmethod
+    def _brief_template(facts: dict[str, Any]) -> str:
+        regimes = facts.get("regimes", [])
+        regime_text = (
+            "; ".join(f"{r['symbol']} {r['timeframe']}: {r['state']}" for r in regimes[:4])
+            or "no regime reads yet"
+        )
+        risk = facts.get("risk_warnings", [])
+        risk_text = f" Risk: {'; '.join(risk)}." if risk else ""
+        top = facts.get("top_signals", [])
+        top_text = (
+            " Top signals: "
+            + "; ".join(f"{t['symbol']} {t['name']} (confidence {t['confidence']})" for t in top)
+            + "."
+            if top
+            else " No active setups."
+        )
+        return f"Regimes - {regime_text}.{top_text}{risk_text}"
+
+    # ------------------------------------------------------------------
 
     def _narrate(
         self,

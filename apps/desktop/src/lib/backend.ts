@@ -536,6 +536,31 @@ export const backendClient = {
       body: JSON.stringify(annotation),
     });
   },
+  parseNlAlert(text: string) {
+    return requestJson<{
+      ok: boolean;
+      symbol?: string;
+      condition?: string;
+      preview?: string;
+      source?: string;
+      error?: string;
+    }>(
+      '/api/alerts/parse-nl',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      },
+      30_000,
+    );
+  },
+  getDailyBrief() {
+    return requestJson<{ summary: string; source: string }>(
+      '/api/dashboard/brief',
+      undefined,
+      30_000,
+    );
+  },
   getCoachNarrative() {
     return requestJson<CoachNarrative>('/api/review/coach/narrative');
   },

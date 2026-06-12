@@ -198,18 +198,24 @@ class ExecutionEngineService:
         return snapshots
 
     def _parse_condition(self, condition: str) -> AlertConditionSpec | None:
-        normalized = condition.strip().lower()
-        patterns = [
-            (r"cross(?:es)?\s+above\s+([0-9]+(?:\.[0-9]+)?)", "crosses_above"),
-            (r"cross(?:es)?\s+below\s+([0-9]+(?:\.[0-9]+)?)", "crosses_below"),
-            (r"(?:>=|above|over)\s*([0-9]+(?:\.[0-9]+)?)", "above"),
-            (r"(?:<=|below|under)\s*([0-9]+(?:\.[0-9]+)?)", "below"),
-        ]
-        for pattern, mode in patterns:
-            match = re.search(pattern, normalized)
-            if match:
-                return AlertConditionSpec(mode=mode, threshold=float(match.group(1)))
-        return None
+        return parse_condition_text(condition)
+
+
+def parse_condition_text(condition: str) -> AlertConditionSpec | None:
+    """The deterministic alert grammar - the single authority on validity,
+    shared by the engine and the NL parser (model proposes, this disposes)."""
+    normalized = condition.strip().lower()
+    patterns = [
+        (r"cross(?:es)?\s+above\s+([0-9]+(?:\.[0-9]+)?)", "crosses_above"),
+        (r"cross(?:es)?\s+below\s+([0-9]+(?:\.[0-9]+)?)", "crosses_below"),
+        (r"(?:>=|above|over)\s*([0-9]+(?:\.[0-9]+)?)", "above"),
+        (r"(?:<=|below|under)\s*([0-9]+(?:\.[0-9]+)?)", "below"),
+    ]
+    for pattern, mode in patterns:
+        match = re.search(pattern, normalized)
+        if match:
+            return AlertConditionSpec(mode=mode, threshold=float(match.group(1)))
+    return None
 
     def _condition_triggered(self, condition: AlertConditionSpec, snapshot: MarketSnapshot) -> bool:
         if condition.mode == "crosses_above":

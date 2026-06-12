@@ -63,6 +63,47 @@ async def list_risk_signals(request: Request) -> dict[str, object]:
     return {"items": await run_in_threadpool(request.app.state.risk_meta_service.list_risk_signals)}
 
 
+@router.get("/api/dashboard/brief")
+async def daily_brief(request: Request) -> dict[str, object]:
+    """AI2-2: the morning brief, narrated from the engine's own reads."""
+
+    def build() -> dict[str, object]:
+        engine = _signal_engine(request)
+        context = engine.list_context_signals()
+        signals = engine.list_signals()
+        risk = request.app.state.risk_meta_service.list_risk_signals()
+        facts = {
+            "regimes": [
+                {
+                    "symbol": item["symbol"],
+                    "timeframe": item["timeframe"],
+                    "state": item["display_name"],
+                }
+                for item in context
+                if item.get("family") == "regime"
+            ][:6],
+            "volatility_notes": [
+                f"{item['symbol']} {item['timeframe']}: {item['display_name']}"
+                for item in context
+                if item.get("family") == "volatility"
+            ][:4],
+            "top_signals": [
+                {
+                    "symbol": record["signal"]["symbol"],
+                    "name": record["signal"].get("display_name")
+                    or record["signal"]["confidence_basis"]["setup_type"],
+                    "confidence": record["signal"]["confidence"],
+                    "quality": record["signal"].get("quality"),
+                }
+                for record in sorted(signals, key=lambda r: -r["signal"]["confidence"])[:3]
+            ],
+            "risk_warnings": [item["display_name"] for item in risk][:4],
+        }
+        return request.app.state.ai_coach_service.daily_brief(facts)
+
+    return await run_in_threadpool(build)
+
+
 @router.get("/api/signals/context")
 async def list_context_signals(request: Request) -> dict[str, object]:
     """Regime context signals: environment reads, never trades."""

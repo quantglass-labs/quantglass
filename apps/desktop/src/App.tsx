@@ -185,6 +185,30 @@ export default function App() {
     symbolId: 'BTCUSD',
   });
   const [alertCondition, setAlertCondition] = useState('');
+  const [nlAlertText, setNlAlertText] = useState('');
+  const [nlParsing, setNlParsing] = useState(false);
+  const [nlAlertNotice, setNlAlertNotice] = useState<string | null>(null);
+
+  async function parseNlAlert() {
+    if (!nlAlertText.trim() || nlParsing) return;
+    setNlParsing(true);
+    setNlAlertNotice(null);
+    try {
+      const result = await backendClient.parseNlAlert(nlAlertText);
+      if (result.ok && result.condition) {
+        setAlertCondition(result.condition);
+        setNlAlertNotice(
+          `Parsed (${result.source}): ${result.preview} — the deterministic grammar validated it; review and save.`,
+        );
+      } else {
+        setNlAlertNotice(result.error ?? 'Could not parse that request.');
+      }
+    } catch {
+      setNlAlertNotice('The parse request failed. Type the condition directly below.');
+    } finally {
+      setNlParsing(false);
+    }
+  }
   const [alertChannel, setAlertChannel] = useState<AlertRecord['channel']>('desktop');
   const [paperTradeQty, setPaperTradeQty] = useState(1);
   const [paperTradeSide, setPaperTradeSide] = useState<'long' | 'short'>('long');
@@ -1668,6 +1692,33 @@ export default function App() {
                   </p>
                 </div>
               ) : null}
+              {paperTradeRecord && Number(planStop) > 0 ? (
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
+                  <span className="font-semibold uppercase tracking-[0.18em]">Size from risk:</span>
+                  {[0.5, 1, 2].map((riskPct) => {
+                    const entryMid =
+                      (paperTradeRecord.signal.entry_zone[0] +
+                        paperTradeRecord.signal.entry_zone[1]) /
+                      2;
+                    const stopDistance = Math.abs(entryMid - Number(planStop));
+                    const sized =
+                      stopDistance > 0 ? (paperAccount.balance * riskPct) / 100 / stopDistance : 0;
+                    return (
+                      <button
+                        key={riskPct}
+                        type="button"
+                        disabled={sized <= 0}
+                        onClick={() => setPaperTradeQty(Number(sized.toFixed(4)))}
+                        className="rounded-full border border-border px-3 py-1 transition hover:text-ink disabled:opacity-40"
+                        title={`qty = (balance × ${riskPct}%) / stop distance`}
+                      >
+                        {riskPct}% → {sized > 0 ? sized.toFixed(4) : '—'}
+                      </button>
+                    );
+                  })}
+                  <span>the Academy's sizing formula, as a button</span>
+                </div>
+              ) : null}
               <label className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
                   Order type
@@ -1808,6 +1859,27 @@ export default function App() {
             {alertModal.signalId ? (
               <span> · Prefilled from the selected signal drawer.</span>
             ) : null}
+          </div>
+          <div className="space-y-2 text-sm text-muted">
+            <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
+              Describe it (AI)
+            </span>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder='e.g. "alert me when BTC crosses 100k"'
+                className="flex-1 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                value={nlAlertText}
+                onChange={(event) => setNlAlertText(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') void parseNlAlert();
+                }}
+              />
+              <Button variant="secondary" onClick={() => void parseNlAlert()} disabled={nlParsing}>
+                {nlParsing ? 'Parsing…' : 'Parse'}
+              </Button>
+            </div>
+            {nlAlertNotice ? <p className="text-xs">{nlAlertNotice}</p> : null}
           </div>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">

@@ -77,3 +77,69 @@ class TutorTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NlAlertTests(unittest.TestCase):
+    def test_unconfigured_model_degrades_with_manual_path(self) -> None:
+        result = _service().parse_alert("alert me when BTC crosses 100k", ["BTCUSD"])
+        self.assertFalse(result["ok"])
+        self.assertIn("type the condition directly", result["error"])
+
+    def test_model_proposal_validated_by_deterministic_parser(self) -> None:
+        class _Gateway:
+            def complete(self, settings, prompt, response_schema=None):
+                class R:
+                    text = '{"symbol": "BTCUSD", "condition": "crosses above 100000"}'
+                    source = "test-model"
+
+                return R()
+
+        class _On:
+            cloud_enabled = True
+
+        service = AiCoachService(
+            ai_settings_provider=lambda: _On(),
+            review_coach_service=_ReviewCoach(),
+            learn_service=_Learn(),
+            model_gateway=_Gateway(),
+        )
+        result = service.parse_alert("btc over 100k", ["BTCUSD"])
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["condition"], "crosses above 100000")
+        self.assertIn("crosses above 100000", result["preview"])
+
+    def test_invalid_model_proposal_rejected_by_parser(self) -> None:
+        class _Gateway:
+            def complete(self, settings, prompt, response_schema=None):
+                class R:
+                    text = '{"symbol": "BTCUSD", "condition": "moons soon"}'
+                    source = "test-model"
+
+                return R()
+
+        class _On:
+            cloud_enabled = True
+
+        service = AiCoachService(
+            ai_settings_provider=lambda: _On(),
+            review_coach_service=_ReviewCoach(),
+            learn_service=_Learn(),
+            model_gateway=_Gateway(),
+        )
+        result = service.parse_alert("btc to the moon", ["BTCUSD"])
+        self.assertFalse(result["ok"])
+        self.assertIn("rejected", result["error"])
+
+
+class DailyBriefTests(unittest.TestCase):
+    def test_template_brief_carries_facts(self) -> None:
+        facts = {
+            "regimes": [{"symbol": "BTC/USD", "timeframe": "1d", "state": "Trending Regime"}],
+            "top_signals": [{"symbol": "BTC/USD", "name": "Breakout Retest", "confidence": 62}],
+            "risk_warnings": ["Portfolio Heat Elevated"],
+        }
+        result = _service().daily_brief(facts)
+        self.assertEqual(result["source"], "template")
+        self.assertIn("Trending Regime", result["summary"])
+        self.assertIn("Breakout Retest", result["summary"])
+        self.assertIn("Portfolio Heat Elevated", result["summary"])
