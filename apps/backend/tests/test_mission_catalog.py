@@ -64,6 +64,17 @@ class _Store:
     def get_constitution(self):
         return self.constitution
 
+    def get_active_missions(self):
+        return dict(getattr(self, "active", {}))
+
+    def set_mission_active(self, mission_id):
+        if not hasattr(self, "active"):
+            self.active = {}
+        self.active[mission_id] = "now"
+
+    def clear_mission_active(self, mission_id):
+        getattr(self, "active", {}).pop(mission_id, None)
+
 
 def _item(**overrides):
     base = {
@@ -258,6 +269,46 @@ class MissionPackTests(unittest.TestCase):
         )
         self.assertTrue(pack_mission["completed"])
         self.assertEqual(pack_mission["source"], "community")
+
+
+class ActiveMissionTests(unittest.TestCase):
+    def test_accept_caps_at_three_and_abandon_frees_a_slot(self) -> None:
+        store = _Store()
+        service = MissionService(store, _Review([]))
+        ids = [m["id"] for m in _load_missions()[:4]]
+        for mission_id in ids[:3]:
+            self.assertTrue(service.accept(mission_id)["ok"])
+        fourth = service.accept(ids[3])
+        self.assertFalse(fourth["ok"])
+        self.assertIn("active missions", fourth["error"])
+        service.abandon(ids[0])
+        self.assertTrue(service.accept(ids[3])["ok"])
+
+    def test_unknown_and_completed_missions_cannot_be_accepted(self) -> None:
+        store = _Store()
+        store.completed = {"first-steps-lesson": "x"}
+        service = MissionService(store, _Review([]))
+        self.assertFalse(service.accept("nope")["ok"])
+        self.assertFalse(service.accept("first-steps-lesson")["ok"])
+
+    def test_completion_auto_clears_the_active_slot(self) -> None:
+        store = _Store()
+        store.progress = {"l1": {"completed_at": "x"}}
+        service = MissionService(store, _Review([]))
+        service.accept("first-steps-lesson")
+        listing = service.list_missions()
+        mission = next(m for m in listing["items"] if m["id"] == "first-steps-lesson")
+        self.assertTrue(mission["completed"])
+        self.assertFalse(mission["active"])
+        self.assertEqual(store.get_active_missions(), {})
+
+    def test_criteria_carry_action_hints(self) -> None:
+        service = MissionService(_Store(), _Review([]))
+        listing = service.list_missions()
+        mission = next(m for m in listing["items"] if m["id"] == "first-steps-trade")
+        actions = [c["action"] for c in mission["criteria"]]
+        self.assertTrue(all(a and a["route"] and a["cta"] for a in actions))
+        self.assertEqual(listing["max_active"], 3)
 
 
 if __name__ == "__main__":

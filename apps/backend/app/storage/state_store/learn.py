@@ -79,6 +79,14 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_active_missions (
+                mission_id TEXT PRIMARY KEY,
+                accepted_at TEXT NOT NULL
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -253,6 +261,29 @@ class LearnProgressStore:
                 ),
             )
             self._record_activity(connection)
+            connection.commit()
+
+    def get_active_missions(self) -> dict[str, str]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT mission_id, accepted_at FROM learn_active_missions"
+            ).fetchall()
+        return {row[0]: row[1] for row in rows}
+
+    def set_mission_active(self, mission_id: str) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                "INSERT OR IGNORE INTO learn_active_missions (mission_id, accepted_at) VALUES (?, ?)",
+                (mission_id, now_iso()),
+            )
+            self._record_activity(connection)
+            connection.commit()
+
+    def clear_mission_active(self, mission_id: str) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                "DELETE FROM learn_active_missions WHERE mission_id = ?", (mission_id,)
+            )
             connection.commit()
 
     def get_activity_days(self) -> list[str]:

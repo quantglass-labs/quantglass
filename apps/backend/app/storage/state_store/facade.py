@@ -281,6 +281,15 @@ class StateStore:
     def get_activity_days(self) -> list[str]:
         return self.learn.get_activity_days()
 
+    def get_active_missions(self) -> dict[str, str]:
+        return self.learn.get_active_missions()
+
+    def set_mission_active(self, mission_id: str) -> None:
+        self.learn.set_mission_active(mission_id)
+
+    def clear_mission_active(self, mission_id: str) -> None:
+        self.learn.clear_mission_active(mission_id)
+
     def get_journal_notes(self) -> dict[str, Any]:
         return self.journal.get_journal_notes()
 

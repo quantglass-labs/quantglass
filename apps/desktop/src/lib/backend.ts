@@ -484,6 +484,16 @@ export const backendClient = {
   getMissions() {
     return requestJson<MissionsResponse>('/api/learn/missions');
   },
+  acceptMission(missionId: string) {
+    return requestJson<{ ok: boolean }>(`/api/learn/missions/${missionId}/accept`, {
+      method: 'POST',
+    });
+  },
+  abandonMission(missionId: string) {
+    return requestJson<{ ok: boolean }>(`/api/learn/missions/${missionId}/abandon`, {
+      method: 'POST',
+    });
+  },
   getTradeReview() {
     return requestJson<TradeReviewResponse>('/api/paper-trades/review');
   },
