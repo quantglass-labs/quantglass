@@ -145,6 +145,8 @@ export function DashboardScreen({
         }
       />
 
+      <DailyBrief />
+
       {state !== 'ready' ? (
         <div className="grid gap-4 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -302,7 +304,6 @@ export function DashboardScreen({
                 </div>
               </div>
 
-              <DailyBrief />
               <div className="space-y-3 rounded-[26px] border border-border bg-white/[0.03] p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                   Paper account snapshot
