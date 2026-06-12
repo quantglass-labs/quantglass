@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 import { backendClient } from '../lib/backend';
+import { DecisionDrill } from './missions/DecisionDrill';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
 import type { BackendStatus, MissionRecord, ScenarioDetail, ScenarioSummary } from '../types';
 
@@ -43,7 +44,13 @@ const CATEGORY_META: Record<string, { title: string; order: number }> = {
 
 const LEVELS = ['novice', 'intermediate', 'advanced', 'expert'] as const;
 
-function ObjectiveList({ mission }: { mission: MissionRecord }) {
+function ObjectiveList({
+  mission,
+  onRunDrill,
+}: {
+  mission: MissionRecord;
+  onRunDrill: (category: string) => void;
+}) {
   return (
     <ul className="mt-3 space-y-1.5">
       {mission.criteria.map((criterion) => (
@@ -59,7 +66,15 @@ function ObjectiveList({ mission }: { mission: MissionRecord }) {
           <span className="ml-auto shrink-0 text-xs text-zinc-600">
             {criterion.current} / {criterion.target}
           </span>
-          {!criterion.met && criterion.action ? (
+          {!criterion.met && criterion.drill ? (
+            <button
+              type="button"
+              onClick={() => onRunDrill(criterion.drill as string)}
+              className="flex shrink-0 items-center gap-0.5 rounded-full border border-emerald-500/40 px-2 py-0.5 text-[11px] text-emerald-300 transition-colors hover:bg-emerald-600/20"
+            >
+              Run drill <ArrowUpRight size={11} />
+            </button>
+          ) : !criterion.met && criterion.action ? (
             <Link
               to={criterion.action.route}
               title={criterion.action.cta}
@@ -77,9 +92,11 @@ function ObjectiveList({ mission }: { mission: MissionRecord }) {
 function ActiveMissionCard({
   mission,
   onAbandon,
+  onRunDrill,
 }: {
   mission: MissionRecord;
   onAbandon: (id: string) => void;
+  onRunDrill: (category: string) => void;
 }) {
   const met = mission.criteria.filter((criterion) => criterion.met).length;
   const next = mission.criteria.find((criterion) => !criterion.met);
@@ -112,7 +129,15 @@ function ActiveMissionCard({
         <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/60 bg-zinc-900/50 px-3 py-2">
           <span className="text-xs uppercase tracking-wider text-indigo-300/80">Next</span>
           <span className="min-w-0 truncate text-sm text-zinc-200">{next.label}</span>
-          {next.action ? (
+          {next.drill ? (
+            <button
+              type="button"
+              onClick={() => onRunDrill(next.drill as string)}
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-emerald-500/50 px-2.5 py-1 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
+            >
+              Run the decision drill <ArrowUpRight size={12} />
+            </button>
+          ) : next.action ? (
             <Link
               to={next.action.route}
               className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 px-2.5 py-1 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20"
@@ -129,10 +154,12 @@ function ActiveMissionCard({
 function MissionCard({
   mission,
   onAccept,
+  onRunDrill,
   slotsFull,
 }: {
   mission: MissionRecord;
   onAccept: (id: string) => void;
+  onRunDrill: (category: string) => void;
   slotsFull: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -195,7 +222,7 @@ function MissionCard({
           <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
             Objectives
           </p>
-          <ObjectiveList mission={mission} />
+          <ObjectiveList mission={mission} onRunDrill={onRunDrill} />
           <div className="mt-3 flex items-center gap-3">
             {!mission.completed && !mission.active ? (
               <button
@@ -232,6 +259,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   const [missions, setMissions] = useState<MissionRecord[] | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioSummary[] | null>(null);
   const [activeScenario, setActiveScenario] = useState<ScenarioDetail | null>(null);
+  const [activeDrill, setActiveDrill] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [levelFilter, setLevelFilter] = useState<string>('all');
@@ -296,6 +324,20 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   const openScenario = (scenarioId: string) => {
     void backendClient.getScenario(scenarioId).then(setActiveScenario);
   };
+
+  if (activeDrill) {
+    return (
+      <div className="mx-auto max-w-4xl">
+        <DecisionDrill
+          category={activeDrill}
+          onExit={() => {
+            setActiveDrill(null);
+            refreshMissions();
+          }}
+        />
+      </div>
+    );
+  }
 
   if (activeScenario) {
     return (
@@ -362,7 +404,12 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </h2>
           <div className="mt-3 space-y-3">
             {activeMissions.map((mission) => (
-              <ActiveMissionCard key={mission.id} mission={mission} onAbandon={handleAbandon} />
+              <ActiveMissionCard
+                key={mission.id}
+                mission={mission}
+                onAbandon={handleAbandon}
+                onRunDrill={setActiveDrill}
+              />
             ))}
           </div>
         </>
@@ -427,6 +474,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
                       key={mission.id}
                       mission={mission}
                       onAccept={handleAccept}
+                      onRunDrill={setActiveDrill}
                       slotsFull={slotsFull}
                     />
                   ))}

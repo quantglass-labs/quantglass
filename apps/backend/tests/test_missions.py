@@ -34,6 +34,13 @@ class _Store:
     def record_mission_complete(self, mission_id):
         self.completed[mission_id] = "2026-06-11T00:00:00Z"
 
+    def get_drill_results(self):
+        # These tests exercise the field-work criteria; treat every
+        # category's decision drill as already passed.
+        from app.services.missions import _load_drills
+
+        return {category: {"passed": True, "best_percent": 100} for category in _load_drills()}
+
 
 def _missions(items):
     store = _Store()
@@ -91,7 +98,7 @@ class MissionTests(unittest.TestCase):
         )
         result, _ = _missions(items)
         mission = next(m for m in result["items"] if m["id"] == "the-operator")
-        streak = mission["criteria"][0]
+        streak = next(c for c in mission["criteria"] if "consecutive" in c["label"])
         self.assertEqual(streak["current"], 9)
         self.assertFalse(mission["completed"])
 

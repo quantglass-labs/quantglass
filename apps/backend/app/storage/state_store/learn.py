@@ -87,6 +87,17 @@ class LearnProgressStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS learn_mission_drills (
+                category TEXT PRIMARY KEY,
+                best_percent INTEGER NOT NULL,
+                passed INTEGER NOT NULL,
+                attempts INTEGER NOT NULL DEFAULT 1,
+                taken_at TEXT NOT NULL
+            )
+            """
+        )
 
     def get_learn_progress(self) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
@@ -284,6 +295,38 @@ class LearnProgressStore:
             connection.execute(
                 "DELETE FROM learn_active_missions WHERE mission_id = ?", (mission_id,)
             )
+            connection.commit()
+
+    def get_drill_results(self) -> dict[str, Any]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                "SELECT category, best_percent, passed, attempts, taken_at FROM learn_mission_drills"
+            ).fetchall()
+        return {
+            row[0]: {
+                "best_percent": row[1],
+                "passed": bool(row[2]),
+                "attempts": row[3],
+                "taken_at": row[4],
+            }
+            for row in rows
+        }
+
+    def record_drill_result(self, category: str, percent: int, passed: bool) -> None:
+        with connect(self.sqlite_path) as connection:
+            connection.execute(
+                """
+                INSERT INTO learn_mission_drills (category, best_percent, passed, attempts, taken_at)
+                VALUES (?, ?, ?, 1, ?)
+                ON CONFLICT(category) DO UPDATE SET
+                    best_percent = MAX(learn_mission_drills.best_percent, excluded.best_percent),
+                    passed = MAX(learn_mission_drills.passed, excluded.passed),
+                    attempts = learn_mission_drills.attempts + 1,
+                    taken_at = excluded.taken_at
+                """,
+                (category, percent, int(passed), now_iso()),
+            )
+            self._record_activity(connection)
             connection.commit()
 
     def get_activity_days(self) -> list[str]:

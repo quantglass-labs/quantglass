@@ -867,6 +867,37 @@ export interface MissionCriterion {
   target: number;
   /** Where this objective is acted on in the app. */
   action: { route: string; cta: string } | null;
+  /** Set when this objective is a decision drill for the given category. */
+  drill?: string;
+}
+
+export interface DrillDetail {
+  category: string;
+  title: string;
+  scenario: string;
+  pass_percent: number;
+  best_percent: number | null;
+  passed: boolean;
+  checkpoints: {
+    question: string;
+    options: { id: string; label: string }[];
+  }[];
+}
+
+export interface DrillGradeResponse {
+  category: string;
+  scores: { process: number; risk: number; discipline: number };
+  severe_violation: boolean;
+  passed: boolean;
+  pass_percent: number;
+  officer_note: string;
+  checkpoints: {
+    question: string;
+    chosen: string | null;
+    severe: boolean;
+    feedback: string;
+    best_choice: string | null;
+  }[];
 }
 
 export interface MissionRecord {

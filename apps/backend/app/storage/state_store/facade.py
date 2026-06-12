@@ -290,6 +290,12 @@ class StateStore:
     def clear_mission_active(self, mission_id: str) -> None:
         self.learn.clear_mission_active(mission_id)
 
+    def get_drill_results(self) -> dict[str, Any]:
+        return self.learn.get_drill_results()
+
+    def record_drill_result(self, category: str, percent: int, passed: bool) -> None:
+        self.learn.record_drill_result(category, percent, passed)
+
     def get_journal_notes(self) -> dict[str, Any]:
         return self.journal.get_journal_notes()
 

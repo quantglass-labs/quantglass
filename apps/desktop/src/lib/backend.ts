@@ -57,6 +57,8 @@ import type {
   LearnReadiness,
   TradeReviewResponse,
   MissionsResponse,
+  DrillDetail,
+  DrillGradeResponse,
   JournalResponse,
   JournalAnnotation,
   CoachResponse,
@@ -492,6 +494,16 @@ export const backendClient = {
   abandonMission(missionId: string) {
     return requestJson<{ ok: boolean }>(`/api/learn/missions/${missionId}/abandon`, {
       method: 'POST',
+    });
+  },
+  getDrill(category: string) {
+    return requestJson<DrillDetail>(`/api/learn/missions/drills/${category}`);
+  },
+  gradeDrill(category: string, answers: Record<string, string>) {
+    return requestJson<DrillGradeResponse>(`/api/learn/missions/drills/${category}/grade`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers }),
     });
   },
   getTradeReview() {

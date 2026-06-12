@@ -180,6 +180,28 @@ async def abandon_mission(mission_id: str, request: Request) -> dict:
     return request.app.state.mission_service.abandon(mission_id)
 
 
+@router.get("/missions/drills/{category}")
+async def get_drill(category: str, request: Request) -> dict:
+    """A category's decision drill: scenario and checkpoints, answers withheld."""
+    drill = request.app.state.mission_service.get_drill(category)
+    if drill is None:
+        raise HTTPException(status_code=404, detail="No drill for this category")
+    return drill
+
+
+class DrillAnswers(BaseModel):
+    answers: dict[str, str]
+
+
+@router.post("/missions/drills/{category}/grade")
+async def grade_drill(category: str, body: DrillAnswers, request: Request) -> dict:
+    """Grade the drill: process/risk/discipline scores and consequences."""
+    result = request.app.state.mission_service.grade_drill(category, body.answers)
+    if result is None:
+        raise HTTPException(status_code=404, detail="No drill for this category")
+    return result
+
+
 @router.get("/mastery")
 async def get_mastery(request: Request) -> dict:
     """XP, level, streak, track badges, and the review-queue count."""
