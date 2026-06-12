@@ -40,7 +40,9 @@ class _Analytics:
 
 class ContextSignalTests(unittest.TestCase):
     def test_steady_uptrend_reads_trending_with_no_geometry(self) -> None:
-        service = SignalEngineService(analytics_store=_Analytics(_candles()), min_backtest_sample=20)
+        service = SignalEngineService(
+            analytics_store=_Analytics(_candles()), min_backtest_sample=20
+        )
         items = service.list_context_signals()
         self.assertEqual(len(items), 1)
         record = items[0]
@@ -52,7 +54,9 @@ class ContextSignalTests(unittest.TestCase):
             self.assertNotIn(forbidden, record)
 
     def test_short_series_is_skipped(self) -> None:
-        service = SignalEngineService(analytics_store=_Analytics(_candles(40)), min_backtest_sample=20)
+        service = SignalEngineService(
+            analytics_store=_Analytics(_candles(40)), min_backtest_sample=20
+        )
         self.assertEqual(service.list_context_signals(), [])
 
 

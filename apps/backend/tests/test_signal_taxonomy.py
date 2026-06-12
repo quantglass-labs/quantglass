@@ -71,5 +71,25 @@ class QualityTests(unittest.TestCase):
         )
 
 
+class NewDetectorTests(unittest.TestCase):
+    def test_sig3_setup_types_are_registered_with_directions(self) -> None:
+        from app.services.signal_engine.setups import direction_for_setup
+
+        expectations = {
+            "failed_breakout_reversal": "short",
+            "failed_breakdown_reversal": "long",
+            "liquidity_sweep_reclaim_long": "long",
+            "liquidity_sweep_reclaim_short": "short",
+            "ma_crossover_long": "long",
+            "ma_crossover_short": "short",
+            "inside_bar_break_long": "long",
+            "inside_bar_break_short": "short",
+        }
+        registered = {d.setup_type for d in DETECTORS}
+        for setup_type, direction in expectations.items():
+            self.assertIn(setup_type, registered)
+            self.assertEqual(direction_for_setup(setup_type, "long"), direction, setup_type)
+
+
 if __name__ == "__main__":
     unittest.main()

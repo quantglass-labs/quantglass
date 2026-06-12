@@ -93,6 +93,12 @@ def confluence(
 
 
 def direction_for_setup(setup_type: str, fallback_direction: str) -> str:
+    # Failed-move reversals trade AGAINST the move they name: a failed
+    # breakout is a short, a failed breakdown is a long.
+    if setup_type == "failed_breakout_reversal":
+        return "short"
+    if setup_type == "failed_breakdown_reversal":
+        return "long"
     if (
         "breakdown" in setup_type
         or "short" in setup_type
@@ -534,6 +540,238 @@ def candidate_setups(
                 }
             )
         )
+
+    # --- Family 4 (SIG-3): failed moves — breakouts/breakdowns that snapped back ---
+    if donchian_high_prev is not None and donchian_low_prev is not None and index >= 2:
+        prev_high = indicators.highs[index - 1]
+        prev_low = indicators.lows[index - 1]
+        broke_then_failed_up = prev_high > donchian_high_prev and close < donchian_high_prev
+        broke_then_failed_down = prev_low < donchian_low_prev and close > donchian_low_prev
+        if broke_then_failed_up and volume_ratio >= 0.9:
+            score = confluence(
+                base=0.5,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                macd_agree=macd_value < 0,
+                htf_agree=htf_slope < 0,
+                regime_bonus=0.08 if regime in {"ranging", "transitional"} else 0.0,
+            )
+            candidates.append(
+                compose_candidate(
+                    signal_type="SELL",
+                    setup_type="failed_breakout_reversal",
+                    direction="short",
+                    status="active",
+                    regime=regime,
+                    indicators=indicators,
+                    index=index,
+                    atr=atr,
+                    ema=ema,
+                    close=close,
+                    rsi=rsi,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                    volume_ratio=volume_ratio,
+                    volatility_regime=vol_regime,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    confluence_score=score,
+                    market_type=market_type,
+                    timeframe=timeframe,
+                )
+            )
+        elif broke_then_failed_down and volume_ratio >= 0.9:
+            score = confluence(
+                base=0.5,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                macd_agree=macd_value > 0,
+                htf_agree=htf_slope > 0,
+                regime_bonus=0.08 if regime in {"ranging", "transitional"} else 0.0,
+            )
+            candidates.append(
+                compose_candidate(
+                    signal_type="BUY_ZONE",
+                    setup_type="failed_breakdown_reversal",
+                    direction="long",
+                    status="active",
+                    regime=regime,
+                    indicators=indicators,
+                    index=index,
+                    atr=atr,
+                    ema=ema,
+                    close=close,
+                    rsi=rsi,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                    volume_ratio=volume_ratio,
+                    volatility_regime=vol_regime,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    confluence_score=score,
+                    market_type=market_type,
+                    timeframe=timeframe,
+                )
+            )
+
+    # --- Family 5 (SIG-3): liquidity sweep and reclaim of a prior extreme ---
+    if index >= 21:
+        prior_low = min(indicators.lows[index - 20 : index])
+        prior_high = max(indicators.highs[index - 20 : index])
+        swept_low_reclaimed = low < prior_low and close > prior_low
+        swept_high_reclaimed = high > prior_high and close < prior_high
+        if swept_low_reclaimed and volume_ratio >= 1.1:
+            score = confluence(
+                base=0.52,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                macd_agree=macd_value > 0,
+                htf_agree=htf_slope > 0,
+                regime_bonus=0.05,
+            )
+            candidates.append(
+                compose_candidate(
+                    signal_type="BUY_ZONE",
+                    setup_type="liquidity_sweep_reclaim_long",
+                    direction="long",
+                    status="active",
+                    regime=regime,
+                    indicators=indicators,
+                    index=index,
+                    atr=atr,
+                    ema=ema,
+                    close=close,
+                    rsi=rsi,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                    volume_ratio=volume_ratio,
+                    volatility_regime=vol_regime,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    confluence_score=score,
+                    market_type=market_type,
+                    timeframe=timeframe,
+                )
+            )
+        elif swept_high_reclaimed and volume_ratio >= 1.1:
+            score = confluence(
+                base=0.52,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                macd_agree=macd_value < 0,
+                htf_agree=htf_slope < 0,
+                regime_bonus=0.05,
+            )
+            candidates.append(
+                compose_candidate(
+                    signal_type="SELL",
+                    setup_type="liquidity_sweep_reclaim_short",
+                    direction="short",
+                    status="active",
+                    regime=regime,
+                    indicators=indicators,
+                    index=index,
+                    atr=atr,
+                    ema=ema,
+                    close=close,
+                    rsi=rsi,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                    volume_ratio=volume_ratio,
+                    volatility_regime=vol_regime,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    confluence_score=score,
+                    market_type=market_type,
+                    timeframe=timeframe,
+                )
+            )
+
+    # --- Family 6 (SIG-3): moving average crossover (EMA21 x SMA50) ---
+    prev_ema = indicators.ema21[index - 1] if index >= 1 else None
+    prev_sma = indicators.sma50[index - 1] if index >= 1 else None
+    if prev_ema is not None and prev_sma is not None:
+        crossed_up = prev_ema <= prev_sma and ema > sma
+        crossed_down = prev_ema >= prev_sma and ema < sma
+        if (crossed_up or crossed_down) and regime != "volatile":
+            is_long = crossed_up
+            score = confluence(
+                base=0.5,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                macd_agree=(macd_value > 0) == is_long,
+                htf_agree=(htf_slope > 0) == is_long,
+                regime_bonus=0.06 if regime == "trending" else 0.0,
+            )
+            candidates.append(
+                compose_candidate(
+                    signal_type="BUY_ZONE" if is_long else "SELL",
+                    setup_type="ma_crossover_long" if is_long else "ma_crossover_short",
+                    direction="long" if is_long else "short",
+                    status="active",
+                    regime=regime,
+                    indicators=indicators,
+                    index=index,
+                    atr=atr,
+                    ema=ema,
+                    close=close,
+                    rsi=rsi,
+                    recent_high=recent_high,
+                    recent_low=recent_low,
+                    volume_ratio=volume_ratio,
+                    volatility_regime=vol_regime,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    confluence_score=score,
+                    market_type=market_type,
+                    timeframe=timeframe,
+                )
+            )
+
+    # --- Family 7 (SIG-3): inside-bar break in trend direction ---
+    if index >= 2:
+        mother_high = indicators.highs[index - 2]
+        mother_low = indicators.lows[index - 2]
+        inside = (
+            indicators.highs[index - 1] <= mother_high and indicators.lows[index - 1] >= mother_low
+        )
+        if inside and regime in {"trending", "transitional"}:
+            broke_up = bullish_trend and close > mother_high
+            broke_down = bearish_trend and close < mother_low
+            if broke_up or broke_down:
+                is_long = broke_up
+                score = confluence(
+                    base=0.5,
+                    trend_alignment=trend_alignment,
+                    volume_confirmation=volume_confirmation,
+                    macd_agree=(macd_value > 0) == is_long,
+                    htf_agree=(htf_slope > 0) == is_long,
+                    regime_bonus=0.08 if regime == "trending" else 0.0,
+                )
+                candidates.append(
+                    compose_candidate(
+                        signal_type="BUY_ZONE" if is_long else "SELL",
+                        setup_type="inside_bar_break_long" if is_long else "inside_bar_break_short",
+                        direction="long" if is_long else "short",
+                        status="active",
+                        regime=regime,
+                        indicators=indicators,
+                        index=index,
+                        atr=atr,
+                        ema=ema,
+                        close=close,
+                        rsi=rsi,
+                        recent_high=recent_high,
+                        recent_low=recent_low,
+                        volume_ratio=volume_ratio,
+                        volatility_regime=vol_regime,
+                        trend_alignment=trend_alignment,
+                        volume_confirmation=volume_confirmation,
+                        confluence_score=score,
+                        market_type=market_type,
+                        timeframe=timeframe,
+                    )
+                )
 
     # --- Fallback states so the surface always has a contextual read ---
     if not candidates:
