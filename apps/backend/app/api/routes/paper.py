@@ -39,6 +39,9 @@ class PaperTradePayload(BaseModel):
     # trigger price on closed candles (the only venue paper trading has).
     orderType: str = Field(default="market", pattern="^(market|limit|stop)$")
     limitPrice: float | None = Field(default=None, gt=0)
+    tif: str = Field(default="gtc", pattern="^(day|gtc|gtd)$")
+    expiresAt: str | None = Field(default=None, max_length=40)
+    trailPercent: float | None = Field(default=None, gt=0, le=50)
 
 
 @router.get("/api/paper-account")
@@ -90,6 +93,9 @@ async def submit_paper_trade(
             plan=plan,
             order_type=payload.orderType,
             limit_price=payload.limitPrice,
+            tif=payload.tif,
+            expires_at=payload.expiresAt,
+            trail_percent=payload.trailPercent,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -101,6 +107,27 @@ async def submit_paper_trade(
         "account": result.account,
         "trade": result.trade,
     }
+
+
+@router.post("/api/paper-trades/{intent_id}/cancel")
+async def cancel_paper_trade(intent_id: str, request: Request) -> dict[str, object]:
+    """Cancel a pending order. Filled or already-cancelled orders refuse."""
+    cancelled = request.app.state.state_store.cancel_paper_intent(intent_id)
+    if not cancelled:
+        raise HTTPException(status_code=409, detail="Order is not pending; nothing to cancel.")
+    return {"ok": True}
+
+
+@router.post("/api/paper-positions/{symbol_id}/close")
+async def close_paper_position(symbol_id: str, request: Request) -> dict[str, object]:
+    """Manually close a position at the latest closed price."""
+    closure = request.app.state.execution_engine.close_position(symbol_id.upper())
+    if closure is None:
+        raise HTTPException(
+            status_code=404,
+            detail="No open position for that symbol, or no market data to price the close.",
+        )
+    return {"closure": closure, "account": request.app.state.state_store.get_paper_account()}
 
 
 @router.get("/api/paper-trades/review")

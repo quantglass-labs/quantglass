@@ -286,6 +286,35 @@
             "feedback": "Monte Carlo says a 50% win-rate system spends a third of its life in drawdown. System-hopping resets the sample every time."
           }
         ]
+      },
+      {
+        "question": "You protected a position with a stop-LIMIT (trigger 47.50, limit 47.40) instead of a stop. Overnight news gaps the open to 45.80. What happened to your protection?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Nothing filled - the limit leg needed 47.40 or better and price never traded there. I'm still long, 4% below my 'stop'",
+            "process": 10,
+            "risk": 9,
+            "discipline": 8,
+            "feedback": "Correct. This is the stop-limit trap: it caps slippage on ordinary days and silently fails on exactly the day you needed it. It's also why the paper venue refuses to simulate stop-limits - on closed candles the fill would have to be faked."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "It filled at 47.40 - that's what the limit guaranteed",
+            "process": 0,
+            "risk": 0,
+            "discipline": 2,
+            "feedback": "A limit guarantees price, never the fill. Price gapped through your window without trading in it; the order is still sitting there, unfilled, while the loss grows."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "It filled at the 45.80 open like a normal stop would",
+            "process": 2,
+            "risk": 2,
+            "discipline": 3,
+            "feedback": "That's what a plain STOP order does - becomes a market order and eats the gap. The limit leg is precisely what prevented that fill. Know which one you placed."
+          }
+        ]
       }
     ],
     "pass_percent": 80

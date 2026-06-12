@@ -85,6 +85,7 @@ function buildMarketDisplay(
 }
 
 export function DashboardScreen({
+  onClosePosition,
   state,
   symbols,
   signals,
@@ -98,6 +99,7 @@ export function DashboardScreen({
   onOpenSignal,
   onRunBacktest,
 }: {
+  onClosePosition?: (symbolId: string) => void;
   state: ScreenState;
   symbols: SymbolRecord[];
   signals: SignalRecord[];
@@ -314,6 +316,15 @@ export function DashboardScreen({
                         {formatCurrency(position.averagePrice)}
                       </p>
                     </div>
+                    {onClosePosition ? (
+                      <button
+                        type="button"
+                        onClick={() => onClosePosition(position.symbolId)}
+                        className="rounded-full border border-border px-3 py-1 text-xs text-muted transition hover:border-sell/50 hover:text-sell"
+                      >
+                        Close
+                      </button>
+                    ) : null}
                     <div
                       className={
                         position.pnl >= 0 ? 'metric-text text-buy' : 'metric-text text-sell'

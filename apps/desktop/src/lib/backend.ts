@@ -512,6 +512,17 @@ export const backendClient = {
       body: JSON.stringify({ answers }),
     });
   },
+  cancelPaperTrade(intentId: string) {
+    return requestJson<{ ok: boolean }>(`/api/paper-trades/${intentId}/cancel`, {
+      method: 'POST',
+    });
+  },
+  closePaperPosition(symbolId: string) {
+    return requestJson<{ closure: Record<string, unknown>; account: PaperAccount }>(
+      `/api/paper-positions/${symbolId}/close`,
+      { method: 'POST' },
+    );
+  },
   getTradeReview() {
     return requestJson<TradeReviewResponse>('/api/paper-trades/review');
   },

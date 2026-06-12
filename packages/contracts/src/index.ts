@@ -452,6 +452,9 @@ export interface PaperTradeIntentRequest {
   planEmotion?: string;
   orderType?: "market" | "limit" | "stop";
   limitPrice?: number;
+  tif?: "day" | "gtc" | "gtd";
+  expiresAt?: string;
+  trailPercent?: number;
 }
 
 export interface PaperTradeIntentRecord {
@@ -463,6 +466,7 @@ export interface PaperTradeIntentRecord {
   entryPrice: number;
   tradingMode: TradingMode;
   submittedAt: string;
+  status?: string;
 }
 
 export interface PaperTradeIntentListResponse {

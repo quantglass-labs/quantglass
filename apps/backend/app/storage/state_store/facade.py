@@ -238,6 +238,12 @@ class StateStore:
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         return self.trading.process_pending_paper_trades(latest_prices)
 
+    def cancel_paper_intent(self, intent_id: str) -> bool:
+        return self.trading.cancel_paper_intent(intent_id)
+
+    def close_paper_position(self, symbol_id: str, latest_price: float):
+        return self.trading.close_paper_position(symbol_id, latest_price)
+
     def enforce_paper_brackets(self, latest_prices: dict[str, float]) -> list[dict[str, Any]]:
         return self.trading.enforce_paper_brackets(latest_prices)
 

@@ -78,11 +78,32 @@ def _add_order_type_columns(connection: sqlite3.Connection) -> None:
             connection.execute(ddl)
 
 
+def _add_order_lifecycle_columns(connection: sqlite3.Connection) -> None:
+    intent_columns = _columns(connection, "paper_trade_intents")
+    for name, ddl in [
+        (
+            "tif",
+            "ALTER TABLE paper_trade_intents ADD COLUMN tif TEXT NOT NULL DEFAULT 'gtc'",
+        ),
+        ("expires_at", "ALTER TABLE paper_trade_intents ADD COLUMN expires_at TEXT"),
+        (
+            "trail_percent",
+            "ALTER TABLE paper_trade_intents ADD COLUMN trail_percent REAL",
+        ),
+    ]:
+        if name not in intent_columns:
+            connection.execute(ddl)
+    position_columns = _columns(connection, "paper_positions")
+    if "best_price" not in position_columns:
+        connection.execute("ALTER TABLE paper_positions ADD COLUMN best_price REAL")
+
+
 MIGRATIONS: list[tuple[int, str, Callable[[sqlite3.Connection], None]]] = [
     (1, "add_alert_channel_status_columns", _add_alert_columns),
     (2, "add_trade_intent_execution_columns", _add_trade_intent_columns),
     (3, "add_trade_plan_columns", _add_trade_plan_columns),
     (4, "add_order_type_columns", _add_order_type_columns),
+    (5, "add_order_lifecycle_columns", _add_order_lifecycle_columns),
 ]
 
 

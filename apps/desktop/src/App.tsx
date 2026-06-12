@@ -194,6 +194,18 @@ export default function App() {
   const [planEmotion, setPlanEmotion] = useState('calm');
   const [orderType, setOrderType] = useState<'market' | 'limit' | 'stop'>('market');
   const [orderTrigger, setOrderTrigger] = useState('');
+  const [orderTif, setOrderTif] = useState<'day' | 'gtc' | 'gtd'>('gtc');
+  const [orderExpiry, setOrderExpiry] = useState('');
+  const [trailPercent, setTrailPercent] = useState('');
+  // Advanced order types unlock with the Order Types lesson (novice-10).
+  const [orderTypesUnlocked, setOrderTypesUnlocked] = useState(false);
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    backendClient
+      .getLearnLesson('novice-10-order-types')
+      .then((lesson) => setOrderTypesUnlocked(Boolean(lesson.completed)))
+      .catch(() => setOrderTypesUnlocked(false));
+  }, [backendStatus]);
   const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -1224,6 +1236,9 @@ export default function App() {
           orderType,
           limitPrice:
             orderType !== 'market' && Number(orderTrigger) > 0 ? Number(orderTrigger) : undefined,
+          tif: orderType !== 'market' ? orderTif : undefined,
+          expiresAt: orderTif === 'gtd' && orderExpiry ? `${orderExpiry}T23:59:59Z` : undefined,
+          trailPercent: Number(trailPercent) > 0 ? Number(trailPercent) : undefined,
         });
         setPaperAccount(response.account);
         pushToast(
@@ -1235,9 +1250,10 @@ export default function App() {
       } catch (error) {
         const detail = error instanceof Error ? error.message : '';
         const isConstitution = detail.includes('constitution');
+        const hasUsefulDetail = detail && !detail.startsWith('Backend request failed');
         pushToast(
           isConstitution ? 'Blocked by your trading constitution' : 'Trade submission failed',
-          isConstitution
+          hasUsefulDetail
             ? detail
             : isLiveTradingMode
               ? 'The backend rejected the live trade request. Check broker routing and configured credentials, then retry.'
@@ -1271,6 +1287,23 @@ export default function App() {
               element={
                 <DashboardScreen
                   state={screenState}
+                  onClosePosition={(symbolId) => {
+                    void backendClient
+                      .closePaperPosition(symbolId)
+                      .then((response) => {
+                        setPaperAccount(response.account);
+                        pushToast(
+                          'Position closed',
+                          `${symbolId} closed at the latest market price (manual exit).`,
+                        );
+                      })
+                      .catch((error: unknown) => {
+                        pushToast(
+                          'Close failed',
+                          error instanceof Error ? error.message : 'The close request failed.',
+                        );
+                      });
+                  }}
                   symbols={filteredSymbols}
                   signals={filteredSignals}
                   watchlistIds={watchlistIds}
@@ -1583,9 +1616,66 @@ export default function App() {
                   <option value="tired">Tired</option>
                 </select>
               </label>
+              {paperTradeRecord ? (
+                <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                    Account context
+                  </p>
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <span>
+                      Buying power:{' '}
+                      <span className="text-ink">{formatCurrency(paperAccount.buyingPower)}</span>
+                    </span>
+                    <span>
+                      Balance:{' '}
+                      <span className="text-ink">{formatCurrency(paperAccount.balance)}</span>
+                    </span>
+                    <span>
+                      This order:{' '}
+                      <span
+                        className={
+                          paperTradeQty *
+                            ((paperTradeRecord.signal.entry_zone[0] +
+                              paperTradeRecord.signal.entry_zone[1]) /
+                              2) >
+                          paperAccount.buyingPower
+                            ? 'text-sell'
+                            : 'text-ink'
+                        }
+                      >
+                        {formatCurrency(
+                          paperTradeQty *
+                            ((paperTradeRecord.signal.entry_zone[0] +
+                              paperTradeRecord.signal.entry_zone[1]) /
+                              2),
+                        )}
+                      </span>
+                    </span>
+                    <span>
+                      {(() => {
+                        const held = paperAccount.openPositions.find(
+                          (position) => position.symbolId === paperTradeRecord.symbolId,
+                        );
+                        return held
+                          ? `Held: ${held.side.toUpperCase()} ${held.quantity} @ ${formatCurrency(held.averagePrice)}`
+                          : 'No open position in this symbol';
+                      })()}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs">
+                    Orders above buying power are rejected. Opposing positions must be closed first
+                    — the venue does not net them. Shorts reserve full notional as margin.
+                  </p>
+                </div>
+              ) : null}
               <label className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
                   Order type
+                  {!orderTypesUnlocked ? (
+                    <span className="ml-2 normal-case tracking-normal">
+                      — limit/stop unlock with the Order Types lesson
+                    </span>
+                  ) : null}
                 </span>
                 <div className="flex gap-2">
                   <select
@@ -1594,8 +1684,12 @@ export default function App() {
                     onChange={(event) => setOrderType(event.target.value as typeof orderType)}
                   >
                     <option value="market">Market — fill at next tick</option>
-                    <option value="limit">Limit — fill at my price or better</option>
-                    <option value="stop">Stop — fill when price breaks through</option>
+                    <option value="limit" disabled={!orderTypesUnlocked}>
+                      Limit — fill at my price or better
+                    </option>
+                    <option value="stop" disabled={!orderTypesUnlocked}>
+                      Stop — fill when price breaks through
+                    </option>
                   </select>
                   {orderType !== 'market' ? (
                     <input
@@ -1609,6 +1703,44 @@ export default function App() {
                     />
                   ) : null}
                 </div>
+                {orderType !== 'market' ? (
+                  <div className="flex gap-2">
+                    <select
+                      aria-label="Time in force"
+                      className="flex-1 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                      value={orderTif}
+                      onChange={(event) => setOrderTif(event.target.value as typeof orderTif)}
+                    >
+                      <option value="gtc">GTC — good till cancelled</option>
+                      <option value="day">Day — dies at end of day (UTC)</option>
+                      <option value="gtd">GTD — good till date</option>
+                    </select>
+                    {orderTif === 'gtd' ? (
+                      <input
+                        type="date"
+                        className="rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
+                        value={orderExpiry}
+                        onChange={(event) => setOrderExpiry(event.target.value)}
+                      />
+                    ) : null}
+                  </div>
+                ) : null}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    min={0}
+                    max={50}
+                    step="0.5"
+                    placeholder="Trailing stop % (optional)"
+                    disabled={!orderTypesUnlocked}
+                    className="w-56 rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none disabled:opacity-40"
+                    value={trailPercent}
+                    onChange={(event) => setTrailPercent(event.target.value)}
+                  />
+                  <span className="text-xs">
+                    Ratchets your stop from the best closed price — only ever tightens.
+                  </span>
+                </div>
                 <span className="block text-xs">
                   {orderType === 'market'
                     ? 'Executes on the next backend tick at the latest closed price.'
@@ -1616,7 +1748,8 @@ export default function App() {
                       ? 'Waits until price reaches your limit (long: at or below; short: at or above).'
                       : 'Waits for a breakout through the trigger (long: at or above; short: at or below).'}{' '}
                   Your stop and target act as a live OCO bracket: the position closes automatically
-                  when either level trades.
+                  when either level trades. Stop-limit is deliberately not simulated — its
+                  unfilled-leg failure mode can't be modeled honestly on closed candles.
                 </span>
               </label>
               <div className="space-y-2 text-sm text-muted">

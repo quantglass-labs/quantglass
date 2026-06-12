@@ -44,6 +44,9 @@ class TradingExecutionService:
         plan: dict | None = None,
         order_type: str = "market",
         limit_price: float | None = None,
+        tif: str = "gtc",
+        expires_at: str | None = None,
+        trail_percent: float | None = None,
     ) -> TradeExecutionResult:
         safety_settings = self._state_store.get_safety_settings()
         if safety_settings.trading_mode == "paper":
@@ -57,6 +60,9 @@ class TradingExecutionService:
                 plan=plan,
                 order_type=order_type,
                 limit_price=limit_price,
+                tif=tif,
+                expires_at=expires_at,
+                trail_percent=trail_percent,
             )
             return TradeExecutionResult(
                 accepted=True,

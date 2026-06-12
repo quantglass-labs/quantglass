@@ -44,7 +44,7 @@
   {
     "id": "order-types",
     "title": "Order Types",
-    "description": "What each order actually instructs the venue to do, and what can go wrong.",
+    "description": "What each order instructs the venue to do, what can go wrong, and which ones the paper venue executes. QuantGlass only executes orders it can simulate honestly on closed candles - everything else is taught here and in the lessons, never faked.",
     "items": [
       {
         "name": "Market order",
@@ -69,6 +69,30 @@
       {
         "name": "OCO (one-cancels-other)",
         "notes": "A stop and a target bracket; whichever fills first cancels the other. This is the shape of a planned trade and the QuantGlass ticket's mental model."
+      },
+      {
+        "name": "Trailing stop",
+        "notes": "A stop that ratchets with price by a fixed percent - it only ever tightens. Executed in the paper venue: the trail measures from the best closed price since entry. Too tight and ordinary noise takes you out."
+      },
+      {
+        "name": "Bracket / OCO",
+        "notes": "Entry plus stop-loss plus take-profit as one plan; whichever exit fills first cancels the other. The QuantGlass ticket IS a bracket: your stop and target execute live against closed candles, stop winning ties."
+      },
+      {
+        "name": "Time-in-force (Day / GTC / GTD)",
+        "notes": "How long a pending order stays alive: Day dies at the end of its submission day, GTC waits until cancelled, GTD until a date you set. Executed in the paper venue. IOC/FOK are order-book concepts the venue cannot simulate honestly."
+      },
+      {
+        "name": "Post-only / Reduce-only",
+        "notes": "Perp-exchange instructions: post-only guarantees you add liquidity (maker); reduce-only can only shrink a position - it can never accidentally flip you. Concepts to know before any real venue; not simulated here."
+      },
+      {
+        "name": "Iceberg / Hidden",
+        "notes": "Institutional orders that show only part (or none) of their size in the book. Pure order-book mechanics - taught in the microstructure track, impossible to simulate on candles."
+      },
+      {
+        "name": "TWAP / VWAP / POV execution",
+        "notes": "Algorithmic execution that spreads a large order over time, volume, or participation rate to limit market impact. Professional tooling; the makers-takers lesson covers why impact matters."
       }
     ]
   },

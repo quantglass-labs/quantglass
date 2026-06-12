@@ -9,6 +9,7 @@ from tempfile import TemporaryDirectory
 
 from app.storage.state_store.db import connect
 from app.storage.state_store.migrations import (
+    _add_order_lifecycle_columns,
     _add_order_type_columns,
     _add_trade_plan_columns,
 )
@@ -23,6 +24,7 @@ class PaperOrderTests(unittest.TestCase):
             self.store.ensure_schema(connection)
             _add_trade_plan_columns(connection)
             _add_order_type_columns(connection)
+            _add_order_lifecycle_columns(connection)
             connection.commit()
 
     def tearDown(self):
@@ -92,3 +94,103 @@ class PaperOrderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OrderLifecycleTests(PaperOrderTests):
+    def test_day_order_expires_next_day(self) -> None:
+        trade, _ = self.store.submit_paper_trade(
+            signal_id="s",
+            symbol="BTCUSD",
+            side="long",
+            quantity=1.0,
+            entry_price=100.0,
+            trading_mode="paper",
+            order_type="limit",
+            limit_price=90.0,
+            tif="day",
+        )
+        # Backdate the submission to yesterday.
+        with connect(self.store.sqlite_path) as connection:
+            connection.execute(
+                "UPDATE paper_trade_intents SET submitted_at = '2020-01-01T00:00:00Z'"
+            )
+            connection.commit()
+        executed, _ = self.store.process_pending_paper_trades({"BTCUSD": 80.0})
+        self.assertEqual(executed, [])
+        intents = self.store.list_paper_trade_intents()
+        self.assertEqual(intents[0]["status"], "expired")
+
+    def test_cancel_pending_only(self) -> None:
+        trade, _ = self.store.submit_paper_trade(
+            signal_id="s",
+            symbol="BTCUSD",
+            side="long",
+            quantity=1.0,
+            entry_price=100.0,
+            trading_mode="paper",
+            order_type="limit",
+            limit_price=90.0,
+        )
+        self.assertTrue(self.store.cancel_paper_intent(trade["id"]))
+        self.assertFalse(self.store.cancel_paper_intent(trade["id"]))  # already cancelled
+        executed, _ = self.store.process_pending_paper_trades({"BTCUSD": 80.0})
+        self.assertEqual(executed, [])
+
+    def test_manual_close_realizes_pnl(self) -> None:
+        self._submit()
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        closure = self.store.close_paper_position("BTCUSD", 103.0)
+        self.assertEqual(closure["exitKind"], "manual")
+        account = self.store.get_paper_account()
+        self.assertEqual(account["openPositions"], [])
+        self.assertAlmostEqual(account["realizedPnl"], 3.0, places=2)
+
+    def test_trailing_stop_ratchets_and_closes(self) -> None:
+        self.store.submit_paper_trade(
+            signal_id="s",
+            symbol="BTCUSD",
+            side="long",
+            quantity=1.0,
+            entry_price=100.0,
+            trading_mode="paper",
+            plan={"stop": 95.0},
+            trail_percent=5.0,
+        )
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        # Price runs to 120: trail moves stop to 114; static 95 is superseded.
+        self.assertEqual(self.store.enforce_paper_brackets({"BTCUSD": 120.0}), [])
+        closures = self.store.enforce_paper_brackets({"BTCUSD": 113.0})
+        self.assertEqual(len(closures), 1)
+        self.assertEqual(closures[0]["exitKind"], "stop")
+        self.assertAlmostEqual(closures[0]["exitPrice"], 114.0, places=2)
+        account = self.store.get_paper_account()
+        self.assertAlmostEqual(account["realizedPnl"], 14.0, places=2)
+
+
+class AccountGuardTests(PaperOrderTests):
+    def test_oversized_order_rejected_with_max_size(self) -> None:
+        with self.assertRaises(ValueError) as ctx:
+            self.store.submit_paper_trade(
+                signal_id="s",
+                symbol="BTCUSD",
+                side="long",
+                quantity=10_000.0,
+                entry_price=100.0,
+                trading_mode="paper",
+            )
+        self.assertIn("Insufficient buying power", str(ctx.exception))
+        self.assertIn("Max size", str(ctx.exception))
+
+    def test_opposing_position_rejected(self) -> None:
+        self._submit(side="long")
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        with self.assertRaises(ValueError) as ctx:
+            self._submit(side="short")
+        self.assertIn("Close it first", str(ctx.exception))
+
+    def test_same_side_add_is_allowed(self) -> None:
+        self._submit(side="long")
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        self._submit(side="long")
+        executed, _ = self.store.process_pending_paper_trades({"BTCUSD": 101.0})
+        self.assertEqual(len(executed), 1)

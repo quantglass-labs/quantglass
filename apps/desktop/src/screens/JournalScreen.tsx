@@ -13,7 +13,7 @@ import { NotebookPen } from 'lucide-react';
 
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
-import type { BackendStatus, JournalItem } from '../types';
+import type { BackendStatus, JournalItem, PaperTradeIntentRecord } from '../types';
 
 const TAG_LABELS: Record<string, string> = {
   chased_entry: 'Chased entry',
@@ -136,6 +136,16 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
   const [items, setItems] = useState<JournalItem[] | null>(null);
   const [mistakeTags, setMistakeTags] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [pendingOrders, setPendingOrders] = useState<PaperTradeIntentRecord[]>([]);
+
+  const loadPending = () => {
+    backendClient
+      .getPaperTrades()
+      .then((response) =>
+        setPendingOrders(response.items.filter((item) => item.status === 'pending')),
+      )
+      .catch(() => setPendingOrders([]));
+  };
 
   useEffect(() => {
     if (backendStatus !== 'online') return;
@@ -146,6 +156,8 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
         setMistakeTags(response.mistake_tags);
       })
       .catch(() => setError('Could not load the journal. Is the backend running?'));
+    loadPending();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backendStatus]);
 
   const handleSave = async (intentId: string, note: string, tags: string[]) => {
@@ -186,6 +198,33 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
           No executed paper trades yet. Place a trade with a full plan — stop, target, risk, and
           reason — and it will appear here for review.
         </p>
+      ) : null}
+
+      {pendingOrders.length ? (
+        <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Working orders (not yet filled)
+          </p>
+          <ul className="mt-2 space-y-2">
+            {pendingOrders.map((order) => (
+              <li key={order.id} className="flex items-center gap-3 text-sm">
+                <span className="font-medium text-zinc-200">{order.symbol}</span>
+                <span className="text-zinc-500">
+                  {order.side} {order.quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void backendClient.cancelPaperTrade(order.id).then(loadPending);
+                  }}
+                  className="ml-auto rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
+                >
+                  Cancel
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
 
       <div className="mt-6 space-y-4">

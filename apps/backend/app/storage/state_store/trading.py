@@ -146,6 +146,9 @@ class PaperTradingStore:
         plan: dict[str, Any] | None = None,
         order_type: str = "market",
         limit_price: float | None = None,
+        tif: str = "gtc",
+        expires_at: str | None = None,
+        trail_percent: float | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         submitted_at = now_iso()
         symbol_id = symbol.upper().replace("/", "")
@@ -153,15 +156,43 @@ class PaperTradingStore:
         with connect(self.sqlite_path) as connection:
             self.ensure_account_row(connection)
             plan = plan or {}
+
+            # Account-aware guards: the venue rejects orders the account
+            # cannot carry instead of silently clamping buying power to zero.
+            account_row = connection.execute(
+                "SELECT buying_power FROM paper_account_state WHERE account_key = 'default'"
+            ).fetchone()
+            buying_power = float(account_row[0]) if account_row else 0.0
+            reference = float(limit_price) if limit_price is not None else float(entry_price)
+            notional = float(quantity) * reference
+            # Shorts reserve the same notional as margin - the simple, honest
+            # paper rule, stated in the ticket.
+            if notional > buying_power:
+                affordable = buying_power / reference if reference > 0 else 0.0
+                raise ValueError(
+                    f"Insufficient buying power: this order needs "
+                    f"{notional:,.2f} but {buying_power:,.2f} is available. "
+                    f"Max size at this price: {affordable:.4f}."
+                )
+            existing = connection.execute(
+                "SELECT side, quantity FROM paper_positions WHERE symbol_id = ?",
+                (symbol_id,),
+            ).fetchone()
+            if existing is not None and str(existing[0]) != side:
+                raise ValueError(
+                    f"You already hold a {existing[0]} position of {float(existing[1])} "
+                    f"{symbol_id}. Close it first - the paper venue does not net "
+                    "opposing positions into one."
+                )
             connection.execute(
                 """
                 INSERT INTO paper_trade_intents (
                     signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
                     status, provider, broker_status,
                     plan_stop, plan_target, plan_risk_percent, plan_reason, plan_emotion,
-                    order_type, limit_price
+                    order_type, limit_price, tif, expires_at, trail_percent
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued', ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'alpaca_paper', 'queued', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     signal_id,
@@ -178,6 +209,9 @@ class PaperTradingStore:
                     plan.get("emotion"),
                     order_type if order_type in {"market", "limit", "stop"} else "market",
                     limit_price,
+                    tif if tif in {"day", "gtc", "gtd"} else "gtc",
+                    expires_at,
+                    trail_percent,
                 ),
             )
             trade_id = connection.execute("SELECT last_insert_rowid()").fetchone()[0]
@@ -277,7 +311,7 @@ class PaperTradingStore:
                 """
                 SELECT id, signal_id, symbol, side, quantity, entry_price, trading_mode, submitted_at,
                        status, executed_at, executed_price, provider, external_order_id, broker_status,
-                       order_type, limit_price
+                       order_type, limit_price, tif, expires_at
                 FROM paper_trade_intents
                 WHERE status = 'pending'
                 ORDER BY submitted_at ASC, id ASC
@@ -290,6 +324,21 @@ class PaperTradingStore:
                 latest = float(latest_prices.get(symbol_id, row[5]))
                 order_type = str(row[14] or "market")
                 trigger = float(row[15]) if row[15] is not None else None
+                tif = str(row[16] or "gtc")
+                expires_at = row[17]
+                # Time-in-force: day orders die after their submission day (UTC);
+                # GTD orders die past their expiry. Expired orders never fill.
+                submitted_day = str(row[7] or "")[:10]
+                today = executed_at[:10]
+                expired = (tif == "day" and submitted_day < today) or (
+                    tif == "gtd" and expires_at is not None and str(expires_at) <= executed_at
+                )
+                if expired:
+                    connection.execute(
+                        "UPDATE paper_trade_intents SET status = 'expired' WHERE id = ?",
+                        (row[0],),
+                    )
+                    continue
                 # Order semantics on closed-candle prices (the venue we have):
                 #   market -> fill at the latest close
                 #   limit  -> long fills when price <= limit; short when >=
@@ -350,6 +399,46 @@ class PaperTradingStore:
 
         return executed, self.get_paper_account()
 
+    def cancel_paper_intent(self, intent_id: str) -> bool:
+        with connect(self.sqlite_path) as connection:
+            cursor = connection.execute(
+                "UPDATE paper_trade_intents SET status = 'cancelled' "
+                "WHERE id = ? AND status = 'pending'",
+                (intent_id,),
+            )
+            connection.commit()
+            return cursor.rowcount > 0
+
+    def close_paper_position(self, symbol_id: str, latest_price: float) -> dict[str, Any] | None:
+        """Manual market close of the full position at the latest closed price."""
+        closed_at = now_iso()
+        with connect(self.sqlite_path) as connection:
+            row = connection.execute(
+                "SELECT side, quantity, average_price FROM paper_positions WHERE symbol_id = ?",
+                (symbol_id,),
+            ).fetchone()
+            if row is None:
+                return None
+            side, quantity, average_price = str(row[0]), float(row[1]), float(row[2])
+            self._apply_trade_fill(
+                connection=connection,
+                symbol_id=symbol_id,
+                side="short" if side == "long" else "long",
+                quantity=quantity,
+                executed_price=latest_price,
+                executed_at=closed_at,
+            )
+            connection.commit()
+        return {
+            "symbolId": symbol_id,
+            "side": side,
+            "quantity": quantity,
+            "entryPrice": average_price,
+            "exitPrice": latest_price,
+            "exitKind": "manual",
+            "closedAt": closed_at,
+        }
+
     def enforce_paper_brackets(self, latest_prices: dict[str, float]) -> list[dict[str, Any]]:
         """OCO semantics for the plan (E-bracket): when the latest closed price
         touches a position's planned stop or target, close it at that level.
@@ -359,15 +448,15 @@ class PaperTradingStore:
         with connect(self.sqlite_path) as connection:
             self.ensure_account_row(connection)
             positions = connection.execute(
-                "SELECT symbol_id, side, quantity, average_price FROM paper_positions"
+                "SELECT symbol_id, side, quantity, average_price, best_price FROM paper_positions"
             ).fetchall()
-            for symbol_id, side, quantity, average_price in positions:
+            for symbol_id, side, quantity, average_price, best_price in positions:
                 price = latest_prices.get(symbol_id)
                 if price is None:
                     continue
                 intent = connection.execute(
                     """
-                    SELECT plan_stop, plan_target FROM paper_trade_intents
+                    SELECT plan_stop, plan_target, trail_percent FROM paper_trade_intents
                     WHERE symbol = ? AND side = ? AND status = 'executed'
                     ORDER BY executed_at DESC, id DESC LIMIT 1
                     """,
@@ -375,7 +464,26 @@ class PaperTradingStore:
                 ).fetchone()
                 if intent is None:
                     continue
-                stop, target = intent
+                stop, target, trail_percent = intent
+                # Trailing stop: ratchet from the best closed price since entry.
+                # The trail only tightens - it never moves the stop away.
+                if trail_percent is not None:
+                    best = float(best_price) if best_price is not None else float(average_price)
+                    best = max(best, price) if side == "long" else min(best, price)
+                    connection.execute(
+                        "UPDATE paper_positions SET best_price = ? WHERE symbol_id = ?",
+                        (best, symbol_id),
+                    )
+                    trail_distance = best * float(trail_percent) / 100
+                    trailed = best - trail_distance if side == "long" else best + trail_distance
+                    if stop is None:
+                        stop = trailed
+                    else:
+                        stop = (
+                            max(float(stop), trailed)
+                            if side == "long"
+                            else min(float(stop), trailed)
+                        )
                 exit_price: float | None = None
                 exit_kind: str | None = None
                 if side == "long":

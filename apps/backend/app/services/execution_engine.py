@@ -92,6 +92,26 @@ class ExecutionEngineService:
 
         return fired_events
 
+    def close_position(self, symbol_id: str) -> dict[str, Any] | None:
+        """Manual market close at the latest closed price."""
+        snapshots = self._latest_market_snapshots()
+        snapshot = snapshots.get(symbol_id)
+        if snapshot is None:
+            return None
+        closure = self._state_store.close_paper_position(symbol_id, snapshot.price)
+        if closure is not None:
+            self._event_bus.publish(
+                "paper.position.closed",
+                {
+                    "symbolId": closure["symbolId"],
+                    "side": closure["side"],
+                    "exitKind": "manual",
+                    "exitPrice": closure["exitPrice"],
+                    "closedAt": closure["closedAt"],
+                },
+            )
+        return closure
+
     def run_paper_cycle(self) -> dict[str, Any]:
         snapshots = self._latest_market_snapshots()
         price_map = {symbol: snapshot.price for symbol, snapshot in snapshots.items()}
