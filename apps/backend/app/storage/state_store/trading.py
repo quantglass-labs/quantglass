@@ -65,6 +65,22 @@ class PaperTradingStore:
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS paper_trade_closures (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                symbol_id TEXT NOT NULL,
+                side TEXT NOT NULL,
+                quantity REAL NOT NULL,
+                entry_price REAL NOT NULL,
+                exit_price REAL NOT NULL,
+                exit_kind TEXT NOT NULL,
+                pnl REAL NOT NULL,
+                r_multiple REAL,
+                closed_at TEXT NOT NULL
+            )
+            """
+        )
         self.ensure_account_row(connection)
 
     def ensure_account_row(self, connection: sqlite3.Connection) -> None:
@@ -399,6 +415,81 @@ class PaperTradingStore:
 
         return executed, self.get_paper_account()
 
+    def _record_closure(
+        self,
+        connection: sqlite3.Connection,
+        symbol_id: str,
+        side: str,
+        quantity: float,
+        entry_price: float,
+        exit_price: float,
+        exit_kind: str,
+        closed_at: str,
+    ) -> dict[str, Any]:
+        pnl = (
+            (exit_price - entry_price) * quantity
+            if side == "long"
+            else (entry_price - exit_price) * quantity
+        )
+        # R relative to the originating plan's stop, when one exists.
+        stop_row = connection.execute(
+            """
+            SELECT plan_stop FROM paper_trade_intents
+            WHERE symbol = ? AND side = ? AND status = 'executed' AND plan_stop IS NOT NULL
+            ORDER BY executed_at DESC, id DESC LIMIT 1
+            """,
+            (symbol_id, side),
+        ).fetchone()
+        r_multiple = None
+        if stop_row is not None and stop_row[0] is not None:
+            risk = abs(entry_price - float(stop_row[0]))
+            if risk > 0:
+                move = exit_price - entry_price if side == "long" else entry_price - exit_price
+                r_multiple = round(move / risk, 3)
+        connection.execute(
+            """
+            INSERT INTO paper_trade_closures
+                (symbol_id, side, quantity, entry_price, exit_price, exit_kind, pnl,
+                 r_multiple, closed_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                symbol_id,
+                side,
+                quantity,
+                entry_price,
+                exit_price,
+                exit_kind,
+                round(pnl, 4),
+                r_multiple,
+                closed_at,
+            ),
+        )
+        return {"pnl": round(pnl, 4), "r_multiple": r_multiple}
+
+    def list_paper_closures(self, limit: int = 200) -> list[dict[str, Any]]:
+        with connect(self.sqlite_path) as connection:
+            rows = connection.execute(
+                """
+                SELECT symbol_id, side, quantity, entry_price, exit_price, exit_kind,
+                       pnl, r_multiple, closed_at
+                FROM paper_trade_closures ORDER BY closed_at DESC, id DESC LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        keys = [
+            "symbolId",
+            "side",
+            "quantity",
+            "entryPrice",
+            "exitPrice",
+            "exitKind",
+            "pnl",
+            "rMultiple",
+            "closedAt",
+        ]
+        return [dict(zip(keys, row)) for row in rows]
+
     def cancel_paper_intent(self, intent_id: str) -> bool:
         with connect(self.sqlite_path) as connection:
             cursor = connection.execute(
@@ -428,6 +519,16 @@ class PaperTradingStore:
                 executed_price=latest_price,
                 executed_at=closed_at,
             )
+            ledger = self._record_closure(
+                connection,
+                symbol_id=symbol_id,
+                side=side,
+                quantity=quantity,
+                entry_price=average_price,
+                exit_price=latest_price,
+                exit_kind="manual",
+                closed_at=closed_at,
+            )
             connection.commit()
         return {
             "symbolId": symbol_id,
@@ -437,6 +538,7 @@ class PaperTradingStore:
             "exitPrice": latest_price,
             "exitKind": "manual",
             "closedAt": closed_at,
+            **ledger,
         }
 
     def enforce_paper_brackets(self, latest_prices: dict[str, float]) -> list[dict[str, Any]]:
@@ -507,6 +609,16 @@ class PaperTradingStore:
                     executed_price=exit_price,
                     executed_at=closed_at,
                 )
+                ledger = self._record_closure(
+                    connection,
+                    symbol_id=symbol_id,
+                    side=str(side),
+                    quantity=float(quantity),
+                    entry_price=float(average_price),
+                    exit_price=exit_price,
+                    exit_kind=str(exit_kind),
+                    closed_at=closed_at,
+                )
                 closures.append(
                     {
                         "symbolId": symbol_id,
@@ -516,6 +628,7 @@ class PaperTradingStore:
                         "exitPrice": exit_price,
                         "exitKind": exit_kind,
                         "closedAt": closed_at,
+                        **ledger,
                     }
                 )
             if closures:

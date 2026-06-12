@@ -238,6 +238,9 @@ class StateStore:
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         return self.trading.process_pending_paper_trades(latest_prices)
 
+    def list_paper_closures(self, limit: int = 200) -> list[dict[str, Any]]:
+        return self.trading.list_paper_closures(limit)
+
     def cancel_paper_intent(self, intent_id: str) -> bool:
         return self.trading.cancel_paper_intent(intent_id)
 

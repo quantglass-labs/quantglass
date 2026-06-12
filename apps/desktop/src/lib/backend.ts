@@ -558,7 +558,7 @@ export const backendClient = {
     return requestJson<{ summary: string; source: string }>(
       `/api/ai/insight/${surface}`,
       undefined,
-      30_000,
+      120_000,
     );
   },
   getDailyBrief() {

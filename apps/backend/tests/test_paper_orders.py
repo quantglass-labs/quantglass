@@ -194,3 +194,23 @@ class AccountGuardTests(PaperOrderTests):
         self._submit(side="long")
         executed, _ = self.store.process_pending_paper_trades({"BTCUSD": 101.0})
         self.assertEqual(len(executed), 1)
+
+
+class ClosureLedgerTests(PaperOrderTests):
+    def test_bracket_and_manual_closures_recorded_with_r(self) -> None:
+        self._submit(plan={"stop": 95.0, "target": 110.0})
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        self.store.enforce_paper_brackets({"BTCUSD": 111.0})
+        closures = self.store.list_paper_closures()
+        self.assertEqual(len(closures), 1)
+        self.assertEqual(closures[0]["exitKind"], "target")
+        self.assertAlmostEqual(closures[0]["pnl"], 10.0, places=2)
+        self.assertAlmostEqual(closures[0]["rMultiple"], 2.0, places=2)
+
+        self._submit(plan={"stop": 95.0})
+        self.store.process_pending_paper_trades({"BTCUSD": 100.0})
+        self.store.close_paper_position("BTCUSD", 97.0)
+        closures = self.store.list_paper_closures()
+        self.assertEqual(len(closures), 2)
+        self.assertEqual(closures[0]["exitKind"], "manual")
+        self.assertAlmostEqual(closures[0]["rMultiple"], -0.6, places=2)

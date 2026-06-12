@@ -130,6 +130,12 @@ async def close_paper_position(symbol_id: str, request: Request) -> dict[str, ob
     return {"closure": closure, "account": request.app.state.state_store.get_paper_account()}
 
 
+@router.get("/api/paper-trades/closures")
+async def list_paper_closures(request: Request) -> dict[str, object]:
+    """The closure ledger: every exit with PnL and R (PAR-1)."""
+    return {"items": request.app.state.state_store.list_paper_closures()}
+
+
 @router.get("/api/paper-trades/review")
 async def review_paper_trades(request: Request) -> dict[str, object]:
     """Process scores, first-touch outcomes, and the decision/outcome 2x2."""

@@ -561,13 +561,34 @@ export function DashboardScreen({
 
 function DailyBrief() {
   const [brief, setBrief] = useState<{ summary: string; source: string } | null>(null);
+  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   useEffect(() => {
     backendClient
       .getDailyBrief()
-      .then(setBrief)
-      .catch(() => setBrief(null));
+      .then((response) => {
+        setBrief(response);
+        setState('ready');
+      })
+      .catch(() => setState('error'));
   }, []);
-  if (!brief) return null;
+  if (state === 'loading') {
+    return (
+      <div className="flex items-center gap-3 rounded-[26px] border border-accent/25 bg-accentStrong/8 p-4">
+        <span className="size-3.5 shrink-0 animate-spin rounded-full border-2 border-accent/30 border-t-accent motion-reduce:animate-none" />
+        <p className="text-sm text-muted">Preparing your morning brief…</p>
+      </div>
+    );
+  }
+  if (state === 'error' || !brief) {
+    return (
+      <div className="rounded-[26px] border border-border bg-white/[0.03] p-4">
+        <p className="text-sm text-muted">
+          Morning brief unavailable (the AI request failed or timed out). Everything below works
+          normally.
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="space-y-2 rounded-[26px] border border-accent/25 bg-accentStrong/8 p-4">
       <div className="flex items-center gap-2">
