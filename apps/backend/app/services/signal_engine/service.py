@@ -45,6 +45,10 @@ class SignalEngineService:
         self._analytics_store = analytics_store
         self._min_backtest_sample = min_backtest_sample
         self._research_review = None  # set via attach_research_review
+        # Signal cache (perf): records recompute only when a series gains a
+        # new closed candle. The scheduler's interval job keeps this warm, so
+        # API polls return in milliseconds instead of re-running detection.
+        self._signal_cache: dict[tuple[str, str], tuple[str, dict[str, Any]]] = {}
         self._narrator = narrator
         self._strategy_registry = strategy_registry
 
@@ -59,14 +63,22 @@ class SignalEngineService:
                 series["timeframe"],
                 limit=320,
             )
+            candles = candle_payload["items"]
+            cache_key = (series["symbol"], series["timeframe"])
+            last_candle = str(candles[-1].get("open_time_utc") or "") if candles else ""
+            cached = self._signal_cache.get(cache_key)
+            if cached is not None and cached[0] == last_candle:
+                items.append(cached[1])
+                continue
             signal = self._build_signal_record(
                 symbol_id=series["symbol"],
                 market_type=series["market_type"],
                 timeframe=series["timeframe"],
                 source=series["source"],
-                candles=candle_payload["items"],
+                candles=candles,
             )
             if signal is not None:
+                self._signal_cache[cache_key] = (last_candle, signal)
                 items.append(signal)
 
         items.sort(key=lambda item: item["signal"]["generated_at_utc"], reverse=True)

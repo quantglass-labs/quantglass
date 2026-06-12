@@ -206,7 +206,9 @@ export const backendClient = {
     return requestJson<BackendHealthResponse>('/health');
   },
   getSignals() {
-    return requestJson<SignalsListResponse>('/api/signals');
+    // Heavier than other endpoints: first call after new candles re-runs
+    // detection across every series before the cache warms.
+    return requestJson<SignalsListResponse>('/api/signals', undefined, 45_000);
   },
   getNews() {
     return requestJson<NewsListResponse>('/api/news');
