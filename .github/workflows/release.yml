@@ -10,6 +10,9 @@ permissions:
 jobs:
   build:
     name: Build (${{ matrix.os }})
+    # Cost guard: macOS minutes bill at 10x and Windows at 2x on private
+    # repos. Releases only build once the repository is public (free).
+    if: ${{ !github.event.repository.private }}
     strategy:
       fail-fast: false
       matrix:
@@ -80,6 +83,7 @@ jobs:
 
   release:
     name: Publish GitHub release
+    if: ${{ !github.event.repository.private }}
     needs: build
     runs-on: ubuntu-latest
     steps:
