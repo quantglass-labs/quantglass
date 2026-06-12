@@ -22,6 +22,10 @@ Everything works without a model configured — answers are deterministic and sa
 so. Configure a local or hosted model in [Settings → AI](10-settings.md#ai) to
 get narrated versions.
 
+<p align="center">
+  <img src="../assets/screenshots/copilot.png" alt="QuantGlass Copilot answering from the paper account" width="900">
+</p>
+
 ## The tour
 
 | Where                                          | What you get                                                                                                                                                                                                                                                         |

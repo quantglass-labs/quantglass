@@ -7,6 +7,10 @@
 The **Portfolio** screen (briefcase icon) is the trading desk's home: your
 account, open positions, working orders, and the full history of every exit.
 
+<p align="center">
+  <img src="../assets/screenshots/portfolio.png" alt="Portfolio screen" width="900">
+</p>
+
 ## Account tiles
 
 Balance, buying power, realized P&L, and open‑position count, straight from the
