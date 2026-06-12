@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 import { NotebookPen } from 'lucide-react';
 
+import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus, JournalItem } from '../types';
 
@@ -167,12 +168,13 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
         </span>
       </div>
 
+      <BackendStatusNotice status={backendStatus} />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
         </p>
       ) : null}
-      {!items && !error ? (
+      {!items && !error && backendStatus !== 'offline' ? (
         <div className="mt-6 space-y-3" aria-busy="true">
           {[1, 2, 3].map((n) => (
             <div key={n} className="h-40 animate-pulse rounded-xl bg-zinc-800/60" />

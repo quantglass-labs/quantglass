@@ -1382,30 +1382,12 @@ export default function App() {
             <Route
               path="/learn"
               element={
-                <LearnScreen
-                  backendStatus={screenState === 'ready' ? 'online' : 'offline'}
-                  onNavigate={(path) => navigate(path)}
-                />
+                <LearnScreen backendStatus={backendStatus} onNavigate={(path) => navigate(path)} />
               }
             />
-            <Route
-              path="/missions"
-              element={
-                <MissionsScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
-              }
-            />
-            <Route
-              path="/journal"
-              element={
-                <JournalScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
-              }
-            />
-            <Route
-              path="/review"
-              element={
-                <ReviewScreen backendStatus={screenState === 'ready' ? 'online' : 'offline'} />
-              }
-            />
+            <Route path="/missions" element={<MissionsScreen backendStatus={backendStatus} />} />
+            <Route path="/journal" element={<JournalScreen backendStatus={backendStatus} />} />
+            <Route path="/review" element={<ReviewScreen backendStatus={backendStatus} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

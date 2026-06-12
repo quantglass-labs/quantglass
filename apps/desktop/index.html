@@ -4,9 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QuantGlass</title>
+    <style>
+      /* Pre-React splash: visible from the first frame until main.tsx mounts.
+         Kept in sync with the app's zinc-950 background so the handoff is
+         seamless. */
+      html,
+      body {
+        margin: 0;
+        background: #09090b;
+      }
+      #boot-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        color: #a1a1aa;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+      #boot-splash .mark {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: #e4e4e7;
+      }
+      #boot-splash .mark span {
+        color: #818cf8;
+      }
+      #boot-splash .ring {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 3px solid #27272a;
+        border-top-color: #6366f1;
+        animation: boot-spin 0.9s linear infinite;
+      }
+      #boot-splash .hint {
+        font-size: 12.5px;
+      }
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot-splash .ring {
+          animation: none;
+          border-top-color: #6366f1;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot-splash">
+        <div class="mark">Quant<span>Glass</span></div>
+        <div class="ring" role="status" aria-label="Loading"></div>
+        <div class="hint">Starting the local engine…</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-  </html>
+</html>

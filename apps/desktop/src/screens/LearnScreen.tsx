@@ -27,6 +27,7 @@ import type {
   LessonStub,
   LessonTier,
 } from '@quantglass/contracts';
+import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import { LessonVisuals } from './learn/LessonVisuals';
 import { GlossaryView, ReferenceView } from './learn/LibraryViews';
@@ -994,8 +995,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
   if (backendStatus !== 'online') {
     return (
-      <div className="flex-1 flex flex-col">
-        <EmptyLearnState message="Waiting for backend to come online…" />
+      <div className="mx-auto w-full max-w-3xl px-6">
+        <BackendStatusNotice status={backendStatus} />
       </div>
     );
   }

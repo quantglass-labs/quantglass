@@ -22,6 +22,7 @@ import {
   Target,
 } from 'lucide-react';
 
+import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import { DecisionDrill } from './missions/DecisionDrill';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
@@ -420,12 +421,13 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         </p>
       ) : null}
 
+      <BackendStatusNotice status={backendStatus} />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
         </p>
       ) : null}
-      {!missions && !error ? (
+      {!missions && !error && backendStatus !== 'offline' ? (
         <div className="mt-6 space-y-3" aria-busy="true">
           {[1, 2, 3].map((n) => (
             <div key={n} className="h-24 animate-pulse rounded-xl bg-zinc-800/60" />

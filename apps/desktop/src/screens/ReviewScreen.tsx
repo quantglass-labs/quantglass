@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 
 import { AlertTriangle, ClipboardCheck, ScrollText } from 'lucide-react';
 
+import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import type {
   BackendStatus,
@@ -203,12 +204,13 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
         </span>
       </div>
 
+      <BackendStatusNotice status={backendStatus} />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
         </p>
       ) : null}
-      {!coach && !error ? (
+      {!coach && !error && backendStatus !== 'offline' ? (
         <div className="mt-6 space-y-3" aria-busy="true">
           {[1, 2].map((n) => (
             <div key={n} className="h-36 animate-pulse rounded-xl bg-zinc-800/60" />
