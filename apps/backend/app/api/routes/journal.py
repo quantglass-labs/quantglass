@@ -34,6 +34,12 @@ async def annotate_trade(intent_id: str, body: JournalAnnotation, request: Reque
     return request.app.state.review_coach_service.annotate(intent_id, body.note, body.tags)
 
 
+@router.post("/export/dataset")
+async def export_dataset(request: Request) -> dict:
+    """Export trades, journal, and calibration as local CSV files (E5)."""
+    return request.app.state.dataset_export_service.export()
+
+
 @router.get("/review/coach/narrative")
 async def get_coach_narrative(request: Request) -> dict:
     """AI weekly coaching narrative over the review's own facts (AI-2)."""

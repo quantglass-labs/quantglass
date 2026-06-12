@@ -27,6 +27,7 @@ from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
 from app.services.ai_coach import AiCoachService
 from app.services.constitution import ConstitutionService
+from app.services.dataset_export import DatasetExportService
 from app.services.event_bus import BackendEventBus
 from app.services.execution_engine import ExecutionEngineService
 from app.services.extension_surface_registry import ExtensionSurfaceRegistry
@@ -142,6 +143,9 @@ async def lifespan(app: FastAPI):
         learn_service=learn_service,
         model_gateway=model_gateway,
     )
+    dataset_export_service = DatasetExportService(
+        state_store, analytics_store, settings.data_dir / "exports"
+    )
     scheduler_service.start()
 
     app.state.settings = settings
@@ -176,6 +180,7 @@ async def lifespan(app: FastAPI):
     app.state.learn_mastery_service = learn_mastery_service
     app.state.risk_meta_service = risk_meta_service
     app.state.ai_coach_service = ai_coach_service
+    app.state.dataset_export_service = dataset_export_service
 
     try:
         yield
