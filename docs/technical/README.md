@@ -10,18 +10,19 @@
 
 ## Table of contents
 
-| # | Document | Scope |
-|---|----------|-------|
-| 1 | [Architecture overview](01-architecture.md) | System design, tech stack, monorepo layout, runtime topology |
-| 2 | [Backend](02-backend.md) | FastAPI app, routers, services, scheduler, providers, config |
-| 3 | [Data model & storage](03-data-model.md) | SQLite state, DuckDB/Parquet analytics, secret store |
-| 4 | [Signal engine](04-signal-engine.md) | Indicators, regimes, setup families, backtesting, confidence |
-| 5 | [AI narration & fact‑guard](05-ai-narration.md) | Local/API model gateways, template fallback, anti‑hallucination |
-| 6 | [API reference](06-api-reference.md) | Every REST endpoint and the WebSocket event stream |
-| 7 | [Frontend](07-frontend.md) | React app, screens, BackendClient, contracts, bootstrap |
-| 8 | [Packaging & distribution](08-packaging.md) | PyInstaller sidecar, Tauri bundling, startup sequence |
-| 9 | [Security model](09-security.md) | Local secret encryption, live‑trading gate, CORS |
-| 10 | [Development & operations](10-development.md) | Scripts, build/dev, testing, configuration reference |
+| #   | Document                                                           | Scope                                                                          |
+| --- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| 1   | [Architecture overview](01-architecture.md)                        | System design, tech stack, monorepo layout, runtime topology                   |
+| 2   | [Backend](02-backend.md)                                           | FastAPI app, routers, services, scheduler, providers, config                   |
+| 3   | [Data model & storage](03-data-model.md)                           | SQLite state, DuckDB/Parquet analytics, secret store                           |
+| 4   | [Signal engine](04-signal-engine.md)                               | Indicators, regimes, setup families, backtesting, confidence                   |
+| 5   | [AI narration & fact‑guard](05-ai-narration.md)                    | Local/API model gateways, template fallback, anti‑hallucination                |
+| 6   | [API reference](06-api-reference.md)                               | Every REST endpoint and the WebSocket event stream                             |
+| 7   | [Frontend](07-frontend.md)                                         | React app, screens, BackendClient, contracts, bootstrap                        |
+| 8   | [Packaging & distribution](08-packaging.md)                        | PyInstaller sidecar, Tauri bundling, startup sequence                          |
+| 9   | [Security model](09-security.md)                                   | Local secret encryption, live‑trading gate, CORS                               |
+| 10  | [Development & operations](10-development.md)                      | Scripts, build/dev, testing, configuration reference                           |
+| 11  | [Streaming quotes exploration](11-streaming-quotes-exploration.md) | PAR-6 assessment: why fills stay on closed candles, and the quote-polling lane |
 
 ---
 
