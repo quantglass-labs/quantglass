@@ -103,6 +103,9 @@ status panel inside Review, not a sixth tab). The spine is the feedback loop:
 - [x] MSN-6 Replay missions; subsumes ACAD-9 — [#49](https://github.com/quantglass-labs/quantglass/issues/49)
 - [x] MSN-7 Academy bridges, common mistakes, glossary, reference library,
       test-out placement — [#50](https://github.com/quantglass-labs/quantglass/issues/50)
+- [x] MSN-8 Mission catalog at scale: 108 missions across 12 categories
+      (basic → sophisticated for every level), 23-type criteria vocabulary,
+      and community mission packs via the `missions` SDK capability
 
 ## Engine work, re-sequenced to serve the Academy
 

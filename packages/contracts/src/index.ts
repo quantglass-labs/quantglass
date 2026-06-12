@@ -871,8 +871,11 @@ export interface MissionRecord {
   id: string;
   title: string;
   level: LessonTier;
+  category: string;
   description: string;
   lesson_links: string[];
+  /** 'community' when contributed by an extension mission pack. */
+  source: string;
   criteria: MissionCriterion[];
   completed: boolean;
   completed_at: string | null;

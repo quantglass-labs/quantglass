@@ -38,6 +38,7 @@ from app.services.learn_readiness import LearnReadinessService
 from app.services.learn_service import LearnService
 from app.services.lesson_pack_registry import LessonPackRegistry
 from app.services.market_corridor import MarketCorridorService
+from app.services.mission_pack_registry import MissionPackRegistry
 from app.services.missions import MissionService
 from app.services.model_gateway import ModelGateway
 from app.services.narration import NarrationService
@@ -64,6 +65,7 @@ async def lifespan(app: FastAPI):
     indicator_registry = IndicatorRegistry()
     surface_registry = ExtensionSurfaceRegistry()
     lesson_pack_registry = LessonPackRegistry()
+    mission_pack_registry = MissionPackRegistry()
 
     state_store.initialize(settings.provider_settings, settings.safety, settings.ai)
     persisted_provider_settings = state_store.get_provider_settings()
@@ -82,6 +84,7 @@ async def lifespan(app: FastAPI):
         indicator_registry=indicator_registry,
         surface_registry=surface_registry,
         lesson_pack_registry=lesson_pack_registry,
+        mission_pack_registry=mission_pack_registry,
         extension_settings_provider=state_store.get_extension_settings,
         enable_entry_points=settings.enable_extension_entry_points,
         extension_paths=(
@@ -119,7 +122,7 @@ async def lifespan(app: FastAPI):
     learn_readiness_service = LearnReadinessService(state_store, learn_moments_service)
     learn_assessment_service = LearnAssessmentService(state_store)
     trade_review_service = TradeReviewService(state_store, analytics_store)
-    mission_service = MissionService(state_store, trade_review_service)
+    mission_service = MissionService(state_store, trade_review_service, mission_pack_registry)
     review_coach_service = ReviewCoachService(state_store, trade_review_service, learn_service)
     constitution_service = ConstitutionService(state_store)
     scenario_service = ScenarioService(state_store)
@@ -135,6 +138,7 @@ async def lifespan(app: FastAPI):
     app.state.indicator_registry = indicator_registry
     app.state.surface_registry = surface_registry
     app.state.lesson_pack_registry = lesson_pack_registry
+    app.state.mission_pack_registry = mission_pack_registry
     app.state.event_bus = event_bus
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service
