@@ -19,6 +19,7 @@ from app.services.signal_engine import indicators as indicators_module
 from app.services.signal_engine import narration as narration_module
 from app.services.signal_engine import setups as setups_module
 from app.services.signal_engine import statistics as statistics_module
+from app.services.signal_engine.composites import derive_composite_flags
 from app.services.signal_engine.confidence import derive_confidence
 from app.services.signal_engine.models import SeriesIndicators, SignalNarrator
 from app.services.signal_engine.statistics import conformal_interval
@@ -561,6 +562,13 @@ class SignalEngineService:
                 "confidence": confidence,
                 "quality": derive_quality(state, risk_reward, data_age_seconds),
                 **taxonomy_for(state["setup_type"]),
+                "composite_flags": derive_composite_flags(
+                    state["setup_type"],
+                    pooled,
+                    self._min_backtest_sample,
+                    data_age_seconds,
+                    timeframe,
+                ),
                 "confidence_basis": {
                     "trend_alignment": round(state["trend_alignment"], 2),
                     "volume_confirmation": round(state["volume_confirmation"], 2),

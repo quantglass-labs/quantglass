@@ -70,6 +70,13 @@ export interface CanonicalSignal {
   tags?: string[];
   lesson_id?: string;
   quality?: number;
+  composite_flags?: {
+    id: string;
+    family: string;
+    layer: string;
+    display_name: string;
+    message: string;
+  }[];
   // Engine v2 freshness + provenance additions (optional).
   data_age_seconds?: number;
   last_candle_close_at?: string;
