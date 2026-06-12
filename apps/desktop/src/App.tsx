@@ -146,6 +146,7 @@ export default function App() {
   const [paperAccount, setPaperAccount] = useState<PaperAccount>(defaultPaperAccount);
   const [savedStrategies, setSavedStrategies] = useState<SavedStrategy[]>([]);
   const [signalRecords, setSignalRecords] = useState<SignalRecord[]>([]);
+  const [signalsError, setSignalsError] = useState<string | null>(null);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [marketRanking, setMarketRanking] = useState<RelativeStrengthRanking[]>([]);
   const [backtestPresets, setBacktestPresets] = useState<StrategyPreset[]>([]);
@@ -541,8 +542,16 @@ export default function App() {
     const id = window.setInterval(() => {
       void backendClient
         .getSignals()
-        .then((response) => setSignalRecords(response.items))
-        .catch(() => undefined);
+        .then((response) => {
+          setSignalRecords(response.items);
+          setSignalsError(null);
+        })
+        .catch((error: unknown) => {
+          // A failing signals endpoint must never read as "no signals".
+          setSignalsError(
+            error instanceof Error ? error.message : 'The signals endpoint is failing.',
+          );
+        });
     }, delay);
     return () => window.clearInterval(id);
   }, [backendStatus, signalRecords.length]);
@@ -1281,6 +1290,7 @@ export default function App() {
                   state={screenState}
                   symbols={displaySymbols}
                   signals={signalRecords}
+                  signalsError={signalsError}
                   marketFilter={marketFilter}
                   onOpenSymbol={handleSelectSymbol}
                   onOpenSignal={handleOpenSignal}

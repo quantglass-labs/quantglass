@@ -38,6 +38,7 @@ export function SignalsScreen({
   state,
   symbols,
   signals,
+  signalsError,
   marketFilter,
   onOpenSymbol,
   onOpenSignal,
@@ -46,6 +47,7 @@ export function SignalsScreen({
   state: ScreenState;
   symbols: SymbolRecord[];
   signals: SignalRecord[];
+  signalsError?: string | null;
   marketFilter: MarketType | 'all';
   onOpenSymbol: (symbolId: string) => void;
   onOpenSignal: (signalId: string) => void;
@@ -119,6 +121,16 @@ export function SignalsScreen({
         title="Filterable signal inventory"
         description="Current and historical signals with setup type, expectancy, status, and direct routing to the symbol detail screen or signal drawer. Signal records are generated from stored market corridor candles on the backend."
       />
+
+      {signalsError ? (
+        <div className="rounded-2xl border border-sell/40 bg-sell/10 p-4">
+          <p className="text-sm font-semibold text-ink">Signal feed error</p>
+          <p className="mt-1 text-sm text-muted">
+            {signalsError} The list below may be stale or empty because the backend is failing, not
+            because there are no signals.
+          </p>
+        </div>
+      ) : null}
 
       {riskSignals.length ? (
         <div className="space-y-2">
