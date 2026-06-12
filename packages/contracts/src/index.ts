@@ -77,6 +77,35 @@ export interface CanonicalSignal {
   narration_source?: string;
 }
 
+export interface ContextSignal {
+  symbol: string;
+  symbol_id: string;
+  timeframe: string;
+  family: string;
+  layer: string;
+  signal_class: "context";
+  display_name: string;
+  regime: string;
+  volatility_regime: string;
+  lesson_id: string;
+  tags: string[];
+  message: string;
+  generated_at_utc: string;
+  data_source: string;
+}
+
+export interface RiskSignal {
+  family: string;
+  signal_class: "risk";
+  layer: string;
+  display_name: string;
+  severity: number;
+  message: string;
+  lesson_id: string;
+  tags: string[];
+  generated_at_utc: string;
+}
+
 export interface ProviderRoute {
   primary: string;
   secondary?: string | null;

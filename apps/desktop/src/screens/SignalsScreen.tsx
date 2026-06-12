@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import {
@@ -22,6 +22,17 @@ import type {
   SymbolRecord,
   Timeframe,
 } from '../types';
+
+import { backendClient } from '../lib/backend';
+import type { ContextSignal, RiskSignal } from '../types';
+
+const FAMILY_LABELS: Record<string, string> = {
+  technical: 'Technical',
+  'market-structure': 'Structure',
+  volatility: 'Volatility',
+  regime: 'Regime',
+  'portfolio-risk': 'Risk',
+};
 
 export function SignalsScreen({
   state,
@@ -44,6 +55,30 @@ export function SignalsScreen({
   const [minConfidence, setMinConfidence] = useState(0);
   const [timeframe, setTimeframe] = useState<'all' | Timeframe>('all');
   const [activeOnly, setActiveOnly] = useState(false);
+  const [familyFilter, setFamilyFilter] = useState<string>('all');
+  const [contextSignals, setContextSignals] = useState<ContextSignal[]>([]);
+  const [riskSignals, setRiskSignals] = useState<RiskSignal[]>([]);
+  const [expertUnlocked, setExpertUnlocked] = useState(true);
+
+  useEffect(() => {
+    if (state !== 'ready') return;
+    backendClient
+      .getContextSignals()
+      .then((response) => setContextSignals(response.items))
+      .catch(() => setContextSignals([]));
+    backendClient
+      .getRiskSignals()
+      .then((response) => setRiskSignals(response.items))
+      .catch(() => setRiskSignals([]));
+    backendClient
+      .getLearnReadiness()
+      .then((readiness) =>
+        setExpertUnlocked(
+          readiness.levels.find((level) => level.id === 'expert')?.unlocked ?? false,
+        ),
+      )
+      .catch(() => setExpertUnlocked(true));
+  }, [state]);
 
   const rows = useMemo(
     () =>
@@ -53,9 +88,27 @@ export function SignalsScreen({
         if (record.signal.confidence < minConfidence) return false;
         if (timeframe !== 'all' && record.signal.timeframe !== timeframe) return false;
         if (activeOnly && record.status !== 'active') return false;
+        if (familyFilter !== 'all' && (record.signal.family ?? 'technical') !== familyFilter)
+          return false;
+        // Academy gate (SIG-9): expert-layer signals unlock with expert readiness.
+        if (record.signal.layer === 'expert' && !expertUnlocked) return false;
         return true;
       }),
-    [activeOnly, marketFilter, minConfidence, signalType, signals, timeframe],
+    [
+      activeOnly,
+      marketFilter,
+      minConfidence,
+      signalType,
+      signals,
+      timeframe,
+      familyFilter,
+      expertUnlocked,
+    ],
+  );
+  const lockedCount = useMemo(
+    () =>
+      expertUnlocked ? 0 : signals.filter((record) => record.signal.layer === 'expert').length,
+    [signals, expertUnlocked],
   );
   const retryMockView = () => window.location.reload();
 
@@ -66,6 +119,67 @@ export function SignalsScreen({
         title="Filterable signal inventory"
         description="Current and historical signals with setup type, expectancy, status, and direct routing to the symbol detail screen or signal drawer. Signal records are generated from stored market corridor candles on the backend."
       />
+
+      {riskSignals.length ? (
+        <div className="space-y-2">
+          {riskSignals.map((risk) => (
+            <div
+              key={risk.display_name}
+              className={`rounded-2xl border p-4 ${
+                risk.severity >= 3
+                  ? 'border-rose-500/40 bg-rose-600/10'
+                  : 'border-amber-500/40 bg-amber-600/10'
+              }`}
+            >
+              <p className="text-sm font-semibold text-ink">
+                {risk.display_name}
+                <span className="ml-2 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
+                  risk
+                </span>
+              </p>
+              <p className="mt-1 text-sm text-muted">{risk.message}</p>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {contextSignals.length ? (
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {contextSignals.slice(0, 12).map((context) => (
+            <span
+              key={`${context.symbol_id}-${context.timeframe}-${context.display_name}`}
+              title={context.message}
+              className="shrink-0 rounded-full border border-border bg-white/[0.04] px-3 py-1.5 text-xs text-muted"
+            >
+              <span className="font-medium text-ink">{context.symbol}</span> {context.timeframe} ·{' '}
+              {context.display_name}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      <div className="flex flex-wrap items-center gap-2">
+        {['all', ...Object.keys(FAMILY_LABELS)].map((family) => (
+          <button
+            key={family}
+            type="button"
+            onClick={() => setFamilyFilter(family)}
+            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+              familyFilter === family
+                ? 'border-accent bg-accentStrong/15 text-ink'
+                : 'border-border text-muted hover:text-ink'
+            }`}
+          >
+            {family === 'all' ? 'All families' : FAMILY_LABELS[family]}
+          </button>
+        ))}
+        {lockedCount > 0 ? (
+          <span className="ml-auto text-xs text-muted">
+            {lockedCount} expert-layer signal{lockedCount === 1 ? '' : 's'} locked — unlocks with
+            Academy expert readiness
+          </span>
+        ) : null}
+      </div>
 
       <Panel>
         <div className="grid gap-3 lg:grid-cols-[repeat(4,minmax(0,1fr)),auto]">
@@ -215,7 +329,16 @@ export function SignalsScreen({
                           {record.signal.risk_reward.toFixed(1)}
                         </td>
                         <td className="px-4 py-4 text-sm text-muted">
-                          {record.signal.confidence_basis.setup_type}
+                          <p className="text-ink">
+                            {record.signal.display_name ??
+                              record.signal.confidence_basis.setup_type}
+                          </p>
+                          <p className="text-xs">
+                            {FAMILY_LABELS[record.signal.family ?? ''] ?? record.signal.family}
+                            {record.signal.quality !== undefined
+                              ? ` · quality ${record.signal.quality}`
+                              : ''}
+                          </p>
                         </td>
                         <td className="metric-text px-4 py-4 text-ink">
                           {(record.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%

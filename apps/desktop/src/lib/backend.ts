@@ -70,6 +70,8 @@ import type {
   ScenarioGradeResponse,
   GlossaryResponse,
   ReferenceResponse,
+  ContextSignal,
+  RiskSignal,
   MasteryResponse,
   ReviewQueueResponse,
   LearnAnalytics,
@@ -553,6 +555,12 @@ export const backendClient = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ term, grade }),
     });
+  },
+  getContextSignals() {
+    return requestJson<{ items: ContextSignal[] }>('/api/signals/context');
+  },
+  getRiskSignals() {
+    return requestJson<{ items: RiskSignal[] }>('/api/signals/risk');
   },
   getGlossary() {
     return requestJson<GlossaryResponse>('/api/learn/glossary');
