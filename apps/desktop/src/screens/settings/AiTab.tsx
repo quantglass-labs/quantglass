@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import type { Dispatch, SetStateAction } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import {
   Bot,
@@ -374,7 +374,10 @@ export function AiTab({
     },
   ];
 
-  useEffect(() => {
+  const [prevAiSettings, setPrevAiSettings] = useState(aiSettings);
+  const syncFromAiSettings = prevAiSettings !== aiSettings;
+  if (syncFromAiSettings) {
+    setPrevAiSettings(aiSettings);
     setDraftAiSettings(aiSettings);
     setCustomAiModelEnabled(false);
     const matchingTemplate =
@@ -388,18 +391,16 @@ export function AiTab({
       aiProviderTemplates.find((template) => template.provider === aiSettings.provider) ??
       aiProviderTemplates[0];
     setActiveAiProviderId(matchingTemplate.id);
-  }, [aiSettings]);
+  }
 
-  useEffect(() => {
-    if (!aiModelOptions.length) return;
-    if (
-      aiModelsFetched &&
-      !customAiModelEnabled &&
-      !aiModelOptions.includes(draftAiSettings.model)
-    ) {
-      setDraftAiSettings((current) => ({ ...current, model: aiModelOptions[0] }));
-    }
-  }, [aiModelOptions, aiModelsFetched, customAiModelEnabled, draftAiSettings.model]);
+  if (
+    aiModelOptions.length > 0 &&
+    aiModelsFetched &&
+    !customAiModelEnabled &&
+    !aiModelOptions.includes(draftAiSettings.model)
+  ) {
+    setDraftAiSettings((current) => ({ ...current, model: aiModelOptions[0] }));
+  }
 
   function aiTemplateIcon(template: AiProviderTemplate) {
     if (template.id === 'template') return <Bot className="size-4" />;

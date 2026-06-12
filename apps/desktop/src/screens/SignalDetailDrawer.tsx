@@ -48,8 +48,12 @@ export function SignalDetailDrawer({
     ai_explanation: string;
     narration_source: string;
   } | null>(null);
-  useEffect(() => {
+  const [narratedSignalId, setNarratedSignalId] = useState<string | null>(null);
+  if ((signalRecord?.id ?? null) !== narratedSignalId) {
+    setNarratedSignalId(signalRecord?.id ?? null);
     setLiveNarration(null);
+  }
+  useEffect(() => {
     if (!open || !signalRecord) return;
     backendClient
       .narrateSignal(signalRecord.signal.symbol, signalRecord.signal.timeframe)

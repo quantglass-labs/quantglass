@@ -230,11 +230,13 @@ export function CandleBuilder() {
     raf.current = requestAnimationFrame(tick);
   }
   useEffect(() => {
-    replay();
+    // Frame-aligned start keeps the initial state write out of the render
+    // commit, so the mount never triggers a cascading synchronous render.
+    const start = requestAnimationFrame(replay);
     return () => {
+      cancelAnimationFrame(start);
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pathLen = 500;

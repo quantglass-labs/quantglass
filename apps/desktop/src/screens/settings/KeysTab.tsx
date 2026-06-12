@@ -102,6 +102,8 @@ export function KeysTab({
     window.setTimeout(() => {
       keyFieldRefs.current[firstKeyId]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 75);
+    // Scroll once per focus target; the id is the identity that matters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusedProviderSetup?.id]);
 
   const notificationTestFieldMap: Partial<Record<string, NotificationTestChannel>> = {

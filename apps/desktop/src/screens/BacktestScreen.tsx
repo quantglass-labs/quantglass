@@ -112,27 +112,36 @@ export function BacktestScreen({
     ? displayedPreset.metrics.inSampleWinRate - displayedPreset.metrics.outOfSampleWinRate
     : 0;
 
-  useEffect(() => {
-    if (!selectedPresetId && initialPreset) {
-      setSelectedPresetId(initialPreset.id);
-    }
-  }, [initialPreset, selectedPresetId]);
+  // All three blocks adjust state during render (tracked previous values)
+  // so preset switches never trigger cascading effect renders.
+  if (!selectedPresetId && initialPreset) {
+    setSelectedPresetId(initialPreset.id);
+  }
 
-  useEffect(() => {
-    if (!preset) return;
+  const [syncedPresetId, setSyncedPresetId] = useState<string | null>(null);
+  if (preset && preset.id !== syncedPresetId) {
+    setSyncedPresetId(preset.id);
     setFeesPercent(preset.feesPercent);
     setSlippagePercent(preset.slippagePercent);
     setTrainTestSplit(preset.trainTestSplit);
     setWalkForward(preset.walkForward);
     setActivePreset(preset);
     setRunMessage(null);
-  }, [preset]);
+  }
+
+  const runKey = preset
+    ? `${preset.id}|${feesPercent}|${slippagePercent}|${trainTestSplit}|${walkForward}|${runNonce}`
+    : null;
+  const [startedRunKey, setStartedRunKey] = useState<string | null>(null);
+  if (runKey && symbol && runKey !== startedRunKey) {
+    setStartedRunKey(runKey);
+    setRunState('running');
+    setRunMessage('Running backend backtest with the current cost model and validation split.');
+  }
 
   useEffect(() => {
     if (!preset || !symbol) return;
     let cancelled = false;
-    setRunState('running');
-    setRunMessage('Running backend backtest with the current cost model and validation split.');
 
     backendClient
       .runBacktest({

@@ -250,8 +250,11 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
   // Auto-run on mount; cleanup only on unmount. A dependency-less cleanup
   // would cancel the animation frame after every render and freeze the run.
   useEffect(() => {
-    run();
+    // Frame-aligned start keeps the initial state write out of the render
+    // commit, so the mount never triggers a cascading synchronous render.
+    const start = requestAnimationFrame(run);
     return () => {
+      cancelAnimationFrame(start);
       if (raf.current) cancelAnimationFrame(raf.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

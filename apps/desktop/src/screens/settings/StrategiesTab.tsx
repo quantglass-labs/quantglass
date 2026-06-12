@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Download, Trash2, Upload } from 'lucide-react';
 
@@ -87,7 +87,9 @@ export function StrategiesTab({
   const [selectedStrategyIds, setSelectedStrategyIds] = useState<Set<string>>(new Set());
   const strategyImportRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
+  const [prevSavedStrategies, setPrevSavedStrategies] = useState(savedStrategies);
+  if (prevSavedStrategies !== savedStrategies) {
+    setPrevSavedStrategies(savedStrategies);
     setSelectedStrategyIds((current) => {
       const availableIds = new Set(savedStrategies.map((strategy) => strategy.id));
       const retainedIds = Array.from(current).filter((id) => availableIds.has(id));
@@ -96,7 +98,7 @@ export function StrategiesTab({
       }
       return new Set(retainedIds);
     });
-  }, [savedStrategies]);
+  }
 
   async function exportSavedStrategies() {
     const strategiesToExport = savedStrategies.filter((strategy) =>

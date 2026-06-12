@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Plug } from 'lucide-react';
 
@@ -35,7 +35,9 @@ export function ExtensionsTab({
     Record<string, Record<string, unknown>>
   >({});
 
-  useEffect(() => {
+  const [prevExtensionRegistry, setPrevExtensionRegistry] = useState(extensionRegistry);
+  if (prevExtensionRegistry !== extensionRegistry) {
+    setPrevExtensionRegistry(extensionRegistry);
     setDraftExtensionSettings(
       Object.fromEntries(
         extensionRegistry.map((extension) => [
@@ -55,7 +57,7 @@ export function ExtensionsTab({
         ]),
       ),
     );
-  }, [extensionRegistry, extensionSettingsById]);
+  }
 
   const extensionIndicatorGroups = useMemo(() => {
     const groups = new Map<string, IndicatorRegistryEntry[]>();

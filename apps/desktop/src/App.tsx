@@ -252,13 +252,16 @@ export default function App() {
     : null;
 
   // Prefill the trade plan from the signal whenever the ticket opens (MSN-1).
-  useEffect(() => {
-    if (!paperTradeRecord) return;
+  // State adjusts during render (React's documented pattern) instead of in an
+  // effect, so the prefill never causes a second cascading render pass.
+  const [prefilledTicketId, setPrefilledTicketId] = useState<string | null>(null);
+  if (paperTradeRecord && paperTradeRecord.id !== prefilledTicketId) {
+    setPrefilledTicketId(paperTradeRecord.id);
     setPlanStop(String(paperTradeRecord.signal.stop_loss));
     setPlanTarget(String(paperTradeRecord.signal.take_profit[1] ?? ''));
     setPlanReason('');
     setPlanEmotion('calm');
-  }, [paperTradeRecord?.id]);
+  }
   const isLiveTradingMode = tradingMode === 'live';
 
   function pushToast(title: string, description?: string) {
@@ -442,6 +445,9 @@ export default function App() {
     return () => {
       cancelled = true;
     };
+    // refreshAiModels is intentionally excluded: bootstrap runs once and the
+    // helper is stable for the app's lifetime.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

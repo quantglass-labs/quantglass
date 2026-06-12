@@ -534,11 +534,13 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
   const [result, setResult] = useState<ExerciseResult | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const [exerciseLessonId, setExerciseLessonId] = useState(lesson.id);
+  if (exerciseLessonId !== lesson.id) {
+    setExerciseLessonId(lesson.id);
     setSelectedIndex(null);
     setNumericValue('');
     setResult(null);
-  }, [lesson.id]);
+  }
 
   async function handleSubmit() {
     let answer: string;
@@ -1018,24 +1020,28 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   }, [backendStatus, activeLessonId]);
 
   // Auto-select first incomplete lesson once catalog arrives
-  useEffect(() => {
-    if (!catalog || activeLessonId) return;
-    for (const level of catalog.levels) {
+  // First-lesson selection happens during render once the catalog arrives.
+  if (catalog && !activeLessonId) {
+    outer: for (const level of catalog.levels) {
       for (const track of level.tracks) {
         const first = track.lessons.find((l) => !l.completed) ?? track.lessons[0];
         if (first) {
           setActiveLessonId(first.id);
-          return;
+          break outer;
         }
       }
     }
-  }, [catalog]);
+  }
 
   // Load lesson detail when activeLessonId changes
-  useEffect(() => {
-    if (!activeLessonId || backendStatus !== 'online') return;
+  const [loadingLessonId, setLoadingLessonId] = useState<string | null>(null);
+  if (activeLessonId && activeLessonId !== loadingLessonId && backendStatus === 'online') {
+    setLoadingLessonId(activeLessonId);
     setLessonLoading(true);
     setActiveLesson(null);
+  }
+  useEffect(() => {
+    if (!activeLessonId || backendStatus !== 'online') return;
     backendClient
       .getLearnLesson(activeLessonId)
       .then(setActiveLesson)

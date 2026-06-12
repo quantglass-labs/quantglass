@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {} from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   DataStateView,
@@ -258,11 +258,13 @@ export function SettingsScreen({
     return Boolean(keyId && secretKey);
   }, [apiKeys]);
 
-  useEffect(() => {
+  const [prevApiKeys, setPrevApiKeys] = useState(apiKeys);
+  if (prevApiKeys !== apiKeys) {
+    setPrevApiKeys(apiKeys);
     setDraftApiKeys(
       Object.fromEntries(apiKeys.map((field) => [field.id, field.secret ? '' : field.value])),
     );
-  }, [apiKeys]);
+  }
 
   function providerSetupId(providerId: string) {
     const requirement = providerCredentialRequirements[providerId];

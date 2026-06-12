@@ -10,7 +10,7 @@ import {
   Search,
   SlidersHorizontal,
 } from 'lucide-react';
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BarChart, TinyLineChart } from '../components/charts';
 import {
@@ -449,13 +449,16 @@ export function SymbolDetailScreen({
   const [showSupportResistance, setShowSupportResistance] = useState(true);
   const retryMockView = () => window.location.reload();
 
-  useEffect(() => {
+  const [timeframeSyncKey, setTimeframeSyncKey] = useState<string | null>(null);
+  const nextTimeframeKey = `${symbol?.id ?? ''}|${defaultCorridorItem?.timeframe ?? ''}|${signalRecord?.signal.timeframe ?? ''}`;
+  if (nextTimeframeKey !== timeframeSyncKey) {
+    setTimeframeSyncKey(nextTimeframeKey);
     setTimeframe(
       (defaultCorridorItem?.timeframe as Timeframe | undefined) ??
         signalRecord?.signal.timeframe ??
         '1h',
     );
-  }, [defaultCorridorItem?.timeframe, signalRecord?.signal.timeframe, symbol?.id]);
+  }
 
   const candleSource = useMemo(
     () => resolveCandleSource(symbolCorridorItems, marketCandlesByKey, timeframe),

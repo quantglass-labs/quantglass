@@ -22,9 +22,6 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      // Existing screens set state synchronously inside effects; refactoring those
-      // data flows is tracked as cleanup rather than blocking lint.
-      'react-hooks/set-state-in-effect': 'warn',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/no-unused-vars': [
         'error',
