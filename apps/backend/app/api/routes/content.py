@@ -42,6 +42,12 @@ def _news_service(request: Request) -> NewsService:
     )
 
 
+@router.get("/api/signals/risk")
+async def list_risk_signals(request: Request) -> dict[str, object]:
+    """Portfolio/risk meta-signals: brakes derived from the user's own account."""
+    return {"items": await run_in_threadpool(request.app.state.risk_meta_service.list_risk_signals)}
+
+
 @router.get("/api/signals/context")
 async def list_context_signals(request: Request) -> dict[str, object]:
     """Regime context signals: environment reads, never trades."""

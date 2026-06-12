@@ -45,6 +45,7 @@ from app.services.narration import NarrationService
 from app.services.notifications import AlertNotificationService
 from app.services.rate_limits import InMemoryRateLimiter
 from app.services.review_coach import ReviewCoachService
+from app.services.risk_meta import RiskMetaService
 from app.services.scenarios import ScenarioService
 from app.services.signal_engine import SignalEngineService
 from app.services.strategy_registry import StrategyRegistry
@@ -127,6 +128,7 @@ async def lifespan(app: FastAPI):
     constitution_service = ConstitutionService(state_store)
     scenario_service = ScenarioService(state_store)
     learn_mastery_service = LearnMasteryService(state_store, learn_service)
+    risk_meta_service = RiskMetaService(state_store, trade_review_service, constitution_service)
     scheduler_service.start()
 
     app.state.settings = settings
@@ -159,6 +161,7 @@ async def lifespan(app: FastAPI):
     app.state.constitution_service = constitution_service
     app.state.scenario_service = scenario_service
     app.state.learn_mastery_service = learn_mastery_service
+    app.state.risk_meta_service = risk_meta_service
 
     try:
         yield
