@@ -868,6 +868,33 @@ def candidate_setups(
             elif closed_against_up_drift:
                 _emit("SELL", "outside_bar_reversal_short", False, 0.5, 0.0)
 
+    # --- Family 12 (SIG-4): Bollinger squeeze release ---
+    bw_window = [b for b in indicators.bb_bandwidth[max(0, index - 40) : index] if b is not None]
+    bw_prev = indicators.bb_bandwidth[index - 1] if index >= 1 else None
+    if (
+        bw_prev is not None
+        and len(bw_window) >= 20
+        and bb_upper is not None
+        and bb_lower is not None
+    ):
+        squeeze_floor = sorted(bw_window)[max(0, len(bw_window) // 10)]
+        was_squeezed = bw_prev <= squeeze_floor
+        if was_squeezed and volume_ratio >= 1.1:
+            if close > bb_upper:
+                _emit("BUY_ZONE", "squeeze_release_long", True, 0.52, 0.06)
+            elif close < bb_lower:
+                _emit("SELL", "squeeze_release_short", False, 0.52, 0.06)
+
+    # --- Family 13 (SIG-4): narrow-range (NR7) break in trend direction ---
+    if index >= 8:
+        ranges = [indicators.highs[i] - indicators.lows[i] for i in range(index - 7, index)]
+        nr_prev = ranges[-1] <= min(ranges)
+        if nr_prev and regime in {"trending", "transitional"}:
+            if bullish_trend and close > indicators.highs[index - 1]:
+                _emit("BUY_ZONE", "narrow_range_break_long", True, 0.5, 0.05)
+            elif bearish_trend and close < indicators.lows[index - 1]:
+                _emit("SELL", "narrow_range_break_short", False, 0.5, 0.05)
+
     # --- Fallback states so the surface always has a contextual read ---
     if not candidates:
         if bullish_trend:

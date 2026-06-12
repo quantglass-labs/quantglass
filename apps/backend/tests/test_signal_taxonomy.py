@@ -99,6 +99,14 @@ class NewDetectorTests(unittest.TestCase):
                 "outside_bar_reversal_short": "short",
             }
         )
+        expectations.update(
+            {
+                "squeeze_release_long": "long",
+                "squeeze_release_short": "short",
+                "narrow_range_break_long": "long",
+                "narrow_range_break_short": "short",
+            }
+        )
         registered = {d.setup_type for d in DETECTORS}
         for setup_type, direction in expectations.items():
             self.assertIn(setup_type, registered)

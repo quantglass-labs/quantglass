@@ -88,6 +88,70 @@ class SignalEngineService:
                 "volatile": "High Volatility Regime",
                 "transitional": "Volatility Transition Regime",
             }[regime]
+            base_record = {
+                "symbol": self._display_symbol(series["symbol"], series["market_type"]),
+                "symbol_id": series["symbol"],
+                "timeframe": series["timeframe"],
+                "generated_at_utc": candles[index]["open_time_utc"],
+                "data_source": series["source"],
+                "signal_class": "context",
+            }
+            # Volatility family context (SIG-4): states, not trades.
+            if vol_regime == "compressed":
+                items.append(
+                    {
+                        **base_record,
+                        "family": "volatility",
+                        "layer": "advanced",
+                        "display_name": "Volatility Contraction",
+                        "regime": regime,
+                        "volatility_regime": vol_regime,
+                        "lesson_id": "intermediate-23-volatility-regimes",
+                        "tags": ["Volatility", "Compression"],
+                        "message": (
+                            "ATR is compressed versus its 30-bar baseline. Compression "
+                            "precedes expansion - watch for squeeze-release setups."
+                        ),
+                    }
+                )
+            elif vol_regime == "expanded":
+                items.append(
+                    {
+                        **base_record,
+                        "family": "volatility",
+                        "layer": "advanced",
+                        "display_name": "Volatility Expansion",
+                        "regime": regime,
+                        "volatility_regime": vol_regime,
+                        "lesson_id": "intermediate-23-volatility-regimes",
+                        "tags": ["Volatility", "Expansion"],
+                        "message": (
+                            "ATR is expanded versus its 30-bar baseline. Stops sized from "
+                            "calm bars are wrong here - the engine widens its multiples."
+                        ),
+                    }
+                )
+            day_range = float(candles[index]["high"]) - float(candles[index]["low"])
+            average_range = (
+                sum(float(c["high"]) - float(c["low"]) for c in candles[index - 14 : index]) / 14
+            )
+            if average_range > 0 and day_range > 2.0 * average_range:
+                items.append(
+                    {
+                        **base_record,
+                        "family": "volatility",
+                        "layer": "advanced",
+                        "display_name": "Range Expansion Day",
+                        "regime": regime,
+                        "volatility_regime": vol_regime,
+                        "lesson_id": "intermediate-23-volatility-regimes",
+                        "tags": ["Volatility", "Range"],
+                        "message": (
+                            f"This bar's range is {day_range / average_range:.1f}x the 14-bar "
+                            "average. Expansion days reset every nearby invalidation level."
+                        ),
+                    }
+                )
             items.append(
                 {
                     "symbol": self._display_symbol(series["symbol"], series["market_type"]),
