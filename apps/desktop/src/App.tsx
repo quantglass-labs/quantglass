@@ -551,6 +551,13 @@ export default function App() {
         .then((response) => {
           setSignalRecords(response.items);
           setSignalsError(null);
+          // Presets derive from signals; refresh them once signals exist.
+          if (response.items.length && backtestPresets.length === 0) {
+            void backendClient
+              .getBacktestPresets()
+              .then((presetsResponse) => setBacktestPresets(presetsResponse.items))
+              .catch(() => undefined);
+          }
         })
         .catch((error: unknown) => {
           // A failing signals endpoint must never read as "no signals".
@@ -560,7 +567,7 @@ export default function App() {
         });
     }, delay);
     return () => window.clearInterval(id);
-  }, [backendStatus, signalRecords.length]);
+  }, [backendStatus, signalRecords.length, backtestPresets.length]);
 
   function refreshMarketCorridor() {
     if (marketCorridorRefreshing) {
@@ -1320,6 +1327,7 @@ export default function App() {
                 <BacktestScreen
                   state={screenState}
                   presets={backtestPresets}
+                  savedStrategies={savedStrategies}
                   symbols={displaySymbols}
                   minBacktestSample={minBacktestSample}
                   marketCorridorItems={marketCorridorItems}

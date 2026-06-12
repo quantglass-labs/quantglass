@@ -23,6 +23,7 @@ import type {
   ScreenState,
   StrategyPreset,
   SymbolRecord,
+  Timeframe,
 } from '../types';
 
 export function BacktestScreen({
@@ -31,6 +32,7 @@ export function BacktestScreen({
   symbols,
   minBacktestSample,
   marketCorridorItems,
+  savedStrategies,
   onSaveStrategy,
 }: {
   state: ScreenState;
@@ -38,6 +40,7 @@ export function BacktestScreen({
   symbols: SymbolRecord[];
   minBacktestSample: number;
   marketCorridorItems: CorridorIngestResult[];
+  savedStrategies: SavedStrategy[];
   onSaveStrategy: (strategy: SavedStrategy) => void;
 }) {
   const [searchParams] = useSearchParams();
@@ -50,28 +53,9 @@ export function BacktestScreen({
     }
     return stored === 'open';
   });
-  const [demoPreset, setDemoPreset] = useState<StrategyPreset | null>(null);
   const [runNonce, setRunNonce] = useState(0);
 
   const startDemo = () => {
-    // Educational demo: the built-in trend-pullback rules on the first
-    // stored series. Clearly labeled; identical engine, identical honesty.
-    const series = symbols.find((entry) => entry.id === 'BTCUSD') ?? symbols[0];
-    if (!series) return;
-    setDemoPreset({
-      id: 'demo-trend-pullback',
-      name: `Demo · ${series.symbol} trend pullback (educational sample)`,
-      symbolId: series.id,
-      setupType: 'daily_trend_pullback',
-      timeframe: '1h',
-      feesPercent: 0.1,
-      slippagePercent: 0.05,
-      trainTestSplit: 70,
-      walkForward: true,
-      metrics: {} as StrategyPreset['metrics'],
-      equityCurve: [],
-      drawdownCurve: [],
-    });
     setSelectedPresetId('demo-trend-pullback');
   };
   const navigate = useNavigate();
@@ -97,9 +81,117 @@ export function BacktestScreen({
   const [runMessage, setRunMessage] = useState<string | null>(null);
   const retryMockView = () => window.location.reload();
 
+  // Saved strategies (from Settings) and the demo become runnable presets:
+  // zeroed metrics placeholders that the auto-run replaces immediately.
+  const emptyMetrics: StrategyPreset['metrics'] = {
+    winRate: 0,
+    avgR: 0,
+    expectancy: 0,
+    maxDrawdown: 0,
+    sharpe: 0,
+    sortino: 0,
+    profitFactor: 0,
+    tradeCount: 0,
+    testPeriod: 'pending first run',
+    inSampleWinRate: 0,
+    outOfSampleWinRate: 0,
+  };
+  const savedPresets = useMemo<StrategyPreset[]>(
+    () =>
+      savedStrategies.map((saved) => ({
+        id: `saved-${saved.id}`,
+        name: `Saved · ${saved.name}`,
+        symbolId: saved.symbolId,
+        setupType: saved.setupType,
+        timeframe: saved.timeframe,
+        feesPercent: 0.1,
+        slippagePercent: 0.05,
+        trainTestSplit: 70,
+        walkForward: true,
+        metrics: emptyMetrics,
+        equityCurve: [],
+        drawdownCurve: [],
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [savedStrategies],
+  );
+  const demoPresetOption = useMemo<StrategyPreset | null>(() => {
+    const series = symbols.find((entry) => entry.id === 'BTCUSD') ?? symbols[0];
+    if (!series) return null;
+    return {
+      id: 'demo-trend-pullback',
+      name: `Demo · ${series.symbol} trend pullback (educational sample)`,
+      symbolId: series.id,
+      setupType: 'daily_trend_pullback',
+      timeframe: '1h',
+      feesPercent: 0.1,
+      slippagePercent: 0.05,
+      trainTestSplit: 70,
+      walkForward: true,
+      metrics: emptyMetrics,
+      equityCurve: [],
+      drawdownCurve: [],
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [symbols]);
+  // Manual composition (create your own): symbol x setup family x timeframe.
+  // The rules per family are the engine's published, tested code - this
+  // composes WHICH rules run WHERE; it never invents untestable logic.
+  const SETUP_FAMILIES: { id: string; label: string }[] = [
+    { id: 'daily_trend_pullback', label: 'Pullback Continuation' },
+    { id: 'trend_rejection_breakdown', label: 'Resistance Rejection (short)' },
+    { id: 'breakout_retest_continuation', label: 'Breakout Retest' },
+    { id: 'breakdown_retest_continuation', label: 'Breakdown Retest (short)' },
+    { id: 'range_meanreversion_long', label: 'Range Bounce' },
+    { id: 'range_meanreversion_short', label: 'Range Fade (short)' },
+    { id: 'failed_breakout_reversal', label: 'Failed Breakout (short)' },
+    { id: 'failed_breakdown_reversal', label: 'Failed Breakdown' },
+    { id: 'liquidity_sweep_reclaim_long', label: 'Liquidity Sweep & Reclaim' },
+    { id: 'ma_crossover_long', label: 'MA Crossover' },
+    { id: 'inside_bar_break_long', label: 'Inside Bar Break' },
+    { id: 'squeeze_release_long', label: 'Squeeze Release' },
+    { id: 'narrow_range_break_long', label: 'Narrow Range Break' },
+    { id: 'vwap_reclaim_long', label: 'VWAP Reclaim' },
+    { id: 'gap_and_go_long', label: 'Gap and Go' },
+  ];
+  const [manualSymbolId, setManualSymbolId] = useState('');
+  const [manualSetup, setManualSetup] = useState(SETUP_FAMILIES[0].id);
+  const [manualTimeframe, setManualTimeframe] = useState<Timeframe>('1h');
+  const manualPreset = useMemo<StrategyPreset | null>(() => {
+    if (!manualSymbolId) return null;
+    const series = symbols.find((entry) => entry.id === manualSymbolId);
+    if (!series) return null;
+    const family = SETUP_FAMILIES.find((entry) => entry.id === manualSetup);
+    return {
+      id: `manual-${manualSymbolId}-${manualSetup}-${manualTimeframe}`,
+      name: `Custom · ${series.symbol} ${family?.label ?? manualSetup} ${manualTimeframe}`,
+      symbolId: manualSymbolId,
+      setupType: manualSetup,
+      timeframe: manualTimeframe,
+      feesPercent: 0.1,
+      slippagePercent: 0.05,
+      trainTestSplit: 70,
+      walkForward: true,
+      metrics: emptyMetrics,
+      equityCurve: [],
+      drawdownCurve: [],
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [manualSymbolId, manualSetup, manualTimeframe, symbols]);
+
+  const selectablePresets = useMemo(
+    () => [
+      ...presets,
+      ...savedPresets,
+      ...(manualPreset ? [manualPreset] : []),
+      ...(demoPresetOption ? [demoPresetOption] : []),
+    ],
+    [presets, savedPresets, manualPreset, demoPresetOption],
+  );
+
   const preset = useMemo(
-    () => presets.find((entry) => entry.id === selectedPresetId) ?? initialPreset ?? demoPreset,
-    [initialPreset, presets, selectedPresetId, demoPreset],
+    () => selectablePresets.find((entry) => entry.id === selectedPresetId) ?? initialPreset,
+    [initialPreset, selectablePresets, selectedPresetId],
   );
   const symbol = preset
     ? (symbols.find((entry) => entry.id === preset.symbolId) ?? symbols[0] ?? null)
@@ -114,8 +206,8 @@ export function BacktestScreen({
 
   // All three blocks adjust state during render (tracked previous values)
   // so preset switches never trigger cascading effect renders.
-  if (!selectedPresetId && initialPreset) {
-    setSelectedPresetId(initialPreset.id);
+  if (!selectedPresetId && (initialPreset ?? selectablePresets[0])) {
+    setSelectedPresetId((initialPreset ?? selectablePresets[0]).id);
   }
 
   const [syncedPresetId, setSyncedPresetId] = useState<string | null>(null);
@@ -254,22 +346,98 @@ export function BacktestScreen({
                 value={selectedPresetId}
                 onChange={(event) => setSelectedPresetId(event.target.value)}
               >
-                {!presets.length ? (
-                  <option value="">No strategy presets available yet</option>
+                {!selectablePresets.length ? (
+                  <option value="">Waiting for market data…</option>
                 ) : null}
-                {presets.map((entry) => (
-                  <option key={entry.id} value={entry.id}>
-                    {entry.name}
-                  </option>
-                ))}
+                {presets.length ? (
+                  <optgroup label="Detected signals">
+                    {presets.map((entry) => (
+                      <option key={entry.id} value={entry.id}>
+                        {entry.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ) : null}
+                {savedPresets.length ? (
+                  <optgroup label="Saved strategies">
+                    {savedPresets.map((entry) => (
+                      <option key={entry.id} value={entry.id}>
+                        {entry.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ) : null}
+                {demoPresetOption ? (
+                  <optgroup label="Demo">
+                    <option value={demoPresetOption.id}>{demoPresetOption.name}</option>
+                  </optgroup>
+                ) : null}
               </select>
               {!presets.length ? (
                 <p className="mt-2 text-xs text-muted">
-                  Presets appear automatically after the signal engine detects setups from stored
-                  market data. You can also try the demo strategy below, or load one you saved
-                  earlier.
+                  Detected-signal presets appear automatically once the engine has generated signals
+                  from stored market data. Saved strategies and the demo are always available above.
                 </p>
               ) : null}
+
+              <div className="mt-4 rounded-2xl border border-border bg-white/[0.03] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                  Or compose your own
+                </p>
+                <p className="mt-1 text-xs text-muted">
+                  A strategy here = symbol × setup family × timeframe × costs × validation. Each
+                  family's entry/stop/target rules are the engine's published, backtested code
+                  (taught in Learn); new rule families come from extensions — never from a free
+                  -text box that can't be tested.
+                </p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  <select
+                    aria-label="Symbol"
+                    className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
+                    value={manualSymbolId}
+                    onChange={(event) => setManualSymbolId(event.target.value)}
+                  >
+                    <option value="">Symbol…</option>
+                    {symbols.map((entry) => (
+                      <option key={entry.id} value={entry.id}>
+                        {entry.symbol}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    aria-label="Setup family"
+                    className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
+                    value={manualSetup}
+                    onChange={(event) => setManualSetup(event.target.value)}
+                  >
+                    {SETUP_FAMILIES.map((family) => (
+                      <option key={family.id} value={family.id}>
+                        {family.label}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    aria-label="Timeframe"
+                    className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
+                    value={manualTimeframe}
+                    onChange={(event) => setManualTimeframe(event.target.value as Timeframe)}
+                  >
+                    {(['15m', '1h', '4h', '1d'] as Timeframe[]).map((tf) => (
+                      <option key={tf} value={tf}>
+                        {tf}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <Button
+                  variant="secondary"
+                  className="mt-3 w-full"
+                  disabled={!manualPreset}
+                  onClick={() => manualPreset && setSelectedPresetId(manualPreset.id)}
+                >
+                  Use this combination
+                </Button>
+              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
