@@ -213,6 +213,7 @@ def adx(candles: list[dict[str, Any]], period: int) -> list[float | None]:
 
 def build_indicators(candles: list[dict[str, Any]]) -> SeriesIndicators:
     closes = [float(candle["close"]) for candle in candles]
+    opens = [float(candle.get("open", candle["close"])) for candle in candles]
     highs = [float(candle["high"]) for candle in candles]
     lows = [float(candle["low"]) for candle in candles]
     volumes = [float(candle["volume"]) for candle in candles]
@@ -227,6 +228,15 @@ def build_indicators(candles: list[dict[str, Any]]) -> SeriesIndicators:
     bb_upper, bb_lower, bb_mid, bb_bandwidth = bollinger(closes, 20, 2.0)
     donchian_high, donchian_low = donchian(highs, lows, 20)
     keltner_upper, keltner_lower = keltner(ema21, atr14, 1.5)
+    vwap20: list[float | None] = []
+    for i in range(len(candles)):
+        window = candles[max(0, i - 19) : i + 1]
+        weighted = sum(
+            (float(c["high"]) + float(c["low"]) + float(c["close"])) / 3 * float(c["volume"])
+            for c in window
+        )
+        total_volume = sum(float(c["volume"]) for c in window)
+        vwap20.append(weighted / total_volume if total_volume > 0 else None)
     return SeriesIndicators(
         closes=closes,
         highs=highs,
@@ -247,4 +257,6 @@ def build_indicators(candles: list[dict[str, Any]]) -> SeriesIndicators:
         donchian_low=donchian_low,
         keltner_upper=keltner_upper,
         keltner_lower=keltner_lower,
+        opens=opens,
+        vwap20=vwap20,
     )

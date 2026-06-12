@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 
@@ -32,6 +32,9 @@ class SeriesIndicators:
     donchian_low: list[float | None]
     keltner_upper: list[float | None]
     keltner_lower: list[float | None]
+    # SIG-3 additions; default empty so older fixtures stay valid.
+    opens: list[float] = field(default_factory=list)
+    vwap20: list[float | None] = field(default_factory=list)
 
 
 # Scale-out weights for the displayed 3-rung take-profit ladder. Backtests must size

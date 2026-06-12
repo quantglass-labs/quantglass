@@ -85,6 +85,20 @@ class NewDetectorTests(unittest.TestCase):
             "inside_bar_break_long": "long",
             "inside_bar_break_short": "short",
         }
+        expectations.update(
+            {
+                "gap_and_go_long": "long",
+                "gap_and_go_short": "short",
+                "gap_fill_reversal_short": "short",
+                "gap_fill_reversal_long": "long",
+                "vwap_reclaim_long": "long",
+                "vwap_rejection_short": "short",
+                "structure_break_long": "long",
+                "structure_break_short": "short",
+                "outside_bar_reversal_long": "long",
+                "outside_bar_reversal_short": "short",
+            }
+        )
         registered = {d.setup_type for d in DETECTORS}
         for setup_type, direction in expectations.items():
             self.assertIn(setup_type, registered)

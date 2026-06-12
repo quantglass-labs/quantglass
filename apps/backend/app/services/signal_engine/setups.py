@@ -773,6 +773,101 @@ def candidate_setups(
                     )
                 )
 
+    # --- SIG-3 tranche 2 helper: one call per detector keeps blocks honest ---
+    def _emit(signal_type: str, setup_type: str, is_long: bool, base: float, bonus: float) -> None:
+        score = confluence(
+            base=base,
+            trend_alignment=trend_alignment,
+            volume_confirmation=volume_confirmation,
+            macd_agree=(macd_value > 0) == is_long,
+            htf_agree=(htf_slope > 0) == is_long,
+            regime_bonus=bonus,
+        )
+        candidates.append(
+            compose_candidate(
+                signal_type=signal_type,
+                setup_type=setup_type,
+                direction="long" if is_long else "short",
+                status="active",
+                regime=regime,
+                indicators=indicators,
+                index=index,
+                atr=atr,
+                ema=ema,
+                close=close,
+                rsi=rsi,
+                recent_high=recent_high,
+                recent_low=recent_low,
+                volume_ratio=volume_ratio,
+                volatility_regime=vol_regime,
+                trend_alignment=trend_alignment,
+                volume_confirmation=volume_confirmation,
+                confluence_score=score,
+                market_type=market_type,
+                timeframe=timeframe,
+            )
+        )
+
+    # --- Family 8 (SIG-3): session gaps — continuation vs fill ---
+    if indicators.opens and index >= 1:
+        open_price = indicators.opens[index]
+        prior_close = indicators.closes[index - 1]
+        gap_fraction = (open_price - prior_close) / prior_close if prior_close > 0 else 0.0
+        if abs(gap_fraction) >= 0.01 and abs(open_price - prior_close) >= atr * 0.5:
+            gapped_up = gap_fraction > 0
+            held = close > open_price if gapped_up else close < open_price
+            faded = close < prior_close if gapped_up else close > prior_close
+            if held and volume_ratio >= 1.1:
+                _emit(
+                    "BUY_ZONE" if gapped_up else "SELL",
+                    "gap_and_go_long" if gapped_up else "gap_and_go_short",
+                    gapped_up,
+                    0.5,
+                    0.08 if regime == "trending" else 0.0,
+                )
+            elif faded:
+                _emit(
+                    "SELL" if gapped_up else "BUY_ZONE",
+                    "gap_fill_reversal_short" if gapped_up else "gap_fill_reversal_long",
+                    not gapped_up,
+                    0.48,
+                    0.05,
+                )
+
+    # --- Family 9 (SIG-3): rolling VWAP reclaim / rejection ---
+    if indicators.vwap20 and index >= 1:
+        vwap_now = indicators.vwap20[index]
+        vwap_prev = indicators.vwap20[index - 1]
+        close_prev = indicators.closes[index - 1]
+        if vwap_now is not None and vwap_prev is not None and regime != "volatile":
+            reclaimed = close_prev < vwap_prev and close > vwap_now
+            rejected = close_prev > vwap_prev and close < vwap_now
+            if reclaimed and volume_ratio >= 1.0:
+                _emit("BUY_ZONE", "vwap_reclaim_long", True, 0.5, 0.05)
+            elif rejected and volume_ratio >= 1.0:
+                _emit("SELL", "vwap_rejection_short", False, 0.5, 0.05)
+
+    # --- Family 10 (SIG-3): change of character — break of the last swing ---
+    if index >= 10:
+        swing_high = max(indicators.highs[index - 10 : index - 2])
+        swing_low = min(indicators.lows[index - 10 : index - 2])
+        if bearish_trend and close > swing_high and volume_ratio >= 1.1:
+            _emit("WATCH", "structure_break_long", True, 0.46, 0.0)
+        elif bullish_trend and close < swing_low and volume_ratio >= 1.1:
+            _emit("WATCH", "structure_break_short", False, 0.46, 0.0)
+
+    # --- Family 11 (SIG-3): outside-bar reversal against the recent drift ---
+    if index >= 6:
+        engulfs = high > indicators.highs[index - 1] and low < indicators.lows[index - 1]
+        drift = indicators.closes[index - 1] - indicators.closes[index - 6]
+        if engulfs and volume_ratio >= 1.2:
+            closed_against_down_drift = drift < 0 and close > indicators.highs[index - 1]
+            closed_against_up_drift = drift > 0 and close < indicators.lows[index - 1]
+            if closed_against_down_drift:
+                _emit("BUY_ZONE", "outside_bar_reversal_long", True, 0.5, 0.0)
+            elif closed_against_up_drift:
+                _emit("SELL", "outside_bar_reversal_short", False, 0.5, 0.0)
+
     # --- Fallback states so the surface always has a contextual read ---
     if not candidates:
         if bullish_trend:
