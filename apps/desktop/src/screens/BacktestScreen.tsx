@@ -154,9 +154,28 @@ export function BacktestScreen({
     { id: 'vwap_reclaim_long', label: 'VWAP Reclaim' },
     { id: 'gap_and_go_long', label: 'Gap and Go' },
   ];
+  const timeframesBySymbol = useMemo(() => {
+    const map = new Map<string, Timeframe[]>();
+    for (const item of marketCorridorItems) {
+      const list = map.get(item.symbol) ?? [];
+      if (!list.includes(item.timeframe as Timeframe)) list.push(item.timeframe as Timeframe);
+      map.set(item.symbol, list);
+    }
+    return map;
+  }, [marketCorridorItems]);
+
   const [manualSymbolId, setManualSymbolId] = useState('');
   const [manualSetup, setManualSetup] = useState(SETUP_FAMILIES[0].id);
   const [manualTimeframe, setManualTimeframe] = useState<Timeframe>('1h');
+  const manualTimeframes = manualSymbolId
+    ? (timeframesBySymbol.get(manualSymbolId) ?? [])
+    : (['15m', '1h', '4h', '1d'] as Timeframe[]);
+  // If the chosen symbol doesn't carry the selected timeframe, snap to one
+  // it does - composing an impossible combination must be impossible.
+  if (manualSymbolId && manualTimeframes.length && !manualTimeframes.includes(manualTimeframe)) {
+    setManualTimeframe(manualTimeframes[0]);
+  }
+
   const manualPreset = useMemo<StrategyPreset | null>(() => {
     if (!manualSymbolId) return null;
     const series = symbols.find((entry) => entry.id === manualSymbolId);
@@ -257,7 +276,13 @@ export function BacktestScreen({
       .catch(() => {
         if (cancelled) return;
         setRunState('error');
-        setRunMessage('Backend rerun failed, so the last loaded preset remains on screen.');
+        const available = timeframesBySymbol.get(preset.symbolId) ?? [];
+        setRunMessage(
+          available.length && !available.includes(preset.timeframe)
+            ? `No stored ${preset.timeframe} candles for ${symbol.symbol} - this symbol has ` +
+                `${available.join(', ')} data. Pick one of those timeframes and rerun.`
+            : 'The backend rerun failed - if data was just ingested, retry in a few seconds.',
+        );
       });
 
     return () => {
@@ -422,17 +447,23 @@ export function BacktestScreen({
                     value={manualTimeframe}
                     onChange={(event) => setManualTimeframe(event.target.value as Timeframe)}
                   >
-                    {(['15m', '1h', '4h', '1d'] as Timeframe[]).map((tf) => (
+                    {manualTimeframes.map((tf) => (
                       <option key={tf} value={tf}>
                         {tf}
                       </option>
                     ))}
                   </select>
                 </div>
+                {manualSymbolId && manualTimeframes.length ? (
+                  <p className="mt-2 text-xs text-muted">
+                    {symbols.find((entry) => entry.id === manualSymbolId)?.symbol} has stored
+                    candles for: {manualTimeframes.join(', ')}
+                  </p>
+                ) : null}
                 <Button
                   variant="secondary"
                   className="mt-3 w-full"
-                  disabled={!manualPreset}
+                  disabled={!manualPreset || !manualTimeframes.length}
                   onClick={() => manualPreset && setSelectedPresetId(manualPreset.id)}
                 >
                   Use this combination
