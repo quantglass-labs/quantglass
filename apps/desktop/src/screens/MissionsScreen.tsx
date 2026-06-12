@@ -11,7 +11,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { CheckCircle2, ChevronDown, ChevronRight, Circle, PlayCircle, Target } from 'lucide-react';
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  Circle,
+  Crosshair,
+  PlayCircle,
+  Target,
+} from 'lucide-react';
 
 import { backendClient } from '../lib/backend';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
@@ -34,7 +43,98 @@ const CATEGORY_META: Record<string, { title: string; order: number }> = {
 
 const LEVELS = ['novice', 'intermediate', 'advanced', 'expert'] as const;
 
-function MissionCard({ mission }: { mission: MissionRecord }) {
+function ObjectiveList({ mission }: { mission: MissionRecord }) {
+  return (
+    <ul className="mt-3 space-y-1.5">
+      {mission.criteria.map((criterion) => (
+        <li key={criterion.label} className="flex items-center gap-2 text-sm">
+          {criterion.met ? (
+            <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
+          ) : (
+            <Circle size={15} className="shrink-0 text-zinc-600" />
+          )}
+          <span className={criterion.met ? 'text-zinc-300' : 'text-zinc-400'}>
+            {criterion.label}
+          </span>
+          <span className="ml-auto shrink-0 text-xs text-zinc-600">
+            {criterion.current} / {criterion.target}
+          </span>
+          {!criterion.met && criterion.action ? (
+            <Link
+              to={criterion.action.route}
+              title={criterion.action.cta}
+              className="flex shrink-0 items-center gap-0.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[11px] text-indigo-300 transition-colors hover:bg-indigo-600/20"
+            >
+              Go <ArrowUpRight size={11} />
+            </Link>
+          ) : null}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ActiveMissionCard({
+  mission,
+  onAbandon,
+}: {
+  mission: MissionRecord;
+  onAbandon: (id: string) => void;
+}) {
+  const met = mission.criteria.filter((criterion) => criterion.met).length;
+  const next = mission.criteria.find((criterion) => !criterion.met);
+  return (
+    <div className="rounded-xl border border-indigo-500/40 bg-indigo-600/10 p-4">
+      <div className="flex items-center gap-2">
+        <Crosshair size={15} className="shrink-0 text-indigo-300" />
+        <p className="font-semibold text-zinc-100">{mission.title}</p>
+        <span className="rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+          {mission.level}
+        </span>
+        <button
+          type="button"
+          onClick={() => onAbandon(mission.id)}
+          className="ml-auto shrink-0 text-[11px] text-zinc-500 hover:text-zinc-300"
+        >
+          Stand down
+        </button>
+      </div>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-zinc-800">
+        <div
+          className="h-full bg-indigo-500"
+          style={{ width: `${(100 * met) / Math.max(1, mission.criteria.length)}%` }}
+        />
+      </div>
+      <p className="mt-1 text-[11px] text-zinc-500">
+        {met} / {mission.criteria.length} objectives complete
+      </p>
+      {next ? (
+        <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/60 bg-zinc-900/50 px-3 py-2">
+          <span className="text-xs uppercase tracking-wider text-indigo-300/80">Next</span>
+          <span className="min-w-0 truncate text-sm text-zinc-200">{next.label}</span>
+          {next.action ? (
+            <Link
+              to={next.action.route}
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 px-2.5 py-1 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20"
+            >
+              {next.action.cta} <ArrowUpRight size={12} />
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function MissionCard({
+  mission,
+  onAccept,
+  slotsFull,
+}: {
+  mission: MissionRecord;
+  onAccept: (id: string) => void;
+  slotsFull: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
   const met = mission.criteria.filter((criterion) => criterion.met).length;
 
@@ -43,7 +143,9 @@ function MissionCard({ mission }: { mission: MissionRecord }) {
       className={`rounded-xl border ${
         mission.completed
           ? 'border-emerald-500/40 bg-emerald-600/10'
-          : 'border-zinc-800 bg-zinc-900/40'
+          : mission.active
+            ? 'border-indigo-500/40 bg-zinc-900/40'
+            : 'border-zinc-800 bg-zinc-900/40'
       }`}
     >
       <button
@@ -62,6 +164,11 @@ function MissionCard({ mission }: { mission: MissionRecord }) {
             <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
               {mission.level}
             </span>
+            {mission.active ? (
+              <span className="ml-1.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[10px] text-indigo-300">
+                active
+              </span>
+            ) : null}
             {mission.source === 'community' ? (
               <span className="ml-1.5 rounded-full border border-sky-500/40 px-2 py-0.5 text-[10px] text-sky-300">
                 community
@@ -85,36 +192,36 @@ function MissionCard({ mission }: { mission: MissionRecord }) {
       {expanded ? (
         <div className="px-4 pb-4 pl-11">
           <p className="text-sm text-zinc-400">{mission.description}</p>
-          <ul className="mt-3 space-y-1.5">
-            {mission.criteria.map((criterion) => (
-              <li key={criterion.label} className="flex items-center gap-2 text-sm">
-                {criterion.met ? (
-                  <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
-                ) : (
-                  <Circle size={15} className="shrink-0 text-zinc-600" />
-                )}
-                <span className={criterion.met ? 'text-zinc-300' : 'text-zinc-500'}>
-                  {criterion.label}
-                </span>
-                <span className="ml-auto text-xs text-zinc-600">
-                  {criterion.current} / {criterion.target}
-                </span>
-              </li>
-            ))}
-          </ul>
-          {mission.lesson_links.length ? (
-            <p className="mt-3 text-xs text-zinc-500">
-              Study first:{' '}
-              {mission.lesson_links.map((lessonId, i) => (
-                <span key={lessonId}>
-                  {i > 0 ? ' · ' : ''}
-                  <Link to="/learn" className="text-indigo-300 hover:text-indigo-200">
-                    {lessonId}
-                  </Link>
-                </span>
-              ))}
-            </p>
-          ) : null}
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Objectives
+          </p>
+          <ObjectiveList mission={mission} />
+          <div className="mt-3 flex items-center gap-3">
+            {!mission.completed && !mission.active ? (
+              <button
+                type="button"
+                disabled={slotsFull}
+                onClick={() => onAccept(mission.id)}
+                title={slotsFull ? 'All active slots are taken — stand down from one first.' : ''}
+                className="rounded-lg border border-indigo-500/50 px-4 py-1.5 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Start mission
+              </button>
+            ) : null}
+            {mission.lesson_links.length ? (
+              <p className="text-xs text-zinc-500">
+                Study first:{' '}
+                {mission.lesson_links.map((lessonId, i) => (
+                  <span key={lessonId}>
+                    {i > 0 ? ' · ' : ''}
+                    <Link to="/learn" className="text-indigo-300 hover:text-indigo-200">
+                      {lessonId}
+                    </Link>
+                  </span>
+                ))}
+              </p>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>
@@ -130,17 +237,34 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   const [levelFilter, setLevelFilter] = useState<string>('all');
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
 
+  const [maxActive, setMaxActive] = useState(3);
+
   useEffect(() => {
     if (backendStatus !== 'online') return;
     backendClient
       .getMissions()
-      .then((response) => setMissions(response.items))
+      .then((response) => {
+        setMissions(response.items);
+        setMaxActive(response.max_active);
+      })
       .catch(() => setError('Could not load missions. Is the backend running?'));
     backendClient
       .getScenarios()
       .then((response) => setScenarios(response.items))
       .catch(() => setScenarios([]));
   }, [backendStatus]);
+
+  const refreshMissions = () => {
+    void backendClient.getMissions().then((response) => setMissions(response.items));
+  };
+
+  const handleAccept = (missionId: string) => {
+    void backendClient.acceptMission(missionId).then(refreshMissions);
+  };
+
+  const handleAbandon = (missionId: string) => {
+    void backendClient.abandonMission(missionId).then(refreshMissions);
+  };
 
   const grouped = useMemo(() => {
     if (!missions) return null;
@@ -165,6 +289,8 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   }, [missions, query, levelFilter]);
 
   const completedCount = missions?.filter((mission) => mission.completed).length ?? 0;
+  const activeMissions = missions?.filter((mission) => mission.active && !mission.completed) ?? [];
+  const slotsFull = activeMissions.length >= maxActive;
   const searching = query.trim().length > 0;
 
   const openScenario = (scenarioId: string) => {
@@ -225,6 +351,28 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         ))}
       </div>
 
+      {activeMissions.length ? (
+        <>
+          <h2 className="mt-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-indigo-300">
+            <Crosshair size={14} />
+            Active missions
+            <span className="text-xs font-normal normal-case tracking-normal text-zinc-600">
+              {activeMissions.length} / {maxActive} slots
+            </span>
+          </h2>
+          <div className="mt-3 space-y-3">
+            {activeMissions.map((mission) => (
+              <ActiveMissionCard key={mission.id} mission={mission} onAbandon={handleAbandon} />
+            ))}
+          </div>
+        </>
+      ) : missions ? (
+        <p className="mt-6 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/30 p-4 text-sm text-zinc-500">
+          No active missions. Open a category below and start one — active missions pin your next
+          objective and link straight to where you act.
+        </p>
+      ) : null}
+
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
@@ -275,7 +423,12 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
               {open ? (
                 <div className="mt-2 space-y-2">
                   {categoryMissions.map((mission) => (
-                    <MissionCard key={mission.id} mission={mission} />
+                    <MissionCard
+                      key={mission.id}
+                      mission={mission}
+                      onAccept={handleAccept}
+                      slotsFull={slotsFull}
+                    />
                   ))}
                 </div>
               ) : null}

@@ -165,6 +165,21 @@ async def list_missions(request: Request) -> dict:
     return request.app.state.mission_service.list_missions()
 
 
+@router.post("/missions/{mission_id}/accept")
+async def accept_mission(mission_id: str, request: Request) -> dict:
+    """Take the mission on — it joins the active briefing slots (max 3)."""
+    result = request.app.state.mission_service.accept(mission_id)
+    if not result["ok"]:
+        raise HTTPException(status_code=409, detail=result["error"])
+    return result
+
+
+@router.post("/missions/{mission_id}/abandon")
+async def abandon_mission(mission_id: str, request: Request) -> dict:
+    """Stand down from an active mission; progress is never lost."""
+    return request.app.state.mission_service.abandon(mission_id)
+
+
 @router.get("/mastery")
 async def get_mastery(request: Request) -> dict:
     """XP, level, streak, track badges, and the review-queue count."""

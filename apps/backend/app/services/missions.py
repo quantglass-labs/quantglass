@@ -59,6 +59,36 @@ CRITERIA_TYPES = frozenset(
 )
 
 
+MAX_ACTIVE_MISSIONS = 3
+
+# Where each criterion is acted on: the mission briefing's "go there" link.
+ACTION_HINTS: dict[str, dict[str, str]] = {
+    "min_trades": {"route": "/signals", "cta": "Open Signals and place a planned trade"},
+    "all_have_stops": {"route": "/signals", "cta": "Plan the stop before you confirm"},
+    "max_risk_percent_each": {"route": "/signals", "cta": "Size from risk on the ticket"},
+    "max_dangerous_success": {"route": "/review", "cta": "Check your 2x2 in Review"},
+    "min_classification": {"route": "/review", "cta": "Track your quadrants in Review"},
+    "consecutive_process_scores": {"route": "/journal", "cta": "Keep the streak in Journal"},
+    "min_process_average": {"route": "/journal", "cta": "Raise the average in Journal"},
+    "min_planned_losses_taken": {"route": "/journal", "cta": "Let stops do their job"},
+    "min_resolved": {"route": "/journal", "cta": "See open trades through"},
+    "min_symbol_diversity": {"route": "/", "cta": "Scan the dashboard for new symbols"},
+    "max_daily_trades": {"route": "/review", "cta": "Watch your daily count in Review"},
+    "min_trades_with_reason": {"route": "/signals", "cta": "Write the thesis on the ticket"},
+    "min_emotions_logged": {"route": "/signals", "cta": "Log your state on the ticket"},
+    "zero_tilt_entries": {"route": "/signals", "cta": "Skip the trade if you feel it"},
+    "min_journaled": {"route": "/journal", "cta": "Write the note in Journal"},
+    "min_tagged": {"route": "/journal", "cta": "Tag the mistakes in Journal"},
+    "scenario_passed": {"route": "/missions", "cta": "Play the replay mission below"},
+    "min_scenarios_passed": {"route": "/missions", "cta": "Play the replay missions below"},
+    "min_lessons_completed": {"route": "/learn", "cta": "Open the Academy"},
+    "assessment_passed": {"route": "/learn", "cta": "Take the exam in Learn"},
+    "min_review_reps": {"route": "/learn", "cta": "Grade cards in Learn > Practice"},
+    "min_streak_days": {"route": "/learn", "cta": "Do anything in the Academy today"},
+    "constitution_adopted": {"route": "/review", "cta": "Adopt your rules in Review"},
+}
+
+
 @lru_cache(maxsize=1)
 def _load_missions() -> tuple[dict[str, Any], ...]:
     with open(_MISSIONS_FILE, encoding="utf-8") as handle:
@@ -85,14 +115,23 @@ class MissionService:
     def list_missions(self) -> dict[str, Any]:
         context = self._build_context()
         completed = self._store.get_completed_missions()
+        active = self._maybe(self._store, "get_active_missions", {})
 
         missions = []
         for mission in self._all_missions():
-            criteria = [self._evaluate(criterion, context) for criterion in mission["criteria"]]
+            criteria = []
+            for criterion in mission["criteria"]:
+                evaluated = self._evaluate(criterion, context)
+                evaluated["action"] = ACTION_HINTS.get(criterion["type"])
+                criteria.append(evaluated)
             done = all(criterion["met"] for criterion in criteria)
             if done and mission["id"] not in completed:
                 self._store.record_mission_complete(mission["id"])
                 completed = self._store.get_completed_missions()
+            if done and mission["id"] in active:
+                # A finished mission leaves the active slots automatically.
+                self._maybe_call("clear_mission_active", mission["id"])
+                active = self._maybe(self._store, "get_active_missions", {})
             missions.append(
                 {
                     "id": mission["id"],
@@ -105,9 +144,38 @@ class MissionService:
                     "criteria": criteria,
                     "completed": mission["id"] in completed,
                     "completed_at": completed.get(mission["id"]),
+                    "active": mission["id"] in active,
+                    "accepted_at": active.get(mission["id"]),
                 }
             )
-        return {"items": missions}
+        return {"items": missions, "max_active": MAX_ACTIVE_MISSIONS}
+
+    def accept(self, mission_id: str) -> dict[str, Any]:
+        known = {mission["id"] for mission in self._all_missions()}
+        if mission_id not in known:
+            return {"ok": False, "error": "Unknown mission."}
+        if mission_id in self._store.get_completed_missions():
+            return {"ok": False, "error": "Mission already completed."}
+        active = self._maybe(self._store, "get_active_missions", {})
+        if mission_id in active:
+            return {"ok": True}
+        if len(active) >= MAX_ACTIVE_MISSIONS:
+            return {
+                "ok": False,
+                "error": f"You already have {MAX_ACTIVE_MISSIONS} active missions. "
+                "Finish or stand down from one first.",
+            }
+        self._store.set_mission_active(mission_id)
+        return {"ok": True}
+
+    def abandon(self, mission_id: str) -> dict[str, Any]:
+        self._maybe_call("clear_mission_active", mission_id)
+        return {"ok": True}
+
+    def _maybe_call(self, method: str, *args: Any) -> None:
+        handler = getattr(self._store, method, None)
+        if callable(handler):
+            handler(*args)
 
     # ------------------------------------------------------------------
     # Evaluation context: one snapshot of everything criteria can read.
@@ -146,7 +214,9 @@ class MissionService:
 
         if kind == "all_have_stops":
             stopless = sum(
-                1 for item in items if any("No stop" in note for note in item.get("process_notes", []))
+                1
+                for item in items
+                if any("No stop" in note for note in item.get("process_notes", []))
             )
             return self._result(label, len(items) > 0 and stopless == 0, stopless, 0)
 
@@ -154,7 +224,9 @@ class MissionService:
             violations = sum(
                 1
                 for item in items
-                if any("exceeds" in note or "double" in note for note in item.get("process_notes", []))
+                if any(
+                    "exceeds" in note or "double" in note for note in item.get("process_notes", [])
+                )
             )
             return self._result(label, len(items) > 0 and violations == 0, violations, 0)
 
@@ -215,7 +287,9 @@ class MissionService:
 
         if kind == "zero_tilt_entries":
             count = sum(
-                1 for item in items if any("tilt states" in note for note in item.get("process_notes", []))
+                1
+                for item in items
+                if any("tilt states" in note for note in item.get("process_notes", []))
             )
             return self._result(label, len(items) > 0 and count == 0, count, 0)
 

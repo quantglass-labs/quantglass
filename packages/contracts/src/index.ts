@@ -865,6 +865,8 @@ export interface MissionCriterion {
   met: boolean;
   current: number;
   target: number;
+  /** Where this objective is acted on in the app. */
+  action: { route: string; cta: string } | null;
 }
 
 export interface MissionRecord {
@@ -879,10 +881,14 @@ export interface MissionRecord {
   criteria: MissionCriterion[];
   completed: boolean;
   completed_at: string | null;
+  /** Accepted into the active briefing slots. */
+  active: boolean;
+  accepted_at: string | null;
 }
 
 export interface MissionsResponse {
   items: MissionRecord[];
+  max_active: number;
 }
 
 export interface TradeReviewItem {
