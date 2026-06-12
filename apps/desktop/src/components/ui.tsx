@@ -177,7 +177,7 @@ export function PillTabs<T extends string>({
   return (
     <div
       className={clsx(
-        'inline-flex flex-wrap gap-2 rounded-full border border-border bg-white/5 p-1',
+        'inline-flex w-fit shrink-0 gap-2 rounded-full border border-border bg-white/5 p-1',
         className,
       )}
     >
@@ -186,7 +186,7 @@ export function PillTabs<T extends string>({
           key={option.value}
           type="button"
           className={clsx(
-            'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] transition',
+            'whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] transition',
             option.value === value
               ? 'bg-accentStrong text-white'
               : 'text-muted hover:bg-white/5 hover:text-ink',

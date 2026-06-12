@@ -137,7 +137,7 @@ export function AppShell({
       <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur-xl lg:ml-72">
         <div className="flex flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <div className="relative w-full max-w-lg">
                 <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
                 <input
