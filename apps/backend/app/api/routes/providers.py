@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from app.core.config import ProviderRoute, ProviderSettings, SafetySettings
@@ -93,6 +93,26 @@ async def update_provider_settings(
         ai=payload.routes.ai,
         trading=payload.routes.trading,
     )
+    # E6 hardening: live trading may only be confirmed when trade credentials
+    # can live in the OS keychain. The encrypted-file fallback is fine for
+    # data keys, but real-order credentials demand OS-level custody.
+    if payload.safety.live_trading_confirmed:
+        secret_store = getattr(request.app.state.state_store, "_secret_store", None)
+        keychain_ready = bool(
+            secret_store is not None
+            and getattr(secret_store, "keychain_available", lambda: False)()
+        )
+        if not keychain_ready:
+            raise HTTPException(
+                status_code=409,
+                detail=(
+                    "Live trading cannot be confirmed: no usable OS keychain was found, "
+                    "so trade credentials would fall back to file storage. Install or "
+                    "unlock the system keychain (GNOME Keyring / macOS Keychain / "
+                    "Windows Credential Manager) and retry."
+                ),
+            )
+
     request.app.state.state_store.update_provider_settings(
         provider_settings,
         payload.safety,

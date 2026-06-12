@@ -273,3 +273,71 @@ class SettingsRouteTests(unittest.TestCase):
         self.assertEqual(item["id"], "finnhub-api-key")
         self.assertEqual(item["value"], "")
         self.assertTrue(item["configured"])
+
+
+class LiveTradingKeychainGateTests(unittest.TestCase):
+    """E6: live trading may only be confirmed with a usable OS keychain."""
+
+    def _app(self, keychain_ready: bool):
+        from fastapi import FastAPI
+
+        from app.api.routes.providers import router as providers_router
+
+        class _SecretStore:
+            def keychain_available(self):
+                return keychain_ready
+
+        class _Store:
+            _secret_store = _SecretStore()
+
+            def update_provider_settings(self, provider_settings, safety):
+                self.saved = safety
+
+        class _Manager:
+            def set_settings(self, s):
+                pass
+
+            def set_safety_settings(self, s):
+                pass
+
+        app = FastAPI()
+        app.include_router(providers_router)
+        app.state.state_store = _Store()
+        app.state.provider_manager = _Manager()
+        return app
+
+    def _payload(self, confirmed: bool):
+        return {
+            "view_mode": "simple",
+            "rate_limits": {"crypto_per_minute": 60, "stocks_per_minute": 30},
+            "routes": {
+                "crypto": {"primary": "ccxt_coinbase"},
+                "stocks": {"primary": "yahoo_public"},
+                "news": {"primary": "finnhub_news"},
+                "ai": {"primary": "ollama"},
+                "trading": {"primary": "alpaca_paper"},
+            },
+            "safety": {
+                "trading_mode": "paper",
+                "live_trading_confirmed": confirmed,
+                "min_backtest_sample": 20,
+            },
+        }
+
+    def test_confirmation_blocked_without_keychain(self) -> None:
+        from fastapi.testclient import TestClient
+
+        with TestClient(self._app(keychain_ready=False)) as client:
+            response = client.put("/api/providers/settings", json=self._payload(True))
+        self.assertEqual(response.status_code, 409)
+        self.assertIn("keychain", response.json()["detail"])
+
+    def test_confirmation_allowed_with_keychain_and_paper_unaffected(self) -> None:
+        from fastapi.testclient import TestClient
+
+        with TestClient(self._app(keychain_ready=True)) as client:
+            ok = client.put("/api/providers/settings", json=self._payload(True))
+        self.assertEqual(ok.status_code, 200)
+        with TestClient(self._app(keychain_ready=False)) as client:
+            paper = client.put("/api/providers/settings", json=self._payload(False))
+        self.assertEqual(paper.status_code, 200)
