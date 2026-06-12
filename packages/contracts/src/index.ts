@@ -1076,6 +1076,39 @@ export interface MasteryResponse {
   };
 }
 
+export interface LearnLevelAnalytics {
+  id: string;
+  title: string;
+  completed: number;
+  total: number;
+  percent: number;
+  assessment: { score: number; passed: boolean } | null;
+  certificate_earned: boolean;
+}
+
+export interface LearnAnalytics {
+  levels: LearnLevelAnalytics[];
+  tracks: MasteryBadge[];
+  weekly: { week: string; lessons: number }[];
+  totals: {
+    lessons_completed: number;
+    xp: number;
+    streak_days: number;
+    badges_earned: number;
+  };
+}
+
+export interface LearnCertificate {
+  earned: boolean;
+  level: string;
+  level_title?: string;
+  lesson_count?: number;
+  exam_score?: number;
+  issued_at?: string;
+  verification?: string;
+  requirements?: string[];
+}
+
 export interface ReviewCard {
   term: string;
   definition: string;

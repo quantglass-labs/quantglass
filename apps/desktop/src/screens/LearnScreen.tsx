@@ -31,6 +31,7 @@ import { backendClient } from '../lib/backend';
 import { LessonVisuals } from './learn/LessonVisuals';
 import { GlossaryView, ReferenceView } from './learn/LibraryViews';
 import { PracticeView } from './learn/PracticeView';
+import { ProgressView } from './learn/ProgressView';
 import type { BackendStatus } from '../types';
 import {
   BookOpen,
@@ -856,9 +857,9 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
   const [tradeReview, setTradeReview] = useState<TradeReviewResponse | null>(null);
   const [assessmentLevel, setAssessmentLevel] = useState<LessonTier | null>(null);
-  const [libraryView, setLibraryView] = useState<'glossary' | 'reference' | 'practice' | null>(
-    null,
-  );
+  const [libraryView, setLibraryView] = useState<
+    'glossary' | 'reference' | 'practice' | 'progress' | null
+  >(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [screenHeight, setScreenHeight] = useState('calc(100dvh - 12rem)');
   const screenRef = useRef<HTMLDivElement | null>(null);
@@ -1103,6 +1104,18 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             >
               Practice
             </button>
+            <button
+              type="button"
+              onClick={() => setLibraryView(libraryView === 'progress' ? null : 'progress')}
+              className={clsx(
+                'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
+                libraryView === 'progress'
+                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
+                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+              )}
+            >
+              Progress
+            </button>
           </div>
           {searchResults ? (
             <div className="space-y-0.5">
@@ -1183,6 +1196,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             <ReferenceView />
           ) : libraryView === 'practice' ? (
             <PracticeView />
+          ) : libraryView === 'progress' ? (
+            <ProgressView />
           ) : (
             <>
               {!catalog && !error ? (

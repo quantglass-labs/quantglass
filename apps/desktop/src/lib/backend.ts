@@ -70,6 +70,8 @@ import type {
   ReferenceResponse,
   MasteryResponse,
   ReviewQueueResponse,
+  LearnAnalytics,
+  LearnCertificate,
   Assessment,
   AssessmentResult,
   LiveExercise,
@@ -513,6 +515,12 @@ export const backendClient = {
   },
   getMastery() {
     return requestJson<MasteryResponse>('/api/learn/mastery');
+  },
+  getLearnAnalytics() {
+    return requestJson<LearnAnalytics>('/api/learn/analytics');
+  },
+  getCertificate(level: string) {
+    return requestJson<LearnCertificate>(`/api/learn/certificate/${level}`);
   },
   getReviewQueue() {
     return requestJson<ReviewQueueResponse>('/api/learn/review-queue');

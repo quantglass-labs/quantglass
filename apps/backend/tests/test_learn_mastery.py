@@ -45,11 +45,17 @@ class _Store:
 
 
 class _Learn:
+    def __init__(self, completed=0):
+        self.completed = completed
+
     def get_catalog(self):
         return {
             "levels": [
                 {
                     "id": "novice",
+                    "title": "Novice",
+                    "completed": self.completed,
+                    "total": 2,
                     "tracks": [
                         {
                             "id": "chart-literacy",
@@ -71,8 +77,8 @@ class _Learn:
         }
 
 
-def _service(store=None):
-    return LearnMasteryService(store or _Store(), _Learn())
+def _service(store=None, completed=0):
+    return LearnMasteryService(store or _Store(), _Learn(completed))
 
 
 class XpAndBadgeTests(unittest.TestCase):
@@ -139,6 +145,43 @@ class ReviewQueueTests(unittest.TestCase):
         queue = service.review_queue()
         statuses = {item["term"]: item["status"] for item in queue["items"]}
         self.assertEqual(statuses.get("ATR"), "due")
+
+
+class AnalyticsAndCertificateTests(unittest.TestCase):
+    def test_analytics_reports_levels_weekly_and_totals(self) -> None:
+        store = _Store()
+        store.progress = {
+            "l1": {"completed_at": datetime.now(UTC).isoformat()},
+            "l2": {"completed_at": datetime.now(UTC).isoformat()},
+        }
+        store.assessments = {"novice": {"score": 90, "passed": True, "taken_at": "2026-06-11"}}
+        analytics = _service(store, completed=2).analytics()
+        level = analytics["levels"][0]
+        self.assertEqual(level["percent"], 100)
+        self.assertTrue(level["certificate_earned"])
+        self.assertEqual(analytics["weekly"][-1]["lessons"], 2)
+        self.assertEqual(analytics["totals"]["lessons_completed"], 2)
+
+    def test_certificate_lists_unmet_requirements(self) -> None:
+        result = _service(_Store(), completed=0).certificate("novice")
+        self.assertFalse(result["earned"])
+        self.assertEqual(len(result["requirements"]), 2)
+
+    def test_certificate_issued_with_stable_verification(self) -> None:
+        store = _Store()
+        store.assessments = {
+            "novice": {"score": 88, "passed": True, "taken_at": "2026-06-11T00:00:00+00:00"}
+        }
+        service = _service(store, completed=2)
+        first = service.certificate("novice")
+        second = service.certificate("novice")
+        self.assertTrue(first["earned"])
+        self.assertEqual(first["exam_score"], 88)
+        self.assertEqual(first["verification"], second["verification"])
+        self.assertEqual(len(first["verification"]), 16)
+
+    def test_unknown_level_not_earned(self) -> None:
+        self.assertFalse(_service().certificate("galactic")["earned"])
 
 
 if __name__ == "__main__":
