@@ -469,6 +469,18 @@ export interface PaperTradeIntentRecord {
   status?: string;
 }
 
+export interface PaperClosureRecord {
+  symbolId: string;
+  side: string;
+  quantity: number;
+  entryPrice: number;
+  exitPrice: number;
+  exitKind: "stop" | "target" | "manual" | string;
+  pnl: number;
+  rMultiple: number | null;
+  closedAt: string;
+}
+
 export interface PaperTradeIntentListResponse {
   items: PaperTradeIntentRecord[];
 }

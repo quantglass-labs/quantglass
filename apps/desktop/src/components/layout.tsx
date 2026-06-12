@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import {
   Bell,
   ChevronRight,
+  Briefcase,
   ClipboardCheck,
   GraduationCap,
   NotebookPen,
@@ -27,6 +28,7 @@ const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/signals', label: 'Signals', icon: TrendingUp },
   { to: '/watchlist', label: 'Watchlist', icon: Star },
+  { to: '/portfolio', label: 'Portfolio', icon: Briefcase },
   { to: '/backtest', label: 'Backtesting', icon: TestTubeDiagonal },
   { to: '/alerts', label: 'Alerts', icon: Bell },
   { to: '/learn', label: 'Learn', icon: GraduationCap },

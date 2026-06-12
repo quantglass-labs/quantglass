@@ -34,6 +34,7 @@ import type {
   NotificationTestChannel,
   NotificationTestResponse,
   PaperAccount,
+  PaperClosureRecord,
   PaperAccountResponse,
   PaperTradeIntentListResponse,
   PaperTradeIntentRequest,
@@ -511,6 +512,9 @@ export const backendClient = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ answers }),
     });
+  },
+  getPaperClosures() {
+    return requestJson<{ items: PaperClosureRecord[] }>('/api/paper-trades/closures');
   },
   cancelPaperTrade(intentId: string) {
     return requestJson<{ ok: boolean }>(`/api/paper-trades/${intentId}/cancel`, {

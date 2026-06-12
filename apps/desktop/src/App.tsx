@@ -76,6 +76,9 @@ const MissionsScreen = lazy(async () =>
 const JournalScreen = lazy(async () =>
   import('./screens/JournalScreen').then((module) => ({ default: module.JournalScreen })),
 );
+const PortfolioScreen = lazy(async () =>
+  import('./screens/PortfolioScreen').then((module) => ({ default: module.PortfolioScreen })),
+);
 const ReviewScreen = lazy(async () =>
   import('./screens/ReviewScreen').then((module) => ({ default: module.ReviewScreen })),
 );
@@ -1492,6 +1495,7 @@ export default function App() {
               }
             />
             <Route path="/missions" element={<MissionsScreen backendStatus={backendStatus} />} />
+            <Route path="/portfolio" element={<PortfolioScreen backendStatus={backendStatus} />} />
             <Route path="/journal" element={<JournalScreen backendStatus={backendStatus} />} />
             <Route path="/review" element={<ReviewScreen backendStatus={backendStatus} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
