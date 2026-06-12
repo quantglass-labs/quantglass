@@ -65,6 +65,7 @@ class SignalEngineService:
         series, published as context-class signals with no trade geometry.
         Context names the environment; setups carry the trades."""
         items: list[dict[str, Any]] = []
+        cross_sectional: dict[str, list[dict[str, Any]]] = {}
         for series in self._analytics_store.list_market_series(minimum_candles=80):
             payload = self._analytics_store.list_market_candles(
                 series["symbol"], series["timeframe"], limit=120
@@ -96,6 +97,47 @@ class SignalEngineService:
                 "data_source": series["source"],
                 "signal_class": "context",
             }
+            # Statistical family (SIG-6): z-score of close vs its 20-bar mean.
+            window = [float(c["close"]) for c in candles[index - 19 : index + 1]]
+            mean20 = sum(window) / len(window)
+            variance = sum((value - mean20) ** 2 for value in window) / len(window)
+            std20 = variance**0.5
+            if std20 > 0:
+                z_score = (close - mean20) / std20
+                if abs(z_score) >= 2.0:
+                    items.append(
+                        {
+                            **base_record,
+                            "family": "statistical",
+                            "layer": "expert",
+                            "display_name": (
+                                "Z-Score Extreme (Stretched Up)"
+                                if z_score > 0
+                                else "Z-Score Extreme (Stretched Down)"
+                            ),
+                            "regime": regime,
+                            "volatility_regime": vol_regime,
+                            "lesson_id": "",
+                            "tags": ["Statistical", "Z-Score"],
+                            "message": (
+                                f"Close is {z_score:+.1f} standard deviations from its 20-bar "
+                                "mean. Stretch reverts in ranges and persists in trends - the "
+                                "regime read decides which lens applies."
+                            ),
+                        }
+                    )
+            # Cross-sectional return for leader/laggard ranking (SIG-6).
+            past_close = float(candles[index - 19]["close"])
+            if past_close > 0:
+                cross_sectional.setdefault(series["timeframe"], []).append(
+                    {
+                        "record": base_record,
+                        "return_20": (close - past_close) / past_close,
+                        "regime": regime,
+                        "vol_regime": vol_regime,
+                    }
+                )
+
             # Volatility family context (SIG-4): states, not trades.
             if vol_regime == "compressed":
                 items.append(
@@ -173,6 +215,35 @@ class SignalEngineService:
                     "data_source": series["source"],
                 }
             )
+        # Relative strength family (SIG-6): leader and laggard per timeframe
+        # cohort. Rank means nothing in a cohort of two, so require four.
+        for entries in cross_sectional.values():
+            if len(entries) < 4:
+                continue
+            ranked = sorted(entries, key=lambda entry: entry["return_20"])
+            for entry, name, tags in (
+                (ranked[-1], "Relative Strength Leader", ["Relative Strength", "Leader"]),
+                (ranked[0], "Relative Weakness Laggard", ["Relative Strength", "Laggard"]),
+            ):
+                items.append(
+                    {
+                        **entry["record"],
+                        "family": "relative-strength",
+                        "layer": "advanced",
+                        "display_name": name,
+                        "regime": entry["regime"],
+                        "volatility_regime": entry["vol_regime"],
+                        "lesson_id": "",
+                        "tags": tags,
+                        "message": (
+                            f"20-bar return of {entry['return_20'] * 100:+.1f}% ranks "
+                            f"{'first' if name.endswith('Leader') else 'last'} of "
+                            f"{len(entries)} tracked symbols on this timeframe. Strength "
+                            "ranks rotate - context for symbol selection, never an entry."
+                        ),
+                    }
+                )
+
         items.sort(key=lambda item: item["generated_at_utc"], reverse=True)
         return items
 
