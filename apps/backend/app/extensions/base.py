@@ -21,6 +21,7 @@ ExtensionCapability = Literal[
     "import_export",
     "data_quality",
     "ui_panel",
+    "lessons",
 ]
 
 ExtensionPermission = Literal[
@@ -65,6 +66,7 @@ class ExtensionContext:
     strategy_registry: Any | None = None
     indicator_registry: Any | None = None
     surface_registry: Any | None = None
+    lesson_pack_registry: Any | None = None
     extension_id: str = "unknown"
     enabled: bool = True
     permissions: tuple[ExtensionPermission, ...] = ()
@@ -134,6 +136,16 @@ class ExtensionContext:
             self.diagnostics.append("Extension surface registry is unavailable.")
             return
         self.surface_registry.register(definition)
+
+    def register_lesson_pack(self, definition: Any) -> None:
+        if not self.require_enabled("Lesson pack registration"):
+            return
+        if self.lesson_pack_registry is None:
+            self.diagnostics.append("Lesson pack registry is unavailable.")
+            return
+        problems = self.lesson_pack_registry.register(definition)
+        for problem in problems:
+            self.diagnostics.append(f"Lesson pack {definition.id} rejected: {problem}")
 
 
 @runtime_checkable

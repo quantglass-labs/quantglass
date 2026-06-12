@@ -787,6 +787,8 @@ export interface LearnTrack {
   lessons: LessonStub[];
   completed: number;
   total: number;
+  /** 'community' when the track comes from an extension lesson pack. */
+  source?: string;
 }
 
 export interface LearnLevel {

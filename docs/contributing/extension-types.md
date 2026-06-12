@@ -151,3 +151,14 @@ provider-specific checks.
 
 Future extension surface for custom widgets, dashboard panels, and chart
 overlays. Treat this as planned until a stable frontend extension ABI exists.
+
+## Lesson Packs
+
+Capability: `lessons`. Ship Academy content as declarative JSON — one track
+of lessons (markdown concept, key terms, a multiple-choice exercise) per
+`LessonPackDefinition`. Packs are validated at registration and rejected
+whole with diagnostics if any lesson is malformed; lesson ids are namespaced
+by pack id and tracks render after first-party content with a community
+badge. Engine-coupled fields (`visuals`, `live_exercise`, `live_apply`,
+`bridge`) are first-party only, so a pack can never inject markup or code.
+See `extensions/community_lesson_pack_example.py` for a complete example.

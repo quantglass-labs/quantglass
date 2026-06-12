@@ -65,6 +65,7 @@ def load_extension_registry(
     strategy_registry: Any | None = None,
     indicator_registry: Any | None = None,
     surface_registry: Any | None = None,
+    lesson_pack_registry: Any | None = None,
     extension_settings_provider: Any | None = None,
     enable_entry_points: bool = False,
     extension_paths: tuple[Path, ...] = (),
@@ -99,6 +100,7 @@ def load_extension_registry(
                 strategy_registry,
                 indicator_registry,
                 surface_registry,
+                lesson_pack_registry,
                 extension_settings_provider,
             )
         )
@@ -111,6 +113,7 @@ def load_extension_registry(
                 strategy_registry,
                 indicator_registry,
                 surface_registry,
+                lesson_pack_registry,
                 extension_settings_provider,
             )
         )
@@ -159,6 +162,7 @@ def _load_extension(
     strategy_registry: Any | None,
     indicator_registry: Any | None,
     surface_registry: Any | None,
+    lesson_pack_registry: Any | None,
     extension_settings_provider: Any | None,
 ) -> ExtensionRecord:
     try:
@@ -178,6 +182,7 @@ def _load_extension(
             strategy_registry=strategy_registry,
             indicator_registry=indicator_registry,
             surface_registry=surface_registry,
+            lesson_pack_registry=lesson_pack_registry,
             extension_id=manifest.id,
             enabled=enabled,
             permissions=manifest.permissions,

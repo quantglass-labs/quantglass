@@ -36,6 +36,7 @@ from app.services.learn_mastery import LearnMasteryService
 from app.services.learn_moments import LearnMomentsService
 from app.services.learn_readiness import LearnReadinessService
 from app.services.learn_service import LearnService
+from app.services.lesson_pack_registry import LessonPackRegistry
 from app.services.market_corridor import MarketCorridorService
 from app.services.missions import MissionService
 from app.services.model_gateway import ModelGateway
@@ -62,6 +63,7 @@ async def lifespan(app: FastAPI):
     strategy_registry = StrategyRegistry()
     indicator_registry = IndicatorRegistry()
     surface_registry = ExtensionSurfaceRegistry()
+    lesson_pack_registry = LessonPackRegistry()
 
     state_store.initialize(settings.provider_settings, settings.safety, settings.ai)
     persisted_provider_settings = state_store.get_provider_settings()
@@ -79,6 +81,7 @@ async def lifespan(app: FastAPI):
         strategy_registry=strategy_registry,
         indicator_registry=indicator_registry,
         surface_registry=surface_registry,
+        lesson_pack_registry=lesson_pack_registry,
         extension_settings_provider=state_store.get_extension_settings,
         enable_entry_points=settings.enable_extension_entry_points,
         extension_paths=(
@@ -110,7 +113,7 @@ async def lifespan(app: FastAPI):
         market_corridor=market_corridor_service,
         signal_engine=signal_engine,
     )
-    learn_service = LearnService(state_store)
+    learn_service = LearnService(state_store, lesson_pack_registry)
     learn_moments_service = LearnMomentsService(state_store, analytics_store)
     learn_live_service = LearnLiveExerciseService(state_store, analytics_store)
     learn_readiness_service = LearnReadinessService(state_store, learn_moments_service)
@@ -131,6 +134,7 @@ async def lifespan(app: FastAPI):
     app.state.strategy_registry = strategy_registry
     app.state.indicator_registry = indicator_registry
     app.state.surface_registry = surface_registry
+    app.state.lesson_pack_registry = lesson_pack_registry
     app.state.event_bus = event_bus
     app.state.notification_service = notification_service
     app.state.trading_service = trading_service

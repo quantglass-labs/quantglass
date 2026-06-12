@@ -122,7 +122,7 @@ for an executable repo-local strategy/indicator pack.
 | Field | Purpose |
 |-------|---------|
 | `id` | Stable extension id used in settings and diagnostics. |
-| `capabilities` | Contribution surface such as `market_data`, `strategy`, `indicator`, `ai_model`, `notification`, `backtest`, `execution`, `import_export`, `data_quality`, or `ui_panel`. |
+| `capabilities` | Contribution surface such as `market_data`, `strategy`, `indicator`, `ai_model`, `notification`, `backtest`, `execution`, `import_export`, `data_quality`, `ui_panel`, or `lessons`. |
 | `permissions` | Declares sensitive access: `read_market_data`, `write_state`, `network_access`, `read_secrets`, `submit_orders`, `render_ui`, `run_model`. |
 | `settings` | Generic settings schema rendered by the backend and UI. |
 | `homepage` | Optional project/docs URL. |
