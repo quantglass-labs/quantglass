@@ -15,105 +15,38 @@ from app.storage.analytics_store import AnalyticsStore
 
 class MarketCorridorService:
     _new_york_tz = ZoneInfo("America/New_York")
+    # Multi-timeframe ingest (E2): one matrix, expanded into targets. Crypto
+    # majors carry the full 15m/1h/4h/1d ladder; other crypto gets intraday
+    # plus daily; stocks are daily (free provider granularity). The macro
+    # proxy ETFs feed the SIG-8 intermarket context with real candles.
+    _corridor_matrix: list[tuple[str, str, str, tuple[str, ...]]] = [
+        ("BTCUSD", "crypto", "crypto", ("15m", "1h", "4h", "1d")),
+        ("ETHUSD", "crypto", "crypto", ("15m", "1h", "4h", "1d")),
+        ("SOLUSD", "crypto", "crypto", ("1h", "4h", "1d")),
+        ("LINKUSD", "crypto", "crypto", ("1h", "4h", "1d")),
+        ("SPY", "stocks", "stocks", ("1d",)),
+        ("QQQ", "stocks", "stocks", ("1d",)),
+        ("AAPL", "stocks", "stocks", ("1d",)),
+        ("MSFT", "stocks", "stocks", ("1d",)),
+        ("NVDA", "stocks", "stocks", ("1d",)),
+        ("TSLA", "stocks", "stocks", ("1d",)),
+        ("COIN", "stocks", "stocks", ("1d",)),
+        ("IWM", "stocks", "stocks", ("1d",)),
+        # Macro / breadth proxies (SIG-8): dollar, rates, gold, equal-weight.
+        ("UUP", "stocks", "stocks", ("1d",)),
+        ("TLT", "stocks", "stocks", ("1d",)),
+        ("GLD", "stocks", "stocks", ("1d",)),
+        ("RSP", "stocks", "stocks", ("1d",)),
+    ]
     _corridor_targets = [
         {
-            "symbol": "BTCUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "1h",
-        },
-        {
-            "symbol": "ETHUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "1h",
-        },
-        {
-            "symbol": "SOLUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "1h",
-        },
-        {
-            "symbol": "LINKUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "1h",
-        },
-        {
-            "symbol": "SPY",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "QQQ",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "AAPL",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "MSFT",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "NVDA",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "TSLA",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "COIN",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        {
-            "symbol": "IWM",
-            "route_domain": "stocks",
-            "market_type": "stocks",
-            "timeframe": "1d",
-        },
-        # Multi-timeframe coverage for the crypto majors so the engine's higher-timeframe
-        # filter and intraday setups have real data on both fast and slow horizons.
-        {
-            "symbol": "BTCUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "4h",
-        },
-        {
-            "symbol": "ETHUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "4h",
-        },
-        {
-            "symbol": "BTCUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "15m",
-        },
-        {
-            "symbol": "ETHUSD",
-            "route_domain": "crypto",
-            "market_type": "crypto",
-            "timeframe": "15m",
-        },
+            "symbol": symbol,
+            "route_domain": route_domain,
+            "market_type": market_type,
+            "timeframe": timeframe,
+        }
+        for symbol, route_domain, market_type, timeframes in _corridor_matrix
+        for timeframe in timeframes
     ]
 
     def __init__(
