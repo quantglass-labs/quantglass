@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -85,7 +86,7 @@ jobs:
 
   release:
     name: Publish GitHub release
-    if: ${{ !github.event.repository.private }}
+    if: ${{ !github.event.repository.private && startsWith(github.ref, 'refs/tags/') }}
     needs: build
     runs-on: ubuntu-latest
     steps:
