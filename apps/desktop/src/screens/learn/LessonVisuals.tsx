@@ -6,7 +6,7 @@
  * module maps each declared type to a vetted component. Content never
  * carries markup, so community lesson packs stay safe. The annotation
  * grammar (dashed leaders, bold label, muted sublabel) follows the visual
- * spec in docs/reading_candlestick_tutorial.html.
+ * spec for candlestick annotations.
  */
 
 import type { JSX } from 'react';

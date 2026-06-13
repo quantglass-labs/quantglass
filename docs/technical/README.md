@@ -72,18 +72,15 @@ quantglass/
 │       └── src-tauri/  Rust shell (lib.rs spawns the sidecar)
 ├── packages/
 │   └── contracts/      Shared TypeScript API types (@quantglass/contracts)
-└── docs/               Vision, milestones, OpenAPI, user-guide, technical
+└── docs/               OpenAPI, user-guide, technical, contributing
 ```
 
 ---
 
 ## Related documents
 
-- [Vision & architecture v2](../financial_signal_app_vision_architecture_v2.md)
-- [Production implementation masterplan](../production_implementation_masterplan.md)
-- [Release readiness checklist](../release_readiness_checklist.md)
 - [Backup & recovery](../backup_and_recovery.md)
 - [OpenAPI specification](../openapi/quantglass-backend.openapi.json)
-- [Milestone phases](../milestones/README.md)
+- [Configuration reference](../configuration.md)
 
 Start with **[1. Architecture overview →](01-architecture.md)**

@@ -3,7 +3,7 @@
 
 """Readiness scores and level-unlock logic for the Academy.
 
-Implements the gated-progression model from docs/academy.md (v1, soft
+Implements the curriculum's gated-progression model (v1, soft
 gating): five readiness dimensions computed from real app data — lesson
 progress, paper-trading history, and the coaching-moment detectors — plus
 per-level unlock requirements. Every formula is documented here so a score

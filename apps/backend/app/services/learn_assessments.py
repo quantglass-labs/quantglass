@@ -6,7 +6,7 @@
 The exam samples multiple-choice questions from the level's lessons, serves
 them without answers, grades server-side against the lesson content, and
 persists the best result. A passed assessment is what hardens the readiness
-ladder's level gates (docs/academy.md §11-12).
+ladder's level gates (the curriculum's gated-progression model).
 """
 
 from __future__ import annotations

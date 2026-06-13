@@ -3,7 +3,7 @@
 
 """Signal taxonomy (SIG-1): families, layers, classes, and the detector map.
 
-Vocabulary from docs/signal-engine/advanced_signal_engine_taxonomy.md, adopted
+Vocabulary from the signal-engine taxonomy, adopted
 selectively: every detector listed here flows through the evidence pipeline
 (backtest, shrinkage, conformal, OOS cap) or is explicitly a *context* or
 *risk* signal that carries no trade geometry. Families we cannot back with
