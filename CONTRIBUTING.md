@@ -51,6 +51,41 @@ npm run backend:bundle
 npm run desktop:tauri:build
 ```
 
+## Development Workflow
+
+QuantGlass uses **GitHub Flow**: `main` is always releasable, and every change
+lands through a short-lived branch and a pull request. Direct pushes to `main`
+are disabled.
+
+1. **Branch** off `main` with a typed name:
+   - `fix/<slug>` — bug fix
+   - `feat/<slug>` — new feature
+   - `docs/<slug>`, `chore/<slug>`, `test/<slug>` — supporting work
+   - `hotfix/<slug>` — urgent fix for a released bug
+2. **Commit** using [Conventional Commits](https://www.conventionalcommits.org):
+   `fix:`, `feat:`, `docs:`, `chore:`, `test:`, `refactor:`. Keep messages
+   imperative and scoped. (Do not add AI co-author trailers.)
+3. **Open a PR** (`gh pr create --fill`). CI must pass — Backend, Desktop, and
+   Tauri shell are required status checks.
+4. **Merge** with **squash** once green (`gh pr merge --squash --delete-branch`).
+   History stays linear; the merged branch is auto-deleted.
+
+### Releases
+
+Releases are tag-driven and build installers for all platforms automatically.
+
+- Bug fixes → patch tag (`v0.2.1`); features → minor tag (`v0.3.0`) — follow
+  [SemVer](https://semver.org).
+- After merging to `main`, tag the release: `git tag -a vX.Y.Z -m "…" && git push origin vX.Y.Z`.
+  The release workflow builds and publishes the GitHub Release.
+- A **hotfix** is the same flow, expedited: `hotfix/<slug>` → PR → squash-merge
+  → tag a patch immediately.
+
+### Security issues
+
+Do not open a public issue for vulnerabilities. Use **private vulnerability
+reporting** (Security tab → "Report a vulnerability"). See SECURITY.md.
+
 ## Pull Request Standards
 
 - Keep changes scoped.
