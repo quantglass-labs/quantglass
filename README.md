@@ -14,13 +14,10 @@ FastAPI backend, React/Tauri desktop app, typed contracts, extension
 registries, and optional local/API AI on a strict fact-guard covenant.
 
 <p align="center">
-  <img src="docs/assets/quantglass-demo.gif" alt="QuantGlass product tour: dashboard, signals, paper-trade ticket, portfolio, backtesting, the trading constitution, the AI Copilot, and model settings" width="900">
+  <img src="docs/assets/screenshots/dashboard.png" alt="QuantGlass dashboard: market regime, signal inventory, watchlist momentum, and paper-account exposure" width="900">
 </p>
 
-<p align="center">
-  <img src="docs/assets/screenshots/symbol-detail.png" alt="Symbol detail with candlestick chart and decision card" width="440">
-  <img src="docs/assets/screenshots/backtest.png" alt="Backtesting screen with expectancy metrics" width="440">
-</p>
+<p align="center"><em>A guided tour is below — <a href="#screenshots--a-guided-tour">jump to screenshots</a>.</em></p>
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
 free to use, study, modify, and redistribute under the AGPL. Commercial licenses
@@ -92,6 +89,69 @@ Known limitations:
   limits.
 - Extension APIs are intentionally early and may change before a stable plugin
   ABI is declared.
+
+## Screenshots — a guided tour
+
+### Dashboard — your cross-market command center
+
+Market regime, the live signal inventory, watchlist momentum, and paper-account
+exposure at a glance — topped by an AI daily brief narrated from the engine's own
+reads.
+
+<p align="center"><img src="docs/assets/screenshots/dashboard.png" alt="Dashboard" width="860"></p>
+
+### Signals — evidence, not hype
+
+A filterable inventory of deterministic setups, each with **calibrated**
+confidence (backtested, shrinkage-adjusted), an entry/stop/target plan, and data
+freshness. Sortable by type, confidence, and timeframe.
+
+<p align="center"><img src="docs/assets/screenshots/signals.png" alt="Signal inventory" width="860"></p>
+
+### Paper trading — every trade starts with a plan
+
+The ticket requires a stop, target, risk %, a written reason, and your emotional
+state. Market / limit / stop orders, time-in-force, trailing stops, and OCO
+brackets — all on honest closed-candle fills.
+
+<p align="center"><img src="docs/assets/screenshots/paper-ticket.png" alt="Paper-trade ticket" width="860"></p>
+
+### Portfolio — positions, orders, and an honest ledger
+
+Open positions with full and partial close, working orders you can cancel, and a
+permanent closure ledger recording every exit with P&L and **R-multiples**.
+
+<p align="center"><img src="docs/assets/screenshots/portfolio.png" alt="Portfolio and order management" width="860"></p>
+
+### Backtesting — statistically honest validation
+
+Train/test splits, cost-stress scenarios, Monte Carlo drawdown distributions, and
+bias/quality gates that are **printed, not hidden** — built to expose overfitting
+rather than flatter it.
+
+<p align="center"><img src="docs/assets/screenshots/backtest.png" alt="Backtesting workbench" width="860"></p>
+
+### The Academy — learn on your own market data
+
+121 lessons across four levels, decision drills, and behavioral missions that
+grade your **process**, not luck — with live exercises against real corridor data.
+
+<p align="center"><img src="docs/assets/screenshots/learn.png" alt="The Academy" width="860"></p>
+
+### Trading constitution — your rules, enforced
+
+Adopt your own rules (max risk per trade, no averaging down, …). They're checked
+at the ticket and block any trade that violates them, before it's placed.
+
+<p align="center"><img src="docs/assets/screenshots/constitution.png" alt="Trading constitution" width="860"></p>
+
+### AI Copilot — grounded in your own data
+
+Ask about your signals, account, and trades. The model proposes read-only tools,
+the engine runs them, and the model narrates only those results behind a numeric
+fact-guard — so it **cannot invent a number**. Source-labeled on every answer.
+
+<p align="center"><img src="docs/assets/screenshots/copilot.png" alt="AI Copilot" width="860"></p>
 
 ## Install (for traders — no developer setup)
 
