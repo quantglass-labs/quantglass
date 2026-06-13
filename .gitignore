@@ -63,3 +63,6 @@ apps/desktop/vite.config.d.ts
 CLAUDE.md
 AGENTS.md
 GEMINI.md
+
+# Raw screenshot source (promo assets are generated from these; not for the repo)
+/screenshots/
