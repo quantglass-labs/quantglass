@@ -115,15 +115,18 @@ apps/
   desktop/        React + Tauri desktop application
 packages/
   contracts/      Shared TypeScript API contracts
+  quantglass-sdk/ Standalone extension SDK (mirrored to quantglass-labs/quantglass-sdk)
 docs/
   technical/      Architecture and implementation docs
   user-guide/     End-user documentation
   contributing/   Extension and testing guides
-examples/
-  extensions/     Backend extension examples
-  providers/      Provider adapter examples
-  strategies/     Strategy examples
 ```
+
+Extensions are developed in two dedicated repos under
+[QuantGlass Labs](https://github.com/quantglass-labs): the authoring SDK
+[`quantglass-sdk`](https://github.com/quantglass-labs/quantglass-sdk) and
+community templates + content packs
+[`quantglass-extensions`](https://github.com/quantglass-labs/quantglass-extensions).
 
 ## Licensing And Commercial Use
 

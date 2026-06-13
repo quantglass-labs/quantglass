@@ -4,6 +4,13 @@ QuantGlass extensions let contributors add provider adapters, AI model gateways,
 indicators, strategies, and notification channels without changing the core app
 first.
 
+> **Where the code lives.** The authoring SDK is the standalone
+> [`quantglass-sdk`](https://github.com/quantglass-labs/quantglass-sdk) package (`pip install quantglass-sdk`), and
+> runnable templates plus community content packs live in
+> [`quantglass-extensions`](https://github.com/quantglass-labs/quantglass-extensions). Build and unit-test an extension there
+> against `quantglass_sdk` with no dependency on this repo. This guide explains
+> the model; the examples below link into those repos.
+
 ## Extension model
 
 Backend extensions can be either:
@@ -93,9 +100,9 @@ class ExampleExtension:
         return {"status": "ok"}
 ```
 
-See [`examples/extensions/example_extension.py`](../../examples/extensions/example_extension.py)
+See [`examples/extensions/example_extension.py`](https://github.com/quantglass-labs/quantglass-extensions/blob/main/examples/extensions/example_extension.py)
 for a minimal package-style extension, and
-[`extensions/community_momentum_pack.py`](../../extensions/community_momentum_pack.py)
+[`extensions/community_momentum_pack.py`](../../extensions/community_momentum_pack.py) (also in [quantglass-extensions](https://github.com/quantglass-labs/quantglass-extensions/blob/main/packs/community_momentum_pack.py))
 for an executable repo-local strategy/indicator pack.
 
 ## Contribution areas
@@ -119,13 +126,13 @@ for an executable repo-local strategy/indicator pack.
 
 ## Manifest fields
 
-| Field | Purpose |
-|-------|---------|
-| `id` | Stable extension id used in settings and diagnostics. |
+| Field          | Purpose                                                                                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`           | Stable extension id used in settings and diagnostics.                                                                                                                                            |
 | `capabilities` | Contribution surface such as `market_data`, `strategy`, `indicator`, `ai_model`, `notification`, `backtest`, `execution`, `import_export`, `data_quality`, `ui_panel`, `lessons`, or `missions`. |
-| `permissions` | Declares sensitive access: `read_market_data`, `write_state`, `network_access`, `read_secrets`, `submit_orders`, `render_ui`, `run_model`. |
-| `settings` | Generic settings schema rendered by the backend and UI. |
-| `homepage` | Optional project/docs URL. |
+| `permissions`  | Declares sensitive access: `read_market_data`, `write_state`, `network_access`, `read_secrets`, `submit_orders`, `render_ui`, `run_model`.                                                       |
+| `settings`     | Generic settings schema rendered by the backend and UI.                                                                                                                                          |
+| `homepage`     | Optional project/docs URL.                                                                                                                                                                       |
 
 Permissions are enforced at registration time for sensitive surfaces. Public or
 keyed provider registrations require `network_access`; trading providers require
