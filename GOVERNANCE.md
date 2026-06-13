@@ -4,6 +4,8 @@ QuantGlass uses maintainer-led governance while the project is young.
 
 ## Maintainers
 
+- **Sheeraz Ali** — Founder & Maintainer · [LinkedIn](https://www.linkedin.com/in/sheerazali/)
+
 Maintainers are responsible for:
 
 - Project direction and release decisions.

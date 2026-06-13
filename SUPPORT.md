@@ -18,3 +18,7 @@ Use discussions for:
 
 Paid support, custom integrations, and commercial licensing are separate from
 community support. See COMMERCIAL-LICENSE.md.
+
+## Maintainer
+
+Sheeraz Ali — Founder & Maintainer · [LinkedIn](https://www.linkedin.com/in/sheerazali/)
