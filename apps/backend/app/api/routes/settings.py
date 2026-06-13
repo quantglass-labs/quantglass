@@ -220,12 +220,13 @@ async def test_ai_provider(
                 ).strip(),
             }
         diagnostic_detail = runtime_state.get("runtimeDetail")
+        # The runtime diagnostic is returned separately as runtimeDetail and
+        # rendered on its own line by the client; don't fold it into detail too
+        # or it shows twice.
         detail = (
             error_detail
             or "The provider did not return usable text. Check endpoint, model id, API key, and timeout."
         )
-        if diagnostic_detail:
-            detail = f"{detail} {diagnostic_detail}"
         return {
             "provider": payload.provider,
             "model": settings.model,

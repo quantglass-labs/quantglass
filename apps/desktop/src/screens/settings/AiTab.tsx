@@ -1023,7 +1023,11 @@ export function AiTab({
                                 : 'Provider test failed'}
                             </p>
                             <span
-                              className={`rounded-full border px-2.5 py-1 text-xs ${aiRuntimeStatusMeta(aiProviderTestResult.runtimeStatus).tone}`}
+                              className={`rounded-full border px-2.5 py-1 text-xs ${
+                                aiProviderTestResult.ok
+                                  ? aiRuntimeStatusMeta(aiProviderTestResult.runtimeStatus).tone
+                                  : 'border-hold/25 bg-hold/10 text-hold'
+                              }`}
                             >
                               {aiRuntimeStatusMeta(aiProviderTestResult.runtimeStatus).label}
                             </span>
