@@ -235,3 +235,12 @@ app.include_router(journal_router)
 app.include_router(constitution_router)
 app.include_router(mcp_router)
 app.include_router(copilot_router)
+
+# Server/web mode (Docker self-host): when a built frontend directory is
+# configured, serve the SPA at "/". Mounted last so it never shadows /api or
+# /ws routes. The desktop sidecar leaves frontend_dir unset and skips this.
+_frontend_dir = get_settings().frontend_dir
+if _frontend_dir is not None and _frontend_dir.is_dir():
+    from fastapi.staticfiles import StaticFiles
+
+    app.mount("/", StaticFiles(directory=str(_frontend_dir), html=True), name="frontend")

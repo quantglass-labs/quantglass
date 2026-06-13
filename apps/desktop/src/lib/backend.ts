@@ -102,6 +102,11 @@ async function resolveBackendBaseUrl(): Promise<string> {
   if (configuredUrl) {
     return configuredUrl;
   }
+  // Server/web mode (Docker self-host): the backend serves this SPA, so the API
+  // is same-origin. Built with VITE_SAME_ORIGIN=true.
+  if (import.meta.env.VITE_SAME_ORIGIN === 'true' && typeof window !== 'undefined') {
+    return window.location.origin;
+  }
   if (isTauriRuntime()) {
     try {
       const { invoke } = await import('@tauri-apps/api/core');

@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 QuantGlass contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# QuantGlass self-host / server mode. Run the engine + web UI on one port:
+#   docker compose up --build
+# then open http://localhost:8000. Data persists in the named volume.
+# Paper trading only; educational/research software, not financial advice.
+
+services:
+  quantglass:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quantglass:local
+    container_name: quantglass
+    ports:
+      - "8000:8000"
+    volumes:
+      - quantglass-data:/data
+    restart: unless-stopped
+
+volumes:
+  quantglass-data:

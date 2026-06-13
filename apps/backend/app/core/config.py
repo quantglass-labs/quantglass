@@ -139,6 +139,10 @@ class AppSettings(BaseSettings):
     app_name: str = "QuantGlass Backend"
     environment: str = "development"
     workspace_root: Path = Field(default_factory=lambda: Path(__file__).resolve().parents[4])
+    # Server/web mode: when set to a built frontend directory, the backend
+    # serves the SPA at "/" so a browser can use QuantGlass without the desktop
+    # shell (e.g. the Docker self-host image). Unset for the desktop sidecar.
+    frontend_dir: Path | None = None
     data_dir: Path = Field(default_factory=_default_data_dir)
     sqlite_path: Path | None = None
     duckdb_path: Path | None = None

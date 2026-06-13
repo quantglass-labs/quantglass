@@ -93,6 +93,27 @@ Known limitations:
 - Extension APIs are intentionally early and may change before a stable plugin
   ABI is declared.
 
+## Install (for traders — no developer setup)
+
+QuantGlass ships as a normal desktop app. **You do not need Python, Node, or any
+developer tools** — download the installer for your operating system from the
+[Releases page](https://github.com/quantglass-labs/quantglass/releases) and run it.
+The Python engine is bundled inside the app.
+
+| OS          | Download                                                             | Notes                                                                                                                                      |
+| ----------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Windows** | `.exe` (installer) or `.msi`                                         | On first launch Windows SmartScreen may say "unknown publisher" — click **More info → Run anyway**.                                        |
+| **macOS**   | `.dmg`                                                               | Drag to Applications. The build is unsigned, so the first time **right-click the app → Open** (don't double-click) to get past Gatekeeper. |
+| **Linux**   | `.AppImage` (portable — just `chmod +x` and run), or `.deb` / `.rpm` | The AppImage needs no installation.                                                                                                        |
+
+> **Why the security warnings?** The community builds are **not code-signed**
+> (signing requires paid Apple/Microsoft certificates). The steps above are the
+> one-time bypass. Every release lists `SHA256SUMS` files so you can verify your
+> download is intact.
+
+Prefer to self-host the engine and use it from a browser (e.g. on a home server)?
+See [Run with Docker](#run-with-docker-self-host--server-mode).
+
 ## Why Contributors Might Care
 
 QuantGlass is built around extension points that are useful to market-data,
@@ -144,7 +165,11 @@ The practical model is open-source core plus paid commercial options:
 - Companies that need proprietary redistribution, private hosted products,
   closed-source forks, or enterprise support can buy a commercial license.
 
-## Quick Start
+## Build from source (developers)
+
+> Most users do not need this — see [Install (for traders)](#install-for-traders--no-developer-setup)
+> above. This section is for building QuantGlass yourself. Requires Python 3.12+,
+> Node 22+, and the Rust toolchain.
 
 Install backend dependencies:
 
@@ -203,6 +228,36 @@ Build the backend sidecar and desktop packages:
 npm run backend:bundle
 npm run desktop:tauri:build
 ```
+
+## Run with Docker (self-host / server mode)
+
+If you'd rather run the engine always-on (a home server or VPS) and use it from
+a browser, one container serves the web UI and the API on a single port. You
+need only Docker — no Python, Node, or Rust.
+
+```bash
+docker compose up --build
+```
+
+Then open **`http://localhost:8000`**. Your data persists in the `quantglass-data`
+named volume across restarts.
+
+Or build and run the image directly:
+
+```bash
+docker build -t quantglass .
+docker run -p 8000:8000 -v quantglass-data:/data quantglass
+```
+
+Notes:
+
+- This is a convenience for self-hosters; the **desktop installers remain the
+  primary distribution** for most users.
+- The container binds to `0.0.0.0` inside Docker. It is intended for your own
+  machine or a trusted private network — it has no authentication layer, so do
+  not expose port 8000 directly to the public internet.
+- Paper trading is the supported execution path. Educational and research
+  software, not financial advice — see [DISCLAIMER.md](DISCLAIMER.md).
 
 ## Common Commands
 

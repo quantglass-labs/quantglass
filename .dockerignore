@@ -1,0 +1,22 @@
+# Keep the build context small and reproducible
+.git
+.github
+**/node_modules
+**/.venv
+.venv
+**/dist
+**/build
+**/target
+**/__pycache__
+**/*.pyc
+apps/desktop/src-tauri
+apps/backend/build
+apps/backend/dist
+license-reports
+mock
+docs
+*.log
+*.duckdb
+*.sqlite
+.claude
+.cursor
