@@ -22,7 +22,7 @@ def _initialize(sqlite_path: Path) -> StateStore:
 
 class MigrationTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._tmp = tempfile.TemporaryDirectory()
+        self._tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
         self.sqlite_path = Path(self._tmp.name) / "state.db"
 
     def tearDown(self) -> None:

@@ -50,7 +50,7 @@ class _Analytics:
 
 class DatasetExportTests(unittest.TestCase):
     def test_export_writes_all_three_csvs_locally(self) -> None:
-        with TemporaryDirectory() as tmp:
+        with TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             service = DatasetExportService(_Store(), _Analytics(), Path(tmp))
             result = service.export()
             self.assertEqual(len(result["files"]), 3)

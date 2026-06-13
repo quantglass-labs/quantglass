@@ -13,7 +13,7 @@ from app.storage.state_store import StateStore
 
 class SecretStorageTests(unittest.TestCase):
     def test_api_keys_are_not_stored_as_plaintext_in_sqlite(self) -> None:
-        with TemporaryDirectory() as tmpdir:
+        with TemporaryDirectory(ignore_cleanup_errors=True) as tmpdir:
             sqlite_path = Path(tmpdir) / "state.db"
             store = StateStore(sqlite_path)
             store.initialize(ProviderSettings(), SafetySettings(), AiSettings())

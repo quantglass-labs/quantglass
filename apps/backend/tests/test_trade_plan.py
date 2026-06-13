@@ -28,7 +28,7 @@ PLAN = {
 
 class TradePlanTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._tmp = tempfile.TemporaryDirectory()
+        self._tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
         self.store = _store(self._tmp.name)
 
     def tearDown(self) -> None:

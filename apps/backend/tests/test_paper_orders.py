@@ -18,7 +18,7 @@ from app.storage.state_store.trading import PaperTradingStore
 
 class PaperOrderTests(unittest.TestCase):
     def setUp(self):
-        self._tmp = TemporaryDirectory()
+        self._tmp = TemporaryDirectory(ignore_cleanup_errors=True)
         self.store = PaperTradingStore(Path(self._tmp.name) / "state.sqlite")
         with connect(self.store.sqlite_path) as connection:
             self.store.ensure_schema(connection)

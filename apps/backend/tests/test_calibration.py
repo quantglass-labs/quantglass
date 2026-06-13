@@ -27,7 +27,7 @@ def _row(signal_id="s1", confidence=60, direction="long"):
 
 class CalibrationStoreTests(unittest.TestCase):
     def setUp(self):
-        self._tmp = TemporaryDirectory()
+        self._tmp = TemporaryDirectory(ignore_cleanup_errors=True)
         root = Path(self._tmp.name)
         self.store = AnalyticsStore(root / "a.duckdb", root / "parquet")
         self.store.initialize()
