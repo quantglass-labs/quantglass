@@ -1,0 +1,4707 @@
+{
+  "components": {
+    "schemas": {
+      "AiModelListPayload": {
+        "properties": {
+          "apiKeyId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyid"
+          },
+          "baseUrl": {
+            "default": "http://127.0.0.1:11434",
+            "title": "Baseurl",
+            "type": "string"
+          },
+          "provider": {
+            "default": "ollama",
+            "enum": [
+              "template",
+              "ollama",
+              "lm_studio",
+              "vllm",
+              "llama_cpp",
+              "openai",
+              "anthropic",
+              "google_gemini",
+              "deepseek",
+              "mistral",
+              "groq",
+              "openrouter",
+              "together",
+              "azure_openai",
+              "bedrock",
+              "vertex",
+              "openai_compatible"
+            ],
+            "title": "Provider",
+            "type": "string"
+          },
+          "requestTimeoutSeconds": {
+            "default": 8.0,
+            "title": "Requesttimeoutseconds",
+            "type": "number"
+          }
+        },
+        "title": "AiModelListPayload",
+        "type": "object"
+      },
+      "AiProviderTestPayload": {
+        "properties": {
+          "apiKeyId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyid"
+          },
+          "baseUrl": {
+            "default": "http://127.0.0.1:11434",
+            "title": "Baseurl",
+            "type": "string"
+          },
+          "maxTokens": {
+            "default": 96,
+            "title": "Maxtokens",
+            "type": "integer"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "provider": {
+            "default": "ollama",
+            "enum": [
+              "template",
+              "ollama",
+              "lm_studio",
+              "vllm",
+              "llama_cpp",
+              "openai",
+              "anthropic",
+              "google_gemini",
+              "deepseek",
+              "mistral",
+              "groq",
+              "openrouter",
+              "together",
+              "azure_openai",
+              "bedrock",
+              "vertex",
+              "openai_compatible"
+            ],
+            "title": "Provider",
+            "type": "string"
+          },
+          "requestTimeoutSeconds": {
+            "default": 8.0,
+            "title": "Requesttimeoutseconds",
+            "type": "number"
+          },
+          "temperature": {
+            "default": 0.2,
+            "title": "Temperature",
+            "type": "number"
+          }
+        },
+        "required": [
+          "model"
+        ],
+        "title": "AiProviderTestPayload",
+        "type": "object"
+      },
+      "AiSettingsPayload": {
+        "properties": {
+          "apiKeyId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyid"
+          },
+          "baseUrl": {
+            "default": "http://127.0.0.1:11434",
+            "title": "Baseurl",
+            "type": "string"
+          },
+          "cloudEnabled": {
+            "title": "Cloudenabled",
+            "type": "boolean"
+          },
+          "maxTokens": {
+            "default": 180,
+            "title": "Maxtokens",
+            "type": "integer"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "provider": {
+            "default": "ollama",
+            "enum": [
+              "template",
+              "ollama",
+              "lm_studio",
+              "vllm",
+              "llama_cpp",
+              "openai",
+              "anthropic",
+              "google_gemini",
+              "deepseek",
+              "mistral",
+              "groq",
+              "openrouter",
+              "together",
+              "azure_openai",
+              "bedrock",
+              "vertex",
+              "openai_compatible"
+            ],
+            "title": "Provider",
+            "type": "string"
+          },
+          "requestTimeoutSeconds": {
+            "default": 8.0,
+            "title": "Requesttimeoutseconds",
+            "type": "number"
+          },
+          "temperature": {
+            "default": 0.2,
+            "title": "Temperature",
+            "type": "number"
+          }
+        },
+        "required": [
+          "model",
+          "cloudEnabled"
+        ],
+        "title": "AiSettingsPayload",
+        "type": "object"
+      },
+      "AlertPayload": {
+        "properties": {
+          "channel": {
+            "pattern": "^(desktop|telegram|email)$",
+            "title": "Channel",
+            "type": "string"
+          },
+          "condition": {
+            "maxLength": 280,
+            "minLength": 1,
+            "title": "Condition",
+            "type": "string"
+          },
+          "status": {
+            "default": "armed",
+            "pattern": "^(armed|paused|fired)$",
+            "title": "Status",
+            "type": "string"
+          },
+          "symbolId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Symbolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "symbolId",
+          "condition",
+          "channel"
+        ],
+        "title": "AlertPayload",
+        "type": "object"
+      },
+      "AnswerRequest": {
+        "properties": {
+          "answer": {
+            "title": "Answer",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answer"
+        ],
+        "title": "AnswerRequest",
+        "type": "object"
+      },
+      "ApiKeyPayload": {
+        "properties": {
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "title": "ApiKeyPayload",
+        "type": "object"
+      },
+      "AssessmentSubmission": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "AssessmentSubmission",
+        "type": "object"
+      },
+      "BacktestRunRequest": {
+        "properties": {
+          "feesPercent": {
+            "title": "Feespercent",
+            "type": "number"
+          },
+          "marketType": {
+            "title": "Markettype",
+            "type": "string"
+          },
+          "setupType": {
+            "title": "Setuptype",
+            "type": "string"
+          },
+          "slippagePercent": {
+            "title": "Slippagepercent",
+            "type": "number"
+          },
+          "symbolId": {
+            "title": "Symbolid",
+            "type": "string"
+          },
+          "timeframe": {
+            "title": "Timeframe",
+            "type": "string"
+          },
+          "trainTestSplit": {
+            "title": "Traintestsplit",
+            "type": "integer"
+          },
+          "walkForward": {
+            "title": "Walkforward",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "symbolId",
+          "marketType",
+          "timeframe",
+          "setupType",
+          "feesPercent",
+          "slippagePercent",
+          "trainTestSplit",
+          "walkForward"
+        ],
+        "title": "BacktestRunRequest",
+        "type": "object"
+      },
+      "ConstitutionRulesPayload": {
+        "properties": {
+          "daily_max_trades": {
+            "default": 5,
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Daily Max Trades",
+            "type": "integer"
+          },
+          "max_risk_percent": {
+            "default": 1.0,
+            "exclusiveMinimum": 0.0,
+            "maximum": 10.0,
+            "title": "Max Risk Percent",
+            "type": "number"
+          },
+          "require_reason": {
+            "default": true,
+            "title": "Require Reason",
+            "type": "boolean"
+          },
+          "require_stop": {
+            "default": true,
+            "title": "Require Stop",
+            "type": "boolean"
+          }
+        },
+        "title": "ConstitutionRulesPayload",
+        "type": "object"
+      },
+      "CopilotAskRequest": {
+        "properties": {
+          "question": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Question",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "CopilotAskRequest",
+        "type": "object"
+      },
+      "CustomProviderPayload": {
+        "properties": {
+          "apiKeyHeader": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyheader"
+          },
+          "apiKeyId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyid"
+          },
+          "apiKeyQueryParam": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apikeyqueryparam"
+          },
+          "authType": {
+            "default": "none",
+            "title": "Authtype",
+            "type": "string"
+          },
+          "baseUrl": {
+            "default": "",
+            "title": "Baseurl",
+            "type": "string"
+          },
+          "capabilities": {
+            "default": [
+              "ohlcv"
+            ],
+            "items": {
+              "enum": [
+                "ohlcv",
+                "order_book",
+                "news",
+                "trading",
+                "ai"
+              ],
+              "type": "string"
+            },
+            "title": "Capabilities",
+            "type": "array"
+          },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "notes": {
+            "default": "",
+            "title": "Notes",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label"
+        ],
+        "title": "CustomProviderPayload",
+        "type": "object"
+      },
+      "DrillAnswers": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "DrillAnswers",
+        "type": "object"
+      },
+      "ExtensionEnabledPayload": {
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "title": "ExtensionEnabledPayload",
+        "type": "object"
+      },
+      "ExtensionSettingsPayload": {
+        "properties": {
+          "settings": {
+            "additionalProperties": true,
+            "title": "Settings",
+            "type": "object"
+          }
+        },
+        "required": [
+          "settings"
+        ],
+        "title": "ExtensionSettingsPayload",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "JournalAnnotation": {
+        "properties": {
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "tags": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "title": "JournalAnnotation",
+        "type": "object"
+      },
+      "LiveAnswerRequest": {
+        "properties": {
+          "answer": {
+            "title": "Answer",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": true,
+            "title": "Params",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answer",
+          "params"
+        ],
+        "title": "LiveAnswerRequest",
+        "type": "object"
+      },
+      "NlAlertRequest": {
+        "properties": {
+          "text": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "NlAlertRequest",
+        "type": "object"
+      },
+      "PaperAccountPayload": {
+        "properties": {
+          "balance": {
+            "minimum": 0.0,
+            "title": "Balance",
+            "type": "number"
+          },
+          "buyingPower": {
+            "minimum": 0.0,
+            "title": "Buyingpower",
+            "type": "number"
+          },
+          "openPositions": {
+            "items": {
+              "$ref": "#/components/schemas/PaperPositionPayload"
+            },
+            "title": "Openpositions",
+            "type": "array"
+          },
+          "realizedPnl": {
+            "title": "Realizedpnl",
+            "type": "number"
+          }
+        },
+        "required": [
+          "balance",
+          "buyingPower",
+          "realizedPnl"
+        ],
+        "title": "PaperAccountPayload",
+        "type": "object"
+      },
+      "PaperPositionPayload": {
+        "properties": {
+          "averagePrice": {
+            "exclusiveMinimum": 0.0,
+            "title": "Averageprice",
+            "type": "number"
+          },
+          "pnl": {
+            "title": "Pnl",
+            "type": "number"
+          },
+          "quantity": {
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity",
+            "type": "number"
+          },
+          "side": {
+            "pattern": "^(long|short)$",
+            "title": "Side",
+            "type": "string"
+          },
+          "symbolId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Symbolid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "symbolId",
+          "side",
+          "quantity",
+          "averagePrice",
+          "pnl"
+        ],
+        "title": "PaperPositionPayload",
+        "type": "object"
+      },
+      "PaperTradePayload": {
+        "properties": {
+          "entryPrice": {
+            "exclusiveMinimum": 0.0,
+            "title": "Entryprice",
+            "type": "number"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresat"
+          },
+          "limitPrice": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limitprice"
+          },
+          "orderType": {
+            "default": "market",
+            "pattern": "^(market|limit|stop)$",
+            "title": "Ordertype",
+            "type": "string"
+          },
+          "planEmotion": {
+            "anyOf": [
+              {
+                "maxLength": 32,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planemotion"
+          },
+          "planReason": {
+            "anyOf": [
+              {
+                "maxLength": 280,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planreason"
+          },
+          "planRiskPercent": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 100.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planriskpercent"
+          },
+          "planStop": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Planstop"
+          },
+          "planTarget": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plantarget"
+          },
+          "quantity": {
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity",
+            "type": "number"
+          },
+          "side": {
+            "pattern": "^(long|short)$",
+            "title": "Side",
+            "type": "string"
+          },
+          "signalId": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Signalid",
+            "type": "string"
+          },
+          "symbol": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Symbol",
+            "type": "string"
+          },
+          "tif": {
+            "default": "gtc",
+            "pattern": "^(day|gtc|gtd)$",
+            "title": "Tif",
+            "type": "string"
+          },
+          "trailPercent": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 50.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trailpercent"
+          }
+        },
+        "required": [
+          "signalId",
+          "symbol",
+          "side",
+          "quantity",
+          "entryPrice"
+        ],
+        "title": "PaperTradePayload",
+        "type": "object"
+      },
+      "PostmortemRequest": {
+        "properties": {
+          "facts": {
+            "additionalProperties": true,
+            "title": "Facts",
+            "type": "object"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "facts"
+        ],
+        "title": "PostmortemRequest",
+        "type": "object"
+      },
+      "ProviderRoute": {
+        "properties": {
+          "fallback": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback"
+          },
+          "primary": {
+            "title": "Primary",
+            "type": "string"
+          },
+          "secondary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary"
+          }
+        },
+        "required": [
+          "primary"
+        ],
+        "title": "ProviderRoute",
+        "type": "object"
+      },
+      "ProviderRoutesPayload": {
+        "properties": {
+          "ai": {
+            "$ref": "#/components/schemas/ProviderRoute"
+          },
+          "crypto": {
+            "$ref": "#/components/schemas/ProviderRoute"
+          },
+          "news": {
+            "$ref": "#/components/schemas/ProviderRoute"
+          },
+          "stocks": {
+            "$ref": "#/components/schemas/ProviderRoute"
+          },
+          "trading": {
+            "$ref": "#/components/schemas/ProviderRoute"
+          }
+        },
+        "required": [
+          "crypto",
+          "stocks",
+          "news",
+          "ai",
+          "trading"
+        ],
+        "title": "ProviderRoutesPayload",
+        "type": "object"
+      },
+      "ProviderSettingsPayload": {
+        "properties": {
+          "rate_limits": {
+            "$ref": "#/components/schemas/RateLimitSettings"
+          },
+          "routes": {
+            "$ref": "#/components/schemas/ProviderRoutesPayload"
+          },
+          "safety": {
+            "$ref": "#/components/schemas/SafetySettings"
+          },
+          "view_mode": {
+            "title": "View Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "view_mode",
+          "routes",
+          "rate_limits",
+          "safety"
+        ],
+        "title": "ProviderSettingsPayload",
+        "type": "object"
+      },
+      "RateLimitSettings": {
+        "properties": {
+          "crypto_per_minute": {
+            "title": "Crypto Per Minute",
+            "type": "integer"
+          },
+          "stocks_per_minute": {
+            "title": "Stocks Per Minute",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "crypto_per_minute",
+          "stocks_per_minute"
+        ],
+        "title": "RateLimitSettings",
+        "type": "object"
+      },
+      "ReviewGrade": {
+        "properties": {
+          "grade": {
+            "title": "Grade",
+            "type": "string"
+          },
+          "term": {
+            "title": "Term",
+            "type": "string"
+          }
+        },
+        "required": [
+          "term",
+          "grade"
+        ],
+        "title": "ReviewGrade",
+        "type": "object"
+      },
+      "SafetySettings": {
+        "properties": {
+          "act_on_partial_candles": {
+            "default": false,
+            "title": "Act On Partial Candles",
+            "type": "boolean"
+          },
+          "live_trading_confirmed": {
+            "default": false,
+            "title": "Live Trading Confirmed",
+            "type": "boolean"
+          },
+          "min_backtest_sample": {
+            "default": 50,
+            "title": "Min Backtest Sample",
+            "type": "integer"
+          },
+          "trading_mode": {
+            "default": "paper",
+            "enum": [
+              "paper",
+              "live"
+            ],
+            "title": "Trading Mode",
+            "type": "string"
+          }
+        },
+        "title": "SafetySettings",
+        "type": "object"
+      },
+      "SavedStrategyPayload": {
+        "properties": {
+          "id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "savedAt": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Savedat",
+            "type": "string"
+          },
+          "setupType": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Setuptype",
+            "type": "string"
+          },
+          "symbolId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Symbolid",
+            "type": "string"
+          },
+          "timeframe": {
+            "maxLength": 16,
+            "minLength": 1,
+            "title": "Timeframe",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "symbolId",
+          "setupType",
+          "timeframe",
+          "savedAt"
+        ],
+        "title": "SavedStrategyPayload",
+        "type": "object"
+      },
+      "ScenarioAnswers": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Answers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "ScenarioAnswers",
+        "type": "object"
+      },
+      "TutorQuestion": {
+        "properties": {
+          "question": {
+            "title": "Question",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "TutorQuestion",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "WatchlistEntryCreate": {
+        "properties": {
+          "market_type": {
+            "default": "stocks",
+            "maxLength": 16,
+            "minLength": 3,
+            "title": "Market Type",
+            "type": "string"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "maxLength": 280,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "symbol": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Symbol",
+            "type": "string"
+          }
+        },
+        "required": [
+          "symbol"
+        ],
+        "title": "WatchlistEntryCreate",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "QuantGlass Backend",
+    "version": "0.2.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/ai/insight/{surface}": {
+      "get": {
+        "description": "AI on every screen: per-surface facts narrated on the covenant.",
+        "operationId": "surface_insight_api_ai_insight__surface__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "surface",
+            "required": true,
+            "schema": {
+              "title": "Surface",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Surface Insight Api Ai Insight  Surface  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Surface Insight",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/ai/postmortem": {
+      "post": {
+        "description": "AI2-4: debrief a drill run or a single trade from its own facts.",
+        "operationId": "ai_postmortem_api_ai_postmortem_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostmortemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ai Postmortem Api Ai Postmortem Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ai Postmortem",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/alerts": {
+      "get": {
+        "operationId": "list_alerts_api_alerts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Alerts Api Alerts Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Alerts",
+        "tags": [
+          "alerts"
+        ]
+      },
+      "post": {
+        "operationId": "create_alert_api_alerts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Create Alert Api Alerts Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Alert",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/alerts/history": {
+      "get": {
+        "operationId": "list_alert_history_api_alerts_history_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Alert History Api Alerts History Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Alert History",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/alerts/parse-nl": {
+      "post": {
+        "description": "AI2-1: model proposes symbol+condition; the deterministic grammar decides.",
+        "operationId": "parse_nl_alert_api_alerts_parse_nl_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NlAlertRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Parse Nl Alert Api Alerts Parse Nl Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Parse Nl Alert",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/alerts/{alert_id}": {
+      "put": {
+        "operationId": "update_alert_api_alerts__alert_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "alert_id",
+            "required": true,
+            "schema": {
+              "title": "Alert Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Alert Api Alerts  Alert Id  Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Alert",
+        "tags": [
+          "alerts"
+        ]
+      }
+    },
+    "/api/backtests/presets": {
+      "get": {
+        "operationId": "get_backtest_presets_api_backtests_presets_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Backtest Presets Api Backtests Presets Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Backtest Presets",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/backtests/run": {
+      "post": {
+        "operationId": "run_backtest_api_backtests_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BacktestRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Run Backtest Api Backtests Run Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Run Backtest",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/constitution": {
+      "get": {
+        "description": "The user's adopted rules, or the proposed defaults if not yet adopted.",
+        "operationId": "get_constitution_api_constitution_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Constitution Api Constitution Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Constitution",
+        "tags": [
+          "constitution"
+        ]
+      },
+      "put": {
+        "description": "Adopt (or amend) the constitution. From now on the ticket enforces it.",
+        "operationId": "adopt_constitution_api_constitution_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstitutionRulesPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Adopt Constitution Api Constitution Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Adopt Constitution",
+        "tags": [
+          "constitution"
+        ]
+      }
+    },
+    "/api/constitution/compliance": {
+      "get": {
+        "description": "Rule-by-rule adherence over the scored journal.",
+        "operationId": "get_compliance_api_constitution_compliance_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Compliance Api Constitution Compliance Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Compliance",
+        "tags": [
+          "constitution"
+        ]
+      }
+    },
+    "/api/copilot/ask": {
+      "post": {
+        "operationId": "copilot_ask_api_copilot_ask_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopilotAskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Copilot Ask Api Copilot Ask Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Copilot Ask",
+        "tags": [
+          "copilot"
+        ]
+      }
+    },
+    "/api/dashboard/brief": {
+      "get": {
+        "description": "AI2-2: the morning brief, narrated from the engine's own reads.",
+        "operationId": "daily_brief_api_dashboard_brief_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Daily Brief Api Dashboard Brief Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Daily Brief",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/export/dataset": {
+      "post": {
+        "description": "Export trades, journal, and calibration as local CSV files (E5).",
+        "operationId": "export_dataset_api_export_dataset_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Export Dataset Api Export Dataset Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Export Dataset",
+        "tags": [
+          "journal"
+        ]
+      }
+    },
+    "/api/extensions/backtest-models": {
+      "get": {
+        "operationId": "backtest_models_api_extensions_backtest_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Backtest Models Api Extensions Backtest Models Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Backtest Models",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/data-quality": {
+      "get": {
+        "operationId": "data_quality_surfaces_api_extensions_data_quality_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Data Quality Surfaces Api Extensions Data Quality Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Data Quality Surfaces",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/execution-adapters": {
+      "get": {
+        "operationId": "execution_adapters_api_extensions_execution_adapters_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Execution Adapters Api Extensions Execution Adapters Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Execution Adapters",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/import-export": {
+      "get": {
+        "operationId": "import_export_surfaces_api_extensions_import_export_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Import Export Surfaces Api Extensions Import Export Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Import Export Surfaces",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/indicators": {
+      "get": {
+        "operationId": "indicator_registry_api_extensions_indicators_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Indicator Registry Api Extensions Indicators Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Indicator Registry",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/notification-channels": {
+      "get": {
+        "operationId": "notification_channels_api_extensions_notification_channels_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Notification Channels Api Extensions Notification Channels Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Notification Channels",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/registry": {
+      "get": {
+        "operationId": "extension_registry_api_extensions_registry_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extension Registry Api Extensions Registry Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Extension Registry",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/registry/{extension_id}": {
+      "get": {
+        "operationId": "extension_detail_api_extensions_registry__extension_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "extension_id",
+            "required": true,
+            "schema": {
+              "title": "Extension Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extension Detail Api Extensions Registry  Extension Id  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Extension Detail",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/registry/{extension_id}/enabled": {
+      "put": {
+        "operationId": "update_extension_enabled_api_extensions_registry__extension_id__enabled_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "extension_id",
+            "required": true,
+            "schema": {
+              "title": "Extension Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtensionEnabledPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Extension Enabled Api Extensions Registry  Extension Id  Enabled Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Extension Enabled",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/registry/{extension_id}/health": {
+      "get": {
+        "operationId": "extension_health_api_extensions_registry__extension_id__health_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "extension_id",
+            "required": true,
+            "schema": {
+              "title": "Extension Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extension Health Api Extensions Registry  Extension Id  Health Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Extension Health",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/registry/{extension_id}/settings": {
+      "get": {
+        "operationId": "extension_settings_api_extensions_registry__extension_id__settings_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "extension_id",
+            "required": true,
+            "schema": {
+              "title": "Extension Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extension Settings Api Extensions Registry  Extension Id  Settings Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Extension Settings",
+        "tags": [
+          "extensions"
+        ]
+      },
+      "put": {
+        "operationId": "update_extension_settings_api_extensions_registry__extension_id__settings_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "extension_id",
+            "required": true,
+            "schema": {
+              "title": "Extension Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtensionSettingsPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Extension Settings Api Extensions Registry  Extension Id  Settings Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Extension Settings",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/strategies": {
+      "get": {
+        "operationId": "strategy_registry_api_extensions_strategies_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Strategy Registry Api Extensions Strategies Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Strategy Registry",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/surfaces": {
+      "get": {
+        "operationId": "extension_surfaces_api_extensions_surfaces_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extension Surfaces Api Extensions Surfaces Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Extension Surfaces",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/extensions/ui-panels": {
+      "get": {
+        "operationId": "ui_panel_surfaces_api_extensions_ui_panels_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ui Panel Surfaces Api Extensions Ui Panels Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ui Panel Surfaces",
+        "tags": [
+          "extensions"
+        ]
+      }
+    },
+    "/api/journal": {
+      "get": {
+        "description": "Every scored trade merged with the user's reflection note and tags.",
+        "operationId": "get_journal_api_journal_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Journal Api Journal Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Journal",
+        "tags": [
+          "journal"
+        ]
+      }
+    },
+    "/api/journal/{intent_id}": {
+      "post": {
+        "description": "Attach or update a reflection note and mistake tags on a trade.",
+        "operationId": "annotate_trade_api_journal__intent_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "intent_id",
+            "required": true,
+            "schema": {
+              "title": "Intent Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JournalAnnotation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Annotate Trade Api Journal  Intent Id  Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Annotate Trade",
+        "tags": [
+          "journal"
+        ]
+      }
+    },
+    "/api/learn/analytics": {
+      "get": {
+        "description": "Per-level and per-track mastery, weekly pace, and certificate states.",
+        "operationId": "get_learn_analytics_api_learn_analytics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Learn Analytics Api Learn Analytics Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Learn Analytics",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/assessment/{level}": {
+      "get": {
+        "description": "Build a level assessment from that level's lesson exercises.",
+        "operationId": "get_assessment_api_learn_assessment__level__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "level",
+            "required": true,
+            "schema": {
+              "title": "Level",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Assessment Api Learn Assessment  Level  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Assessment",
+        "tags": [
+          "learn"
+        ]
+      },
+      "post": {
+        "description": "Grade an assessment server-side and persist the best result.",
+        "operationId": "submit_assessment_api_learn_assessment__level__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "level",
+            "required": true,
+            "schema": {
+              "title": "Level",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentSubmission"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Submit Assessment Api Learn Assessment  Level  Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit Assessment",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/catalog": {
+      "get": {
+        "description": "Return the full lesson catalog with per-lesson completion status.",
+        "operationId": "get_catalog_api_learn_catalog_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Catalog Api Learn Catalog Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Catalog",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/certificate/{level}": {
+      "get": {
+        "description": "A local completion certificate, or the unmet requirements.",
+        "operationId": "get_certificate_api_learn_certificate__level__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "level",
+            "required": true,
+            "schema": {
+              "title": "Level",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Certificate Api Learn Certificate  Level  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Certificate",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/glossary": {
+      "get": {
+        "description": "Global glossary aggregated from every lesson's key terms.",
+        "operationId": "get_glossary_api_learn_glossary_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Glossary Api Learn Glossary Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Glossary",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/lesson/{lesson_id}": {
+      "get": {
+        "description": "Return full lesson content including concept, exercise, and live_apply.",
+        "operationId": "get_lesson_api_learn_lesson__lesson_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Lesson Api Learn Lesson  Lesson Id  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Lesson",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/lesson/{lesson_id}/check": {
+      "post": {
+        "description": "Submit an exercise answer and receive feedback.",
+        "operationId": "check_answer_api_learn_lesson__lesson_id__check_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Check Answer Api Learn Lesson  Lesson Id  Check Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Check Answer",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/lesson/{lesson_id}/live-check": {
+      "post": {
+        "description": "Check a live-exercise answer by recomputing from the shown parameters.",
+        "operationId": "check_live_answer_api_learn_lesson__lesson_id__live_check_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LiveAnswerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Check Live Answer Api Learn Lesson  Lesson Id  Live Check Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Check Live Answer",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/lesson/{lesson_id}/live-exercise": {
+      "get": {
+        "description": "Generate an exercise from live engine values for supported lessons.",
+        "operationId": "get_live_exercise_api_learn_lesson__lesson_id__live_exercise_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Live Exercise Api Learn Lesson  Lesson Id  Live Exercise Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Live Exercise",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/lesson/{lesson_id}/tutor": {
+      "post": {
+        "description": "Ask the lesson tutor (AI-3): grounded in the lesson's own content.",
+        "operationId": "ask_tutor_api_learn_lesson__lesson_id__tutor_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorQuestion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ask Tutor Api Learn Lesson  Lesson Id  Tutor Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ask Tutor",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/mastery": {
+      "get": {
+        "description": "XP, level, streak, track badges, and the review-queue count.",
+        "operationId": "get_mastery_api_learn_mastery_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Mastery Api Learn Mastery Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Mastery",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/missions": {
+      "get": {
+        "description": "Behavioral missions evaluated over the user's own paper trading.",
+        "operationId": "list_missions_api_learn_missions_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Missions Api Learn Missions Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Missions",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/missions/drills/{category}": {
+      "get": {
+        "description": "A category's decision drill: scenario and checkpoints, answers withheld.",
+        "operationId": "get_drill_api_learn_missions_drills__category__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "schema": {
+              "title": "Category",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Drill Api Learn Missions Drills  Category  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Drill",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/missions/drills/{category}/grade": {
+      "post": {
+        "description": "Grade the drill: process/risk/discipline scores and consequences.",
+        "operationId": "grade_drill_api_learn_missions_drills__category__grade_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "schema": {
+              "title": "Category",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DrillAnswers"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Grade Drill Api Learn Missions Drills  Category  Grade Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Grade Drill",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/missions/{mission_id}/abandon": {
+      "post": {
+        "description": "Stand down from an active mission; progress is never lost.",
+        "operationId": "abandon_mission_api_learn_missions__mission_id__abandon_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mission_id",
+            "required": true,
+            "schema": {
+              "title": "Mission Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Abandon Mission Api Learn Missions  Mission Id  Abandon Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Abandon Mission",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/missions/{mission_id}/accept": {
+      "post": {
+        "description": "Take the mission on \u2014 it joins the active briefing slots (max 3).",
+        "operationId": "accept_mission_api_learn_missions__mission_id__accept_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mission_id",
+            "required": true,
+            "schema": {
+              "title": "Mission Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Accept Mission Api Learn Missions  Mission Id  Accept Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Accept Mission",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/moments": {
+      "get": {
+        "description": "Return teachable moments detected from the user's own paper trading.",
+        "operationId": "get_moments_api_learn_moments_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Moments Api Learn Moments Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Moments",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/progress": {
+      "get": {
+        "description": "Return the user's learning progress summary.",
+        "operationId": "get_progress_api_learn_progress_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Progress Api Learn Progress Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Progress",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/progress/{lesson_id}/complete": {
+      "post": {
+        "description": "Manually mark a lesson as complete (e.g. after reading without exercising).",
+        "operationId": "mark_complete_api_learn_progress__lesson_id__complete_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lesson_id",
+            "required": true,
+            "schema": {
+              "title": "Lesson Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Mark Complete Api Learn Progress  Lesson Id  Complete Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Mark Complete",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/readiness": {
+      "get": {
+        "description": "Return the five readiness scores and per-level unlock requirements.",
+        "operationId": "get_readiness_api_learn_readiness_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Readiness Api Learn Readiness Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Readiness",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/reference": {
+      "get": {
+        "description": "Reference library: indicators, order types, formulas, scam checklist.",
+        "operationId": "get_reference_api_learn_reference_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Reference Api Learn Reference Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Reference",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/review-grade": {
+      "post": {
+        "description": "Self-graded recall; reschedules the card with SM-2-lite.",
+        "operationId": "grade_review_card_api_learn_review_grade_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewGrade"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Grade Review Card Api Learn Review Grade Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Grade Review Card",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/review-queue": {
+      "get": {
+        "description": "Due and new spaced-repetition cards over completed lessons' key terms.",
+        "operationId": "get_review_queue_api_learn_review_queue_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Review Queue Api Learn Review Queue Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Review Queue",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/scenarios": {
+      "get": {
+        "description": "Replay missions: historical-episode scenarios with best scores.",
+        "operationId": "list_scenarios_api_learn_scenarios_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Scenarios Api Learn Scenarios Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Scenarios",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/scenarios/{scenario_id}": {
+      "get": {
+        "description": "One scenario: candles and checkpoint questions, without the answers.",
+        "operationId": "get_scenario_api_learn_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Scenario Api Learn Scenarios  Scenario Id  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Scenario",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/learn/scenarios/{scenario_id}/grade": {
+      "post": {
+        "description": "Grade the run: points, pass/fail, and the engine-fact debrief.",
+        "operationId": "grade_scenario_api_learn_scenarios__scenario_id__grade_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioAnswers"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Grade Scenario Api Learn Scenarios  Scenario Id  Grade Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Grade Scenario",
+        "tags": [
+          "learn"
+        ]
+      }
+    },
+    "/api/market/corridor": {
+      "get": {
+        "operationId": "get_market_corridor_status_api_market_corridor_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Market Corridor Status Api Market Corridor Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Market Corridor Status",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/api/market/corridor/candles": {
+      "get": {
+        "operationId": "get_market_corridor_candles_api_market_corridor_candles_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "title": "Symbol",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timeframe",
+            "required": true,
+            "schema": {
+              "title": "Timeframe",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Market Corridor Candles Api Market Corridor Candles Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Market Corridor Candles",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/api/market/corridor/diagnostics": {
+      "get": {
+        "operationId": "get_market_corridor_diagnostics_api_market_corridor_diagnostics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Market Corridor Diagnostics Api Market Corridor Diagnostics Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Market Corridor Diagnostics",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/api/market/corridor/refresh": {
+      "post": {
+        "operationId": "refresh_market_corridor_api_market_corridor_refresh_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Refresh Market Corridor Api Market Corridor Refresh Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Refresh Market Corridor",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/api/market/ranking": {
+      "get": {
+        "operationId": "get_market_ranking_api_market_ranking_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Market Ranking Api Market Ranking Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Market Ranking",
+        "tags": [
+          "market"
+        ]
+      }
+    },
+    "/api/news": {
+      "get": {
+        "operationId": "get_news_api_news_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get News Api News Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get News",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/paper-account": {
+      "get": {
+        "operationId": "get_paper_account_api_paper_account_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Paper Account Api Paper Account Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Paper Account",
+        "tags": [
+          "paper"
+        ]
+      },
+      "put": {
+        "operationId": "put_paper_account_api_paper_account_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperAccountPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Put Paper Account Api Paper Account Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Paper Account",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/paper-positions/{symbol_id}/close": {
+      "post": {
+        "description": "Close a position at the latest closed price; ?quantity= for scale-out.",
+        "operationId": "close_paper_position_api_paper_positions__symbol_id__close_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol_id",
+            "required": true,
+            "schema": {
+              "title": "Symbol Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "quantity",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Quantity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Close Paper Position Api Paper Positions  Symbol Id  Close Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Close Paper Position",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/paper-trades": {
+      "get": {
+        "operationId": "list_paper_trades_api_paper_trades_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Paper Trades Api Paper Trades Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Paper Trades",
+        "tags": [
+          "paper"
+        ]
+      },
+      "post": {
+        "operationId": "submit_paper_trade_api_paper_trades_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperTradePayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Submit Paper Trade Api Paper Trades Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit Paper Trade",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/paper-trades/closures": {
+      "get": {
+        "description": "The closure ledger: every exit with PnL and R (PAR-1).",
+        "operationId": "list_paper_closures_api_paper_trades_closures_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Paper Closures Api Paper Trades Closures Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Paper Closures",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/paper-trades/review": {
+      "get": {
+        "description": "Process scores, first-touch outcomes, and the decision/outcome 2x2.",
+        "operationId": "review_paper_trades_api_paper_trades_review_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Review Paper Trades Api Paper Trades Review Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Review Paper Trades",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/paper-trades/{intent_id}/cancel": {
+      "post": {
+        "description": "Cancel a pending order. Filled or already-cancelled orders refuse.",
+        "operationId": "cancel_paper_trade_api_paper_trades__intent_id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "intent_id",
+            "required": true,
+            "schema": {
+              "title": "Intent Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Cancel Paper Trade Api Paper Trades  Intent Id  Cancel Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancel Paper Trade",
+        "tags": [
+          "paper"
+        ]
+      }
+    },
+    "/api/providers/custom": {
+      "get": {
+        "operationId": "custom_providers_api_providers_custom_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Custom Providers Api Providers Custom Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Custom Providers",
+        "tags": [
+          "providers"
+        ]
+      },
+      "post": {
+        "operationId": "create_custom_provider_api_providers_custom_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomProviderPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Create Custom Provider Api Providers Custom Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Custom Provider",
+        "tags": [
+          "providers"
+        ]
+      }
+    },
+    "/api/providers/custom/{provider_id}": {
+      "delete": {
+        "operationId": "delete_custom_provider_api_providers_custom__provider_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "title": "Provider Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Custom Provider Api Providers Custom  Provider Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Custom Provider",
+        "tags": [
+          "providers"
+        ]
+      },
+      "put": {
+        "operationId": "update_custom_provider_api_providers_custom__provider_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "title": "Provider Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomProviderPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Custom Provider Api Providers Custom  Provider Id  Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Custom Provider",
+        "tags": [
+          "providers"
+        ]
+      }
+    },
+    "/api/providers/registry": {
+      "get": {
+        "operationId": "provider_registry_api_providers_registry_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Provider Registry Api Providers Registry Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Provider Registry",
+        "tags": [
+          "providers"
+        ]
+      }
+    },
+    "/api/providers/settings": {
+      "get": {
+        "operationId": "provider_settings_api_providers_settings_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Provider Settings Api Providers Settings Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Provider Settings",
+        "tags": [
+          "providers"
+        ]
+      },
+      "put": {
+        "operationId": "update_provider_settings_api_providers_settings_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProviderSettingsPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Provider Settings Api Providers Settings Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Provider Settings",
+        "tags": [
+          "providers"
+        ]
+      }
+    },
+    "/api/review/coach": {
+      "get": {
+        "description": "Weekly summary, repeated-mistake detections, and prescriptions.",
+        "operationId": "get_coach_api_review_coach_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Coach Api Review Coach Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Coach",
+        "tags": [
+          "journal"
+        ]
+      }
+    },
+    "/api/review/coach/narrative": {
+      "get": {
+        "description": "AI weekly coaching narrative over the review's own facts (AI-2).",
+        "operationId": "get_coach_narrative_api_review_coach_narrative_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Coach Narrative Api Review Coach Narrative Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Coach Narrative",
+        "tags": [
+          "journal"
+        ]
+      }
+    },
+    "/api/settings/ai": {
+      "get": {
+        "operationId": "ai_settings_api_settings_ai_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ai Settings Api Settings Ai Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ai Settings",
+        "tags": [
+          "settings"
+        ]
+      },
+      "put": {
+        "operationId": "update_ai_settings_api_settings_ai_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiSettingsPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Ai Settings Api Settings Ai Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Ai Settings",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/ai/models": {
+      "post": {
+        "operationId": "ai_models_api_settings_ai_models_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiModelListPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ai Models Api Settings Ai Models Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ai Models",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/ai/test": {
+      "post": {
+        "operationId": "test_ai_provider_api_settings_ai_test_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiProviderTestPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Test Ai Provider Api Settings Ai Test Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Test Ai Provider",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/api-keys": {
+      "get": {
+        "operationId": "api_keys_api_settings_api_keys_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Api Keys Api Settings Api Keys Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Api Keys",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/api-keys/{key_id}": {
+      "put": {
+        "operationId": "update_api_key_api_settings_api_keys__key_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Api Key Api Settings Api Keys  Key Id  Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Api Key",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/notifications/test/{channel}": {
+      "post": {
+        "operationId": "test_notification_api_settings_notifications_test__channel__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "channel",
+            "required": true,
+            "schema": {
+              "title": "Channel",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Test Notification Api Settings Notifications Test  Channel  Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Test Notification",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/signals": {
+      "get": {
+        "operationId": "get_signals_api_signals_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Signals Api Signals Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Signals",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/signals/calibration": {
+      "get": {
+        "description": "Predicted vs realized win rate per confidence bucket (E3).",
+        "operationId": "get_calibration_api_signals_calibration_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Calibration Api Signals Calibration Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Calibration",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/signals/context": {
+      "get": {
+        "description": "Regime context signals: environment reads, never trades.",
+        "operationId": "list_context_signals_api_signals_context_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Context Signals Api Signals Context Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Context Signals",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/signals/narrate": {
+      "get": {
+        "description": "On-demand model narration for one signal (drawer open).",
+        "operationId": "narrate_signal_api_signals_narrate_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "title": "Symbol",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "timeframe",
+            "required": true,
+            "schema": {
+              "title": "Timeframe",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Narrate Signal Api Signals Narrate Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Narrate Signal",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/signals/risk": {
+      "get": {
+        "description": "Portfolio/risk meta-signals: brakes derived from the user's own account.",
+        "operationId": "list_risk_signals_api_signals_risk_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Risk Signals Api Signals Risk Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Risk Signals",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/strategies": {
+      "get": {
+        "operationId": "list_saved_strategies_api_strategies_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Saved Strategies Api Strategies Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Saved Strategies",
+        "tags": [
+          "strategies"
+        ]
+      },
+      "post": {
+        "operationId": "create_saved_strategy_api_strategies_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedStrategyPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Create Saved Strategy Api Strategies Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Saved Strategy",
+        "tags": [
+          "strategies"
+        ]
+      }
+    },
+    "/api/strategies/{strategy_id}": {
+      "delete": {
+        "operationId": "delete_saved_strategy_api_strategies__strategy_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "strategy_id",
+            "required": true,
+            "schema": {
+              "title": "Strategy Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Saved Strategy Api Strategies  Strategy Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Saved Strategy",
+        "tags": [
+          "strategies"
+        ]
+      },
+      "put": {
+        "operationId": "update_saved_strategy_api_strategies__strategy_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "strategy_id",
+            "required": true,
+            "schema": {
+              "title": "Strategy Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SavedStrategyPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Saved Strategy Api Strategies  Strategy Id  Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Saved Strategy",
+        "tags": [
+          "strategies"
+        ]
+      }
+    },
+    "/api/watchlist": {
+      "get": {
+        "operationId": "list_watchlist_api_watchlist_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response List Watchlist Api Watchlist Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Watchlist",
+        "tags": [
+          "watchlist"
+        ]
+      },
+      "post": {
+        "operationId": "add_watchlist_item_api_watchlist_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WatchlistEntryCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Add Watchlist Item Api Watchlist Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Watchlist Item",
+        "tags": [
+          "watchlist"
+        ]
+      }
+    },
+    "/api/watchlist/{symbol}": {
+      "delete": {
+        "operationId": "delete_watchlist_item_api_watchlist__symbol__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "title": "Symbol",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Watchlist Item Api Watchlist  Symbol  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Watchlist Item",
+        "tags": [
+          "watchlist"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Health Health Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/mcp": {
+      "post": {
+        "operationId": "mcp_endpoint_mcp_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Mcp Endpoint",
+        "tags": [
+          "mcp"
+        ]
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ Major direct dependencies:
 - Tauri JavaScript API and CLI — Apache-2.0 / MIT ecosystem licensing.
 - TradingView Lightweight Charts — Apache-2.0.
 - Lucide React — ISC.
+- clsx — MIT.
 - Vite, TypeScript, Tailwind CSS, PostCSS, Autoprefixer — permissive open-source
   licenses.
 

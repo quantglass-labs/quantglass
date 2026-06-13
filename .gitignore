@@ -28,8 +28,21 @@ apps/desktop/src-tauri/binaries/
 mock/
 
 # Generated artifacts
-docs/openapi/
+# Note: docs/openapi/quantglass-backend.openapi.json is intentionally committed
+# (the API reference links to it as the published contract); regenerate with
+# `npm run backend:openapi`.
 license-reports/
+
+# Local data, secrets, and env files (the app stores its DB under the OS data
+# dir, not the repo; these patterns guard against accidental local commits)
+.env
+.env.*
+!.env.example
+*.duckdb
+*.duckdb.wal
+*.sqlite
+*.sqlite3
+*.parquet
 
 # OS/editor noise
 .DS_Store
