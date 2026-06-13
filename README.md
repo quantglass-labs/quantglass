@@ -14,7 +14,7 @@ FastAPI backend, React/Tauri desktop app, typed contracts, extension
 registries, and optional local/API AI on a strict fact-guard covenant.
 
 <p align="center">
-  <img src="docs/assets/screenshots/dashboard.png" alt="QuantGlass dashboard with market corridor chart and signals" width="900">
+  <img src="docs/assets/quantglass-demo.gif" alt="QuantGlass guided tour: dashboard, signals, symbol detail, backtesting, portfolio, and the AI Copilot" width="900">
 </p>
 
 <p align="center">
