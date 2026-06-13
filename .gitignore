@@ -66,3 +66,11 @@ GEMINI.md
 
 # Raw screenshot source (promo assets are generated from these; not for the repo)
 /screenshots/
+
+# Stray installer artifacts (release builds; never commit to the repo)
+*.dmg
+*.AppImage
+*.exe
+*.msi
+*.rpm
+*.deb
