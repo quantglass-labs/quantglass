@@ -11,6 +11,7 @@ from PyInstaller.utils.hooks import collect_all, collect_submodules
 
 hiddenimports: list[str] = []
 hiddenimports += collect_submodules("app")
+hiddenimports += collect_submodules("quantglass_sdk")
 hiddenimports += collect_submodules("uvicorn")
 hiddenimports += [
     "duckdb",

@@ -3,25 +3,11 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 from typing import Literal
 
+from quantglass_sdk import IndicatorDefinition
 
-@dataclass(frozen=True, slots=True)
-class IndicatorDefinition:
-    id: str
-    name: str
-    category: str
-    description: str
-    inputs: tuple[str, ...]
-    outputs: tuple[str, ...]
-    maturity: Literal["computed", "catalog"] = "catalog"
-    families: tuple[str, ...] = ()
-    source: Literal["built-in", "extension"] = "built-in"
-    extension_id: str | None = None
-
-    def as_dict(self) -> dict[str, object]:
-        return asdict(self)
+__all__ = ["IndicatorDefinition", "IndicatorRegistry", "built_in_indicators"]
 
 
 class IndicatorRegistry:

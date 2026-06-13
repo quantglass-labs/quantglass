@@ -147,6 +147,8 @@ Install backend dependencies:
 
 ```bash
 python -m venv .venv
+# The extension SDK is a local package the backend depends on; install it first.
+./.venv/bin/python -m pip install -e packages/quantglass-sdk
 ./.venv/bin/python -m pip install -e "apps/backend[dev,package]"
 ```
 

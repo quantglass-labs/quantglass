@@ -4,6 +4,8 @@
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
+from quantglass_sdk.capability import Capability  # re-exported for in-app imports
+
 from app.core.config import AppSettings, ProviderSettings, SafetySettings
 from app.providers.keyed import (
     AlpacaStocksOHLCVProvider,
@@ -17,8 +19,6 @@ from app.providers.public import (
     KrakenPublicOHLCVProvider,
     YahooFinanceOHLCVProvider,
 )
-
-Capability = Literal["ohlcv", "order_book", "news", "trading", "ai"]
 
 
 @dataclass(slots=True)

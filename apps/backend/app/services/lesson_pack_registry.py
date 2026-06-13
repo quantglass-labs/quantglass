@@ -24,15 +24,7 @@ MAX_LESSONS_PER_PACK = 40
 FORBIDDEN_LESSON_FIELDS = ("live_exercise", "visuals", "live_apply", "bridge")
 
 
-@dataclass(frozen=True, slots=True)
-class LessonPackDefinition:
-    id: str
-    title: str
-    description: str
-    level: str
-    lessons: tuple[dict[str, Any], ...]
-    source_extension: str = ""
-    attribution: str = ""
+from quantglass_sdk import LessonPackDefinition  # noqa: E402
 
 
 @dataclass(slots=True)

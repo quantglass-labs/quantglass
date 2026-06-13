@@ -3,39 +3,13 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any
 
-StrategyDirection = Literal["long", "short", "both"]
+from quantglass_sdk import StrategyDefinition
+from quantglass_sdk.definitions import StrategyDirection
 
-
-@dataclass(frozen=True, slots=True)
-class StrategyDefinition:
-    id: str
-    name: str
-    description: str
-    setup_types: tuple[str, ...]
-    direction: StrategyDirection
-    market_types: tuple[str, ...] = ("crypto", "stocks")
-    timeframes: tuple[str, ...] = ("15m", "1h", "4h", "1d")
-    source: Literal["built-in", "extension"] = "built-in"
-    extension_id: str | None = None
-    candidate_factory: Callable[[dict[str, Any]], list[dict[str, Any]]] | None = None
-
-    def as_dict(self) -> dict[str, object]:
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "setup_types": list(self.setup_types),
-            "direction": self.direction,
-            "market_types": list(self.market_types),
-            "timeframes": list(self.timeframes),
-            "source": self.source,
-            "extension_id": self.extension_id,
-            "executable": self.candidate_factory is not None,
-        }
+# Re-exported for in-app continuity; canonical home is ``quantglass_sdk``.
+__all__ = ["StrategyDefinition", "StrategyDirection", "StrategyRegistry", "built_in_strategies"]
 
 
 class StrategyRegistry:

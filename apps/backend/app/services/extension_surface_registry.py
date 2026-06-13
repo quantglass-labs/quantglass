@@ -3,32 +3,15 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
-from typing import Literal
+from quantglass_sdk import ExtensionSurfaceDefinition
+from quantglass_sdk.definitions import ExtensionSurfaceCategory
 
-ExtensionSurfaceCategory = Literal[
-    "backtest",
-    "execution",
-    "notification",
-    "import_export",
-    "data_quality",
-    "ui_panel",
+__all__ = [
+    "ExtensionSurfaceCategory",
+    "ExtensionSurfaceDefinition",
+    "ExtensionSurfaceRegistry",
+    "built_in_surfaces",
 ]
-
-
-@dataclass(frozen=True, slots=True)
-class ExtensionSurfaceDefinition:
-    id: str
-    name: str
-    category: ExtensionSurfaceCategory
-    description: str
-    permissions: tuple[str, ...] = ()
-    maturity: Literal["available", "planned"] = "available"
-    source: Literal["built-in", "extension"] = "built-in"
-    extension_id: str | None = None
-
-    def as_dict(self) -> dict[str, object]:
-        return asdict(self)
 
 
 class ExtensionSurfaceRegistry:

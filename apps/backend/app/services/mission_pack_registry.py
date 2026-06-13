@@ -47,14 +47,7 @@ REQUIRED_PARAMS: dict[str, tuple[str, ...]] = {
 }
 
 
-@dataclass(frozen=True, slots=True)
-class MissionPackDefinition:
-    id: str
-    title: str
-    description: str
-    missions: tuple[dict[str, Any], ...]
-    source_extension: str = ""
-    attribution: str = ""
+from quantglass_sdk import MissionPackDefinition  # noqa: E402
 
 
 @dataclass(slots=True)
