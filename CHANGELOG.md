@@ -6,6 +6,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- AI provider test: the runtime diagnostic no longer appears twice on a failed
+  test, and the runtime badge uses a warning tone instead of success-green when
+  the test fails (the model can be loaded yet the test fail). (#83, #84)
+
 ## [0.2.0] - 2026-06-12
 
 ### Added
