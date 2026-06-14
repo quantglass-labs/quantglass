@@ -8,6 +8,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Ollama reasoning models (qwen3, deepseek-r1, …) now narrate: the gateway
+  sends `think: false` so the model returns its answer instead of leaving
+  `response` empty while it reasons. (#86)
+
 - AI provider test: the runtime diagnostic no longer appears twice on a failed
   test, and the runtime badge uses a warning tone instead of success-green when
   the test fails (the model can be loaded yet the test fail). (#83, #84)

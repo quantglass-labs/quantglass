@@ -24,6 +24,11 @@ class OllamaProviderMixin:
             "model": settings.model,
             "prompt": prompt,
             "stream": False,
+            # Reasoning models (qwen3, deepseek-r1, ...) otherwise route their
+            # chain-of-thought to a separate "thinking" field and leave
+            # "response" empty (often spending the whole num_predict budget
+            # thinking). Narration wants the answer, not the reasoning trace.
+            "think": False,
             "options": {
                 "temperature": settings.temperature,
                 "num_predict": settings.max_tokens,

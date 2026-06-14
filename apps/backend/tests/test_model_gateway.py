@@ -144,6 +144,8 @@ def test_ollama_generation_uses_max_tokens_as_num_predict() -> None:
 
     assert response is not None
     assert calls[0]["options"] == {"temperature": 0.2, "num_predict": 24}
+    # Reasoning models must have thinking disabled or "response" comes back empty.
+    assert calls[0]["think"] is False
 
 
 def test_ollama_catalog_includes_model_size_metadata() -> None:
