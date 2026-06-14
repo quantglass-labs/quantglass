@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Send, Sparkles, X } from 'lucide-react';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus } from '../types';
+import { AiMarkdown } from './AiMarkdown';
 
 type CopilotMessage = {
   role: 'user' | 'assistant';
@@ -122,7 +123,13 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
                       : 'mr-4 rounded-2xl border border-border bg-white/[0.03] px-3 py-2 text-sm text-ink'
                   }
                 >
-                  <p className="whitespace-pre-wrap leading-relaxed">{message.text}</p>
+                  {message.role === 'assistant' ? (
+                    <AiMarkdown className="text-sm leading-relaxed text-ink">
+                      {message.text}
+                    </AiMarkdown>
+                  ) : (
+                    <p className="whitespace-pre-wrap leading-relaxed">{message.text}</p>
+                  )}
                   {message.role === 'assistant' && message.source ? (
                     <p className="mt-1.5 flex flex-wrap gap-1.5 text-[10px] text-muted">
                       <span className="rounded-full border border-border px-2 py-0.5">

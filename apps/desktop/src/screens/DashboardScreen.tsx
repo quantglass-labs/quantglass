@@ -19,6 +19,7 @@ import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
 import { useEffect, useState } from 'react';
 import { backendClient } from '../lib/backend';
+import { AiMarkdown } from '../components/AiMarkdown';
 import type {
   Candle,
   CorridorIngestResult,
@@ -598,7 +599,7 @@ function DailyBrief() {
           {brief.source}
         </span>
       </div>
-      <p className="text-sm leading-relaxed text-ink">{brief.summary}</p>
+      <AiMarkdown className="text-sm leading-relaxed text-ink">{brief.summary}</AiMarkdown>
       <p className="text-[11px] text-muted">
         Narrated from the engine's own reads — regimes, signals, risk. Never advice.
       </p>

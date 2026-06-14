@@ -29,6 +29,7 @@ import type {
 } from '@quantglass/contracts';
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
+import { AiMarkdown } from '../components/AiMarkdown';
 import { LessonVisuals } from './learn/LessonVisuals';
 import { GlossaryView, ReferenceView } from './learn/LibraryViews';
 import { PracticeView } from './learn/PracticeView';
@@ -740,7 +741,7 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
       {notice ? <p className="mt-3 text-sm text-amber-300">{notice}</p> : null}
       {answer ? (
         <div className="mt-3 rounded-lg border border-zinc-700/60 bg-zinc-950/40 p-3">
-          <p className="text-sm leading-relaxed text-zinc-200">{answer}</p>
+          <AiMarkdown className="text-sm leading-relaxed text-zinc-200">{answer}</AiMarkdown>
           <p className="mt-2 text-[11px] text-zinc-600">
             {source} · grounded in this lesson · educational only, never financial advice
           </p>

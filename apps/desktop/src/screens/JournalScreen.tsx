@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { NotebookPen } from 'lucide-react';
 
 import { AiInsight } from '../components/aiInsight';
+import { AiMarkdown } from '../components/AiMarkdown';
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus, JournalItem, PaperTradeIntentRecord } from '../types';
@@ -179,7 +180,9 @@ function TradePostmortem({ item }: { item: JournalItem }) {
               {result.source}
             </span>
           </p>
-          <p className="mt-1.5 text-sm leading-relaxed text-zinc-200">{result.summary}</p>
+          <AiMarkdown className="mt-1.5 text-sm leading-relaxed text-zinc-200">
+            {result.summary}
+          </AiMarkdown>
         </div>
       )}
     </div>

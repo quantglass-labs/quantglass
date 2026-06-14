@@ -14,6 +14,7 @@ import { AlertTriangle, ClipboardCheck, ScrollText } from 'lucide-react';
 
 import { BackendStatusNotice } from '../components/backendGate';
 import { backendClient } from '../lib/backend';
+import { AiMarkdown } from '../components/AiMarkdown';
 import type {
   BackendStatus,
   CoachNarrative,
@@ -275,7 +276,9 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
                   {narrative.source}
                 </span>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-200">{narrative.summary}</p>
+              <AiMarkdown className="mt-2 text-sm leading-relaxed text-zinc-200">
+                {narrative.summary}
+              </AiMarkdown>
             </div>
           ) : null}
 

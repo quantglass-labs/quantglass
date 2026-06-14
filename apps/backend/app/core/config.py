@@ -116,8 +116,11 @@ class AiSettings(BaseModel):
     api_key_id: str | None = None
     temperature: float = 0.2
     max_tokens: int = 180
-    # Hard cap so a missing/slow local model never blocks a signal refresh.
-    request_timeout_seconds: float = 8.0
+    # Hard cap for on-demand model calls (tutor, narration, copilot, briefs).
+    # Feed narration never blocks on this (it always falls back to the
+    # deterministic template), so the default is generous enough that a cold
+    # or large local model has time to respond instead of failing fast.
+    request_timeout_seconds: float = 120.0
 
     @model_validator(mode="after")
     def _migrate_legacy_payload(self) -> "AiSettings":

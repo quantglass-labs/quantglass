@@ -6,7 +6,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- AI text everywhere (tutor, copilot, daily brief, signal narration, coach's
+  note, postmortems, on-screen insights) now renders Markdown — headings,
+  bold/italic, lists, tables, and code — instead of showing the raw Markdown
+  characters models emit. Embedded HTML is never rendered, so model output
+  cannot inject markup.
+
 ### Fixed
+
+- AI requests no longer time out before the model can answer. On-demand AI
+  calls now honour the configured request timeout instead of a short fixed
+  client deadline (the tutor previously failed in ~12s regardless of the
+  setting), and the default timeout was raised from 8s to 120s so cold or
+  large local models have time to respond out of the box.
 
 - Ollama reasoning models (qwen3, deepseek-r1, …) now narrate: the gateway
   sends `think: false` so the model returns its answer instead of leaving

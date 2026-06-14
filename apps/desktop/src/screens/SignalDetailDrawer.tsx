@@ -16,6 +16,7 @@ import {
   SignalChip,
 } from '../components/ui';
 import { backendClient } from '../lib/backend';
+import { AiMarkdown } from '../components/AiMarkdown';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import type { ScreenState, SignalRecord, SymbolRecord } from '../types';
@@ -306,10 +307,12 @@ export function SignalDetailDrawer({
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
                   AI explanation
                 </p>
-                <p className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">
-                  {narrationLabel}{' '}
-                  {liveNarration?.ai_explanation ?? signalRecord.signal.ai_explanation}
-                </p>
+                <div className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">
+                  <p className="mb-2">{narrationLabel}</p>
+                  <AiMarkdown className="text-sm leading-relaxed text-muted">
+                    {liveNarration?.ai_explanation ?? signalRecord.signal.ai_explanation ?? ''}
+                  </AiMarkdown>
+                </div>
                 <p className="mt-2 text-xs text-muted">Source: {narrationSourceDisplay}</p>
                 <p className="mt-3 text-xs text-muted">{signalRecord.signal.disclaimer}</p>
               </Panel>
