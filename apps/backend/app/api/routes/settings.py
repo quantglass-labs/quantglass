@@ -20,14 +20,14 @@ class AiSettingsPayload(BaseModel):
     apiKeyId: str | None = None
     temperature: float = 0.2
     maxTokens: int = 180
-    requestTimeoutSeconds: float = 8.0
+    requestTimeoutSeconds: float = 120.0
 
 
 class AiModelListPayload(BaseModel):
     provider: AiProvider = "ollama"
     baseUrl: str = "http://127.0.0.1:11434"
     apiKeyId: str | None = None
-    requestTimeoutSeconds: float = 8.0
+    requestTimeoutSeconds: float = 120.0
 
 
 class AiProviderTestPayload(AiModelListPayload):

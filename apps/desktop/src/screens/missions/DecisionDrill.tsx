@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, ArrowLeft, ShieldCheck } from 'lucide-react';
 
 import { backendClient } from '../../lib/backend';
+import { AiMarkdown } from '../../components/AiMarkdown';
 import type { DrillDetail, DrillGradeResponse } from '../../types';
 
 function ScoreTile({ label, value, bar }: { label: string; value: number; bar: number }) {
@@ -238,7 +239,9 @@ function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
               {debrief.source}
             </span>
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-200">{debrief.summary}</p>
+          <AiMarkdown className="mt-2 text-sm leading-relaxed text-zinc-200">
+            {debrief.summary}
+          </AiMarkdown>
         </div>
       )}
     </div>

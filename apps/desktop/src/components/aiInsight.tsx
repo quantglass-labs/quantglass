@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 
 import { backendClient } from '../lib/backend';
+import { AiMarkdown } from './AiMarkdown';
 
 export function AiInsight({ surface, title }: { surface: string; title?: string }) {
   const [insight, setInsight] = useState<{ summary: string; source: string } | null>(null);
@@ -66,7 +67,9 @@ export function AiInsight({ surface, title }: { surface: string; title?: string 
           {insight.source}
         </span>
       </div>
-      <p className="mt-2 text-sm leading-relaxed text-zinc-200">{insight.summary}</p>
+      <AiMarkdown className="mt-2 text-sm leading-relaxed text-zinc-200">
+        {insight.summary}
+      </AiMarkdown>
     </div>
   );
 }

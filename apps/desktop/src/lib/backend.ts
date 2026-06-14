@@ -91,6 +91,27 @@ import type { Candle, ProviderSettings } from '../types';
 const DEFAULT_BACKEND_BASE_URL = 'http://127.0.0.1:8000';
 const DEFAULT_REQUEST_TIMEOUT_MS = 12_000;
 
+// On-demand AI calls (tutor, copilot, briefs, narration) can take far longer
+// than a normal request, so they must honour the user's configured AI timeout
+// instead of the short default — otherwise the client aborts before a cold or
+// large local model can respond ("fails in under 15 seconds"). This cache is
+// refreshed whenever AI settings are read or saved; until then it falls back to
+// a generous default that matches the backend's own default.
+const DEFAULT_AI_REQUEST_TIMEOUT_MS = 120_000;
+let cachedAiTimeoutMs = DEFAULT_AI_REQUEST_TIMEOUT_MS;
+
+function aiTimeoutMs(): number {
+  return cachedAiTimeoutMs;
+}
+
+function rememberAiTimeout(requestTimeoutSeconds: number | undefined): void {
+  if (typeof requestTimeoutSeconds === 'number' && requestTimeoutSeconds > 0) {
+    // Add a small buffer so the client outlives the backend's own deadline and
+    // surfaces the backend's error rather than a generic client timeout.
+    cachedAiTimeoutMs = Math.max(DEFAULT_REQUEST_TIMEOUT_MS, requestTimeoutSeconds * 1000 + 5_000);
+  }
+}
+
 function isTauriRuntime(): boolean {
   return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 }
@@ -321,14 +342,18 @@ export const backendClient = {
       body: JSON.stringify(payload),
     });
   },
-  getAiSettings() {
-    return requestJson<AiSettingsResponse>('/api/settings/ai');
+  async getAiSettings() {
+    const response = await requestJson<AiSettingsResponse>('/api/settings/ai');
+    rememberAiTimeout(response.ai?.requestTimeoutSeconds);
+    return response;
   },
-  updateAiSettings(payload: AiSettings) {
-    return requestJson<AiSettingsResponse>('/api/settings/ai', {
+  async updateAiSettings(payload: AiSettings) {
+    const response = await requestJson<AiSettingsResponse>('/api/settings/ai', {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
+    rememberAiTimeout(response.ai?.requestTimeoutSeconds);
+    return response;
   },
   getAiModels(payload: AiModelListRequest) {
     return requestJson<AiModelListResponse>('/api/settings/ai/models', {
@@ -577,7 +602,7 @@ export const backendClient = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question }),
       },
-      120_000,
+      aiTimeoutMs(),
     );
   },
   getPostmortem(kind: 'drill' | 'trade', facts: Record<string, unknown>) {
@@ -588,32 +613,36 @@ export const backendClient = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kind, facts }),
       },
-      120_000,
+      aiTimeoutMs(),
     );
   },
   getSurfaceInsight(surface: string) {
     return requestJson<{ summary: string; source: string }>(
       `/api/ai/insight/${surface}`,
       undefined,
-      120_000,
+      aiTimeoutMs(),
     );
   },
   getDailyBrief() {
     return requestJson<{ summary: string; source: string }>(
       '/api/dashboard/brief',
       undefined,
-      30_000,
+      aiTimeoutMs(),
     );
   },
   getCoachNarrative() {
-    return requestJson<CoachNarrative>('/api/review/coach/narrative');
+    return requestJson<CoachNarrative>('/api/review/coach/narrative', undefined, aiTimeoutMs());
   },
   askTutor(lessonId: string, question: string) {
-    return requestJson<TutorResponse>(`/api/learn/lesson/${lessonId}/tutor`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question }),
-    });
+    return requestJson<TutorResponse>(
+      `/api/learn/lesson/${lessonId}/tutor`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question }),
+      },
+      aiTimeoutMs(),
+    );
   },
   getReviewCoach() {
     return requestJson<CoachResponse>('/api/review/coach');
@@ -654,7 +683,7 @@ export const backendClient = {
     return requestJson<{ ai_explanation: string; narration_source: string }>(
       `/api/signals/narrate?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`,
       undefined,
-      30_000,
+      aiTimeoutMs(),
     );
   },
   getContextSignals() {
