@@ -38,7 +38,7 @@ def test_zero_sample_returns_neutral_prior() -> None:
 
 def test_every_corridor_timeframe_has_expected_delta() -> None:
     # Invariant: every ingested timeframe must be schedulable (gap analysis needs a delta).
-    for target in MarketCorridorService._corridor_targets:
+    for target in MarketCorridorService._base_targets:
         delta = MarketCorridorService._expected_delta(target["timeframe"])
         assert isinstance(delta, timedelta)
         assert delta > timedelta(0)

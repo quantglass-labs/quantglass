@@ -8,6 +8,21 @@ from urllib.request import Request, urlopen
 
 PROVIDER_HTTP_TIMEOUT_SECONDS = 8
 
+# Fiat/stablecoin quote suffixes, longest first so USDT/USDC win over USD. Used
+# to split a canonical symbol (e.g. "DOGEUSD") into base + quote so the public
+# providers can fetch arbitrary user-added pairs, not just a hardcoded list.
+_CRYPTO_QUOTES = ("USDT", "USDC", "USD")
+
+
+def _split_crypto_symbol(symbol: str) -> tuple[str, str] | None:
+    """Split a canonical crypto symbol (e.g. ``BTCUSD``) into ``(base, quote)``."""
+    normalized = symbol.upper().replace("-", "").replace("/", "")
+    for quote in _CRYPTO_QUOTES:
+        base = normalized[: -len(quote)]
+        if normalized.endswith(quote) and base:
+            return base, quote
+    return None
+
 
 class CoinbasePublicOHLCVProvider:
     _granularity_by_timeframe = {
@@ -25,6 +40,13 @@ class CoinbasePublicOHLCVProvider:
     def get_symbols(self, market_type: str) -> list[str]:
         return sorted(self._product_by_symbol) if market_type == "crypto" else []
 
+    def _resolve_product(self, symbol: str) -> str | None:
+        normalized = symbol.upper().replace("-", "").replace("/", "")
+        if normalized in self._product_by_symbol:
+            return self._product_by_symbol[normalized]
+        split = _split_crypto_symbol(normalized)
+        return f"{split[0]}-{split[1]}" if split else None
+
     def get_ohlcv(
         self,
         symbol: str,
@@ -32,7 +54,7 @@ class CoinbasePublicOHLCVProvider:
         start: str | None = None,
         end: str | None = None,
     ) -> list[dict[str, Any]]:
-        product = self._product_by_symbol.get(symbol.upper().replace("-", ""))
+        product = self._resolve_product(symbol)
         if product is None:
             raise ValueError(f"Unsupported Coinbase corridor symbol: {symbol}")
         granularity = self._granularity_by_timeframe.get(timeframe)
@@ -87,6 +109,18 @@ class KrakenPublicOHLCVProvider:
     def get_symbols(self, market_type: str) -> list[str]:
         return sorted(self._pair_by_symbol) if market_type == "crypto" else []
 
+    def _resolve_pair(self, symbol: str) -> str | None:
+        normalized = symbol.upper().replace("-", "").replace("/", "")
+        if normalized in self._pair_by_symbol:
+            return self._pair_by_symbol[normalized]
+        split = _split_crypto_symbol(normalized)
+        if not split:
+            return None
+        base, quote = split
+        # Kraken lists Bitcoin under its legacy XBT ticker.
+        base = "XBT" if base == "BTC" else base
+        return f"{base}{quote}"
+
     def get_ohlcv(
         self,
         symbol: str,
@@ -94,7 +128,7 @@ class KrakenPublicOHLCVProvider:
         start: str | None = None,
         end: str | None = None,
     ) -> list[dict[str, Any]]:
-        pair = self._pair_by_symbol.get(symbol.upper().replace("-", ""))
+        pair = self._resolve_pair(symbol)
         if pair is None:
             raise ValueError(f"Unsupported Kraken corridor symbol: {symbol}")
         interval = self._interval_by_timeframe.get(timeframe)
@@ -150,6 +184,13 @@ class GeminiPublicOHLCVProvider:
     def get_symbols(self, market_type: str) -> list[str]:
         return sorted(self._symbol_by_symbol) if market_type == "crypto" else []
 
+    def _resolve_symbol(self, symbol: str) -> str | None:
+        normalized = symbol.upper().replace("-", "").replace("/", "")
+        if normalized in self._symbol_by_symbol:
+            return self._symbol_by_symbol[normalized]
+        split = _split_crypto_symbol(normalized)
+        return f"{split[0]}{split[1]}" if split else None
+
     def get_ohlcv(
         self,
         symbol: str,
@@ -157,7 +198,7 @@ class GeminiPublicOHLCVProvider:
         start: str | None = None,
         end: str | None = None,
     ) -> list[dict[str, Any]]:
-        gemini_symbol = self._symbol_by_symbol.get(symbol.upper().replace("-", ""))
+        gemini_symbol = self._resolve_symbol(symbol)
         if gemini_symbol is None:
             raise ValueError(f"Unsupported Gemini corridor symbol: {symbol}")
         period = self._period_by_timeframe.get(timeframe)
@@ -214,9 +255,13 @@ class YahooFinanceOHLCVProvider:
         start: str | None = None,
         end: str | None = None,
     ) -> list[dict[str, Any]]:
+        # Any valid ticker is fetchable from Yahoo's public chart endpoint, so we
+        # no longer gate on a hardcoded list — this lets users track their own
+        # symbols and lets the macro-proxy ETFs (UUP/TLT/GLD/RSP) ingest.
+        # get_symbols() still advertises the curated default set. An unknown
+        # ticker simply returns no data downstream and is recorded as a
+        # per-target diagnostic rather than rejected up front.
         normalized_symbol = symbol.upper()
-        if normalized_symbol not in self.get_symbols("stocks"):
-            raise ValueError(f"Unsupported Yahoo corridor symbol: {symbol}")
         interval = self._interval_by_timeframe.get(timeframe)
         if interval is None:
             raise ValueError(f"Unsupported Yahoo timeframe: {timeframe}")
@@ -228,11 +273,18 @@ class YahooFinanceOHLCVProvider:
         payload = json.loads(
             urlopen(request, timeout=PROVIDER_HTTP_TIMEOUT_SECONDS).read().decode("utf-8")
         )
-        result = payload["chart"]["result"][0]
+        result_list = (payload.get("chart") or {}).get("result")
+        if not result_list:
+            error = (payload.get("chart") or {}).get("error") or {}
+            raise ValueError(
+                f"No Yahoo data for {normalized_symbol}: "
+                f"{error.get('description', 'unknown or unsupported symbol')}"
+            )
+        result = result_list[0]
         quote = result["indicators"]["quote"][0]
 
         candles: list[dict[str, Any]] = []
-        for index, timestamp in enumerate(result["timestamp"]):
+        for index, timestamp in enumerate(result.get("timestamp") or []):
             open_value = quote["open"][index]
             high_value = quote["high"][index]
             low_value = quote["low"][index]

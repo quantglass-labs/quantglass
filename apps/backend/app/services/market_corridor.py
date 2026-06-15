@@ -3,6 +3,7 @@
 
 import json
 from calendar import monthrange
+from collections.abc import Callable
 from datetime import UTC, date, datetime, time, timedelta
 from typing import Any
 from uuid import uuid4
@@ -38,7 +39,7 @@ class MarketCorridorService:
         ("GLD", "stocks", "stocks", ("1d",)),
         ("RSP", "stocks", "stocks", ("1d",)),
     ]
-    _corridor_targets = [
+    _base_targets = [
         {
             "symbol": symbol,
             "route_domain": route_domain,
@@ -49,20 +50,76 @@ class MarketCorridorService:
         for timeframe in timeframes
     ]
 
+    # Timeframe ladder applied to user-added watchlist symbols. Stocks are daily
+    # (free provider granularity); crypto gets the intraday + daily ladder.
+    _watchlist_timeframes: dict[str, tuple[str, ...]] = {
+        "crypto": ("1h", "4h", "1d"),
+        "stocks": ("1d",),
+    }
+
     def __init__(
         self,
         provider_manager: ProviderManager,
         analytics_store: AnalyticsStore,
         rate_limiter: InMemoryRateLimiter,
+        watchlist_provider: Callable[[], list[dict[str, Any]]] | None = None,
     ) -> None:
         self._provider_manager = provider_manager
         self._analytics_store = analytics_store
         self._rate_limiter = rate_limiter
+        self._watchlist_provider = watchlist_provider
+
+    @staticmethod
+    def _normalize_symbol(symbol: str, market_type: str) -> str:
+        normalized = (symbol or "").strip().upper()
+        if market_type == "crypto":
+            normalized = normalized.replace("/", "").replace("-", "")
+        return normalized
+
+    def _targets(self) -> list[dict[str, str]]:
+        """The static corridor plus the user's watchlist symbols, deduped.
+
+        Watchlist symbols extend the tracked universe so signals and backtests
+        cover what the user actually follows, not just the curated majors.
+        """
+        targets = [dict(target) for target in self._base_targets]
+        seen = {(target["symbol"], target["timeframe"]) for target in targets}
+        if self._watchlist_provider is None:
+            return targets
+        try:
+            watchlist = self._watchlist_provider() or []
+        except Exception:
+            return targets
+        for entry in watchlist:
+            market_type = entry.get("market_type") or ""
+            timeframes = self._watchlist_timeframes.get(market_type)
+            symbol = self._normalize_symbol(entry.get("symbol", ""), market_type)
+            if not symbol or timeframes is None:
+                continue
+            for timeframe in timeframes:
+                if (symbol, timeframe) in seen:
+                    continue
+                seen.add((symbol, timeframe))
+                targets.append(
+                    {
+                        "symbol": symbol,
+                        "route_domain": market_type,
+                        "market_type": market_type,
+                        "timeframe": timeframe,
+                    }
+                )
+        return targets
 
     def refresh(self) -> dict[str, object]:
         items: list[dict[str, Any]] = []
-        for target in self._corridor_targets:
-            items.append(self._refresh_target(target))
+        for target in self._targets():
+            try:
+                items.append(self._refresh_target(target))
+            except Exception:
+                # One target's hard failure (rate limit, a bad user-added symbol)
+                # must not abort the whole cycle — its diagnostic is already
+                # recorded inside _refresh_target; move on to the next target.
+                continue
 
         return {
             "refreshed_at_utc": datetime.now(UTC).isoformat(),
@@ -73,7 +130,7 @@ class MarketCorridorService:
         return {
             "refreshed_at_utc": datetime.now(UTC).isoformat(),
             "items": self._analytics_store.get_market_candle_corridor_summary(
-                [(target["symbol"], target["timeframe"]) for target in self._corridor_targets]
+                [(target["symbol"], target["timeframe"]) for target in self._targets()]
             ),
         }
 
