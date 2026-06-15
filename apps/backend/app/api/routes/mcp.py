@@ -19,6 +19,8 @@ from fastapi import APIRouter, Request, Response
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 
+from app.version import __version__
+
 router = APIRouter(prefix="/mcp", tags=["mcp"])
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -113,7 +115,7 @@ async def mcp_endpoint(request: Request) -> Response:
             {
                 "protocolVersion": PROTOCOL_VERSION,
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "quantglass", "version": "0.2.1"},
+                "serverInfo": {"name": "quantglass", "version": __version__},
                 "instructions": (
                     "Read-only access to a local QuantGlass research engine: "
                     "deterministic signals, honest backtests, paper account, and "
