@@ -100,8 +100,21 @@ const DEFAULT_REQUEST_TIMEOUT_MS = 12_000;
 const DEFAULT_AI_REQUEST_TIMEOUT_MS = 120_000;
 let cachedAiTimeoutMs = DEFAULT_AI_REQUEST_TIMEOUT_MS;
 
+// Two tiers. Explicit, user-initiated calls (tutor, copilot, postmortems, the
+// coach note) wait the full configured timeout — the user asked and is willing
+// to wait. Ambient calls that auto-fire on a screen (per-screen insight, daily
+// brief, signal narration) use a shorter leash so a slow model can't make a
+// screen feel frozen; they degrade to the engine's deterministic content and a
+// quiet "unavailable" state rather than blocking. Never longer than the
+// configured timeout, so a user who sets a short timeout still gets it.
+const AMBIENT_AI_TIMEOUT_CAP_MS = 60_000;
+
 function aiTimeoutMs(): number {
   return cachedAiTimeoutMs;
+}
+
+function ambientAiTimeoutMs(): number {
+  return Math.min(cachedAiTimeoutMs, AMBIENT_AI_TIMEOUT_CAP_MS);
 }
 
 function rememberAiTimeout(requestTimeoutSeconds: number | undefined): void {
@@ -620,14 +633,14 @@ export const backendClient = {
     return requestJson<{ summary: string; source: string }>(
       `/api/ai/insight/${surface}`,
       undefined,
-      aiTimeoutMs(),
+      ambientAiTimeoutMs(),
     );
   },
   getDailyBrief() {
     return requestJson<{ summary: string; source: string }>(
       '/api/dashboard/brief',
       undefined,
-      aiTimeoutMs(),
+      ambientAiTimeoutMs(),
     );
   },
   getCoachNarrative() {
@@ -683,7 +696,7 @@ export const backendClient = {
     return requestJson<{ ai_explanation: string; narration_source: string }>(
       `/api/signals/narrate?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}`,
       undefined,
-      aiTimeoutMs(),
+      ambientAiTimeoutMs(),
     );
   },
   getContextSignals() {
