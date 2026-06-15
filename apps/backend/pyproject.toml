@@ -3,7 +3,7 @@
 
 [project]
 name = "quantglass-backend"
-version = "0.2.4"
+version = "0.2.5"
 description = "Local FastAPI backend for QuantGlass"
 requires-python = ">=3.11"
 license = "AGPL-3.0-or-later"
