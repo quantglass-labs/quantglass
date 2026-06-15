@@ -59,9 +59,11 @@ Current working surface:
   time in force, trailing stops, live OCO brackets from the trade plan,
   cancel, partial close, account guards, and a closure ledger with
   R-multiples — all on honest closed-candle fills, managed from a dedicated
-  Portfolio screen. Live mode maps the same ticket to broker APIs (Alpaca
-  reference mapping) and refuses what a broker cannot express instead of
-  silently downgrading.
+  Portfolio screen. A live-mode mapping of the same ticket onto broker APIs
+  (Alpaca reference mapping) is *designed* to refuse what a broker cannot
+  express rather than silently downgrade — but built-in live broker execution
+  is **not enabled in the public preview**; paper trading is the supported
+  execution path (see Known limitations below).
 - **AI on every screen, all on the narration covenant**: local or API models
   (Ollama, LM Studio, OpenAI-compatible, Anthropic, Gemini, Azure, Bedrock)
   narrate engine facts behind a numeric fact guard — signal narration, an AI
@@ -168,8 +170,26 @@ The Python engine is bundled inside the app.
 
 > **Why the security warnings?** The community builds are **not code-signed**
 > (signing requires paid Apple/Microsoft certificates). The steps above are the
-> one-time bypass. Every release lists `SHA256SUMS` files so you can verify your
-> download is intact.
+> one-time bypass. Because the builds are unsigned, **verify the checksum** so
+> you know the download is intact and unmodified.
+
+### Verify your download
+
+Each release ships a per-OS `SHA256SUMS` file. Download it next to your
+installer, then compare. The printed hash must match the line for your file.
+
+```powershell
+# Windows (PowerShell) — compare the output to SHA256SUMS-Windows.txt
+Get-FileHash .\QuantGlass_*_x64-setup.exe -Algorithm SHA256
+```
+
+```bash
+# macOS — verifies every file listed in the sums file
+shasum -a 256 -c SHA256SUMS-macOS.txt
+
+# Linux
+sha256sum -c SHA256SUMS-Linux.txt
+```
 
 Prefer to self-host the engine and use it from a browser (e.g. on a home server)?
 See [Run with Docker](#run-with-docker-self-host--server-mode).
