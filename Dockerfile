@@ -36,5 +36,10 @@ ENV QUANTGLASS_HOST=0.0.0.0 \
 EXPOSE 8000
 VOLUME ["/data"]
 
+# QUANTGLASS_HOST is 0.0.0.0 because the process must listen on all interfaces
+# *inside* the container for Docker's port mapping to reach it. Network exposure
+# is controlled at the publish layer (compose binds host loopback by default)
+# and by QUANTGLASS_SERVER_AUTH_TOKEN, not by this in-container bind.
+#
 # Educational/research software, paper trading only. Not financial advice.
 CMD ["python", "apps/backend/run_server.py"]

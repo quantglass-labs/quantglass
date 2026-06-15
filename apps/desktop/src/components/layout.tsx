@@ -280,7 +280,19 @@ export function AppShell({
         Educational use only. Not financial advice.{' '}
         {backendStatus === 'online'
           ? 'Health, provider settings, and watchlist are sourced from the local backend.'
-          : 'Backend is unavailable, so data-driven surfaces may be incomplete until it is restored.'}
+          : 'Backend is unavailable, so data-driven surfaces may be incomplete until it is restored.'}{' '}
+        <a
+          href={
+            import.meta.env.VITE_SAME_ORIGIN === 'true'
+              ? '/source'
+              : 'https://github.com/quantglass-labs/quantglass'
+          }
+          target="_blank"
+          rel="noreferrer noopener"
+          className="underline underline-offset-2 hover:text-ink"
+        >
+          Source · AGPL-3.0
+        </a>
       </footer>
     </div>
   );
