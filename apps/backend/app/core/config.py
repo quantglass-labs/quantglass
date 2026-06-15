@@ -146,6 +146,12 @@ class AppSettings(BaseSettings):
     # serves the SPA at "/" so a browser can use QuantGlass without the desktop
     # shell (e.g. the Docker self-host image). Unset for the desktop sidecar.
     frontend_dir: Path | None = None
+    # Server/web mode auth. When set (QUANTGLASS_SERVER_AUTH_TOKEN), every request
+    # must present this token (Bearer header or session cookie) — the gate for
+    # users who deliberately expose the container beyond host loopback. Unset for
+    # the desktop sidecar and the default loopback-only compose, where it is a
+    # no-op so local use is unchanged.
+    server_auth_token: str | None = None
     data_dir: Path = Field(default_factory=_default_data_dir)
     sqlite_path: Path | None = None
     duckdb_path: Path | None = None

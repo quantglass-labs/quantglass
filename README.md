@@ -322,20 +322,45 @@ docker compose up --build
 Then open **`http://localhost:8000`**. Your data persists in the `quantglass-data`
 named volume across restarts.
 
-Or build and run the image directly:
+By default the port is published to **host loopback only** (`127.0.0.1:8000`), so
+the instance is reachable from your own browser but **not** from other machines
+on your network.
+
+Or build and run the image directly (note the explicit loopback bind):
 
 ```bash
 docker build -t quantglass .
-docker run -p 8000:8000 -v quantglass-data:/data quantglass
+docker run -p 127.0.0.1:8000:8000 -v quantglass-data:/data quantglass
 ```
+
+### Exposing it beyond localhost
+
+To reach it from a home server or VPS, you must do **both**:
+
+1. Publish on all interfaces — `docker run -p 8000:8000 …`, or set
+   `ports: ["8000:8000"]` in `docker-compose.yml`.
+2. **Set an access token** so the instance isn't open to the network:
+
+   ```bash
+   docker run -p 8000:8000 -e QUANTGLASS_SERVER_AUTH_TOKEN="$(openssl rand -hex 24)" \
+     -v quantglass-data:/data quantglass
+   ```
+
+   With a token set, every request needs it — browsers get a sign-in page; API
+   clients send `Authorization: Bearer <token>`. Without a token, exposing
+   port 8000 leaves your local data, watchlists, and paper account open to
+   anyone who can reach it. Put it behind HTTPS (a reverse proxy) for real use.
 
 Notes:
 
 - This is a convenience for self-hosters; the **desktop installers remain the
   primary distribution** for most users.
-- The container binds to `0.0.0.0` inside Docker. It is intended for your own
-  machine or a trusted private network — it has no authentication layer, so do
-  not expose port 8000 directly to the public internet.
+- Inside the container the process binds `0.0.0.0` (required for Docker port
+  mapping); network exposure is governed by the publish bind and the auth token
+  above, not by that in-container bind.
+- **AGPL §13:** because this serves the program over a network, the running
+  instance offers its Corresponding Source at **`/source`** (also linked from the
+  app footer). If you run a modified version, you must offer your modified source.
 - Paper trading is the supported execution path. Educational and research
   software, not financial advice — see [DISCLAIMER.md](DISCLAIMER.md).
 

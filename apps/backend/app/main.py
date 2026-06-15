@@ -26,6 +26,7 @@ from app.core.config import apply_api_key_settings, get_settings
 from app.extensions.registry import load_extension_registry
 from app.providers.manager import ProviderManager
 from app.scheduler import SchedulerService
+from app.server_mode import configure_server_mode
 from app.services.ai_coach import AiCoachService
 from app.services.constitution import ConstitutionService
 from app.services.copilot import CopilotService
@@ -237,9 +238,14 @@ app.include_router(constitution_router)
 app.include_router(mcp_router)
 app.include_router(copilot_router)
 
-# Server/web mode (Docker self-host): when a built frontend directory is
-# configured, serve the SPA at "/". Mounted last so it never shadows /api or
-# /ws routes. The desktop sidecar leaves frontend_dir unset and skips this.
+# Server/web mode (Docker self-host): the AGPL §13 source offer (always) and an
+# optional auth gate when QUANTGLASS_SERVER_AUTH_TOKEN is set. Registered before
+# the SPA mount so /source and /__auth are not shadowed by the catch-all "/".
+configure_server_mode(app, auth_token=get_settings().server_auth_token)
+
+# When a built frontend directory is configured, serve the SPA at "/". Mounted
+# last so it never shadows /api or /ws routes. The desktop sidecar leaves
+# frontend_dir unset and skips this.
 _frontend_dir = get_settings().frontend_dir
 if _frontend_dir is not None and _frontend_dir.is_dir():
     from fastapi.staticfiles import StaticFiles

@@ -14,7 +14,14 @@ services:
     image: quantglass:local
     container_name: quantglass
     ports:
-      - "8000:8000"
+      # Published to host loopback only — reachable from this machine's browser,
+      # never the LAN. To expose it beyond localhost (home server, VPS), change
+      # this to "8000:8000" AND set QUANTGLASS_SERVER_AUTH_TOKEN below so the
+      # instance requires an access token. Exposing without a token leaves your
+      # local data, watchlists, and paper account open to anyone on the network.
+      - "127.0.0.1:8000:8000"
+    # environment:
+    #   QUANTGLASS_SERVER_AUTH_TOKEN: "change-me-to-a-long-random-secret"
     volumes:
       - quantglass-data:/data
     restart: unless-stopped
