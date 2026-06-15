@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -58,6 +58,7 @@ class SchedulerService:
             coalesce=True,
             max_instances=1,
         )
+        now = datetime.now(UTC)
         if self._market_corridor is not None:
             self._scheduler.add_job(
                 self._market_refresh_job,
@@ -67,6 +68,8 @@ class SchedulerService:
                 replace_existing=True,
                 coalesce=True,
                 max_instances=1,
+                # Start ingesting shortly after boot instead of one interval later.
+                next_run_time=now + timedelta(seconds=5),
             )
         if self._signal_engine is not None:
             self._scheduler.add_job(
@@ -77,6 +80,9 @@ class SchedulerService:
                 replace_existing=True,
                 coalesce=True,
                 max_instances=1,
+                # Warm the signal cache right after boot so returning users (who
+                # already have candles) get signals within seconds, not minutes.
+                next_run_time=now + timedelta(seconds=15),
             )
 
     def start(self) -> None:

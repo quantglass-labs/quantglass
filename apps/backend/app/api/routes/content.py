@@ -181,7 +181,9 @@ async def daily_brief(request: Request) -> dict[str, object]:
     def build() -> dict[str, object]:
         engine = _signal_engine(request)
         context = engine.list_context_signals()
-        signals = engine.list_signals()
+        # Serve the warm cache; the scheduler keeps signals fresh in the
+        # background so the brief never blocks on a full recompute.
+        signals = engine.list_signals(compute=False)
         risk = request.app.state.risk_meta_service.list_risk_signals()
         facts = {
             "regimes": [
@@ -223,8 +225,11 @@ async def list_context_signals(request: Request) -> dict[str, object]:
 
 @router.get("/api/signals")
 async def get_signals(request: Request) -> dict[str, object]:
+    engine = _signal_engine(request)
     return {
-        "items": await run_in_threadpool(_signal_engine(request).list_signals),
+        # Cache-only: the scheduler recomputes in the background, so this poll
+        # returns immediately instead of blocking on a full universe recompute.
+        "items": await run_in_threadpool(lambda: engine.list_signals(compute=False)),
     }
 
 
