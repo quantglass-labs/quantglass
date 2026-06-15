@@ -3,7 +3,7 @@
 
 [package]
 name = "quantglass_desktop"
-version = "0.2.5"
+version = "0.2.6"
 description = "QuantGlass desktop shell"
 authors = ["GitHub Copilot"]
 edition = "2021"
