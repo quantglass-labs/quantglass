@@ -9,6 +9,7 @@ from collections.abc import Callable
 from typing import Any
 
 from app.core.config import AiSettings
+from app.services.locale import language_directive
 from app.services.model_gateway import ModelGateway
 
 _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
@@ -92,6 +93,7 @@ class NarrationService:
             "4. If a metric is missing or zero-sample, say the sample is insufficient.\n"
             "Return only the summary text, no preamble.\n\n"
             f"FACTS:\n{facts_json}\n"
+            f"{language_directive()}"
         )
 
     def _passes_fact_guard(self, text: str, facts: dict[str, Any]) -> bool:

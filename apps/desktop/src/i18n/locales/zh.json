@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "仪表盘",
+    "signals": "信号",
+    "watchlist": "自选",
+    "portfolio": "投资组合",
+    "backtest": "回测",
+    "alerts": "提醒",
+    "learn": "学习",
+    "missions": "任务",
+    "journal": "日志",
+    "review": "复盘",
+    "settings": "设置"
+  },
+  "common": {
+    "save": "保存",
+    "saving": "保存中…",
+    "cancel": "取消",
+    "add": "添加",
+    "close": "关闭",
+    "remove": "移除",
+    "retry": "重试",
+    "back": "返回",
+    "search": "搜索",
+    "loading": "加载中…",
+    "markets": {
+      "all": "全部市场",
+      "crypto": "加密货币",
+      "stocks": "股票"
+    },
+    "state": {
+      "errorTitle": "出现错误",
+      "emptyTitle": "暂无内容"
+    },
+    "language": {
+      "title": "语言",
+      "label": "显示语言",
+      "help": "选择应用界面的语言。AI 洞见也会用此语言回复。"
+    },
+    "notFinancialAdvice": "仅供教育用途，非投资建议。"
+  }
+}

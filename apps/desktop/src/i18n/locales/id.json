@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Dasbor",
+    "signals": "Sinyal",
+    "watchlist": "Daftar pantau",
+    "portfolio": "Portofolio",
+    "backtest": "Backtesting",
+    "alerts": "Peringatan",
+    "learn": "Belajar",
+    "missions": "Misi",
+    "journal": "Jurnal",
+    "review": "Tinjauan",
+    "settings": "Pengaturan"
+  },
+  "common": {
+    "save": "Simpan",
+    "saving": "Menyimpan…",
+    "cancel": "Batal",
+    "add": "Tambah",
+    "close": "Tutup",
+    "remove": "Hapus",
+    "retry": "Coba lagi",
+    "back": "Kembali",
+    "search": "Cari",
+    "loading": "Memuat…",
+    "markets": {
+      "all": "Semua pasar",
+      "crypto": "Kripto",
+      "stocks": "Saham"
+    },
+    "state": {
+      "errorTitle": "Terjadi kesalahan",
+      "emptyTitle": "Belum ada apa-apa di sini"
+    },
+    "language": {
+      "title": "Bahasa",
+      "label": "Bahasa tampilan",
+      "help": "Pilih bahasa antarmuka aplikasi. Wawasan AI juga menjawab dalam bahasa ini."
+    },
+    "notFinancialAdvice": "Hanya untuk tujuan edukasi — bukan nasihat keuangan."
+  }
+}

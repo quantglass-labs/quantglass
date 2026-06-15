@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Painel",
+    "signals": "Sinais",
+    "watchlist": "Lista de observação",
+    "portfolio": "Carteira",
+    "backtest": "Backtesting",
+    "alerts": "Alertas",
+    "learn": "Aprender",
+    "missions": "Missões",
+    "journal": "Diário",
+    "review": "Revisão",
+    "settings": "Configurações"
+  },
+  "common": {
+    "save": "Salvar",
+    "saving": "Salvando…",
+    "cancel": "Cancelar",
+    "add": "Adicionar",
+    "close": "Fechar",
+    "remove": "Remover",
+    "retry": "Tentar novamente",
+    "back": "Voltar",
+    "search": "Pesquisar",
+    "loading": "Carregando…",
+    "markets": {
+      "all": "Todos os mercados",
+      "crypto": "Cripto",
+      "stocks": "Ações"
+    },
+    "state": {
+      "errorTitle": "Algo deu errado",
+      "emptyTitle": "Ainda não há nada aqui"
+    },
+    "language": {
+      "title": "Idioma",
+      "label": "Idioma da interface",
+      "help": "Escolha o idioma da interface. As análises de IA também respondem neste idioma."
+    },
+    "notFinancialAdvice": "Apenas para fins educativos — não é aconselhamento financeiro."
+  }
+}

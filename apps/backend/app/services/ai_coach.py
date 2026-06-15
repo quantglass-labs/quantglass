@@ -21,6 +21,7 @@ from collections.abc import Callable
 from typing import Any
 
 from app.core.config import AiSettings
+from app.services.locale import language_directive
 from app.services.model_gateway import ModelGateway
 
 _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
@@ -168,6 +169,7 @@ class AiCoachService:
             "4. Keep it under 200 words.\n\n"
             f"LESSON:\n{json.dumps(grounding, ensure_ascii=False)}\n\n"
             f"QUESTION: {question}\n"
+            f"{language_directive()}"
         )
         response = self._model_gateway.complete(settings, prompt, response_schema=TUTOR_SCHEMA)
         if response is None:
@@ -407,7 +409,10 @@ class AiCoachService:
         settings = self._ai_settings_provider()
         if not settings.cloud_enabled:
             return template(facts), "template"
-        prompt = f"{instructions}\n\nFACTS:\n{json.dumps(facts, indent=2, default=str)}\n"
+        prompt = (
+            f"{instructions}\n\nFACTS:\n{json.dumps(facts, indent=2, default=str)}\n"
+            f"{language_directive()}"
+        )
         response = self._model_gateway.complete(settings, prompt, response_schema=schema)
         if response is None:
             return template(facts), "template-fallback"

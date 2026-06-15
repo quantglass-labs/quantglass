@@ -87,6 +87,7 @@ import type {
   LessonRecord,
 } from '@quantglass/contracts';
 import type { Candle, ProviderSettings } from '../types';
+import { activeLocale } from '../i18n/locale';
 
 const DEFAULT_BACKEND_BASE_URL = 'http://127.0.0.1:8000';
 const DEFAULT_REQUEST_TIMEOUT_MS = 12_000;
@@ -207,11 +208,12 @@ async function requestJson<T>(
   let response: Response;
   try {
     response = await fetch(`${baseUrl}${path}`, {
+      ...init,
       headers: {
         'Content-Type': 'application/json',
+        'Accept-Language': activeLocale(),
         ...(init?.headers ?? {}),
       },
-      ...init,
       signal: init?.signal ?? controller.signal,
     });
   } catch (error) {
