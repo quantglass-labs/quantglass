@@ -128,10 +128,14 @@ class SignalEngineService:
                 self._analytics_store.resolve_calibration(row["signal_id"], outcome, outcome_r)
         return self._analytics_store.calibration_report()
 
-    def list_context_signals(self) -> list[dict[str, Any]]:
+    def list_context_signals(self, now: datetime | None = None) -> list[dict[str, Any]]:
         """Regime family (SIG-2): the classifier's read on every tracked
         series, published as context-class signals with no trade geometry.
-        Context names the environment; setups carry the trades."""
+        Context names the environment; setups carry the trades.
+
+        ``now`` is injectable so the scheduled-event volatility watches are
+        deterministic in tests; production callers leave it None (wall clock).
+        """
         items: list[dict[str, Any]] = []
         cross_sectional: dict[str, list[dict[str, Any]]] = {}
         for series in self._analytics_store.list_market_series(minimum_candles=80):
@@ -290,7 +294,7 @@ class SignalEngineService:
             for entry in entries
         }
         items.extend(derive_macro_context(returns_by_symbol))
-        items.extend(upcoming_event_context())
+        items.extend(upcoming_event_context(now))
 
         # Relative strength family (SIG-6): leader and laggard per timeframe
         # cohort. Rank means nothing in a cohort of two, so require four.
