@@ -104,6 +104,12 @@ class StateStore:
     def get_api_key_value(self, key_id: str | None) -> str:
         return self.settings.get_api_key_value(key_id)
 
+    def get_extensions_enabled(self) -> bool:
+        return self.settings.get_extensions_enabled()
+
+    def set_extensions_enabled(self, enabled: bool) -> bool:
+        return self.settings.set_extensions_enabled(enabled)
+
     def get_extension_settings(self, extension_id: str) -> dict[str, Any]:
         return self.settings.get_extension_settings(extension_id)
 

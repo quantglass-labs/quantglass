@@ -1,11 +1,12 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Plug } from 'lucide-react';
 
 import { Button, EmptyState } from '../../components/ui';
+import { backendClient, type ExtensionsEnabledState } from '../../lib/backend';
 
 import type {
   ExtensionRegistryEntry,
@@ -34,6 +35,26 @@ export function ExtensionsTab({
   const [draftExtensionSettings, setDraftExtensionSettings] = useState<
     Record<string, Record<string, unknown>>
   >({});
+
+  const [extensionsState, setExtensionsState] = useState<ExtensionsEnabledState | null>(null);
+  const [extensionsBusy, setExtensionsBusy] = useState(false);
+  useEffect(() => {
+    backendClient
+      .getExtensionsEnabled()
+      .then(setExtensionsState)
+      .catch(() => setExtensionsState(null));
+  }, []);
+  const toggleExtensions = async () => {
+    if (!extensionsState || extensionsBusy) return;
+    setExtensionsBusy(true);
+    try {
+      setExtensionsState(await backendClient.setExtensionsEnabled(!extensionsState.enabled));
+    } catch {
+      // Leave the prior state; the switch simply doesn't move.
+    } finally {
+      setExtensionsBusy(false);
+    }
+  };
 
   const [prevExtensionRegistry, setPrevExtensionRegistry] = useState(extensionRegistry);
   if (prevExtensionRegistry !== extensionRegistry) {
@@ -87,9 +108,36 @@ export function ExtensionsTab({
             <p className="font-medium text-ink">Extension registry</p>
             <p className="mt-2 text-sm text-muted">
               Installed Python entry-point extensions can register providers, model gateways,
-              indicators, strategies, and notification channels. External extension loading is
-              opt-in from the backend environment.
+              indicators, strategies, and notification channels. External extension loading is off
+              by default and only loads code you have explicitly installed.
             </p>
+            {extensionsState ? (
+              <div className="mt-3 rounded-2xl border border-border bg-white/[0.02] p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-medium text-ink">Load extensions</p>
+                    <p className="text-xs text-muted">
+                      {extensionsState.active
+                        ? 'Extensions are loaded in this session.'
+                        : 'Extensions are not loaded in this session.'}
+                    </p>
+                  </div>
+                  <Button
+                    variant={extensionsState.enabled ? 'primary' : 'secondary'}
+                    className="px-3 py-1.5 text-xs"
+                    disabled={extensionsBusy}
+                    onClick={() => void toggleExtensions()}
+                  >
+                    {extensionsState.enabled ? 'On' : 'Off'}
+                  </Button>
+                </div>
+                {extensionsState.restartRequired ? (
+                  <p className="mt-2 text-xs text-amber-300">
+                    Restart QuantGlass to apply — the setting is read when the engine starts.
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
             <ul className="mt-3 space-y-1 text-sm text-muted">
               <li>
                 <span className="text-ink">Where extensions act:</span> provider extensions join the

@@ -149,6 +149,24 @@ class SettingsStore:
     # Extension settings
     # ------------------------------------------------------------------
 
+    def get_extensions_enabled(self) -> bool:
+        """User preference: load third-party extension packages and local files.
+
+        Read at backend startup (alongside the QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS
+        env var) so the desktop app can turn extensions on without an env var.
+        Takes effect on the next backend start.
+        """
+        payload = self._read_settings_payload("extensions_enabled", {"enabled": False})
+        return bool(payload.get("enabled", False))
+
+    def set_extensions_enabled(self, enabled: bool) -> bool:
+        with connect(self.sqlite_path) as connection:
+            self._write_settings_payload(
+                connection, "extensions_enabled", {"enabled": bool(enabled)}
+            )
+            connection.commit()
+        return bool(enabled)
+
     def get_extension_settings(self, extension_id: str) -> dict[str, Any]:
         payload = self._read_settings_payload("extension_settings", {})
         item = payload.get(extension_id, {})
