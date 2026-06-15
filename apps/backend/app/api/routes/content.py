@@ -1,11 +1,10 @@
 # SPDX-FileCopyrightText: 2026 QuantGlass contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 
-from app.services.narration import NarrationService
 from app.services.news_service import NewsService
 from app.services.signal_engine import SignalEngineService
 
@@ -24,14 +23,10 @@ class BacktestRunRequest(BaseModel):
 
 
 def _signal_engine(request: Request) -> SignalEngineService:
-    state_store = request.app.state.state_store
-    narrator = NarrationService(ai_settings_provider=state_store.get_ai_settings)
-    return SignalEngineService(
-        analytics_store=request.app.state.analytics_store,
-        min_backtest_sample=state_store.get_safety_settings().min_backtest_sample,
-        narrator=narrator,
-        strategy_registry=request.app.state.strategy_registry,
-    )
+    # The shared, long-lived engine built at startup — the same instance the
+    # scheduler warms. Returning a fresh instance per request (as this used to)
+    # gave every caller an empty signal cache, so warmed signals were never seen.
+    return request.app.state.signal_engine
 
 
 def _news_service(request: Request) -> NewsService:
@@ -224,13 +219,17 @@ async def list_context_signals(request: Request) -> dict[str, object]:
 
 
 @router.get("/api/signals")
-async def get_signals(request: Request) -> dict[str, object]:
+async def get_signals(request: Request, background_tasks: BackgroundTasks) -> dict[str, object]:
     engine = _signal_engine(request)
-    return {
-        # Cache-only: the scheduler recomputes in the background, so this poll
-        # returns immediately instead of blocking on a full universe recompute.
-        "items": await run_in_threadpool(lambda: engine.list_signals(compute=False)),
-    }
+    # Cache-only read: returns immediately instead of blocking on a full
+    # universe recompute.
+    items = await run_in_threadpool(lambda: engine.list_signals(compute=False))
+    # Warm the cache in the request threadpool when it is empty or stale —
+    # non-blocking, runs after the response. Belt-and-suspenders with the
+    # scheduler so a cold start fills in without waiting for the first interval.
+    if engine.should_warm():
+        background_tasks.add_task(engine.warm_cache)
+    return {"items": items}
 
 
 @router.get("/api/news")
