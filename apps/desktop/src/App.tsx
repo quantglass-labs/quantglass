@@ -993,6 +993,39 @@ export default function App() {
     })();
   }
 
+  function handleTrackCustomSymbol(rawSymbol: string, marketType: 'crypto' | 'stocks') {
+    let symbol = rawSymbol.trim().toUpperCase().replace(/[/-]/g, '');
+    if (!symbol) return;
+    // Crypto needs a quote currency; default to USD so "DOGE" -> "DOGEUSD".
+    if (marketType === 'crypto' && !/(USD|USDT|USDC)$/.test(symbol)) {
+      symbol = `${symbol}USD`;
+    }
+
+    if (backendStatus !== 'online') {
+      pushToast(
+        'Watchlist unavailable',
+        'The backend is offline, so a new symbol cannot be tracked right now.',
+      );
+      return;
+    }
+
+    void (async () => {
+      try {
+        await backendClient.addWatchlistItem({ symbol, market_type: marketType });
+        setWatchlistIds((current) => (current.includes(symbol) ? current : [...current, symbol]));
+        pushToast(
+          `Now tracking ${symbol}`,
+          'It joins the market corridor — price, signals, and backtests appear after the next market refresh.',
+        );
+      } catch {
+        pushToast(
+          'Could not track symbol',
+          'The backend rejected the request, so no symbol was added. Check the ticker and try again.',
+        );
+      }
+    })();
+  }
+
   function handleOpenAlertModal(symbolId: string, signalId?: string, alertId?: string) {
     const record = alertId ? alerts.find((entry) => entry.id === alertId) : undefined;
     setAlertModal({ open: true, symbolId, signalId, alertId });
@@ -1410,6 +1443,7 @@ export default function App() {
                   signals={signalRecords}
                   ranking={marketRanking}
                   onToggleWatchlist={handleToggleWatchlist}
+                  onTrackCustomSymbol={handleTrackCustomSymbol}
                   onOpenSymbol={handleSelectSymbol}
                   onOpenAlertModal={handleOpenAlertModal}
                 />

@@ -106,7 +106,12 @@ async def lifespan(app: FastAPI):
     execution_engine = ExecutionEngineService(
         state_store, analytics_store, event_bus, notification_service
     )
-    market_corridor_service = MarketCorridorService(provider_manager, analytics_store, rate_limiter)
+    market_corridor_service = MarketCorridorService(
+        provider_manager,
+        analytics_store,
+        rate_limiter,
+        watchlist_provider=state_store.list_watchlist,
+    )
     model_gateway = ModelGateway(api_key_provider=state_store.get_api_key_value)
     narration_service = NarrationService(
         ai_settings_provider=state_store.get_ai_settings,
