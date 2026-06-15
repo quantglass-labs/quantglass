@@ -6,6 +6,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-06-15
+
+### Changed
+
+- The premium visual language introduced on the Dashboard now spans **every
+  primary screen**. Signals, Portfolio, Backtesting, Watchlist, Review, Journal,
+  Missions, and the Learn progress view all lead with elevated metric tiles that
+  **count up** on change and **fade in** with depth (all reduced-motion aware), so
+  the numbers that matter — win rate, net P&L, process scores, relative strength,
+  Academy completion — read consistently across the app. Presentation only; no
+  change to data or behavior.
+
 ## [0.2.5] - 2026-06-15
 
 ### Changed
