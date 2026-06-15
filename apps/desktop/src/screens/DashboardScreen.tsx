@@ -15,6 +15,7 @@ import {
 } from '../components/ui';
 import { Sparkline } from '../components/charts';
 import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
 import { useEffect, useState } from 'react';
@@ -88,39 +89,6 @@ function buildMarketDisplay(
 }
 
 type MarketRow = { symbol: SymbolRecord; display: ReturnType<typeof buildMarketDisplay> };
-
-// Elevated metric tile: top-lit gradient + soft shadow, with an accent glow on
-// the hero. The depth is what separates "premium" from "admin panel".
-function Tile({
-  label,
-  hero,
-  helper,
-  toneClass,
-  children,
-}: {
-  label: string;
-  hero?: boolean;
-  helper?: string;
-  toneClass?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className={`relative overflow-hidden rounded-3xl border p-5 ${
-        hero
-          ? 'border-accent/30 bg-gradient-to-b from-accentStrong/18 to-transparent shadow-[0_0_46px_-12px] shadow-accent/40'
-          : 'border-border bg-gradient-to-b from-white/[0.06] to-white/[0.01] shadow-lg shadow-black/20'
-      }`}
-    >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{label}</p>
-      <div className={`metric-text mt-3 text-3xl leading-tight ${toneClass ?? 'text-ink'}`}>
-        {children}
-      </div>
-      {helper ? <p className="mt-2 text-xs leading-snug text-muted">{helper}</p> : null}
-    </div>
-  );
-}
 
 // Dense market-grid cell: ticker, % change (regime-colored left edge), price,
 // sparkline — so the whole universe is visible at a glance.
@@ -225,34 +193,34 @@ export function DashboardScreen({
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <Tile
+          <MetricTile
             label="Active Signals"
             hero
             toneClass={activeCount > 0 ? 'text-accent' : 'text-muted'}
             helper={`${heroSignals.length} actionable now · closed-candle only`}
           >
             <CountUp value={activeCount} format={(n) => String(Math.round(n))} />
-          </Tile>
-          <Tile
+          </MetricTile>
+          <MetricTile
             label="Market Regime"
             toneClass={buyCount >= 3 ? 'text-buy' : 'text-watch'}
             helper="Derived from the live signal inventory"
           >
             <span className="text-2xl">{regime}</span>
-          </Tile>
-          <Tile
+          </MetricTile>
+          <MetricTile
             label="Paper Balance"
             helper={`${paperAccount.openPositions.length} open positions`}
           >
             <CountUp value={paperAccount.balance} format={(n) => formatCurrency(n)} />
-          </Tile>
-          <Tile
+          </MetricTile>
+          <MetricTile
             label="Realized P&L"
             toneClass={paperAccount.realizedPnl >= 0 ? 'text-buy' : 'text-sell'}
             helper="Paper account since inception"
           >
             <CountUp value={paperAccount.realizedPnl} format={(n) => formatCurrency(n)} />
-          </Tile>
+          </MetricTile>
         </div>
       )}
 

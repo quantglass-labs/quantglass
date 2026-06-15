@@ -14,6 +14,8 @@ import {
   SectionHeading,
   SignalChip,
 } from '../components/ui';
+import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import type {
   MarketType,
   ScreenState,
@@ -112,15 +114,50 @@ export function SignalsScreen({
       expertUnlocked ? 0 : signals.filter((record) => record.signal.layer === 'expert').length,
     [signals, expertUnlocked],
   );
+  const buyZones = useMemo(
+    () => rows.filter((record) => record.signal.signal === 'BUY_ZONE').length,
+    [rows],
+  );
+  const avgConfidence = useMemo(
+    () =>
+      rows.length
+        ? Math.round(rows.reduce((sum, record) => sum + record.signal.confidence, 0) / rows.length)
+        : 0,
+    [rows],
+  );
+  const activeShown = useMemo(
+    () => rows.filter((record) => record.status === 'active').length,
+    [rows],
+  );
   const retryMockView = () => window.location.reload();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <SectionHeading
         eyebrow="Signals"
         title="Filterable signal inventory"
         description="Current and historical signals with setup type, expectancy, status, and direct routing to the symbol detail screen or signal drawer. Signal records are generated from stored market corridor candles on the backend."
       />
+
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <MetricTile
+          label="Signals shown"
+          hero
+          toneClass={rows.length > 0 ? 'text-accent' : 'text-muted'}
+          helper="Matching the current filters"
+        >
+          <CountUp value={rows.length} format={(n) => String(Math.round(n))} />
+        </MetricTile>
+        <MetricTile label="Buy zones" toneClass="text-buy" helper="Actionable long setups">
+          <CountUp value={buyZones} format={(n) => String(Math.round(n))} />
+        </MetricTile>
+        <MetricTile label="Avg confidence" helper="Across the shown signals">
+          <CountUp value={avgConfidence} format={(n) => `${Math.round(n)}%`} />
+        </MetricTile>
+        <MetricTile label="Active" toneClass="text-watch" helper="Live, closed-candle only">
+          <CountUp value={activeShown} format={(n) => String(Math.round(n))} />
+        </MetricTile>
+      </div>
 
       {signalsError ? (
         <div className="rounded-2xl border border-sell/40 bg-sell/10 p-4">
@@ -408,17 +445,19 @@ export function SignalsScreen({
           description="The table above derives from the same field-for-field canonical signal object shown in the signal detail drawer."
         />
         <div className="mt-5 grid gap-3 md:grid-cols-3">
-          {signals.slice(0, 3).map((record) => (
-            <div key={record.id} className="rounded-2xl border border-border bg-white/[0.03] p-4">
-              <p className="font-medium text-ink">{record.signal.symbol}</p>
-              <p className="mt-2 text-sm text-muted">
-                Entry zone{' '}
-                {record.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}
-              </p>
-              <p className="mt-1 text-sm text-muted">
-                Fees/slippage {record.signal.fees_slippage_assumed}
-              </p>
-            </div>
+          {signals.slice(0, 3).map((record, index) => (
+            <FadeIn key={record.id} delayMs={index * 60}>
+              <div className="rounded-2xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-md shadow-black/15">
+                <p className="font-medium text-ink">{record.signal.symbol}</p>
+                <p className="mt-2 text-sm text-muted">
+                  Entry zone{' '}
+                  {record.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}
+                </p>
+                <p className="mt-1 text-sm text-muted">
+                  Fees/slippage {record.signal.fees_slippage_assumed}
+                </p>
+              </div>
+            </FadeIn>
           ))}
         </div>
       </Panel>

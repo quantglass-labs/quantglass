@@ -14,6 +14,8 @@ import { Briefcase } from 'lucide-react';
 
 import { AiInsight } from '../components/aiInsight';
 import { BackendStatusNotice } from '../components/backendGate';
+import { CountUp } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
 import type {
   BackendStatus,
@@ -98,22 +100,27 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       <AiInsight surface="portfolio" title="Portfolio read" />
 
       {account ? (
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {[
-            ['Balance', money(account.balance), 'text-zinc-100'],
-            ['Buying power', money(account.buyingPower), 'text-zinc-100'],
-            [
-              'Realized P&L',
-              money(account.realizedPnl),
-              account.realizedPnl >= 0 ? 'text-emerald-300' : 'text-rose-300',
-            ],
-            ['Open positions', String(account.openPositions.length), 'text-zinc-100'],
-          ].map(([label, value, tone]) => (
-            <div key={label} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs text-zinc-500">{label}</p>
-              <p className={`mt-1 text-xl font-semibold ${tone}`}>{value}</p>
-            </div>
-          ))}
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <MetricTile
+            label="Balance"
+            hero
+            helper={`${account.openPositions.length} open positions`}
+          >
+            <CountUp value={account.balance} format={(n) => money(n)} />
+          </MetricTile>
+          <MetricTile label="Buying power" helper="Available to deploy">
+            <CountUp value={account.buyingPower} format={(n) => money(n)} />
+          </MetricTile>
+          <MetricTile
+            label="Realized P&L"
+            toneClass={account.realizedPnl >= 0 ? 'text-buy' : 'text-sell'}
+            helper="Since inception"
+          >
+            <CountUp value={account.realizedPnl} format={(n) => money(n)} />
+          </MetricTile>
+          <MetricTile label="Open positions" toneClass="text-watch" helper="Paper venue">
+            <CountUp value={account.openPositions.length} format={(n) => String(Math.round(n))} />
+          </MetricTile>
         </div>
       ) : null}
 
