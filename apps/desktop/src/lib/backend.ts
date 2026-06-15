@@ -167,6 +167,12 @@ export interface BackendEventMessage {
   payload: Record<string, unknown>;
 }
 
+export interface ExtensionsEnabledState {
+  enabled: boolean;
+  active: boolean;
+  restartRequired: boolean;
+}
+
 export const providerLabelById: Record<string, string> = {
   alpaca: 'Alpaca',
   alpaca_paper: 'Alpaca Paper',
@@ -367,6 +373,15 @@ export const backendClient = {
     });
     rememberAiTimeout(response.ai?.requestTimeoutSeconds);
     return response;
+  },
+  getExtensionsEnabled() {
+    return requestJson<ExtensionsEnabledState>('/api/settings/extensions-enabled');
+  },
+  setExtensionsEnabled(enabled: boolean) {
+    return requestJson<ExtensionsEnabledState>('/api/settings/extensions-enabled', {
+      method: 'PUT',
+      body: JSON.stringify({ enabled }),
+    });
   },
   getAiModels(payload: AiModelListRequest) {
     return requestJson<AiModelListResponse>('/api/settings/ai/models', {

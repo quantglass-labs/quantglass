@@ -88,7 +88,7 @@ def load_extension_registry(
                 loaded=False,
                 enabled=False,
                 diagnostics=[
-                    "Set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true or run npm run backend:dev:extensions to load trusted local extension files and installed extension packages."
+                    "Enable extensions in Settings → Extensions (then restart QuantGlass), or set QUANTGLASS_ENABLE_EXTENSION_ENTRY_POINTS=true / run npm run backend:dev:extensions, to load trusted local extension files and installed extension packages."
                 ],
                 health={"status": "disabled", "loaded": False},
             )

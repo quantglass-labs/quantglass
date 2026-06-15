@@ -86,6 +86,11 @@ async def lifespan(app: FastAPI):
         custom_provider_profiles=state_store.list_custom_provider_profiles(),
         api_key_provider=state_store.get_api_key_value,
     )
+    # Enabled by the env var (dev) or the persisted UI preference (desktop). Read
+    # once at startup; toggling the preference takes effect on the next launch.
+    extensions_active = (
+        settings.enable_extension_entry_points or state_store.get_extensions_enabled()
+    )
     extension_registry = load_extension_registry(
         provider_manager,
         strategy_registry=strategy_registry,
@@ -94,7 +99,7 @@ async def lifespan(app: FastAPI):
         lesson_pack_registry=lesson_pack_registry,
         mission_pack_registry=mission_pack_registry,
         extension_settings_provider=state_store.get_extension_settings,
-        enable_entry_points=settings.enable_extension_entry_points,
+        enable_entry_points=extensions_active,
         extension_paths=(
             settings.workspace_root / "extensions",
             settings.data_dir / "extensions",
@@ -166,6 +171,7 @@ async def lifespan(app: FastAPI):
     app.state.analytics_store = analytics_store
     app.state.provider_manager = provider_manager
     app.state.extension_registry = extension_registry
+    app.state.extensions_active = extensions_active
     app.state.strategy_registry = strategy_registry
     app.state.indicator_registry = indicator_registry
     app.state.surface_registry = surface_registry

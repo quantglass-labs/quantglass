@@ -73,6 +73,35 @@ async def ai_settings(request: Request) -> dict[str, object]:
     return {"ai": serialize_ai_settings(ai_settings)}
 
 
+class ExtensionsEnabledPayload(BaseModel):
+    enabled: bool
+
+
+def _extensions_state(request: Request) -> dict[str, object]:
+    enabled = bool(request.app.state.state_store.get_extensions_enabled())
+    active = bool(getattr(request.app.state, "extensions_active", False))
+    return {
+        "enabled": enabled,
+        "active": active,
+        # The flag is read at startup, so a changed preference needs a restart.
+        "restartRequired": enabled != active,
+    }
+
+
+@router.get("/extensions-enabled")
+async def extensions_enabled(request: Request) -> dict[str, object]:
+    return _extensions_state(request)
+
+
+@router.put("/extensions-enabled")
+async def update_extensions_enabled(
+    payload: ExtensionsEnabledPayload,
+    request: Request,
+) -> dict[str, object]:
+    request.app.state.state_store.set_extensions_enabled(payload.enabled)
+    return _extensions_state(request)
+
+
 @router.put("/ai")
 async def update_ai_settings(
     payload: AiSettingsPayload,
