@@ -15,6 +15,11 @@ import {
   mapUiSettingsToProviderRequest,
 } from './lib/backend';
 import { formatCurrency } from './lib/format';
+import {
+  classifyPaperTradeError,
+  computePlanRiskPercent,
+  isPaperPlanComplete,
+} from './lib/paperPlan';
 import { sendNativeNotification } from './lib/nativeNotifications';
 import type {
   AlertHistoryItem,
@@ -1229,14 +1234,17 @@ export default function App() {
 
   function handleConfirmPaperTrade() {
     if (!paperTradeRecord) return;
-    if (!planReason.trim() || !(Number(planStop) > 0)) return;
+    if (!isPaperPlanComplete(planReason, planStop)) return;
 
     const entryPrice =
       (paperTradeRecord.signal.entry_zone[0] + paperTradeRecord.signal.entry_zone[1]) / 2;
     const stopValue = Number(planStop);
-    const balance = paperAccount.balance > 0 ? paperAccount.balance : 0;
-    const planRiskPercent =
-      balance > 0 ? (Math.abs(entryPrice - stopValue) * paperTradeQty * 100) / balance : 0;
+    const planRiskPercent = computePlanRiskPercent(
+      entryPrice,
+      stopValue,
+      paperTradeQty,
+      paperAccount.balance,
+    );
 
     if (backendStatus !== 'online') {
       pushToast(
@@ -1276,16 +1284,8 @@ export default function App() {
         );
       } catch (error) {
         const detail = error instanceof Error ? error.message : '';
-        const isConstitution = detail.includes('constitution');
-        const hasUsefulDetail = detail && !detail.startsWith('Backend request failed');
-        pushToast(
-          isConstitution ? 'Blocked by your trading constitution' : 'Trade submission failed',
-          hasUsefulDetail
-            ? detail
-            : isLiveTradingMode
-              ? 'The backend rejected the live trade request. Check broker routing and configured credentials, then retry.'
-              : 'The backend paper trade request failed, so no persistent paper account change was recorded.',
-        );
+        const classified = classifyPaperTradeError(detail, { isLive: isLiveTradingMode });
+        pushToast(classified.title, classified.message);
       } finally {
         setPaperTradeSignalId(null);
       }
