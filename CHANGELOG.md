@@ -6,6 +6,31 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-06-15
+
+### Added
+
+- Docker self-host mode is safer to expose. The container now publishes to host
+  loopback by default; an optional `QUANTGLASS_SERVER_AUTH_TOKEN` gates every
+  request when you deliberately expose it beyond localhost; and the served app
+  offers its Corresponding Source at `/source` (AGPL §13), linked from the footer.
+
+### Changed
+
+- AI surfaces that auto-load on a screen (per-screen insight, daily brief, signal
+  narration) now use a shorter timeout so a slow local model can't leave a screen
+  spinning — they fall back to the engine's deterministic content. Explicit,
+  user-initiated calls (tutor, Copilot, postmortems, coach note) still wait the
+  full configured timeout.
+
+### Fixed
+
+- The backend reported version 0.2.0 in its OpenAPI schema and Swagger UI while
+  every other manifest said 0.2.1. The runtime version is now single-sourced and
+  guarded by a test so it can't drift from the package version again.
+- The issue-template security-report and commercial-licensing links pointed at a
+  stale namespace and 404'd; both now resolve.
+
 ## [0.2.1] - 2026-06-14
 
 ### Changed
