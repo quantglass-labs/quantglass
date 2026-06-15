@@ -6,6 +6,19 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-06-15
+
+### Changed
+
+- The Dashboard is rebuilt as a live **market pulse**. It now leads with the
+  **top active signals** (ranked by confidence across the whole universe) and a
+  **market grid** of every tracked symbol — price, change, a regime-colored
+  closed-candle sparkline — plus a biggest-movers list, so the full 30/30
+  universe is visible at a glance instead of three fixed hero cards. The metric
+  tiles gained depth and count-up motion (reduced-motion aware), and the morning
+  brief is a compact strip so the numbers lead. The dashboard surfaces what's
+  changing each session rather than the same static layout.
+
 ## [0.2.4] - 2026-06-15
 
 ### Fixed
