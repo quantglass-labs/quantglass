@@ -4,8 +4,15 @@
 """Regime context signals (SIG-2): environment reads with no trade geometry."""
 
 import unittest
+from datetime import UTC, datetime
 
 from app.services.signal_engine.service import SignalEngineService
+
+# Context signals include scheduled-event volatility watches (FOMC/CPI) that
+# fire when an event falls inside the look-ahead window of "now". Pin a clock
+# far past the published schedule so these regime/cross-sectional assertions are
+# deterministic and don't flake based on the wall-clock date.
+_QUIET_NOW = datetime(2099, 1, 1, tzinfo=UTC)
 
 
 def _candles(n=100, drift=0.01):
@@ -47,7 +54,7 @@ class ContextSignalTests(unittest.TestCase):
         service = SignalEngineService(
             analytics_store=_Analytics(_candles()), min_backtest_sample=20
         )
-        items = service.list_context_signals()
+        items = service.list_context_signals(now=_QUIET_NOW)
         self.assertEqual(len(items), 1)
         record = items[0]
         self.assertEqual(record["signal_class"], "context")
@@ -61,7 +68,7 @@ class ContextSignalTests(unittest.TestCase):
         service = SignalEngineService(
             analytics_store=_Analytics(_candles(40)), min_backtest_sample=20
         )
-        self.assertEqual(service.list_context_signals(), [])
+        self.assertEqual(service.list_context_signals(now=_QUIET_NOW), [])
 
 
 class CrossSectionalTests(unittest.TestCase):
@@ -74,7 +81,7 @@ class CrossSectionalTests(unittest.TestCase):
         }
         analytics = _Analytics(candles, symbols=("A", "B", "C", "D"))
         service = SignalEngineService(analytics_store=analytics, min_backtest_sample=20)
-        items = service.list_context_signals()
+        items = service.list_context_signals(now=_QUIET_NOW)
         names = {item["display_name"]: item for item in items}
         self.assertIn("Relative Strength Leader", names)
         self.assertIn("Relative Weakness Laggard", names)
@@ -84,7 +91,7 @@ class CrossSectionalTests(unittest.TestCase):
     def test_no_ranking_below_four_symbols(self) -> None:
         analytics = _Analytics({"A": _candles(), "B": _candles(drift=0.0)}, symbols=("A", "B"))
         service = SignalEngineService(analytics_store=analytics, min_backtest_sample=20)
-        names = {item["display_name"] for item in service.list_context_signals()}
+        names = {item["display_name"] for item in service.list_context_signals(now=_QUIET_NOW)}
         self.assertNotIn("Relative Strength Leader", names)
 
     def test_price_spike_emits_z_score_stretch(self) -> None:
@@ -96,12 +103,14 @@ class CrossSectionalTests(unittest.TestCase):
         spike["high"] = spike["close"] * 1.01
         candles[-1] = spike
         service = SignalEngineService(analytics_store=_Analytics(candles), min_backtest_sample=20)
-        names = {item["display_name"] for item in service.list_context_signals()}
+        names = {item["display_name"] for item in service.list_context_signals(now=_QUIET_NOW)}
         self.assertIn("Z-Score Extreme (Stretched Up)", names)
         steady = SignalEngineService(
             analytics_store=_Analytics(_candles(drift=0.02)), min_backtest_sample=20
         )
-        steady_names = {item["display_name"] for item in steady.list_context_signals()}
+        steady_names = {
+            item["display_name"] for item in steady.list_context_signals(now=_QUIET_NOW)
+        }
         self.assertNotIn("Z-Score Extreme (Stretched Up)", steady_names)
 
 
