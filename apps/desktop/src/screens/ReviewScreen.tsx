@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 import { AlertTriangle, ClipboardCheck, ScrollText } from 'lucide-react';
 
 import { BackendStatusNotice } from '../components/backendGate';
+import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
 import { AiMarkdown } from '../components/AiMarkdown';
 import type {
@@ -227,42 +229,45 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
 
       {coach ? (
         <>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs text-zinc-500">Trades (7 days)</p>
-              <p className="mt-1 text-2xl font-semibold text-zinc-100">{coach.weekly.trades}</p>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs text-zinc-500">Process (7 days)</p>
-              <p
-                className={`mt-1 text-2xl font-semibold ${
-                  coach.weekly.average_process_score >= (summary?.process_good_bar ?? 70)
-                    ? 'text-emerald-300'
-                    : 'text-amber-300'
-                }`}
-              >
-                {coach.weekly.average_process_score}
-              </p>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs text-zinc-500">Trades (all time)</p>
-              <p className="mt-1 text-2xl font-semibold text-zinc-100">{summary?.trades ?? 0}</p>
-            </div>
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs text-zinc-500">Process (all time)</p>
-              <p className="mt-1 text-2xl font-semibold text-zinc-100">
-                {summary?.average_process_score ?? 0}
-              </p>
-            </div>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <MetricTile label="Trades (7 days)" helper="This week's activity">
+              <CountUp value={coach.weekly.trades} format={(n) => String(Math.round(n))} />
+            </MetricTile>
+            <MetricTile
+              label="Process (7 days)"
+              hero
+              toneClass={
+                coach.weekly.average_process_score >= (summary?.process_good_bar ?? 70)
+                  ? 'text-buy'
+                  : 'text-watch'
+              }
+              helper={`Good bar ${summary?.process_good_bar ?? 70}`}
+            >
+              <CountUp
+                value={coach.weekly.average_process_score}
+                format={(n) => String(Math.round(n))}
+              />
+            </MetricTile>
+            <MetricTile label="Trades (all time)" helper="Since inception">
+              <CountUp value={summary?.trades ?? 0} format={(n) => String(Math.round(n))} />
+            </MetricTile>
+            <MetricTile label="Process (all time)" helper="Lifetime average">
+              <CountUp
+                value={summary?.average_process_score ?? 0}
+                format={(n) => String(Math.round(n))}
+              />
+            </MetricTile>
           </div>
 
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {Object.entries(QUADRANT_META).map(([key, meta]) => (
-              <div key={key} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-                <p className={`text-2xl font-semibold ${meta.tone}`}>{quadrants[key] ?? 0}</p>
-                <p className="mt-1 text-xs font-medium text-zinc-400">{meta.label}</p>
-                <p className="text-[11px] text-zinc-600">{meta.hint}</p>
-              </div>
+            {Object.entries(QUADRANT_META).map(([key, meta], index) => (
+              <FadeIn key={key} delayMs={index * 50}>
+                <div className="rounded-2xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-md shadow-black/15">
+                  <p className={`metric-text text-2xl ${meta.tone}`}>{quadrants[key] ?? 0}</p>
+                  <p className="mt-1 text-xs font-medium text-zinc-400">{meta.label}</p>
+                  <p className="text-[11px] text-zinc-600">{meta.hint}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
 

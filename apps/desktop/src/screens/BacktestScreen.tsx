@@ -5,6 +5,8 @@ import { AlertTriangle, BookmarkPlus, SlidersHorizontal } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { TinyLineChart } from '../components/charts';
+import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import {
   Button,
   DataStateView,
@@ -698,55 +700,85 @@ export function BacktestScreen({
                     </div>
                   </div>
 
-                  <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-                    <MetricStat
-                      label="Net win rate"
-                      value={`${displayedPreset.metrics.winRate}%`}
-                      helper={displayedPreset.metrics.testPeriod}
-                      tone="buy"
-                    />
-                    <MetricStat
-                      label="Average R"
-                      value={displayedPreset.metrics.avgR.toFixed(2)}
-                      helper="Net of fees + slippage"
-                      tone={displayedPreset.metrics.avgR >= 0 ? 'buy' : 'sell'}
-                    />
-                    <MetricStat
-                      label="Expectancy"
-                      value={displayedPreset.metrics.expectancy.toFixed(2)}
-                      helper="Per trade in R terms"
-                      tone={displayedPreset.metrics.expectancy >= 0 ? 'buy' : 'sell'}
-                    />
-                    <MetricStat
-                      label="Max drawdown"
-                      value={formatPercent(displayedPreset.metrics.maxDrawdown)}
-                      helper="Worst equity peak-to-trough"
-                      tone="sell"
-                    />
-                    <MetricStat
-                      label="Sharpe"
-                      value={displayedPreset.metrics.sharpe.toFixed(2)}
-                      helper="Risk-adjusted return"
-                    />
-                    <MetricStat
-                      label="Sortino"
-                      value={displayedPreset.metrics.sortino.toFixed(2)}
-                      helper="Downside-adjusted return"
-                    />
-                    <MetricStat
-                      label="Profit factor"
-                      value={displayedPreset.metrics.profitFactor.toFixed(2)}
-                      helper="Gross wins / gross losses"
-                    />
-                    <MetricStat
-                      label="Trade count"
-                      value={displayedPreset.metrics.tradeCount}
-                      helper={`Out-of-sample trade count · threshold ${minBacktestSample}`}
-                      tone={
-                        displayedPreset.metrics.tradeCount < minBacktestSample ? 'hold' : 'watch'
-                      }
-                    />
-                  </div>
+                  <FadeIn>
+                    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                      <MetricTile
+                        label="Net win rate"
+                        hero
+                        toneClass="text-buy"
+                        helper={displayedPreset.metrics.testPeriod}
+                      >
+                        <CountUp
+                          value={displayedPreset.metrics.winRate}
+                          format={(n) => `${Math.round(n)}%`}
+                        />
+                      </MetricTile>
+                      <MetricTile
+                        label="Average R"
+                        toneClass={displayedPreset.metrics.avgR >= 0 ? 'text-buy' : 'text-sell'}
+                        helper="Net of fees + slippage"
+                      >
+                        <CountUp
+                          value={displayedPreset.metrics.avgR}
+                          format={(n) => n.toFixed(2)}
+                        />
+                      </MetricTile>
+                      <MetricTile
+                        label="Expectancy"
+                        toneClass={
+                          displayedPreset.metrics.expectancy >= 0 ? 'text-buy' : 'text-sell'
+                        }
+                        helper="Per trade in R terms"
+                      >
+                        <CountUp
+                          value={displayedPreset.metrics.expectancy}
+                          format={(n) => n.toFixed(2)}
+                        />
+                      </MetricTile>
+                      <MetricTile
+                        label="Max drawdown"
+                        toneClass="text-sell"
+                        helper="Worst equity peak-to-trough"
+                      >
+                        <CountUp
+                          value={displayedPreset.metrics.maxDrawdown}
+                          format={(n) => formatPercent(n)}
+                        />
+                      </MetricTile>
+                      <MetricTile label="Sharpe" helper="Risk-adjusted return">
+                        <CountUp
+                          value={displayedPreset.metrics.sharpe}
+                          format={(n) => n.toFixed(2)}
+                        />
+                      </MetricTile>
+                      <MetricTile label="Sortino" helper="Downside-adjusted return">
+                        <CountUp
+                          value={displayedPreset.metrics.sortino}
+                          format={(n) => n.toFixed(2)}
+                        />
+                      </MetricTile>
+                      <MetricTile label="Profit factor" helper="Gross wins / gross losses">
+                        <CountUp
+                          value={displayedPreset.metrics.profitFactor}
+                          format={(n) => n.toFixed(2)}
+                        />
+                      </MetricTile>
+                      <MetricTile
+                        label="Trade count"
+                        toneClass={
+                          displayedPreset.metrics.tradeCount < minBacktestSample
+                            ? 'text-hold'
+                            : 'text-watch'
+                        }
+                        helper={`Out-of-sample trade count · threshold ${minBacktestSample}`}
+                      >
+                        <CountUp
+                          value={displayedPreset.metrics.tradeCount}
+                          format={(n) => String(Math.round(n))}
+                        />
+                      </MetricTile>
+                    </div>
+                  </FadeIn>
 
                   <div className="grid gap-4 xl:grid-cols-2">
                     <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
