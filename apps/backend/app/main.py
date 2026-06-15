@@ -58,6 +58,7 @@ from app.services.trade_review import TradeReviewService
 from app.services.trading import TradingExecutionService
 from app.storage.analytics_store import AnalyticsStore
 from app.storage.state_store import StateStore
+from app.version import __version__
 
 
 @asynccontextmanager
@@ -197,7 +198,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="QuantGlass Backend",
-    version="0.2.0",
+    version=__version__,
     lifespan=lifespan,
 )
 
