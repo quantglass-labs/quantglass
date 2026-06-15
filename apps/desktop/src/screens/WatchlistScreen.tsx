@@ -25,6 +25,7 @@ export function WatchlistScreen({
   signals,
   ranking,
   onToggleWatchlist,
+  onTrackCustomSymbol,
   onOpenSymbol,
   onOpenAlertModal,
 }: {
@@ -34,6 +35,7 @@ export function WatchlistScreen({
   signals: SignalRecord[];
   ranking: RelativeStrengthRanking[];
   onToggleWatchlist: (symbolId: string) => void;
+  onTrackCustomSymbol: (symbol: string, marketType: 'crypto' | 'stocks') => void;
   onOpenSymbol: (symbolId: string) => void;
   onOpenAlertModal: (symbolId: string, signalId?: string) => void;
 }) {
@@ -49,6 +51,15 @@ export function WatchlistScreen({
           symbol.name.toLowerCase().includes(needle)),
     );
   }, [query, symbols, watchlistIds]);
+  // Offer to track a brand-new ticker when the typed symbol isn't already known.
+  const trimmedQuery = query.trim();
+  const canTrackCustom =
+    trimmedQuery.length > 0 &&
+    !symbols.some((symbol) => symbol.symbol.toLowerCase() === trimmedQuery.toLowerCase());
+  const trackCustom = (marketType: 'crypto' | 'stocks') => {
+    onTrackCustomSymbol(trimmedQuery, marketType);
+    setQuery('');
+  };
   const topRanked = useMemo(() => {
     const seen = new Set<string>();
     const deduped: RelativeStrengthRanking[] = [];
@@ -78,7 +89,7 @@ export function WatchlistScreen({
               placeholder="Add symbol"
               className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-ink outline-none focus:border-accent"
             />
-            {candidates.length ? (
+            {candidates.length || canTrackCustom ? (
               <div className="glass-panel absolute left-0 right-0 top-[calc(100%+0.5rem)] rounded-3xl p-2">
                 {candidates.slice(0, 5).map((candidate) => (
                   <button
@@ -97,6 +108,26 @@ export function WatchlistScreen({
                     <Button className="px-3 py-2 text-xs">Add</Button>
                   </button>
                 ))}
+                {canTrackCustom ? (
+                  <div className="flex items-center justify-between gap-2 rounded-2xl px-3 py-3">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium text-ink">
+                        Track “{trimmedQuery.toUpperCase()}”
+                      </p>
+                      <p className="text-xs text-muted">
+                        Not listed yet — add it to the corridor as:
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 gap-1.5">
+                      <Button className="px-3 py-2 text-xs" onClick={() => trackCustom('stocks')}>
+                        Stock
+                      </Button>
+                      <Button className="px-3 py-2 text-xs" onClick={() => trackCustom('crypto')}>
+                        Crypto
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>
