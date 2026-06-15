@@ -6,6 +6,19 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-06-15
+
+### Fixed
+
+- Signals now load instantly and reliably across the expanded universe. The
+  signals API serves a shared, warm in-memory cache instead of recomputing
+  detection and backtests for the whole universe on every request, so a poll
+  returns in milliseconds (cold reads dropped from minutes to ~0.03s) and the
+  cache is warmed in the background.
+- The signal list is no longer empty when signals exist. A regression built a
+  throwaway signal engine on every request, so each caller read an empty cache;
+  the API now uses the shared engine that the background warm populates.
+
 ## [0.2.3] - 2026-06-15
 
 ### Added
