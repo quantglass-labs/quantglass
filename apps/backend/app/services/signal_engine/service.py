@@ -11,7 +11,9 @@ extensions.
 
 from __future__ import annotations
 
+import time
 from datetime import UTC, datetime, timedelta
+from threading import Lock
 from typing import Any
 
 from app.services.signal_engine import backtest as backtest_module
@@ -52,6 +54,37 @@ class SignalEngineService:
         self._narration_facts: dict[tuple[str, str], dict[str, Any]] = {}
         self._narrator = narrator
         self._strategy_registry = strategy_registry
+        # Cache-warm coordination: the API serves the cache (compute=False) and
+        # triggers a warm in the request threadpool when the cache is empty or
+        # stale. A lock ensures only one warm runs at a time.
+        self._warm_lock = Lock()
+        self._warming = False
+        self._last_warm_monotonic = 0.0
+        self._warm_interval_seconds = 120.0
+
+    def should_warm(self) -> bool:
+        """True when the signal cache should be (re)warmed: it is empty, or the
+        last warm is older than the warm interval."""
+        if not self._signal_cache:
+            return True
+        return (time.monotonic() - self._last_warm_monotonic) > self._warm_interval_seconds
+
+    def warm_cache(self) -> None:
+        """Recompute and cache signals across the universe (compute=True).
+
+        Runs from the API's request threadpool (the context that reads the
+        analytics store reliably) rather than relying solely on the scheduler.
+        Guarded so only one warm runs at a time; safe to call on every poll.
+        """
+        with self._warm_lock:
+            if self._warming:
+                return
+            self._warming = True
+        try:
+            self.list_signals(compute=True)
+            self._last_warm_monotonic = time.monotonic()
+        finally:
+            self._warming = False
 
     def attach_research_review(self, service: Any) -> None:
         self._research_review = service
@@ -59,22 +92,22 @@ class SignalEngineService:
     def list_signals(self, *, compute: bool = True) -> list[dict[str, Any]]:
         """Current signals across the tracked universe.
 
-        ``compute=True`` (the scheduler's warm job) recomputes any stale or
-        missing series and refreshes the cache. ``compute=False`` (the API
-        endpoint) serves only the warm cache and never triggers a recompute, so
-        a poll returns in milliseconds even across a large universe — detection
-        and backtests are the expensive part, and the scheduler keeps them warm
-        in the background. A cold cache simply returns fewer signals until the
-        background job fills it in, rather than blocking the request.
+        ``compute=True`` (the warm job) recomputes detection + backtests for
+        every series and refreshes the cache — the expensive path. ``compute=False``
+        (the API endpoint) is a **pure in-memory read of the cache**: it touches
+        no storage at all, so it returns in microseconds and a flaky/empty store
+        read can never hide already-computed signals. The endpoint warms the
+        cache in the background (see ``warm_cache``); a cold cache returns fewer
+        signals until that completes, rather than blocking the request.
         """
-        items: list[dict[str, Any]] = []
+        if not compute:
+            items = [entry[1] for entry in self._signal_cache.values()]
+            items.sort(key=lambda item: item["signal"]["generated_at_utc"], reverse=True)
+            return items
+
+        items = []
         for series in self._analytics_store.list_market_series(minimum_candles=80):
             cache_key = (series["symbol"], series["timeframe"])
-            if not compute:
-                cached = self._signal_cache.get(cache_key)
-                if cached is not None:
-                    items.append(cached[1])
-                continue
             candle_payload = self._analytics_store.list_market_candles(
                 series["symbol"],
                 series["timeframe"],

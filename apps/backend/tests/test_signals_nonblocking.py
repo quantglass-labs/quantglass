@@ -9,8 +9,10 @@ recomputes in the background. These tests pin that contract without running a
 real backtest.
 """
 
+import types
 import unittest
 
+from app.api.routes.content import _signal_engine
 from app.services.signal_engine.service import SignalEngineService
 
 
@@ -60,6 +62,17 @@ class NonBlockingSignalsTests(unittest.TestCase):
         # candles yield no signal, but the fetch happened — i.e. it would warm).
         service.list_signals(compute=True)
         self.assertEqual(analytics.candle_calls, 1)
+
+
+class SharedEngineInstanceTests(unittest.TestCase):
+    def test_endpoint_uses_the_shared_engine_not_a_fresh_one(self) -> None:
+        # The bug: building a new SignalEngineService per request gave every
+        # caller an empty signal cache, so the warmed cache was never read.
+        engine = object()
+        request = types.SimpleNamespace(
+            app=types.SimpleNamespace(state=types.SimpleNamespace(signal_engine=engine))
+        )
+        self.assertIs(_signal_engine(request), engine)
 
 
 if __name__ == "__main__":
