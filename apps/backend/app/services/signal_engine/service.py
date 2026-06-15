@@ -56,16 +56,31 @@ class SignalEngineService:
     def attach_research_review(self, service: Any) -> None:
         self._research_review = service
 
-    def list_signals(self) -> list[dict[str, Any]]:
+    def list_signals(self, *, compute: bool = True) -> list[dict[str, Any]]:
+        """Current signals across the tracked universe.
+
+        ``compute=True`` (the scheduler's warm job) recomputes any stale or
+        missing series and refreshes the cache. ``compute=False`` (the API
+        endpoint) serves only the warm cache and never triggers a recompute, so
+        a poll returns in milliseconds even across a large universe — detection
+        and backtests are the expensive part, and the scheduler keeps them warm
+        in the background. A cold cache simply returns fewer signals until the
+        background job fills it in, rather than blocking the request.
+        """
         items: list[dict[str, Any]] = []
         for series in self._analytics_store.list_market_series(minimum_candles=80):
+            cache_key = (series["symbol"], series["timeframe"])
+            if not compute:
+                cached = self._signal_cache.get(cache_key)
+                if cached is not None:
+                    items.append(cached[1])
+                continue
             candle_payload = self._analytics_store.list_market_candles(
                 series["symbol"],
                 series["timeframe"],
                 limit=320,
             )
             candles = candle_payload["items"]
-            cache_key = (series["symbol"], series["timeframe"])
             last_candle = str(candles[-1].get("open_time_utc") or "") if candles else ""
             cached = self._signal_cache.get(cache_key)
             if cached is not None and cached[0] == last_candle:
