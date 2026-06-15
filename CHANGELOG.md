@@ -6,6 +6,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- CI/release workflows bump their GitHub Actions to the first Node 24 majors
+  (`checkout@v5`, `setup-node@v5`, `setup-python@v6`, `upload-artifact@v5`,
+  `download-artifact@v5`), ahead of GitHub forcing Node 20 actions onto Node 24
+  (2026-06-16) and removing the Node 20 runtime (2026-09-16).
+
 ## [0.2.6] - 2026-06-15
 
 ### Changed
