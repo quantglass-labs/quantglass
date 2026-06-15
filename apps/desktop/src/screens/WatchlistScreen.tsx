@@ -175,24 +175,24 @@ export function WatchlistScreen({
                       onClick={() => symbolRecord && onOpenSymbol(symbolRecord.id)}
                       className="flex h-full w-full flex-col gap-2 rounded-3xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 text-left shadow-md shadow-black/15 transition hover:border-accent/40 hover:bg-white/5"
                     >
-                    <div className="flex items-center justify-between">
-                      <p className="font-medium text-ink">{entry.symbol}</p>
-                      <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
-                        {entry.timeframe}
-                      </span>
-                    </div>
-                    <p className="metric-text text-2xl text-ink">
-                      {entry.relative_strength_percentile.toFixed(0)}
-                      <span className="text-sm text-muted"> RS</span>
-                    </p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className={positive ? 'text-buy' : 'text-sell'}>
-                        {formatPercent(entry.momentum_score * 100)}
-                      </span>
-                      <span className="text-xs text-muted">
-                        #{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}
-                      </span>
-                    </div>
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium text-ink">{entry.symbol}</p>
+                        <span className="rounded-full border border-border px-2 py-0.5 text-xs text-muted">
+                          {entry.timeframe}
+                        </span>
+                      </div>
+                      <p className="metric-text text-2xl text-ink">
+                        {entry.relative_strength_percentile.toFixed(0)}
+                        <span className="text-sm text-muted"> RS</span>
+                      </p>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className={positive ? 'text-buy' : 'text-sell'}>
+                          {formatPercent(entry.momentum_score * 100)}
+                        </span>
+                        <span className="text-xs text-muted">
+                          #{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}
+                        </span>
+                      </div>
                     </button>
                   </FadeIn>
                 );
