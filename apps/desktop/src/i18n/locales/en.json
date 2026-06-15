@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "signals": "Signals",
+    "watchlist": "Watchlist",
+    "portfolio": "Portfolio",
+    "backtest": "Backtesting",
+    "alerts": "Alerts",
+    "learn": "Learn",
+    "missions": "Missions",
+    "journal": "Journal",
+    "review": "Review",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "add": "Add",
+    "close": "Close",
+    "remove": "Remove",
+    "retry": "Retry",
+    "back": "Back",
+    "search": "Search",
+    "loading": "Loading…",
+    "markets": {
+      "all": "All Markets",
+      "crypto": "Crypto",
+      "stocks": "Stocks"
+    },
+    "state": {
+      "errorTitle": "Something went wrong",
+      "emptyTitle": "Nothing here yet"
+    },
+    "language": {
+      "title": "Language",
+      "label": "Display language",
+      "help": "Choose the language for the app interface. AI insights answer in this language too."
+    },
+    "notFinancialAdvice": "Educational use only — not financial advice."
+  }
+}

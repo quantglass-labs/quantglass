@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "signals": "Signaux",
+    "watchlist": "Liste de suivi",
+    "portfolio": "Portefeuille",
+    "backtest": "Backtesting",
+    "alerts": "Alertes",
+    "learn": "Apprendre",
+    "missions": "Missions",
+    "journal": "Journal",
+    "review": "Revue",
+    "settings": "Paramètres"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "add": "Ajouter",
+    "close": "Fermer",
+    "remove": "Retirer",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "search": "Rechercher",
+    "loading": "Chargement…",
+    "markets": {
+      "all": "Tous les marchés",
+      "crypto": "Crypto",
+      "stocks": "Actions"
+    },
+    "state": {
+      "errorTitle": "Une erreur s'est produite",
+      "emptyTitle": "Rien ici pour l'instant"
+    },
+    "language": {
+      "title": "Langue",
+      "label": "Langue de l'interface",
+      "help": "Choisissez la langue de l'interface. Les analyses IA répondent aussi dans cette langue."
+    },
+    "notFinancialAdvice": "Usage éducatif uniquement — pas un conseil financier."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Übersicht",
+    "signals": "Signale",
+    "watchlist": "Beobachtungsliste",
+    "portfolio": "Portfolio",
+    "backtest": "Backtesting",
+    "alerts": "Warnungen",
+    "learn": "Lernen",
+    "missions": "Missionen",
+    "journal": "Journal",
+    "review": "Rückblick",
+    "settings": "Einstellungen"
+  },
+  "common": {
+    "save": "Speichern",
+    "saving": "Speichern…",
+    "cancel": "Abbrechen",
+    "add": "Hinzufügen",
+    "close": "Schließen",
+    "remove": "Entfernen",
+    "retry": "Erneut versuchen",
+    "back": "Zurück",
+    "search": "Suchen",
+    "loading": "Wird geladen…",
+    "markets": {
+      "all": "Alle Märkte",
+      "crypto": "Krypto",
+      "stocks": "Aktien"
+    },
+    "state": {
+      "errorTitle": "Etwas ist schiefgelaufen",
+      "emptyTitle": "Hier ist noch nichts"
+    },
+    "language": {
+      "title": "Sprache",
+      "label": "Anzeigesprache",
+      "help": "Wählen Sie die Sprache der Benutzeroberfläche. KI-Einblicke antworten ebenfalls in dieser Sprache."
+    },
+    "notFinancialAdvice": "Nur zu Bildungszwecken — keine Finanzberatung."
+  }
+}

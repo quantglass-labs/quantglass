@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Bảng điều khiển",
+    "signals": "Tín hiệu",
+    "watchlist": "Danh sách theo dõi",
+    "portfolio": "Danh mục",
+    "backtest": "Backtesting",
+    "alerts": "Cảnh báo",
+    "learn": "Học",
+    "missions": "Nhiệm vụ",
+    "journal": "Nhật ký",
+    "review": "Đánh giá",
+    "settings": "Cài đặt"
+  },
+  "common": {
+    "save": "Lưu",
+    "saving": "Đang lưu…",
+    "cancel": "Hủy",
+    "add": "Thêm",
+    "close": "Đóng",
+    "remove": "Xóa",
+    "retry": "Thử lại",
+    "back": "Quay lại",
+    "search": "Tìm kiếm",
+    "loading": "Đang tải…",
+    "markets": {
+      "all": "Tất cả thị trường",
+      "crypto": "Tiền mã hóa",
+      "stocks": "Cổ phiếu"
+    },
+    "state": {
+      "errorTitle": "Đã xảy ra lỗi",
+      "emptyTitle": "Chưa có gì ở đây"
+    },
+    "language": {
+      "title": "Ngôn ngữ",
+      "label": "Ngôn ngữ hiển thị",
+      "help": "Chọn ngôn ngữ giao diện ứng dụng. Thông tin AI cũng trả lời bằng ngôn ngữ này."
+    },
+    "notFinancialAdvice": "Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính."
+  }
+}

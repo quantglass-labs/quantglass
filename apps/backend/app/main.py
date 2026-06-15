@@ -42,6 +42,7 @@ from app.services.learn_moments import LearnMomentsService
 from app.services.learn_readiness import LearnReadinessService
 from app.services.learn_service import LearnService
 from app.services.lesson_pack_registry import LessonPackRegistry
+from app.services.locale import set_locale
 from app.services.market_corridor import MarketCorridorService
 from app.services.mission_pack_registry import MissionPackRegistry
 from app.services.missions import MissionService
@@ -208,11 +209,33 @@ async def lifespan(app: FastAPI):
         scheduler_service.shutdown()
 
 
+class LocaleMiddleware:
+    """Pure-ASGI middleware recording each request's ``Accept-Language`` as the
+    active locale (see :mod:`app.services.locale`). Implemented as raw ASGI rather
+    than ``BaseHTTPMiddleware`` so the ContextVar it sets propagates into the
+    endpoint and the threadpool that runs the AI services."""
+
+    def __init__(self, app: object) -> None:
+        self.app = app
+
+    async def __call__(self, scope: dict, receive: object, send: object) -> None:
+        if scope.get("type") == "http":
+            raw: str | None = None
+            for key, value in scope.get("headers") or []:
+                if key == b"accept-language":
+                    raw = value.decode("latin-1")
+                    break
+            set_locale(raw)
+        await self.app(scope, receive, send)  # type: ignore[operator]
+
+
 app = FastAPI(
     title="QuantGlass Backend",
     version=__version__,
     lifespan=lifespan,
 )
+
+app.add_middleware(LocaleMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

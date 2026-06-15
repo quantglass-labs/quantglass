@@ -12,6 +12,7 @@ import {
   PillTabs,
   SectionHeading,
 } from '../components/ui';
+import { LanguageSelect } from '../components/LanguageSelect';
 import { providerLabelById } from '../lib/backend';
 import { AiTab } from './settings/AiTab';
 import { ProvidersTab } from './settings/ProvidersTab';
@@ -514,6 +515,8 @@ export function SettingsScreen({
         title="Provider, safety, AI, and strategy controls"
         description="Simple/Advanced provider routing, masked API keys, paper/live safety controls, model selection, and saved strategies from the backtest screen."
       />
+
+      <LanguageSelect />
 
       <PillTabs
         value={tab}

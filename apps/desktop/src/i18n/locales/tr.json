@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Panel",
+    "signals": "Sinyaller",
+    "watchlist": "İzleme listesi",
+    "portfolio": "Portföy",
+    "backtest": "Backtesting",
+    "alerts": "Uyarılar",
+    "learn": "Öğren",
+    "missions": "Görevler",
+    "journal": "Günlük",
+    "review": "Değerlendirme",
+    "settings": "Ayarlar"
+  },
+  "common": {
+    "save": "Kaydet",
+    "saving": "Kaydediliyor…",
+    "cancel": "İptal",
+    "add": "Ekle",
+    "close": "Kapat",
+    "remove": "Kaldır",
+    "retry": "Yeniden dene",
+    "back": "Geri",
+    "search": "Ara",
+    "loading": "Yükleniyor…",
+    "markets": {
+      "all": "Tüm piyasalar",
+      "crypto": "Kripto",
+      "stocks": "Hisseler"
+    },
+    "state": {
+      "errorTitle": "Bir şeyler ters gitti",
+      "emptyTitle": "Burada henüz bir şey yok"
+    },
+    "language": {
+      "title": "Dil",
+      "label": "Görüntüleme dili",
+      "help": "Uygulama arayüzü dilini seçin. Yapay zekâ içgörüleri de bu dilde yanıt verir."
+    },
+    "notFinancialAdvice": "Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir."
+  }
+}

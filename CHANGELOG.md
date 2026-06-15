@@ -6,6 +6,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Multilingual interface (foundation).** QuantGlass now speaks 20 languages,
+  selectable from Settings — English, 中文, हिन्दी, Español, العربية, Français,
+  বাংলা, Português, Русский, اردو, Bahasa Indonesia, Deutsch, 日本語, فارسی,
+  Türkçe, 한국어, Tiếng Việt, Italiano, سنڌي, and Kiswahili. The four
+  right-to-left languages (Arabic, Urdu, Persian, Sindhi) mirror the whole
+  layout. AI insights — narration, coaching, postmortems, research reviews —
+  answer in the selected language. The choice is remembered locally. This first
+  pass localizes the navigation and shared chrome; individual screens and the
+  Academy lesson catalog follow.
+
 ### Changed
 
 - CI/release workflows bump their GitHub Actions to the first Node 24 majors

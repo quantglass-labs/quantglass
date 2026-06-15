@@ -1,0 +1,25 @@
+{
+  "_comment": "Per-language translation coverage. ui = interface chrome; lessons = Academy lesson catalog (Phase 2). review=true flags low-resource languages that should get a native-speaker pass before being treated as authoritative.",
+  "languages": {
+    "en": { "ui": "complete", "lessons": "source", "review": false },
+    "zh": { "ui": "complete", "lessons": "pending", "review": false },
+    "hi": { "ui": "complete", "lessons": "pending", "review": false },
+    "es": { "ui": "complete", "lessons": "pending", "review": false },
+    "ar": { "ui": "complete", "lessons": "pending", "review": false },
+    "fr": { "ui": "complete", "lessons": "pending", "review": false },
+    "bn": { "ui": "complete", "lessons": "pending", "review": false },
+    "pt": { "ui": "complete", "lessons": "pending", "review": false },
+    "ru": { "ui": "complete", "lessons": "pending", "review": false },
+    "ur": { "ui": "complete", "lessons": "pending", "review": false },
+    "id": { "ui": "complete", "lessons": "pending", "review": false },
+    "de": { "ui": "complete", "lessons": "pending", "review": false },
+    "ja": { "ui": "complete", "lessons": "pending", "review": false },
+    "fa": { "ui": "complete", "lessons": "pending", "review": false },
+    "tr": { "ui": "complete", "lessons": "pending", "review": false },
+    "ko": { "ui": "complete", "lessons": "pending", "review": false },
+    "vi": { "ui": "complete", "lessons": "pending", "review": false },
+    "it": { "ui": "complete", "lessons": "pending", "review": false },
+    "sd": { "ui": "complete", "lessons": "pending", "review": true },
+    "sw": { "ui": "complete", "lessons": "pending", "review": true }
+  }
+}

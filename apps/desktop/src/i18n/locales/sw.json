@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "dashboard": "Dashibodi",
+    "signals": "Ishara",
+    "watchlist": "Orodha ya kufuatilia",
+    "portfolio": "Portfolio",
+    "backtest": "Backtesting",
+    "alerts": "Arifa",
+    "learn": "Jifunze",
+    "missions": "Misheni",
+    "journal": "Jarida",
+    "review": "Mapitio",
+    "settings": "Mipangilio"
+  },
+  "common": {
+    "save": "Hifadhi",
+    "saving": "Inahifadhi…",
+    "cancel": "Ghairi",
+    "add": "Ongeza",
+    "close": "Funga",
+    "remove": "Ondoa",
+    "retry": "Jaribu tena",
+    "back": "Rudi",
+    "search": "Tafuta",
+    "loading": "Inapakia…",
+    "markets": {
+      "all": "Masoko yote",
+      "crypto": "Sarafu-fiche",
+      "stocks": "Hisa"
+    },
+    "state": {
+      "errorTitle": "Hitilafu imetokea",
+      "emptyTitle": "Bado hakuna kitu hapa"
+    },
+    "language": {
+      "title": "Lugha",
+      "label": "Lugha ya kuonyesha",
+      "help": "Chagua lugha ya kiolesura cha programu. Maarifa ya AI pia hujibu kwa lugha hii."
+    },
+    "notFinancialAdvice": "Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha."
+  }
+}

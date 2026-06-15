@@ -20,26 +20,28 @@ import {
   Star,
 } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { Copilot } from './copilot';
 import { DisclaimerChip, PillTabs } from './ui';
 import type { BackendStatus, MarketType, SymbolRecord } from '../types';
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/signals', label: 'Signals', icon: TrendingUp },
-  { to: '/watchlist', label: 'Watchlist', icon: Star },
-  { to: '/portfolio', label: 'Portfolio', icon: Briefcase },
-  { to: '/backtest', label: 'Backtesting', icon: TestTubeDiagonal },
-  { to: '/alerts', label: 'Alerts', icon: Bell },
-  { to: '/learn', label: 'Learn', icon: GraduationCap },
-  { to: '/missions', label: 'Missions', icon: Target },
-  { to: '/journal', label: 'Journal', icon: NotebookPen },
-  { to: '/review', label: 'Review', icon: ClipboardCheck },
-  { to: '/settings', label: 'Settings', icon: Settings },
+  { to: '/', key: 'dashboard', icon: LayoutDashboard, end: true },
+  { to: '/signals', key: 'signals', icon: TrendingUp },
+  { to: '/watchlist', key: 'watchlist', icon: Star },
+  { to: '/portfolio', key: 'portfolio', icon: Briefcase },
+  { to: '/backtest', key: 'backtest', icon: TestTubeDiagonal },
+  { to: '/alerts', key: 'alerts', icon: Bell },
+  { to: '/learn', key: 'learn', icon: GraduationCap },
+  { to: '/missions', key: 'missions', icon: Target },
+  { to: '/journal', key: 'journal', icon: NotebookPen },
+  { to: '/review', key: 'review', icon: ClipboardCheck },
+  { to: '/settings', key: 'settings', icon: Settings },
 ];
 
 function SidebarNav() {
+  const { t } = useTranslation();
   return (
     <>
       {navItems.map((item) => (
@@ -57,7 +59,7 @@ function SidebarNav() {
           }
         >
           <item.icon className="size-4" />
-          {item.label}
+          {t(`nav.${item.key}`)}
         </NavLink>
       ))}
     </>
@@ -84,6 +86,7 @@ export function AppShell({
   symbols: SymbolRecord[];
   onSelectSymbol: (symbolId: string) => void;
 }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query);
   const searchResults = useMemo(() => {
@@ -99,7 +102,7 @@ export function AppShell({
 
   return (
     <div className="min-h-screen text-ink">
-      <aside className="fixed inset-y-0 left-0 hidden w-72 flex-col border-r border-border bg-surface/70 px-4 py-5 backdrop-blur-xl lg:flex">
+      <aside className="fixed inset-y-0 start-0 hidden w-72 flex-col border-e border-border bg-surface/70 px-4 py-5 backdrop-blur-xl lg:flex">
         <div className="mb-8 space-y-1 px-2">
           <div className="flex items-center gap-3">
             <div className="grid size-10 place-items-center rounded-2xl bg-accentStrong/20 text-accent">
@@ -134,17 +137,17 @@ export function AppShell({
         </div>
       </aside>
 
-      <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur-xl lg:ml-72">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur-xl lg:ms-72">
         <div className="flex flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <div className="relative w-full max-w-lg">
-                <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
+                <Search className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
                 <input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search symbol or name"
-                  className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-ink outline-none transition placeholder:text-muted focus:border-accent"
+                  placeholder={t('common.search')}
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 ps-11 pe-4 text-sm text-ink outline-none transition placeholder:text-muted focus:border-accent"
                 />
                 {searchResults.length ? (
                   <div className="glass-panel absolute left-0 right-0 top-[calc(100%+0.5rem)] max-h-72 overflow-y-auto rounded-3xl p-2">
@@ -173,9 +176,9 @@ export function AppShell({
                 value={marketFilter}
                 onChange={onMarketFilterChange}
                 options={[
-                  { value: 'all', label: 'All Markets' },
-                  { value: 'crypto', label: 'Crypto' },
-                  { value: 'stocks', label: 'Stocks' },
+                  { value: 'all', label: t('common.markets.all') },
+                  { value: 'crypto', label: t('common.markets.crypto') },
+                  { value: 'stocks', label: t('common.markets.stocks') },
                 ]}
               />
             </div>
@@ -225,7 +228,7 @@ export function AppShell({
         </div>
       </header>
 
-      <main className="px-4 py-6 pb-24 sm:px-6 lg:ml-72 lg:px-8">
+      <main className="px-4 py-6 pb-24 sm:px-6 lg:ms-72 lg:px-8">
         {backendStatus === 'connecting' ? (
           <div
             className="mb-6 flex items-center gap-3 rounded-3xl border border-hold/25 bg-hold/10 px-4 py-4 text-sm text-muted"
@@ -268,7 +271,7 @@ export function AppShell({
               }
             >
               <item.icon className="size-4" />
-              <span>{item.label}</span>
+              <span>{t(`nav.${item.key}`)}</span>
             </NavLink>
           ))}
         </div>
@@ -276,7 +279,7 @@ export function AppShell({
 
       <Copilot backendStatus={backendStatus} />
 
-      <footer className="border-t border-border/70 px-4 py-4 text-xs text-muted lg:ml-72 lg:px-8">
+      <footer className="border-t border-border/70 px-4 py-4 text-xs text-muted lg:ms-72 lg:px-8">
         Educational use only. Not financial advice.{' '}
         {backendStatus === 'online'
           ? 'Health, provider settings, and watchlist are sourced from the local backend.'
