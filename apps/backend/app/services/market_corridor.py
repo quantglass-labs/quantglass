@@ -16,28 +16,80 @@ from app.storage.analytics_store import AnalyticsStore
 
 class MarketCorridorService:
     _new_york_tz = ZoneInfo("America/New_York")
-    # Multi-timeframe ingest (E2): one matrix, expanded into targets. Crypto
-    # majors carry the full 15m/1h/4h/1d ladder; other crypto gets intraday
-    # plus daily; stocks are daily (free provider granularity). The macro
-    # proxy ETFs feed the SIG-8 intermarket context with real candles.
+    # Default tracked universe (E2): 30 stocks/ETFs + 30 crypto, expanded into
+    # multi-timeframe targets. Stocks are daily (free Yahoo granularity). Crypto
+    # majors carry an intraday ladder; the broader crypto set is daily to keep
+    # the free-provider request budget (rate-limited per minute) sane on first
+    # sync — the resilient refresh fills any rate-limited symbols over later
+    # cycles. The macro-proxy ETFs feed the SIG-8 intermarket context. Users
+    # extend this set further from the watchlist (see _targets()).
+    _crypto_majors_full = ("BTCUSD", "ETHUSD")  # 15m/1h/4h/1d
+    _crypto_majors_intraday = ("SOLUSD", "LINKUSD", "XRPUSD", "DOGEUSD")  # 1h/4h/1d
+    _crypto_daily = (
+        "ADAUSD",
+        "AVAXUSD",
+        "DOTUSD",
+        "LTCUSD",
+        "BCHUSD",
+        "UNIUSD",
+        "ATOMUSD",
+        "XLMUSD",
+        "ETCUSD",
+        "FILUSD",
+        "APTUSD",
+        "ARBUSD",
+        "NEARUSD",
+        "OPUSD",
+        "AAVEUSD",
+        "MKRUSD",
+        "ALGOUSD",
+        "INJUSD",
+        "SUIUSD",
+        "GRTUSD",
+        "LDOUSD",
+        "CRVUSD",
+        "SANDUSD",
+        "MANAUSD",
+    )  # 24 more -> 30 crypto total
+    _stocks_daily = (
+        # Index / sector / macro ETFs (UUP/TLT/GLD/RSP feed SIG-8 intermarket).
+        "SPY",
+        "QQQ",
+        "IWM",
+        "DIA",
+        "RSP",
+        "XLK",
+        "GLD",
+        "SLV",
+        "TLT",
+        "UUP",
+        # Large-cap stocks.
+        "AAPL",
+        "MSFT",
+        "NVDA",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "TSLA",
+        "AMD",
+        "NFLX",
+        "AVGO",
+        "JPM",
+        "V",
+        "MA",
+        "WMT",
+        "COIN",
+        "DIS",
+        "BA",
+        "JNJ",
+        "XOM",
+        "KO",
+    )  # 30 stocks/ETFs
     _corridor_matrix: list[tuple[str, str, str, tuple[str, ...]]] = [
-        ("BTCUSD", "crypto", "crypto", ("15m", "1h", "4h", "1d")),
-        ("ETHUSD", "crypto", "crypto", ("15m", "1h", "4h", "1d")),
-        ("SOLUSD", "crypto", "crypto", ("1h", "4h", "1d")),
-        ("LINKUSD", "crypto", "crypto", ("1h", "4h", "1d")),
-        ("SPY", "stocks", "stocks", ("1d",)),
-        ("QQQ", "stocks", "stocks", ("1d",)),
-        ("AAPL", "stocks", "stocks", ("1d",)),
-        ("MSFT", "stocks", "stocks", ("1d",)),
-        ("NVDA", "stocks", "stocks", ("1d",)),
-        ("TSLA", "stocks", "stocks", ("1d",)),
-        ("COIN", "stocks", "stocks", ("1d",)),
-        ("IWM", "stocks", "stocks", ("1d",)),
-        # Macro / breadth proxies (SIG-8): dollar, rates, gold, equal-weight.
-        ("UUP", "stocks", "stocks", ("1d",)),
-        ("TLT", "stocks", "stocks", ("1d",)),
-        ("GLD", "stocks", "stocks", ("1d",)),
-        ("RSP", "stocks", "stocks", ("1d",)),
+        *[(s, "crypto", "crypto", ("15m", "1h", "4h", "1d")) for s in _crypto_majors_full],
+        *[(s, "crypto", "crypto", ("1h", "4h", "1d")) for s in _crypto_majors_intraday],
+        *[(s, "crypto", "crypto", ("1d",)) for s in _crypto_daily],
+        *[(s, "stocks", "stocks", ("1d",)) for s in _stocks_daily],
     ]
     _base_targets = [
         {
