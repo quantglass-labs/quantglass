@@ -7,13 +7,15 @@
  * reflection note and mistake tags, which feed the Review coach's detectors.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { NotebookPen } from 'lucide-react';
 
 import { AiInsight } from '../components/aiInsight';
 import { AiMarkdown } from '../components/AiMarkdown';
 import { BackendStatusNotice } from '../components/backendGate';
+import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus, JournalItem, PaperTradeIntentRecord } from '../types';
 
@@ -216,6 +218,15 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
     loadPending();
   }, [backendStatus]);
 
+  const summary = useMemo(() => {
+    if (!items?.length) return null;
+    const resolved = items.filter((item) => item.outcome_r !== null);
+    const netR = resolved.reduce((sum, item) => sum + (item.outcome_r ?? 0), 0);
+    const avgProcess = items.reduce((sum, item) => sum + item.process_score, 0) / items.length;
+    const tagged = items.filter((item) => item.tags.length > 0).length;
+    return { count: items.length, netR, avgProcess, tagged };
+  }, [items]);
+
   const handleSave = async (intentId: string, note: string, tags: string[]) => {
     await backendClient.annotateTrade(intentId, { note, tags });
     setItems(
@@ -238,6 +249,36 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
 
       <BackendStatusNotice status={backendStatus} />
       <AiInsight surface="journal" title="What your journal says" />
+
+      {summary ? (
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <MetricTile label="Trades logged" hero helper="Executed paper trades">
+            <CountUp value={summary.count} format={(n) => String(Math.round(n))} />
+          </MetricTile>
+          <MetricTile
+            label="Avg process score"
+            toneClass={summary.avgProcess >= 70 ? 'text-buy' : 'text-watch'}
+            helper="Plan adherence, 0–100"
+          >
+            <CountUp value={summary.avgProcess} format={(n) => String(Math.round(n))} />
+          </MetricTile>
+          <MetricTile
+            label="Net R"
+            toneClass={summary.netR >= 0 ? 'text-buy' : 'text-sell'}
+            helper="Resolved trades, in R"
+          >
+            <CountUp value={summary.netR} format={(n) => `${n >= 0 ? '+' : ''}${n.toFixed(2)}R`} />
+          </MetricTile>
+          <MetricTile
+            label="Tagged for review"
+            toneClass="text-watch"
+            helper="Trades with mistake tags"
+          >
+            <CountUp value={summary.tagged} format={(n) => String(Math.round(n))} />
+          </MetricTile>
+        </div>
+      ) : null}
+
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
@@ -285,8 +326,10 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
       ) : null}
 
       <div className="mt-6 space-y-4">
-        {items?.map((item) => (
-          <TradeCard key={item.id} item={item} mistakeTags={mistakeTags} onSave={handleSave} />
+        {items?.map((item, index) => (
+          <FadeIn key={item.id} delayMs={Math.min(index, 8) * 50}>
+            <TradeCard item={item} mistakeTags={mistakeTags} onSave={handleSave} />
+          </FadeIn>
         ))}
       </div>
       <p className="mt-6 text-xs text-zinc-600">
