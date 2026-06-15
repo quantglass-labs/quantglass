@@ -1,20 +1,20 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ArrowRight, BookmarkPlus, CircleSlash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowRight, CircleSlash2 } from 'lucide-react';
 import {
   DataStateView,
   Button,
   EmptyState,
   ErrorState,
   LoadingSkeleton,
-  MetricStat,
   Panel,
   SectionHeading,
   SignalChip,
   ConfidenceRing,
 } from '../components/ui';
 import { Sparkline } from '../components/charts';
+import { CountUp, FadeIn } from '../components/motion';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
 import { useEffect, useState } from 'react';
@@ -87,12 +87,74 @@ function buildMarketDisplay(
   };
 }
 
+type MarketRow = { symbol: SymbolRecord; display: ReturnType<typeof buildMarketDisplay> };
+
+// Elevated metric tile: top-lit gradient + soft shadow, with an accent glow on
+// the hero. The depth is what separates "premium" from "admin panel".
+function Tile({
+  label,
+  hero,
+  helper,
+  toneClass,
+  children,
+}: {
+  label: string;
+  hero?: boolean;
+  helper?: string;
+  toneClass?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`relative overflow-hidden rounded-3xl border p-5 ${
+        hero
+          ? 'border-accent/30 bg-gradient-to-b from-accentStrong/18 to-transparent shadow-[0_0_46px_-12px] shadow-accent/40'
+          : 'border-border bg-gradient-to-b from-white/[0.06] to-white/[0.01] shadow-lg shadow-black/20'
+      }`}
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{label}</p>
+      <div className={`metric-text mt-3 text-3xl leading-tight ${toneClass ?? 'text-ink'}`}>
+        {children}
+      </div>
+      {helper ? <p className="mt-2 text-xs leading-snug text-muted">{helper}</p> : null}
+    </div>
+  );
+}
+
+// Dense market-grid cell: ticker, % change (regime-colored left edge), price,
+// sparkline — so the whole universe is visible at a glance.
+function GridCell({ row, onOpen }: { row: MarketRow; onOpen: (id: string) => void }) {
+  const up = row.display.changePercent >= 0;
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(row.symbol.id)}
+      className={`group rounded-xl border border-l-2 border-border bg-white/[0.02] p-2.5 text-left transition hover:border-accent/40 hover:bg-white/[0.05] ${
+        up ? 'border-l-buy/60' : 'border-l-sell/60'
+      }`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className="truncate text-sm font-semibold text-ink">{row.symbol.symbol}</span>
+        <span className={`text-xs font-medium tabular-nums ${up ? 'text-buy' : 'text-sell'}`}>
+          {formatPercent(row.display.changePercent)}
+        </span>
+      </div>
+      <div className="mt-1.5 flex items-end justify-between gap-2">
+        <span className="metric-text text-[13px] text-muted">
+          {formatCurrency(row.display.latestClose)}
+        </span>
+        <Sparkline values={row.display.sparkline} positive={up} />
+      </div>
+    </button>
+  );
+}
+
 export function DashboardScreen({
   onClosePosition,
   state,
   symbols,
   signals,
-  watchlistIds,
   paperAccount,
   marketCorridorItems,
   marketCandlesByKey,
@@ -116,40 +178,45 @@ export function DashboardScreen({
   onOpenSignal: (signalId: string) => void;
   onRunBacktest: (symbolId: string, setupType: string) => void;
 }) {
-  const latestSignals = [...signals]
-    .sort(
-      (left, right) =>
-        Date.parse(right.signal.generated_at_utc) - Date.parse(left.signal.generated_at_utc),
-    )
-    .slice(0, 4);
-  const watchlist = symbols.filter((symbol) => watchlistIds.includes(symbol.id)).slice(0, 5);
-  const regime =
-    signals.filter((signal) => signal.signal.signal === 'BUY_ZONE').length >= 3
-      ? 'Risk-On / Trending'
-      : 'Mixed / Rotational';
+  const marketRows: MarketRow[] = symbols.map((symbol) => ({
+    symbol,
+    display: buildMarketDisplay(symbol, marketCorridorItems, marketCandlesByKey),
+  }));
+  const movers = [...marketRows]
+    .filter((row) => Number.isFinite(row.display.changePercent) && row.display.changePercent !== 0)
+    .sort((a, b) => Math.abs(b.display.changePercent) - Math.abs(a.display.changePercent))
+    .slice(0, 8);
+  const actionable = [...signals]
+    .filter((record) => record.signal.signal === 'BUY_ZONE' || record.signal.signal === 'SELL')
+    .sort((a, b) => b.signal.confidence - a.signal.confidence);
+  const heroSignals = (
+    actionable.length
+      ? actionable
+      : [...signals].sort((a, b) => b.signal.confidence - a.signal.confidence)
+  ).slice(0, 6);
+  const activeCount = signals.filter((record) => record.status === 'active').length;
+  const buyCount = signals.filter((record) => record.signal.signal === 'BUY_ZONE').length;
+  const regime = buyCount >= 3 ? 'Risk-On / Trending' : 'Mixed / Rotational';
   const retryMockView = () => window.location.reload();
 
   return (
-    <div className="space-y-8">
-      <SectionHeading
-        eyebrow="Dashboard"
-        title="Cross-market decision support"
-        description="Market regime, current signal inventory, watchlist momentum, and paper-account exposure with backend corridor prices and backend-generated signals."
-        action={
-          <Button
-            variant="secondary"
-            onClick={onRefreshMarketCorridor}
-            disabled={marketCorridorRefreshing}
-          >
-            {marketCorridorRefreshing ? 'Refreshing corridor...' : 'Refresh corridor'}
-          </Button>
-        }
-      />
-
-      <DailyBrief />
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Dashboard</p>
+          <h1 className="mt-1 text-2xl font-semibold text-ink">Market pulse</h1>
+        </div>
+        <Button
+          variant="secondary"
+          onClick={onRefreshMarketCorridor}
+          disabled={marketCorridorRefreshing}
+        >
+          {marketCorridorRefreshing ? 'Refreshing…' : 'Refresh corridor'}
+        </Button>
+      </div>
 
       {state !== 'ready' ? (
-        <div className="grid gap-4 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <Panel key={index}>
               <LoadingSkeleton rows={2} />
@@ -157,406 +224,252 @@ export function DashboardScreen({
           ))}
         </div>
       ) : (
-        <div className="grid gap-4 xl:grid-cols-4">
-          <Panel>
-            <MetricStat
-              label="Paper Balance"
-              value={formatCurrency(paperAccount.balance)}
-              helper={`${paperAccount.openPositions.length} open paper positions`}
-              tone="default"
-            />
-          </Panel>
-          <Panel>
-            <MetricStat
-              label="Realized P&L"
-              value={formatCurrency(paperAccount.realizedPnl)}
-              helper="Backend paper account since inception"
-              tone="buy"
-            />
-          </Panel>
-          <Panel>
-            <MetricStat
-              label="Market Regime"
-              value={regime}
-              helper="Derived from current backend signal inventory"
-              tone="watch"
-            />
-          </Panel>
-          <Panel>
-            <MetricStat
-              label="Active Signals"
-              value={signals.filter((signal) => signal.status === 'active').length}
-              helper="Closed-candle only signals"
-              tone="hold"
-            />
-          </Panel>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <Tile
+            label="Active Signals"
+            hero
+            toneClass={activeCount > 0 ? 'text-accent' : 'text-muted'}
+            helper={`${heroSignals.length} actionable now · closed-candle only`}
+          >
+            <CountUp value={activeCount} format={(n) => String(Math.round(n))} />
+          </Tile>
+          <Tile
+            label="Market Regime"
+            toneClass={buyCount >= 3 ? 'text-buy' : 'text-watch'}
+            helper="Derived from the live signal inventory"
+          >
+            <span className="text-2xl">{regime}</span>
+          </Tile>
+          <Tile
+            label="Paper Balance"
+            helper={`${paperAccount.openPositions.length} open positions`}
+          >
+            <CountUp value={paperAccount.balance} format={(n) => formatCurrency(n)} />
+          </Tile>
+          <Tile
+            label="Realized P&L"
+            toneClass={paperAccount.realizedPnl >= 0 ? 'text-buy' : 'text-sell'}
+            helper="Paper account since inception"
+          >
+            <CountUp value={paperAccount.realizedPnl} format={(n) => formatCurrency(n)} />
+          </Tile>
         </div>
       )}
 
-      <Panel className="overflow-hidden p-0">
-        <DataStateView
-          state={state}
-          isEmpty={symbols.length === 0}
-          loading={<LoadingSkeleton rows={6} />}
-          empty={
-            <EmptyState
-              title="Dashboard overview is empty"
-              description="The market strip and paper-account snapshot are in their explicit empty-state variant for this surface."
-              action={
-                <Button
-                  variant="secondary"
-                  onClick={() => onOpenSymbol(symbols[0]?.id ?? 'BTCUSD')}
-                >
-                  Open a symbol
-                </Button>
-              }
-            />
-          }
-          error={
-            <ErrorState
-              title="Dashboard overview unavailable"
-              description="The market overview strip and paper-account snapshot could not be loaded."
-              onRetry={retryMockView}
-            />
-          }
-          populated={
-            <div className="grid gap-4 border-b border-border p-5 lg:grid-cols-[1.6fr,1fr]">
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                      Market overview strip
-                    </p>
-                    <h3 className="text-lg font-semibold text-ink">BTC, SPY, and sector breadth</h3>
-                  </div>
-                  <div className="rounded-full border border-buy/30 bg-buy/12 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-buy">
-                    {regime}
-                  </div>
-                </div>
-                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {symbols.slice(0, 6).map((symbol) => {
-                    const display = buildMarketDisplay(
-                      symbol,
-                      marketCorridorItems,
-                      marketCandlesByKey,
-                    );
-                    return (
-                      <button
-                        key={symbol.id}
-                        type="button"
-                        className="rounded-2xl border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05]"
-                        onClick={() => onOpenSymbol(symbol.id)}
-                      >
-                        <div className="mb-3 flex items-center justify-between gap-4">
-                          <div>
-                            <p className="font-medium text-ink">{symbol.symbol}</p>
-                            <p className="text-xs text-muted">{symbol.name}</p>
-                            <p
-                              className={`mt-1 text-[11px] uppercase tracking-[0.16em] ${display.hasBackendCandles ? 'text-accent' : 'text-muted'}`}
-                            >
-                              {display.sourceLabel}
-                            </p>
-                            {display.corridor?.latest_open_time_utc ? (
-                              <p className="mt-1 text-[11px] text-muted">
-                                Last close{' '}
-                                {display.corridor.latest_open_time_utc
-                                  .replace('T', ' ')
-                                  .slice(0, 16)}{' '}
-                                UTC
-                              </p>
-                            ) : null}
-                          </div>
-                          <div className={display.changePercent >= 0 ? 'text-buy' : 'text-sell'}>
-                            {display.changePercent >= 0 ? (
-                              <TrendingUp className="size-4" />
-                            ) : (
-                              <TrendingDown className="size-4" />
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-end justify-between gap-3">
-                          <div>
-                            <p className="metric-text text-lg text-ink">
-                              {formatCurrency(display.latestClose)}
-                            </p>
-                            <p
-                              className={
-                                display.changePercent >= 0
-                                  ? 'text-sm text-buy'
-                                  : 'text-sm text-sell'
-                              }
-                            >
-                              {formatPercent(display.changePercent)}
-                            </p>
-                          </div>
-                          <Sparkline
-                            values={display.sparkline}
-                            positive={display.changePercent >= 0}
-                          />
-                        </div>
-                        {display.corridor?.diagnostics.length ? (
-                          <p className="mt-3 text-xs text-hold">
-                            Diagnostics: {display.corridor.diagnostics.join(', ')}
-                          </p>
-                        ) : null}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="space-y-3 rounded-[26px] border border-border bg-white/[0.03] p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                  Paper account snapshot
-                </p>
-                {paperAccount.openPositions.map((position) => (
-                  <div
-                    key={position.symbolId}
-                    className="flex items-center justify-between rounded-2xl border border-border bg-white/[0.03] p-3"
-                  >
-                    <div>
-                      <p className="font-medium text-ink">{position.symbolId}</p>
-                      <p className="text-xs text-muted">
-                        {position.side.toUpperCase()} · {position.quantity} @{' '}
-                        {formatCurrency(position.averagePrice)}
-                      </p>
-                    </div>
-                    {onClosePosition ? (
-                      <button
-                        type="button"
-                        onClick={() => onClosePosition(position.symbolId)}
-                        className="rounded-full border border-border px-3 py-1 text-xs text-muted transition hover:border-sell/50 hover:text-sell"
-                      >
-                        Close
-                      </button>
-                    ) : null}
-                    <div
-                      className={
-                        position.pnl >= 0 ? 'metric-text text-buy' : 'metric-text text-sell'
-                      }
-                    >
-                      {formatCurrency(position.pnl)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
+      <Panel>
+        <SectionHeading
+          eyebrow="What's firing now"
+          title="Top active signals"
+          description="Ranked by confidence — the strongest actionable setups across the whole universe."
         />
-      </Panel>
-
-      <div className="grid gap-6 xl:grid-cols-[1.35fr,1fr]">
-        <Panel>
-          <SectionHeading
-            eyebrow="Latest signals"
-            title="Evidence-based signal feed"
-            description="Every card routes to a symbol detail screen or the full signal drawer. Low-confidence setups are de-emphasized."
-          />
-          <div className="mt-5">
-            <DataStateView
-              state={state}
-              isEmpty={latestSignals.length === 0}
-              loading={<LoadingSkeleton rows={4} />}
-              empty={
-                <EmptyState
-                  title="No latest signals to show"
-                  description="This feed is intentionally empty in this state so the dashboard still exposes a defined empty state."
-                  action={
-                    <Button
-                      variant="secondary"
-                      onClick={() => onOpenSymbol(symbols[0]?.id ?? 'BTCUSD')}
-                    >
-                      Open symbol detail
-                    </Button>
-                  }
-                />
-              }
-              error={
-                <ErrorState
-                  title="Signal feed unavailable"
-                  description="The latest-signals card feed could not be loaded."
-                  onRetry={retryMockView}
-                />
-              }
-              populated={
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {latestSignals.map((record) => {
-                    const freshness = signalFreshness(record.signal);
-                    return (
-                      <div
-                        key={record.id}
-                        className={`rounded-[26px] border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05] ${record.signal.confidence < 55 ? 'opacity-75' : ''}`}
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <p className="text-sm font-semibold text-ink">{record.signal.symbol}</p>
-                            <p className="text-xs text-muted">
-                              {record.signal.timeframe} · {record.status}
-                            </p>
-                          </div>
-                          <SignalChip
-                            signal={record.signal.signal}
-                            subdued={record.signal.confidence < 55}
-                          />
-                        </div>
-                        <div className="mt-3">
-                          <span
-                            className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${freshnessClassName(freshness.tone)}`}
-                          >
-                            {freshness.label}
-                          </span>
-                        </div>
-                        <div className="mt-4 flex items-center gap-4">
-                          <ConfidenceRing value={record.signal.confidence} size={62} />
-                          <div className="space-y-2">
-                            <p className="metric-text text-xl text-ink">
-                              R:R {record.signal.risk_reward.toFixed(1)}
-                            </p>
-                            <p className="text-sm text-muted">
-                              {record.signal.confidence_basis.setup_type}
-                            </p>
-                            {record.signal.confidence < 55 ? (
-                              <p className="text-xs font-medium text-hold">
-                                Low-confidence signal de-emphasized
-                              </p>
-                            ) : null}
-                          </div>
-                        </div>
-                        <div className="mt-4 flex items-center justify-between text-sm text-muted">
-                          <span>{freshness.detail}</span>
+        <div className="mt-5">
+          <DataStateView
+            state={state}
+            isEmpty={heroSignals.length === 0}
+            loading={<LoadingSkeleton rows={4} />}
+            empty={
+              <EmptyState
+                title="No active signals right now"
+                description="The deterministic engine isn't firing setups in the current regime — it won't manufacture them. Regime and the live market grid below are still active."
+              />
+            }
+            error={
+              <ErrorState
+                title="Signal feed unavailable"
+                description="The signal feed could not be loaded."
+                onRetry={retryMockView}
+              />
+            }
+            populated={
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                {heroSignals.map((record, index) => {
+                  const fresh = signalFreshness(record.signal);
+                  return (
+                    <FadeIn key={record.id} delayMs={index * 50}>
+                      <div className="group flex h-full items-center gap-4 rounded-2xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-md shadow-black/15 transition hover:border-accent/40 hover:bg-white/[0.06]">
+                        <ConfidenceRing value={record.signal.confidence} size={56} />
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
+                            <span className="truncate text-sm font-semibold text-ink">
+                              {record.signal.symbol}
+                            </span>
+                            <SignalChip
+                              signal={record.signal.signal}
+                              subdued={record.signal.confidence < 55}
+                            />
+                          </div>
+                          <p className="mt-1 text-xs text-muted">
+                            {record.signal.timeframe} · {record.signal.confidence_basis.setup_type}
+                          </p>
+                          <p className="metric-text mt-1 text-sm text-ink">
+                            R:R {record.signal.risk_reward.toFixed(1)} ·{' '}
+                            <span className={freshnessClassName(fresh.tone)}>{fresh.label}</span>
+                          </p>
+                          <div className="mt-2 flex items-center gap-2">
                             <button
                               type="button"
-                              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-ink transition hover:bg-white/5"
-                              onClick={() => onOpenSymbol(record.symbolId)}
-                            >
-                              Open symbol
-                            </button>
-                            <button
-                              type="button"
-                              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-ink transition hover:bg-white/5"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                onOpenSignal(record.id);
-                              }}
+                              className="rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-ink transition hover:bg-white/5"
+                              onClick={() => onOpenSignal(record.id)}
                             >
                               View signal
                             </button>
                             <button
                               type="button"
-                              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-ink transition hover:bg-white/5"
-                              onClick={(event) => {
-                                event.stopPropagation();
+                              className="rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-ink transition hover:bg-white/5"
+                              onClick={() =>
                                 onRunBacktest(
                                   record.symbolId,
                                   record.signal.confidence_basis.setup_type,
-                                );
-                              }}
+                                )
+                              }
                             >
-                              <CircleSlash2 className="mr-1 inline size-3.5" />
+                              <CircleSlash2 className="mr-1 inline size-3" />
                               Backtest
                             </button>
-                            <ArrowRight className="size-4" />
                           </div>
                         </div>
+                        <ArrowRight className="size-4 shrink-0 self-start text-muted transition group-hover:text-ink" />
                       </div>
-                    );
-                  })}
-                </div>
-              }
-            />
-          </div>
-        </Panel>
-
-        <Panel>
-          <SectionHeading
-            eyebrow="Watchlist snapshot"
-            title="Focus list"
-            description="Compact symbols with sparkline, last price, change, and active-signal state."
+                    </FadeIn>
+                  );
+                })}
+              </div>
+            }
           />
-          <div className="mt-5">
-            <DataStateView
-              state={state}
-              isEmpty={watchlist.length === 0}
-              loading={<LoadingSkeleton rows={5} />}
-              empty={
-                <EmptyState
-                  title="Watchlist snapshot is empty"
-                  description="The dashboard snapshot has no rows in this state, but the screen stays navigable and explicitly handled."
-                  action={
-                    <Button
-                      variant="secondary"
-                      onClick={() => onOpenSymbol(symbols[0]?.id ?? 'BTCUSD')}
-                    >
-                      Browse a symbol
-                    </Button>
-                  }
-                />
-              }
-              error={
-                <ErrorState
-                  title="Watchlist snapshot unavailable"
-                  description="The dashboard watchlist panel could not be loaded."
-                  onRetry={retryMockView}
-                />
-              }
-              populated={
-                <div className="space-y-3">
-                  {watchlist.map((symbol) => {
-                    const latestSignal = signals.find((record) => record.symbolId === symbol.id);
-                    const display = buildMarketDisplay(
-                      symbol,
-                      marketCorridorItems,
-                      marketCandlesByKey,
-                    );
-                    return (
-                      <div
-                        key={symbol.id}
-                        className="flex w-full items-center justify-between gap-4 rounded-2xl border border-border bg-white/[0.03] p-4 text-left transition hover:bg-white/[0.05]"
-                      >
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2">
-                            <p className="truncate font-medium text-ink">{symbol.symbol}</p>
-                            {latestSignal ? (
-                              <SignalChip
-                                signal={latestSignal.signal.signal}
-                                subdued={latestSignal.signal.confidence < 55}
-                              />
-                            ) : null}
-                          </div>
-                          <div className="mt-2 flex items-center gap-4 text-sm text-muted">
-                            <span className="metric-text text-ink">
-                              {formatCurrency(display.latestClose)}
-                            </span>
-                            <span className={display.changePercent >= 0 ? 'text-buy' : 'text-sell'}>
-                              {formatPercent(display.changePercent)}
-                            </span>
-                            {display.corridor ? <span>{display.corridor.timeframe}</span> : null}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Sparkline
-                            values={display.sparkline}
-                            positive={display.changePercent >= 0}
-                          />
-                          <button
-                            type="button"
-                            className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
-                            onClick={() => onOpenSymbol(symbol.id)}
-                            aria-label={`Open ${symbol.symbol}`}
-                          >
-                            <BookmarkPlus className="size-4" />
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
+        </div>
+      </Panel>
+
+      <DailyBrief />
+
+      <Panel>
+        <SectionHeading
+          eyebrow="Market"
+          title={`The whole corridor · ${marketRows.length} symbols`}
+          description="Every tracked symbol with price, change, and a closed-candle sparkline. Click any cell to open it."
+        />
+        <div className="mt-5 grid gap-5 xl:grid-cols-[2.4fr,1fr]">
+          <DataStateView
+            state={state}
+            isEmpty={marketRows.length === 0}
+            loading={<LoadingSkeleton rows={6} />}
+            empty={
+              <EmptyState
+                title="Market grid is empty"
+                description="No corridor data yet — it fills in as the backend ingests."
+              />
+            }
+            error={
+              <ErrorState
+                title="Market grid unavailable"
+                description="Corridor prices could not be loaded."
+                onRetry={retryMockView}
+              />
+            }
+            populated={
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
+                      buyCount >= 3
+                        ? 'border-buy/30 bg-buy/12 text-buy'
+                        : 'border-watch/30 bg-watch/12 text-watch'
+                    }`}
+                  >
+                    {regime}
+                  </span>
                 </div>
-              }
-            />
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+                  {marketRows.map((row) => (
+                    <GridCell key={row.symbol.id} row={row} onOpen={onOpenSymbol} />
+                  ))}
+                </div>
+              </div>
+            }
+          />
+
+          <div className="space-y-4">
+            <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                Biggest movers
+              </p>
+              <div className="mt-3 space-y-1">
+                {movers.length ? (
+                  movers.map((row) => {
+                    const up = row.display.changePercent >= 0;
+                    return (
+                      <button
+                        key={row.symbol.id}
+                        type="button"
+                        onClick={() => onOpenSymbol(row.symbol.id)}
+                        className="flex w-full items-center justify-between gap-3 rounded-xl px-2 py-1.5 text-left transition hover:bg-white/5"
+                      >
+                        <span className="text-sm font-medium text-ink">{row.symbol.symbol}</span>
+                        <span className="metric-text text-xs text-muted">
+                          {formatCurrency(row.display.latestClose)}
+                        </span>
+                        <span
+                          className={`text-xs font-semibold tabular-nums ${
+                            up ? 'text-buy' : 'text-sell'
+                          }`}
+                        >
+                          {formatPercent(row.display.changePercent)}
+                        </span>
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p className="text-sm text-muted">No movement yet.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                Paper account
+              </p>
+              {paperAccount.openPositions.length ? (
+                <div className="mt-3 space-y-2">
+                  {paperAccount.openPositions.map((position) => (
+                    <div
+                      key={position.symbolId}
+                      className="flex items-center justify-between gap-2 rounded-xl border border-border bg-white/[0.03] p-2.5"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-ink">{position.symbolId}</p>
+                        <p className="text-xs text-muted">
+                          {position.side.toUpperCase()} · {position.quantity}
+                        </p>
+                      </div>
+                      <span
+                        className={
+                          position.pnl >= 0
+                            ? 'metric-text text-sm text-buy'
+                            : 'metric-text text-sm text-sell'
+                        }
+                      >
+                        {formatCurrency(position.pnl)}
+                      </span>
+                      {onClosePosition ? (
+                        <button
+                          type="button"
+                          onClick={() => onClosePosition(position.symbolId)}
+                          className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted transition hover:border-sell/50 hover:text-sell"
+                        >
+                          Close
+                        </button>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-3 text-sm text-muted">
+                  No open positions. Fills from the paper ticket land here.
+                </p>
+              )}
+            </div>
           </div>
-        </Panel>
-      </div>
+        </div>
+      </Panel>
     </div>
   );
 }
@@ -575,24 +488,17 @@ function DailyBrief() {
   }, []);
   if (state === 'loading') {
     return (
-      <div className="flex items-center gap-3 rounded-[26px] border border-accent/25 bg-accentStrong/8 p-4">
-        <span className="size-3.5 shrink-0 animate-spin rounded-full border-2 border-accent/30 border-t-accent motion-reduce:animate-none" />
-        <p className="text-sm text-muted">Preparing your morning brief…</p>
+      <div className="flex items-center gap-3 rounded-2xl border border-border bg-white/[0.03] px-4 py-2.5">
+        <span className="size-3 shrink-0 animate-spin rounded-full border-2 border-accent/30 border-t-accent motion-reduce:animate-none" />
+        <p className="text-xs text-muted">Morning brief is generating…</p>
       </div>
     );
   }
   if (state === 'error' || !brief) {
-    return (
-      <div className="rounded-[26px] border border-border bg-white/[0.03] p-4">
-        <p className="text-sm text-muted">
-          Morning brief unavailable (the AI request failed or timed out). Everything below works
-          normally.
-        </p>
-      </div>
-    );
+    return null;
   }
   return (
-    <div className="space-y-2 rounded-[26px] border border-accent/25 bg-accentStrong/8 p-4">
+    <div className="space-y-2 rounded-2xl border border-accent/25 bg-accentStrong/8 p-4">
       <div className="flex items-center gap-2">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Morning brief</p>
         <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted">
