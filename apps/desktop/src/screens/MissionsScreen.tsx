@@ -24,6 +24,8 @@ import {
 
 import { AiInsight } from '../components/aiInsight';
 import { BackendStatusNotice } from '../components/backendGate';
+import { CountUp, FadeIn } from '../components/motion';
+import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
 import { DecisionDrill } from './missions/DecisionDrill';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
@@ -370,6 +372,33 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         </span>
       </div>
 
+      {missions ? (
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <MetricTile label="Certifications earned" hero helper={`of ${missions.length} missions`}>
+            <CountUp value={completedCount} format={(n) => String(Math.round(n))} />
+          </MetricTile>
+          <MetricTile label="Completion" toneClass="text-buy" helper="Of the full mission catalog">
+            <CountUp
+              value={missions.length ? (100 * completedCount) / missions.length : 0}
+              format={(n) => `${Math.round(n)}%`}
+            />
+          </MetricTile>
+          <MetricTile
+            label="Active missions"
+            toneClass="text-watch"
+            helper={`of ${maxActive} slots`}
+          >
+            <CountUp value={activeMissions.length} format={(n) => String(Math.round(n))} />
+          </MetricTile>
+          <MetricTile label="Replays passed" helper="Scenario episodes cleared">
+            <CountUp
+              value={scenarios?.filter((scenario) => scenario.passed).length ?? 0}
+              format={(n) => String(Math.round(n))}
+            />
+          </MetricTile>
+        </div>
+      ) : null}
+
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <input
           type="search"
@@ -500,37 +529,38 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
             the debrief grades the decision, not the outcome.
           </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {scenarios.map((scenario) => (
-              <button
-                key={scenario.id}
-                type="button"
-                onClick={() => openScenario(scenario.id)}
-                className={`rounded-xl border p-5 text-left transition-colors hover:border-indigo-400/50 ${
-                  scenario.passed
-                    ? 'border-emerald-500/40 bg-emerald-600/10'
-                    : 'border-zinc-800 bg-zinc-900/40'
-                }`}
-              >
-                <p className="font-semibold text-zinc-100">
-                  {scenario.title}
-                  <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
-                    {scenario.level}
-                  </span>
-                </p>
-                <p className="mt-1 line-clamp-3 text-sm text-zinc-400">{scenario.description}</p>
-                <p className="mt-3 text-xs text-zinc-500">
-                  {scenario.checkpoints} decisions · pass at {scenario.pass_percent}%
-                  {scenario.best_percent !== null ? (
-                    <span
-                      className={`ml-2 font-semibold ${
-                        scenario.passed ? 'text-emerald-300' : 'text-amber-300'
-                      }`}
-                    >
-                      best {scenario.best_percent}%
+            {scenarios.map((scenario, index) => (
+              <FadeIn key={scenario.id} delayMs={Math.min(index, 8) * 50}>
+                <button
+                  type="button"
+                  onClick={() => openScenario(scenario.id)}
+                  className={`h-full w-full rounded-xl border p-5 text-left transition-colors hover:border-indigo-400/50 ${
+                    scenario.passed
+                      ? 'border-emerald-500/40 bg-emerald-600/10'
+                      : 'border-zinc-800 bg-zinc-900/40'
+                  }`}
+                >
+                  <p className="font-semibold text-zinc-100">
+                    {scenario.title}
+                    <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+                      {scenario.level}
                     </span>
-                  ) : null}
-                </p>
-              </button>
+                  </p>
+                  <p className="mt-1 line-clamp-3 text-sm text-zinc-400">{scenario.description}</p>
+                  <p className="mt-3 text-xs text-zinc-500">
+                    {scenario.checkpoints} decisions · pass at {scenario.pass_percent}%
+                    {scenario.best_percent !== null ? (
+                      <span
+                        className={`ml-2 font-semibold ${
+                          scenario.passed ? 'text-emerald-300' : 'text-amber-300'
+                        }`}
+                      >
+                        best {scenario.best_percent}%
+                      </span>
+                    ) : null}
+                  </p>
+                </button>
+              </FadeIn>
             ))}
           </div>
         </>

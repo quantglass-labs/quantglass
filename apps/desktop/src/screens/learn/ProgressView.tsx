@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 
 import { Award, BarChart3 } from 'lucide-react';
 
+import { CountUp, FadeIn } from '../../components/motion';
+import { MetricTile } from '../../components/surface';
 import { backendClient } from '../../lib/backend';
 import type { LearnAnalytics, LearnCertificate } from '../../types';
 
@@ -56,6 +58,15 @@ export function ProgressView() {
 
   const maxWeekly = Math.max(1, ...(analytics?.weekly.map((week) => week.lessons) ?? [1]));
 
+  const totals = analytics
+    ? {
+        completed: analytics.levels.reduce((sum, level) => sum + level.completed, 0),
+        lessons: analytics.levels.reduce((sum, level) => sum + level.total, 0),
+        tracksMastered: analytics.tracks.filter((track) => track.earned).length,
+        certs: analytics.levels.filter((level) => level.certificate_earned).length,
+      }
+    : null;
+
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-2">
@@ -71,6 +82,34 @@ export function ProgressView() {
         </div>
       ) : (
         <>
+          {totals ? (
+            <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <MetricTile
+                label="Lessons completed"
+                hero
+                helper={`of ${totals.lessons} in the Academy`}
+              >
+                <CountUp value={totals.completed} format={(n) => String(Math.round(n))} />
+              </MetricTile>
+              <MetricTile label="Completion" toneClass="text-buy" helper="Across every level">
+                <CountUp
+                  value={totals.lessons ? (100 * totals.completed) / totals.lessons : 0}
+                  format={(n) => `${Math.round(n)}%`}
+                />
+              </MetricTile>
+              <MetricTile
+                label="Tracks mastered"
+                toneClass="text-watch"
+                helper="Full tracks earned"
+              >
+                <CountUp value={totals.tracksMastered} format={(n) => String(Math.round(n))} />
+              </MetricTile>
+              <MetricTile label="Certificates" helper="Levels fully certified">
+                <CountUp value={totals.certs} format={(n) => String(Math.round(n))} />
+              </MetricTile>
+            </div>
+          ) : null}
+
           <div className="mt-4 space-y-3">
             {analytics.levels.map((level) => (
               <div key={level.id} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
@@ -152,8 +191,10 @@ export function ProgressView() {
                 Certificates
               </h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                {certificates.map((certificate) => (
-                  <CertificateCard key={certificate.level} certificate={certificate} />
+                {certificates.map((certificate, index) => (
+                  <FadeIn key={certificate.level} delayMs={Math.min(index, 8) * 50}>
+                    <CertificateCard certificate={certificate} />
+                  </FadeIn>
                 ))}
               </div>
             </>
