@@ -6,6 +6,32 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-06-15
+
+### Added
+
+- **A bigger market out of the box.** The default tracked universe expands from
+  ~12 symbols to **30 stocks/ETFs + 30 crypto** — index/sector/macro ETFs plus
+  large caps, and 30 USD crypto pairs — so the dashboard, signals, and rankings
+  cover a real market on first launch.
+- **Track any symbol.** The watchlist search now offers "Track ‹ticker›" (Stock
+  or Crypto) for tickers it doesn't already know. Added symbols join the market
+  corridor and flow into signals and backtests after the next refresh, so the
+  tracked universe is no longer a fixed list — Yahoo fetches any stock ticker and
+  the crypto providers resolve arbitrary `‹base›USD` pairs.
+- **Enable extensions from the app.** Settings → Extensions has a "Load
+  extensions" toggle (persisted, takes effect on the next restart), so the
+  released desktop app can load installed extension packages without setting an
+  environment variable. Extensions remain off by default.
+
+### Fixed
+
+- The macro-proxy ETFs (UUP/TLT/GLD/RSP) that feed intermarket context now fetch
+  on the free provider instead of being rejected, so the dollar/rates/gold/breadth
+  context signals work out of the box.
+- A market refresh no longer aborts the whole cycle when one symbol fails (a rate
+  limit or an unfetchable ticker) — the failure is recorded and the rest continue.
+
 ## [0.2.2] - 2026-06-15
 
 ### Added
