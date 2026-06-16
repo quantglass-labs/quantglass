@@ -252,7 +252,10 @@
       "processAllHelper": "Rata-rata seumur hidup"
     },
     "quadrant": {
-      "earnedWin": { "label": "Kemenangan yang pantas", "hint": "Keputusan baik, hasil baik" },
+      "earnedWin": {
+        "label": "Kemenangan yang pantas",
+        "hint": "Keputusan baik, hasil baik"
+      },
       "wellPlayedLoss": {
         "label": "Kekalahan yang dimainkan dengan baik",
         "hint": "Keputusan baik, varians mengambilnya"
@@ -675,6 +678,116 @@
       "candleCount": "Jumlah candle",
       "windowBackend": "Jendela turunan backend {{timeframe}}",
       "windowFallback": "Jendela fallback {{timeframe}}"
+    }
+  },
+  "learn": {
+    "title": "Belajar",
+    "eduDisclaimer": "Hanya untuk penggunaan edukasi — bukan nasihat keuangan.",
+    "percentComplete": "{{percent}}% selesai",
+    "locked": "Terkunci",
+    "community": "komunitas",
+    "takeAssessment": "Ikuti asesmen {{level}}",
+    "loadingAcademy": "Memuat Akademi…",
+    "selectLesson": "Pilih pelajaran untuk memulai.",
+    "loadingCatalog": "Memuat katalog…",
+    "tiers": {
+      "novice": "Pemula",
+      "intermediate": "Menengah",
+      "advanced": "Lanjutan",
+      "expert": "Ahli"
+    },
+    "readiness": {
+      "tooltip": "Kesiapan {{label}}",
+      "knowledge": "Pengetahuan",
+      "execution": "Eksekusi",
+      "risk": "Risiko",
+      "psych": "Psikologi",
+      "consistency": "Konsistensi"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Cari pelajaran…",
+      "searchLabel": "Cari pelajaran",
+      "glossary": "Glosarium",
+      "reference": "Referensi",
+      "practice": "Latihan",
+      "progress": "Kemajuan",
+      "noMatch": "Tidak ada pelajaran yang cocok."
+    },
+    "errors": {
+      "catalogStale": "Backend lebih lama dari versi aplikasi ini dan tidak dapat menyajikan katalog Akademi. Mulai ulang aplikasi (atau backend) agar keduanya mutakhir.",
+      "catalogLoad": "Gagal memuat katalog pembelajaran. Apakah backend berjalan?",
+      "lessonLoad": "Gagal memuat pelajaran '{{id}}'."
+    },
+    "review": {
+      "title": "Tinjauan proses Anda",
+      "avgScore": "Skor proses rata-rata",
+      "over": "/100 atas {{count}} transaksi",
+      "dangerousOne": "⚠ {{count}} keberhasilan berbahaya — laba yang menghargai proses yang rusak",
+      "dangerousMany": "⚠ {{count}} keberhasilan berbahaya — laba yang menghargai proses yang rusak"
+    },
+    "moments": {
+      "title": "Momen pembinaan dari paper trading Anda",
+      "openLesson": "Buka pelajaran →"
+    },
+    "assessment": {
+      "heading": "Asesmen {{level}}",
+      "back": "Kembali ke pelajaran",
+      "meta": "{{count}} pertanyaan · lulus di {{percent}}%",
+      "loading": "Memuat…",
+      "gradedNote": "dinilai oleh backend, hasil terbaik disimpan.",
+      "loadError": "Tidak dapat memuat asesmen. Apakah backend berjalan?",
+      "submitError": "Tidak dapat mengirim asesmen. Coba lagi.",
+      "passed": "Lulus",
+      "notYet": "Belum",
+      "scoreLine": "skor {{score}}% (batas {{bar}}%).",
+      "gateMet": "Gerbang ini kini terpenuhi secara permanen.",
+      "reviewRetake": "Tinjau penjelasan di bawah dan ulangi kapan saja.",
+      "question": "Pertanyaan {{number}} · {{title}}",
+      "correct": "Benar. ",
+      "incorrect": "Salah. ",
+      "submit": "Kirim jawaban",
+      "retake": "Ulangi dengan pertanyaan baru"
+    },
+    "live": {
+      "title": "Berlatih dengan data langsung",
+      "subtitle": "Konsep yang sama, tetapi dengan data pasar nyata dan saldo paper Anda alih-alih angka buku teks.",
+      "generate": "Hasilkan latihan langsung",
+      "answerPlaceholder": "Jawaban Anda",
+      "check": "Periksa",
+      "newNumbers": "Angka baru",
+      "correct": "Benar. ",
+      "notQuite": "Belum tepat. ",
+      "unavailable": "Data pasar langsung belum tersedia. Segarkan dasbor terlebih dahulu.",
+      "backendError": "Tidak dapat menjangkau backend. Coba lagi."
+    },
+    "exercise": {
+      "title": "Latihan",
+      "checking": "Memeriksa…",
+      "check": "Periksa jawaban",
+      "correct": "Benar!",
+      "notQuite": "Belum tepat — inilah alasannya:",
+      "tryAgain": "Coba lagi",
+      "backendError": "Tidak dapat menjangkau backend. Coba lagi.",
+      "placeholder": "Masukkan jawaban Anda…"
+    },
+    "tutor": {
+      "title": "Tanya tutor",
+      "placeholder": "Bingung dengan sesuatu di sini? Tanyakan dengan kata-kata Anda sendiri…",
+      "thinking": "Berpikir…",
+      "ask": "Tanya",
+      "error": "Permintaan tutor gagal. Periksa Pengaturan → AI lalu coba lagi.",
+      "footer": "{{source}} · berlandaskan pelajaran ini · hanya edukasi, tidak pernah nasihat keuangan"
+    },
+    "lesson": {
+      "number": "Pelajaran {{order}}",
+      "completed": "Selesai",
+      "concept": "Konsep",
+      "keyTerms": "Istilah kunci",
+      "commonMistakes": "Kesalahan umum",
+      "takeFurther": "Lanjutkan lebih jauh",
+      "openMissions": "Buka Misi",
+      "tryLive": "Coba langsung",
+      "openScreen": "Buka {{screen}}"
     }
   },
   "nav": {

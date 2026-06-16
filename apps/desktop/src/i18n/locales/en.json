@@ -252,12 +252,18 @@
       "processAllHelper": "Lifetime average"
     },
     "quadrant": {
-      "earnedWin": { "label": "Earned wins", "hint": "Good decision, good outcome" },
+      "earnedWin": {
+        "label": "Earned wins",
+        "hint": "Good decision, good outcome"
+      },
       "wellPlayedLoss": {
         "label": "Well-played losses",
         "hint": "Good decision, variance took it"
       },
-      "honestTuition": { "label": "Honest tuition", "hint": "Bad decision, the market billed you" },
+      "honestTuition": {
+        "label": "Honest tuition",
+        "hint": "Bad decision, the market billed you"
+      },
       "dangerousSuccess": {
         "label": "Dangerous successes",
         "hint": "Bad decision rewarded — the worst quadrant"
@@ -672,6 +678,116 @@
       "candleCount": "Candle count",
       "windowBackend": "{{timeframe}} backend-derived window",
       "windowFallback": "{{timeframe}} fallback window"
+    }
+  },
+  "learn": {
+    "title": "Learn",
+    "eduDisclaimer": "Educational use only — not financial advice.",
+    "percentComplete": "{{percent}}% complete",
+    "locked": "Locked",
+    "community": "community",
+    "takeAssessment": "Take the {{level}} assessment",
+    "loadingAcademy": "Loading the Academy…",
+    "selectLesson": "Select a lesson to begin.",
+    "loadingCatalog": "Loading catalog…",
+    "tiers": {
+      "novice": "Novice",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "readiness": {
+      "tooltip": "{{label}} readiness",
+      "knowledge": "Knowledge",
+      "execution": "Execution",
+      "risk": "Risk",
+      "psych": "Psych",
+      "consistency": "Consistency"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Search lessons…",
+      "searchLabel": "Search lessons",
+      "glossary": "Glossary",
+      "reference": "Reference",
+      "practice": "Practice",
+      "progress": "Progress",
+      "noMatch": "No lessons match."
+    },
+    "errors": {
+      "catalogStale": "The backend is older than this app version and cannot serve the Academy catalog. Restart the app (or the backend) so both are up to date.",
+      "catalogLoad": "Failed to load the learning catalog. Is the backend running?",
+      "lessonLoad": "Failed to load lesson '{{id}}'."
+    },
+    "review": {
+      "title": "Your process review",
+      "avgScore": "Avg process score",
+      "over": "/100 over {{count}} trades",
+      "dangerousOne": "⚠ {{count}} dangerous success — profits that rewarded a broken process",
+      "dangerousMany": "⚠ {{count}} dangerous successes — profits that rewarded a broken process"
+    },
+    "moments": {
+      "title": "Coaching moments from your paper trading",
+      "openLesson": "Open the lesson →"
+    },
+    "assessment": {
+      "heading": "{{level}} assessment",
+      "back": "Back to lessons",
+      "meta": "{{count}} questions · pass at {{percent}}%",
+      "loading": "Loading…",
+      "gradedNote": "graded by the backend, best result kept.",
+      "loadError": "Could not load the assessment. Is the backend running?",
+      "submitError": "Could not submit the assessment. Try again.",
+      "passed": "Passed",
+      "notYet": "Not yet",
+      "scoreLine": "score {{score}}% (bar {{bar}}%).",
+      "gateMet": "This gate is now permanently met.",
+      "reviewRetake": "Review the explanations below and retake any time.",
+      "question": "Question {{number}} · {{title}}",
+      "correct": "Correct. ",
+      "incorrect": "Incorrect. ",
+      "submit": "Submit answers",
+      "retake": "Retake with fresh questions"
+    },
+    "live": {
+      "title": "Practice with live data",
+      "subtitle": "Same concept, but with your real market data and paper balance instead of textbook numbers.",
+      "generate": "Generate live exercise",
+      "answerPlaceholder": "Your answer",
+      "check": "Check",
+      "newNumbers": "New numbers",
+      "correct": "Correct. ",
+      "notQuite": "Not quite. ",
+      "unavailable": "Live market data is not available yet. Refresh the dashboard first.",
+      "backendError": "Could not reach the backend. Try again."
+    },
+    "exercise": {
+      "title": "Exercise",
+      "checking": "Checking…",
+      "check": "Check Answer",
+      "correct": "Correct!",
+      "notQuite": "Not quite — here's why:",
+      "tryAgain": "Try again",
+      "backendError": "Could not reach the backend. Try again.",
+      "placeholder": "Enter your answer…"
+    },
+    "tutor": {
+      "title": "Ask the tutor",
+      "placeholder": "Confused by something here? Ask in your own words…",
+      "thinking": "Thinking…",
+      "ask": "Ask",
+      "error": "The tutor request failed. Check Settings → AI and retry.",
+      "footer": "{{source}} · grounded in this lesson · educational only, never financial advice"
+    },
+    "lesson": {
+      "number": "Lesson {{order}}",
+      "completed": "Completed",
+      "concept": "Concept",
+      "keyTerms": "Key Terms",
+      "commonMistakes": "Common Mistakes",
+      "takeFurther": "Take It Further",
+      "openMissions": "Open Missions",
+      "tryLive": "Try It Live",
+      "openScreen": "Open {{screen}}"
     }
   },
   "nav": {

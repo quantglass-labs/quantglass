@@ -252,7 +252,10 @@
       "processAllHelper": "Wastani wa maisha yote"
     },
     "quadrant": {
-      "earnedWin": { "label": "Ushindi uliostahili", "hint": "Uamuzi mzuri, matokeo mazuri" },
+      "earnedWin": {
+        "label": "Ushindi uliostahili",
+        "hint": "Uamuzi mzuri, matokeo mazuri"
+      },
       "wellPlayedLoss": {
         "label": "Hasara iliyochezwa vizuri",
         "hint": "Uamuzi mzuri, tofauti ilichukua"
@@ -675,6 +678,116 @@
       "candleCount": "Idadi ya mishumaa",
       "windowBackend": "Dirisha lililotokana na backend {{timeframe}}",
       "windowFallback": "Dirisha la akiba {{timeframe}}"
+    }
+  },
+  "learn": {
+    "title": "Jifunze",
+    "eduDisclaimer": "Kwa matumizi ya kielimu pekee — si ushauri wa kifedha.",
+    "percentComplete": "Imekamilika {{percent}}%",
+    "locked": "Imefungwa",
+    "community": "jamii",
+    "takeAssessment": "Fanya tathmini ya {{level}}",
+    "loadingAcademy": "Inapakia Akademi…",
+    "selectLesson": "Chagua somo ili kuanza.",
+    "loadingCatalog": "Inapakia katalogi…",
+    "tiers": {
+      "novice": "Mwanzo",
+      "intermediate": "Wastani",
+      "advanced": "Juu",
+      "expert": "Mtaalamu"
+    },
+    "readiness": {
+      "tooltip": "Utayari wa {{label}}",
+      "knowledge": "Maarifa",
+      "execution": "Utekelezaji",
+      "risk": "Hatari",
+      "psych": "Saikolojia",
+      "consistency": "Uthabiti"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Tafuta masomo…",
+      "searchLabel": "Tafuta masomo",
+      "glossary": "Kamusi",
+      "reference": "Marejeo",
+      "practice": "Mazoezi",
+      "progress": "Maendeleo",
+      "noMatch": "Hakuna somo linalolingana."
+    },
+    "errors": {
+      "catalogStale": "Backend ni ya zamani kuliko toleo hili la programu na haiwezi kutoa katalogi ya Akademi. Anzisha upya programu (au backend) ili zote mbili ziwe za kisasa.",
+      "catalogLoad": "Imeshindwa kupakia katalogi ya kujifunza. Je, backend inafanya kazi?",
+      "lessonLoad": "Imeshindwa kupakia somo '{{id}}'."
+    },
+    "review": {
+      "title": "Mapitio ya mchakato wako",
+      "avgScore": "Wastani wa alama za mchakato",
+      "over": "/100 kwa biashara {{count}}",
+      "dangerousOne": "⚠ Mafanikio hatari {{count}} — faida zilizotuza mchakato uliovunjika",
+      "dangerousMany": "⚠ Mafanikio hatari {{count}} — faida zilizotuza mchakato uliovunjika"
+    },
+    "moments": {
+      "title": "Nyakati za ukocha kutoka kwa biashara yako ya karatasi",
+      "openLesson": "Fungua somo →"
+    },
+    "assessment": {
+      "heading": "Tathmini ya {{level}}",
+      "back": "Rudi kwenye masomo",
+      "meta": "Maswali {{count}} · kufaulu kwa {{percent}}%",
+      "loading": "Inapakia…",
+      "gradedNote": "imepimwa na backend, matokeo bora yamehifadhiwa.",
+      "loadError": "Haikuweza kupakia tathmini. Je, backend inafanya kazi?",
+      "submitError": "Haikuweza kuwasilisha tathmini. Jaribu tena.",
+      "passed": "Umefaulu",
+      "notYet": "Bado",
+      "scoreLine": "alama {{score}}% (kiwango {{bar}}%).",
+      "gateMet": "Lango hili sasa limetimizwa kudumu.",
+      "reviewRetake": "Pitia maelezo hapa chini na urudie wakati wowote.",
+      "question": "Swali {{number}} · {{title}}",
+      "correct": "Sahihi. ",
+      "incorrect": "Sio sahihi. ",
+      "submit": "Wasilisha majibu",
+      "retake": "Rudia kwa maswali mapya"
+    },
+    "live": {
+      "title": "Fanya mazoezi na data ya moja kwa moja",
+      "subtitle": "Dhana ile ile, lakini kwa data yako halisi ya soko na salio la karatasi badala ya nambari za vitabu.",
+      "generate": "Tengeneza zoezi la moja kwa moja",
+      "answerPlaceholder": "Jibu lako",
+      "check": "Angalia",
+      "newNumbers": "Nambari mpya",
+      "correct": "Sahihi. ",
+      "notQuite": "Bado kidogo. ",
+      "unavailable": "Data ya soko ya moja kwa moja bado haipatikani. Onyesha upya dashibodi kwanza.",
+      "backendError": "Haikuweza kufikia backend. Jaribu tena."
+    },
+    "exercise": {
+      "title": "Zoezi",
+      "checking": "Inaangalia…",
+      "check": "Angalia jibu",
+      "correct": "Sahihi!",
+      "notQuite": "Bado kidogo — hii ndiyo sababu:",
+      "tryAgain": "Jaribu tena",
+      "backendError": "Haikuweza kufikia backend. Jaribu tena.",
+      "placeholder": "Ingiza jibu lako…"
+    },
+    "tutor": {
+      "title": "Uliza mkufunzi",
+      "placeholder": "Umechanganyikiwa na jambo hapa? Uliza kwa maneno yako…",
+      "thinking": "Inafikiri…",
+      "ask": "Uliza",
+      "error": "Ombi la mkufunzi limeshindwa. Angalia Mipangilio → AI kisha jaribu tena.",
+      "footer": "{{source}} · imejikita kwenye somo hili · kielimu pekee, kamwe si ushauri wa kifedha"
+    },
+    "lesson": {
+      "number": "Somo {{order}}",
+      "completed": "Limekamilika",
+      "concept": "Dhana",
+      "keyTerms": "Maneno muhimu",
+      "commonMistakes": "Makosa ya kawaida",
+      "takeFurther": "Endeleza zaidi",
+      "openMissions": "Fungua Misheni",
+      "tryLive": "Jaribu moja kwa moja",
+      "openScreen": "Fungua {{screen}}"
     }
   },
   "nav": {

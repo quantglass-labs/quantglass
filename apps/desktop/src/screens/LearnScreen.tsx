@@ -13,6 +13,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type {
   ExerciseResult,
   LiveExercise,
@@ -86,13 +87,6 @@ const TIER_COLORS: Record<LessonTier, { badge: string; ring: string; dot: string
   },
 };
 
-const TIER_LABELS: Record<LessonTier, string> = {
-  novice: 'Novice',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-  expert: 'Expert',
-};
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -137,10 +131,11 @@ function renderMarkdown(text: string): string {
 // ---------------------------------------------------------------------------
 
 function TierBadge({ tier }: { tier: LessonTier }) {
+  const { t } = useTranslation();
   const c = TIER_COLORS[tier];
   return (
     <span className={clsx('text-xs font-medium px-2 py-0.5 rounded-full', c.badge)}>
-      {TIER_LABELS[tier]}
+      {t(`learn.tiers.${tier}`)}
     </span>
   );
 }
@@ -193,6 +188,7 @@ function LevelSection({
   lockReasons,
   onTakeAssessment,
 }: LevelSectionProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(defaultOpen);
   const c = TIER_COLORS[level.id];
   return (
@@ -213,7 +209,7 @@ function LevelSection({
             <span className="text-sm font-medium text-zinc-200 truncate">{level.title}</span>
             <TierBadge tier={level.id} />
             {locked ? (
-              <span title={(lockReasons ?? []).join(' · ') || 'Locked'}>
+              <span title={(lockReasons ?? []).join(' · ') || t('learn.locked')}>
                 <Lock size={12} className="shrink-0 text-zinc-500" />
               </span>
             ) : null}
@@ -223,7 +219,7 @@ function LevelSection({
         <span
           role="button"
           tabIndex={0}
-          title={`Take the ${level.id} assessment`}
+          title={t('learn.takeAssessment', { level: t(`learn.tiers.${level.id}`) })}
           className="shrink-0 rounded-md p-1 text-zinc-500 hover:text-indigo-300 hover:bg-zinc-800"
           onClick={(event) => {
             event.stopPropagation();
@@ -245,7 +241,7 @@ function LevelSection({
                 {track.title}
                 {track.source === 'community' ? (
                   <span className="ml-1.5 rounded-full border border-sky-500/40 px-1.5 font-normal normal-case tracking-normal text-sky-300">
-                    community
+                    {t('learn.community')}
                   </span>
                 ) : null}
                 <span className="ml-2 font-normal normal-case tracking-normal">
@@ -297,6 +293,7 @@ function AssessmentView({
   onClose: () => void;
   onGraded: () => void;
 }) {
+  const { t } = useTranslation();
   const [exam, setExam] = useState<Assessment | null>(null);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [result, setResult] = useState<AssessmentResult | null>(null);
@@ -306,8 +303,8 @@ function AssessmentView({
     backendClient
       .getAssessment(level)
       .then(setExam)
-      .catch(() => setError('Could not load the assessment. Is the backend running?'));
-  }, [level]);
+      .catch(() => setError(t('learn.assessment.loadError')));
+  }, [level, t]);
 
   async function submit() {
     try {
@@ -315,7 +312,7 @@ function AssessmentView({
       setResult(graded);
       onGraded();
     } catch {
-      setError('Could not submit the assessment. Try again.');
+      setError(t('learn.assessment.submitError'));
     }
   }
 
@@ -324,18 +321,26 @@ function AssessmentView({
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-zinc-100 capitalize">{level} assessment</h2>
+        <h2 className="text-lg font-semibold text-zinc-100 capitalize">
+          {t('learn.assessment.heading', { level: t(`learn.tiers.${level}`) })}
+        </h2>
         <button
           type="button"
           className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
           onClick={onClose}
         >
-          Back to lessons
+          {t('learn.assessment.back')}
         </button>
       </div>
       <p className="mt-1 text-sm text-zinc-500">
-        {exam ? `${exam.questions.length} questions · pass at ${exam.pass_percent}%` : 'Loading…'}
-        {' · '}graded by the backend, best result kept.
+        {exam
+          ? t('learn.assessment.meta', {
+              count: exam.questions.length,
+              percent: exam.pass_percent,
+            })
+          : t('learn.assessment.loading')}
+        {' · '}
+        {t('learn.assessment.gradedNote')}
       </p>
       {error ? <p className="mt-4 text-sm text-amber-300">{error}</p> : null}
       {result ? (
@@ -346,11 +351,12 @@ function AssessmentView({
               : 'border-amber-500/40 bg-amber-600/10 text-amber-200'
           }`}
         >
-          {result.passed ? 'Passed' : 'Not yet'} — score {result.score}% (bar {result.pass_percent}
-          %).{' '}
-          {result.passed
-            ? 'This gate is now permanently met.'
-            : 'Review the explanations below and retake any time.'}
+          {result.passed ? t('learn.assessment.passed') : t('learn.assessment.notYet')} —{' '}
+          {t('learn.assessment.scoreLine', {
+            score: result.score,
+            bar: result.pass_percent,
+          })}{' '}
+          {result.passed ? t('learn.assessment.gateMet') : t('learn.assessment.reviewRetake')}
         </div>
       ) : null}
       <div className="mt-5 space-y-5">
@@ -359,7 +365,7 @@ function AssessmentView({
           return (
             <div key={q.lesson_id} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
               <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">
-                Question {qi + 1} · {q.title}
+                {t('learn.assessment.question', { number: qi + 1, title: q.title })}
               </p>
               <p className="mt-2 text-sm text-zinc-200">{q.question}</p>
               <div className="mt-3 space-y-1.5">
@@ -388,7 +394,9 @@ function AssessmentView({
                 <p
                   className={`mt-3 text-sm ${feedback.correct ? 'text-emerald-300' : 'text-amber-300'}`}
                 >
-                  {feedback.correct ? 'Correct. ' : 'Incorrect. '}
+                  {feedback.correct
+                    ? t('learn.assessment.correct')
+                    : t('learn.assessment.incorrect')}
                   {feedback.explanation}
                 </p>
               ) : null}
@@ -403,7 +411,7 @@ function AssessmentView({
           className="mt-5 rounded-lg border border-indigo-500/50 px-4 py-2 text-sm text-indigo-200 hover:bg-indigo-600/20 disabled:opacity-40 disabled:cursor-not-allowed"
           onClick={() => void submit()}
         >
-          Submit answers
+          {t('learn.assessment.submit')}
         </button>
       ) : null}
       {result && !result.passed ? (
@@ -419,7 +427,7 @@ function AssessmentView({
               .catch(() => undefined);
           }}
         >
-          Retake with fresh questions
+          {t('learn.assessment.retake')}
         </button>
       ) : null}
     </div>
@@ -435,6 +443,7 @@ function LiveExercisePanel({
   enabled: boolean;
   onComplete: () => void;
 }) {
+  const { t } = useTranslation();
   const [exercise, setExercise] = useState<LiveExercise | null>(null);
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState<LiveExerciseResult | null>(null);
@@ -449,7 +458,7 @@ function LiveExercisePanel({
     try {
       setExercise(await backendClient.getLiveExercise(lessonId));
     } catch {
-      setStatus('Live market data is not available yet. Refresh the dashboard first.');
+      setStatus(t('learn.live.unavailable'));
     }
   }
 
@@ -463,25 +472,23 @@ function LiveExercisePanel({
       setResult(res);
       if (res.correct) onComplete();
     } catch {
-      setStatus('Could not reach the backend. Try again.');
+      setStatus(t('learn.live.backendError'));
     }
   }
 
   return (
     <div className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
-        Practice with live data
+        {t('learn.live.title')}
       </p>
-      <p className="mt-2 text-sm text-zinc-400">
-        Same concept, but with your real market data and paper balance instead of textbook numbers.
-      </p>
+      <p className="mt-2 text-sm text-zinc-400">{t('learn.live.subtitle')}</p>
       {!exercise ? (
         <button
           type="button"
           className="mt-3 rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
           onClick={() => void loadExercise()}
         >
-          Generate live exercise
+          {t('learn.live.generate')}
         </button>
       ) : (
         <div className="mt-3 space-y-3">
@@ -492,26 +499,26 @@ function LiveExercisePanel({
               className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100"
               value={answer}
               onChange={(event) => setAnswer(event.target.value)}
-              placeholder="Your answer"
+              placeholder={t('learn.live.answerPlaceholder')}
             />
             <button
               type="button"
               className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
               onClick={() => void submit()}
             >
-              Check
+              {t('learn.live.check')}
             </button>
             <button
               type="button"
               className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
               onClick={() => void loadExercise()}
             >
-              New numbers
+              {t('learn.live.newNumbers')}
             </button>
           </div>
           {result ? (
             <p className={`text-sm ${result.correct ? 'text-emerald-300' : 'text-amber-300'}`}>
-              {result.correct ? 'Correct. ' : 'Not quite. '}
+              {result.correct ? t('learn.live.correct') : t('learn.live.notQuite')}
               {result.explanation}
             </p>
           ) : null}
@@ -529,6 +536,7 @@ interface ExerciseControllerProps {
 }
 
 function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
+  const { t } = useTranslation();
   const ex = lesson.exercise;
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [numericValue, setNumericValue] = useState('');
@@ -562,7 +570,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
     } catch {
       setResult({
         correct: false,
-        explanation: 'Could not reach the backend. Try again.',
+        explanation: t('learn.exercise.backendError'),
         score: 0,
       });
     } finally {
@@ -574,7 +582,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
     <div className="rounded-xl border border-zinc-700/60 bg-zinc-800/40 p-5 space-y-4">
       <div className="flex items-center gap-2 mb-1">
         <Lightbulb size={15} className="text-amber-400 shrink-0" />
-        <span className="text-sm font-semibold text-zinc-100">Exercise</span>
+        <span className="text-sm font-semibold text-zinc-100">{t('learn.exercise.title')}</span>
       </div>
       <p className="text-sm text-zinc-300 leading-relaxed">{ex.question}</p>
 
@@ -619,7 +627,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
             if (e.key === 'Enter') void handleSubmit();
           }}
           disabled={result !== null || loading}
-          placeholder="Enter your answer…"
+          placeholder={t('learn.exercise.placeholder')}
           className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
         />
       )}
@@ -633,7 +641,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
           onClick={() => void handleSubmit()}
           className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
         >
-          {loading ? 'Checking…' : 'Check Answer'}
+          {loading ? t('learn.exercise.checking') : t('learn.exercise.check')}
         </button>
       )}
 
@@ -653,7 +661,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
               ) : (
                 <AlertCircle size={15} className="text-red-400" />
               )}
-              {result.correct ? 'Correct!' : "Not quite — here's why:"}
+              {result.correct ? t('learn.exercise.correct') : t('learn.exercise.notQuite')}
             </div>
             <p className="text-zinc-300 leading-relaxed">{result.explanation}</p>
           </div>
@@ -667,7 +675,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
               className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
             >
               <RotateCcw size={13} />
-              Try again
+              {t('learn.exercise.tryAgain')}
             </button>
           )}
         </>
@@ -687,6 +695,7 @@ interface LessonViewerProps {
 }
 
 function TutorPanel({ lessonId }: { lessonId: string }) {
+  const { t } = useTranslation();
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -707,7 +716,7 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
         setSource(response.source);
       }
     } catch {
-      setNotice('The tutor request failed. Check Settings → AI and retry.');
+      setNotice(t('learn.tutor.error'));
     } finally {
       setAsking(false);
     }
@@ -716,7 +725,7 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
   return (
     <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
       <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-2">
-        Ask the tutor
+        {t('learn.tutor.title')}
       </h2>
       <div className="flex gap-2">
         <input
@@ -726,7 +735,7 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
           onKeyDown={(event) => {
             if (event.key === 'Enter') void ask();
           }}
-          placeholder="Confused by something here? Ask in your own words…"
+          placeholder={t('learn.tutor.placeholder')}
           className="flex-1 rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-indigo-500 focus:outline-none"
         />
         <button
@@ -735,16 +744,14 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
           onClick={() => void ask()}
           className="rounded-lg border border-indigo-500/50 px-4 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-40"
         >
-          {asking ? 'Thinking…' : 'Ask'}
+          {asking ? t('learn.tutor.thinking') : t('learn.tutor.ask')}
         </button>
       </div>
       {notice ? <p className="mt-3 text-sm text-amber-300">{notice}</p> : null}
       {answer ? (
         <div className="mt-3 rounded-lg border border-zinc-700/60 bg-zinc-950/40 p-3">
           <AiMarkdown className="text-sm leading-relaxed text-zinc-200">{answer}</AiMarkdown>
-          <p className="mt-2 text-[11px] text-zinc-600">
-            {source} · grounded in this lesson · educational only, never financial advice
-          </p>
+          <p className="mt-2 text-[11px] text-zinc-600">{t('learn.tutor.footer', { source })}</p>
         </div>
       ) : null}
     </div>
@@ -752,6 +759,7 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
 }
 
 function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerProps) {
+  const { t } = useTranslation();
   const c = TIER_COLORS[lesson.tier];
   const conceptRef = useRef<HTMLDivElement>(null);
 
@@ -778,11 +786,13 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <TierBadge tier={lesson.tier} />
-            <span className="text-xs text-zinc-500">Lesson {lesson.order}</span>
+            <span className="text-xs text-zinc-500">
+              {t('learn.lesson.number', { order: lesson.order })}
+            </span>
             {lesson.completed && (
               <span className="flex items-center gap-1 text-xs text-emerald-400">
                 <CheckCircle2 size={12} />
-                Completed
+                {t('learn.lesson.completed')}
               </span>
             )}
           </div>
@@ -794,7 +804,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {/* Concept */}
       <div ref={conceptRef} className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
         <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
-          Concept
+          {t('learn.lesson.concept')}
         </h2>
         <div
           className="text-sm text-zinc-300 leading-relaxed space-y-1 prose-zinc"
@@ -808,7 +818,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {lesson.key_terms?.length > 0 && (
         <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
           <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
-            Key Terms
+            {t('learn.lesson.keyTerms')}
           </h2>
           <dl className="space-y-2">
             {lesson.key_terms.map((kt) => (
@@ -827,7 +837,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {lesson.common_mistakes?.length ? (
         <div className="rounded-xl border border-amber-500/30 bg-amber-600/10 p-5">
           <h2 className="text-sm font-semibold text-amber-300 uppercase tracking-wider mb-3">
-            Common Mistakes
+            {t('learn.lesson.commonMistakes')}
           </h2>
           <ul className="space-y-2">
             {lesson.common_mistakes.map((mistake) => (
@@ -856,7 +866,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {lesson.bridge ? (
         <div className="rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-5">
           <h2 className="text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2">
-            Take It Further
+            {t('learn.lesson.takeFurther')}
           </h2>
           <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.bridge.cta}</p>
           <button
@@ -864,7 +874,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
             onClick={() => onNavigate('/missions')}
             className="rounded-lg border border-emerald-500/50 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
           >
-            Open Missions
+            {t('learn.lesson.openMissions')}
           </button>
         </div>
       ) : null}
@@ -872,7 +882,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {lesson.live_apply && (
         <div className="rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
           <h2 className="text-sm font-semibold text-indigo-300 uppercase tracking-wider mb-2">
-            Try It Live
+            {t('learn.lesson.tryLive')}
           </h2>
           <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.live_apply.cta}</p>
           {lesson.live_apply.screen && (
@@ -891,17 +901,20 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
               className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <SquareArrowOutUpRight size={14} />
-              Open{' '}
-              {lesson.live_apply.screen.charAt(0).toUpperCase() + lesson.live_apply.screen.slice(1)}
+              {t('learn.lesson.openScreen', {
+                screen: t(`nav.${lesson.live_apply.screen}`, {
+                  defaultValue:
+                    lesson.live_apply.screen.charAt(0).toUpperCase() +
+                    lesson.live_apply.screen.slice(1),
+                }),
+              })}
             </button>
           )}
         </div>
       )}
 
       {/* Disclaimer */}
-      <p className="text-xs text-zinc-600 text-center pt-2">
-        Educational use only — not financial advice.
-      </p>
+      <p className="text-xs text-zinc-600 text-center pt-2">{t('learn.eduDisclaimer')}</p>
     </div>
   );
 }
@@ -924,6 +937,7 @@ function EmptyLearnState({ message }: { message: string }) {
 // ---------------------------------------------------------------------------
 
 export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
+  const { t } = useTranslation();
   const [catalog, setCatalog] = useState<LearnCatalogResponse | null>(null);
   const [moments, setMoments] = useState<LearnMoment[]>([]);
   const [readiness, setReadiness] = useState<LearnReadiness | null>(null);
@@ -983,15 +997,13 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       .getLearnCatalog()
       .then((response) => {
         if (!Array.isArray(response?.levels)) {
-          setError(
-            'The backend is older than this app version and cannot serve the Academy catalog. Restart the app (or the backend) so both are up to date.',
-          );
+          setError(t('learn.errors.catalogStale'));
           return;
         }
         setCatalog(response);
       })
-      .catch(() => setError('Failed to load the learning catalog. Is the backend running?'));
-  }, [backendStatus]);
+      .catch(() => setError(t('learn.errors.catalogLoad')));
+  }, [backendStatus, t]);
 
   // Load coaching moments derived from the user's own paper trading
   useEffect(() => {
@@ -1046,9 +1058,9 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
     backendClient
       .getLearnLesson(activeLessonId)
       .then(setActiveLesson)
-      .catch(() => setError(`Failed to load lesson '${activeLessonId}'.`))
+      .catch(() => setError(t('learn.errors.lessonLoad', { id: activeLessonId })))
       .finally(() => setLessonLoading(false));
-  }, [activeLessonId, backendStatus]);
+  }, [activeLessonId, backendStatus, t]);
 
   const handleSelectLesson = useCallback((lesson: LessonStub) => {
     setLibraryView(null);
@@ -1088,13 +1100,13 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       <div className="shrink-0 border-b border-zinc-800 px-6 py-3 flex items-center gap-4">
         <div className="flex items-center gap-2">
           <GraduationCap size={18} className="text-indigo-400" />
-          <span className="text-sm font-semibold text-zinc-100">Learn</span>
+          <span className="text-sm font-semibold text-zinc-100">{t('learn.title')}</span>
         </div>
         {progress && (
           <div className="flex items-center gap-3 ml-4 flex-1 max-w-xs">
             <ProgressBar done={progress.completed} total={progress.total} />
             <span className="text-xs text-zinc-500 shrink-0">
-              {pct(progress.completed, progress.total)}% complete
+              {t('learn.percentComplete', { percent: pct(progress.completed, progress.total) })}
             </span>
           </div>
         )}
@@ -1102,15 +1114,18 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
           <div className="hidden lg:flex items-center gap-3 text-[11px] text-zinc-500">
             {(
               [
-                ['Knowledge', readiness.scores.knowledge],
-                ['Execution', readiness.scores.execution],
-                ['Risk', readiness.scores.risk],
-                ['Psych', readiness.scores.psychology],
-                ['Consistency', readiness.scores.consistency],
+                ['knowledge', readiness.scores.knowledge],
+                ['execution', readiness.scores.execution],
+                ['risk', readiness.scores.risk],
+                ['psych', readiness.scores.psychology],
+                ['consistency', readiness.scores.consistency],
               ] as const
-            ).map(([label, value]) => (
-              <span key={label} title={`${label} readiness`}>
-                {label}{' '}
+            ).map(([key, value]) => (
+              <span
+                key={key}
+                title={t('learn.readiness.tooltip', { label: t(`learn.readiness.${key}`) })}
+              >
+                {t(`learn.readiness.${key}`)}{' '}
                 <span
                   className={
                     value >= 70
@@ -1126,9 +1141,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             ))}
           </div>
         ) : null}
-        <span className="ml-auto text-xs text-zinc-600">
-          Educational use only — not financial advice.
-        </span>
+        <span className="ml-auto text-xs text-zinc-600">{t('learn.eduDisclaimer')}</span>
       </div>
 
       {/* Body */}
@@ -1137,8 +1150,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
         <aside className="w-72 shrink-0 border-r border-zinc-800 overflow-y-auto p-3 hidden md:block">
           <input
             type="search"
-            placeholder="Search lessons…"
-            aria-label="Search lessons"
+            placeholder={t('learn.sidebar.searchPlaceholder')}
+            aria-label={t('learn.sidebar.searchLabel')}
             className="mb-3 w-full rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
@@ -1154,7 +1167,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
               )}
             >
-              Glossary
+              {t('learn.sidebar.glossary')}
             </button>
             <button
               type="button"
@@ -1166,7 +1179,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
               )}
             >
-              Reference
+              {t('learn.sidebar.reference')}
             </button>
             <button
               type="button"
@@ -1178,7 +1191,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
               )}
             >
-              Practice
+              {t('learn.sidebar.practice')}
             </button>
             <button
               type="button"
@@ -1190,13 +1203,13 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
               )}
             >
-              Progress
+              {t('learn.sidebar.progress')}
             </button>
           </div>
           {searchResults ? (
             <div className="space-y-0.5">
               {searchResults.length === 0 ? (
-                <p className="px-3 py-2 text-xs text-zinc-500">No lessons match.</p>
+                <p className="px-3 py-2 text-xs text-zinc-500">{t('learn.sidebar.noMatch')}</p>
               ) : null}
               {searchResults.map(({ lesson: result, trackTitle, level }) => (
                 <button
@@ -1278,7 +1291,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             <>
               {!catalog && !error ? (
                 <div className="max-w-3xl space-y-3" aria-busy="true">
-                  <p className="text-sm text-zinc-500">Loading the Academy…</p>
+                  <p className="text-sm text-zinc-500">{t('learn.loadingAcademy')}</p>
                   {[1, 2, 3].map((n) => (
                     <div key={n} className="h-24 rounded-xl bg-zinc-800/60 animate-pulse" />
                   ))}
@@ -1287,11 +1300,11 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               {tradeReview && tradeReview.summary.trades > 0 ? (
                 <div className="mb-4 rounded-xl border border-zinc-700/60 bg-zinc-900/40 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                    Your process review
+                    {t('learn.review.title')}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-4 text-sm">
                     <span className="text-zinc-300">
-                      Avg process score{' '}
+                      {t('learn.review.avgScore')}{' '}
                       <span
                         className={
                           tradeReview.summary.average_process_score >=
@@ -1302,13 +1315,17 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                       >
                         {tradeReview.summary.average_process_score}
                       </span>
-                      /100 over {tradeReview.summary.trades} trades
+                      {t('learn.review.over', { count: tradeReview.summary.trades })}
                     </span>
                     {tradeReview.summary.dangerous_success_count > 0 ? (
                       <span className="text-red-300 font-medium">
-                        ⚠ {tradeReview.summary.dangerous_success_count} dangerous success
-                        {tradeReview.summary.dangerous_success_count > 1 ? 'es' : ''} — profits that
-                        rewarded a broken process
+                        {tradeReview.summary.dangerous_success_count > 1
+                          ? t('learn.review.dangerousMany', {
+                              count: tradeReview.summary.dangerous_success_count,
+                            })
+                          : t('learn.review.dangerousOne', {
+                              count: tradeReview.summary.dangerous_success_count,
+                            })}
                       </span>
                     ) : null}
                   </div>
@@ -1332,7 +1349,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               {moments.length > 0 && (
                 <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
-                    Coaching moments from your paper trading
+                    {t('learn.moments.title')}
                   </p>
                   <div className="mt-3 space-y-2">
                     {moments.slice(0, 3).map((moment) => (
@@ -1344,7 +1361,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                       >
                         {moment.message}
                         <span className="mt-1 block text-xs text-indigo-300">
-                          Open the lesson →
+                          {t('learn.moments.openLesson')}
                         </span>
                       </button>
                     ))}
@@ -1371,7 +1388,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
 
               {!lessonLoading && !activeLesson && !error && (
                 <EmptyLearnState
-                  message={catalog ? 'Select a lesson to begin.' : 'Loading catalog…'}
+                  message={catalog ? t('learn.selectLesson') : t('learn.loadingCatalog')}
                 />
               )}
 

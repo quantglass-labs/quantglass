@@ -252,9 +252,18 @@
       "processAllHelper": "生涯平均"
     },
     "quadrant": {
-      "earnedWin": { "label": "正当な勝ち", "hint": "良い判断、良い結果" },
-      "wellPlayedLoss": { "label": "うまく戦った負け", "hint": "良い判断、分散に持っていかれた" },
-      "honestTuition": { "label": "正直な授業料", "hint": "悪い判断、市場に請求された" },
+      "earnedWin": {
+        "label": "正当な勝ち",
+        "hint": "良い判断、良い結果"
+      },
+      "wellPlayedLoss": {
+        "label": "うまく戦った負け",
+        "hint": "良い判断、分散に持っていかれた"
+      },
+      "honestTuition": {
+        "label": "正直な授業料",
+        "hint": "悪い判断、市場に請求された"
+      },
       "dangerousSuccess": {
         "label": "危険な成功",
         "hint": "悪い判断が報われた——最悪の象限"
@@ -669,6 +678,116 @@
       "candleCount": "足の本数",
       "windowBackend": "{{timeframe}} バックエンド由来のウィンドウ",
       "windowFallback": "{{timeframe}} フォールバックウィンドウ"
+    }
+  },
+  "learn": {
+    "title": "学ぶ",
+    "eduDisclaimer": "教育目的のみ — 金融助言ではありません。",
+    "percentComplete": "{{percent}}% 完了",
+    "locked": "ロック中",
+    "community": "コミュニティ",
+    "takeAssessment": "{{level}}評価を受ける",
+    "loadingAcademy": "アカデミーを読み込み中…",
+    "selectLesson": "レッスンを選んで始めましょう。",
+    "loadingCatalog": "カタログを読み込み中…",
+    "tiers": {
+      "novice": "初級",
+      "intermediate": "中級",
+      "advanced": "上級",
+      "expert": "エキスパート"
+    },
+    "readiness": {
+      "tooltip": "{{label}}の準備度",
+      "knowledge": "知識",
+      "execution": "執行",
+      "risk": "リスク",
+      "psych": "心理",
+      "consistency": "一貫性"
+    },
+    "sidebar": {
+      "searchPlaceholder": "レッスンを検索…",
+      "searchLabel": "レッスンを検索",
+      "glossary": "用語集",
+      "reference": "リファレンス",
+      "practice": "練習",
+      "progress": "進捗",
+      "noMatch": "一致するレッスンはありません。"
+    },
+    "errors": {
+      "catalogStale": "バックエンドがこのアプリのバージョンより古く、アカデミーのカタログを提供できません。両方を最新にするためアプリ（またはバックエンド）を再起動してください。",
+      "catalogLoad": "学習カタログの読み込みに失敗しました。バックエンドは動作していますか？",
+      "lessonLoad": "レッスン '{{id}}' の読み込みに失敗しました。"
+    },
+    "review": {
+      "title": "あなたのプロセスレビュー",
+      "avgScore": "平均プロセススコア",
+      "over": "/100、{{count}} 取引にわたって",
+      "dangerousOne": "⚠ {{count}} 件の危険な成功 — 壊れたプロセスを報いた利益",
+      "dangerousMany": "⚠ {{count}} 件の危険な成功 — 壊れたプロセスを報いた利益"
+    },
+    "moments": {
+      "title": "あなたのペーパートレードからのコーチングの瞬間",
+      "openLesson": "レッスンを開く →"
+    },
+    "assessment": {
+      "heading": "{{level}}評価",
+      "back": "レッスンに戻る",
+      "meta": "{{count}} 問 · {{percent}}% で合格",
+      "loading": "読み込み中…",
+      "gradedNote": "バックエンドが採点し、最良の結果が保持されます。",
+      "loadError": "評価を読み込めませんでした。バックエンドは動作していますか？",
+      "submitError": "評価を送信できませんでした。もう一度お試しください。",
+      "passed": "合格",
+      "notYet": "まだ",
+      "scoreLine": "スコア {{score}}%（基準 {{bar}}%）。",
+      "gateMet": "このゲートは恒久的に達成されました。",
+      "reviewRetake": "下の解説を確認し、いつでも再受験できます。",
+      "question": "問題 {{number}} · {{title}}",
+      "correct": "正解。",
+      "incorrect": "不正解。",
+      "submit": "回答を送信",
+      "retake": "新しい問題で再受験"
+    },
+    "live": {
+      "title": "ライブデータで練習",
+      "subtitle": "同じ概念ですが、教科書の数字ではなく実際の市場データとペーパー残高を使います。",
+      "generate": "ライブ演習を生成",
+      "answerPlaceholder": "あなたの回答",
+      "check": "チェック",
+      "newNumbers": "新しい数値",
+      "correct": "正解。",
+      "notQuite": "惜しい。",
+      "unavailable": "ライブ市場データはまだ利用できません。先にダッシュボードを更新してください。",
+      "backendError": "バックエンドに接続できませんでした。もう一度お試しください。"
+    },
+    "exercise": {
+      "title": "演習",
+      "checking": "チェック中…",
+      "check": "回答をチェック",
+      "correct": "正解！",
+      "notQuite": "惜しい — その理由はこちら:",
+      "tryAgain": "もう一度",
+      "backendError": "バックエンドに接続できませんでした。もう一度お試しください。",
+      "placeholder": "回答を入力…"
+    },
+    "tutor": {
+      "title": "チューターに質問",
+      "placeholder": "ここで何か分からない？自分の言葉で質問してください…",
+      "thinking": "考え中…",
+      "ask": "質問",
+      "error": "チューターのリクエストが失敗しました。設定 → AI を確認して再試行してください。",
+      "footer": "{{source}} · このレッスンに基づく · 教育目的のみ、金融助言ではありません"
+    },
+    "lesson": {
+      "number": "レッスン {{order}}",
+      "completed": "完了",
+      "concept": "概念",
+      "keyTerms": "重要用語",
+      "commonMistakes": "よくある間違い",
+      "takeFurther": "さらに進める",
+      "openMissions": "ミッションを開く",
+      "tryLive": "ライブで試す",
+      "openScreen": "{{screen}}を開く"
     }
   },
   "nav": {
