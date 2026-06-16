@@ -121,6 +121,52 @@
       "feesSlippage": "费用/滑点"
     }
   },
+  "portfolio": {
+    "title": "投资组合",
+    "tagline": "模拟环境 · 在收盘K线成交与离场 · 绝非投资建议。",
+    "aiTitle": "组合解读",
+    "tiles": {
+      "balance": "余额",
+      "balanceHelper": "{{count}} 个未平仓",
+      "buyingPower": "购买力",
+      "buyingPowerHelper": "可用于建仓",
+      "realizedPnl": "已实现盈亏",
+      "realizedPnlHelper": "自创建以来",
+      "openPositions": "未平仓",
+      "openPositionsHelper": "模拟环境"
+    },
+    "tabs": {
+      "positions": "持仓",
+      "orders": "活动订单",
+      "history": "历史"
+    },
+    "notice": {
+      "closed": "{{symbol}} 已按最新市场价平仓。",
+      "closeFailed": "平仓失败。",
+      "cancelFailed": "取消失败。"
+    },
+    "positions": {
+      "empty": "无未平仓。成交会显示在此；止损与目标会自动平仓。",
+      "scaleOut": "减仓：按最新收盘价平掉一半仓位",
+      "closeHalf": "平 ½",
+      "close": "平仓"
+    },
+    "orders": {
+      "empty": "无活动订单。限价与止损入场单在此等待价格触及、按有效期到期或被取消。",
+      "submitted": "提交于 {{time}}",
+      "cancel": "取消"
+    },
+    "history": {
+      "empty": "尚无已平仓交易。每次离场——止损、目标、跟踪或手动——都会在此记录其已实现盈亏与R倍数。",
+      "summary": "{{count}} 笔已平 · {{winners}} 笔盈利 · 净额"
+    },
+    "exitKind": {
+      "target": "目标",
+      "stop": "止损",
+      "trailing": "跟踪",
+      "manual": "手动"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

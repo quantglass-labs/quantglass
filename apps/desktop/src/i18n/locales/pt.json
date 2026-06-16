@@ -121,6 +121,52 @@
       "feesSlippage": "Taxas/slippage"
     }
   },
+  "portfolio": {
+    "title": "Carteira",
+    "tagline": "Ambiente em papel · execuções e saídas em velas fechadas · nunca aconselhamento financeiro.",
+    "aiTitle": "Leitura da carteira",
+    "tiles": {
+      "balance": "Saldo",
+      "balanceHelper": "{{count}} posições abertas",
+      "buyingPower": "Poder de compra",
+      "buyingPowerHelper": "Disponível para alocar",
+      "realizedPnl": "P&L realizado",
+      "realizedPnlHelper": "Desde o início",
+      "openPositions": "Posições abertas",
+      "openPositionsHelper": "Ambiente em papel"
+    },
+    "tabs": {
+      "positions": "Posições",
+      "orders": "Ordens ativas",
+      "history": "Histórico"
+    },
+    "notice": {
+      "closed": "{{symbol}} encerrada ao último preço de mercado.",
+      "closeFailed": "Falha ao encerrar.",
+      "cancelFailed": "Falha ao cancelar."
+    },
+    "positions": {
+      "empty": "Sem posições abertas. As execuções aparecem aqui; stops e alvos as encerram automaticamente.",
+      "scaleOut": "Reduzir: encerrar metade da posição ao último preço fechado",
+      "closeHalf": "Encerrar ½",
+      "close": "Encerrar"
+    },
+    "orders": {
+      "empty": "Sem ordens ativas. Entradas limite e stop aguardam aqui até o preço alcançá-las, expiram pelo prazo de validade ou são canceladas.",
+      "submitted": "enviada {{time}}",
+      "cancel": "Cancelar"
+    },
+    "history": {
+      "empty": "Ainda não há trades encerrados. Cada saída — stop, alvo, trailing ou manual — é registrada aqui com seu P&L realizado e múltiplo R.",
+      "summary": "{{count}} encerrados · {{winners}} vencedores · líquido"
+    },
+    "exitKind": {
+      "target": "alvo",
+      "stop": "stop",
+      "trailing": "trailing",
+      "manual": "manual"
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

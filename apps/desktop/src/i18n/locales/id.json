@@ -121,6 +121,52 @@
       "feesSlippage": "Biaya/slippage"
     }
   },
+  "portfolio": {
+    "title": "Portofolio",
+    "tagline": "Lingkungan kertas · eksekusi dan keluar pada candle tertutup · bukan nasihat keuangan.",
+    "aiTitle": "Pembacaan portofolio",
+    "tiles": {
+      "balance": "Saldo",
+      "balanceHelper": "{{count}} posisi terbuka",
+      "buyingPower": "Daya beli",
+      "buyingPowerHelper": "Tersedia untuk dialokasikan",
+      "realizedPnl": "P&L terealisasi",
+      "realizedPnlHelper": "Sejak awal",
+      "openPositions": "Posisi terbuka",
+      "openPositionsHelper": "Lingkungan kertas"
+    },
+    "tabs": {
+      "positions": "Posisi",
+      "orders": "Order aktif",
+      "history": "Riwayat"
+    },
+    "notice": {
+      "closed": "{{symbol}} ditutup pada harga pasar terakhir.",
+      "closeFailed": "Gagal menutup.",
+      "cancelFailed": "Gagal membatalkan."
+    },
+    "positions": {
+      "empty": "Tidak ada posisi terbuka. Eksekusi muncul di sini; stop dan target menutupnya secara otomatis.",
+      "scaleOut": "Kurangi: tutup separuh posisi pada harga tertutup terakhir",
+      "closeHalf": "Tutup ½",
+      "close": "Tutup"
+    },
+    "orders": {
+      "empty": "Tidak ada order aktif. Entri limit dan stop menunggu di sini hingga harga menyentuhnya, kedaluwarsa sesuai masa berlaku, atau dibatalkan.",
+      "submitted": "diajukan {{time}}",
+      "cancel": "Batal"
+    },
+    "history": {
+      "empty": "Belum ada perdagangan tertutup. Setiap keluar — stop, target, trailing, atau manual — dicatat di sini dengan P&L terealisasi dan kelipatan R.",
+      "summary": "{{count}} ditutup · {{winners}} menang · neto"
+    },
+    "exitKind": {
+      "target": "target",
+      "stop": "stop",
+      "trailing": "trailing",
+      "manual": "manual"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

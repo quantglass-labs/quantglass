@@ -121,6 +121,52 @@
       "feesSlippage": "手数料/スリッページ"
     }
   },
+  "portfolio": {
+    "title": "ポートフォリオ",
+    "tagline": "ペーパー環境 · 約定と決済は確定足で · 投資助言ではありません。",
+    "aiTitle": "ポートフォリオの解説",
+    "tiles": {
+      "balance": "残高",
+      "balanceHelper": "{{count}} 件の建玉",
+      "buyingPower": "買付余力",
+      "buyingPowerHelper": "投入可能",
+      "realizedPnl": "実現損益",
+      "realizedPnlHelper": "開始以来",
+      "openPositions": "建玉",
+      "openPositionsHelper": "ペーパー環境"
+    },
+    "tabs": {
+      "positions": "ポジション",
+      "orders": "有効注文",
+      "history": "履歴"
+    },
+    "notice": {
+      "closed": "{{symbol}} を最新の市場価格で決済しました。",
+      "closeFailed": "決済に失敗しました。",
+      "cancelFailed": "キャンセルに失敗しました。"
+    },
+    "positions": {
+      "empty": "建玉はありません。約定はここに表示され、ストップとターゲットが自動で決済します。",
+      "scaleOut": "分割決済：最新の確定値でポジションの半分を決済",
+      "closeHalf": "½ 決済",
+      "close": "決済"
+    },
+    "orders": {
+      "empty": "有効注文はありません。指値・逆指値のエントリーは価格が到達するまで待機し、有効期限で失効するか、キャンセルされます。",
+      "submitted": "発注 {{time}}",
+      "cancel": "キャンセル"
+    },
+    "history": {
+      "empty": "まだ決済済みトレードはありません。すべての決済（ストップ・ターゲット・トレーリング・手動）が実現損益とR倍数とともにここに記録されます。",
+      "summary": "{{count}} 件決済 · {{winners}} 件勝ち · ネット"
+    },
+    "exitKind": {
+      "target": "ターゲット",
+      "stop": "ストップ",
+      "trailing": "トレーリング",
+      "manual": "手動"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

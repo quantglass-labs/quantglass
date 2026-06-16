@@ -121,6 +121,52 @@
       "feesSlippage": "Gebühren/Slippage"
     }
   },
+  "portfolio": {
+    "title": "Portfolio",
+    "tagline": "Papier-Umgebung · Ausführungen und Ausstiege auf geschlossenen Kerzen · niemals Finanzberatung.",
+    "aiTitle": "Portfolio-Lesart",
+    "tiles": {
+      "balance": "Kontostand",
+      "balanceHelper": "{{count}} offene Positionen",
+      "buyingPower": "Kaufkraft",
+      "buyingPowerHelper": "Verfügbar zum Einsatz",
+      "realizedPnl": "Realisierter G&V",
+      "realizedPnlHelper": "Seit Beginn",
+      "openPositions": "Offene Positionen",
+      "openPositionsHelper": "Papier-Umgebung"
+    },
+    "tabs": {
+      "positions": "Positionen",
+      "orders": "Offene Orders",
+      "history": "Verlauf"
+    },
+    "notice": {
+      "closed": "{{symbol}} zum letzten Marktpreis geschlossen.",
+      "closeFailed": "Schließen fehlgeschlagen.",
+      "cancelFailed": "Stornierung fehlgeschlagen."
+    },
+    "positions": {
+      "empty": "Keine offenen Positionen. Ausführungen erscheinen hier; Stops und Ziele schließen sie automatisch.",
+      "scaleOut": "Teilverkauf: die Hälfte der Position zum letzten geschlossenen Preis schließen",
+      "closeHalf": "½ schließen",
+      "close": "Schließen"
+    },
+    "orders": {
+      "empty": "Keine offenen Orders. Limit- und Stop-Einstiege warten hier, bis der Preis sie erreicht, verfallen nach ihrer Gültigkeit oder werden storniert.",
+      "submitted": "eingereicht {{time}}",
+      "cancel": "Stornieren"
+    },
+    "history": {
+      "empty": "Noch keine geschlossenen Trades. Jeder Ausstieg – Stop, Ziel, Trailing oder manuell – wird hier mit realisiertem G&V und R-Vielfachen erfasst.",
+      "summary": "{{count}} geschlossen · {{winners}} Gewinner · netto"
+    },
+    "exitKind": {
+      "target": "Ziel",
+      "stop": "Stop",
+      "trailing": "Trailing",
+      "manual": "manuell"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

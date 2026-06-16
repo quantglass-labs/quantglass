@@ -121,6 +121,52 @@
       "feesSlippage": "Ücretler/kayma"
     }
   },
+  "portfolio": {
+    "title": "Portföy",
+    "tagline": "Kâğıt ortamı · kapanmış mumlarda dolum ve çıkış · asla yatırım tavsiyesi değildir.",
+    "aiTitle": "Portföy okuması",
+    "tiles": {
+      "balance": "Bakiye",
+      "balanceHelper": "{{count}} açık pozisyon",
+      "buyingPower": "Alım gücü",
+      "buyingPowerHelper": "Kullanıma hazır",
+      "realizedPnl": "Gerçekleşen K/Z",
+      "realizedPnlHelper": "Başlangıçtan beri",
+      "openPositions": "Açık pozisyonlar",
+      "openPositionsHelper": "Kâğıt ortamı"
+    },
+    "tabs": {
+      "positions": "Pozisyonlar",
+      "orders": "Aktif emirler",
+      "history": "Geçmiş"
+    },
+    "notice": {
+      "closed": "{{symbol}} en son piyasa fiyatından kapatıldı.",
+      "closeFailed": "Kapatma başarısız.",
+      "cancelFailed": "İptal başarısız."
+    },
+    "positions": {
+      "empty": "Açık pozisyon yok. Dolumlar burada görünür; stoplar ve hedefler bunları otomatik kapatır.",
+      "scaleOut": "Kademeli çıkış: pozisyonun yarısını en son kapanış fiyatından kapat",
+      "closeHalf": "½ kapat",
+      "close": "Kapat"
+    },
+    "orders": {
+      "empty": "Aktif emir yok. Limit ve stop girişleri fiyat onlara ulaşana kadar burada bekler, geçerlilik süresiyle sona erer veya iptal edilir.",
+      "submitted": "gönderildi {{time}}",
+      "cancel": "İptal"
+    },
+    "history": {
+      "empty": "Henüz kapatılmış işlem yok. Her çıkış — stop, hedef, takip eden ya da manuel — gerçekleşen K/Z ve R katı ile burada kaydedilir.",
+      "summary": "{{count}} kapatıldı · {{winners}} kazançlı · net"
+    },
+    "exitKind": {
+      "target": "hedef",
+      "stop": "stop",
+      "trailing": "takip eden",
+      "manual": "manuel"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

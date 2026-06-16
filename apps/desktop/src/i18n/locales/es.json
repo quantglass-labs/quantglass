@@ -121,6 +121,52 @@
       "feesSlippage": "Comisiones/deslizamiento"
     }
   },
+  "portfolio": {
+    "title": "Cartera",
+    "tagline": "Entorno en papel · ejecuciones y salidas en velas cerradas · nunca asesoramiento financiero.",
+    "aiTitle": "Lectura de la cartera",
+    "tiles": {
+      "balance": "Saldo",
+      "balanceHelper": "{{count}} posiciones abiertas",
+      "buyingPower": "Poder de compra",
+      "buyingPowerHelper": "Disponible para desplegar",
+      "realizedPnl": "P&L realizado",
+      "realizedPnlHelper": "Desde el inicio",
+      "openPositions": "Posiciones abiertas",
+      "openPositionsHelper": "Entorno en papel"
+    },
+    "tabs": {
+      "positions": "Posiciones",
+      "orders": "Órdenes activas",
+      "history": "Historial"
+    },
+    "notice": {
+      "closed": "{{symbol}} cerrada al último precio de mercado.",
+      "closeFailed": "Cierre fallido.",
+      "cancelFailed": "Cancelación fallida."
+    },
+    "positions": {
+      "empty": "Sin posiciones abiertas. Las ejecuciones aparecen aquí; los stops y objetivos las cierran automáticamente.",
+      "scaleOut": "Reducir: cerrar la mitad de la posición al último precio cerrado",
+      "closeHalf": "Cerrar ½",
+      "close": "Cerrar"
+    },
+    "orders": {
+      "empty": "Sin órdenes activas. Las entradas límite y stop esperan aquí hasta que el precio las alcance, expiran por su vigencia o se cancelan.",
+      "submitted": "enviada {{time}}",
+      "cancel": "Cancelar"
+    },
+    "history": {
+      "empty": "Aún no hay operaciones cerradas. Cada salida —stop, objetivo, trailing o manual— se registra aquí con su P&L realizado y su múltiplo R.",
+      "summary": "{{count}} cerradas · {{winners}} ganadoras · neto"
+    },
+    "exitKind": {
+      "target": "objetivo",
+      "stop": "stop",
+      "trailing": "trailing",
+      "manual": "manual"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",

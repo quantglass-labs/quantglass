@@ -9,6 +9,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Briefcase } from 'lucide-react';
 
@@ -27,17 +28,12 @@ import type {
 const TABS = ['positions', 'orders', 'history'] as const;
 type Tab = (typeof TABS)[number];
 
-const TAB_LABELS: Record<Tab, string> = {
-  positions: 'Positions',
-  orders: 'Working orders',
-  history: 'History',
-};
-
 function money(value: number): string {
   return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' });
 }
 
 export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [tab, setTab] = useState<Tab>('positions');
   const [account, setAccount] = useState<PaperAccount | null>(null);
   const [orders, setOrders] = useState<PaperTradeIntentRecord[]>([]);
@@ -67,10 +63,10 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
   const closePosition = async (symbolId: string, quantity?: number) => {
     try {
       await backendClient.closePaperPosition(symbolId, quantity);
-      setNotice(`${symbolId} closed at the latest market price.`);
+      setNotice(t('portfolio.notice.closed', { symbol: symbolId }));
       refresh();
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Close failed.');
+      setNotice(error instanceof Error ? error.message : t('portfolio.notice.closeFailed'));
     }
   };
 
@@ -79,7 +75,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       await backendClient.cancelPaperTrade(intentId);
       refresh();
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Cancel failed.');
+      setNotice(error instanceof Error ? error.message : t('portfolio.notice.cancelFailed'));
     }
   };
 
@@ -90,35 +86,40 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
     <div className="mx-auto max-w-5xl">
       <div className="flex items-center gap-2">
         <Briefcase size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">Portfolio</h1>
-        <span className="ml-auto text-xs text-zinc-600">
-          Paper venue · fills and exits on closed candles · never financial advice.
-        </span>
+        <h1 className="text-lg font-semibold text-zinc-100">{t('portfolio.title')}</h1>
+        <span className="ml-auto text-xs text-zinc-600">{t('portfolio.tagline')}</span>
       </div>
 
       <BackendStatusNotice status={backendStatus} />
-      <AiInsight surface="portfolio" title="Portfolio read" />
+      <AiInsight surface="portfolio" title={t('portfolio.aiTitle')} />
 
       {account ? (
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <MetricTile
-            label="Balance"
+            label={t('portfolio.tiles.balance')}
             hero
-            helper={`${account.openPositions.length} open positions`}
+            helper={t('portfolio.tiles.balanceHelper', { count: account.openPositions.length })}
           >
             <CountUp value={account.balance} format={(n) => money(n)} />
           </MetricTile>
-          <MetricTile label="Buying power" helper="Available to deploy">
+          <MetricTile
+            label={t('portfolio.tiles.buyingPower')}
+            helper={t('portfolio.tiles.buyingPowerHelper')}
+          >
             <CountUp value={account.buyingPower} format={(n) => money(n)} />
           </MetricTile>
           <MetricTile
-            label="Realized P&L"
+            label={t('portfolio.tiles.realizedPnl')}
             toneClass={account.realizedPnl >= 0 ? 'text-buy' : 'text-sell'}
-            helper="Since inception"
+            helper={t('portfolio.tiles.realizedPnlHelper')}
           >
             <CountUp value={account.realizedPnl} format={(n) => money(n)} />
           </MetricTile>
-          <MetricTile label="Open positions" toneClass="text-watch" helper="Paper venue">
+          <MetricTile
+            label={t('portfolio.tiles.openPositions')}
+            toneClass="text-watch"
+            helper={t('portfolio.tiles.openPositionsHelper')}
+          >
             <CountUp value={account.openPositions.length} format={(n) => String(Math.round(n))} />
           </MetricTile>
         </div>
@@ -142,7 +143,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 : 'border-zinc-700 text-zinc-500 hover:text-zinc-300'
             }`}
           >
-            {TAB_LABELS[entry]}
+            {t(`portfolio.tabs.${entry}`)}
             {entry === 'orders' && orders.length ? ` (${orders.length})` : ''}
           </button>
         ))}
@@ -152,7 +153,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
         <div className="mt-4 space-y-2">
           {!account?.openPositions.length ? (
             <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
-              No open positions. Fills land here; stops and targets exit them automatically.
+              {t('portfolio.positions.empty')}
             </p>
           ) : (
             account.openPositions.map((position) => (
@@ -177,11 +178,11 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 {position.quantity > 1 ? (
                   <button
                     type="button"
-                    title="Scale out: close half the position at the latest closed price"
+                    title={t('portfolio.positions.scaleOut')}
                     onClick={() => void closePosition(position.symbolId, position.quantity / 2)}
                     className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:border-amber-500/50 hover:text-amber-300"
                   >
-                    Close ½
+                    {t('portfolio.positions.closeHalf')}
                   </button>
                 ) : null}
                 <button
@@ -189,7 +190,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                   onClick={() => void closePosition(position.symbolId)}
                   className="rounded-full border border-zinc-700 px-4 py-1.5 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
                 >
-                  Close
+                  {t('portfolio.positions.close')}
                 </button>
               </div>
             ))
@@ -201,8 +202,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
         <div className="mt-4 space-y-2">
           {!orders.length ? (
             <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
-              No working orders. Limit and stop entries wait here until price reaches them, expire
-              by their time-in-force, or are cancelled.
+              {t('portfolio.orders.empty')}
             </p>
           ) : (
             orders.map((order) => (
@@ -213,7 +213,8 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 <div>
                   <p className="font-semibold text-zinc-100">{order.symbol}</p>
                   <p className="text-xs text-zinc-500">
-                    {order.side} {order.quantity} · submitted {order.submittedAt.slice(0, 16)}
+                    {order.side} {order.quantity} ·{' '}
+                    {t('portfolio.orders.submitted', { time: order.submittedAt.slice(0, 16) })}
                   </p>
                 </div>
                 <button
@@ -221,7 +222,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                   onClick={() => void cancelOrder(order.id)}
                   className="ml-auto rounded-full border border-zinc-700 px-4 py-1.5 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
                 >
-                  Cancel
+                  {t('portfolio.orders.cancel')}
                 </button>
               </div>
             ))
@@ -235,13 +236,12 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
             <div className="h-24 animate-pulse rounded-xl bg-zinc-800/60" aria-busy="true" />
           ) : !closures.length ? (
             <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
-              No closed trades yet. Every exit — stop, target, trailing, or manual — is recorded
-              here with its realized P&L and R multiple.
+              {t('portfolio.history.empty')}
             </p>
           ) : (
             <>
               <p className="mb-3 text-sm text-zinc-400">
-                {closures.length} closed · {winners} winners · net{' '}
+                {t('portfolio.history.summary', { count: closures.length, winners })}{' '}
                 <span className={realizedTotal >= 0 ? 'text-emerald-300' : 'text-rose-300'}>
                   {money(realizedTotal)}
                 </span>
@@ -266,7 +266,9 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                             : 'border-zinc-600 text-zinc-400'
                       }`}
                     >
-                      {closure.exitKind}
+                      {t(`portfolio.exitKind.${closure.exitKind}`, {
+                        defaultValue: closure.exitKind,
+                      })}
                     </span>
                     <span
                       className={`ml-auto font-semibold ${

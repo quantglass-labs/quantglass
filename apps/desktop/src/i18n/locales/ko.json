@@ -121,6 +121,52 @@
       "feesSlippage": "수수료/슬리피지"
     }
   },
+  "portfolio": {
+    "title": "포트폴리오",
+    "tagline": "모의 환경 · 마감 캔들에서 체결 및 청산 · 결코 투자 자문이 아닙니다.",
+    "aiTitle": "포트폴리오 읽기",
+    "tiles": {
+      "balance": "잔고",
+      "balanceHelper": "미결제 {{count}}건",
+      "buyingPower": "매수 여력",
+      "buyingPowerHelper": "투입 가능",
+      "realizedPnl": "실현 손익",
+      "realizedPnlHelper": "개시 이후",
+      "openPositions": "미결제 포지션",
+      "openPositionsHelper": "모의 환경"
+    },
+    "tabs": {
+      "positions": "포지션",
+      "orders": "활성 주문",
+      "history": "내역"
+    },
+    "notice": {
+      "closed": "{{symbol}}을(를) 최신 시장가로 청산했습니다.",
+      "closeFailed": "청산 실패.",
+      "cancelFailed": "취소 실패."
+    },
+    "positions": {
+      "empty": "미결제 포지션이 없습니다. 체결이 여기에 표시되며 스톱과 목표가가 자동으로 청산합니다.",
+      "scaleOut": "분할 청산: 최신 마감가로 포지션 절반 청산",
+      "closeHalf": "½ 청산",
+      "close": "청산"
+    },
+    "orders": {
+      "empty": "활성 주문이 없습니다. 지정가 및 스톱 진입은 가격이 도달할 때까지 대기하고, 유효기간으로 만료되거나 취소됩니다.",
+      "submitted": "제출됨 {{time}}",
+      "cancel": "취소"
+    },
+    "history": {
+      "empty": "아직 청산된 거래가 없습니다. 모든 청산(스톱·목표·트레일링·수동)이 실현 손익과 R 배수와 함께 여기에 기록됩니다.",
+      "summary": "{{count}}건 청산 · {{winners}}건 수익 · 순"
+    },
+    "exitKind": {
+      "target": "목표",
+      "stop": "스톱",
+      "trailing": "트레일링",
+      "manual": "수동"
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",
