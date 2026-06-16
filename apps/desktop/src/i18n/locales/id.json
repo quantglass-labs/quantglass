@@ -398,6 +398,158 @@
     },
     "footer": "Menyelesaikan misi membuka level Academy. Paket komunitas dapat menambahkan lebih banyak melalui SDK ekstensi. Hanya untuk tujuan edukasi — bukan nasihat keuangan."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "Validasi yang jujur secara statistik",
+    "description": "Pemilih strategi, input model biaya, metrik in-sample vs out-of-sample, dan peringatan sampel kecil. Perubahan parameter menjalankan ulang mesin kuant backend pada candle koridor tersimpan.",
+    "runFailed": "Jalankan ulang backend gagal — jika data baru saja diserap, coba lagi dalam beberapa detik.",
+    "defaultRunMessage": "Perubahan parameter dijalankan ulang di backend dan memperbarui metrik di bawah.",
+    "status": {
+      "running": "Menjalankan backtest backend dengan model biaya dan pembagian validasi saat ini.",
+      "synced": "Metrik di bawah disinkronkan dari mesin kuant backend menggunakan candle koridor tersimpan.",
+      "noCandles": "Tidak ada candle {{timeframe}} tersimpan untuk {{symbol}} — simbol ini punya data {{available}}. Pilih salah satu kerangka waktu itu dan jalankan ulang."
+    },
+    "chips": {
+      "pastDataOnly": "Hanya data lampau",
+      "notAPrediction": "Bukan prediksi",
+      "costsIncluded": "Biaya termasuk",
+      "outOfSampleRequired": "Out-of-sample wajib"
+    },
+    "howTo": {
+      "title": "Cara kerjanya",
+      "show": "Tampilkan",
+      "hide": "Sembunyikan",
+      "intro": "Ia memutar ulang aturan entry/stop/target persis satu setup pada candle yang tersimpan di mesin ini dan melaporkan bagaimana setup itu akan berdagang — win rate, ekspektasi dalam R, ekuitas dan drawdown — dengan biaya dan slippage dikenakan pada setiap putaran. Ia memvalidasi dengan jujur: sampel dibagi secara kronologis menjadi train/test sehingga angka utama harus bertahan pada data yang belum pernah dilihat aturan, dan setiap eksekusi mendapat bengkel di bawah — skenario stres biaya, drawdown Monte Carlo, gate bias, dan tinjauan riset AI.",
+      "step1": "Pilih preset — preset dihasilkan dari sinyal langsung mesin (satu per simbol/setup yang sedang dideteksi mesin) ditambah apa pun yang Anda simpan sebelumnya.",
+      "step2": "Sesuaikan biaya, slippage, dan pembagian train/test; eksekusi langsung berjalan ulang.",
+      "step3": "Baca baris out-of-sample dan bengkel sebelum memercayai hal lain.",
+      "step4Save": "Simpan strategi",
+      "step4Suffix": "menyimpannya di Pengaturan → Strategi untuk dijalankan ulang nanti.",
+      "footer": "Backtest adalah bukti tentang masa lalu, tidak pernah janji tentang masa depan. Jalur Academy yang sesuai (Backtesting & Kejujuran Statistik) mengajarkan setiap angka di layar ini."
+    },
+    "selector": {
+      "title": "Pemilih strategi / setup",
+      "waitingForData": "Menunggu data pasar…",
+      "detectedSignals": "Sinyal terdeteksi",
+      "savedStrategies": "Strategi tersimpan",
+      "demo": "Demo",
+      "presetsHint": "Preset sinyal terdeteksi muncul otomatis setelah mesin menghasilkan sinyal dari data pasar tersimpan. Strategi tersimpan dan demo selalu tersedia di atas.",
+      "composeYourOwn": "Atau susun milik Anda",
+      "composeHint": "Strategi di sini = simbol × keluarga setup × kerangka waktu × biaya × validasi. Aturan entry/stop/target tiap keluarga adalah kode mesin yang dipublikasikan dan di-backtest (diajarkan di Belajar); keluarga aturan baru berasal dari ekstensi — tidak pernah dari kotak teks bebas yang tidak bisa diuji.",
+      "symbolAria": "Simbol",
+      "symbolPlaceholder": "Simbol…",
+      "setupFamilyAria": "Keluarga setup",
+      "timeframeAria": "Kerangka waktu",
+      "storedCandles": "{{symbol}} memiliki candle tersimpan untuk: {{timeframes}}",
+      "useCombination": "Gunakan kombinasi ini"
+    },
+    "costs": {
+      "fees": "Biaya %",
+      "slippage": "Slippage %",
+      "split": "Pembagian train / test",
+      "splitLabel": "{{train}}% train / {{test}}% test",
+      "walkForward": "Analisis walk-forward",
+      "enabled": "Aktif",
+      "disabled": "Nonaktif"
+    },
+    "prefill": {
+      "source": "Sumber pra-isi",
+      "unavailable": "Tidak tersedia",
+      "line": "Simbol: {{symbol}} · Setup: {{setup}} · Kerangka waktu: {{timeframe}}",
+      "strategySource": "Sumber strategi: {{name}} ({{source}})",
+      "builtIn": "bawaan",
+      "liveBacking": "Dukungan koridor pasar langsung tersedia untuk {{symbol}} {{timeframe}} via {{provider}}, terakhir diperbarui {{time}} UTC."
+    },
+    "saveStrategy": "Simpan strategi",
+    "running": "Menjalankan…",
+    "runBacktest": "Jalankan backtest",
+    "readiness": {
+      "title": "Kesiapan backtest",
+      "strategySelected": "Strategi dipilih",
+      "marketDataStored": "Data pasar tersimpan untuk simbol",
+      "costsConfigured": "Biaya dikonfigurasi",
+      "splitSet": "Pembagian train/test diatur",
+      "walkForwardEnabled": "Walk-forward aktif"
+    },
+    "empty": {
+      "title": "Mulai backtest jujur secara statistik pertama Anda",
+      "description": "Pilih sumber strategi, konfirmasi biaya dan pembagian train/test, lalu jalankan untuk melihat ekuitas, drawdown, metrik out-of-sample, Monte Carlo, dan tinjauan AI.",
+      "useLatestSignal": "Gunakan sinyal terdeteksi terbaru",
+      "tryDemo": "Coba strategi demo",
+      "loadSaved": "Muat strategi tersimpan",
+      "appearsAfterRun": "muncul setelah eksekusi",
+      "demoNote": "Demo menjalankan aturan trend-pullback bawaan pada data pasar tersimpan — sampel edukatif, bukan sinyal langsung.",
+      "preview": {
+        "equityCurve": "Kurva ekuitas",
+        "drawdown": "Drawdown",
+        "winRateExpectancy": "Win rate & ekspektasi",
+        "trainTestComparison": "Perbandingan train/test",
+        "costStressTable": "Tabel stres biaya",
+        "monteCarloDrawdowns": "Drawdown Monte Carlo",
+        "biasQualityGates": "Gate bias & kualitas",
+        "aiResearchReview": "Tinjauan riset AI"
+      }
+    },
+    "error": {
+      "title": "Hasil backtest tidak tersedia",
+      "description": "Hasil backtest tidak dapat dimuat."
+    },
+    "charts": {
+      "equityCurve": "Kurva ekuitas",
+      "drawdownCurve": "Kurva drawdown"
+    },
+    "tiles": {
+      "netWinRate": "Win rate bersih",
+      "averageR": "R rata-rata",
+      "averageRHelper": "Bersih dari biaya + slippage",
+      "expectancy": "Ekspektasi",
+      "expectancyHelper": "Per perdagangan dalam istilah R",
+      "maxDrawdown": "Drawdown maksimum",
+      "maxDrawdownHelper": "Puncak-ke-lembah ekuitas terburuk",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Imbal hasil disesuaikan risiko",
+      "sortino": "Sortino",
+      "sortinoHelper": "Imbal hasil disesuaikan penurunan",
+      "profitFactor": "Profit factor",
+      "profitFactorHelper": "Laba kotor / rugi kotor",
+      "tradeCount": "Jumlah perdagangan",
+      "tradeCountHelper": "Jumlah perdagangan out-of-sample · ambang {{threshold}}"
+    },
+    "inOut": {
+      "title": "In-sample vs out-of-sample",
+      "inSampleWinRate": "Win rate in-sample",
+      "trainingSegment": "Segmen pelatihan",
+      "outOfSampleWinRate": "Win rate out-of-sample",
+      "heldOutValidation": "Validasi tertahan",
+      "overfittingWarning": "Peringatan risiko overfitting: win rate out-of-sample tertinggal dari in-sample sebesar {{gap}} poin persentase.",
+      "noOverfitting": "Kinerja in-sample dan out-of-sample tetap cukup dekat untuk menghindari peringatan overfitting."
+    },
+    "sample": {
+      "lowWarningTitle": "Peringatan sampel kecil",
+      "lowWarningBody": "Setup ini memiliki kurang dari {{threshold}} perdagangan, jadi statistik validasi harus diperlakukan sebagai tidak stabil.",
+      "aboveThreshold": "Ukuran sampel di atas ambang backtest minimum yang dikonfigurasi sebesar {{threshold}} perdagangan.",
+      "refreshing": "Menyegarkan eksekusi backend…",
+      "rerunUnavailable": "Jalankan ulang backend tidak tersedia"
+    },
+    "workbench": {
+      "aiResearchReview": "Tinjauan riset AI",
+      "overfitRisk": "Risiko overfit:",
+      "nextAction": "Tindakan berikutnya:",
+      "liveReadiness": "Kesiapan live:",
+      "costStressScenarios": "Skenario stres biaya",
+      "scenario": "Skenario",
+      "expectancy": "Ekspektasi",
+      "winRate": "Win rate",
+      "pf": "PF",
+      "costStressNote": "Simulasi sama, biaya lebih buruk. Keunggulan yang mati pada 2x slippage tidak pernah jadi keunggulan.",
+      "monteCarloTitle": "Drawdown Monte Carlo (out-of-sample)",
+      "medianMaxDrawdown": "Median drawdown maksimum",
+      "p95Drawdown": "Drawdown persentil ke-95",
+      "mcRunsLine": "{{runs}} pengambilan sampel ulang dari {{sample}} perdagangan OOS. {{caveat}}",
+      "biasGates": "Gate bias & kualitas",
+      "experimentLine": "eksperimen {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

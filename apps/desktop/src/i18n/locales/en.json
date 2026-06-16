@@ -395,6 +395,158 @@
     },
     "footer": "Completing missions unlocks Academy levels. Community packs can add more via the extension SDK. Educational use only — not financial advice."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "Statistically honest validation",
+    "description": "Strategy selector, cost model inputs, in-sample vs out-of-sample metrics, and low-sample warnings. Parameter changes rerun the backend quant engine against stored corridor candles.",
+    "runFailed": "The backend rerun failed - if data was just ingested, retry in a few seconds.",
+    "defaultRunMessage": "Parameter changes rerun against the backend and update the metrics below.",
+    "status": {
+      "running": "Running backend backtest with the current cost model and validation split.",
+      "synced": "Metrics below are synced from the backend quant engine using stored corridor candles.",
+      "noCandles": "No stored {{timeframe}} candles for {{symbol}} — this symbol has {{available}} data. Pick one of those timeframes and rerun."
+    },
+    "chips": {
+      "pastDataOnly": "Past data only",
+      "notAPrediction": "Not a prediction",
+      "costsIncluded": "Costs included",
+      "outOfSampleRequired": "Out-of-sample required"
+    },
+    "howTo": {
+      "title": "How this works",
+      "show": "Show",
+      "hide": "Hide",
+      "intro": "It replays one setup's exact entry/stop/target rules over the candles stored on this machine and reports how that setup would have traded — win rate, expectancy in R, equity and drawdown — with fees and slippage charged on every round trip. It validates honestly: the sample is split chronologically into train/test so the headline numbers must survive data the rules never saw, and every run gets the workbench below — cost-stress scenarios, Monte Carlo drawdowns, bias gates, and the AI research review.",
+      "step1": "Pick a preset — presets are generated from the engine's live signals (one per symbol/setup the engine currently detects) plus anything you saved earlier.",
+      "step2": "Adjust fees, slippage, and the train/test split; the run re-executes instantly.",
+      "step3": "Read the out-of-sample row and the workbench before trusting anything else.",
+      "step4Save": "Save strategy",
+      "step4Suffix": "stores it under Settings → Strategies for re-running later.",
+      "footer": "A backtest is evidence about the past, never a promise about the future. The matching Academy track (Backtesting & Statistical Honesty) teaches every number on this screen."
+    },
+    "selector": {
+      "title": "Strategy / setup selector",
+      "waitingForData": "Waiting for market data…",
+      "detectedSignals": "Detected signals",
+      "savedStrategies": "Saved strategies",
+      "demo": "Demo",
+      "presetsHint": "Detected-signal presets appear automatically once the engine has generated signals from stored market data. Saved strategies and the demo are always available above.",
+      "composeYourOwn": "Or compose your own",
+      "composeHint": "A strategy here = symbol × setup family × timeframe × costs × validation. Each family's entry/stop/target rules are the engine's published, backtested code (taught in Learn); new rule families come from extensions — never from a free-text box that can't be tested.",
+      "symbolAria": "Symbol",
+      "symbolPlaceholder": "Symbol…",
+      "setupFamilyAria": "Setup family",
+      "timeframeAria": "Timeframe",
+      "storedCandles": "{{symbol}} has stored candles for: {{timeframes}}",
+      "useCombination": "Use this combination"
+    },
+    "costs": {
+      "fees": "Fees %",
+      "slippage": "Slippage %",
+      "split": "Train / test split",
+      "splitLabel": "{{train}}% train / {{test}}% test",
+      "walkForward": "Walk-forward analysis",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    },
+    "prefill": {
+      "source": "Prefill source",
+      "unavailable": "Unavailable",
+      "line": "Symbol: {{symbol}} · Setup: {{setup}} · Timeframe: {{timeframe}}",
+      "strategySource": "Strategy source: {{name}} ({{source}})",
+      "builtIn": "built-in",
+      "liveBacking": "Live market corridor backing is available for {{symbol}} {{timeframe}} via {{provider}}, last updated {{time}} UTC."
+    },
+    "saveStrategy": "Save strategy",
+    "running": "Running…",
+    "runBacktest": "Run backtest",
+    "readiness": {
+      "title": "Backtest readiness",
+      "strategySelected": "Strategy selected",
+      "marketDataStored": "Market data stored for symbol",
+      "costsConfigured": "Costs configured",
+      "splitSet": "Train/test split set",
+      "walkForwardEnabled": "Walk-forward enabled"
+    },
+    "empty": {
+      "title": "Start your first statistically honest backtest",
+      "description": "Choose a strategy source, confirm costs and the train/test split, then run it to see equity, drawdown, out-of-sample metrics, Monte Carlo, and the AI review.",
+      "useLatestSignal": "Use latest detected signal",
+      "tryDemo": "Try demo strategy",
+      "loadSaved": "Load saved strategy",
+      "appearsAfterRun": "appears after a run",
+      "demoNote": "The demo runs the built-in trend-pullback rules on stored market data — an educational sample, not a live signal.",
+      "preview": {
+        "equityCurve": "Equity curve",
+        "drawdown": "Drawdown",
+        "winRateExpectancy": "Win rate & expectancy",
+        "trainTestComparison": "Train/test comparison",
+        "costStressTable": "Cost stress table",
+        "monteCarloDrawdowns": "Monte Carlo drawdowns",
+        "biasQualityGates": "Bias & quality gates",
+        "aiResearchReview": "AI research review"
+      }
+    },
+    "error": {
+      "title": "Backtest results unavailable",
+      "description": "The backtest results could not be loaded."
+    },
+    "charts": {
+      "equityCurve": "Equity curve",
+      "drawdownCurve": "Drawdown curve"
+    },
+    "tiles": {
+      "netWinRate": "Net win rate",
+      "averageR": "Average R",
+      "averageRHelper": "Net of fees + slippage",
+      "expectancy": "Expectancy",
+      "expectancyHelper": "Per trade in R terms",
+      "maxDrawdown": "Max drawdown",
+      "maxDrawdownHelper": "Worst equity peak-to-trough",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Risk-adjusted return",
+      "sortino": "Sortino",
+      "sortinoHelper": "Downside-adjusted return",
+      "profitFactor": "Profit factor",
+      "profitFactorHelper": "Gross wins / gross losses",
+      "tradeCount": "Trade count",
+      "tradeCountHelper": "Out-of-sample trade count · threshold {{threshold}}"
+    },
+    "inOut": {
+      "title": "In-sample vs out-of-sample",
+      "inSampleWinRate": "In-sample win rate",
+      "trainingSegment": "Training segment",
+      "outOfSampleWinRate": "Out-of-sample win rate",
+      "heldOutValidation": "Held-out validation",
+      "overfittingWarning": "Overfitting risk warning: out-of-sample win rate trails in-sample by {{gap}} percentage points.",
+      "noOverfitting": "In-sample and out-of-sample performance remain close enough to avoid an overfitting warning."
+    },
+    "sample": {
+      "lowWarningTitle": "Low-sample warning",
+      "lowWarningBody": "This setup has fewer than {{threshold}} trades, so the validation statistics should be treated as unstable.",
+      "aboveThreshold": "Sample size is above the configured minimum backtest threshold of {{threshold}} trades.",
+      "refreshing": "Refreshing backend run…",
+      "rerunUnavailable": "Backend rerun unavailable"
+    },
+    "workbench": {
+      "aiResearchReview": "AI research review",
+      "overfitRisk": "Overfit risk:",
+      "nextAction": "Next action:",
+      "liveReadiness": "Live readiness:",
+      "costStressScenarios": "Cost stress scenarios",
+      "scenario": "Scenario",
+      "expectancy": "Expectancy",
+      "winRate": "Win rate",
+      "pf": "PF",
+      "costStressNote": "Same simulation, worse costs. An edge that dies at 2x slippage was never an edge.",
+      "monteCarloTitle": "Monte Carlo drawdowns (out-of-sample)",
+      "medianMaxDrawdown": "Median max drawdown",
+      "p95Drawdown": "95th-percentile drawdown",
+      "mcRunsLine": "{{runs}} resamples of {{sample}} OOS trades. {{caveat}}",
+      "biasGates": "Bias & quality gates",
+      "experimentLine": "experiment {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",
