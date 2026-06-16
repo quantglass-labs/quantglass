@@ -23,6 +23,7 @@ import { useDeferredValue, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { Copilot } from './copilot';
+import { LanguageMenu } from './LanguageMenu';
 import { DisclaimerChip, PillTabs } from './ui';
 import type { BackendStatus, MarketType, SymbolRecord } from '../types';
 
@@ -184,6 +185,7 @@ export function AppShell({
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
+              <LanguageMenu />
               <span
                 className={clsx(
                   'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]',
