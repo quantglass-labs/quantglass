@@ -237,6 +237,57 @@
       "errorDescription": "Mlisho wa ukaguzi wa arifa wa hivi karibuni haukuweza kupakiwa."
     }
   },
+  "review": {
+    "title": "Mapitio",
+    "tagline": "Hupima uamuzi, si matokeo — kisha huandika dawa ya kurekebisha.",
+    "loadError": "Imeshindwa kupakia mapitio. Je, backend inafanya kazi?",
+    "tiles": {
+      "trades7d": "Biashara (siku 7)",
+      "trades7dHelper": "Shughuli za wiki hii",
+      "process7d": "Mchakato (siku 7)",
+      "process7dHelper": "Kiwango kizuri {{bar}}",
+      "tradesAll": "Biashara (zote)",
+      "tradesAllHelper": "Tangu mwanzo",
+      "processAll": "Mchakato (wote)",
+      "processAllHelper": "Wastani wa maisha yote"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Ushindi uliostahili", "hint": "Uamuzi mzuri, matokeo mazuri" },
+      "wellPlayedLoss": {
+        "label": "Hasara iliyochezwa vizuri",
+        "hint": "Uamuzi mzuri, tofauti ilichukua"
+      },
+      "honestTuition": {
+        "label": "Ada ya kujifunza ya kweli",
+        "hint": "Uamuzi mbaya, soko lilikutoza"
+      },
+      "dangerousSuccess": {
+        "label": "Mafanikio hatari",
+        "hint": "Uamuzi mbaya uliotuzwa — robo mbaya zaidi"
+      }
+    },
+    "coachNote": "Dokezo la kocha",
+    "whatKeepsHappening": "Kinachoendelea kutokea",
+    "noMistakes": "Hakuna makosa yanayojirudia yaliyogunduliwa. Weka jarida kuwa la kweli na mfululizo hai.",
+    "seenOn": "Imeonekana kwenye {{symbols}}",
+    "trainTheFix": "Fundisha urekebishaji:",
+    "missionLabel": "Misheni: {{name}}",
+    "footer": "Vipimo vya kielimu juu ya biashara yako ya karatasi — kamwe si ushauri wa kifedha.",
+    "constitution": {
+      "title": "Katiba ya biashara",
+      "adopted": "Imepitishwa — tikiti huitekeleza",
+      "notAdopted": "Bado haijapitishwa — andika sheria zako, kisha uzizingatie.",
+      "maxRisk": "Hatari ya juu kwa kila biashara (%)",
+      "maxTrades": "Biashara za juu kwa siku",
+      "requireStop": "Kila biashara ina stop",
+      "requireReason": "Kila biashara ina sababu iliyoandikwa",
+      "amend": "Rekebisha katiba",
+      "adopt": "Pitisha katiba",
+      "tradesUsed": "Biashara {{used}} / {{max}} zimetumika leo",
+      "clean": "safi",
+      "violations": "Biashara {{count}} kati ya {{total}} zilivunja hili"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

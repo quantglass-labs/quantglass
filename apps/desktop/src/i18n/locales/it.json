@@ -237,6 +237,57 @@
       "errorDescription": "Il feed di audit recente degli avvisi non può essere caricato."
     }
   },
+  "review": {
+    "title": "Revisione",
+    "tagline": "Valuta la decisione, non il risultato — poi prescrive la correzione.",
+    "loadError": "Impossibile caricare la revisione. Il backend è in esecuzione?",
+    "tiles": {
+      "trades7d": "Operazioni (7 giorni)",
+      "trades7dHelper": "Attività di questa settimana",
+      "process7d": "Processo (7 giorni)",
+      "process7dHelper": "Soglia buona {{bar}}",
+      "tradesAll": "Operazioni (totale)",
+      "tradesAllHelper": "Dall'inizio",
+      "processAll": "Processo (totale)",
+      "processAllHelper": "Media a vita"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Vittorie meritate", "hint": "Buona decisione, buon esito" },
+      "wellPlayedLoss": {
+        "label": "Perdite ben giocate",
+        "hint": "Buona decisione, la varianza l'ha presa"
+      },
+      "honestTuition": {
+        "label": "Retta onesta",
+        "hint": "Cattiva decisione, il mercato ti ha addebitato"
+      },
+      "dangerousSuccess": {
+        "label": "Successi pericolosi",
+        "hint": "Cattiva decisione premiata — il quadrante peggiore"
+      }
+    },
+    "coachNote": "Nota del coach",
+    "whatKeepsHappening": "Ciò che continua ad accadere",
+    "noMistakes": "Nessun errore ripetuto rilevato. Mantieni il diario onesto e la serie viva.",
+    "seenOn": "Visto su {{symbols}}",
+    "trainTheFix": "Allena la correzione:",
+    "missionLabel": "Missione: {{name}}",
+    "footer": "Strumentazione educativa sul tuo trading simulato — mai una consulenza finanziaria.",
+    "constitution": {
+      "title": "Costituzione di trading",
+      "adopted": "Adottata — il ticket la applica",
+      "notAdopted": "Non ancora adottata — scrivi le tue regole e poi rispettale.",
+      "maxRisk": "Rischio max. per operazione (%)",
+      "maxTrades": "Max. operazioni al giorno",
+      "requireStop": "Ogni operazione ha uno stop",
+      "requireReason": "Ogni operazione ha una motivazione scritta",
+      "amend": "Modifica costituzione",
+      "adopt": "Adotta costituzione",
+      "tradesUsed": "{{used}} / {{max}} operazioni usate oggi",
+      "clean": "pulito",
+      "violations": "{{count}} di {{total}} operazioni hanno violato questo"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

@@ -237,6 +237,51 @@
       "errorDescription": "최근 알림 감사 피드를 불러오지 못했습니다."
     }
   },
+  "review": {
+    "title": "리뷰",
+    "tagline": "결과가 아닌 결정을 평가하고 — 그다음 해결책을 처방합니다.",
+    "loadError": "리뷰를 불러올 수 없습니다. 백엔드가 실행 중인가요?",
+    "tiles": {
+      "trades7d": "거래 (7일)",
+      "trades7dHelper": "이번 주 활동",
+      "process7d": "프로세스 (7일)",
+      "process7dHelper": "양호 기준 {{bar}}",
+      "tradesAll": "거래 (전체)",
+      "tradesAllHelper": "개시 이후",
+      "processAll": "프로세스 (전체)",
+      "processAllHelper": "전체 평균"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "정당한 승리", "hint": "좋은 결정, 좋은 결과" },
+      "wellPlayedLoss": { "label": "잘 대응한 손실", "hint": "좋은 결정, 분산이 가져감" },
+      "honestTuition": { "label": "정직한 수업료", "hint": "나쁜 결정, 시장이 청구함" },
+      "dangerousSuccess": {
+        "label": "위험한 성공",
+        "hint": "나쁜 결정이 보상받음 — 최악의 사분면"
+      }
+    },
+    "coachNote": "코치 노트",
+    "whatKeepsHappening": "계속 일어나는 일",
+    "noMistakes": "반복된 실수가 감지되지 않았습니다. 저널을 정직하게 유지하고 연속 기록을 이어가세요.",
+    "seenOn": "{{symbols}}에서 발견",
+    "trainTheFix": "해결책 훈련:",
+    "missionLabel": "미션: {{name}}",
+    "footer": "당신의 모의 거래에 대한 교육적 계측 — 결코 투자 자문이 아닙니다.",
+    "constitution": {
+      "title": "트레이딩 헌장",
+      "adopted": "채택됨 — 주문 티켓이 강제 적용",
+      "notAdopted": "아직 미채택 — 규칙을 작성한 뒤 스스로 지키세요.",
+      "maxRisk": "거래당 최대 리스크 (%)",
+      "maxTrades": "하루 최대 거래 수",
+      "requireStop": "모든 거래에 스톱이 있음",
+      "requireReason": "모든 거래에 서면 이유가 있음",
+      "amend": "헌장 수정",
+      "adopt": "헌장 채택",
+      "tradesUsed": "오늘 {{used}} / {{max}} 거래 사용",
+      "clean": "위반 없음",
+      "violations": "{{total}} 거래 중 {{count}} 건이 이를 위반"
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

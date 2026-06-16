@@ -237,6 +237,57 @@
       "errorDescription": "Der jüngste Warnungs-Audit-Feed konnte nicht geladen werden."
     }
   },
+  "review": {
+    "title": "Rückblick",
+    "tagline": "Bewertet die Entscheidung, nicht das Ergebnis — und verschreibt dann die Korrektur.",
+    "loadError": "Der Rückblick konnte nicht geladen werden. Läuft das Backend?",
+    "tiles": {
+      "trades7d": "Trades (7 Tage)",
+      "trades7dHelper": "Aktivität dieser Woche",
+      "process7d": "Prozess (7 Tage)",
+      "process7dHelper": "Gute Schwelle {{bar}}",
+      "tradesAll": "Trades (gesamt)",
+      "tradesAllHelper": "Seit Beginn",
+      "processAll": "Prozess (gesamt)",
+      "processAllHelper": "Lebenszeit-Durchschnitt"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Verdiente Gewinne", "hint": "Gute Entscheidung, gutes Ergebnis" },
+      "wellPlayedLoss": {
+        "label": "Gut gespielte Verluste",
+        "hint": "Gute Entscheidung, die Varianz hat es geholt"
+      },
+      "honestTuition": {
+        "label": "Ehrliches Lehrgeld",
+        "hint": "Schlechte Entscheidung, der Markt hat kassiert"
+      },
+      "dangerousSuccess": {
+        "label": "Gefährliche Erfolge",
+        "hint": "Schlechte Entscheidung belohnt — der schlimmste Quadrant"
+      }
+    },
+    "coachNote": "Notiz des Coaches",
+    "whatKeepsHappening": "Was immer wieder passiert",
+    "noMistakes": "Keine wiederholten Fehler erkannt. Halten Sie das Journal ehrlich und die Serie am Leben.",
+    "seenOn": "Gesehen bei {{symbols}}",
+    "trainTheFix": "Trainieren Sie die Korrektur:",
+    "missionLabel": "Mission: {{name}}",
+    "footer": "Pädagogische Auswertung Ihres eigenen Papier-Tradings — niemals Finanzberatung.",
+    "constitution": {
+      "title": "Trading-Verfassung",
+      "adopted": "Angenommen — das Ticket erzwingt sie",
+      "notAdopted": "Noch nicht angenommen — schreiben Sie Ihre Regeln und halten Sie sich daran.",
+      "maxRisk": "Max. Risiko pro Trade (%)",
+      "maxTrades": "Max. Trades pro Tag",
+      "requireStop": "Jeder Trade hat einen Stop",
+      "requireReason": "Jeder Trade hat eine schriftliche Begründung",
+      "amend": "Verfassung ändern",
+      "adopt": "Verfassung annehmen",
+      "tradesUsed": "{{used}} / {{max}} Trades heute genutzt",
+      "clean": "sauber",
+      "violations": "{{count}} von {{total}} Trades haben dies verletzt"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

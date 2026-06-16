@@ -237,6 +237,54 @@
       "errorDescription": "The recent alert audit feed could not be loaded."
     }
   },
+  "review": {
+    "title": "Review",
+    "tagline": "Grades the decision, not the outcome — then prescribes the fix.",
+    "loadError": "Could not load the review. Is the backend running?",
+    "tiles": {
+      "trades7d": "Trades (7 days)",
+      "trades7dHelper": "This week's activity",
+      "process7d": "Process (7 days)",
+      "process7dHelper": "Good bar {{bar}}",
+      "tradesAll": "Trades (all time)",
+      "tradesAllHelper": "Since inception",
+      "processAll": "Process (all time)",
+      "processAllHelper": "Lifetime average"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Earned wins", "hint": "Good decision, good outcome" },
+      "wellPlayedLoss": {
+        "label": "Well-played losses",
+        "hint": "Good decision, variance took it"
+      },
+      "honestTuition": { "label": "Honest tuition", "hint": "Bad decision, the market billed you" },
+      "dangerousSuccess": {
+        "label": "Dangerous successes",
+        "hint": "Bad decision rewarded — the worst quadrant"
+      }
+    },
+    "coachNote": "Coach's note",
+    "whatKeepsHappening": "What keeps happening",
+    "noMistakes": "No repeated mistakes detected. Keep the journal honest and the streak alive.",
+    "seenOn": "Seen on {{symbols}}",
+    "trainTheFix": "Train the fix:",
+    "missionLabel": "Mission: {{name}}",
+    "footer": "Educational instrumentation over your own paper trading — never financial advice.",
+    "constitution": {
+      "title": "Trading Constitution",
+      "adopted": "Adopted — the ticket enforces it",
+      "notAdopted": "Not adopted yet — write your rules, then hold yourself to them.",
+      "maxRisk": "Max risk per trade (%)",
+      "maxTrades": "Max trades per day",
+      "requireStop": "Every trade has a stop",
+      "requireReason": "Every trade has a written reason",
+      "amend": "Amend constitution",
+      "adopt": "Adopt constitution",
+      "tradesUsed": "{{used}} / {{max}} trades used today",
+      "clean": "clean",
+      "violations": "{{count}} of {{total}} trades broke this"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

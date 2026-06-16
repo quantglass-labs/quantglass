@@ -237,6 +237,57 @@
       "errorDescription": "Không thể tải nguồn kiểm toán cảnh báo gần đây."
     }
   },
+  "review": {
+    "title": "Đánh giá",
+    "tagline": "Chấm điểm quyết định, không phải kết quả — rồi kê đơn cách sửa.",
+    "loadError": "Không thể tải đánh giá. Backend có đang chạy không?",
+    "tiles": {
+      "trades7d": "Giao dịch (7 ngày)",
+      "trades7dHelper": "Hoạt động tuần này",
+      "process7d": "Quy trình (7 ngày)",
+      "process7dHelper": "Ngưỡng tốt {{bar}}",
+      "tradesAll": "Giao dịch (toàn thời gian)",
+      "tradesAllHelper": "Từ khi bắt đầu",
+      "processAll": "Quy trình (toàn thời gian)",
+      "processAllHelper": "Trung bình trọn đời"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Chiến thắng xứng đáng", "hint": "Quyết định tốt, kết quả tốt" },
+      "wellPlayedLoss": {
+        "label": "Thua được chơi tốt",
+        "hint": "Quyết định tốt, phương sai lấy đi"
+      },
+      "honestTuition": {
+        "label": "Học phí trung thực",
+        "hint": "Quyết định tệ, thị trường tính phí bạn"
+      },
+      "dangerousSuccess": {
+        "label": "Thành công nguy hiểm",
+        "hint": "Quyết định tệ được thưởng — góc phần tư tệ nhất"
+      }
+    },
+    "coachNote": "Ghi chú của huấn luyện viên",
+    "whatKeepsHappening": "Điều cứ tái diễn",
+    "noMistakes": "Không phát hiện lỗi lặp lại. Giữ nhật ký trung thực và duy trì chuỗi.",
+    "seenOn": "Thấy trên {{symbols}}",
+    "trainTheFix": "Luyện cách sửa:",
+    "missionLabel": "Nhiệm vụ: {{name}}",
+    "footer": "Đo lường giáo dục trên giao dịch giấy của chính bạn — không bao giờ là lời khuyên tài chính.",
+    "constitution": {
+      "title": "Hiến pháp giao dịch",
+      "adopted": "Đã thông qua — phiếu lệnh thực thi nó",
+      "notAdopted": "Chưa thông qua — viết quy tắc của bạn, rồi tuân theo chúng.",
+      "maxRisk": "Rủi ro tối đa mỗi giao dịch (%)",
+      "maxTrades": "Số giao dịch tối đa mỗi ngày",
+      "requireStop": "Mỗi giao dịch có một điểm dừng",
+      "requireReason": "Mỗi giao dịch có lý do bằng văn bản",
+      "amend": "Sửa đổi hiến pháp",
+      "adopt": "Thông qua hiến pháp",
+      "tradesUsed": "Đã dùng {{used}} / {{max}} giao dịch hôm nay",
+      "clean": "sạch",
+      "violations": "{{count}} trong {{total}} giao dịch đã vi phạm điều này"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

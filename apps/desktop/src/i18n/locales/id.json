@@ -237,6 +237,57 @@
       "errorDescription": "Umpan audit peringatan terbaru tidak dapat dimuat."
     }
   },
+  "review": {
+    "title": "Tinjauan",
+    "tagline": "Menilai keputusan, bukan hasilnya — lalu meresepkan perbaikannya.",
+    "loadError": "Tidak dapat memuat tinjauan. Apakah backend berjalan?",
+    "tiles": {
+      "trades7d": "Perdagangan (7 hari)",
+      "trades7dHelper": "Aktivitas minggu ini",
+      "process7d": "Proses (7 hari)",
+      "process7dHelper": "Ambang baik {{bar}}",
+      "tradesAll": "Perdagangan (sepanjang masa)",
+      "tradesAllHelper": "Sejak awal",
+      "processAll": "Proses (sepanjang masa)",
+      "processAllHelper": "Rata-rata seumur hidup"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Kemenangan yang pantas", "hint": "Keputusan baik, hasil baik" },
+      "wellPlayedLoss": {
+        "label": "Kekalahan yang dimainkan dengan baik",
+        "hint": "Keputusan baik, varians mengambilnya"
+      },
+      "honestTuition": {
+        "label": "Uang sekolah yang jujur",
+        "hint": "Keputusan buruk, pasar menagih Anda"
+      },
+      "dangerousSuccess": {
+        "label": "Sukses berbahaya",
+        "hint": "Keputusan buruk yang diberi imbalan — kuadran terburuk"
+      }
+    },
+    "coachNote": "Catatan pelatih",
+    "whatKeepsHappening": "Yang terus terjadi",
+    "noMistakes": "Tidak ada kesalahan berulang terdeteksi. Jaga jurnal tetap jujur dan rentetan tetap hidup.",
+    "seenOn": "Terlihat pada {{symbols}}",
+    "trainTheFix": "Latih perbaikannya:",
+    "missionLabel": "Misi: {{name}}",
+    "footer": "Instrumentasi edukatif atas perdagangan kertas Anda sendiri — bukan nasihat keuangan.",
+    "constitution": {
+      "title": "Konstitusi perdagangan",
+      "adopted": "Diadopsi — tiket menegakkannya",
+      "notAdopted": "Belum diadopsi — tulis aturan Anda, lalu patuhi.",
+      "maxRisk": "Risiko maks. per perdagangan (%)",
+      "maxTrades": "Maks. perdagangan per hari",
+      "requireStop": "Setiap perdagangan memiliki stop",
+      "requireReason": "Setiap perdagangan memiliki alasan tertulis",
+      "amend": "Amandemen konstitusi",
+      "adopt": "Adopsi konstitusi",
+      "tradesUsed": "{{used}} / {{max}} perdagangan terpakai hari ini",
+      "clean": "bersih",
+      "violations": "{{count}} dari {{total}} perdagangan melanggar ini"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

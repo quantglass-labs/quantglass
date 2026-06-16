@@ -237,6 +237,51 @@
       "errorDescription": "最近のアラート監査フィードを読み込めませんでした。"
     }
   },
+  "review": {
+    "title": "レビュー",
+    "tagline": "結果ではなく意思決定を採点し、その後に修正を処方します。",
+    "loadError": "レビューを読み込めませんでした。バックエンドは稼働していますか？",
+    "tiles": {
+      "trades7d": "トレード（7日）",
+      "trades7dHelper": "今週の活動",
+      "process7d": "プロセス（7日）",
+      "process7dHelper": "良好ライン {{bar}}",
+      "tradesAll": "トレード（全期間）",
+      "tradesAllHelper": "開始以来",
+      "processAll": "プロセス（全期間）",
+      "processAllHelper": "生涯平均"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "正当な勝ち", "hint": "良い判断、良い結果" },
+      "wellPlayedLoss": { "label": "うまく戦った負け", "hint": "良い判断、分散に持っていかれた" },
+      "honestTuition": { "label": "正直な授業料", "hint": "悪い判断、市場に請求された" },
+      "dangerousSuccess": {
+        "label": "危険な成功",
+        "hint": "悪い判断が報われた——最悪の象限"
+      }
+    },
+    "coachNote": "コーチのメモ",
+    "whatKeepsHappening": "繰り返し起きていること",
+    "noMistakes": "繰り返しのミスは検出されませんでした。ジャーナルを正直に保ち、連続を維持しましょう。",
+    "seenOn": "{{symbols}} で確認",
+    "trainTheFix": "修正を訓練：",
+    "missionLabel": "ミッション：{{name}}",
+    "footer": "あなた自身のペーパートレードに対する教育的な計測——投資助言ではありません。",
+    "constitution": {
+      "title": "トレード憲章",
+      "adopted": "採用済み——チケットが強制します",
+      "notAdopted": "未採用——ルールを書き、それを自らに課しましょう。",
+      "maxRisk": "1トレードあたり最大リスク（%）",
+      "maxTrades": "1日あたり最大トレード数",
+      "requireStop": "すべてのトレードにストップがある",
+      "requireReason": "すべてのトレードに書かれた理由がある",
+      "amend": "憲章を修正",
+      "adopt": "憲章を採用",
+      "tradesUsed": "本日 {{used}} / {{max}} トレード使用",
+      "clean": "クリーン",
+      "violations": "{{total}} トレード中 {{count}} 件がこれに違反"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

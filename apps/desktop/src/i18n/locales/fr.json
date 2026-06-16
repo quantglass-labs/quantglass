@@ -237,6 +237,57 @@
       "errorDescription": "Le flux d'audit récent des alertes n'a pas pu être chargé."
     }
   },
+  "review": {
+    "title": "Revue",
+    "tagline": "Note la décision, pas le résultat — puis prescrit la correction.",
+    "loadError": "Impossible de charger la revue. Le backend est-il en cours d'exécution ?",
+    "tiles": {
+      "trades7d": "Trades (7 jours)",
+      "trades7dHelper": "Activité de cette semaine",
+      "process7d": "Processus (7 jours)",
+      "process7dHelper": "Seuil correct {{bar}}",
+      "tradesAll": "Trades (historique)",
+      "tradesAllHelper": "Depuis le début",
+      "processAll": "Processus (historique)",
+      "processAllHelper": "Moyenne à vie"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Gains mérités", "hint": "Bonne décision, bon résultat" },
+      "wellPlayedLoss": {
+        "label": "Pertes bien jouées",
+        "hint": "Bonne décision, la variance l'a emporté"
+      },
+      "honestTuition": {
+        "label": "Frais de scolarité honnêtes",
+        "hint": "Mauvaise décision, le marché vous a facturé"
+      },
+      "dangerousSuccess": {
+        "label": "Succès dangereux",
+        "hint": "Mauvaise décision récompensée — le pire quadrant"
+      }
+    },
+    "coachNote": "Note du coach",
+    "whatKeepsHappening": "Ce qui se reproduit",
+    "noMistakes": "Aucune erreur répétée détectée. Gardez le journal honnête et la série en vie.",
+    "seenOn": "Vu sur {{symbols}}",
+    "trainTheFix": "Entraînez la correction :",
+    "missionLabel": "Mission : {{name}}",
+    "footer": "Instrumentation éducative de votre propre trading papier — jamais un conseil financier.",
+    "constitution": {
+      "title": "Constitution de trading",
+      "adopted": "Adoptée — le ticket l'applique",
+      "notAdopted": "Pas encore adoptée — écrivez vos règles, puis tenez-vous-y.",
+      "maxRisk": "Risque max. par trade (%)",
+      "maxTrades": "Trades max. par jour",
+      "requireStop": "Chaque trade a un stop",
+      "requireReason": "Chaque trade a une raison écrite",
+      "amend": "Amender la constitution",
+      "adopt": "Adopter la constitution",
+      "tradesUsed": "{{used}} / {{max}} trades utilisés aujourd'hui",
+      "clean": "propre",
+      "violations": "{{count}} trades sur {{total}} ont enfreint ceci"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",
