@@ -167,6 +167,44 @@
       "manual": "manuale"
     }
   },
+  "watchlist": {
+    "eyebrow": "Lista di controllo",
+    "title": "Monitor di simboli curato",
+    "description": "Righe raggruppate di cripto e azioni con mini-grafico, ultimo prezzo, chip di segnale attivo, accesso agli avvisi e azioni di rimozione.",
+    "aiTitle": "Lettura della lista",
+    "addPlaceholder": "Aggiungi simbolo",
+    "trackCustom": "Segui «{{symbol}}»",
+    "notListed": "Non ancora in elenco — aggiungilo al corridoio come:",
+    "trackStock": "Azione",
+    "trackCrypto": "Cripto",
+    "tiles": {
+      "onWatchlist": "Nella tua lista",
+      "onWatchlistHelper": "Simboli che segui",
+      "trackedUniverse": "Universo monitorato",
+      "trackedUniverseHelper": "Simboli nel corridoio di mercato",
+      "topRs": "Massima forza relativa",
+      "topRsHelper": "Percentile di momentum più forte"
+    },
+    "candidates": {
+      "title": "Migliori candidati per forza relativa",
+      "subtitle": "Classifica di momentum trasversale nell'universo locale"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} di {{total}} {{market}}",
+    "empty": {
+      "title": "La lista è vuota",
+      "description": "Aggiungi il tuo primo simbolo dal campo di ricerca per popolare le viste raggruppate di cripto e azioni.",
+      "action": "Aggiungi il tuo primo simbolo"
+    },
+    "error": {
+      "title": "Lista non disponibile",
+      "description": "Le righe raggruppate della lista non possono essere caricate."
+    },
+    "aria": {
+      "alert": "Avviso {{symbol}}",
+      "remove": "Rimuovi {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

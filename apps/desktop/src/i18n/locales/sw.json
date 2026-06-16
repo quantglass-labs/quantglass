@@ -167,6 +167,44 @@
       "manual": "mwongozo"
     }
   },
+  "watchlist": {
+    "eyebrow": "Orodha ya kufuatilia",
+    "title": "Kifuatiliaji cha alama kilichoteuliwa",
+    "description": "Safu za sarafu-fiche na hisa zilizowekwa katika makundi zikiwa na sparkline, bei ya mwisho, chip za ishara hai, ufikiaji wa arifa, na vitendo vya kuondoa.",
+    "aiTitle": "Usomaji wa orodha ya kufuatilia",
+    "addPlaceholder": "Ongeza alama",
+    "trackCustom": "Fuatilia “{{symbol}}”",
+    "notListed": "Bado haijaorodheshwa — iongeze kwenye korido kama:",
+    "trackStock": "Hisa",
+    "trackCrypto": "Sarafu-fiche",
+    "tiles": {
+      "onWatchlist": "Kwenye orodha yako",
+      "onWatchlistHelper": "Alama unazofuatilia",
+      "trackedUniverse": "Ulimwengu unaofuatiliwa",
+      "trackedUniverseHelper": "Alama katika korido ya soko",
+      "topRs": "Nguvu linganishi ya juu zaidi",
+      "topRsHelper": "Asilimia ya juu zaidi ya kasi"
+    },
+    "candidates": {
+      "title": "Wagombea bora kwa nguvu linganishi",
+      "subtitle": "Cheo cha kasi cha mtambuko katika ulimwengu wa ndani"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} kati ya {{total}} {{market}}",
+    "empty": {
+      "title": "Orodha ya kufuatilia ni tupu",
+      "description": "Ongeza alama yako ya kwanza kutoka uga wa kutafuta ili kujaza mionekano ya sarafu-fiche na hisa iliyowekwa katika makundi.",
+      "action": "Ongeza alama yako ya kwanza"
+    },
+    "error": {
+      "title": "Orodha ya kufuatilia haipatikani",
+      "description": "Safu za orodha ya kufuatilia zilizowekwa katika makundi hazikuweza kupakiwa."
+    },
+    "aria": {
+      "alert": "Arifa {{symbol}}",
+      "remove": "Ondoa {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

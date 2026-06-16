@@ -167,6 +167,44 @@
       "manual": "manual"
     }
   },
+  "watchlist": {
+    "eyebrow": "Watchlist",
+    "title": "Curated symbol monitor",
+    "description": "Grouped crypto and stock rows with sparkline, last price, active signal chips, alert access, and removal actions.",
+    "aiTitle": "Watchlist read",
+    "addPlaceholder": "Add symbol",
+    "trackCustom": "Track “{{symbol}}”",
+    "notListed": "Not listed yet — add it to the corridor as:",
+    "trackStock": "Stock",
+    "trackCrypto": "Crypto",
+    "tiles": {
+      "onWatchlist": "On your watchlist",
+      "onWatchlistHelper": "Symbols you follow",
+      "trackedUniverse": "Tracked universe",
+      "trackedUniverseHelper": "Symbols in the market corridor",
+      "topRs": "Top relative strength",
+      "topRsHelper": "Strongest momentum percentile"
+    },
+    "candidates": {
+      "title": "Top relative-strength candidates",
+      "subtitle": "Cross-sectional momentum rank across the local universe"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} of {{total}} {{market}}",
+    "empty": {
+      "title": "Watchlist is empty",
+      "description": "Add your first symbol from the search field to populate the grouped crypto and stock views.",
+      "action": "Add your first symbol"
+    },
+    "error": {
+      "title": "Watchlist unavailable",
+      "description": "The grouped watchlist rows could not be loaded."
+    },
+    "aria": {
+      "alert": "Alert {{symbol}}",
+      "remove": "Remove {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

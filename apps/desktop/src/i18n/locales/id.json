@@ -167,6 +167,44 @@
       "manual": "manual"
     }
   },
+  "watchlist": {
+    "eyebrow": "Daftar pantau",
+    "title": "Monitor simbol terkurasi",
+    "description": "Baris kripto dan saham yang dikelompokkan dengan sparkline, harga terakhir, chip sinyal aktif, akses peringatan, dan aksi penghapusan.",
+    "aiTitle": "Pembacaan daftar pantau",
+    "addPlaceholder": "Tambah simbol",
+    "trackCustom": "Lacak “{{symbol}}”",
+    "notListed": "Belum terdaftar — tambahkan ke koridor sebagai:",
+    "trackStock": "Saham",
+    "trackCrypto": "Kripto",
+    "tiles": {
+      "onWatchlist": "Di daftar pantau Anda",
+      "onWatchlistHelper": "Simbol yang Anda ikuti",
+      "trackedUniverse": "Semesta yang dipantau",
+      "trackedUniverseHelper": "Simbol di koridor pasar",
+      "topRs": "Kekuatan relatif tertinggi",
+      "topRsHelper": "Persentil momentum terkuat"
+    },
+    "candidates": {
+      "title": "Kandidat teratas berdasarkan kekuatan relatif",
+      "subtitle": "Peringkat momentum lintas-bagian di semesta lokal"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} dari {{total}} {{market}}",
+    "empty": {
+      "title": "Daftar pantau kosong",
+      "description": "Tambahkan simbol pertama Anda dari kolom pencarian untuk mengisi tampilan kripto dan saham yang dikelompokkan.",
+      "action": "Tambahkan simbol pertama Anda"
+    },
+    "error": {
+      "title": "Daftar pantau tidak tersedia",
+      "description": "Baris daftar pantau yang dikelompokkan tidak dapat dimuat."
+    },
+    "aria": {
+      "alert": "Peringatan {{symbol}}",
+      "remove": "Hapus {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

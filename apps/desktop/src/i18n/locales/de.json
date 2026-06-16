@@ -167,6 +167,44 @@
       "manual": "manuell"
     }
   },
+  "watchlist": {
+    "eyebrow": "Beobachtungsliste",
+    "title": "Kuratierter Symbol-Monitor",
+    "description": "Gruppierte Krypto- und Aktienzeilen mit Sparkline, letztem Preis, aktiven Signal-Chips, Alarmzugriff und Entfernen-Aktionen.",
+    "aiTitle": "Beobachtungslisten-Lesart",
+    "addPlaceholder": "Symbol hinzufügen",
+    "trackCustom": "„{{symbol}}“ verfolgen",
+    "notListed": "Noch nicht gelistet — zum Korridor hinzufügen als:",
+    "trackStock": "Aktie",
+    "trackCrypto": "Krypto",
+    "tiles": {
+      "onWatchlist": "Auf Ihrer Liste",
+      "onWatchlistHelper": "Symbole, denen Sie folgen",
+      "trackedUniverse": "Verfolgtes Universum",
+      "trackedUniverseHelper": "Symbole im Marktkorridor",
+      "topRs": "Höchste relative Stärke",
+      "topRsHelper": "Stärkstes Momentum-Perzentil"
+    },
+    "candidates": {
+      "title": "Top-Kandidaten nach relativer Stärke",
+      "subtitle": "Querschnitts-Momentum-Rang im lokalen Universum"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} von {{total}} {{market}}",
+    "empty": {
+      "title": "Die Beobachtungsliste ist leer",
+      "description": "Fügen Sie Ihr erstes Symbol über das Suchfeld hinzu, um die gruppierten Krypto- und Aktienansichten zu füllen.",
+      "action": "Erstes Symbol hinzufügen"
+    },
+    "error": {
+      "title": "Beobachtungsliste nicht verfügbar",
+      "description": "Die gruppierten Beobachtungslisten-Zeilen konnten nicht geladen werden."
+    },
+    "aria": {
+      "alert": "Alarm {{symbol}}",
+      "remove": "{{symbol}} entfernen"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

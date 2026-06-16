@@ -167,6 +167,44 @@
       "manual": "수동"
     }
   },
+  "watchlist": {
+    "eyebrow": "관심목록",
+    "title": "선별 종목 모니터",
+    "description": "스파크라인, 최종가, 활성 신호 칩, 알림 접근, 제거 작업이 있는 그룹화된 암호화폐 및 주식 행.",
+    "aiTitle": "관심목록 읽기",
+    "addPlaceholder": "종목 추가",
+    "trackCustom": "“{{symbol}}” 추적",
+    "notListed": "아직 미등록 — 코리도에 다음으로 추가:",
+    "trackStock": "주식",
+    "trackCrypto": "암호화폐",
+    "tiles": {
+      "onWatchlist": "내 관심목록",
+      "onWatchlistHelper": "팔로우 중인 종목",
+      "trackedUniverse": "추적 유니버스",
+      "trackedUniverseHelper": "시장 코리도의 종목",
+      "topRs": "최고 상대강도",
+      "topRsHelper": "가장 강한 모멘텀 백분위"
+    },
+    "candidates": {
+      "title": "상대강도 상위 후보",
+      "subtitle": "로컬 유니버스의 횡단면 모멘텀 순위"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "{{total}} {{market}} 중 {{rank}}위",
+    "empty": {
+      "title": "관심목록이 비어 있습니다",
+      "description": "검색창에서 첫 종목을 추가하면 그룹화된 암호화폐 및 주식 보기가 채워집니다.",
+      "action": "첫 종목 추가"
+    },
+    "error": {
+      "title": "관심목록을 사용할 수 없음",
+      "description": "그룹화된 관심목록 행을 불러오지 못했습니다."
+    },
+    "aria": {
+      "alert": "알림 {{symbol}}",
+      "remove": "{{symbol}} 제거"
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

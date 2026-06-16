@@ -167,6 +167,44 @@
       "manual": "manuel"
     }
   },
+  "watchlist": {
+    "eyebrow": "Liste de suivi",
+    "title": "Moniteur de symboles curé",
+    "description": "Lignes groupées de crypto et d'actions avec mini-graphique, dernier prix, puces de signal actif, accès aux alertes et actions de retrait.",
+    "aiTitle": "Lecture de la liste",
+    "addPlaceholder": "Ajouter un symbole",
+    "trackCustom": "Suivre « {{symbol}} »",
+    "notListed": "Pas encore listé — ajoutez-le au corridor comme :",
+    "trackStock": "Action",
+    "trackCrypto": "Crypto",
+    "tiles": {
+      "onWatchlist": "Dans votre liste",
+      "onWatchlistHelper": "Symboles que vous suivez",
+      "trackedUniverse": "Univers suivi",
+      "trackedUniverseHelper": "Symboles du corridor de marché",
+      "topRs": "Force relative la plus élevée",
+      "topRsHelper": "Percentile de momentum le plus fort"
+    },
+    "candidates": {
+      "title": "Meilleurs candidats par force relative",
+      "subtitle": "Classement de momentum transversal dans l'univers local"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} sur {{total}} {{market}}",
+    "empty": {
+      "title": "La liste est vide",
+      "description": "Ajoutez votre premier symbole depuis le champ de recherche pour remplir les vues groupées crypto et actions.",
+      "action": "Ajouter votre premier symbole"
+    },
+    "error": {
+      "title": "Liste indisponible",
+      "description": "Les lignes groupées de la liste n'ont pas pu être chargées."
+    },
+    "aria": {
+      "alert": "Alerte {{symbol}}",
+      "remove": "Retirer {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

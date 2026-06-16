@@ -167,6 +167,44 @@
       "manual": "thủ công"
     }
   },
+  "watchlist": {
+    "eyebrow": "Danh sách theo dõi",
+    "title": "Trình theo dõi mã được tuyển chọn",
+    "description": "Các hàng tiền mã hóa và cổ phiếu được nhóm với sparkline, giá gần nhất, chip tín hiệu hoạt động, truy cập cảnh báo và thao tác xóa.",
+    "aiTitle": "Đọc danh sách theo dõi",
+    "addPlaceholder": "Thêm mã",
+    "trackCustom": "Theo dõi “{{symbol}}”",
+    "notListed": "Chưa được liệt kê — thêm vào hành lang dưới dạng:",
+    "trackStock": "Cổ phiếu",
+    "trackCrypto": "Tiền mã hóa",
+    "tiles": {
+      "onWatchlist": "Trong danh sách của bạn",
+      "onWatchlistHelper": "Mã bạn theo dõi",
+      "trackedUniverse": "Vũ trụ theo dõi",
+      "trackedUniverseHelper": "Mã trong hành lang thị trường",
+      "topRs": "Sức mạnh tương đối cao nhất",
+      "topRsHelper": "Bách phân vị động lượng mạnh nhất"
+    },
+    "candidates": {
+      "title": "Ứng viên hàng đầu theo sức mạnh tương đối",
+      "subtitle": "Xếp hạng động lượng cắt ngang trong vũ trụ cục bộ"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} trên {{total}} {{market}}",
+    "empty": {
+      "title": "Danh sách theo dõi trống",
+      "description": "Thêm mã đầu tiên từ ô tìm kiếm để điền vào các chế độ xem tiền mã hóa và cổ phiếu được nhóm.",
+      "action": "Thêm mã đầu tiên của bạn"
+    },
+    "error": {
+      "title": "Danh sách theo dõi không khả dụng",
+      "description": "Không thể tải các hàng danh sách theo dõi được nhóm."
+    },
+    "aria": {
+      "alert": "Cảnh báo {{symbol}}",
+      "remove": "Xóa {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",
