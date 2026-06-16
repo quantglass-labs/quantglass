@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Tableau de bord",
+    "title": "Pouls du marché",
+    "refresh": "Actualiser le corridor",
+    "refreshing": "Actualisation…",
+    "tiles": {
+      "activeSignals": "Signaux actifs",
+      "activeSignalsHelper": "{{count}} exploitables maintenant · bougies clôturées uniquement",
+      "marketRegime": "Régime de marché",
+      "marketRegimeHelper": "Dérivé de l'inventaire des signaux en direct",
+      "paperBalance": "Solde papier",
+      "paperBalanceHelper": "{{count}} positions ouvertes",
+      "realizedPnl": "P&L réalisé",
+      "realizedPnlHelper": "Compte papier depuis le début"
+    },
+    "regime": {
+      "riskOn": "Risque actif / Tendance",
+      "mixed": "Mixte / Rotationnel"
+    },
+    "topSignals": {
+      "eyebrow": "Ce qui se déclenche",
+      "title": "Principaux signaux actifs",
+      "description": "Classés par confiance : les configurations exploitables les plus fortes de tout l'univers.",
+      "emptyTitle": "Aucun signal actif pour l'instant",
+      "emptyDescription": "Le moteur déterministe ne déclenche pas de configurations dans le régime actuel et n'en fabriquera pas. Le régime et la grille de marché en direct restent actifs.",
+      "errorTitle": "Flux de signaux indisponible",
+      "errorDescription": "Le flux de signaux n'a pas pu être chargé."
+    },
+    "grid": {
+      "eyebrow": "Marché",
+      "title": "Tout le corridor · {{count}} symboles",
+      "description": "Chaque symbole suivi avec prix, variation et un mini-graphique de bougies clôturées. Cliquez sur une cellule pour l'ouvrir.",
+      "emptyTitle": "La grille de marché est vide",
+      "emptyDescription": "Pas encore de données de corridor ; elle se remplit à mesure que le backend les ingère.",
+      "errorTitle": "Grille de marché indisponible",
+      "errorDescription": "Les prix du corridor n'ont pas pu être chargés."
+    },
+    "movers": {
+      "title": "Plus fortes variations",
+      "empty": "Aucun mouvement pour l'instant."
+    },
+    "paperAccount": {
+      "title": "Compte papier",
+      "empty": "Aucune position ouverte. Les exécutions du ticket papier apparaissent ici."
+    },
+    "brief": {
+      "generating": "Génération du résumé matinal…",
+      "title": "Résumé matinal",
+      "footer": "Rédigé à partir des propres lectures du moteur — régimes, signaux, risque. Jamais un conseil."
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

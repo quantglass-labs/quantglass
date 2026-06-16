@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Panel",
+    "title": "Pulso del mercado",
+    "refresh": "Actualizar corredor",
+    "refreshing": "Actualizando…",
+    "tiles": {
+      "activeSignals": "Señales activas",
+      "activeSignalsHelper": "{{count}} accionables ahora · solo velas cerradas",
+      "marketRegime": "Régimen de mercado",
+      "marketRegimeHelper": "Derivado del inventario de señales en vivo",
+      "paperBalance": "Saldo en papel",
+      "paperBalanceHelper": "{{count}} posiciones abiertas",
+      "realizedPnl": "P&L realizado",
+      "realizedPnlHelper": "Cuenta en papel desde el inicio"
+    },
+    "regime": {
+      "riskOn": "Riesgo activo / Tendencia",
+      "mixed": "Mixto / Rotacional"
+    },
+    "topSignals": {
+      "eyebrow": "Lo que se activa ahora",
+      "title": "Principales señales activas",
+      "description": "Ordenadas por confianza: las configuraciones accionables más fuertes de todo el universo.",
+      "emptyTitle": "No hay señales activas ahora",
+      "emptyDescription": "El motor determinista no está generando configuraciones en el régimen actual y no las fabricará. El régimen y la cuadrícula de mercado en vivo siguen activos.",
+      "errorTitle": "Feed de señales no disponible",
+      "errorDescription": "No se pudo cargar el feed de señales."
+    },
+    "grid": {
+      "eyebrow": "Mercado",
+      "title": "Todo el corredor · {{count}} símbolos",
+      "description": "Cada símbolo seguido con precio, cambio y un minigráfico de velas cerradas. Haz clic en cualquier celda para abrirlo.",
+      "emptyTitle": "La cuadrícula de mercado está vacía",
+      "emptyDescription": "Aún no hay datos del corredor; se completa a medida que el backend los ingiere.",
+      "errorTitle": "Cuadrícula de mercado no disponible",
+      "errorDescription": "No se pudieron cargar los precios del corredor."
+    },
+    "movers": {
+      "title": "Mayores movimientos",
+      "empty": "Sin movimiento todavía."
+    },
+    "paperAccount": {
+      "title": "Cuenta en papel",
+      "empty": "Sin posiciones abiertas. Las ejecuciones del ticket en papel aparecen aquí."
+    },
+    "brief": {
+      "generating": "Generando el resumen matutino…",
+      "title": "Resumen matutino",
+      "footer": "Narrado a partir de las propias lecturas del motor: regímenes, señales, riesgo. Nunca es asesoramiento."
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",

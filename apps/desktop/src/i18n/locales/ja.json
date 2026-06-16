@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "ダッシュボード",
+    "title": "マーケットパルス",
+    "refresh": "コリドーを更新",
+    "refreshing": "更新中…",
+    "tiles": {
+      "activeSignals": "アクティブシグナル",
+      "activeSignalsHelper": "{{count}} 件が現在実行可能 · 確定足のみ",
+      "marketRegime": "市場レジーム",
+      "marketRegimeHelper": "ライブのシグナル在庫から算出",
+      "paperBalance": "ペーパー残高",
+      "paperBalanceHelper": "{{count}} 件の建玉",
+      "realizedPnl": "実現損益",
+      "realizedPnlHelper": "開始以来のペーパー口座"
+    },
+    "regime": {
+      "riskOn": "リスクオン / トレンド",
+      "mixed": "混合 / ローテーション"
+    },
+    "topSignals": {
+      "eyebrow": "現在の発火",
+      "title": "トップのアクティブシグナル",
+      "description": "信頼度順 — 全ユニバースで最も強い実行可能なセットアップ。",
+      "emptyTitle": "現在アクティブなシグナルはありません",
+      "emptyDescription": "決定論的エンジンは現在のレジームでセットアップを発火しておらず、捏造もしません。レジームと下のライブ市場グリッドは引き続き稼働中です。",
+      "errorTitle": "シグナルフィードを利用できません",
+      "errorDescription": "シグナルフィードを読み込めませんでした。"
+    },
+    "grid": {
+      "eyebrow": "市場",
+      "title": "コリドー全体 · {{count}} 銘柄",
+      "description": "追跡中の各銘柄を価格・変化・確定足のスパークラインで表示。セルをクリックすると開きます。",
+      "emptyTitle": "市場グリッドは空です",
+      "emptyDescription": "まだコリドーデータがありません。バックエンドが取り込むにつれて埋まります。",
+      "errorTitle": "市場グリッドを利用できません",
+      "errorDescription": "コリドー価格を読み込めませんでした。"
+    },
+    "movers": {
+      "title": "値動きトップ",
+      "empty": "まだ値動きはありません。"
+    },
+    "paperAccount": {
+      "title": "ペーパー口座",
+      "empty": "建玉はありません。ペーパーチケットの約定がここに表示されます。"
+    },
+    "brief": {
+      "generating": "モーニングブリーフを生成中…",
+      "title": "モーニングブリーフ",
+      "footer": "エンジン自身の読み取り（レジーム・シグナル・リスク）から記述。助言ではありません。"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "仪表盘",
+    "title": "市场脉搏",
+    "refresh": "刷新行情走廊",
+    "refreshing": "刷新中…",
+    "tiles": {
+      "activeSignals": "活跃信号",
+      "activeSignalsHelper": "{{count}} 个当前可操作 · 仅收盘K线",
+      "marketRegime": "市场状态",
+      "marketRegimeHelper": "源自实时信号库存",
+      "paperBalance": "模拟余额",
+      "paperBalanceHelper": "{{count}} 个未平仓",
+      "realizedPnl": "已实现盈亏",
+      "realizedPnlHelper": "模拟账户自创建以来"
+    },
+    "regime": {
+      "riskOn": "风险偏好 / 趋势",
+      "mixed": "混合 / 轮动"
+    },
+    "topSignals": {
+      "eyebrow": "当前触发",
+      "title": "顶部活跃信号",
+      "description": "按置信度排序——全市场中最强的可操作形态。",
+      "emptyTitle": "当前没有活跃信号",
+      "emptyDescription": "确定性引擎在当前状态下未触发形态——也不会凭空制造。下方的市场状态与实时行情网格仍在运行。",
+      "errorTitle": "信号源不可用",
+      "errorDescription": "无法加载信号源。"
+    },
+    "grid": {
+      "eyebrow": "市场",
+      "title": "整个走廊 · {{count}} 个标的",
+      "description": "每个跟踪标的均显示价格、涨跌与收盘K线迷你图。点击任意单元格即可打开。",
+      "emptyTitle": "市场网格为空",
+      "emptyDescription": "暂无走廊数据；随着后端摄取会逐步填充。",
+      "errorTitle": "市场网格不可用",
+      "errorDescription": "无法加载走廊价格。"
+    },
+    "movers": {
+      "title": "涨跌最大",
+      "empty": "暂无波动。"
+    },
+    "paperAccount": {
+      "title": "模拟账户",
+      "empty": "没有未平仓。模拟下单的成交会显示在此。"
+    },
+    "brief": {
+      "generating": "正在生成晨报…",
+      "title": "晨报",
+      "footer": "依据引擎自身的读数撰写——状态、信号、风险。绝非投资建议。"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

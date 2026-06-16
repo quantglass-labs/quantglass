@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Dashibodi",
+    "title": "Mapigo ya soko",
+    "refresh": "Onyesha upya korido",
+    "refreshing": "Inaonyesha upya…",
+    "tiles": {
+      "activeSignals": "Ishara hai",
+      "activeSignalsHelper": "{{count}} zinazoweza kutekelezwa sasa · mishumaa iliyofungwa pekee",
+      "marketRegime": "Hali ya soko",
+      "marketRegimeHelper": "Imetokana na orodha hai ya ishara",
+      "paperBalance": "Salio la karatasi",
+      "paperBalanceHelper": "{{count}} nafasi zilizo wazi",
+      "realizedPnl": "Faida/Hasara iliyotimia",
+      "realizedPnlHelper": "Akaunti ya karatasi tangu mwanzo"
+    },
+    "regime": {
+      "riskOn": "Risk-On / Mwelekeo",
+      "mixed": "Mchanganyiko / Mzunguko"
+    },
+    "topSignals": {
+      "eyebrow": "Kinachoanza sasa",
+      "title": "Ishara hai bora",
+      "description": "Zimepangwa kwa uhakika — mipangilio thabiti zaidi inayoweza kutekelezwa katika ulimwengu mzima.",
+      "emptyTitle": "Hakuna ishara hai kwa sasa",
+      "emptyDescription": "Injini ya uhakika haianzishi mipangilio katika hali ya sasa — wala haitatengeneza. Hali na gridi hai ya soko hapa chini bado vinafanya kazi.",
+      "errorTitle": "Mlisho wa ishara haupatikani",
+      "errorDescription": "Mlisho wa ishara haukuweza kupakiwa."
+    },
+    "grid": {
+      "eyebrow": "Soko",
+      "title": "Korido nzima · alama {{count}}",
+      "description": "Kila alama inayofuatiliwa ikiwa na bei, mabadiliko na sparkline ya mishumaa iliyofungwa. Bofya kisanduku chochote kukifungua.",
+      "emptyTitle": "Gridi ya soko ni tupu",
+      "emptyDescription": "Bado hakuna data ya korido; hujaa kadiri backend inavyopokea data.",
+      "errorTitle": "Gridi ya soko haipatikani",
+      "errorDescription": "Bei za korido hazikuweza kupakiwa."
+    },
+    "movers": {
+      "title": "Mabadiliko makubwa zaidi",
+      "empty": "Bado hakuna mwendo."
+    },
+    "paperAccount": {
+      "title": "Akaunti ya karatasi",
+      "empty": "Hakuna nafasi zilizo wazi. Utekelezaji kutoka tikiti ya karatasi huonekana hapa."
+    },
+    "brief": {
+      "generating": "Inatengeneza muhtasari wa asubuhi…",
+      "title": "Muhtasari wa asubuhi",
+      "footer": "Imesimuliwa kutoka kwa usomaji wa injini yenyewe — hali, ishara, hatari. Kamwe si ushauri."
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

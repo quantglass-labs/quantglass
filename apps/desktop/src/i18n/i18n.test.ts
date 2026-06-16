@@ -12,6 +12,15 @@ afterAll(async () => {
   await i18n.changeLanguage('en');
 });
 
+function flatKeys(value: unknown, prefix = ''): string[] {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return Object.entries(value as Record<string, unknown>).flatMap(([key, child]) =>
+      flatKeys(child, prefix ? `${prefix}.${key}` : key),
+    );
+  }
+  return [prefix];
+}
+
 describe('i18n catalogs', () => {
   it('bundles every supported language with the core chrome keys', () => {
     expect(LANGUAGES).toHaveLength(20);
@@ -21,6 +30,16 @@ describe('i18n catalogs', () => {
         | undefined;
       expect(bundle?.nav?.dashboard, `${language.code} nav.dashboard`).toBeTruthy();
       expect(bundle?.common?.language?.help, `${language.code} common.language.help`).toBeTruthy();
+    }
+  });
+
+  it('keeps every language at full key parity with English', () => {
+    const englishKeys = flatKeys(i18n.getResourceBundle('en', 'translation')).sort();
+    for (const language of LANGUAGES) {
+      if (language.code === 'en') continue;
+      const keys = flatKeys(i18n.getResourceBundle(language.code, 'translation')).sort();
+      const missing = englishKeys.filter((key) => !keys.includes(key));
+      expect(missing, `${language.code} is missing keys`).toEqual([]);
     }
   });
 });

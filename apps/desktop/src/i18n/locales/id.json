@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Dasbor",
+    "title": "Denyut pasar",
+    "refresh": "Segarkan koridor",
+    "refreshing": "Menyegarkan…",
+    "tiles": {
+      "activeSignals": "Sinyal aktif",
+      "activeSignalsHelper": "{{count}} dapat ditindak sekarang · hanya candle tertutup",
+      "marketRegime": "Rezim pasar",
+      "marketRegimeHelper": "Berasal dari inventaris sinyal langsung",
+      "paperBalance": "Saldo kertas",
+      "paperBalanceHelper": "{{count}} posisi terbuka",
+      "realizedPnl": "P&L terealisasi",
+      "realizedPnlHelper": "Akun kertas sejak awal"
+    },
+    "regime": {
+      "riskOn": "Risk-On / Tren",
+      "mixed": "Campuran / Rotasi"
+    },
+    "topSignals": {
+      "eyebrow": "Yang sedang memicu",
+      "title": "Sinyal aktif teratas",
+      "description": "Diurutkan berdasarkan keyakinan — setup paling kuat yang dapat ditindak di seluruh semesta.",
+      "emptyTitle": "Tidak ada sinyal aktif saat ini",
+      "emptyDescription": "Mesin deterministik tidak memicu setup pada rezim saat ini — dan tidak akan mengarangnya. Rezim dan grid pasar langsung di bawah tetap aktif.",
+      "errorTitle": "Umpan sinyal tidak tersedia",
+      "errorDescription": "Umpan sinyal tidak dapat dimuat."
+    },
+    "grid": {
+      "eyebrow": "Pasar",
+      "title": "Seluruh koridor · {{count}} simbol",
+      "description": "Setiap simbol yang dilacak dengan harga, perubahan, dan sparkline candle tertutup. Klik sel mana pun untuk membukanya.",
+      "emptyTitle": "Grid pasar kosong",
+      "emptyDescription": "Belum ada data koridor; terisi seiring backend menyerap data.",
+      "errorTitle": "Grid pasar tidak tersedia",
+      "errorDescription": "Harga koridor tidak dapat dimuat."
+    },
+    "movers": {
+      "title": "Pergerakan terbesar",
+      "empty": "Belum ada pergerakan."
+    },
+    "paperAccount": {
+      "title": "Akun kertas",
+      "empty": "Tidak ada posisi terbuka. Eksekusi dari tiket kertas muncul di sini."
+    },
+    "brief": {
+      "generating": "Membuat ringkasan pagi…",
+      "title": "Ringkasan pagi",
+      "footer": "Dinarasikan dari pembacaan mesin sendiri — rezim, sinyal, risiko. Bukan nasihat."
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Panel",
+    "title": "Piyasa nabzı",
+    "refresh": "Koridoru yenile",
+    "refreshing": "Yenileniyor…",
+    "tiles": {
+      "activeSignals": "Etkin sinyaller",
+      "activeSignalsHelper": "{{count}} şu an uygulanabilir · yalnızca kapanmış mumlar",
+      "marketRegime": "Piyasa rejimi",
+      "marketRegimeHelper": "Canlı sinyal envanterinden türetildi",
+      "paperBalance": "Kâğıt bakiyesi",
+      "paperBalanceHelper": "{{count}} açık pozisyon",
+      "realizedPnl": "Gerçekleşen K/Z",
+      "realizedPnlHelper": "Başlangıçtan beri kâğıt hesap"
+    },
+    "regime": {
+      "riskOn": "Risk-On / Trend",
+      "mixed": "Karışık / Rotasyonel"
+    },
+    "topSignals": {
+      "eyebrow": "Şu an ne tetikleniyor",
+      "title": "En iyi etkin sinyaller",
+      "description": "Güvene göre sıralandı — tüm evrendeki en güçlü uygulanabilir kurulumlar.",
+      "emptyTitle": "Şu anda etkin sinyal yok",
+      "emptyDescription": "Belirlenimci motor mevcut rejimde kurulum tetiklemiyor — uydurmaz da. Rejim ve aşağıdaki canlı piyasa ızgarası hâlâ etkin.",
+      "errorTitle": "Sinyal akışı kullanılamıyor",
+      "errorDescription": "Sinyal akışı yüklenemedi."
+    },
+    "grid": {
+      "eyebrow": "Piyasa",
+      "title": "Tüm koridor · {{count}} sembol",
+      "description": "İzlenen her sembol fiyat, değişim ve kapanmış mum sparkline'ı ile. Açmak için herhangi bir hücreye tıklayın.",
+      "emptyTitle": "Piyasa ızgarası boş",
+      "emptyDescription": "Henüz koridor verisi yok; arka uç veri aldıkça dolar.",
+      "errorTitle": "Piyasa ızgarası kullanılamıyor",
+      "errorDescription": "Koridor fiyatları yüklenemedi."
+    },
+    "movers": {
+      "title": "En büyük hareketler",
+      "empty": "Henüz hareket yok."
+    },
+    "paperAccount": {
+      "title": "Kâğıt hesap",
+      "empty": "Açık pozisyon yok. Kâğıt biletten gerçekleşen işlemler burada görünür."
+    },
+    "brief": {
+      "generating": "Sabah özeti oluşturuluyor…",
+      "title": "Sabah özeti",
+      "footer": "Motorun kendi okumalarından anlatıldı — rejimler, sinyaller, risk. Asla tavsiye değildir."
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",
