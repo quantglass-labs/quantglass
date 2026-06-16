@@ -288,6 +288,51 @@
       "violations": "{{count}} de {{total}} trades violaram isto"
     }
   },
+  "journal": {
+    "title": "Diário",
+    "tagline": "O plano que você escreveu, o trade que você fez e o que você faz disso.",
+    "aiTitle": "O que seu diário diz",
+    "loadError": "Não foi possível carregar o diário. O backend está em execução?",
+    "empty": "Ainda não há trades em papel executados. Coloque um trade com um plano completo — stop, alvo, risco e razão — e ele aparecerá aqui para revisão.",
+    "process": "Processo",
+    "thesis": "Tese:",
+    "notePlaceholder": "O que realmente aconteceu? O que você repetiria — ou nunca mais faria?",
+    "pendingOrders": "Ordens ativas (ainda não executadas)",
+    "footer": "As tags alimentam o coach de Revisão — marcar com honestidade é o que torna as recomendações suas.",
+    "tiles": {
+      "tradesLogged": "Trades registrados",
+      "tradesLoggedHelper": "Trades em papel executados",
+      "avgProcess": "Pontuação de processo média",
+      "avgProcessHelper": "Adesão ao plano, 0–100",
+      "netR": "R líquido",
+      "netRHelper": "Trades resolvidos, em R",
+      "taggedForReview": "Marcados para revisão",
+      "taggedForReviewHelper": "Trades com tags de erro"
+    },
+    "postmortem": {
+      "button": "Autópsia com IA",
+      "reviewing": "A IA está revisando este trade…",
+      "unavailable": "Autópsia com IA indisponível no momento.",
+      "label": "Autópsia com IA"
+    },
+    "tags": {
+      "chasedEntry": "Entrada perseguida",
+      "movedStop": "Stop movido",
+      "revengeTrade": "Trade de vingança",
+      "oversized": "Superdimensionado",
+      "noPlan": "Sem plano",
+      "fomoEntry": "Entrada por FOMO",
+      "exitedEarly": "Saída antecipada",
+      "heldLoser": "Perdedor mantido",
+      "overtraded": "Excesso de trades"
+    },
+    "classification": {
+      "earnedWin": "Vitória merecida",
+      "wellPlayedLoss": "Perda bem jogada",
+      "honestTuition": "Mensalidade honesta",
+      "dangerousSuccess": "Sucesso perigoso"
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

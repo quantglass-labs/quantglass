@@ -285,6 +285,51 @@
       "violations": "{{count}} of {{total}} trades broke this"
     }
   },
+  "journal": {
+    "title": "Journal",
+    "tagline": "The plan you wrote, the trade you took, and what you make of it.",
+    "aiTitle": "What your journal says",
+    "loadError": "Could not load the journal. Is the backend running?",
+    "empty": "No executed paper trades yet. Place a trade with a full plan — stop, target, risk, and reason — and it will appear here for review.",
+    "process": "Process",
+    "thesis": "Thesis:",
+    "notePlaceholder": "What actually happened? What would you repeat — or never do again?",
+    "pendingOrders": "Working orders (not yet filled)",
+    "footer": "Tags feed the Review coach — honest tagging is what makes the recommendations yours.",
+    "tiles": {
+      "tradesLogged": "Trades logged",
+      "tradesLoggedHelper": "Executed paper trades",
+      "avgProcess": "Avg process score",
+      "avgProcessHelper": "Plan adherence, 0–100",
+      "netR": "Net R",
+      "netRHelper": "Resolved trades, in R",
+      "taggedForReview": "Tagged for review",
+      "taggedForReviewHelper": "Trades with mistake tags"
+    },
+    "postmortem": {
+      "button": "AI postmortem",
+      "reviewing": "AI is reviewing this trade…",
+      "unavailable": "AI postmortem unavailable right now.",
+      "label": "AI postmortem"
+    },
+    "tags": {
+      "chasedEntry": "Chased entry",
+      "movedStop": "Moved stop",
+      "revengeTrade": "Revenge trade",
+      "oversized": "Oversized",
+      "noPlan": "No plan",
+      "fomoEntry": "FOMO entry",
+      "exitedEarly": "Exited early",
+      "heldLoser": "Held loser",
+      "overtraded": "Overtraded"
+    },
+    "classification": {
+      "earnedWin": "Earned win",
+      "wellPlayedLoss": "Well-played loss",
+      "honestTuition": "Honest tuition",
+      "dangerousSuccess": "Dangerous success"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

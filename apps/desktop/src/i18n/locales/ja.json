@@ -282,6 +282,51 @@
       "violations": "{{total}} トレード中 {{count}} 件がこれに違反"
     }
   },
+  "journal": {
+    "title": "ジャーナル",
+    "tagline": "あなたが書いた計画、取ったトレード、そしてそこから何を得るか。",
+    "aiTitle": "あなたのジャーナルが語ること",
+    "loadError": "ジャーナルを読み込めませんでした。バックエンドは稼働していますか？",
+    "empty": "実行済みのペーパートレードはまだありません。完全な計画——ストップ、ターゲット、リスク、理由——でトレードを置くと、レビュー用にここに表示されます。",
+    "process": "プロセス",
+    "thesis": "論拠：",
+    "notePlaceholder": "実際に何が起きましたか？何を繰り返し——あるいは二度としませんか？",
+    "pendingOrders": "有効注文（未約定）",
+    "footer": "タグはレビューコーチに入力されます——正直なタグ付けこそが、推奨をあなたのものにします。",
+    "tiles": {
+      "tradesLogged": "記録されたトレード",
+      "tradesLoggedHelper": "実行済みのペーパートレード",
+      "avgProcess": "平均プロセススコア",
+      "avgProcessHelper": "計画の遵守、0–100",
+      "netR": "ネットR",
+      "netRHelper": "決済済みトレード、R単位",
+      "taggedForReview": "レビュー用にタグ付け",
+      "taggedForReviewHelper": "ミスタグ付きのトレード"
+    },
+    "postmortem": {
+      "button": "AIポストモーテム",
+      "reviewing": "AIがこのトレードをレビュー中…",
+      "unavailable": "AIポストモーテムは現在利用できません。",
+      "label": "AIポストモーテム"
+    },
+    "tags": {
+      "chasedEntry": "追いかけエントリー",
+      "movedStop": "ストップ移動",
+      "revengeTrade": "リベンジトレード",
+      "oversized": "過大サイズ",
+      "noPlan": "計画なし",
+      "fomoEntry": "FOMOエントリー",
+      "exitedEarly": "早すぎる決済",
+      "heldLoser": "含み損を保有",
+      "overtraded": "過剰トレード"
+    },
+    "classification": {
+      "earnedWin": "正当な勝ち",
+      "wellPlayedLoss": "うまく戦った負け",
+      "honestTuition": "正直な授業料",
+      "dangerousSuccess": "危険な成功"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

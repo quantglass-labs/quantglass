@@ -288,6 +288,51 @@
       "violations": "{{count}} von {{total}} Trades haben dies verletzt"
     }
   },
+  "journal": {
+    "title": "Journal",
+    "tagline": "Der Plan, den Sie geschrieben haben, der Trade, den Sie gemacht haben, und was Sie daraus machen.",
+    "aiTitle": "Was Ihr Journal sagt",
+    "loadError": "Das Journal konnte nicht geladen werden. Läuft das Backend?",
+    "empty": "Noch keine ausgeführten Papier-Trades. Platzieren Sie einen Trade mit vollständigem Plan — Stop, Ziel, Risiko und Begründung — und er erscheint hier zur Überprüfung.",
+    "process": "Prozess",
+    "thesis": "These:",
+    "notePlaceholder": "Was ist wirklich passiert? Was würden Sie wiederholen — oder nie wieder tun?",
+    "pendingOrders": "Offene Orders (noch nicht ausgeführt)",
+    "footer": "Tags speisen den Review-Coach — ehrliches Taggen macht die Empfehlungen zu Ihren eigenen.",
+    "tiles": {
+      "tradesLogged": "Erfasste Trades",
+      "tradesLoggedHelper": "Ausgeführte Papier-Trades",
+      "avgProcess": "Durchschn. Prozess-Score",
+      "avgProcessHelper": "Plan-Einhaltung, 0–100",
+      "netR": "Netto-R",
+      "netRHelper": "Aufgelöste Trades, in R",
+      "taggedForReview": "Zur Überprüfung markiert",
+      "taggedForReviewHelper": "Trades mit Fehler-Tags"
+    },
+    "postmortem": {
+      "button": "KI-Nachbetrachtung",
+      "reviewing": "Die KI überprüft diesen Trade…",
+      "unavailable": "KI-Nachbetrachtung derzeit nicht verfügbar.",
+      "label": "KI-Nachbetrachtung"
+    },
+    "tags": {
+      "chasedEntry": "Einstieg hinterhergejagt",
+      "movedStop": "Stop verschoben",
+      "revengeTrade": "Rache-Trade",
+      "oversized": "Überdimensioniert",
+      "noPlan": "Ohne Plan",
+      "fomoEntry": "FOMO-Einstieg",
+      "exitedEarly": "Zu früh ausgestiegen",
+      "heldLoser": "Verlierer gehalten",
+      "overtraded": "Übertradet"
+    },
+    "classification": {
+      "earnedWin": "Verdienter Gewinn",
+      "wellPlayedLoss": "Gut gespielter Verlust",
+      "honestTuition": "Ehrliches Lehrgeld",
+      "dangerousSuccess": "Gefährlicher Erfolg"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

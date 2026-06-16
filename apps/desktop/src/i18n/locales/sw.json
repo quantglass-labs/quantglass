@@ -288,6 +288,51 @@
       "violations": "Biashara {{count}} kati ya {{total}} zilivunja hili"
     }
   },
+  "journal": {
+    "title": "Jarida",
+    "tagline": "Mpango ulioandika, biashara uliyofanya, na unachohitimisha kutoka kwayo.",
+    "aiTitle": "Jarida lako linasema nini",
+    "loadError": "Imeshindwa kupakia jarida. Je, backend inafanya kazi?",
+    "empty": "Bado hakuna biashara za karatasi zilizotekelezwa. Weka biashara yenye mpango kamili — stop, lengo, hatari, na sababu — nayo itaonekana hapa kwa mapitio.",
+    "process": "Mchakato",
+    "thesis": "Hoja:",
+    "notePlaceholder": "Nini hasa kilitokea? Ungerudia nini — au usingefanya tena kamwe?",
+    "pendingOrders": "Maagizo hai (bado hayajatimizwa)",
+    "footer": "Lebo huchochea kocha wa Mapitio — uwekaji lebo wa kweli ndio hufanya mapendekezo kuwa yako.",
+    "tiles": {
+      "tradesLogged": "Biashara zilizorekodiwa",
+      "tradesLoggedHelper": "Biashara za karatasi zilizotekelezwa",
+      "avgProcess": "Wastani wa alama ya mchakato",
+      "avgProcessHelper": "Kufuata mpango, 0–100",
+      "netR": "R halisi",
+      "netRHelper": "Biashara zilizotatuliwa, kwa R",
+      "taggedForReview": "Zimewekewa lebo kwa mapitio",
+      "taggedForReviewHelper": "Biashara zenye lebo za makosa"
+    },
+    "postmortem": {
+      "button": "Uchunguzi wa AI",
+      "reviewing": "AI inakagua biashara hii…",
+      "unavailable": "Uchunguzi wa AI haupatikani kwa sasa.",
+      "label": "Uchunguzi wa AI"
+    },
+    "tags": {
+      "chasedEntry": "Kufukuza kuingia",
+      "movedStop": "Stop imehamishwa",
+      "revengeTrade": "Biashara ya kulipiza kisasi",
+      "oversized": "Ukubwa kupita kiasi",
+      "noPlan": "Bila mpango",
+      "fomoEntry": "Kuingia kwa FOMO",
+      "exitedEarly": "Kutoka mapema",
+      "heldLoser": "Kushikilia hasara",
+      "overtraded": "Kufanya biashara kupita kiasi"
+    },
+    "classification": {
+      "earnedWin": "Ushindi uliostahili",
+      "wellPlayedLoss": "Hasara iliyochezwa vizuri",
+      "honestTuition": "Ada ya kujifunza ya kweli",
+      "dangerousSuccess": "Mafanikio hatari"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

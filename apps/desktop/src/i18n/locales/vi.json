@@ -288,6 +288,51 @@
       "violations": "{{count}} trong {{total}} giao dịch đã vi phạm điều này"
     }
   },
+  "journal": {
+    "title": "Nhật ký",
+    "tagline": "Kế hoạch bạn viết, giao dịch bạn thực hiện, và điều bạn rút ra từ đó.",
+    "aiTitle": "Nhật ký của bạn nói gì",
+    "loadError": "Không thể tải nhật ký. Backend có đang chạy không?",
+    "empty": "Chưa có giao dịch giấy nào được thực hiện. Đặt một giao dịch với kế hoạch đầy đủ — cắt lỗ, mục tiêu, rủi ro và lý do — và nó sẽ xuất hiện ở đây để xem lại.",
+    "process": "Quy trình",
+    "thesis": "Luận điểm:",
+    "notePlaceholder": "Điều gì thực sự đã xảy ra? Bạn sẽ lặp lại điều gì — hoặc không bao giờ làm lại?",
+    "pendingOrders": "Lệnh đang chờ (chưa khớp)",
+    "footer": "Thẻ cung cấp dữ liệu cho huấn luyện viên Đánh giá — gắn thẻ trung thực mới khiến các đề xuất thực sự là của bạn.",
+    "tiles": {
+      "tradesLogged": "Giao dịch đã ghi",
+      "tradesLoggedHelper": "Giao dịch giấy đã thực hiện",
+      "avgProcess": "Điểm quy trình trung bình",
+      "avgProcessHelper": "Tuân thủ kế hoạch, 0–100",
+      "netR": "R ròng",
+      "netRHelper": "Giao dịch đã đóng, theo R",
+      "taggedForReview": "Đã gắn thẻ để xem lại",
+      "taggedForReviewHelper": "Giao dịch có thẻ lỗi"
+    },
+    "postmortem": {
+      "button": "Mổ xẻ bằng AI",
+      "reviewing": "AI đang xem xét giao dịch này…",
+      "unavailable": "Mổ xẻ bằng AI hiện không khả dụng.",
+      "label": "Mổ xẻ bằng AI"
+    },
+    "tags": {
+      "chasedEntry": "Đuổi theo vào lệnh",
+      "movedStop": "Dời cắt lỗ",
+      "revengeTrade": "Giao dịch trả thù",
+      "oversized": "Khối lượng quá lớn",
+      "noPlan": "Không có kế hoạch",
+      "fomoEntry": "Vào lệnh vì FOMO",
+      "exitedEarly": "Thoát quá sớm",
+      "heldLoser": "Giữ lệnh thua",
+      "overtraded": "Giao dịch quá mức"
+    },
+    "classification": {
+      "earnedWin": "Chiến thắng xứng đáng",
+      "wellPlayedLoss": "Thua được chơi tốt",
+      "honestTuition": "Học phí trung thực",
+      "dangerousSuccess": "Thành công nguy hiểm"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

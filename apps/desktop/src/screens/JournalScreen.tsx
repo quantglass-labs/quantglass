@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { NotebookPen } from 'lucide-react';
 
@@ -19,23 +20,25 @@ import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus, JournalItem, PaperTradeIntentRecord } from '../types';
 
-const TAG_LABELS: Record<string, string> = {
-  chased_entry: 'Chased entry',
-  moved_stop: 'Moved stop',
-  revenge_trade: 'Revenge trade',
-  oversized: 'Oversized',
-  no_plan: 'No plan',
-  fomo_entry: 'FOMO entry',
-  exited_early: 'Exited early',
-  held_loser: 'Held loser',
-  overtraded: 'Overtraded',
+// Maps a mistake-tag id to its `journal.tags.<key>` translation subkey.
+const TAG_KEYS: Record<string, string> = {
+  chased_entry: 'chasedEntry',
+  moved_stop: 'movedStop',
+  revenge_trade: 'revengeTrade',
+  oversized: 'oversized',
+  no_plan: 'noPlan',
+  fomo_entry: 'fomoEntry',
+  exited_early: 'exitedEarly',
+  held_loser: 'heldLoser',
+  overtraded: 'overtraded',
 };
 
-const CLASSIFICATION_LABELS: Record<string, { label: string; tone: string }> = {
-  earned_win: { label: 'Earned win', tone: 'text-emerald-300 border-emerald-500/40' },
-  well_played_loss: { label: 'Well-played loss', tone: 'text-sky-300 border-sky-500/40' },
-  honest_tuition: { label: 'Honest tuition', tone: 'text-zinc-300 border-zinc-600' },
-  dangerous_success: { label: 'Dangerous success', tone: 'text-amber-300 border-amber-500/40' },
+// Tone + `journal.classification.<key>` subkey for each trade classification.
+const CLASSIFICATION_META: Record<string, { key: string; tone: string }> = {
+  earned_win: { key: 'earnedWin', tone: 'text-emerald-300 border-emerald-500/40' },
+  well_played_loss: { key: 'wellPlayedLoss', tone: 'text-sky-300 border-sky-500/40' },
+  honest_tuition: { key: 'honestTuition', tone: 'text-zinc-300 border-zinc-600' },
+  dangerous_success: { key: 'dangerousSuccess', tone: 'text-amber-300 border-amber-500/40' },
 };
 
 function TradeCard({
@@ -47,11 +50,12 @@ function TradeCard({
   mistakeTags: string[];
   onSave: (intentId: string, note: string, tags: string[]) => Promise<void>;
 }) {
+  const { t } = useTranslation();
   const [note, setNote] = useState(item.journal_note);
   const [tags, setTags] = useState<string[]>(item.tags);
   const [saving, setSaving] = useState(false);
   const dirty = note !== item.journal_note || tags.join() !== item.tags.join();
-  const badge = item.classification ? CLASSIFICATION_LABELS[item.classification] : null;
+  const badge = item.classification ? CLASSIFICATION_META[item.classification] : null;
 
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
@@ -60,7 +64,7 @@ function TradeCard({
         <span className="text-xs uppercase tracking-wider text-zinc-500">{item.side}</span>
         <span className="text-xs text-zinc-600">{item.submittedAt?.slice(0, 10)}</span>
         <span className="ml-auto text-sm text-zinc-400">
-          Process{' '}
+          {t('journal.process')}{' '}
           <span className={item.process_score >= 70 ? 'text-emerald-300' : 'text-amber-300'}>
             {item.process_score}
           </span>
@@ -73,13 +77,13 @@ function TradeCard({
         ) : null}
         {badge ? (
           <span className={`rounded-full border px-2 py-0.5 text-[10px] ${badge.tone}`}>
-            {badge.label}
+            {t(`journal.classification.${badge.key}`)}
           </span>
         ) : null}
       </div>
       {item.planReason ? (
         <p className="mt-2 text-sm text-zinc-400">
-          <span className="text-zinc-600">Thesis:</span> {item.planReason}
+          <span className="text-zinc-600">{t('journal.thesis')}</span> {item.planReason}
         </p>
       ) : null}
       {item.process_notes.length ? (
@@ -106,7 +110,7 @@ function TradeCard({
                   : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
               }`}
             >
-              {TAG_LABELS[tag] ?? tag}
+              {TAG_KEYS[tag] ? t(`journal.tags.${TAG_KEYS[tag]}`) : tag}
             </button>
           );
         })}
@@ -115,7 +119,7 @@ function TradeCard({
         <textarea
           value={note}
           onChange={(event) => setNote(event.target.value)}
-          placeholder="What actually happened? What would you repeat — or never do again?"
+          placeholder={t('journal.notePlaceholder')}
           rows={2}
           className="flex-1 resize-y rounded-lg border border-zinc-700 bg-zinc-950/60 p-2.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-indigo-500 focus:outline-none"
         />
@@ -129,7 +133,7 @@ function TradeCard({
           }}
           className="rounded-lg border border-indigo-500/50 px-3 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {saving ? 'Saving…' : 'Save'}
+          {saving ? t('common.saving') : t('common.save')}
         </button>
       </div>
       <TradePostmortem item={item} />
@@ -138,6 +142,7 @@ function TradeCard({
 }
 
 function TradePostmortem({ item }: { item: JournalItem }) {
+  const { t } = useTranslation();
   const [result, setResult] = useState<{ summary: string; source: string } | null>(null);
   const [loading, setLoading] = useState(false);
   if (!item.classification) return null;
@@ -157,7 +162,7 @@ function TradePostmortem({ item }: { item: JournalItem }) {
         }),
       );
     } catch {
-      setResult({ summary: 'AI postmortem unavailable right now.', source: 'error' });
+      setResult({ summary: t('journal.postmortem.unavailable'), source: 'error' });
     } finally {
       setLoading(false);
     }
@@ -172,12 +177,12 @@ function TradePostmortem({ item }: { item: JournalItem }) {
           onClick={() => void ask()}
           className="rounded-full border border-indigo-500/30 bg-indigo-600/10 px-3 py-1.5 text-xs text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-50"
         >
-          {loading ? 'AI is reviewing this trade…' : 'AI postmortem'}
+          {loading ? t('journal.postmortem.reviewing') : t('journal.postmortem.button')}
         </button>
       ) : (
         <div className="rounded-lg border border-indigo-500/25 bg-indigo-600/10 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-300">
-            AI postmortem{' '}
+            {t('journal.postmortem.label')}{' '}
             <span className="ml-1 rounded-full border border-zinc-700 px-2 py-0.5 normal-case text-zinc-500">
               {result.source}
             </span>
@@ -192,6 +197,7 @@ function TradePostmortem({ item }: { item: JournalItem }) {
 }
 
 export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [items, setItems] = useState<JournalItem[] | null>(null);
   const [mistakeTags, setMistakeTags] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -214,9 +220,9 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
         setItems(response.items);
         setMistakeTags(response.mistake_tags);
       })
-      .catch(() => setError('Could not load the journal. Is the backend running?'));
+      .catch(() => setError(t('journal.loadError')));
     loadPending();
-  }, [backendStatus]);
+  }, [backendStatus, t]);
 
   const summary = useMemo(() => {
     if (!items?.length) return null;
@@ -241,38 +247,40 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
     <div className="mx-auto max-w-4xl">
       <div className="flex items-center gap-2">
         <NotebookPen size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">Journal</h1>
-        <span className="ml-auto text-xs text-zinc-600">
-          The plan you wrote, the trade you took, and what you make of it.
-        </span>
+        <h1 className="text-lg font-semibold text-zinc-100">{t('journal.title')}</h1>
+        <span className="ml-auto text-xs text-zinc-600">{t('journal.tagline')}</span>
       </div>
 
       <BackendStatusNotice status={backendStatus} />
-      <AiInsight surface="journal" title="What your journal says" />
+      <AiInsight surface="journal" title={t('journal.aiTitle')} />
 
       {summary ? (
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <MetricTile label="Trades logged" hero helper="Executed paper trades">
+          <MetricTile
+            label={t('journal.tiles.tradesLogged')}
+            hero
+            helper={t('journal.tiles.tradesLoggedHelper')}
+          >
             <CountUp value={summary.count} format={(n) => String(Math.round(n))} />
           </MetricTile>
           <MetricTile
-            label="Avg process score"
+            label={t('journal.tiles.avgProcess')}
             toneClass={summary.avgProcess >= 70 ? 'text-buy' : 'text-watch'}
-            helper="Plan adherence, 0–100"
+            helper={t('journal.tiles.avgProcessHelper')}
           >
             <CountUp value={summary.avgProcess} format={(n) => String(Math.round(n))} />
           </MetricTile>
           <MetricTile
-            label="Net R"
+            label={t('journal.tiles.netR')}
             toneClass={summary.netR >= 0 ? 'text-buy' : 'text-sell'}
-            helper="Resolved trades, in R"
+            helper={t('journal.tiles.netRHelper')}
           >
             <CountUp value={summary.netR} format={(n) => `${n >= 0 ? '+' : ''}${n.toFixed(2)}R`} />
           </MetricTile>
           <MetricTile
-            label="Tagged for review"
+            label={t('journal.tiles.taggedForReview')}
             toneClass="text-watch"
-            helper="Trades with mistake tags"
+            helper={t('journal.tiles.taggedForReviewHelper')}
           >
             <CountUp value={summary.tagged} format={(n) => String(Math.round(n))} />
           </MetricTile>
@@ -293,15 +301,14 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
       ) : null}
       {items && items.length === 0 ? (
         <p className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-400">
-          No executed paper trades yet. Place a trade with a full plan — stop, target, risk, and
-          reason — and it will appear here for review.
+          {t('journal.empty')}
         </p>
       ) : null}
 
       {pendingOrders.length ? (
         <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Working orders (not yet filled)
+            {t('journal.pendingOrders')}
           </p>
           <ul className="mt-2 space-y-2">
             {pendingOrders.map((order) => (
@@ -317,7 +324,7 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
                   }}
                   className="ml-auto rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
               </li>
             ))}
@@ -332,9 +339,7 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
           </FadeIn>
         ))}
       </div>
-      <p className="mt-6 text-xs text-zinc-600">
-        Tags feed the Review coach — honest tagging is what makes the recommendations yours.
-      </p>
+      <p className="mt-6 text-xs text-zinc-600">{t('journal.footer')}</p>
     </div>
   );
 }
