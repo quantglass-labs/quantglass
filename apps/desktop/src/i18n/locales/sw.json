@@ -398,6 +398,158 @@
     },
     "footer": "Kukamilisha misheni hufungua viwango vya Academy. Pakiti za jamii zinaweza kuongeza zaidi kupitia SDK ya viendelezi. Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "Uthibitishaji wa kiuaminifu kitakwimu",
+    "description": "Kichagua mkakati, ingizo la modeli ya gharama, vipimo vya ndani-ya-sampuli dhidi ya nje-ya-sampuli, na maonyo ya sampuli ndogo. Mabadiliko ya vigezo huendesha upya injini ya kiasili ya backend kwenye mishumaa ya korido iliyohifadhiwa.",
+    "runFailed": "Kuendesha upya backend kumeshindwa — ikiwa data imepokewa hivi punde, jaribu tena baada ya sekunde chache.",
+    "defaultRunMessage": "Mabadiliko ya vigezo huendeshwa upya kwenye backend na husasisha vipimo hapa chini.",
+    "status": {
+      "running": "Inaendesha backtest ya backend kwa modeli ya gharama na mgawanyo wa uthibitishaji wa sasa.",
+      "synced": "Vipimo hapa chini vimeoanishwa kutoka injini ya kiasili ya backend kwa kutumia mishumaa ya korido iliyohifadhiwa.",
+      "noCandles": "Hakuna mishumaa ya {{timeframe}} iliyohifadhiwa kwa {{symbol}} — alama hii ina data ya {{available}}. Chagua mojawapo ya vipindi hivyo na uendeshe upya."
+    },
+    "chips": {
+      "pastDataOnly": "Data ya zamani pekee",
+      "notAPrediction": "Si utabiri",
+      "costsIncluded": "Gharama zimejumuishwa",
+      "outOfSampleRequired": "Nje-ya-sampuli inahitajika"
+    },
+    "howTo": {
+      "title": "Jinsi inavyofanya kazi",
+      "show": "Onyesha",
+      "hide": "Ficha",
+      "intro": "Hucheza tena sheria sahihi za kuingia/kusimamisha/lengo za mpangilio mmoja kwenye mishumaa iliyohifadhiwa kwenye mashine hii na huripoti jinsi mpangilio huo ungefanya biashara — kiwango cha ushindi, matarajio kwa R, usawa na kushuka — huku ada na utelezi vikitozwa kila safari ya kwenda-kurudi. Huthibitisha kwa uaminifu: sampuli hugawanywa kwa mpangilio wa wakati kuwa mafunzo/jaribio ili nambari kuu lazima zidumu kwenye data ambayo sheria hazijawahi kuiona, na kila utekelezaji hupata meza ya kazi hapa chini — matukio ya mkazo wa gharama, kushuka kwa Monte Carlo, malango ya upendeleo, na mapitio ya utafiti ya AI.",
+      "step1": "Chagua mpangilio uliopangwa — mipangilio hutengenezwa kutoka ishara hai za injini (moja kwa kila alama/mpangilio injini inaogundua sasa) pamoja na chochote ulichohifadhi awali.",
+      "step2": "Rekebisha ada, utelezi, na mgawanyo wa mafunzo/jaribio; utekelezaji huendeshwa upya papo hapo.",
+      "step3": "Soma safu ya nje-ya-sampuli na meza ya kazi kabla ya kuamini kitu kingine chochote.",
+      "step4Save": "Hifadhi mkakati",
+      "step4Suffix": "huuhifadhi chini ya Mipangilio → Mikakati kwa ajili ya kuuendesha tena baadaye.",
+      "footer": "Backtest ni ushahidi kuhusu zamani, kamwe si ahadi kuhusu siku zijazo. Njia inayolingana ya Academy (Backtesting na Uaminifu wa Kitakwimu) hufundisha kila nambari kwenye skrini hii."
+    },
+    "selector": {
+      "title": "Kichagua mkakati / mpangilio",
+      "waitingForData": "Inasubiri data ya soko…",
+      "detectedSignals": "Ishara zilizogunduliwa",
+      "savedStrategies": "Mikakati iliyohifadhiwa",
+      "demo": "Onyesho",
+      "presetsHint": "Mipangilio ya ishara zilizogunduliwa huonekana kiotomatiki mara injini inapotengeneza ishara kutoka data ya soko iliyohifadhiwa. Mikakati iliyohifadhiwa na onyesho zinapatikana daima hapo juu.",
+      "composeYourOwn": "Au tunga yako mwenyewe",
+      "composeHint": "Mkakati hapa = alama × familia ya mpangilio × kipindi cha muda × gharama × uthibitishaji. Sheria za kuingia/kusimamisha/lengo za kila familia ni msimbo wa injini uliochapishwa na kufanyiwa backtest (unaofundishwa katika Jifunze); familia mpya za sheria hutoka kwa viendelezi — kamwe si kutoka kisanduku cha maandishi huru kisichoweza kujaribiwa.",
+      "symbolAria": "Alama",
+      "symbolPlaceholder": "Alama…",
+      "setupFamilyAria": "Familia ya mpangilio",
+      "timeframeAria": "Kipindi cha muda",
+      "storedCandles": "{{symbol}} ina mishumaa iliyohifadhiwa kwa: {{timeframes}}",
+      "useCombination": "Tumia mchanganyiko huu"
+    },
+    "costs": {
+      "fees": "Ada %",
+      "slippage": "Utelezi %",
+      "split": "Mgawanyo wa mafunzo / jaribio",
+      "splitLabel": "{{train}}% mafunzo / {{test}}% jaribio",
+      "walkForward": "Uchambuzi wa walk-forward",
+      "enabled": "Imewashwa",
+      "disabled": "Imezimwa"
+    },
+    "prefill": {
+      "source": "Chanzo cha kujaza awali",
+      "unavailable": "Haipatikani",
+      "line": "Alama: {{symbol}} · Mpangilio: {{setup}} · Kipindi cha muda: {{timeframe}}",
+      "strategySource": "Chanzo cha mkakati: {{name}} ({{source}})",
+      "builtIn": "kilichojengwa ndani",
+      "liveBacking": "Uungwaji mkono wa korido ya soko ya moja kwa moja unapatikana kwa {{symbol}} {{timeframe}} kupitia {{provider}}, ilisasishwa mwisho {{time}} UTC."
+    },
+    "saveStrategy": "Hifadhi mkakati",
+    "running": "Inaendesha…",
+    "runBacktest": "Endesha backtest",
+    "readiness": {
+      "title": "Utayari wa backtest",
+      "strategySelected": "Mkakati umechaguliwa",
+      "marketDataStored": "Data ya soko imehifadhiwa kwa alama",
+      "costsConfigured": "Gharama zimesanidiwa",
+      "splitSet": "Mgawanyo wa mafunzo/jaribio umewekwa",
+      "walkForwardEnabled": "Walk-forward imewashwa"
+    },
+    "empty": {
+      "title": "Anza backtest yako ya kwanza ya kiuaminifu kitakwimu",
+      "description": "Chagua chanzo cha mkakati, thibitisha gharama na mgawanyo wa mafunzo/jaribio, kisha uiendeshe ili kuona usawa, kushuka, vipimo vya nje-ya-sampuli, Monte Carlo, na mapitio ya AI.",
+      "useLatestSignal": "Tumia ishara ya hivi punde iliyogunduliwa",
+      "tryDemo": "Jaribu mkakati wa onyesho",
+      "loadSaved": "Pakia mkakati uliohifadhiwa",
+      "appearsAfterRun": "huonekana baada ya utekelezaji",
+      "demoNote": "Onyesho huendesha sheria za trend-pullback zilizojengwa ndani kwenye data ya soko iliyohifadhiwa — sampuli ya kielimu, si ishara hai.",
+      "preview": {
+        "equityCurve": "Mkunjo wa usawa",
+        "drawdown": "Kushuka",
+        "winRateExpectancy": "Kiwango cha ushindi & matarajio",
+        "trainTestComparison": "Ulinganishi wa mafunzo/jaribio",
+        "costStressTable": "Jedwali la mkazo wa gharama",
+        "monteCarloDrawdowns": "Kushuka kwa Monte Carlo",
+        "biasQualityGates": "Malango ya upendeleo & ubora",
+        "aiResearchReview": "Mapitio ya utafiti ya AI"
+      }
+    },
+    "error": {
+      "title": "Matokeo ya backtest hayapatikani",
+      "description": "Matokeo ya backtest hayakuweza kupakiwa."
+    },
+    "charts": {
+      "equityCurve": "Mkunjo wa usawa",
+      "drawdownCurve": "Mkunjo wa kushuka"
+    },
+    "tiles": {
+      "netWinRate": "Kiwango halisi cha ushindi",
+      "averageR": "R wastani",
+      "averageRHelper": "Halisi baada ya ada + utelezi",
+      "expectancy": "Matarajio",
+      "expectancyHelper": "Kwa kila biashara kwa R",
+      "maxDrawdown": "Kushuka kwa juu zaidi",
+      "maxDrawdownHelper": "Kilele-hadi-bonde mbaya zaidi cha usawa",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Mapato yaliyorekebishwa kwa hatari",
+      "sortino": "Sortino",
+      "sortinoHelper": "Mapato yaliyorekebishwa kwa kushuka",
+      "profitFactor": "Kipengele cha faida",
+      "profitFactorHelper": "Faida ghafi / hasara ghafi",
+      "tradeCount": "Idadi ya biashara",
+      "tradeCountHelper": "Idadi ya biashara za nje-ya-sampuli · kizingiti {{threshold}}"
+    },
+    "inOut": {
+      "title": "Ndani-ya-sampuli dhidi ya nje-ya-sampuli",
+      "inSampleWinRate": "Kiwango cha ushindi cha ndani-ya-sampuli",
+      "trainingSegment": "Sehemu ya mafunzo",
+      "outOfSampleWinRate": "Kiwango cha ushindi cha nje-ya-sampuli",
+      "heldOutValidation": "Uthibitishaji uliotengwa",
+      "overfittingWarning": "Onyo la hatari ya overfitting: kiwango cha ushindi cha nje-ya-sampuli kiko nyuma ya ndani-ya-sampuli kwa pointi za asilimia {{gap}}.",
+      "noOverfitting": "Utendaji wa ndani-ya-sampuli na nje-ya-sampuli unabaki karibu vya kutosha kuepuka onyo la overfitting."
+    },
+    "sample": {
+      "lowWarningTitle": "Onyo la sampuli ndogo",
+      "lowWarningBody": "Mpangilio huu una biashara chini ya {{threshold}}, hivyo takwimu za uthibitishaji zinapaswa kuchukuliwa kama zisizo imara.",
+      "aboveThreshold": "Ukubwa wa sampuli uko juu ya kizingiti cha chini cha backtest kilichosanidiwa cha biashara {{threshold}}.",
+      "refreshing": "Inaonyesha upya utekelezaji wa backend…",
+      "rerunUnavailable": "Kuendesha upya backend hakupatikani"
+    },
+    "workbench": {
+      "aiResearchReview": "Mapitio ya utafiti ya AI",
+      "overfitRisk": "Hatari ya overfit:",
+      "nextAction": "Hatua inayofuata:",
+      "liveReadiness": "Utayari wa moja kwa moja:",
+      "costStressScenarios": "Matukio ya mkazo wa gharama",
+      "scenario": "Tukio",
+      "expectancy": "Matarajio",
+      "winRate": "Kiwango cha ushindi",
+      "pf": "PF",
+      "costStressNote": "Uigaji ule ule, gharama mbaya zaidi. Faida inayokufa kwa utelezi mara 2 haikuwahi kuwa faida.",
+      "monteCarloTitle": "Kushuka kwa Monte Carlo (nje-ya-sampuli)",
+      "medianMaxDrawdown": "Wastani wa kushuka kwa juu zaidi",
+      "p95Drawdown": "Kushuka kwa asilimia ya 95",
+      "mcRunsLine": "Sampuli upya {{runs}} za biashara {{sample}} za OOS. {{caveat}}",
+      "biasGates": "Malango ya upendeleo & ubora",
+      "experimentLine": "jaribio {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

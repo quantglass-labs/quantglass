@@ -392,6 +392,158 @@
     },
     "footer": "ミッションを完了するとアカデミーのレベルが解放されます。コミュニティパックは拡張SDKで追加できます。教育目的のみ——投資助言ではありません。"
   },
+  "backtest": {
+    "eyebrow": "バックテスト",
+    "title": "統計的に誠実な検証",
+    "description": "戦略セレクター、コストモデル入力、インサンプル対アウトオブサンプルの指標、低サンプル警告。パラメーター変更で、バックエンドのクオンツエンジンが保存済みコリドー足に対して再実行されます。",
+    "runFailed": "バックエンドの再実行に失敗しました — データを取り込んだ直後なら数秒後に再試行してください。",
+    "defaultRunMessage": "パラメーター変更はバックエンドで再実行され、下の指標を更新します。",
+    "status": {
+      "running": "現在のコストモデルと検証分割でバックエンドのバックテストを実行中です。",
+      "synced": "下の指標は保存済みコリドー足を用いてバックエンドのクオンツエンジンから同期されています。",
+      "noCandles": "{{symbol}} の {{timeframe}} 足は保存されていません — この銘柄には {{available}} のデータがあります。それらの時間軸のいずれかを選んで再実行してください。"
+    },
+    "chips": {
+      "pastDataOnly": "過去データのみ",
+      "notAPrediction": "予測ではありません",
+      "costsIncluded": "コスト込み",
+      "outOfSampleRequired": "アウトオブサンプル必須"
+    },
+    "howTo": {
+      "title": "仕組み",
+      "show": "表示",
+      "hide": "非表示",
+      "intro": "このマシンに保存された足に対して、ある一つのセットアップの正確なエントリー/ストップ/ターゲットのルールを再生し、そのセットアップがどう取引していたか——勝率、R建ての期待値、エクイティとドローダウン——を、毎回の往復に手数料とスリッページを課して報告します。誠実に検証します：サンプルは時系列で学習/テストに分割され、主要な数値はルールが見たことのないデータでも生き残らねばなりません。各実行は下のワークベンチ——コストストレスシナリオ、モンテカルロのドローダウン、バイアスゲート、AIリサーチレビュー——を得ます。",
+      "step1": "プリセットを選択 — プリセットはエンジンのライブシグナル（エンジンが現在検出する銘柄/セットアップごとに1つ）に加え、以前保存したものから生成されます。",
+      "step2": "手数料、スリッページ、学習/テスト分割を調整します。実行は即座に再実行されます。",
+      "step3": "他の何かを信頼する前に、アウトオブサンプルの行とワークベンチを読みましょう。",
+      "step4Save": "戦略を保存",
+      "step4Suffix": "は設定 → 戦略に保存し、後で再実行できます。",
+      "footer": "バックテストは過去についての証拠であり、未来への約束では決してありません。対応するアカデミーのトラック（バックテストと統計的誠実さ）が、この画面のすべての数値を教えます。"
+    },
+    "selector": {
+      "title": "戦略 / セットアップ セレクター",
+      "waitingForData": "市場データを待機中…",
+      "detectedSignals": "検出されたシグナル",
+      "savedStrategies": "保存済み戦略",
+      "demo": "デモ",
+      "presetsHint": "検出シグナルのプリセットは、エンジンが保存済み市場データからシグナルを生成すると自動的に表示されます。保存済み戦略とデモは常に上で利用可能です。",
+      "composeYourOwn": "または自分で組む",
+      "composeHint": "ここでの戦略 = 銘柄 × セットアップファミリー × 時間軸 × コスト × 検証。各ファミリーのエントリー/ストップ/ターゲットのルールはエンジンの公開済み・バックテスト済みコード（学ぶで教えられる）です。新しいルールファミリーは拡張から来ます — テストできない自由記述ボックスからは決して来ません。",
+      "symbolAria": "銘柄",
+      "symbolPlaceholder": "銘柄…",
+      "setupFamilyAria": "セットアップファミリー",
+      "timeframeAria": "時間軸",
+      "storedCandles": "{{symbol}} は次の時間軸の足を保存しています：{{timeframes}}",
+      "useCombination": "この組み合わせを使う"
+    },
+    "costs": {
+      "fees": "手数料 %",
+      "slippage": "スリッページ %",
+      "split": "学習 / テスト分割",
+      "splitLabel": "{{train}}% 学習 / {{test}}% テスト",
+      "walkForward": "ウォークフォワード分析",
+      "enabled": "有効",
+      "disabled": "無効"
+    },
+    "prefill": {
+      "source": "事前入力ソース",
+      "unavailable": "利用不可",
+      "line": "銘柄：{{symbol}} · セットアップ：{{setup}} · 時間軸：{{timeframe}}",
+      "strategySource": "戦略ソース：{{name}}（{{source}}）",
+      "builtIn": "組み込み",
+      "liveBacking": "{{symbol}} {{timeframe}} のライブ市場コリドー裏付けが {{provider}} 経由で利用可能、最終更新 {{time}} UTC。"
+    },
+    "saveStrategy": "戦略を保存",
+    "running": "実行中…",
+    "runBacktest": "バックテストを実行",
+    "readiness": {
+      "title": "バックテストの準備状況",
+      "strategySelected": "戦略を選択済み",
+      "marketDataStored": "銘柄の市場データを保存済み",
+      "costsConfigured": "コスト設定済み",
+      "splitSet": "学習/テスト分割を設定済み",
+      "walkForwardEnabled": "ウォークフォワード有効"
+    },
+    "empty": {
+      "title": "最初の統計的に誠実なバックテストを開始",
+      "description": "戦略ソースを選び、コストと学習/テスト分割を確認してから実行し、エクイティ、ドローダウン、アウトオブサンプル指標、モンテカルロ、AIレビューを確認しましょう。",
+      "useLatestSignal": "最新の検出シグナルを使う",
+      "tryDemo": "デモ戦略を試す",
+      "loadSaved": "保存済み戦略を読み込む",
+      "appearsAfterRun": "実行後に表示されます",
+      "demoNote": "デモは保存済み市場データに対して組み込みのトレンド・プルバックのルールを実行します — 教育用サンプルであり、ライブシグナルではありません。",
+      "preview": {
+        "equityCurve": "エクイティカーブ",
+        "drawdown": "ドローダウン",
+        "winRateExpectancy": "勝率と期待値",
+        "trainTestComparison": "学習/テスト比較",
+        "costStressTable": "コストストレス表",
+        "monteCarloDrawdowns": "モンテカルロのドローダウン",
+        "biasQualityGates": "バイアス＆品質ゲート",
+        "aiResearchReview": "AIリサーチレビュー"
+      }
+    },
+    "error": {
+      "title": "バックテスト結果を利用できません",
+      "description": "バックテスト結果を読み込めませんでした。"
+    },
+    "charts": {
+      "equityCurve": "エクイティカーブ",
+      "drawdownCurve": "ドローダウンカーブ"
+    },
+    "tiles": {
+      "netWinRate": "正味勝率",
+      "averageR": "平均R",
+      "averageRHelper": "手数料＋スリッページ控除後",
+      "expectancy": "期待値",
+      "expectancyHelper": "1トレードあたりR建て",
+      "maxDrawdown": "最大ドローダウン",
+      "maxDrawdownHelper": "エクイティの最悪のピークから谷",
+      "sharpe": "シャープ",
+      "sharpeHelper": "リスク調整後リターン",
+      "sortino": "ソルティノ",
+      "sortinoHelper": "下方調整後リターン",
+      "profitFactor": "プロフィットファクター",
+      "profitFactorHelper": "総利益 / 総損失",
+      "tradeCount": "トレード数",
+      "tradeCountHelper": "アウトオブサンプルのトレード数 · しきい値 {{threshold}}"
+    },
+    "inOut": {
+      "title": "インサンプル vs アウトオブサンプル",
+      "inSampleWinRate": "インサンプル勝率",
+      "trainingSegment": "学習セグメント",
+      "outOfSampleWinRate": "アウトオブサンプル勝率",
+      "heldOutValidation": "ホールドアウト検証",
+      "overfittingWarning": "過学習リスク警告：アウトオブサンプル勝率がインサンプルを {{gap}} パーセントポイント下回っています。",
+      "noOverfitting": "インサンプルとアウトオブサンプルの成績は、過学習警告を避けられる程度に近いままです。"
+    },
+    "sample": {
+      "lowWarningTitle": "低サンプル警告",
+      "lowWarningBody": "このセットアップはトレードが {{threshold}} 件未満のため、検証統計は不安定として扱うべきです。",
+      "aboveThreshold": "サンプルサイズは設定された最小バックテストしきい値 {{threshold}} トレードを上回っています。",
+      "refreshing": "バックエンド実行を更新中…",
+      "rerunUnavailable": "バックエンドの再実行を利用できません"
+    },
+    "workbench": {
+      "aiResearchReview": "AIリサーチレビュー",
+      "overfitRisk": "過学習リスク：",
+      "nextAction": "次のアクション：",
+      "liveReadiness": "ライブ準備状況：",
+      "costStressScenarios": "コストストレスシナリオ",
+      "scenario": "シナリオ",
+      "expectancy": "期待値",
+      "winRate": "勝率",
+      "pf": "PF",
+      "costStressNote": "同じシミュレーション、より悪いコスト。2倍のスリッページで死ぬ優位性は、最初から優位性ではありませんでした。",
+      "monteCarloTitle": "モンテカルロのドローダウン（アウトオブサンプル）",
+      "medianMaxDrawdown": "最大ドローダウンの中央値",
+      "p95Drawdown": "95パーセンタイルのドローダウン",
+      "mcRunsLine": "{{sample}} 件のOOSトレードの {{runs}} 回リサンプル。{{caveat}}",
+      "biasGates": "バイアス＆品質ゲート",
+      "experimentLine": "実験 {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

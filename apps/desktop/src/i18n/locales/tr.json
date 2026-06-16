@@ -398,6 +398,158 @@
     },
     "footer": "Görevleri tamamlamak Akademi seviyelerini açar. Topluluk paketleri eklenti SDK'sı ile daha fazlasını ekleyebilir. Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "İstatistiksel olarak dürüst doğrulama",
+    "description": "Strateji seçici, maliyet modeli girdileri, örnek-içi ve örnek-dışı metrikler ve düşük örnek uyarıları. Parametre değişiklikleri, backend kuant motorunu kayıtlı koridor mumları üzerinde yeniden çalıştırır.",
+    "runFailed": "Backend yeniden çalıştırması başarısız — veri az önce alındıysa birkaç saniye sonra tekrar deneyin.",
+    "defaultRunMessage": "Parametre değişiklikleri backend'de yeniden çalışır ve aşağıdaki metrikleri günceller.",
+    "status": {
+      "running": "Backend backtest, mevcut maliyet modeli ve doğrulama bölünmesiyle çalıştırılıyor.",
+      "synced": "Aşağıdaki metrikler kayıtlı koridor mumları kullanılarak backend kuant motorundan senkronize edildi.",
+      "noCandles": "{{symbol}} için kayıtlı {{timeframe}} mumu yok — bu sembolde {{available}} verisi var. Bu zaman dilimlerinden birini seçip yeniden çalıştırın."
+    },
+    "chips": {
+      "pastDataOnly": "Yalnızca geçmiş veri",
+      "notAPrediction": "Tahmin değil",
+      "costsIncluded": "Maliyetler dahil",
+      "outOfSampleRequired": "Örnek-dışı gerekli"
+    },
+    "howTo": {
+      "title": "Nasıl çalışır",
+      "show": "Göster",
+      "hide": "Gizle",
+      "intro": "Bir kurulumun tam giriş/stop/hedef kurallarını bu makinede kayıtlı mumlar üzerinde yeniden oynatır ve o kurulumun nasıl işlem yapacağını — kazanma oranı, R cinsinden beklenti, öz sermaye ve düşüş — her gidiş-dönüşte ücret ve kayma uygulanarak raporlar. Dürüstçe doğrular: örnek kronolojik olarak eğitim/test'e bölünür, böylece ana sayılar kuralların hiç görmediği verilerde de geçerli kalmalıdır ve her çalıştırma aşağıdaki tezgâhı alır — maliyet stres senaryoları, Monte Carlo düşüşleri, önyargı kapıları ve yapay zekâ araştırma incelemesi.",
+      "step1": "Bir hazır ayar seçin — hazır ayarlar motorun canlı sinyallerinden (motorun şu anda algıladığı her sembol/kurulum için bir tane) ve daha önce kaydettiklerinizden üretilir.",
+      "step2": "Ücretleri, kaymayı ve eğitim/test bölünmesini ayarlayın; çalıştırma anında yeniden yürütülür.",
+      "step3": "Başka bir şeye güvenmeden önce örnek-dışı satırı ve tezgâhı okuyun.",
+      "step4Save": "Stratejiyi kaydet",
+      "step4Suffix": "onu daha sonra yeniden çalıştırmak için Ayarlar → Stratejiler altında saklar.",
+      "footer": "Bir backtest geçmiş hakkında kanıttır, asla gelecek hakkında bir söz değildir. İlgili Akademi parkuru (Backtesting ve İstatistiksel Dürüstlük) bu ekrandaki her sayıyı öğretir."
+    },
+    "selector": {
+      "title": "Strateji / kurulum seçici",
+      "waitingForData": "Piyasa verisi bekleniyor…",
+      "detectedSignals": "Algılanan sinyaller",
+      "savedStrategies": "Kayıtlı stratejiler",
+      "demo": "Demo",
+      "presetsHint": "Algılanan sinyal hazır ayarları, motor kayıtlı piyasa verisinden sinyal ürettiğinde otomatik görünür. Kayıtlı stratejiler ve demo yukarıda her zaman mevcuttur.",
+      "composeYourOwn": "Veya kendinizinkini oluşturun",
+      "composeHint": "Buradaki strateji = sembol × kurulum ailesi × zaman dilimi × maliyetler × doğrulama. Her ailenin giriş/stop/hedef kuralları motorun yayımlanmış, backtest edilmiş kodudur (Öğren'de öğretilir); yeni kural aileleri uzantılardan gelir — asla test edilemeyen bir serbest metin kutusundan değil.",
+      "symbolAria": "Sembol",
+      "symbolPlaceholder": "Sembol…",
+      "setupFamilyAria": "Kurulum ailesi",
+      "timeframeAria": "Zaman dilimi",
+      "storedCandles": "{{symbol}} şunlar için kayıtlı mumlara sahip: {{timeframes}}",
+      "useCombination": "Bu kombinasyonu kullan"
+    },
+    "costs": {
+      "fees": "Ücretler %",
+      "slippage": "Kayma %",
+      "split": "Eğitim / test bölünmesi",
+      "splitLabel": "%{{train}} eğitim / %{{test}} test",
+      "walkForward": "Walk-forward analizi",
+      "enabled": "Etkin",
+      "disabled": "Devre dışı"
+    },
+    "prefill": {
+      "source": "Ön doldurma kaynağı",
+      "unavailable": "Mevcut değil",
+      "line": "Sembol: {{symbol}} · Kurulum: {{setup}} · Zaman dilimi: {{timeframe}}",
+      "strategySource": "Strateji kaynağı: {{name}} ({{source}})",
+      "builtIn": "yerleşik",
+      "liveBacking": "{{symbol}} {{timeframe}} için {{provider}} üzerinden canlı piyasa koridoru desteği mevcut, son güncelleme {{time}} UTC."
+    },
+    "saveStrategy": "Stratejiyi kaydet",
+    "running": "Çalışıyor…",
+    "runBacktest": "Backtest çalıştır",
+    "readiness": {
+      "title": "Backtest hazırlığı",
+      "strategySelected": "Strateji seçildi",
+      "marketDataStored": "Sembol için piyasa verisi kayıtlı",
+      "costsConfigured": "Maliyetler yapılandırıldı",
+      "splitSet": "Eğitim/test bölünmesi ayarlandı",
+      "walkForwardEnabled": "Walk-forward etkin"
+    },
+    "empty": {
+      "title": "İlk istatistiksel olarak dürüst backtest'inizi başlatın",
+      "description": "Bir strateji kaynağı seçin, maliyetleri ve eğitim/test bölünmesini onaylayın, ardından öz sermaye, düşüş, örnek-dışı metrikler, Monte Carlo ve yapay zekâ incelemesini görmek için çalıştırın.",
+      "useLatestSignal": "En son algılanan sinyali kullan",
+      "tryDemo": "Demo stratejiyi dene",
+      "loadSaved": "Kayıtlı stratejiyi yükle",
+      "appearsAfterRun": "bir çalıştırmadan sonra görünür",
+      "demoNote": "Demo, kayıtlı piyasa verisi üzerinde yerleşik trend-pullback kurallarını çalıştırır — eğitici bir örnek, canlı bir sinyal değil.",
+      "preview": {
+        "equityCurve": "Öz sermaye eğrisi",
+        "drawdown": "Düşüş",
+        "winRateExpectancy": "Kazanma oranı & beklenti",
+        "trainTestComparison": "Eğitim/test karşılaştırması",
+        "costStressTable": "Maliyet stres tablosu",
+        "monteCarloDrawdowns": "Monte Carlo düşüşleri",
+        "biasQualityGates": "Önyargı & kalite kapıları",
+        "aiResearchReview": "Yapay zekâ araştırma incelemesi"
+      }
+    },
+    "error": {
+      "title": "Backtest sonuçları kullanılamıyor",
+      "description": "Backtest sonuçları yüklenemedi."
+    },
+    "charts": {
+      "equityCurve": "Öz sermaye eğrisi",
+      "drawdownCurve": "Düşüş eğrisi"
+    },
+    "tiles": {
+      "netWinRate": "Net kazanma oranı",
+      "averageR": "Ortalama R",
+      "averageRHelper": "Ücret + kayma sonrası net",
+      "expectancy": "Beklenti",
+      "expectancyHelper": "İşlem başına R cinsinden",
+      "maxDrawdown": "Maks. düşüş",
+      "maxDrawdownHelper": "Öz sermayenin en kötü tepe-dip",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Riske göre ayarlı getiri",
+      "sortino": "Sortino",
+      "sortinoHelper": "Düşüşe göre ayarlı getiri",
+      "profitFactor": "Kâr faktörü",
+      "profitFactorHelper": "Brüt kazançlar / brüt kayıplar",
+      "tradeCount": "İşlem sayısı",
+      "tradeCountHelper": "Örnek-dışı işlem sayısı · eşik {{threshold}}"
+    },
+    "inOut": {
+      "title": "Örnek-içi vs örnek-dışı",
+      "inSampleWinRate": "Örnek-içi kazanma oranı",
+      "trainingSegment": "Eğitim segmenti",
+      "outOfSampleWinRate": "Örnek-dışı kazanma oranı",
+      "heldOutValidation": "Ayrılmış doğrulama",
+      "overfittingWarning": "Aşırı uyum riski uyarısı: örnek-dışı kazanma oranı örnek-içinin {{gap}} yüzde puan gerisinde.",
+      "noOverfitting": "Örnek-içi ve örnek-dışı performans, aşırı uyum uyarısından kaçınacak kadar yakın kalıyor."
+    },
+    "sample": {
+      "lowWarningTitle": "Düşük örnek uyarısı",
+      "lowWarningBody": "Bu kurulumda {{threshold}}'den az işlem var, bu yüzden doğrulama istatistikleri kararsız olarak değerlendirilmeli.",
+      "aboveThreshold": "Örnek boyutu, yapılandırılmış minimum backtest eşiği olan {{threshold}} işlemin üzerinde.",
+      "refreshing": "Backend çalıştırması yenileniyor…",
+      "rerunUnavailable": "Backend yeniden çalıştırması kullanılamıyor"
+    },
+    "workbench": {
+      "aiResearchReview": "Yapay zekâ araştırma incelemesi",
+      "overfitRisk": "Aşırı uyum riski:",
+      "nextAction": "Sonraki eylem:",
+      "liveReadiness": "Canlı hazırlık:",
+      "costStressScenarios": "Maliyet stres senaryoları",
+      "scenario": "Senaryo",
+      "expectancy": "Beklenti",
+      "winRate": "Kazanma oranı",
+      "pf": "PF",
+      "costStressNote": "Aynı simülasyon, daha kötü maliyetler. 2x kaymada ölen bir avantaj zaten hiç avantaj değildi.",
+      "monteCarloTitle": "Monte Carlo düşüşleri (örnek-dışı)",
+      "medianMaxDrawdown": "Medyan maks. düşüş",
+      "p95Drawdown": "95. yüzdelik düşüş",
+      "mcRunsLine": "{{sample}} OOS işlemin {{runs}} yeniden örneklemesi. {{caveat}}",
+      "biasGates": "Önyargı & kalite kapıları",
+      "experimentLine": "deney {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

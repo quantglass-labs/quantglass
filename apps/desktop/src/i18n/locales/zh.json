@@ -392,6 +392,158 @@
     },
     "footer": "完成任务可解锁学院等级。社区扩展包可通过扩展 SDK 添加更多。仅供教育用途——并非投资建议。"
   },
+  "backtest": {
+    "eyebrow": "回测",
+    "title": "统计上诚实的验证",
+    "description": "策略选择器、成本模型输入、样本内与样本外指标，以及小样本警告。参数更改会让后端量化引擎在已存储的走廊K线上重新运行。",
+    "runFailed": "后端重跑失败——如果数据刚刚导入，请几秒后重试。",
+    "defaultRunMessage": "参数更改会在后端重跑并更新下方指标。",
+    "status": {
+      "running": "正在以当前成本模型和验证划分运行后端回测。",
+      "synced": "下方指标使用已存储的走廊K线从后端量化引擎同步。",
+      "noCandles": "{{symbol}} 没有已存储的 {{timeframe}} K线——此标的有 {{available}} 数据。请选择其中一个周期并重跑。"
+    },
+    "chips": {
+      "pastDataOnly": "仅历史数据",
+      "notAPrediction": "并非预测",
+      "costsIncluded": "已含成本",
+      "outOfSampleRequired": "需样本外"
+    },
+    "howTo": {
+      "title": "工作原理",
+      "show": "显示",
+      "hide": "隐藏",
+      "intro": "它在本机存储的K线上重放某个形态精确的进场/止损/目标规则，并报告该形态本会如何交易——胜率、以R计的期望、权益与回撤——每次往返都计入手续费和滑点。它诚实地验证：样本按时间顺序划分为训练/测试，因此关键数字必须在规则从未见过的数据上依然成立，且每次运行都会得到下方的工作台——成本压力情景、蒙特卡洛回撤、偏差闸门和AI研究复核。",
+      "step1": "选择一个预设——预设由引擎的实时信号生成（引擎当前检测到的每个标的/形态各一个）以及你之前保存的内容。",
+      "step2": "调整手续费、滑点和训练/测试划分；运行会立即重新执行。",
+      "step3": "在信任其他任何内容之前，先读样本外那一行和工作台。",
+      "step4Save": "保存策略",
+      "step4Suffix": "将其存储在设置 → 策略下，以便日后重跑。",
+      "footer": "回测是关于过去的证据，绝非对未来的承诺。对应的学院课程（回测与统计诚实）会讲解本屏的每一个数字。"
+    },
+    "selector": {
+      "title": "策略 / 形态选择器",
+      "waitingForData": "等待市场数据…",
+      "detectedSignals": "已检测信号",
+      "savedStrategies": "已保存策略",
+      "demo": "演示",
+      "presetsHint": "一旦引擎从已存储的市场数据生成信号，已检测信号预设便会自动出现。已保存策略和演示始终在上方可用。",
+      "composeYourOwn": "或自行组合",
+      "composeHint": "此处的策略 = 标的 × 形态族 × 周期 × 成本 × 验证。每个族的进场/止损/目标规则是引擎已发布、已回测的代码（在“学习”中讲授）；新的规则族来自扩展——绝不来自无法测试的自由文本框。",
+      "symbolAria": "标的",
+      "symbolPlaceholder": "标的…",
+      "setupFamilyAria": "形态族",
+      "timeframeAria": "周期",
+      "storedCandles": "{{symbol}} 已为以下周期存储K线：{{timeframes}}",
+      "useCombination": "使用此组合"
+    },
+    "costs": {
+      "fees": "手续费 %",
+      "slippage": "滑点 %",
+      "split": "训练 / 测试划分",
+      "splitLabel": "{{train}}% 训练 / {{test}}% 测试",
+      "walkForward": "前推分析",
+      "enabled": "已启用",
+      "disabled": "已禁用"
+    },
+    "prefill": {
+      "source": "预填来源",
+      "unavailable": "不可用",
+      "line": "标的：{{symbol}} · 形态：{{setup}} · 周期：{{timeframe}}",
+      "strategySource": "策略来源：{{name}}（{{source}}）",
+      "builtIn": "内置",
+      "liveBacking": "{{symbol}} {{timeframe}} 通过 {{provider}} 提供实时市场走廊支撑，最后更新于 {{time}} UTC。"
+    },
+    "saveStrategy": "保存策略",
+    "running": "运行中…",
+    "runBacktest": "运行回测",
+    "readiness": {
+      "title": "回测就绪度",
+      "strategySelected": "已选择策略",
+      "marketDataStored": "已为标的存储市场数据",
+      "costsConfigured": "已配置成本",
+      "splitSet": "已设置训练/测试划分",
+      "walkForwardEnabled": "已启用前推"
+    },
+    "empty": {
+      "title": "开始你的第一次统计诚实回测",
+      "description": "选择策略来源，确认成本和训练/测试划分，然后运行以查看权益、回撤、样本外指标、蒙特卡洛和AI复核。",
+      "useLatestSignal": "使用最新检测信号",
+      "tryDemo": "尝试演示策略",
+      "loadSaved": "加载已保存策略",
+      "appearsAfterRun": "运行后出现",
+      "demoNote": "演示在已存储的市场数据上运行内置的趋势-回撤规则——一个教育样本，而非实时信号。",
+      "preview": {
+        "equityCurve": "权益曲线",
+        "drawdown": "回撤",
+        "winRateExpectancy": "胜率与期望",
+        "trainTestComparison": "训练/测试对比",
+        "costStressTable": "成本压力表",
+        "monteCarloDrawdowns": "蒙特卡洛回撤",
+        "biasQualityGates": "偏差与质量闸门",
+        "aiResearchReview": "AI研究复核"
+      }
+    },
+    "error": {
+      "title": "回测结果不可用",
+      "description": "无法加载回测结果。"
+    },
+    "charts": {
+      "equityCurve": "权益曲线",
+      "drawdownCurve": "回撤曲线"
+    },
+    "tiles": {
+      "netWinRate": "净胜率",
+      "averageR": "平均R",
+      "averageRHelper": "扣除手续费+滑点后",
+      "expectancy": "期望",
+      "expectancyHelper": "每笔交易以R计",
+      "maxDrawdown": "最大回撤",
+      "maxDrawdownHelper": "权益最差的峰到谷",
+      "sharpe": "夏普",
+      "sharpeHelper": "风险调整后收益",
+      "sortino": "索提诺",
+      "sortinoHelper": "下行调整后收益",
+      "profitFactor": "盈利因子",
+      "profitFactorHelper": "毛利 / 毛损",
+      "tradeCount": "交易笔数",
+      "tradeCountHelper": "样本外交易笔数 · 阈值 {{threshold}}"
+    },
+    "inOut": {
+      "title": "样本内 vs 样本外",
+      "inSampleWinRate": "样本内胜率",
+      "trainingSegment": "训练段",
+      "outOfSampleWinRate": "样本外胜率",
+      "heldOutValidation": "留出验证",
+      "overfittingWarning": "过拟合风险警告：样本外胜率落后样本内 {{gap}} 个百分点。",
+      "noOverfitting": "样本内与样本外表现足够接近，可避免过拟合警告。"
+    },
+    "sample": {
+      "lowWarningTitle": "小样本警告",
+      "lowWarningBody": "此形态的交易少于 {{threshold}} 笔，因此验证统计应视为不稳定。",
+      "aboveThreshold": "样本量高于所配置的最低回测阈值 {{threshold}} 笔交易。",
+      "refreshing": "正在刷新后端运行…",
+      "rerunUnavailable": "后端重跑不可用"
+    },
+    "workbench": {
+      "aiResearchReview": "AI研究复核",
+      "overfitRisk": "过拟合风险：",
+      "nextAction": "下一步：",
+      "liveReadiness": "实盘就绪度：",
+      "costStressScenarios": "成本压力情景",
+      "scenario": "情景",
+      "expectancy": "期望",
+      "winRate": "胜率",
+      "pf": "盈利因子",
+      "costStressNote": "同一模拟，更差成本。在2倍滑点下消失的优势从来就不是优势。",
+      "monteCarloTitle": "蒙特卡洛回撤（样本外）",
+      "medianMaxDrawdown": "最大回撤中位数",
+      "p95Drawdown": "第95百分位回撤",
+      "mcRunsLine": "对 {{sample}} 笔样本外交易重采样 {{runs}} 次。{{caveat}}",
+      "biasGates": "偏差与质量闸门",
+      "experimentLine": "实验 {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

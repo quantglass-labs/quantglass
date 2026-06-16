@@ -398,6 +398,158 @@
     },
     "footer": "Completare le missioni sblocca i livelli dell'Accademia. I pacchetti della community possono aggiungerne altri tramite l'SDK delle estensioni. Solo uso educativo — non è una consulenza finanziaria."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "Validazione statisticamente onesta",
+    "description": "Selettore di strategia, input del modello di costi, metriche in-sample vs out-of-sample e avvisi di campione ridotto. Le modifiche dei parametri rieseguono il motore quantitativo del backend sulle candele del corridoio memorizzate.",
+    "runFailed": "La riesecuzione del backend è fallita — se i dati sono appena stati acquisiti, riprova tra qualche secondo.",
+    "defaultRunMessage": "Le modifiche dei parametri vengono rieseguite sul backend e aggiornano le metriche sotto.",
+    "status": {
+      "running": "Esecuzione del backtest del backend con il modello di costi e la divisione di validazione correnti.",
+      "synced": "Le metriche sotto sono sincronizzate dal motore quantitativo del backend usando le candele del corridoio memorizzate.",
+      "noCandles": "Nessuna candela {{timeframe}} memorizzata per {{symbol}} — questo simbolo ha dati {{available}}. Scegli uno di quegli intervalli e riesegui."
+    },
+    "chips": {
+      "pastDataOnly": "Solo dati passati",
+      "notAPrediction": "Non una previsione",
+      "costsIncluded": "Costi inclusi",
+      "outOfSampleRequired": "Out-of-sample richiesto"
+    },
+    "howTo": {
+      "title": "Come funziona",
+      "show": "Mostra",
+      "hide": "Nascondi",
+      "intro": "Riproduce le esatte regole di ingresso/stop/obiettivo di un setup sulle candele memorizzate su questa macchina e riporta come quel setup avrebbe operato — tasso di vincita, aspettativa in R, equity e drawdown — con commissioni e slippage addebitati a ogni andata e ritorno. Valida con onestà: il campione è diviso cronologicamente in train/test così i numeri chiave devono sopravvivere a dati che le regole non hanno mai visto, e ogni esecuzione riceve il banco di lavoro sotto — scenari di stress dei costi, drawdown Monte Carlo, gate di bias e la revisione di ricerca IA.",
+      "step1": "Scegli un preset — i preset sono generati dai segnali live del motore (uno per simbolo/setup che il motore rileva attualmente) più ciò che hai salvato prima.",
+      "step2": "Regola commissioni, slippage e la divisione train/test; l'esecuzione si riavvia all'istante.",
+      "step3": "Leggi la riga out-of-sample e il banco di lavoro prima di fidarti di qualsiasi altra cosa.",
+      "step4Save": "Salva strategia",
+      "step4Suffix": "la memorizza in Impostazioni → Strategie per rieseguirla più tardi.",
+      "footer": "Un backtest è prova sul passato, mai una promessa sul futuro. Il percorso corrispondente dell'Accademia (Backtesting e onestà statistica) insegna ogni numero di questa schermata."
+    },
+    "selector": {
+      "title": "Selettore strategia / setup",
+      "waitingForData": "In attesa di dati di mercato…",
+      "detectedSignals": "Segnali rilevati",
+      "savedStrategies": "Strategie salvate",
+      "demo": "Demo",
+      "presetsHint": "I preset da segnali rilevati appaiono automaticamente una volta che il motore ha generato segnali da dati di mercato memorizzati. Le strategie salvate e la demo sono sempre disponibili sopra.",
+      "composeYourOwn": "Oppure componi la tua",
+      "composeHint": "Una strategia qui = simbolo × famiglia di setup × intervallo × costi × validazione. Le regole di ingresso/stop/obiettivo di ogni famiglia sono il codice pubblicato e backtestato del motore (insegnato in Impara); nuove famiglie di regole vengono dalle estensioni — mai da una casella di testo libero che non può essere testata.",
+      "symbolAria": "Simbolo",
+      "symbolPlaceholder": "Simbolo…",
+      "setupFamilyAria": "Famiglia di setup",
+      "timeframeAria": "Intervallo temporale",
+      "storedCandles": "{{symbol}} ha candele memorizzate per: {{timeframes}}",
+      "useCombination": "Usa questa combinazione"
+    },
+    "costs": {
+      "fees": "Commissioni %",
+      "slippage": "Slippage %",
+      "split": "Divisione train / test",
+      "splitLabel": "{{train}}% train / {{test}}% test",
+      "walkForward": "Analisi walk-forward",
+      "enabled": "Attivato",
+      "disabled": "Disattivato"
+    },
+    "prefill": {
+      "source": "Fonte di precompilazione",
+      "unavailable": "Non disponibile",
+      "line": "Simbolo: {{symbol}} · Setup: {{setup}} · Intervallo: {{timeframe}}",
+      "strategySource": "Fonte strategia: {{name}} ({{source}})",
+      "builtIn": "integrata",
+      "liveBacking": "È disponibile il supporto del corridoio di mercato live per {{symbol}} {{timeframe}} via {{provider}}, ultimo aggiornamento {{time}} UTC."
+    },
+    "saveStrategy": "Salva strategia",
+    "running": "Esecuzione…",
+    "runBacktest": "Esegui backtest",
+    "readiness": {
+      "title": "Prontezza del backtest",
+      "strategySelected": "Strategia selezionata",
+      "marketDataStored": "Dati di mercato memorizzati per il simbolo",
+      "costsConfigured": "Costi configurati",
+      "splitSet": "Divisione train/test impostata",
+      "walkForwardEnabled": "Walk-forward attivato"
+    },
+    "empty": {
+      "title": "Avvia il tuo primo backtest statisticamente onesto",
+      "description": "Scegli una fonte di strategia, conferma costi e la divisione train/test, poi eseguilo per vedere equity, drawdown, metriche out-of-sample, Monte Carlo e la revisione IA.",
+      "useLatestSignal": "Usa l'ultimo segnale rilevato",
+      "tryDemo": "Prova la strategia demo",
+      "loadSaved": "Carica strategia salvata",
+      "appearsAfterRun": "appare dopo un'esecuzione",
+      "demoNote": "La demo esegue le regole integrate trend-pullback su dati di mercato memorizzati — un campione educativo, non un segnale live.",
+      "preview": {
+        "equityCurve": "Curva di equity",
+        "drawdown": "Drawdown",
+        "winRateExpectancy": "Tasso di vincita & aspettativa",
+        "trainTestComparison": "Confronto train/test",
+        "costStressTable": "Tabella di stress dei costi",
+        "monteCarloDrawdowns": "Drawdown Monte Carlo",
+        "biasQualityGates": "Gate di bias & qualità",
+        "aiResearchReview": "Revisione di ricerca IA"
+      }
+    },
+    "error": {
+      "title": "Risultati del backtest non disponibili",
+      "description": "Impossibile caricare i risultati del backtest."
+    },
+    "charts": {
+      "equityCurve": "Curva di equity",
+      "drawdownCurve": "Curva di drawdown"
+    },
+    "tiles": {
+      "netWinRate": "Tasso di vincita netto",
+      "averageR": "R medio",
+      "averageRHelper": "Al netto di commissioni + slippage",
+      "expectancy": "Aspettativa",
+      "expectancyHelper": "Per operazione in termini di R",
+      "maxDrawdown": "Drawdown massimo",
+      "maxDrawdownHelper": "Peggior picco-minimo dell'equity",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Rendimento corretto per il rischio",
+      "sortino": "Sortino",
+      "sortinoHelper": "Rendimento corretto per il ribasso",
+      "profitFactor": "Profit factor",
+      "profitFactorHelper": "Guadagni lordi / perdite lorde",
+      "tradeCount": "Numero di operazioni",
+      "tradeCountHelper": "Operazioni out-of-sample · soglia {{threshold}}"
+    },
+    "inOut": {
+      "title": "In-sample vs out-of-sample",
+      "inSampleWinRate": "Tasso di vincita in-sample",
+      "trainingSegment": "Segmento di addestramento",
+      "outOfSampleWinRate": "Tasso di vincita out-of-sample",
+      "heldOutValidation": "Validazione riservata",
+      "overfittingWarning": "Avviso di rischio di overfitting: il tasso di vincita out-of-sample è inferiore a quello in-sample di {{gap}} punti percentuali.",
+      "noOverfitting": "Le prestazioni in-sample e out-of-sample restano abbastanza vicine da evitare un avviso di overfitting."
+    },
+    "sample": {
+      "lowWarningTitle": "Avviso di campione ridotto",
+      "lowWarningBody": "Questo setup ha meno di {{threshold}} operazioni, quindi le statistiche di validazione vanno trattate come instabili.",
+      "aboveThreshold": "La dimensione del campione è superiore alla soglia minima di backtest configurata di {{threshold}} operazioni.",
+      "refreshing": "Aggiornamento dell'esecuzione del backend…",
+      "rerunUnavailable": "Riesecuzione del backend non disponibile"
+    },
+    "workbench": {
+      "aiResearchReview": "Revisione di ricerca IA",
+      "overfitRisk": "Rischio di overfitting:",
+      "nextAction": "Prossima azione:",
+      "liveReadiness": "Prontezza per il live:",
+      "costStressScenarios": "Scenari di stress dei costi",
+      "scenario": "Scenario",
+      "expectancy": "Aspettativa",
+      "winRate": "Tasso di vincita",
+      "pf": "PF",
+      "costStressNote": "Stessa simulazione, costi peggiori. Un vantaggio che muore a 2x slippage non è mai stato un vantaggio.",
+      "monteCarloTitle": "Drawdown Monte Carlo (out-of-sample)",
+      "medianMaxDrawdown": "Drawdown massimo mediano",
+      "p95Drawdown": "Drawdown al 95° percentile",
+      "mcRunsLine": "{{runs}} ricampionamenti di {{sample}} operazioni OOS. {{caveat}}",
+      "biasGates": "Gate di bias & qualità",
+      "experimentLine": "esperimento {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

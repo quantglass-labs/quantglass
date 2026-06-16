@@ -398,6 +398,158 @@
     },
     "footer": "Hoàn thành nhiệm vụ mở khóa các cấp độ Academy. Gói cộng đồng có thể thêm nhiều hơn qua SDK tiện ích mở rộng. Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính."
   },
+  "backtest": {
+    "eyebrow": "Backtesting",
+    "title": "Kiểm định trung thực về mặt thống kê",
+    "description": "Bộ chọn chiến lược, đầu vào mô hình chi phí, các chỉ số in-sample so với out-of-sample và cảnh báo mẫu nhỏ. Thay đổi tham số sẽ chạy lại động cơ định lượng backend trên các nến hành lang đã lưu.",
+    "runFailed": "Chạy lại backend thất bại — nếu dữ liệu vừa được nạp, hãy thử lại sau vài giây.",
+    "defaultRunMessage": "Thay đổi tham số được chạy lại trên backend và cập nhật các chỉ số bên dưới.",
+    "status": {
+      "running": "Đang chạy backtest backend với mô hình chi phí và phân chia kiểm định hiện tại.",
+      "synced": "Các chỉ số bên dưới được đồng bộ từ động cơ định lượng backend bằng các nến hành lang đã lưu.",
+      "noCandles": "Không có nến {{timeframe}} đã lưu cho {{symbol}} — mã này có dữ liệu {{available}}. Chọn một trong các khung thời gian đó và chạy lại."
+    },
+    "chips": {
+      "pastDataOnly": "Chỉ dữ liệu quá khứ",
+      "notAPrediction": "Không phải dự đoán",
+      "costsIncluded": "Đã gồm chi phí",
+      "outOfSampleRequired": "Bắt buộc out-of-sample"
+    },
+    "howTo": {
+      "title": "Cách hoạt động",
+      "show": "Hiện",
+      "hide": "Ẩn",
+      "intro": "Nó phát lại các quy tắc vào/cắt lỗ/mục tiêu chính xác của một thiết lập trên các nến đã lưu trên máy này và báo cáo thiết lập đó sẽ giao dịch ra sao — tỷ lệ thắng, kỳ vọng theo R, vốn chủ và sụt giảm — với phí và trượt giá tính cho mỗi vòng. Nó kiểm định trung thực: mẫu được chia theo thời gian thành huấn luyện/kiểm tra để các con số chính phải trụ vững trên dữ liệu mà quy tắc chưa từng thấy, và mỗi lần chạy đều có bàn làm việc bên dưới — kịch bản áp lực chi phí, sụt giảm Monte Carlo, cổng thiên lệch và đánh giá nghiên cứu AI.",
+      "step1": "Chọn một preset — preset được tạo từ tín hiệu trực tiếp của động cơ (mỗi mã/thiết lập mà động cơ đang phát hiện một preset) cộng với những gì bạn đã lưu trước đó.",
+      "step2": "Điều chỉnh phí, trượt giá và phân chia huấn luyện/kiểm tra; lần chạy thực thi lại ngay lập tức.",
+      "step3": "Đọc hàng out-of-sample và bàn làm việc trước khi tin tưởng bất cứ điều gì khác.",
+      "step4Save": "Lưu chiến lược",
+      "step4Suffix": "lưu nó trong Cài đặt → Chiến lược để chạy lại sau.",
+      "footer": "Backtest là bằng chứng về quá khứ, không bao giờ là lời hứa về tương lai. Lộ trình Academy tương ứng (Backtesting & Trung thực Thống kê) dạy mọi con số trên màn hình này."
+    },
+    "selector": {
+      "title": "Bộ chọn chiến lược / thiết lập",
+      "waitingForData": "Đang chờ dữ liệu thị trường…",
+      "detectedSignals": "Tín hiệu đã phát hiện",
+      "savedStrategies": "Chiến lược đã lưu",
+      "demo": "Demo",
+      "presetsHint": "Preset tín hiệu phát hiện xuất hiện tự động khi động cơ tạo tín hiệu từ dữ liệu thị trường đã lưu. Chiến lược đã lưu và demo luôn có sẵn ở trên.",
+      "composeYourOwn": "Hoặc tự soạn",
+      "composeHint": "Chiến lược ở đây = mã × họ thiết lập × khung thời gian × chi phí × kiểm định. Quy tắc vào/cắt lỗ/mục tiêu của mỗi họ là mã đã công bố, đã backtest của động cơ (được dạy trong Học); họ quy tắc mới đến từ tiện ích mở rộng — không bao giờ từ ô văn bản tự do không thể kiểm tra.",
+      "symbolAria": "Mã",
+      "symbolPlaceholder": "Mã…",
+      "setupFamilyAria": "Họ thiết lập",
+      "timeframeAria": "Khung thời gian",
+      "storedCandles": "{{symbol}} có nến đã lưu cho: {{timeframes}}",
+      "useCombination": "Dùng tổ hợp này"
+    },
+    "costs": {
+      "fees": "Phí %",
+      "slippage": "Trượt giá %",
+      "split": "Phân chia huấn luyện / kiểm tra",
+      "splitLabel": "{{train}}% huấn luyện / {{test}}% kiểm tra",
+      "walkForward": "Phân tích walk-forward",
+      "enabled": "Bật",
+      "disabled": "Tắt"
+    },
+    "prefill": {
+      "source": "Nguồn điền sẵn",
+      "unavailable": "Không khả dụng",
+      "line": "Mã: {{symbol}} · Thiết lập: {{setup}} · Khung thời gian: {{timeframe}}",
+      "strategySource": "Nguồn chiến lược: {{name}} ({{source}})",
+      "builtIn": "tích hợp",
+      "liveBacking": "Có hỗ trợ hành lang thị trường trực tiếp cho {{symbol}} {{timeframe}} qua {{provider}}, cập nhật lần cuối {{time}} UTC."
+    },
+    "saveStrategy": "Lưu chiến lược",
+    "running": "Đang chạy…",
+    "runBacktest": "Chạy backtest",
+    "readiness": {
+      "title": "Mức sẵn sàng backtest",
+      "strategySelected": "Đã chọn chiến lược",
+      "marketDataStored": "Đã lưu dữ liệu thị trường cho mã",
+      "costsConfigured": "Đã cấu hình chi phí",
+      "splitSet": "Đã đặt phân chia huấn luyện/kiểm tra",
+      "walkForwardEnabled": "Đã bật walk-forward"
+    },
+    "empty": {
+      "title": "Bắt đầu backtest trung thực thống kê đầu tiên của bạn",
+      "description": "Chọn một nguồn chiến lược, xác nhận chi phí và phân chia huấn luyện/kiểm tra, rồi chạy để xem vốn chủ, sụt giảm, chỉ số out-of-sample, Monte Carlo và đánh giá AI.",
+      "useLatestSignal": "Dùng tín hiệu phát hiện mới nhất",
+      "tryDemo": "Thử chiến lược demo",
+      "loadSaved": "Tải chiến lược đã lưu",
+      "appearsAfterRun": "xuất hiện sau khi chạy",
+      "demoNote": "Demo chạy các quy tắc trend-pullback tích hợp trên dữ liệu thị trường đã lưu — một mẫu giáo dục, không phải tín hiệu trực tiếp.",
+      "preview": {
+        "equityCurve": "Đường vốn chủ",
+        "drawdown": "Sụt giảm",
+        "winRateExpectancy": "Tỷ lệ thắng & kỳ vọng",
+        "trainTestComparison": "So sánh huấn luyện/kiểm tra",
+        "costStressTable": "Bảng áp lực chi phí",
+        "monteCarloDrawdowns": "Sụt giảm Monte Carlo",
+        "biasQualityGates": "Cổng thiên lệch & chất lượng",
+        "aiResearchReview": "Đánh giá nghiên cứu AI"
+      }
+    },
+    "error": {
+      "title": "Kết quả backtest không khả dụng",
+      "description": "Không thể tải kết quả backtest."
+    },
+    "charts": {
+      "equityCurve": "Đường vốn chủ",
+      "drawdownCurve": "Đường sụt giảm"
+    },
+    "tiles": {
+      "netWinRate": "Tỷ lệ thắng ròng",
+      "averageR": "R trung bình",
+      "averageRHelper": "Ròng sau phí + trượt giá",
+      "expectancy": "Kỳ vọng",
+      "expectancyHelper": "Mỗi giao dịch theo R",
+      "maxDrawdown": "Sụt giảm tối đa",
+      "maxDrawdownHelper": "Đỉnh-tới-đáy tệ nhất của vốn chủ",
+      "sharpe": "Sharpe",
+      "sharpeHelper": "Lợi nhuận điều chỉnh rủi ro",
+      "sortino": "Sortino",
+      "sortinoHelper": "Lợi nhuận điều chỉnh theo chiều giảm",
+      "profitFactor": "Hệ số lợi nhuận",
+      "profitFactorHelper": "Lãi gộp / lỗ gộp",
+      "tradeCount": "Số giao dịch",
+      "tradeCountHelper": "Số giao dịch out-of-sample · ngưỡng {{threshold}}"
+    },
+    "inOut": {
+      "title": "In-sample vs out-of-sample",
+      "inSampleWinRate": "Tỷ lệ thắng in-sample",
+      "trainingSegment": "Phân đoạn huấn luyện",
+      "outOfSampleWinRate": "Tỷ lệ thắng out-of-sample",
+      "heldOutValidation": "Kiểm định giữ lại",
+      "overfittingWarning": "Cảnh báo rủi ro quá khớp: tỷ lệ thắng out-of-sample thấp hơn in-sample {{gap}} điểm phần trăm.",
+      "noOverfitting": "Hiệu suất in-sample và out-of-sample vẫn đủ gần để tránh cảnh báo quá khớp."
+    },
+    "sample": {
+      "lowWarningTitle": "Cảnh báo mẫu nhỏ",
+      "lowWarningBody": "Thiết lập này có ít hơn {{threshold}} giao dịch, nên thống kê kiểm định cần được coi là không ổn định.",
+      "aboveThreshold": "Kích thước mẫu cao hơn ngưỡng backtest tối thiểu đã cấu hình là {{threshold}} giao dịch.",
+      "refreshing": "Đang làm mới lần chạy backend…",
+      "rerunUnavailable": "Chạy lại backend không khả dụng"
+    },
+    "workbench": {
+      "aiResearchReview": "Đánh giá nghiên cứu AI",
+      "overfitRisk": "Rủi ro quá khớp:",
+      "nextAction": "Hành động tiếp theo:",
+      "liveReadiness": "Mức sẵn sàng thực:",
+      "costStressScenarios": "Kịch bản áp lực chi phí",
+      "scenario": "Kịch bản",
+      "expectancy": "Kỳ vọng",
+      "winRate": "Tỷ lệ thắng",
+      "pf": "PF",
+      "costStressNote": "Cùng mô phỏng, chi phí tệ hơn. Một lợi thế chết ở mức trượt giá gấp 2 chưa bao giờ là lợi thế.",
+      "monteCarloTitle": "Sụt giảm Monte Carlo (out-of-sample)",
+      "medianMaxDrawdown": "Trung vị sụt giảm tối đa",
+      "p95Drawdown": "Sụt giảm phân vị 95",
+      "mcRunsLine": "{{runs}} lần lấy mẫu lại từ {{sample}} giao dịch OOS. {{caveat}}",
+      "biasGates": "Cổng thiên lệch & chất lượng",
+      "experimentLine": "thí nghiệm {{id}} · {{range}}"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

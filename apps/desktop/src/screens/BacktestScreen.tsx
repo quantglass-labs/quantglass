@@ -3,6 +3,7 @@
 
 import { AlertTriangle, BookmarkPlus, SlidersHorizontal } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { TinyLineChart } from '../components/charts';
 import { CountUp, FadeIn } from '../components/motion';
@@ -46,6 +47,7 @@ export function BacktestScreen({
   onSaveStrategy: (strategy: SavedStrategy) => void;
 }) {
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
   // Explainer: open on the very first visit, collapsed afterwards.
   const [howToOpen, setHowToOpen] = useState<boolean>(() => {
     const stored = window.localStorage.getItem('qg-backtest-howto');
@@ -249,7 +251,7 @@ export function BacktestScreen({
   if (runKey && symbol && runKey !== startedRunKey) {
     setStartedRunKey(runKey);
     setRunState('running');
-    setRunMessage('Running backend backtest with the current cost model and validation split.');
+    setRunMessage(t('backtest.status.running'));
   }
 
   useEffect(() => {
@@ -271,9 +273,7 @@ export function BacktestScreen({
         if (cancelled) return;
         setActivePreset(response.item);
         setRunState('idle');
-        setRunMessage(
-          'Metrics below are synced from the backend quant engine using stored corridor candles.',
-        );
+        setRunMessage(t('backtest.status.synced'));
       })
       .catch(() => {
         if (cancelled) return;
@@ -281,9 +281,12 @@ export function BacktestScreen({
         const available = timeframesBySymbol.get(preset.symbolId) ?? [];
         setRunMessage(
           available.length && !available.includes(preset.timeframe)
-            ? `No stored ${preset.timeframe} candles for ${symbol.symbol} - this symbol has ` +
-                `${available.join(', ')} data. Pick one of those timeframes and rerun.`
-            : 'The backend rerun failed - if data was just ingested, retry in a few seconds.',
+            ? t('backtest.status.noCandles', {
+                timeframe: preset.timeframe,
+                symbol: symbol.symbol,
+                available: available.join(', '),
+              })
+            : t('backtest.runFailed'),
         );
       });
 
@@ -299,27 +302,26 @@ export function BacktestScreen({
     trainTestSplit,
     walkForward,
     runNonce,
+    t,
   ]);
 
   return (
     <div className="space-y-8">
       <SectionHeading
-        eyebrow="Backtesting"
-        title="Statistically honest validation"
-        description="Strategy selector, cost model inputs, in-sample vs out-of-sample metrics, and low-sample warnings. Parameter changes rerun the backend quant engine against stored corridor candles."
+        eyebrow={t('backtest.eyebrow')}
+        title={t('backtest.title')}
+        description={t('backtest.description')}
       />
 
       <div className="flex flex-wrap gap-2">
-        {['Past data only', 'Not a prediction', 'Costs included', 'Out-of-sample required'].map(
-          (chip) => (
-            <span
-              key={chip}
-              className="rounded-full border border-border bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted"
-            >
-              {chip}
-            </span>
-          ),
-        )}
+        {['pastDataOnly', 'notAPrediction', 'costsIncluded', 'outOfSampleRequired'].map((chip) => (
+          <span
+            key={chip}
+            className="rounded-full border border-border bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted"
+          >
+            {t(`backtest.chips.${chip}`)}
+          </span>
+        ))}
       </div>
 
       <Panel>
@@ -333,39 +335,25 @@ export function BacktestScreen({
           className="flex w-full items-center justify-between text-left"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            How this works
+            {t('backtest.howTo.title')}
           </p>
-          <span className="text-xs text-muted">{howToOpen ? 'Hide' : 'Show'}</span>
+          <span className="text-xs text-muted">
+            {howToOpen ? t('backtest.howTo.hide') : t('backtest.howTo.show')}
+          </span>
         </button>
         {howToOpen ? (
           <>
-            <p className="mt-2 text-sm text-muted">
-              It replays one setup's exact entry/stop/target rules over the candles stored on this
-              machine and reports how that setup <span className="text-ink">would have</span> traded
-              — win rate, expectancy in R, equity and drawdown — with fees and slippage charged on
-              every round trip. It validates honestly: the sample is split chronologically into
-              train/test so the headline numbers must survive data the rules never saw, and every
-              run gets the workbench below — cost-stress scenarios, Monte Carlo drawdowns, bias
-              gates, and the AI research review.
-            </p>
+            <p className="mt-2 text-sm text-muted">{t('backtest.howTo.intro')}</p>
             <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted">
+              <li>{t('backtest.howTo.step1')}</li>
+              <li>{t('backtest.howTo.step2')}</li>
+              <li>{t('backtest.howTo.step3')}</li>
               <li>
-                Pick a preset — presets are generated from the engine's live signals (one per
-                symbol/setup the engine currently detects) plus anything you saved earlier.
-              </li>
-              <li>
-                Adjust fees, slippage, and the train/test split; the run re-executes instantly.
-              </li>
-              <li>Read the out-of-sample row and the workbench before trusting anything else.</li>
-              <li>
-                Like a configuration? <span className="text-ink">Save strategy</span> stores it
-                under Settings → Strategies for re-running later.
+                <span className="text-ink">{t('backtest.howTo.step4Save')}</span>{' '}
+                {t('backtest.howTo.step4Suffix')}
               </li>
             </ol>
-            <p className="mt-3 text-xs text-muted">
-              A backtest is evidence about the past, never a promise about the future. The matching
-              Academy track (Backtesting & Statistical Honesty) teaches every number on this screen.
-            </p>
+            <p className="mt-3 text-xs text-muted">{t('backtest.howTo.footer')}</p>
           </>
         ) : null}
       </Panel>
@@ -375,7 +363,7 @@ export function BacktestScreen({
           <div className="space-y-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Strategy / setup selector
+                {t('backtest.selector.title')}
               </p>
               <select
                 className="mt-3 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -383,10 +371,10 @@ export function BacktestScreen({
                 onChange={(event) => setSelectedPresetId(event.target.value)}
               >
                 {!selectablePresets.length ? (
-                  <option value="">Waiting for market data…</option>
+                  <option value="">{t('backtest.selector.waitingForData')}</option>
                 ) : null}
                 {presets.length ? (
-                  <optgroup label="Detected signals">
+                  <optgroup label={t('backtest.selector.detectedSignals')}>
                     {presets.map((entry) => (
                       <option key={entry.id} value={entry.id}>
                         {entry.name}
@@ -395,7 +383,7 @@ export function BacktestScreen({
                   </optgroup>
                 ) : null}
                 {savedPresets.length ? (
-                  <optgroup label="Saved strategies">
+                  <optgroup label={t('backtest.selector.savedStrategies')}>
                     {savedPresets.map((entry) => (
                       <option key={entry.id} value={entry.id}>
                         {entry.name}
@@ -404,36 +392,28 @@ export function BacktestScreen({
                   </optgroup>
                 ) : null}
                 {demoPresetOption ? (
-                  <optgroup label="Demo">
+                  <optgroup label={t('backtest.selector.demo')}>
                     <option value={demoPresetOption.id}>{demoPresetOption.name}</option>
                   </optgroup>
                 ) : null}
               </select>
               {!presets.length ? (
-                <p className="mt-2 text-xs text-muted">
-                  Detected-signal presets appear automatically once the engine has generated signals
-                  from stored market data. Saved strategies and the demo are always available above.
-                </p>
+                <p className="mt-2 text-xs text-muted">{t('backtest.selector.presetsHint')}</p>
               ) : null}
 
               <div className="mt-4 rounded-2xl border border-border bg-white/[0.03] p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Or compose your own
+                  {t('backtest.selector.composeYourOwn')}
                 </p>
-                <p className="mt-1 text-xs text-muted">
-                  A strategy here = symbol × setup family × timeframe × costs × validation. Each
-                  family's entry/stop/target rules are the engine's published, backtested code
-                  (taught in Learn); new rule families come from extensions — never from a free
-                  -text box that can't be tested.
-                </p>
+                <p className="mt-1 text-xs text-muted">{t('backtest.selector.composeHint')}</p>
                 <div className="mt-3 grid gap-2 sm:grid-cols-3">
                   <select
-                    aria-label="Symbol"
+                    aria-label={t('backtest.selector.symbolAria')}
                     className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
                     value={manualSymbolId}
                     onChange={(event) => setManualSymbolId(event.target.value)}
                   >
-                    <option value="">Symbol…</option>
+                    <option value="">{t('backtest.selector.symbolPlaceholder')}</option>
                     {symbols.map((entry) => (
                       <option key={entry.id} value={entry.id}>
                         {entry.symbol}
@@ -441,7 +421,7 @@ export function BacktestScreen({
                     ))}
                   </select>
                   <select
-                    aria-label="Setup family"
+                    aria-label={t('backtest.selector.setupFamilyAria')}
                     className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
                     value={manualSetup}
                     onChange={(event) => setManualSetup(event.target.value)}
@@ -453,7 +433,7 @@ export function BacktestScreen({
                     ))}
                   </select>
                   <select
-                    aria-label="Timeframe"
+                    aria-label={t('backtest.selector.timeframeAria')}
                     className="rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none"
                     value={manualTimeframe}
                     onChange={(event) => setManualTimeframe(event.target.value as Timeframe)}
@@ -467,8 +447,10 @@ export function BacktestScreen({
                 </div>
                 {manualSymbolId && manualTimeframes.length ? (
                   <p className="mt-2 text-xs text-muted">
-                    {symbols.find((entry) => entry.id === manualSymbolId)?.symbol} has stored
-                    candles for: {manualTimeframes.join(', ')}
+                    {t('backtest.selector.storedCandles', {
+                      symbol: symbols.find((entry) => entry.id === manualSymbolId)?.symbol,
+                      timeframes: manualTimeframes.join(', '),
+                    })}
                   </p>
                 ) : null}
                 <Button
@@ -477,7 +459,7 @@ export function BacktestScreen({
                   disabled={!manualPreset || !manualTimeframes.length}
                   onClick={() => manualPreset && setSelectedPresetId(manualPreset.id)}
                 >
-                  Use this combination
+                  {t('backtest.selector.useCombination')}
                 </Button>
               </div>
             </div>
@@ -485,7 +467,7 @@ export function BacktestScreen({
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                  Fees %
+                  {t('backtest.costs.fees')}
                 </span>
                 <input
                   className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -497,7 +479,7 @@ export function BacktestScreen({
               </label>
               <label className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                  Slippage %
+                  {t('backtest.costs.slippage')}
                 </span>
                 <input
                   className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -509,7 +491,7 @@ export function BacktestScreen({
               </label>
               <label className="space-y-2 text-sm text-muted">
                 <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                  Train / test split
+                  {t('backtest.costs.split')}
                 </span>
                 <input
                   className="w-full"
@@ -520,17 +502,20 @@ export function BacktestScreen({
                   onChange={(event) => setTrainTestSplit(Number(event.target.value))}
                 />
                 <span>
-                  {trainTestSplit}% train / {100 - trainTestSplit}% test
+                  {t('backtest.costs.splitLabel', {
+                    train: trainTestSplit,
+                    test: 100 - trainTestSplit,
+                  })}
                 </span>
               </label>
               <label className="flex items-center justify-between rounded-2xl border border-border bg-white/[0.03] px-4 py-3 text-sm text-muted">
-                <span>Walk-forward analysis</span>
+                <span>{t('backtest.costs.walkForward')}</span>
                 <button
                   type="button"
                   className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${walkForward ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`}
                   onClick={() => setWalkForward((current) => !current)}
                 >
-                  {walkForward ? 'Enabled' : 'Disabled'}
+                  {walkForward ? t('backtest.costs.enabled') : t('backtest.costs.disabled')}
                 </button>
               </label>
             </div>
@@ -538,28 +523,34 @@ export function BacktestScreen({
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
               <div className="flex items-center gap-2 text-ink">
                 <SlidersHorizontal className="size-4 text-accent" />
-                <span className="font-medium">Prefill source</span>
+                <span className="font-medium">{t('backtest.prefill.source')}</span>
               </div>
               <p className="mt-2">
-                Symbol: {symbol?.symbol ?? 'Unavailable'} · Setup:{' '}
-                {preset?.setupType ?? 'Unavailable'} · Timeframe:{' '}
-                {preset?.timeframe ?? 'Unavailable'}
+                {t('backtest.prefill.line', {
+                  symbol: symbol?.symbol ?? t('backtest.prefill.unavailable'),
+                  setup: preset?.setupType ?? t('backtest.prefill.unavailable'),
+                  timeframe: preset?.timeframe ?? t('backtest.prefill.unavailable'),
+                })}
               </p>
               {preset?.strategyName ? (
                 <p className="mt-2">
-                  Strategy source: {preset.strategyName} ({preset.strategySource ?? 'built-in'}
-                  {preset.extensionId ? ` / ${preset.extensionId}` : ''})
+                  {t('backtest.prefill.strategySource', {
+                    name: preset.strategyName,
+                    source:
+                      (preset.strategySource ?? t('backtest.prefill.builtIn')) +
+                      (preset.extensionId ? ` / ${preset.extensionId}` : ''),
+                  })}
                 </p>
               ) : null}
-              <p className="mt-2">
-                {runMessage ??
-                  'Parameter changes rerun against the backend and update the metrics below.'}
-              </p>
+              <p className="mt-2">{runMessage ?? t('backtest.defaultRunMessage')}</p>
               {liveCorridorItem ? (
                 <p className="mt-2">
-                  Live market corridor backing is available for {liveCorridorItem.symbol}{' '}
-                  {liveCorridorItem.timeframe} via {liveCorridorItem.provider}, last updated{' '}
-                  {formatDateTime(liveCorridorItem.latest_open_time_utc)} UTC.
+                  {t('backtest.prefill.liveBacking', {
+                    symbol: liveCorridorItem.symbol,
+                    timeframe: liveCorridorItem.timeframe,
+                    provider: liveCorridorItem.provider,
+                    time: formatDateTime(liveCorridorItem.latest_open_time_utc),
+                  })}
                 </p>
               ) : null}
             </div>
@@ -580,28 +571,34 @@ export function BacktestScreen({
                 }}
               >
                 <BookmarkPlus className="size-4" />
-                Save strategy
+                {t('backtest.saveStrategy')}
               </Button>
               <Button
                 className="w-full"
                 onClick={() => setRunNonce((nonce) => nonce + 1)}
                 disabled={!preset || !symbol || runState === 'running'}
               >
-                {runState === 'running' ? 'Running…' : 'Run backtest'}
+                {runState === 'running' ? t('backtest.running') : t('backtest.runBacktest')}
               </Button>
             </div>
 
             <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Backtest readiness
+                {t('backtest.readiness.title')}
               </p>
               <ul className="mt-2 space-y-1 text-sm">
                 {[
-                  { label: 'Strategy selected', ok: Boolean(preset) },
-                  { label: 'Market data stored for symbol', ok: Boolean(symbol) },
-                  { label: 'Costs configured', ok: feesPercent + slippagePercent > 0 },
-                  { label: 'Train/test split set', ok: trainTestSplit > 0 && trainTestSplit < 100 },
-                  { label: 'Walk-forward enabled', ok: walkForward },
+                  { label: t('backtest.readiness.strategySelected'), ok: Boolean(preset) },
+                  { label: t('backtest.readiness.marketDataStored'), ok: Boolean(symbol) },
+                  {
+                    label: t('backtest.readiness.costsConfigured'),
+                    ok: feesPercent + slippagePercent > 0,
+                  },
+                  {
+                    label: t('backtest.readiness.splitSet'),
+                    ok: trainTestSplit > 0 && trainTestSplit < 100,
+                  },
+                  { label: t('backtest.readiness.walkForwardEnabled'), ok: walkForward },
                 ].map((check) => (
                   <li key={check.label} className="flex items-center gap-2">
                     <span className={check.ok ? 'text-buy' : 'text-hold'}>
@@ -623,59 +620,58 @@ export function BacktestScreen({
             empty={
               <div className="space-y-6">
                 <EmptyState
-                  title="Start your first statistically honest backtest"
-                  description="Choose a strategy source, confirm costs and the train/test split, then run it to see equity, drawdown, out-of-sample metrics, Monte Carlo, and the AI review."
+                  title={t('backtest.empty.title')}
+                  description={t('backtest.empty.description')}
                   action={
                     <div className="flex flex-wrap justify-center gap-3">
                       {presets[0] ? (
                         <Button onClick={() => setSelectedPresetId(presets[0].id)}>
-                          Use latest detected signal
+                          {t('backtest.empty.useLatestSignal')}
                         </Button>
                       ) : null}
                       <Button variant="secondary" onClick={startDemo} disabled={!symbols.length}>
-                        Try demo strategy
+                        {t('backtest.empty.tryDemo')}
                       </Button>
                       <Button
                         variant="secondary"
                         onClick={() => navigate('/settings?tab=strategies')}
                       >
-                        Load saved strategy
+                        {t('backtest.empty.loadSaved')}
                       </Button>
                     </div>
                   }
                 />
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                   {[
-                    'Equity curve',
-                    'Drawdown',
-                    'Win rate & expectancy',
-                    'Train/test comparison',
-                    'Cost stress table',
-                    'Monte Carlo drawdowns',
-                    'Bias & quality gates',
-                    'AI research review',
+                    'equityCurve',
+                    'drawdown',
+                    'winRateExpectancy',
+                    'trainTestComparison',
+                    'costStressTable',
+                    'monteCarloDrawdowns',
+                    'biasQualityGates',
+                    'aiResearchReview',
                   ].map((label) => (
                     <div
                       key={label}
                       className="rounded-2xl border border-dashed border-border/70 bg-white/[0.02] px-4 py-6 text-center"
                     >
-                      <p className="text-sm text-muted/70">{label}</p>
+                      <p className="text-sm text-muted/70">
+                        {t(`backtest.empty.preview.${label}`)}
+                      </p>
                       <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted/50">
-                        appears after a run
+                        {t('backtest.empty.appearsAfterRun')}
                       </p>
                     </div>
                   ))}
                 </div>
-                <p className="text-center text-xs text-muted">
-                  The demo runs the built-in trend-pullback rules on stored market data — an
-                  educational sample, not a live signal.
-                </p>
+                <p className="text-center text-xs text-muted">{t('backtest.empty.demoNote')}</p>
               </div>
             }
             error={
               <ErrorState
-                title="Backtest results unavailable"
-                description="The backtest results could not be loaded."
+                title={t('backtest.error.title')}
+                description={t('backtest.error.description')}
                 onRetry={retryMockView}
               />
             }
@@ -685,13 +681,13 @@ export function BacktestScreen({
                   <div className="grid gap-4 xl:grid-cols-2">
                     <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                        Equity curve
+                        {t('backtest.charts.equityCurve')}
                       </p>
                       <TinyLineChart values={displayedPreset.equityCurve} tone="buy" />
                     </div>
                     <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                        Drawdown curve
+                        {t('backtest.charts.drawdownCurve')}
                       </p>
                       <TinyLineChart
                         values={displayedPreset.drawdownCurve.map((value) => Math.abs(value))}
@@ -703,7 +699,7 @@ export function BacktestScreen({
                   <FadeIn>
                     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                       <MetricTile
-                        label="Net win rate"
+                        label={t('backtest.tiles.netWinRate')}
                         hero
                         toneClass="text-buy"
                         helper={displayedPreset.metrics.testPeriod}
@@ -714,9 +710,9 @@ export function BacktestScreen({
                         />
                       </MetricTile>
                       <MetricTile
-                        label="Average R"
+                        label={t('backtest.tiles.averageR')}
                         toneClass={displayedPreset.metrics.avgR >= 0 ? 'text-buy' : 'text-sell'}
-                        helper="Net of fees + slippage"
+                        helper={t('backtest.tiles.averageRHelper')}
                       >
                         <CountUp
                           value={displayedPreset.metrics.avgR}
@@ -724,11 +720,11 @@ export function BacktestScreen({
                         />
                       </MetricTile>
                       <MetricTile
-                        label="Expectancy"
+                        label={t('backtest.tiles.expectancy')}
                         toneClass={
                           displayedPreset.metrics.expectancy >= 0 ? 'text-buy' : 'text-sell'
                         }
-                        helper="Per trade in R terms"
+                        helper={t('backtest.tiles.expectancyHelper')}
                       >
                         <CountUp
                           value={displayedPreset.metrics.expectancy}
@@ -736,41 +732,52 @@ export function BacktestScreen({
                         />
                       </MetricTile>
                       <MetricTile
-                        label="Max drawdown"
+                        label={t('backtest.tiles.maxDrawdown')}
                         toneClass="text-sell"
-                        helper="Worst equity peak-to-trough"
+                        helper={t('backtest.tiles.maxDrawdownHelper')}
                       >
                         <CountUp
                           value={displayedPreset.metrics.maxDrawdown}
                           format={(n) => formatPercent(n)}
                         />
                       </MetricTile>
-                      <MetricTile label="Sharpe" helper="Risk-adjusted return">
+                      <MetricTile
+                        label={t('backtest.tiles.sharpe')}
+                        helper={t('backtest.tiles.sharpeHelper')}
+                      >
                         <CountUp
                           value={displayedPreset.metrics.sharpe}
                           format={(n) => n.toFixed(2)}
                         />
                       </MetricTile>
-                      <MetricTile label="Sortino" helper="Downside-adjusted return">
+                      <MetricTile
+                        label={t('backtest.tiles.sortino')}
+                        helper={t('backtest.tiles.sortinoHelper')}
+                      >
                         <CountUp
                           value={displayedPreset.metrics.sortino}
                           format={(n) => n.toFixed(2)}
                         />
                       </MetricTile>
-                      <MetricTile label="Profit factor" helper="Gross wins / gross losses">
+                      <MetricTile
+                        label={t('backtest.tiles.profitFactor')}
+                        helper={t('backtest.tiles.profitFactorHelper')}
+                      >
                         <CountUp
                           value={displayedPreset.metrics.profitFactor}
                           format={(n) => n.toFixed(2)}
                         />
                       </MetricTile>
                       <MetricTile
-                        label="Trade count"
+                        label={t('backtest.tiles.tradeCount')}
                         toneClass={
                           displayedPreset.metrics.tradeCount < minBacktestSample
                             ? 'text-hold'
                             : 'text-watch'
                         }
-                        helper={`Out-of-sample trade count · threshold ${minBacktestSample}`}
+                        helper={t('backtest.tiles.tradeCountHelper', {
+                          threshold: minBacktestSample,
+                        })}
                       >
                         <CountUp
                           value={displayedPreset.metrics.tradeCount}
@@ -783,29 +790,27 @@ export function BacktestScreen({
                   <div className="grid gap-4 xl:grid-cols-2">
                     <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                        In-sample vs out-of-sample
+                        {t('backtest.inOut.title')}
                       </p>
                       <div className="mt-4 grid gap-3 sm:grid-cols-2">
                         <MetricStat
-                          label="In-sample win rate"
+                          label={t('backtest.inOut.inSampleWinRate')}
                           value={`${displayedPreset.metrics.inSampleWinRate}%`}
-                          helper="Training segment"
+                          helper={t('backtest.inOut.trainingSegment')}
                         />
                         <MetricStat
-                          label="Out-of-sample win rate"
+                          label={t('backtest.inOut.outOfSampleWinRate')}
                           value={`${displayedPreset.metrics.outOfSampleWinRate}%`}
-                          helper="Held-out validation"
+                          helper={t('backtest.inOut.heldOutValidation')}
                         />
                       </div>
                       {oosGap > 5 ? (
                         <div className="mt-4 rounded-2xl border border-sell/30 bg-sell/10 p-4 text-sm text-muted">
-                          Overfitting risk warning: out-of-sample win rate trails in-sample by{' '}
-                          {oosGap.toFixed(0)} percentage points.
+                          {t('backtest.inOut.overfittingWarning', { gap: oosGap.toFixed(0) })}
                         </div>
                       ) : (
                         <div className="mt-4 rounded-2xl border border-buy/30 bg-buy/10 p-4 text-sm text-muted">
-                          In-sample and out-of-sample performance remain close enough to avoid an
-                          overfitting warning.
+                          {t('backtest.inOut.noOverfitting')}
                         </div>
                       )}
                     </div>
@@ -814,27 +819,27 @@ export function BacktestScreen({
                         <div className="flex gap-3 rounded-2xl border border-hold/30 bg-hold/10 p-4 text-hold">
                           <AlertTriangle className="mt-0.5 size-5 shrink-0" />
                           <div>
-                            <p className="font-semibold">Low-sample warning</p>
+                            <p className="font-semibold">{t('backtest.sample.lowWarningTitle')}</p>
                             <p className="mt-1 text-sm text-muted">
-                              This setup has fewer than {minBacktestSample} trades, so the
-                              validation statistics should be treated as unstable.
+                              {t('backtest.sample.lowWarningBody', {
+                                threshold: minBacktestSample,
+                              })}
                             </p>
                           </div>
                         </div>
                       ) : (
                         <div className="rounded-2xl border border-buy/30 bg-buy/10 p-4 text-muted">
-                          Sample size is above the configured minimum backtest threshold of{' '}
-                          {minBacktestSample} trades.
+                          {t('backtest.sample.aboveThreshold', { threshold: minBacktestSample })}
                         </div>
                       )}
                       {runState === 'running' ? (
                         <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted">
-                          Refreshing backend run…
+                          {t('backtest.sample.refreshing')}
                         </p>
                       ) : null}
                       {runState === 'error' ? (
                         <p className="mt-4 text-xs uppercase tracking-[0.18em] text-sell">
-                          Backend rerun unavailable
+                          {t('backtest.sample.rerunUnavailable')}
                         </p>
                       ) : null}
                     </div>
@@ -852,6 +857,7 @@ export function BacktestScreen({
 }
 
 function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset['workbench']> }) {
+  const { t } = useTranslation();
   const review = workbench.ai_review;
   const mc = workbench.monte_carlo;
   const statusTone: Record<string, string> = {
@@ -866,7 +872,7 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
         <Panel>
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-              AI research review
+              {t('backtest.workbench.aiResearchReview')}
             </p>
             <span
               className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${
@@ -884,13 +890,16 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
           <p className="mt-3 text-sm leading-relaxed text-ink">{review.summary}</p>
           <div className="mt-3 grid gap-2 text-xs text-muted sm:grid-cols-3">
             <p>
-              <span className="text-ink">Overfit risk:</span> {review.overfit_risk}
+              <span className="text-ink">{t('backtest.workbench.overfitRisk')}</span>{' '}
+              {review.overfit_risk}
             </p>
             <p>
-              <span className="text-ink">Next action:</span> {review.next_action}
+              <span className="text-ink">{t('backtest.workbench.nextAction')}</span>{' '}
+              {review.next_action}
             </p>
             <p>
-              <span className="text-ink">Live readiness:</span> {review.live_readiness}
+              <span className="text-ink">{t('backtest.workbench.liveReadiness')}</span>{' '}
+              {review.live_readiness}
             </p>
           </div>
         </Panel>
@@ -899,15 +908,15 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
       <div className="grid gap-6 xl:grid-cols-2">
         <Panel>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Cost stress scenarios
+            {t('backtest.workbench.costStressScenarios')}
           </p>
           <table className="mt-3 w-full text-left text-sm">
             <thead>
               <tr className="text-xs uppercase tracking-[0.14em] text-muted">
-                <th className="py-1 pr-3">Scenario</th>
-                <th className="py-1 pr-3">Expectancy</th>
-                <th className="py-1 pr-3">Win rate</th>
-                <th className="py-1">PF</th>
+                <th className="py-1 pr-3">{t('backtest.workbench.scenario')}</th>
+                <th className="py-1 pr-3">{t('backtest.workbench.expectancy')}</th>
+                <th className="py-1 pr-3">{t('backtest.workbench.winRate')}</th>
+                <th className="py-1">{t('backtest.workbench.pf')}</th>
               </tr>
             </thead>
             <tbody>
@@ -929,29 +938,33 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
               ))}
             </tbody>
           </table>
-          <p className="mt-2 text-xs text-muted">
-            Same simulation, worse costs. An edge that dies at 2x slippage was never an edge.
-          </p>
+          <p className="mt-2 text-xs text-muted">{t('backtest.workbench.costStressNote')}</p>
         </Panel>
 
         <Panel>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Monte Carlo drawdowns (out-of-sample)
+            {t('backtest.workbench.monteCarloTitle')}
           </p>
           {mc.available ? (
             <>
               <div className="mt-3 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
                   <p className="metric-text text-xl text-ink">{mc.median_max_drawdown_r}R</p>
-                  <p className="mt-1 text-xs text-muted">Median max drawdown</p>
+                  <p className="mt-1 text-xs text-muted">
+                    {t('backtest.workbench.medianMaxDrawdown')}
+                  </p>
                 </div>
                 <div className="rounded-2xl border border-border bg-white/[0.03] p-4">
                   <p className="metric-text text-xl text-sell">{mc.p95_max_drawdown_r}R</p>
-                  <p className="mt-1 text-xs text-muted">95th-percentile drawdown</p>
+                  <p className="mt-1 text-xs text-muted">{t('backtest.workbench.p95Drawdown')}</p>
                 </div>
               </div>
               <p className="mt-2 text-xs text-muted">
-                {mc.runs} resamples of {mc.sample} OOS trades. {mc.caveat}
+                {t('backtest.workbench.mcRunsLine', {
+                  runs: mc.runs,
+                  sample: mc.sample,
+                  caveat: mc.caveat,
+                })}
               </p>
             </>
           ) : (
@@ -963,10 +976,13 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
       <Panel>
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Bias & quality gates
+            {t('backtest.workbench.biasGates')}
           </p>
           <span className="ml-auto text-[11px] text-muted">
-            experiment {workbench.fingerprint.experiment_id} · {workbench.fingerprint.dataset_range}
+            {t('backtest.workbench.experimentLine', {
+              id: workbench.fingerprint.experiment_id,
+              range: workbench.fingerprint.dataset_range,
+            })}
           </span>
         </div>
         <ul className="mt-3 space-y-2">
