@@ -205,6 +205,38 @@
       "remove": "{{symbol}} kaldır"
     }
   },
+  "alerts": {
+    "eyebrow": "Uyarılar",
+    "title": "Yapılandırılmış tetikleyiciler ve uyarı geçmişi",
+    "description": "Masaüstü uyarıları işletim sistemi bildirimleri ve uygulama içi bildirimleri, Telegram uyarıları kayıtlı bot kimlik bilgilerini, e-posta uyarıları ise kayıtlı SMTP teslimat ayarlarını kullanır.",
+    "newAlert": "Yeni uyarı",
+    "createAlert": "Uyarı oluştur",
+    "editAlert": "Uyarıyı düzenle",
+    "never": "Asla",
+    "channelLine": "Kanal: {{channel}} · Son tetikleme: {{time}}",
+    "status": {
+      "armed": "kurulu",
+      "paused": "duraklatıldı",
+      "triggered": "tetiklendi"
+    },
+    "empty": {
+      "title": "Yapılandırılmış uyarı yok",
+      "description": "Bu ekranı doldurmak için bir masaüstü, Telegram veya e-posta uyarısı oluşturun."
+    },
+    "error": {
+      "title": "Uyarı listesi kullanılamıyor",
+      "description": "Yapılandırılmış uyarılar arka uçtan yüklenemedi."
+    },
+    "history": {
+      "eyebrow": "Son geçmiş",
+      "title": "Uyarı denetim akışı",
+      "description": "Yerel arka uç denetim izinin kaydettiği son uyarı tetiklemeleri.",
+      "emptyTitle": "Henüz uyarı geçmişi yok",
+      "emptyDescription": "Arka uç uyarıları tetiklendikçe son tetiklemeler burada görünür.",
+      "errorTitle": "Uyarı geçmişi kullanılamıyor",
+      "errorDescription": "Son uyarı denetim akışı yüklenemedi."
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

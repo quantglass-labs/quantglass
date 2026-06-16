@@ -205,6 +205,38 @@
       "remove": "Ondoa {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Arifa",
+    "title": "Vianzilishi vilivyosanidiwa na historia ya arifa",
+    "description": "Arifa za eneo-kazi hutumia arifa za OS pamoja na toast ndani ya programu, arifa za Telegram hutumia kitambulisho cha boti kilichohifadhiwa, na arifa za barua pepe hutumia mipangilio ya uwasilishaji ya SMTP iliyohifadhiwa.",
+    "newAlert": "Arifa mpya",
+    "createAlert": "Tengeneza arifa",
+    "editAlert": "Hariri arifa",
+    "never": "Kamwe",
+    "channelLine": "Kituo: {{channel}} · Ilianzishwa mwisho: {{time}}",
+    "status": {
+      "armed": "imewashwa",
+      "paused": "imesitishwa",
+      "triggered": "imeanzishwa"
+    },
+    "empty": {
+      "title": "Hakuna arifa zilizosanidiwa",
+      "description": "Tengeneza arifa ya eneo-kazi, Telegram, au barua pepe ili kujaza skrini hii."
+    },
+    "error": {
+      "title": "Orodha ya arifa haipatikani",
+      "description": "Arifa zilizosanidiwa hazikuweza kupakiwa kutoka backend."
+    },
+    "history": {
+      "eyebrow": "Historia ya hivi karibuni",
+      "title": "Mlisho wa ukaguzi wa arifa",
+      "description": "Uanzishwaji wa arifa wa hivi karibuni uliorekodiwa na njia ya ukaguzi ya backend ya ndani.",
+      "emptyTitle": "Bado hakuna historia ya arifa",
+      "emptyDescription": "Uanzishwaji wa hivi karibuni utaonekana hapa mara arifa za backend zinapoanzishwa.",
+      "errorTitle": "Historia ya arifa haipatikani",
+      "errorDescription": "Mlisho wa ukaguzi wa arifa wa hivi karibuni haukuweza kupakiwa."
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

@@ -205,6 +205,38 @@
       "remove": "Hapus {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Peringatan",
+    "title": "Pemicu terkonfigurasi dan riwayat peringatan",
+    "description": "Peringatan desktop memakai notifikasi OS plus toast dalam aplikasi, peringatan Telegram memakai kredensial bot tersimpan, dan peringatan email memakai pengaturan pengiriman SMTP tersimpan.",
+    "newAlert": "Peringatan baru",
+    "createAlert": "Buat peringatan",
+    "editAlert": "Edit peringatan",
+    "never": "Tidak pernah",
+    "channelLine": "Kanal: {{channel}} · Terakhir dipicu: {{time}}",
+    "status": {
+      "armed": "aktif",
+      "paused": "dijeda",
+      "triggered": "terpicu"
+    },
+    "empty": {
+      "title": "Tidak ada peringatan terkonfigurasi",
+      "description": "Buat peringatan desktop, Telegram, atau email untuk mengisi layar ini."
+    },
+    "error": {
+      "title": "Daftar peringatan tidak tersedia",
+      "description": "Peringatan terkonfigurasi tidak dapat dimuat dari backend."
+    },
+    "history": {
+      "eyebrow": "Riwayat terbaru",
+      "title": "Umpan audit peringatan",
+      "description": "Pemicuan peringatan terbaru yang dicatat oleh jejak audit backend lokal.",
+      "emptyTitle": "Belum ada riwayat peringatan",
+      "emptyDescription": "Pemicuan terbaru akan muncul di sini setelah peringatan backend terpicu.",
+      "errorTitle": "Riwayat peringatan tidak tersedia",
+      "errorDescription": "Umpan audit peringatan terbaru tidak dapat dimuat."
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

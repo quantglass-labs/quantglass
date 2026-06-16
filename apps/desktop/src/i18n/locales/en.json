@@ -205,6 +205,38 @@
       "remove": "Remove {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Alerts",
+    "title": "Configured triggers and alert history",
+    "description": "Desktop alerts use OS notifications plus in-app toasts, Telegram alerts use saved bot credentials, and email alerts use saved SMTP delivery settings.",
+    "newAlert": "New alert",
+    "createAlert": "Create alert",
+    "editAlert": "Edit alert",
+    "never": "Never",
+    "channelLine": "Channel: {{channel}} · Last fired: {{time}}",
+    "status": {
+      "armed": "armed",
+      "paused": "paused",
+      "triggered": "triggered"
+    },
+    "empty": {
+      "title": "No alerts configured",
+      "description": "Create a desktop, Telegram, or email alert to populate this screen."
+    },
+    "error": {
+      "title": "Alerts list unavailable",
+      "description": "The configured alerts could not be loaded from the backend."
+    },
+    "history": {
+      "eyebrow": "Recent history",
+      "title": "Alert audit feed",
+      "description": "Recent alert firings recorded by the local backend audit trail.",
+      "emptyTitle": "No alert history yet",
+      "emptyDescription": "Recent firings will appear here once backend alerts have triggered.",
+      "errorTitle": "Alert history unavailable",
+      "errorDescription": "The recent alert audit feed could not be loaded."
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

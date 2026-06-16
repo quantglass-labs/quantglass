@@ -205,6 +205,38 @@
       "remove": "{{symbol}} entfernen"
     }
   },
+  "alerts": {
+    "eyebrow": "Warnungen",
+    "title": "Konfigurierte Auslöser und Warnungsverlauf",
+    "description": "Desktop-Warnungen nutzen OS-Benachrichtigungen plus In-App-Toasts, Telegram-Warnungen nutzen gespeicherte Bot-Zugangsdaten und E-Mail-Warnungen nutzen die gespeicherten SMTP-Einstellungen.",
+    "newAlert": "Neue Warnung",
+    "createAlert": "Warnung erstellen",
+    "editAlert": "Warnung bearbeiten",
+    "never": "Nie",
+    "channelLine": "Kanal: {{channel}} · Zuletzt ausgelöst: {{time}}",
+    "status": {
+      "armed": "scharf",
+      "paused": "pausiert",
+      "triggered": "ausgelöst"
+    },
+    "empty": {
+      "title": "Keine Warnungen konfiguriert",
+      "description": "Erstellen Sie eine Desktop-, Telegram- oder E-Mail-Warnung, um diesen Bildschirm zu füllen."
+    },
+    "error": {
+      "title": "Warnungsliste nicht verfügbar",
+      "description": "Die konfigurierten Warnungen konnten nicht vom Backend geladen werden."
+    },
+    "history": {
+      "eyebrow": "Jüngster Verlauf",
+      "title": "Warnungs-Audit-Feed",
+      "description": "Jüngste Warnungsauslösungen, aufgezeichnet vom Audit-Trail des lokalen Backends.",
+      "emptyTitle": "Noch kein Warnungsverlauf",
+      "emptyDescription": "Jüngste Auslösungen erscheinen hier, sobald Backend-Warnungen ausgelöst wurden.",
+      "errorTitle": "Warnungsverlauf nicht verfügbar",
+      "errorDescription": "Der jüngste Warnungs-Audit-Feed konnte nicht geladen werden."
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

@@ -205,6 +205,38 @@
       "remove": "Eliminar {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Alertas",
+    "title": "Disparadores configurados e historial de alertas",
+    "description": "Las alertas de escritorio usan notificaciones del SO más avisos en la app, las de Telegram usan credenciales de bot guardadas y las de email usan la configuración SMTP guardada.",
+    "newAlert": "Nueva alerta",
+    "createAlert": "Crear alerta",
+    "editAlert": "Editar alerta",
+    "never": "Nunca",
+    "channelLine": "Canal: {{channel}} · Último disparo: {{time}}",
+    "status": {
+      "armed": "armada",
+      "paused": "pausada",
+      "triggered": "disparada"
+    },
+    "empty": {
+      "title": "Sin alertas configuradas",
+      "description": "Crea una alerta de escritorio, Telegram o email para poblar esta pantalla."
+    },
+    "error": {
+      "title": "Lista de alertas no disponible",
+      "description": "No se pudieron cargar las alertas configuradas desde el backend."
+    },
+    "history": {
+      "eyebrow": "Historial reciente",
+      "title": "Feed de auditoría de alertas",
+      "description": "Disparos recientes de alertas registrados por el rastro de auditoría del backend local.",
+      "emptyTitle": "Aún no hay historial de alertas",
+      "emptyDescription": "Los disparos recientes aparecerán aquí cuando las alertas del backend se activen.",
+      "errorTitle": "Historial de alertas no disponible",
+      "errorDescription": "No se pudo cargar el feed de auditoría reciente."
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",

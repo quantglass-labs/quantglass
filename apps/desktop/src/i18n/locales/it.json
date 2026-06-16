@@ -205,6 +205,38 @@
       "remove": "Rimuovi {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Avvisi",
+    "title": "Trigger configurati e cronologia degli avvisi",
+    "description": "Gli avvisi desktop usano le notifiche del SO più i toast in-app, gli avvisi Telegram usano le credenziali del bot salvate e gli avvisi e-mail usano le impostazioni SMTP salvate.",
+    "newAlert": "Nuovo avviso",
+    "createAlert": "Crea avviso",
+    "editAlert": "Modifica avviso",
+    "never": "Mai",
+    "channelLine": "Canale: {{channel}} · Ultimo scatto: {{time}}",
+    "status": {
+      "armed": "armato",
+      "paused": "in pausa",
+      "triggered": "scattato"
+    },
+    "empty": {
+      "title": "Nessun avviso configurato",
+      "description": "Crea un avviso desktop, Telegram o e-mail per popolare questa schermata."
+    },
+    "error": {
+      "title": "Elenco avvisi non disponibile",
+      "description": "Impossibile caricare gli avvisi configurati dal backend."
+    },
+    "history": {
+      "eyebrow": "Cronologia recente",
+      "title": "Feed di audit degli avvisi",
+      "description": "Scatti recenti di avvisi registrati dalla traccia di audit del backend locale.",
+      "emptyTitle": "Ancora nessuna cronologia di avvisi",
+      "emptyDescription": "Gli scatti recenti compariranno qui una volta attivati gli avvisi del backend.",
+      "errorTitle": "Cronologia avvisi non disponibile",
+      "errorDescription": "Il feed di audit recente degli avvisi non può essere caricato."
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

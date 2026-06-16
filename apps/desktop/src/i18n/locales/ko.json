@@ -205,6 +205,38 @@
       "remove": "{{symbol}} 제거"
     }
   },
+  "alerts": {
+    "eyebrow": "알림",
+    "title": "구성된 트리거 및 알림 내역",
+    "description": "데스크톱 알림은 OS 알림과 앱 내 토스트를, Telegram 알림은 저장된 봇 자격 증명을, 이메일 알림은 저장된 SMTP 전송 설정을 사용합니다.",
+    "newAlert": "새 알림",
+    "createAlert": "알림 만들기",
+    "editAlert": "알림 편집",
+    "never": "없음",
+    "channelLine": "채널: {{channel}} · 마지막 발동: {{time}}",
+    "status": {
+      "armed": "활성",
+      "paused": "일시중지",
+      "triggered": "발동됨"
+    },
+    "empty": {
+      "title": "구성된 알림이 없습니다",
+      "description": "데스크톱, Telegram 또는 이메일 알림을 만들어 이 화면을 채우세요."
+    },
+    "error": {
+      "title": "알림 목록을 사용할 수 없음",
+      "description": "구성된 알림을 백엔드에서 불러오지 못했습니다."
+    },
+    "history": {
+      "eyebrow": "최근 내역",
+      "title": "알림 감사 피드",
+      "description": "로컬 백엔드 감사 추적이 기록한 최근 알림 발동.",
+      "emptyTitle": "아직 알림 내역이 없습니다",
+      "emptyDescription": "백엔드 알림이 발동되면 최근 발동이 여기에 표시됩니다.",
+      "errorTitle": "알림 내역을 사용할 수 없음",
+      "errorDescription": "최근 알림 감사 피드를 불러오지 못했습니다."
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

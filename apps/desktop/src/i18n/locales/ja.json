@@ -205,6 +205,38 @@
       "remove": "{{symbol}} を削除"
     }
   },
+  "alerts": {
+    "eyebrow": "アラート",
+    "title": "設定済みトリガーとアラート履歴",
+    "description": "デスクトップアラートはOS通知とアプリ内トーストを使用し、Telegramアラートは保存済みのボット認証情報を、メールアラートは保存済みのSMTP配信設定を使用します。",
+    "newAlert": "新規アラート",
+    "createAlert": "アラートを作成",
+    "editAlert": "アラートを編集",
+    "never": "なし",
+    "channelLine": "チャネル：{{channel}} · 最終発火：{{time}}",
+    "status": {
+      "armed": "作動中",
+      "paused": "一時停止",
+      "triggered": "発火済み"
+    },
+    "empty": {
+      "title": "アラートが未設定です",
+      "description": "デスクトップ・Telegram・メールのアラートを作成すると、この画面が埋まります。"
+    },
+    "error": {
+      "title": "アラート一覧を利用できません",
+      "description": "設定済みアラートをバックエンドから読み込めませんでした。"
+    },
+    "history": {
+      "eyebrow": "最近の履歴",
+      "title": "アラート監査フィード",
+      "description": "ローカルバックエンドの監査証跡が記録した最近のアラート発火。",
+      "emptyTitle": "まだアラート履歴がありません",
+      "emptyDescription": "バックエンドのアラートが発火すると、最近の発火がここに表示されます。",
+      "errorTitle": "アラート履歴を利用できません",
+      "errorDescription": "最近のアラート監査フィードを読み込めませんでした。"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

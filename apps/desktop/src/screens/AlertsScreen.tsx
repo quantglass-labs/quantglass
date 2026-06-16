@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { BellPlus, PencilLine } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   Button,
   DataStateView,
@@ -27,18 +28,19 @@ export function AlertsScreen({
   symbols: SymbolRecord[];
   onOpenAlertModal: (symbolId: string, signalId?: string, alertId?: string) => void;
 }) {
+  const { t } = useTranslation();
   const retryMockView = () => window.location.reload();
 
   return (
     <div className="space-y-8">
       <SectionHeading
-        eyebrow="Alerts"
-        title="Configured triggers and alert history"
-        description="Desktop alerts use OS notifications plus in-app toasts, Telegram alerts use saved bot credentials, and email alerts use saved SMTP delivery settings."
+        eyebrow={t('alerts.eyebrow')}
+        title={t('alerts.title')}
+        description={t('alerts.description')}
         action={
           <Button onClick={() => onOpenAlertModal('BTCUSD')}>
             <BellPlus className="size-4" />
-            New alert
+            {t('alerts.newAlert')}
           </Button>
         }
       />
@@ -51,15 +53,19 @@ export function AlertsScreen({
             loading={<LoadingSkeleton rows={4} />}
             empty={
               <EmptyState
-                title="No alerts configured"
-                description="Create a desktop, Telegram, or email alert to populate this screen."
-                action={<Button onClick={() => onOpenAlertModal('BTCUSD')}>Create alert</Button>}
+                title={t('alerts.empty.title')}
+                description={t('alerts.empty.description')}
+                action={
+                  <Button onClick={() => onOpenAlertModal('BTCUSD')}>
+                    {t('alerts.createAlert')}
+                  </Button>
+                }
               />
             }
             error={
               <ErrorState
-                title="Alerts list unavailable"
-                description="The configured alerts could not be loaded from the backend."
+                title={t('alerts.error.title')}
+                description={t('alerts.error.description')}
                 onRetry={retryMockView}
               />
             }
@@ -79,13 +85,17 @@ export function AlertsScreen({
                             <span
                               className={`rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${alert.status === 'armed' ? 'bg-buy/12 text-buy' : alert.status === 'paused' ? 'bg-hold/12 text-hold' : 'bg-watch/12 text-watch'}`}
                             >
-                              {alert.status}
+                              {t(`alerts.status.${alert.status}`, { defaultValue: alert.status })}
                             </span>
                           </div>
                           <p className="text-sm text-muted">{alert.condition}</p>
                           <div className="text-xs text-muted">
-                            Channel: {alert.channel} · Last fired:{' '}
-                            {alert.lastFired ? formatDateTime(alert.lastFired) : 'Never'}
+                            {t('alerts.channelLine', {
+                              channel: alert.channel,
+                              time: alert.lastFired
+                                ? formatDateTime(alert.lastFired)
+                                : t('alerts.never'),
+                            })}
                           </div>
                         </div>
                         <Button
@@ -93,7 +103,7 @@ export function AlertsScreen({
                           onClick={() => onOpenAlertModal(alert.symbolId, undefined, alert.id)}
                         >
                           <PencilLine className="size-4" />
-                          Edit alert
+                          {t('alerts.editAlert')}
                         </Button>
                       </div>
                     </div>
@@ -106,9 +116,9 @@ export function AlertsScreen({
 
         <Panel>
           <SectionHeading
-            eyebrow="Recent history"
-            title="Alert audit feed"
-            description="Recent alert firings recorded by the local backend audit trail."
+            eyebrow={t('alerts.history.eyebrow')}
+            title={t('alerts.history.title')}
+            description={t('alerts.history.description')}
           />
           <div className="mt-5">
             <DataStateView
@@ -117,19 +127,19 @@ export function AlertsScreen({
               loading={<LoadingSkeleton rows={4} />}
               empty={
                 <EmptyState
-                  title="No alert history yet"
-                  description="Recent firings will appear here once backend alerts have triggered."
+                  title={t('alerts.history.emptyTitle')}
+                  description={t('alerts.history.emptyDescription')}
                   action={
                     <Button variant="secondary" onClick={() => onOpenAlertModal('BTCUSD')}>
-                      Create alert
+                      {t('alerts.createAlert')}
                     </Button>
                   }
                 />
               }
               error={
                 <ErrorState
-                  title="Alert history unavailable"
-                  description="The recent alert audit feed could not be loaded."
+                  title={t('alerts.history.errorTitle')}
+                  description={t('alerts.history.errorDescription')}
                   onRetry={retryMockView}
                 />
               }

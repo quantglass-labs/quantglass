@@ -205,6 +205,38 @@
       "remove": "Retirer {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Alertes",
+    "title": "Déclencheurs configurés et historique des alertes",
+    "description": "Les alertes bureau utilisent les notifications du système et des toasts dans l'app, les alertes Telegram utilisent les identifiants du bot enregistrés, et les alertes e-mail utilisent les réglages SMTP enregistrés.",
+    "newAlert": "Nouvelle alerte",
+    "createAlert": "Créer une alerte",
+    "editAlert": "Modifier l'alerte",
+    "never": "Jamais",
+    "channelLine": "Canal : {{channel}} · Dernier déclenchement : {{time}}",
+    "status": {
+      "armed": "armée",
+      "paused": "en pause",
+      "triggered": "déclenchée"
+    },
+    "empty": {
+      "title": "Aucune alerte configurée",
+      "description": "Créez une alerte bureau, Telegram ou e-mail pour remplir cet écran."
+    },
+    "error": {
+      "title": "Liste des alertes indisponible",
+      "description": "Les alertes configurées n'ont pas pu être chargées depuis le backend."
+    },
+    "history": {
+      "eyebrow": "Historique récent",
+      "title": "Flux d'audit des alertes",
+      "description": "Déclenchements d'alertes récents enregistrés par la piste d'audit du backend local.",
+      "emptyTitle": "Pas encore d'historique d'alertes",
+      "emptyDescription": "Les déclenchements récents apparaîtront ici une fois les alertes du backend déclenchées.",
+      "errorTitle": "Historique des alertes indisponible",
+      "errorDescription": "Le flux d'audit récent des alertes n'a pas pu être chargé."
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",
