@@ -50,6 +50,77 @@
       "footer": "Được tường thuật từ chính số liệu của động cơ — chế độ, tín hiệu, rủi ro. Không bao giờ là lời khuyên."
     }
   },
+  "signals": {
+    "eyebrow": "Tín hiệu",
+    "title": "Danh mục tín hiệu có thể lọc",
+    "description": "Tín hiệu hiện tại và lịch sử với loại thiết lập, kỳ vọng, trạng thái và điều hướng trực tiếp đến màn hình chi tiết mã hoặc ngăn tín hiệu. Bản ghi tín hiệu được tạo từ nến hành lang thị trường lưu ở backend.",
+    "tiles": {
+      "shown": "Tín hiệu hiển thị",
+      "shownHelper": "Khớp với bộ lọc hiện tại",
+      "buyZones": "Vùng mua",
+      "buyZonesHelper": "Thiết lập mua có thể hành động",
+      "avgConfidence": "Độ tin cậy TB",
+      "avgConfidenceHelper": "Trên các tín hiệu hiển thị",
+      "active": "Hoạt động",
+      "activeHelper": "Trực tiếp, chỉ nến đã đóng"
+    },
+    "feedError": "Lỗi nguồn tín hiệu",
+    "feedErrorDetail": "Danh sách bên dưới có thể cũ hoặc trống vì backend đang lỗi, không phải vì không có tín hiệu.",
+    "riskBadge": "rủi ro",
+    "lockedNotice": "Tín hiệu lớp chuyên gia bị khóa: {{count}} — mở khóa khi đạt mức chuyên gia của Academy",
+    "families": {
+      "all": "Tất cả nhóm",
+      "technical": "Kỹ thuật",
+      "structure": "Cấu trúc",
+      "volatility": "Biến động",
+      "regime": "Chế độ",
+      "risk": "Rủi ro"
+    },
+    "filters": {
+      "signalType": "Loại tín hiệu",
+      "minConfidence": "Độ tin cậy tối thiểu",
+      "timeframe": "Khung thời gian",
+      "statusScope": "Phạm vi trạng thái",
+      "reset": "Đặt lại bộ lọc",
+      "all": "Tất cả",
+      "buyZone": "Vùng mua",
+      "sell": "Bán",
+      "hold": "Giữ",
+      "wait": "Chờ",
+      "watch": "Theo dõi",
+      "activeOnly": "Chỉ hoạt động",
+      "allStatuses": "Tất cả trạng thái"
+    },
+    "table": {
+      "symbol": "Mã",
+      "signal": "Tín hiệu",
+      "confidence": "Độ tin cậy",
+      "rr": "R:R",
+      "setupType": "Loại thiết lập",
+      "winRate": "Tỷ lệ thắng backtest",
+      "status": "Trạng thái",
+      "freshness": "Độ mới",
+      "generated": "Đã tạo",
+      "actions": "Hành động",
+      "quality": "chất lượng {{value}}"
+    },
+    "actions": {
+      "symbol": "Mã",
+      "detailDrawer": "Ngăn chi tiết",
+      "paperTrade": "Giao dịch giấy"
+    },
+    "emptyTitle": "Không có tín hiệu nào khớp với bộ lọc hiện tại",
+    "emptyDescription": "Hãy thử mở rộng bộ lọc thị trường, trạng thái hoặc độ tin cậy để điền lại bảng do backend tạo.",
+    "errorTitle": "Bảng tín hiệu không khả dụng",
+    "errorDescription": "Không thể tải danh mục tín hiệu của backend.",
+    "schema": {
+      "eyebrow": "Hình thức chuẩn của tín hiệu",
+      "title": "Tóm tắt lược đồ",
+      "description": "Bảng trên được suy ra theo từng trường từ cùng đối tượng tín hiệu chuẩn hiển thị trong ngăn chi tiết tín hiệu.",
+      "entryZone": "Vùng vào lệnh",
+      "feesSlippage": "Phí/trượt giá"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

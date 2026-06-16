@@ -50,6 +50,77 @@
       "footer": "엔진 자체의 판독(국면·신호·리스크)에서 작성. 결코 투자 자문이 아닙니다."
     }
   },
+  "signals": {
+    "eyebrow": "신호",
+    "title": "필터 가능한 신호 목록",
+    "description": "셋업 유형, 기대값, 상태와 함께 현재 및 과거 신호를 표시하고 심볼 상세 화면이나 신호 드로어로 바로 이동합니다. 신호 레코드는 백엔드에 저장된 시장 코리도 캔들에서 생성됩니다.",
+    "tiles": {
+      "shown": "표시된 신호",
+      "shownHelper": "현재 필터와 일치",
+      "buyZones": "매수 구간",
+      "buyZonesHelper": "실행 가능한 롱 셋업",
+      "avgConfidence": "평균 신뢰도",
+      "avgConfidenceHelper": "표시된 신호 기준",
+      "active": "활성",
+      "activeHelper": "실시간, 마감 캔들만"
+    },
+    "feedError": "신호 피드 오류",
+    "feedErrorDetail": "아래 목록은 신호가 없어서가 아니라 백엔드 오류로 인해 오래되었거나 비어 있을 수 있습니다.",
+    "riskBadge": "리스크",
+    "lockedNotice": "전문가 계층 신호 잠김: {{count}} — 아카데미 전문가 준비도로 잠금 해제",
+    "families": {
+      "all": "모든 계열",
+      "technical": "기술적",
+      "structure": "구조",
+      "volatility": "변동성",
+      "regime": "국면",
+      "risk": "리스크"
+    },
+    "filters": {
+      "signalType": "신호 유형",
+      "minConfidence": "최소 신뢰도",
+      "timeframe": "시간 프레임",
+      "statusScope": "상태 범위",
+      "reset": "필터 초기화",
+      "all": "전체",
+      "buyZone": "매수 구간",
+      "sell": "매도",
+      "hold": "보유",
+      "wait": "대기",
+      "watch": "관찰",
+      "activeOnly": "활성만",
+      "allStatuses": "모든 상태"
+    },
+    "table": {
+      "symbol": "심볼",
+      "signal": "신호",
+      "confidence": "신뢰도",
+      "rr": "R:R",
+      "setupType": "셋업 유형",
+      "winRate": "백테스트 승률",
+      "status": "상태",
+      "freshness": "신선도",
+      "generated": "생성",
+      "actions": "작업",
+      "quality": "품질 {{value}}"
+    },
+    "actions": {
+      "symbol": "심볼",
+      "detailDrawer": "상세 드로어",
+      "paperTrade": "모의 거래"
+    },
+    "emptyTitle": "현재 필터와 일치하는 신호가 없습니다",
+    "emptyDescription": "시장, 상태 또는 신뢰도 필터를 넓혀 백엔드가 생성한 표를 다시 채워 보세요.",
+    "errorTitle": "신호 표를 사용할 수 없음",
+    "errorDescription": "백엔드 신호 목록을 불러오지 못했습니다.",
+    "schema": {
+      "eyebrow": "정규 신호 형태",
+      "title": "스키마 요약",
+      "description": "위 표는 신호 상세 드로어에 표시되는 것과 동일한 정규 신호 객체에서 필드별로 파생됩니다.",
+      "entryZone": "진입 구간",
+      "feesSlippage": "수수료/슬리피지"
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

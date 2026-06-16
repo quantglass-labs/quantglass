@@ -50,6 +50,77 @@
       "footer": "Dinarasikan dari pembacaan mesin sendiri — rezim, sinyal, risiko. Bukan nasihat."
     }
   },
+  "signals": {
+    "eyebrow": "Sinyal",
+    "title": "Inventaris sinyal yang dapat difilter",
+    "description": "Sinyal saat ini dan historis dengan tipe setup, ekspektasi, status, dan perutean langsung ke layar detail simbol atau panel sinyal. Catatan sinyal dihasilkan dari candle koridor pasar yang tersimpan di backend.",
+    "tiles": {
+      "shown": "Sinyal ditampilkan",
+      "shownHelper": "Cocok dengan filter saat ini",
+      "buyZones": "Zona beli",
+      "buyZonesHelper": "Setup long yang dapat ditindak",
+      "avgConfidence": "Keyakinan rata-rata",
+      "avgConfidenceHelper": "Di seluruh sinyal yang ditampilkan",
+      "active": "Aktif",
+      "activeHelper": "Langsung, hanya candle tertutup"
+    },
+    "feedError": "Kesalahan umpan sinyal",
+    "feedErrorDetail": "Daftar di bawah mungkin usang atau kosong karena backend gagal, bukan karena tidak ada sinyal.",
+    "riskBadge": "risiko",
+    "lockedNotice": "Sinyal lapisan ahli terkunci: {{count}} — terbuka dengan kesiapan ahli Academy",
+    "families": {
+      "all": "Semua keluarga",
+      "technical": "Teknikal",
+      "structure": "Struktur",
+      "volatility": "Volatilitas",
+      "regime": "Rezim",
+      "risk": "Risiko"
+    },
+    "filters": {
+      "signalType": "Tipe sinyal",
+      "minConfidence": "Keyakinan min.",
+      "timeframe": "Kerangka waktu",
+      "statusScope": "Cakupan status",
+      "reset": "Atur ulang filter",
+      "all": "Semua",
+      "buyZone": "Zona beli",
+      "sell": "Jual",
+      "hold": "Tahan",
+      "wait": "Tunggu",
+      "watch": "Pantau",
+      "activeOnly": "Hanya aktif",
+      "allStatuses": "Semua status"
+    },
+    "table": {
+      "symbol": "Simbol",
+      "signal": "Sinyal",
+      "confidence": "Keyakinan",
+      "rr": "R:R",
+      "setupType": "Tipe setup",
+      "winRate": "Win-rate backtest",
+      "status": "Status",
+      "freshness": "Kesegaran",
+      "generated": "Dibuat",
+      "actions": "Tindakan",
+      "quality": "kualitas {{value}}"
+    },
+    "actions": {
+      "symbol": "Simbol",
+      "detailDrawer": "Panel detail",
+      "paperTrade": "Perdagangan kertas"
+    },
+    "emptyTitle": "Tidak ada sinyal yang cocok dengan filter saat ini",
+    "emptyDescription": "Coba perluas filter pasar, status, atau keyakinan untuk mengisi ulang tabel yang dihasilkan backend.",
+    "errorTitle": "Tabel sinyal tidak tersedia",
+    "errorDescription": "Inventaris sinyal backend tidak dapat dimuat.",
+    "schema": {
+      "eyebrow": "Bentuk kanonis sinyal",
+      "title": "Ringkasan skema",
+      "description": "Tabel di atas diturunkan bidang demi bidang dari objek sinyal kanonis yang sama seperti yang ditampilkan di panel detail sinyal.",
+      "entryZone": "Zona masuk",
+      "feesSlippage": "Biaya/slippage"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

@@ -50,6 +50,77 @@
       "footer": "Motorun kendi okumalarından anlatıldı — rejimler, sinyaller, risk. Asla tavsiye değildir."
     }
   },
+  "signals": {
+    "eyebrow": "Sinyaller",
+    "title": "Filtrelenebilir sinyal envanteri",
+    "description": "Kurulum türü, beklenti, durum ve sembol detay ekranına ya da sinyal çekmecesine doğrudan yönlendirme ile güncel ve geçmiş sinyaller. Sinyal kayıtları arka uçta saklanan piyasa koridoru mumlarından üretilir.",
+    "tiles": {
+      "shown": "Gösterilen sinyaller",
+      "shownHelper": "Mevcut filtrelerle eşleşen",
+      "buyZones": "Alış bölgeleri",
+      "buyZonesHelper": "Uygulanabilir uzun kurulumlar",
+      "avgConfidence": "Ort. güven",
+      "avgConfidenceHelper": "Gösterilen sinyaller genelinde",
+      "active": "Etkin",
+      "activeHelper": "Canlı, yalnızca kapanmış mumlar"
+    },
+    "feedError": "Sinyal akışı hatası",
+    "feedErrorDetail": "Aşağıdaki liste eski veya boş olabilir; bunun nedeni sinyal olmaması değil, arka ucun hata vermesidir.",
+    "riskBadge": "risk",
+    "lockedNotice": "Uzman katmanı sinyaller kilitli: {{count}} — Akademi uzman hazırlığıyla açılır",
+    "families": {
+      "all": "Tüm aileler",
+      "technical": "Teknik",
+      "structure": "Yapı",
+      "volatility": "Oynaklık",
+      "regime": "Rejim",
+      "risk": "Risk"
+    },
+    "filters": {
+      "signalType": "Sinyal türü",
+      "minConfidence": "Min. güven",
+      "timeframe": "Zaman dilimi",
+      "statusScope": "Durum kapsamı",
+      "reset": "Filtreleri sıfırla",
+      "all": "Tümü",
+      "buyZone": "Alış bölgesi",
+      "sell": "Sat",
+      "hold": "Tut",
+      "wait": "Bekle",
+      "watch": "İzle",
+      "activeOnly": "Yalnızca etkin",
+      "allStatuses": "Tüm durumlar"
+    },
+    "table": {
+      "symbol": "Sembol",
+      "signal": "Sinyal",
+      "confidence": "Güven",
+      "rr": "R:R",
+      "setupType": "Kurulum türü",
+      "winRate": "Backtest kazanma oranı",
+      "status": "Durum",
+      "freshness": "Tazelik",
+      "generated": "Üretildi",
+      "actions": "Eylemler",
+      "quality": "kalite {{value}}"
+    },
+    "actions": {
+      "symbol": "Sembol",
+      "detailDrawer": "Detay çekmecesi",
+      "paperTrade": "Kâğıt işlem"
+    },
+    "emptyTitle": "Mevcut filtreyle eşleşen sinyal yok",
+    "emptyDescription": "Arka uç tarafından üretilen tabloyu yeniden doldurmak için piyasa, durum veya güven filtrelerini genişletmeyi deneyin.",
+    "errorTitle": "Sinyal tablosu kullanılamıyor",
+    "errorDescription": "Arka uç sinyal envanteri yüklenemedi.",
+    "schema": {
+      "eyebrow": "Kanonik sinyal biçimi",
+      "title": "Şema özeti",
+      "description": "Yukarıdaki tablo, sinyal detay çekmecesinde gösterilen aynı kanonik sinyal nesnesinden alan alan türetilir.",
+      "entryZone": "Giriş bölgesi",
+      "feesSlippage": "Ücretler/kayma"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

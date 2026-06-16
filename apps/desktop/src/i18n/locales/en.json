@@ -50,6 +50,77 @@
       "footer": "Narrated from the engine's own reads — regimes, signals, risk. Never advice."
     }
   },
+  "signals": {
+    "eyebrow": "Signals",
+    "title": "Filterable signal inventory",
+    "description": "Current and historical signals with setup type, expectancy, status, and direct routing to the symbol detail screen or signal drawer. Signal records are generated from stored market corridor candles on the backend.",
+    "tiles": {
+      "shown": "Signals shown",
+      "shownHelper": "Matching the current filters",
+      "buyZones": "Buy zones",
+      "buyZonesHelper": "Actionable long setups",
+      "avgConfidence": "Avg confidence",
+      "avgConfidenceHelper": "Across the shown signals",
+      "active": "Active",
+      "activeHelper": "Live, closed-candle only"
+    },
+    "feedError": "Signal feed error",
+    "feedErrorDetail": "The list below may be stale or empty because the backend is failing, not because there are no signals.",
+    "riskBadge": "risk",
+    "lockedNotice": "Expert-layer signals locked: {{count}} — unlocks with Academy expert readiness",
+    "families": {
+      "all": "All families",
+      "technical": "Technical",
+      "structure": "Structure",
+      "volatility": "Volatility",
+      "regime": "Regime",
+      "risk": "Risk"
+    },
+    "filters": {
+      "signalType": "Signal type",
+      "minConfidence": "Min confidence",
+      "timeframe": "Timeframe",
+      "statusScope": "Status scope",
+      "reset": "Reset filters",
+      "all": "All",
+      "buyZone": "Buy zone",
+      "sell": "Sell",
+      "hold": "Hold",
+      "wait": "Wait",
+      "watch": "Watch",
+      "activeOnly": "Active only",
+      "allStatuses": "All statuses"
+    },
+    "table": {
+      "symbol": "Symbol",
+      "signal": "Signal",
+      "confidence": "Confidence",
+      "rr": "R:R",
+      "setupType": "Setup type",
+      "winRate": "Backtested win-rate",
+      "status": "Status",
+      "freshness": "Freshness",
+      "generated": "Generated",
+      "actions": "Actions",
+      "quality": "quality {{value}}"
+    },
+    "actions": {
+      "symbol": "Symbol",
+      "detailDrawer": "Detail drawer",
+      "paperTrade": "Paper trade"
+    },
+    "emptyTitle": "No signals match the current filter",
+    "emptyDescription": "Try broadening the market, status, or confidence filters to repopulate the backend-generated table.",
+    "errorTitle": "Signals table unavailable",
+    "errorDescription": "The backend signal inventory could not be loaded.",
+    "schema": {
+      "eyebrow": "Canonical signal shape",
+      "title": "Schema summary",
+      "description": "The table above derives from the same field-for-field canonical signal object shown in the signal detail drawer.",
+      "entryZone": "Entry zone",
+      "feesSlippage": "Fees/slippage"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",
