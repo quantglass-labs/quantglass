@@ -288,6 +288,51 @@
       "violations": "{{count}} di {{total}} operazioni hanno violato questo"
     }
   },
+  "journal": {
+    "title": "Diario",
+    "tagline": "Il piano che hai scritto, l'operazione che hai preso e cosa ne fai.",
+    "aiTitle": "Cosa dice il tuo diario",
+    "loadError": "Impossibile caricare il diario. Il backend è in esecuzione?",
+    "empty": "Ancora nessuna operazione simulata eseguita. Inserisci un'operazione con un piano completo — stop, obiettivo, rischio e motivo — e comparirà qui per la revisione.",
+    "process": "Processo",
+    "thesis": "Tesi:",
+    "notePlaceholder": "Cosa è successo davvero? Cosa ripeteresti — o non faresti mai più?",
+    "pendingOrders": "Ordini attivi (non ancora eseguiti)",
+    "footer": "Le etichette alimentano il coach di Revisione — etichettare con onestà rende tue le raccomandazioni.",
+    "tiles": {
+      "tradesLogged": "Operazioni registrate",
+      "tradesLoggedHelper": "Operazioni simulate eseguite",
+      "avgProcess": "Punteggio di processo medio",
+      "avgProcessHelper": "Aderenza al piano, 0–100",
+      "netR": "R netto",
+      "netRHelper": "Operazioni risolte, in R",
+      "taggedForReview": "Etichettate per revisione",
+      "taggedForReviewHelper": "Operazioni con etichette di errore"
+    },
+    "postmortem": {
+      "button": "Autopsia IA",
+      "reviewing": "L'IA sta esaminando questa operazione…",
+      "unavailable": "Autopsia IA non disponibile al momento.",
+      "label": "Autopsia IA"
+    },
+    "tags": {
+      "chasedEntry": "Ingresso inseguito",
+      "movedStop": "Stop spostato",
+      "revengeTrade": "Operazione di vendetta",
+      "oversized": "Sovradimensionata",
+      "noPlan": "Senza piano",
+      "fomoEntry": "Ingresso FOMO",
+      "exitedEarly": "Uscita anticipata",
+      "heldLoser": "Perdente mantenuta",
+      "overtraded": "Sovra-operato"
+    },
+    "classification": {
+      "earnedWin": "Vittoria meritata",
+      "wellPlayedLoss": "Perdita ben giocata",
+      "honestTuition": "Retta onesta",
+      "dangerousSuccess": "Successo pericoloso"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

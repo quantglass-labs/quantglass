@@ -288,6 +288,51 @@
       "violations": "{{count}} trades sur {{total}} ont enfreint ceci"
     }
   },
+  "journal": {
+    "title": "Journal",
+    "tagline": "Le plan que vous avez écrit, le trade que vous avez pris, et ce que vous en faites.",
+    "aiTitle": "Ce que dit votre journal",
+    "loadError": "Impossible de charger le journal. Le backend est-il en cours d'exécution ?",
+    "empty": "Aucun trade papier exécuté pour l'instant. Placez un trade avec un plan complet — stop, objectif, risque et raison — et il apparaîtra ici pour révision.",
+    "process": "Processus",
+    "thesis": "Thèse :",
+    "notePlaceholder": "Que s'est-il réellement passé ? Que referiez-vous — ou ne referiez-vous jamais ?",
+    "pendingOrders": "Ordres en cours (pas encore exécutés)",
+    "footer": "Les étiquettes alimentent le coach de Revue — un étiquetage honnête rend les recommandations vraiment vôtres.",
+    "tiles": {
+      "tradesLogged": "Trades enregistrés",
+      "tradesLoggedHelper": "Trades papier exécutés",
+      "avgProcess": "Score de processus moyen",
+      "avgProcessHelper": "Respect du plan, 0–100",
+      "netR": "R net",
+      "netRHelper": "Trades résolus, en R",
+      "taggedForReview": "Étiquetés pour révision",
+      "taggedForReviewHelper": "Trades avec étiquettes d'erreur"
+    },
+    "postmortem": {
+      "button": "Autopsie IA",
+      "reviewing": "L'IA examine ce trade…",
+      "unavailable": "Autopsie IA indisponible pour le moment.",
+      "label": "Autopsie IA"
+    },
+    "tags": {
+      "chasedEntry": "Entrée poursuivie",
+      "movedStop": "Stop déplacé",
+      "revengeTrade": "Trade de revanche",
+      "oversized": "Surdimensionné",
+      "noPlan": "Sans plan",
+      "fomoEntry": "Entrée FOMO",
+      "exitedEarly": "Sortie anticipée",
+      "heldLoser": "Perdant conservé",
+      "overtraded": "Surtradé"
+    },
+    "classification": {
+      "earnedWin": "Gain mérité",
+      "wellPlayedLoss": "Perte bien jouée",
+      "honestTuition": "Frais de scolarité honnêtes",
+      "dangerousSuccess": "Succès dangereux"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

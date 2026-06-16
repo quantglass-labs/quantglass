@@ -288,6 +288,51 @@
       "violations": "{{total}} işlemden {{count}} tanesi bunu ihlal etti"
     }
   },
+  "journal": {
+    "title": "Günlük",
+    "tagline": "Yazdığınız plan, aldığınız işlem ve ondan ne çıkardığınız.",
+    "aiTitle": "Günlüğünüz ne diyor",
+    "loadError": "Günlük yüklenemedi. Arka uç çalışıyor mu?",
+    "empty": "Henüz gerçekleştirilmiş kâğıt işlem yok. Tam bir planla — stop, hedef, risk ve gerekçe — bir işlem girin, inceleme için burada görünecektir.",
+    "process": "Süreç",
+    "thesis": "Tez:",
+    "notePlaceholder": "Gerçekte ne oldu? Neyi tekrarlardınız — ya da bir daha asla yapmazdınız?",
+    "pendingOrders": "Aktif emirler (henüz dolmadı)",
+    "footer": "Etiketler Değerlendirme koçunu besler — dürüst etiketleme, önerileri sizin yapar.",
+    "tiles": {
+      "tradesLogged": "Kaydedilen işlemler",
+      "tradesLoggedHelper": "Gerçekleştirilen kâğıt işlemler",
+      "avgProcess": "Ortalama süreç puanı",
+      "avgProcessHelper": "Plana uyum, 0–100",
+      "netR": "Net R",
+      "netRHelper": "Sonuçlanan işlemler, R cinsinden",
+      "taggedForReview": "İnceleme için etiketlendi",
+      "taggedForReviewHelper": "Hata etiketli işlemler"
+    },
+    "postmortem": {
+      "button": "Yapay zekâ otopsisi",
+      "reviewing": "Yapay zekâ bu işlemi inceliyor…",
+      "unavailable": "Yapay zekâ otopsisi şu anda kullanılamıyor.",
+      "label": "Yapay zekâ otopsisi"
+    },
+    "tags": {
+      "chasedEntry": "Girişi kovalama",
+      "movedStop": "Stop kaydırıldı",
+      "revengeTrade": "İntikam işlemi",
+      "oversized": "Aşırı büyük",
+      "noPlan": "Plansız",
+      "fomoEntry": "FOMO girişi",
+      "exitedEarly": "Erken çıkış",
+      "heldLoser": "Zararı tutma",
+      "overtraded": "Aşırı işlem"
+    },
+    "classification": {
+      "earnedWin": "Hak edilmiş kazanç",
+      "wellPlayedLoss": "İyi oynanmış kayıp",
+      "honestTuition": "Dürüst öğrenim ücreti",
+      "dangerousSuccess": "Tehlikeli başarı"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

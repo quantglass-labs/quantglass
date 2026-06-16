@@ -282,6 +282,51 @@
       "violations": "{{total}} مان {{count}} ٽريڊن هي ٽوڙيو"
     }
   },
+  "journal": {
+    "title": "جرنل",
+    "tagline": "اهو منصوبو جيڪو توهان لکيو، اهو ٽريڊ جيڪو توهان ورتو، ۽ ان مان توهان ڇا نتيجو ڪڍو ٿا.",
+    "aiTitle": "توهان جو جرنل ڇا ٿو چوي",
+    "loadError": "جرنل لوڊ نه ٿي سگهيو. ڇا بئڪ اينڊ هلي رهيو آهي؟",
+    "empty": "اڃا ڪو عمل ٿيل پيپر ٽريڊ ناهي. مڪمل منصوبي — اسٽاپ، هدف، خطرو ۽ سبب — سان ٽريڊ رکو، اهو جائزي لاءِ هتي ظاهر ٿيندو.",
+    "process": "پراسيس",
+    "thesis": "ٿيسس:",
+    "notePlaceholder": "حقيقت ۾ ڇا ٿيو؟ توهان ڇا ورجائيندؤ — يا ٻيهر ڪڏهن به نه ڪندؤ؟",
+    "pendingOrders": "فعال آرڊر (اڃا پورا نه ٿيا)",
+    "footer": "ٽيگ ريويو ڪوچ کي معلومات ڏين ٿا — ايماندار ٽيگنگ ئي سفارشن کي توهان جو بڻائي ٿي.",
+    "tiles": {
+      "tradesLogged": "درج ٿيل ٽريڊ",
+      "tradesLoggedHelper": "عمل ٿيل پيپر ٽريڊ",
+      "avgProcess": "اوسط پراسيس اسڪور",
+      "avgProcessHelper": "منصوبي جي پابندي، 0–100",
+      "netR": "خالص R",
+      "netRHelper": "حل ٿيل ٽريڊ، R ۾",
+      "taggedForReview": "جائزي لاءِ ٽيگ ٿيل",
+      "taggedForReviewHelper": "غلطي ٽيگ وارا ٽريڊ"
+    },
+    "postmortem": {
+      "button": "AI پوسٽ مارٽم",
+      "reviewing": "AI هن ٽريڊ جو جائزو وٺي رهيو آهي…",
+      "unavailable": "AI پوسٽ مارٽم هاڻي موجود ناهي.",
+      "label": "AI پوسٽ مارٽم"
+    },
+    "tags": {
+      "chasedEntry": "داخلا جو پيڇو",
+      "movedStop": "اسٽاپ هٽايو",
+      "revengeTrade": "بدلي جو ٽريڊ",
+      "oversized": "حد کان وڌيڪ سائيز",
+      "noPlan": "بنا منصوبي",
+      "fomoEntry": "FOMO داخلا",
+      "exitedEarly": "جلدي نڪرڻ",
+      "heldLoser": "نقصان واري رکڻ",
+      "overtraded": "حد کان وڌيڪ ٽريڊنگ"
+    },
+    "classification": {
+      "earnedWin": "حقدار کٽ",
+      "wellPlayedLoss": "چڱيءَ طرح کيڏيل هار",
+      "honestTuition": "ايماندار فيس",
+      "dangerousSuccess": "خطرناڪ ڪاميابي"
+    }
+  },
   "nav": {
     "dashboard": "ڊيش بورڊ",
     "signals": "سگنل",

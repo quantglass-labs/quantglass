@@ -288,6 +288,51 @@
       "violations": "{{count}} dari {{total}} perdagangan melanggar ini"
     }
   },
+  "journal": {
+    "title": "Jurnal",
+    "tagline": "Rencana yang Anda tulis, perdagangan yang Anda ambil, dan apa yang Anda simpulkan darinya.",
+    "aiTitle": "Apa kata jurnal Anda",
+    "loadError": "Tidak dapat memuat jurnal. Apakah backend berjalan?",
+    "empty": "Belum ada perdagangan kertas yang dieksekusi. Tempatkan perdagangan dengan rencana lengkap — stop, target, risiko, dan alasan — dan akan muncul di sini untuk ditinjau.",
+    "process": "Proses",
+    "thesis": "Tesis:",
+    "notePlaceholder": "Apa yang sebenarnya terjadi? Apa yang akan Anda ulangi — atau tidak akan pernah lakukan lagi?",
+    "pendingOrders": "Order aktif (belum terisi)",
+    "footer": "Tag memberi masukan ke pelatih Tinjauan — penandaan yang jujur membuat rekomendasi menjadi milik Anda.",
+    "tiles": {
+      "tradesLogged": "Perdagangan tercatat",
+      "tradesLoggedHelper": "Perdagangan kertas yang dieksekusi",
+      "avgProcess": "Skor proses rata-rata",
+      "avgProcessHelper": "Kepatuhan rencana, 0–100",
+      "netR": "R neto",
+      "netRHelper": "Perdagangan terselesaikan, dalam R",
+      "taggedForReview": "Ditandai untuk ditinjau",
+      "taggedForReviewHelper": "Perdagangan dengan tag kesalahan"
+    },
+    "postmortem": {
+      "button": "Postmortem AI",
+      "reviewing": "AI sedang meninjau perdagangan ini…",
+      "unavailable": "Postmortem AI tidak tersedia saat ini.",
+      "label": "Postmortem AI"
+    },
+    "tags": {
+      "chasedEntry": "Mengejar masuk",
+      "movedStop": "Stop dipindahkan",
+      "revengeTrade": "Perdagangan balas dendam",
+      "oversized": "Ukuran berlebihan",
+      "noPlan": "Tanpa rencana",
+      "fomoEntry": "Masuk karena FOMO",
+      "exitedEarly": "Keluar terlalu dini",
+      "heldLoser": "Menahan yang rugi",
+      "overtraded": "Terlalu banyak berdagang"
+    },
+    "classification": {
+      "earnedWin": "Kemenangan yang pantas",
+      "wellPlayedLoss": "Kekalahan yang dimainkan dengan baik",
+      "honestTuition": "Uang sekolah yang jujur",
+      "dangerousSuccess": "Sukses berbahaya"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

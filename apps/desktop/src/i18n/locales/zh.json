@@ -282,6 +282,51 @@
       "violations": "{{total}} 笔交易中有 {{count}} 笔违反此项"
     }
   },
+  "journal": {
+    "title": "日志",
+    "tagline": "你写下的计划、你执行的交易，以及你从中得出的结论。",
+    "aiTitle": "你的日志说明了什么",
+    "loadError": "无法加载日志。后端是否在运行？",
+    "empty": "尚无已执行的模拟交易。下一笔带有完整计划——止损、目标、风险与理由——的交易，它将在此显示以供复盘。",
+    "process": "过程",
+    "thesis": "论点：",
+    "notePlaceholder": "实际发生了什么？你会重复什么——或永不再做什么？",
+    "pendingOrders": "活动订单（尚未成交）",
+    "footer": "标签为复盘教练提供输入——诚实地打标签才能让建议真正属于你。",
+    "tiles": {
+      "tradesLogged": "已记录交易",
+      "tradesLoggedHelper": "已执行的模拟交易",
+      "avgProcess": "平均过程评分",
+      "avgProcessHelper": "计划遵守度，0–100",
+      "netR": "净 R",
+      "netRHelper": "已了结交易，以 R 计",
+      "taggedForReview": "已标记复盘",
+      "taggedForReviewHelper": "带错误标签的交易"
+    },
+    "postmortem": {
+      "button": "AI 复盘",
+      "reviewing": "AI 正在复盘这笔交易…",
+      "unavailable": "AI 复盘暂不可用。",
+      "label": "AI 复盘"
+    },
+    "tags": {
+      "chasedEntry": "追价入场",
+      "movedStop": "移动止损",
+      "revengeTrade": "报复性交易",
+      "oversized": "仓位过大",
+      "noPlan": "无计划",
+      "fomoEntry": "FOMO 入场",
+      "exitedEarly": "过早离场",
+      "heldLoser": "死扛亏损",
+      "overtraded": "过度交易"
+    },
+    "classification": {
+      "earnedWin": "应得的盈利",
+      "wellPlayedLoss": "处理得当的亏损",
+      "honestTuition": "诚实的学费",
+      "dangerousSuccess": "危险的成功"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

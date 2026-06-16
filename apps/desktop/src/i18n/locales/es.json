@@ -288,6 +288,51 @@
       "violations": "{{count}} de {{total}} operaciones rompieron esto"
     }
   },
+  "journal": {
+    "title": "Diario",
+    "tagline": "El plan que escribiste, la operación que tomaste y lo que haces con ello.",
+    "aiTitle": "Lo que dice tu diario",
+    "loadError": "No se pudo cargar el diario. ¿El backend está en ejecución?",
+    "empty": "Aún no hay operaciones en papel ejecutadas. Coloca una operación con un plan completo —stop, objetivo, riesgo y razón— y aparecerá aquí para revisar.",
+    "process": "Proceso",
+    "thesis": "Tesis:",
+    "notePlaceholder": "¿Qué pasó realmente? ¿Qué repetirías — o nunca volverías a hacer?",
+    "pendingOrders": "Órdenes activas (aún no ejecutadas)",
+    "footer": "Las etiquetas alimentan al entrenador de Revisión — etiquetar con honestidad es lo que hace tuyas las recomendaciones.",
+    "tiles": {
+      "tradesLogged": "Operaciones registradas",
+      "tradesLoggedHelper": "Operaciones en papel ejecutadas",
+      "avgProcess": "Puntuación de proceso media",
+      "avgProcessHelper": "Adherencia al plan, 0–100",
+      "netR": "R neto",
+      "netRHelper": "Operaciones resueltas, en R",
+      "taggedForReview": "Etiquetadas para revisar",
+      "taggedForReviewHelper": "Operaciones con etiquetas de error"
+    },
+    "postmortem": {
+      "button": "Autopsia con IA",
+      "reviewing": "La IA está revisando esta operación…",
+      "unavailable": "Autopsia con IA no disponible ahora.",
+      "label": "Autopsia con IA"
+    },
+    "tags": {
+      "chasedEntry": "Entrada perseguida",
+      "movedStop": "Stop movido",
+      "revengeTrade": "Operación de venganza",
+      "oversized": "Sobredimensionada",
+      "noPlan": "Sin plan",
+      "fomoEntry": "Entrada por FOMO",
+      "exitedEarly": "Salida temprana",
+      "heldLoser": "Perdedora retenida",
+      "overtraded": "Sobreoperado"
+    },
+    "classification": {
+      "earnedWin": "Victoria merecida",
+      "wellPlayedLoss": "Pérdida bien jugada",
+      "honestTuition": "Matrícula honesta",
+      "dangerousSuccess": "Éxito peligroso"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",
