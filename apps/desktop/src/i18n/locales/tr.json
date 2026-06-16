@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass araştırma ve karar destek yazılımıdır. Yatırım tavsiyesi, yatırım danışmanı, aracı kurum ya da işlem performansı vaadi değildir."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Bilinmeyen sembol",
+    "unknownTitle": "İstenen sembol bulunamadı",
+    "unknownDescription": "Sembol id geçersiz olduğunda, sessizce başka bir enstrümana geçmek yerine sembol-detay rotası açık kalır.",
+    "unavailableTitle": "Sembol detayı kullanılamıyor",
+    "noDefinition": "\"{{id}}\" için sembol tanımı yok.",
+    "returnToDashboard": "Panele dön",
+    "openSymbol": "{{symbol}} aç",
+    "headerTitle": "{{name}} detayı",
+    "description": "Overlay anahtarlı büyük grafik, belirlenimci sinyal bağlamı, mümkün olduğunda backend yeniden örneklemeli backend koridor mumları, backend tarafından sunulan haberler ve sinyal çekmecesine, uyarı kipine ve önceden doldurulmuş backtest'e doğrudan rotalar.",
+    "refreshing": "Koridor yenileniyor...",
+    "refresh": "Koridoru yenile",
+    "chart": {
+      "noCandlesTitle": "Bu görünüm için kapanmış mum yok",
+      "noCandlesDesc": "Bu zaman dilimi için kapanmış mum yok. Gezinmeye devam etmek için zaman dilimini değiştirin veya başka bir sembol açın.",
+      "switchTo1d": "1d'ye geç",
+      "errorTitle": "Grafik yüzeyi kullanılamıyor",
+      "errorDesc": "Mum, overlay ve gösterge panelleri oluşturulamadı."
+    },
+    "indicators": {
+      "button": "Göstergeler",
+      "ready": "{{count}} hazır",
+      "registryEntries": "{{count}} kayıt girişi",
+      "removeExecutable": "Çalıştırılabilir göstergeyi kaldır",
+      "removeSelected": "Seçili katalog/uzantı göstergesini kaldır",
+      "browser": "Gösterge tarayıcısı",
+      "browserDesc": "Hazır göstergeleri grafiğe ekleyin veya katkı durumunu incelemek için katalog ve uzantı girişlerini seçin.",
+      "searchPlaceholder": "100+ gösterge ara",
+      "statusReady": "Hazır",
+      "statusExtension": "Uzantı",
+      "statusCatalog": "Katalog",
+      "extensionDetail": "Bir uzantı tarafından kaydedildi. Çalışma zamanı hesaplama kancaları kayıt tarafından tanınır; grafik yürütmesi uzantı tarafından sağlanan bir hesaplama adaptörü gerektirir.",
+      "catalogTarget": "Katalog hedefi. Bu gösterge katkıda bulunanlar için belgelenmiştir ancak henüz grafikte çalıştırılamaz."
+    },
+    "stats": {
+      "emaHelper": "Kısa vadeli trend desteği",
+      "smaHelper": "Orta vadeli trend taban çizgisi",
+      "rsiHelper": "Momentum osilatörü",
+      "atrHelper": "Mum başına oynaklık",
+      "support": "Destek bölgesi",
+      "supportHelper": "Hareketli 24 mum tabanı",
+      "resistance": "Direnç bölgesi",
+      "resistanceHelper": "Hareketli 24 mum tavanı"
+    },
+    "signal": {
+      "noCurrentTitle": "Bu sembol için güncel sinyal yok",
+      "noCurrentDesc": "Bu durum, hiçbir backend sinyali yokken bile sağ raydaki karar kartını açık tutar.",
+      "errorTitle": "Güncel sinyal kullanılamıyor",
+      "errorDesc": "Belirlenimci sinyal kartı yüklenemedi.",
+      "current": "Güncel sinyal",
+      "decisionCard": "Belirlenimci karar kartı",
+      "confidence": "Kanıta dayalı güven",
+      "lowConfidence": "Düşük güvenli sinyal uyarısı",
+      "entryZone": "Giriş bölgesi",
+      "stopLadder": "Stop {{stop}} · TP merdiveni {{tp}}",
+      "generated": "Oluşturuldu {{time}} UTC",
+      "viewFull": "Tam sinyali görüntüle",
+      "runBacktest": "Bu kurulumda backtest çalıştır",
+      "createAlert": "Uyarı oluştur"
+    },
+    "news": {
+      "eyebrow": "Son haberler",
+      "title": "Katalizör şeridi",
+      "description": "Backend tarafından sunulan haber akışı. Sağlayıcı destekli sıralama ve canlı alım hâlâ haber katmanının sonraki boşluğu.",
+      "empty": "Şu anda bu sembol için haber yok.",
+      "errorTitle": "Haber şeridi kullanılamıyor",
+      "errorDesc": "Backend haber listesi yüklenemedi."
+    },
+    "volume": {
+      "eyebrow": "Hacim bağlamı",
+      "title": "Yalnızca kapanmış mum",
+      "descBackend": "Kısmi çubuk yok. Bu mumlar yerel backend koridor deposundan gelir, gerektiğinde backend yeniden örneklemesiyle.",
+      "descFallback": "Kısmi çubuk yok. Bu zaman dilimi hâlâ belirlenimci yedek mumlar kullanıyor.",
+      "latestVolume": "Son hacim",
+      "latestVolumeHelper": "Yalnızca kapanmış çubuk",
+      "candleCount": "Mum sayısı",
+      "windowBackend": "{{timeframe}} backend türevli pencere",
+      "windowFallback": "{{timeframe}} yedek pencere"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

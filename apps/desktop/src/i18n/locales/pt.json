@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass é software de pesquisa e apoio à decisão. Não é aconselhamento financeiro, um consultor de investimentos, uma corretora-distribuidora, nem uma promessa de desempenho de negociação."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Símbolo desconhecido",
+    "unknownTitle": "O símbolo solicitado não foi encontrado",
+    "unknownDescription": "A rota de detalhe do símbolo permanece explícita quando um id de símbolo é inválido, em vez de trocar silenciosamente para outro instrumento.",
+    "unavailableTitle": "Detalhe do símbolo indisponível",
+    "noDefinition": "Não existe definição de símbolo para \"{{id}}\".",
+    "returnToDashboard": "Voltar ao painel",
+    "openSymbol": "Abrir {{symbol}}",
+    "headerTitle": "Detalhe de {{name}}",
+    "description": "Gráfico grande com alternadores de overlay, contexto de sinal determinístico, velas do corredor do backend com reamostragem do backend quando possível, notícias servidas pelo backend, e rotas diretas para o painel de sinal, modal de alerta e backtest pré-preenchido.",
+    "refreshing": "Atualizando corredor...",
+    "refresh": "Atualizar corredor",
+    "chart": {
+      "noCandlesTitle": "Sem velas fechadas para esta visão",
+      "noCandlesDesc": "Não há velas fechadas disponíveis para este período. Mude de período ou abra outro símbolo para continuar navegando.",
+      "switchTo1d": "Mudar para 1d",
+      "errorTitle": "Superfície do gráfico indisponível",
+      "errorDesc": "As velas, overlays e painéis de indicadores não puderam ser renderizados."
+    },
+    "indicators": {
+      "button": "Indicadores",
+      "ready": "{{count}} prontos",
+      "registryEntries": "{{count}} entradas de registro",
+      "removeExecutable": "Remover indicador executável",
+      "removeSelected": "Remover indicador de catálogo/extensão selecionado",
+      "browser": "Navegador de indicadores",
+      "browserDesc": "Adicione indicadores prontos ao gráfico ou selecione entradas de catálogo e extensão para inspecionar o status de contribuição.",
+      "searchPlaceholder": "Buscar mais de 100 indicadores",
+      "statusReady": "Pronto",
+      "statusExtension": "Extensão",
+      "statusCatalog": "Catálogo",
+      "extensionDetail": "Registrado por uma extensão. Os hooks de computação em tempo de execução são reconhecidos pelo registro; a execução no gráfico precisa de um adaptador de computação fornecido pela extensão.",
+      "catalogTarget": "Alvo de catálogo. Este indicador está documentado para contribuidores, mas ainda não é executável no gráfico."
+    },
+    "stats": {
+      "emaHelper": "Suporte de tendência de curto prazo",
+      "smaHelper": "Linha de base de tendência intermediária",
+      "rsiHelper": "Oscilador de momentum",
+      "atrHelper": "Volatilidade por vela",
+      "support": "Zona de suporte",
+      "supportHelper": "Piso móvel de 24 velas",
+      "resistance": "Zona de resistência",
+      "resistanceHelper": "Teto móvel de 24 velas"
+    },
+    "signal": {
+      "noCurrentTitle": "Sem sinal atual para este símbolo",
+      "noCurrentDesc": "Este estado mantém o cartão de decisão do painel direito explícito mesmo quando nenhum sinal do backend está disponível.",
+      "errorTitle": "Sinal atual indisponível",
+      "errorDesc": "O cartão de sinal determinístico não pôde ser carregado.",
+      "current": "Sinal atual",
+      "decisionCard": "Cartão de decisão determinístico",
+      "confidence": "Confiança baseada em evidências",
+      "lowConfidence": "Aviso de sinal de baixa confiança",
+      "entryZone": "Zona de entrada",
+      "stopLadder": "Stop {{stop}} · escada TP {{tp}}",
+      "generated": "Gerado {{time}} UTC",
+      "viewFull": "Ver sinal completo",
+      "runBacktest": "Executar backtest neste setup",
+      "createAlert": "Criar alerta"
+    },
+    "news": {
+      "eyebrow": "Notícias recentes",
+      "title": "Fita de catalisadores",
+      "description": "Feed de notícias servido pelo backend. A classificação apoiada por provedor e a ingestão ao vivo continuam sendo a próxima lacuna da camada de notícias.",
+      "empty": "Não há notícias disponíveis para este símbolo no momento.",
+      "errorTitle": "Fita de notícias indisponível",
+      "errorDesc": "A lista de notícias do backend não pôde ser carregada."
+    },
+    "volume": {
+      "eyebrow": "Contexto de volume",
+      "title": "Apenas velas fechadas",
+      "descBackend": "Sem barras parciais. Estas velas vêm do armazenamento local do corredor do backend, com reamostragem do backend quando necessário.",
+      "descFallback": "Sem barras parciais. Este período ainda usa velas de fallback determinísticas.",
+      "latestVolume": "Último volume",
+      "latestVolumeHelper": "Apenas vela fechada",
+      "candleCount": "Contagem de velas",
+      "windowBackend": "Janela derivada do backend {{timeframe}}",
+      "windowFallback": "Janela de fallback {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

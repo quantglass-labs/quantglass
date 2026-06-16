@@ -11,6 +11,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { lazy, Suspense, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BarChart, TinyLineChart } from '../components/charts';
 import {
@@ -423,6 +424,7 @@ export function SymbolDetailScreen({
   onOpenAlertModal: (symbolId: string, signalId?: string) => void;
   onRunBacktest: (symbolId: string, setupType: string) => void;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { symbolId = 'BTCUSD' } = useParams();
   const matchedSymbol = symbols.find((entry) => entry.id === symbolId);
@@ -558,19 +560,23 @@ export function SymbolDetailScreen({
   }
 
   const indicatorStats = [
-    { label: 'EMA 21', value: formatCurrency(ema.at(-1) ?? 0), helper: 'Short-term trend support' },
+    { label: 'EMA 21', value: formatCurrency(ema.at(-1) ?? 0), helper: t('symbolDetail.stats.emaHelper') },
     {
       label: 'SMA 50',
       value: formatCurrency(sma.at(-1) ?? 0),
-      helper: 'Intermediate trend baseline',
+      helper: t('symbolDetail.stats.smaHelper'),
     },
-    { label: 'RSI 14', value: `${(rsi.at(-1) ?? 0).toFixed(1)}`, helper: 'Momentum oscillator' },
-    { label: 'ATR 14', value: formatCurrency(atr.at(-1) ?? 0), helper: 'Volatility per bar' },
-    { label: 'Support zone', value: formatCurrency(supportLevel), helper: 'Rolling 24-bar floor' },
+    { label: 'RSI 14', value: `${(rsi.at(-1) ?? 0).toFixed(1)}`, helper: t('symbolDetail.stats.rsiHelper') },
+    { label: 'ATR 14', value: formatCurrency(atr.at(-1) ?? 0), helper: t('symbolDetail.stats.atrHelper') },
     {
-      label: 'Resistance zone',
+      label: t('symbolDetail.stats.support'),
+      value: formatCurrency(supportLevel),
+      helper: t('symbolDetail.stats.supportHelper'),
+    },
+    {
+      label: t('symbolDetail.stats.resistance'),
       value: formatCurrency(resistanceLevel),
-      helper: 'Rolling 24-bar ceiling',
+      helper: t('symbolDetail.stats.resistanceHelper'),
     },
   ];
 
@@ -578,19 +584,19 @@ export function SymbolDetailScreen({
     return (
       <div className="space-y-8">
         <SectionHeading
-          eyebrow="Unknown symbol"
-          title="Requested symbol was not found"
-          description="The symbol-detail route stays explicit when a symbol id is invalid instead of silently swapping to another instrument."
+          eyebrow={t('symbolDetail.unknownEyebrow')}
+          title={t('symbolDetail.unknownTitle')}
+          description={t('symbolDetail.unknownDescription')}
         />
         <Panel>
           <ErrorState
-            title="Symbol detail unavailable"
-            description={`No symbol definition exists for "${symbolId}".`}
+            title={t('symbolDetail.unavailableTitle')}
+            description={t('symbolDetail.noDefinition', { id: symbolId })}
           />
           <div className="mt-4 flex flex-wrap gap-3">
-            <Button onClick={() => navigate('/')}>Return to dashboard</Button>
+            <Button onClick={() => navigate('/')}>{t('symbolDetail.returnToDashboard')}</Button>
             <Button variant="secondary" onClick={() => navigate(`/symbol/${symbol.id}`)}>
-              Open {symbol.symbol}
+              {t('symbolDetail.openSymbol', { symbol: symbol.symbol })}
             </Button>
           </div>
         </Panel>
@@ -602,8 +608,8 @@ export function SymbolDetailScreen({
     <div className="space-y-8">
       <SectionHeading
         eyebrow={`${symbol.marketType.toUpperCase()} / ${symbol.symbol}`}
-        title={`${symbol.name} detail`}
-        description="Large chart with overlay toggles, deterministic signal context, backend corridor candles with backend resampling where possible, backend-served news, and direct routes to the signal drawer, alert modal, and prefilled backtest."
+        title={t('symbolDetail.headerTitle', { name: symbol.name })}
+        description={t('symbolDetail.description')}
         action={
           <div className="flex flex-wrap gap-3">
             <PillTabs
@@ -622,7 +628,7 @@ export function SymbolDetailScreen({
                 onClick={onRefreshMarketCorridor}
                 disabled={marketCorridorRefreshing}
               >
-                {marketCorridorRefreshing ? 'Refreshing corridor...' : 'Refresh corridor'}
+                {marketCorridorRefreshing ? t('symbolDetail.refreshing') : t('symbolDetail.refresh')}
               </Button>
             ) : null}
             <Button variant="secondary" onClick={() => onToggleWatchlist(symbol.id)}>
@@ -641,19 +647,19 @@ export function SymbolDetailScreen({
             loading={<LoadingSkeleton chart rows={5} />}
             empty={
               <EmptyState
-                title="No closed candles for this view"
-                description="No closed candles are available for this timeframe. Switch timeframe or open another symbol to keep navigating."
+                title={t('symbolDetail.chart.noCandlesTitle')}
+                description={t('symbolDetail.chart.noCandlesDesc')}
                 action={
                   <Button variant="secondary" onClick={() => setTimeframe('1d')}>
-                    Switch to 1d
+                    {t('symbolDetail.chart.switchTo1d')}
                   </Button>
                 }
               />
             }
             error={
               <ErrorState
-                title="Chart surface unavailable"
-                description="The candlestick, overlays, and indicator panels could not be rendered."
+                title={t('symbolDetail.chart.errorTitle')}
+                description={t('symbolDetail.chart.errorDesc')}
                 onRetry={retryMockView}
               />
             }
@@ -697,17 +703,19 @@ export function SymbolDetailScreen({
                       onClick={() => setIndicatorBrowserOpen((current) => !current)}
                     >
                       <SlidersHorizontal className="size-4" />
-                      Indicators
+                      {t('symbolDetail.indicators.button')}
                     </Button>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-buy/30 bg-buy/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-buy">
-                    {readyIndicatorCount} ready
+                    {t('symbolDetail.indicators.ready', { count: readyIndicatorCount })}
                   </span>
                   <span className="rounded-full border border-border px-3 py-1 text-xs text-muted">
-                    {indicatorDefinitions.length} registry entries
+                    {t('symbolDetail.indicators.registryEntries', {
+                      count: indicatorDefinitions.length,
+                    })}
                   </span>
                   {selectedIndicators.map((indicator) => (
                     <button
@@ -717,8 +725,8 @@ export function SymbolDetailScreen({
                       onClick={() => toggleIndicator(indicator.definition.id)}
                       title={
                         indicator.status === 'ready'
-                          ? 'Remove executable indicator'
-                          : 'Remove selected catalog/extension indicator'
+                          ? t('symbolDetail.indicators.removeExecutable')
+                          : t('symbolDetail.indicators.removeSelected')
                       }
                     >
                       {indicator.definition.name}
@@ -731,11 +739,10 @@ export function SymbolDetailScreen({
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted">
-                          Indicator browser
+                          {t('symbolDetail.indicators.browser')}
                         </p>
                         <p className="mt-1 text-sm text-muted">
-                          Add ready indicators to the chart or select catalog and extension entries
-                          to inspect contribution status.
+                          {t('symbolDetail.indicators.browserDesc')}
                         </p>
                       </div>
                       <label className="flex min-w-[260px] items-center gap-2 rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-muted">
@@ -743,7 +750,7 @@ export function SymbolDetailScreen({
                         <input
                           value={indicatorSearch}
                           onChange={(event) => setIndicatorSearch(event.target.value)}
-                          placeholder="Search 100+ indicators"
+                          placeholder={t('symbolDetail.indicators.searchPlaceholder')}
                           className="w-full bg-transparent text-ink outline-none placeholder:text-muted"
                         />
                       </label>
@@ -777,10 +784,10 @@ export function SymbolDetailScreen({
                                         className={`rounded-full border px-2 py-0.5 text-[11px] ${status === 'ready' ? 'border-buy/30 bg-buy/10 text-buy' : status === 'extension' ? 'border-accent/30 bg-accentStrong/10 text-accent' : 'border-border text-muted'}`}
                                       >
                                         {status === 'ready'
-                                          ? 'Ready'
+                                          ? t('symbolDetail.indicators.statusReady')
                                           : status === 'extension'
-                                            ? 'Extension'
-                                            : 'Catalog'}
+                                            ? t('symbolDetail.indicators.statusExtension')
+                                            : t('symbolDetail.indicators.statusCatalog')}
                                       </span>
                                       {selected ? (
                                         <span className="rounded-full border border-accent/40 px-2 py-0.5 text-[11px] text-accent">
@@ -871,10 +878,10 @@ export function SymbolDetailScreen({
                           className={`rounded-full border px-2 py-0.5 text-[11px] ${indicator.status === 'ready' ? 'border-buy/30 bg-buy/10 text-buy' : indicator.status === 'extension' ? 'border-accent/30 bg-accentStrong/10 text-accent' : 'border-border text-muted'}`}
                         >
                           {indicator.status === 'ready'
-                            ? 'Ready'
+                            ? t('symbolDetail.indicators.statusReady')
                             : indicator.status === 'extension'
-                              ? 'Extension'
-                              : 'Catalog'}
+                              ? t('symbolDetail.indicators.statusExtension')
+                              : t('symbolDetail.indicators.statusCatalog')}
                         </span>
                       </div>
                       {indicator.executable ? (
@@ -907,8 +914,8 @@ export function SymbolDetailScreen({
                       ) : (
                         <div className="rounded-2xl border border-dashed border-border bg-white/[0.03] p-3 text-sm text-muted">
                           {indicator.status === 'extension'
-                            ? 'Registered by an extension. Runtime compute hooks are recognized by the registry; chart execution needs an extension-provided compute adapter.'
-                            : 'Catalog target. This indicator is documented for contributors but is not executable in the chart yet.'}
+                            ? t('symbolDetail.indicators.extensionDetail')
+                            : t('symbolDetail.indicators.catalogTarget')}
                         </div>
                       )}
                     </Panel>
@@ -927,8 +934,8 @@ export function SymbolDetailScreen({
               loading={<LoadingSkeleton rows={5} />}
               empty={
                 <EmptyState
-                  title="No current signal for this symbol"
-                  description="This state keeps the right-rail decision card explicit even when no backend signal is available."
+                  title={t('symbolDetail.signal.noCurrentTitle')}
+                  description={t('symbolDetail.signal.noCurrentDesc')}
                   action={
                     <Button variant="secondary" onClick={() => onOpenAlertModal(symbol.id)}>
                       Create alert instead
@@ -938,8 +945,8 @@ export function SymbolDetailScreen({
               }
               error={
                 <ErrorState
-                  title="Current signal unavailable"
-                  description="The deterministic signal card could not be loaded."
+                  title={t('symbolDetail.signal.errorTitle')}
+                  description={t('symbolDetail.signal.errorDesc')}
                   onRetry={retryMockView}
                 />
               }
@@ -949,10 +956,10 @@ export function SymbolDetailScreen({
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                          Current signal
+                          {t('symbolDetail.signal.current')}
                         </p>
                         <h3 className="mt-1 text-xl font-semibold text-ink">
-                          Deterministic decision card
+                          {t('symbolDetail.signal.decisionCard')}
                         </h3>
                       </div>
                       <SignalChip
@@ -965,10 +972,12 @@ export function SymbolDetailScreen({
                       <p className="metric-text text-3xl text-ink">
                         {signalRecord.signal.confidence}
                       </p>
-                      <p className="mt-1 text-sm text-muted">Evidence-based confidence</p>
+                      <p className="mt-1 text-sm text-muted">
+                        {t('symbolDetail.signal.confidence')}
+                      </p>
                       {signalRecord.signal.confidence < 55 ? (
                         <p className="mt-2 text-xs font-medium text-hold">
-                          Low-confidence signal warning
+                          {t('symbolDetail.signal.lowConfidence')}
                         </p>
                       ) : null}
                     </div>
@@ -988,20 +997,24 @@ export function SymbolDetailScreen({
                       <div className="flex items-center gap-2 text-sm text-muted">
                         <SlidersHorizontal className="size-4 text-accent" />
                         <span>
-                          Entry zone{' '}
+                          {t('symbolDetail.signal.entryZone')}{' '}
                           {signalRecord.signal.entry_zone
                             .map((level) => formatCurrency(level))
                             .join(' - ')}
                         </span>
                       </div>
                       <div className="text-sm text-muted">
-                        Stop {formatCurrency(signalRecord.signal.stop_loss)} · TP ladder{' '}
-                        {signalRecord.signal.take_profit
-                          .map((level) => formatCurrency(level))
-                          .join(', ')}
+                        {t('symbolDetail.signal.stopLadder', {
+                          stop: formatCurrency(signalRecord.signal.stop_loss),
+                          tp: signalRecord.signal.take_profit
+                            .map((level) => formatCurrency(level))
+                            .join(', '),
+                        })}
                       </div>
                       <div className="text-sm text-muted">
-                        Generated {formatDateTime(signalRecord.signal.generated_at_utc)} UTC
+                        {t('symbolDetail.signal.generated', {
+                          time: formatDateTime(signalRecord.signal.generated_at_utc),
+                        })}
                       </div>
                       {currentSignalFreshness ? (
                         <div className="pt-1">
@@ -1018,7 +1031,7 @@ export function SymbolDetailScreen({
                     <div className="grid gap-3 sm:grid-cols-2">
                       <Button onClick={() => onOpenSignal(signalRecord.id)}>
                         <Play className="size-4" />
-                        View full signal
+                        {t('symbolDetail.signal.viewFull')}
                       </Button>
                       <Button
                         variant="secondary"
@@ -1027,14 +1040,14 @@ export function SymbolDetailScreen({
                         }
                       >
                         <CircleSlash2 className="size-4" />
-                        Run backtest on this setup
+                        {t('symbolDetail.signal.runBacktest')}
                       </Button>
                       <Button
                         variant="secondary"
                         onClick={() => onOpenAlertModal(symbol.id, signalRecord.id)}
                       >
                         <Bell className="size-4" />
-                        Create alert
+                        {t('symbolDetail.signal.createAlert')}
                       </Button>
                     </div>
                   </div>
@@ -1045,9 +1058,9 @@ export function SymbolDetailScreen({
 
           <Panel>
             <SectionHeading
-              eyebrow="Recent news"
-              title="Catalyst tape"
-              description="Backend-served news feed. Provider-backed ranking and live ingestion remain the next news-layer gap."
+              eyebrow={t('symbolDetail.news.eyebrow')}
+              title={t('symbolDetail.news.title')}
+              description={t('symbolDetail.news.description')}
             />
             <div className="mt-5">
               <DataStateView
@@ -1056,13 +1069,13 @@ export function SymbolDetailScreen({
                 loading={<LoadingSkeleton rows={3} />}
                 empty={
                   <div className="rounded-2xl border border-dashed border-border bg-white/[0.03] p-6 text-sm text-muted">
-                    No news items are available for this symbol right now.
+                    {t('symbolDetail.news.empty')}
                   </div>
                 }
                 error={
                   <ErrorState
-                    title="News tape unavailable"
-                    description="The backend news list could not be loaded."
+                    title={t('symbolDetail.news.errorTitle')}
+                    description={t('symbolDetail.news.errorDesc')}
                     onRetry={retryMockView}
                   />
                 }
@@ -1095,28 +1108,28 @@ export function SymbolDetailScreen({
           </Panel>
           <Panel>
             <SectionHeading
-              eyebrow="Volume context"
-              title="Closed-candle only"
+              eyebrow={t('symbolDetail.volume.eyebrow')}
+              title={t('symbolDetail.volume.title')}
               description={
                 usesBackendCandles
-                  ? 'No partial bars. These candles come from the local backend corridor store, with backend resampling when needed.'
-                  : 'No partial bars. This timeframe is still using deterministic fallback candles.'
+                  ? t('symbolDetail.volume.descBackend')
+                  : t('symbolDetail.volume.descFallback')
               }
             />
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <MetricStat
-                label="Latest volume"
+                label={t('symbolDetail.volume.latestVolume')}
                 value={formatLargeNumber(volumes.at(-1) ?? 0)}
-                helper="Closed bar only"
+                helper={t('symbolDetail.volume.latestVolumeHelper')}
                 tone="watch"
               />
               <MetricStat
-                label="Candle count"
+                label={t('symbolDetail.volume.candleCount')}
                 value={candles.length}
                 helper={
                   usesBackendCandles
-                    ? `${timeframe} backend-derived window`
-                    : `${timeframe} fallback window`
+                    ? t('symbolDetail.volume.windowBackend', { timeframe })
+                    : t('symbolDetail.volume.windowFallback', { timeframe })
                 }
               />
             </div>

@@ -591,6 +591,86 @@
       "disclaimer": "QuantGlass 是研究与决策支持软件。它不是投资建议、投资顾问、经纪交易商，也不是对交易表现的承诺。"
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "未知标的",
+    "unknownTitle": "未找到所请求的标的",
+    "unknownDescription": "当标的 id 无效时，标的详情路由保持明确，而不是悄悄切换到另一个工具。",
+    "unavailableTitle": "标的详情不可用",
+    "noDefinition": "不存在 \"{{id}}\" 的标的定义。",
+    "returnToDashboard": "返回仪表盘",
+    "openSymbol": "打开 {{symbol}}",
+    "headerTitle": "{{name}} 详情",
+    "description": "带叠加切换的大图、确定性信号上下文、尽可能由后端重采样的后端走廊K线、后端提供的新闻，以及直达信号抽屉、提醒弹窗和预填回测的路由。",
+    "refreshing": "正在刷新走廊...",
+    "refresh": "刷新走廊",
+    "chart": {
+      "noCandlesTitle": "此视图没有收盘K线",
+      "noCandlesDesc": "此周期没有可用的收盘K线。切换周期或打开另一标的以继续浏览。",
+      "switchTo1d": "切换到 1d",
+      "errorTitle": "图表界面不可用",
+      "errorDesc": "无法渲染K线、叠加层和指标面板。"
+    },
+    "indicators": {
+      "button": "指标",
+      "ready": "{{count}} 个就绪",
+      "registryEntries": "{{count}} 个注册条目",
+      "removeExecutable": "移除可执行指标",
+      "removeSelected": "移除所选目录/扩展指标",
+      "browser": "指标浏览器",
+      "browserDesc": "将就绪指标添加到图表，或选择目录与扩展条目以查看贡献状态。",
+      "searchPlaceholder": "搜索 100+ 指标",
+      "statusReady": "就绪",
+      "statusExtension": "扩展",
+      "statusCatalog": "目录",
+      "extensionDetail": "由扩展注册。注册表识别运行时计算钩子；图表执行需要扩展提供的计算适配器。",
+      "catalogTarget": "目录目标。该指标已为贡献者记录文档，但尚不能在图表中执行。"
+    },
+    "stats": {
+      "emaHelper": "短期趋势支撑",
+      "smaHelper": "中期趋势基线",
+      "rsiHelper": "动量振荡器",
+      "atrHelper": "每根K线波动率",
+      "support": "支撑区",
+      "supportHelper": "滚动24根K线下沿",
+      "resistance": "阻力区",
+      "resistanceHelper": "滚动24根K线上沿"
+    },
+    "signal": {
+      "noCurrentTitle": "此标的暂无当前信号",
+      "noCurrentDesc": "即使没有可用的后端信号，此状态也让右栏决策卡保持明确。",
+      "errorTitle": "当前信号不可用",
+      "errorDesc": "无法加载确定性信号卡。",
+      "current": "当前信号",
+      "decisionCard": "确定性决策卡",
+      "confidence": "基于证据的置信度",
+      "lowConfidence": "低置信度信号警告",
+      "entryZone": "入场区",
+      "stopLadder": "止损 {{stop}} · 止盈阶梯 {{tp}}",
+      "generated": "生成于 {{time}} UTC",
+      "viewFull": "查看完整信号",
+      "runBacktest": "对此形态运行回测",
+      "createAlert": "创建提醒"
+    },
+    "news": {
+      "eyebrow": "近期新闻",
+      "title": "催化剂动态",
+      "description": "由后端提供的新闻源。基于数据源的排序与实时摄取仍是新闻层的下一个缺口。",
+      "empty": "此标的目前没有可用新闻。",
+      "errorTitle": "新闻动态不可用",
+      "errorDesc": "无法加载后端新闻列表。"
+    },
+    "volume": {
+      "eyebrow": "成交量背景",
+      "title": "仅收盘K线",
+      "descBackend": "无未完成柱。这些K线来自本地后端走廊存储，必要时由后端重采样。",
+      "descFallback": "无未完成柱。此周期仍使用确定性回退K线。",
+      "latestVolume": "最新成交量",
+      "latestVolumeHelper": "仅收盘柱",
+      "candleCount": "K线数量",
+      "windowBackend": "{{timeframe}} 后端派生窗口",
+      "windowFallback": "{{timeframe}} 回退窗口"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

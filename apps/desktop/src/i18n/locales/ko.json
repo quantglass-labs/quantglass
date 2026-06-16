@@ -591,6 +591,86 @@
       "disclaimer": "QuantGlass는 리서치 및 의사결정 지원 소프트웨어입니다. 투자 자문, 투자 자문업자, 브로커-딜러, 또는 거래 성과의 약속이 아닙니다."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "알 수 없는 심볼",
+    "unknownTitle": "요청한 심볼을 찾을 수 없습니다",
+    "unknownDescription": "심볼 id가 유효하지 않을 때 심볼 상세 경로는 다른 종목으로 조용히 전환하지 않고 명시적으로 유지됩니다.",
+    "unavailableTitle": "심볼 상세를 사용할 수 없음",
+    "noDefinition": "\"{{id}}\"에 대한 심볼 정의가 없습니다.",
+    "returnToDashboard": "대시보드로 돌아가기",
+    "openSymbol": "{{symbol}} 열기",
+    "headerTitle": "{{name}} 상세",
+    "description": "오버레이 토글이 있는 대형 차트, 결정론적 신호 컨텍스트, 가능한 경우 백엔드 리샘플링이 적용된 백엔드 코리도 캔들, 백엔드 제공 뉴스, 그리고 신호 드로어·알림 모달·미리 채워진 백테스트로의 직접 경로.",
+    "refreshing": "코리도 새로고침 중...",
+    "refresh": "코리도 새로고침",
+    "chart": {
+      "noCandlesTitle": "이 보기에 마감 캔들이 없습니다",
+      "noCandlesDesc": "이 시간 프레임에 사용 가능한 마감 캔들이 없습니다. 탐색을 계속하려면 시간 프레임을 바꾸거나 다른 심볼을 여세요.",
+      "switchTo1d": "1d로 전환",
+      "errorTitle": "차트 표면을 사용할 수 없음",
+      "errorDesc": "캔들스틱, 오버레이, 지표 패널을 렌더링하지 못했습니다."
+    },
+    "indicators": {
+      "button": "지표",
+      "ready": "{{count}}개 준비됨",
+      "registryEntries": "{{count}}개 레지스트리 항목",
+      "removeExecutable": "실행 가능한 지표 제거",
+      "removeSelected": "선택한 카탈로그/확장 지표 제거",
+      "browser": "지표 브라우저",
+      "browserDesc": "준비된 지표를 차트에 추가하거나 카탈로그 및 확장 항목을 선택하여 기여 상태를 확인하세요.",
+      "searchPlaceholder": "100개 이상의 지표 검색",
+      "statusReady": "준비됨",
+      "statusExtension": "확장",
+      "statusCatalog": "카탈로그",
+      "extensionDetail": "확장으로 등록됨. 런타임 계산 훅은 레지스트리에서 인식됩니다. 차트 실행에는 확장이 제공하는 계산 어댑터가 필요합니다.",
+      "catalogTarget": "카탈로그 대상. 이 지표는 기여자를 위해 문서화되었지만 아직 차트에서 실행할 수 없습니다."
+    },
+    "stats": {
+      "emaHelper": "단기 추세 지지",
+      "smaHelper": "중기 추세 기준선",
+      "rsiHelper": "모멘텀 오실레이터",
+      "atrHelper": "캔들당 변동성",
+      "support": "지지 구간",
+      "supportHelper": "이동 24캔들 하단",
+      "resistance": "저항 구간",
+      "resistanceHelper": "이동 24캔들 상단"
+    },
+    "signal": {
+      "noCurrentTitle": "이 심볼에 대한 현재 신호 없음",
+      "noCurrentDesc": "이 상태는 사용 가능한 백엔드 신호가 없을 때도 오른쪽 레일 결정 카드를 명시적으로 유지합니다.",
+      "errorTitle": "현재 신호를 사용할 수 없음",
+      "errorDesc": "결정론적 신호 카드를 불러오지 못했습니다.",
+      "current": "현재 신호",
+      "decisionCard": "결정론적 결정 카드",
+      "confidence": "증거 기반 신뢰도",
+      "lowConfidence": "낮은 신뢰도 신호 경고",
+      "entryZone": "진입 구간",
+      "stopLadder": "스톱 {{stop}} · TP 사다리 {{tp}}",
+      "generated": "생성 {{time}} UTC",
+      "viewFull": "전체 신호 보기",
+      "runBacktest": "이 셋업으로 백테스트 실행",
+      "createAlert": "알림 만들기"
+    },
+    "news": {
+      "eyebrow": "최근 뉴스",
+      "title": "촉매 테이프",
+      "description": "백엔드 제공 뉴스 피드. 제공자 기반 랭킹과 실시간 수집은 여전히 뉴스 레이어의 다음 과제입니다.",
+      "empty": "지금 이 심볼에 사용할 수 있는 뉴스가 없습니다.",
+      "errorTitle": "뉴스 테이프를 사용할 수 없음",
+      "errorDesc": "백엔드 뉴스 목록을 불러오지 못했습니다."
+    },
+    "volume": {
+      "eyebrow": "거래량 컨텍스트",
+      "title": "마감 캔들만",
+      "descBackend": "미완성 봉 없음. 이 캔들은 로컬 백엔드 코리도 저장소에서 가져오며 필요 시 백엔드에서 리샘플링됩니다.",
+      "descFallback": "미완성 봉 없음. 이 시간 프레임은 아직 결정론적 폴백 캔들을 사용합니다.",
+      "latestVolume": "최근 거래량",
+      "latestVolumeHelper": "마감 봉만",
+      "candleCount": "캔들 수",
+      "windowBackend": "{{timeframe}} 백엔드 파생 윈도우",
+      "windowFallback": "{{timeframe}} 폴백 윈도우"
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",
