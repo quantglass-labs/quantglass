@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass è software di ricerca e supporto alle decisioni. Non è consulenza finanziaria, un consulente per gli investimenti, un broker-dealer, né una promessa di performance di trading."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Simbolo sconosciuto",
+    "unknownTitle": "Il simbolo richiesto non è stato trovato",
+    "unknownDescription": "La rotta di dettaglio del simbolo resta esplicita quando un id di simbolo non è valido, invece di passare silenziosamente a un altro strumento.",
+    "unavailableTitle": "Dettaglio simbolo non disponibile",
+    "noDefinition": "Non esiste alcuna definizione di simbolo per \"{{id}}\".",
+    "returnToDashboard": "Torna al pannello",
+    "openSymbol": "Apri {{symbol}}",
+    "headerTitle": "Dettaglio di {{name}}",
+    "description": "Grafico grande con interruttori di overlay, contesto di segnale deterministico, candele del corridoio backend con ricampionamento backend quando possibile, notizie servite dal backend, e percorsi diretti al pannello del segnale, al modale di avviso e al backtest precompilato.",
+    "refreshing": "Aggiornamento corridoio...",
+    "refresh": "Aggiorna corridoio",
+    "chart": {
+      "noCandlesTitle": "Nessuna candela chiusa per questa vista",
+      "noCandlesDesc": "Nessuna candela chiusa disponibile per questo intervallo. Cambia intervallo o apri un altro simbolo per continuare a navigare.",
+      "switchTo1d": "Passa a 1d",
+      "errorTitle": "Superficie del grafico non disponibile",
+      "errorDesc": "Le candele, gli overlay e i pannelli degli indicatori non possono essere renderizzati."
+    },
+    "indicators": {
+      "button": "Indicatori",
+      "ready": "{{count}} pronti",
+      "registryEntries": "{{count}} voci di registro",
+      "removeExecutable": "Rimuovi indicatore eseguibile",
+      "removeSelected": "Rimuovi indicatore catalogo/estensione selezionato",
+      "browser": "Browser di indicatori",
+      "browserDesc": "Aggiungi indicatori pronti al grafico o seleziona voci di catalogo ed estensione per ispezionare lo stato di contribuzione.",
+      "searchPlaceholder": "Cerca tra oltre 100 indicatori",
+      "statusReady": "Pronto",
+      "statusExtension": "Estensione",
+      "statusCatalog": "Catalogo",
+      "extensionDetail": "Registrato da un'estensione. Gli hook di calcolo a runtime sono riconosciuti dal registro; l'esecuzione nel grafico richiede un adattatore di calcolo fornito dall'estensione.",
+      "catalogTarget": "Obiettivo di catalogo. Questo indicatore è documentato per i contributori ma non è ancora eseguibile nel grafico."
+    },
+    "stats": {
+      "emaHelper": "Supporto di tendenza a breve termine",
+      "smaHelper": "Linea di base di tendenza intermedia",
+      "rsiHelper": "Oscillatore di momentum",
+      "atrHelper": "Volatilità per candela",
+      "support": "Zona di supporto",
+      "supportHelper": "Pavimento mobile su 24 candele",
+      "resistance": "Zona di resistenza",
+      "resistanceHelper": "Soffitto mobile su 24 candele"
+    },
+    "signal": {
+      "noCurrentTitle": "Nessun segnale attuale per questo simbolo",
+      "noCurrentDesc": "Questo stato mantiene esplicita la scheda decisionale della barra destra anche quando non è disponibile alcun segnale dal backend.",
+      "errorTitle": "Segnale attuale non disponibile",
+      "errorDesc": "La scheda del segnale deterministico non può essere caricata.",
+      "current": "Segnale attuale",
+      "decisionCard": "Scheda decisionale deterministica",
+      "confidence": "Affidabilità basata su evidenze",
+      "lowConfidence": "Avviso di segnale a bassa affidabilità",
+      "entryZone": "Zona di ingresso",
+      "stopLadder": "Stop {{stop}} · scala TP {{tp}}",
+      "generated": "Generato {{time}} UTC",
+      "viewFull": "Vedi segnale completo",
+      "runBacktest": "Esegui backtest su questo setup",
+      "createAlert": "Crea avviso"
+    },
+    "news": {
+      "eyebrow": "Notizie recenti",
+      "title": "Nastro dei catalizzatori",
+      "description": "Feed di notizie servito dal backend. La classifica supportata dal provider e l'acquisizione in tempo reale restano la prossima lacuna del livello notizie.",
+      "empty": "Nessuna notizia disponibile per questo simbolo al momento.",
+      "errorTitle": "Nastro notizie non disponibile",
+      "errorDesc": "L'elenco notizie del backend non può essere caricato."
+    },
+    "volume": {
+      "eyebrow": "Contesto di volume",
+      "title": "Solo candele chiuse",
+      "descBackend": "Nessuna barra parziale. Queste candele provengono dall'archivio locale del corridoio backend, con ricampionamento backend quando necessario.",
+      "descFallback": "Nessuna barra parziale. Questo intervallo usa ancora candele di fallback deterministiche.",
+      "latestVolume": "Ultimo volume",
+      "latestVolumeHelper": "Solo candela chiusa",
+      "candleCount": "Conteggio candele",
+      "windowBackend": "Finestra derivata dal backend {{timeframe}}",
+      "windowFallback": "Finestra di fallback {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

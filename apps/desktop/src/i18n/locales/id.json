@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass adalah perangkat lunak riset dan pendukung keputusan. Ini bukan nasihat keuangan, penasihat investasi, broker-dealer, atau janji kinerja perdagangan."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Simbol tidak dikenal",
+    "unknownTitle": "Simbol yang diminta tidak ditemukan",
+    "unknownDescription": "Rute detail simbol tetap eksplisit ketika id simbol tidak valid, alih-alih beralih diam-diam ke instrumen lain.",
+    "unavailableTitle": "Detail simbol tidak tersedia",
+    "noDefinition": "Tidak ada definisi simbol untuk \"{{id}}\".",
+    "returnToDashboard": "Kembali ke dasbor",
+    "openSymbol": "Buka {{symbol}}",
+    "headerTitle": "Detail {{name}}",
+    "description": "Grafik besar dengan sakelar overlay, konteks sinyal deterministik, candle koridor backend dengan pengambilan sampel ulang backend bila memungkinkan, berita yang disajikan backend, dan rute langsung ke laci sinyal, modal peringatan, dan backtest pra-isi.",
+    "refreshing": "Menyegarkan koridor...",
+    "refresh": "Segarkan koridor",
+    "chart": {
+      "noCandlesTitle": "Tidak ada candle tertutup untuk tampilan ini",
+      "noCandlesDesc": "Tidak ada candle tertutup tersedia untuk kerangka waktu ini. Ganti kerangka waktu atau buka simbol lain untuk terus menjelajah.",
+      "switchTo1d": "Ganti ke 1d",
+      "errorTitle": "Permukaan grafik tidak tersedia",
+      "errorDesc": "Candlestick, overlay, dan panel indikator tidak dapat dirender."
+    },
+    "indicators": {
+      "button": "Indikator",
+      "ready": "{{count}} siap",
+      "registryEntries": "{{count}} entri registri",
+      "removeExecutable": "Hapus indikator yang dapat dieksekusi",
+      "removeSelected": "Hapus indikator katalog/ekstensi terpilih",
+      "browser": "Penjelajah indikator",
+      "browserDesc": "Tambahkan indikator siap ke grafik atau pilih entri katalog dan ekstensi untuk memeriksa status kontribusi.",
+      "searchPlaceholder": "Cari 100+ indikator",
+      "statusReady": "Siap",
+      "statusExtension": "Ekstensi",
+      "statusCatalog": "Katalog",
+      "extensionDetail": "Didaftarkan oleh ekstensi. Hook komputasi runtime dikenali oleh registri; eksekusi grafik memerlukan adaptor komputasi yang disediakan ekstensi.",
+      "catalogTarget": "Target katalog. Indikator ini didokumentasikan untuk kontributor tetapi belum dapat dieksekusi di grafik."
+    },
+    "stats": {
+      "emaHelper": "Dukungan tren jangka pendek",
+      "smaHelper": "Garis dasar tren menengah",
+      "rsiHelper": "Osilator momentum",
+      "atrHelper": "Volatilitas per candle",
+      "support": "Zona dukungan",
+      "supportHelper": "Lantai bergulir 24 candle",
+      "resistance": "Zona resistensi",
+      "resistanceHelper": "Plafon bergulir 24 candle"
+    },
+    "signal": {
+      "noCurrentTitle": "Tidak ada sinyal saat ini untuk simbol ini",
+      "noCurrentDesc": "Keadaan ini menjaga kartu keputusan rel kanan tetap eksplisit meskipun tidak ada sinyal backend yang tersedia.",
+      "errorTitle": "Sinyal saat ini tidak tersedia",
+      "errorDesc": "Kartu sinyal deterministik tidak dapat dimuat.",
+      "current": "Sinyal saat ini",
+      "decisionCard": "Kartu keputusan deterministik",
+      "confidence": "Keyakinan berbasis bukti",
+      "lowConfidence": "Peringatan sinyal keyakinan rendah",
+      "entryZone": "Zona masuk",
+      "stopLadder": "Stop {{stop}} · tangga TP {{tp}}",
+      "generated": "Dibuat {{time}} UTC",
+      "viewFull": "Lihat sinyal lengkap",
+      "runBacktest": "Jalankan backtest pada setup ini",
+      "createAlert": "Buat peringatan"
+    },
+    "news": {
+      "eyebrow": "Berita terbaru",
+      "title": "Pita katalis",
+      "description": "Umpan berita yang disajikan backend. Pemeringkatan berbasis penyedia dan penyerapan langsung tetap menjadi celah berikutnya pada lapisan berita.",
+      "empty": "Tidak ada berita yang tersedia untuk simbol ini saat ini.",
+      "errorTitle": "Pita berita tidak tersedia",
+      "errorDesc": "Daftar berita backend tidak dapat dimuat."
+    },
+    "volume": {
+      "eyebrow": "Konteks volume",
+      "title": "Hanya candle tertutup",
+      "descBackend": "Tanpa batang parsial. Candle ini berasal dari penyimpanan koridor backend lokal, dengan pengambilan sampel ulang backend bila diperlukan.",
+      "descFallback": "Tanpa batang parsial. Kerangka waktu ini masih menggunakan candle fallback deterministik.",
+      "latestVolume": "Volume terbaru",
+      "latestVolumeHelper": "Hanya batang tertutup",
+      "candleCount": "Jumlah candle",
+      "windowBackend": "Jendela turunan backend {{timeframe}}",
+      "windowFallback": "Jendela fallback {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

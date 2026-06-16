@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass ni programu ya utafiti na usaidizi wa maamuzi. Si ushauri wa kifedha, mshauri wa uwekezaji, broker-dealer, wala ahadi ya utendaji wa biashara."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Alama isiyojulikana",
+    "unknownTitle": "Alama iliyoombwa haikupatikana",
+    "unknownDescription": "Njia ya maelezo ya alama hubaki wazi alama id ikiwa batili, badala ya kubadilisha kimya hadi chombo kingine.",
+    "unavailableTitle": "Maelezo ya alama hayapatikani",
+    "noDefinition": "Hakuna ufafanuzi wa alama kwa \"{{id}}\".",
+    "returnToDashboard": "Rudi kwenye dashibodi",
+    "openSymbol": "Fungua {{symbol}}",
+    "headerTitle": "Maelezo ya {{name}}",
+    "description": "Chati kubwa yenye swichi za tabaka, muktadha wa ishara wa uhakika, mishumaa ya korido ya backend yenye urekebishaji wa backend pale inapowezekana, habari zinazohudumiwa na backend, na njia za moja kwa moja hadi droo ya ishara, modali ya tahadhari na backtest iliyojazwa awali.",
+    "refreshing": "Inasasisha korido...",
+    "refresh": "Sasisha korido",
+    "chart": {
+      "noCandlesTitle": "Hakuna mishumaa iliyofungwa kwa mwonekano huu",
+      "noCandlesDesc": "Hakuna mishumaa iliyofungwa inayopatikana kwa muda huu. Badilisha muda au fungua alama nyingine kuendelea kupitia.",
+      "switchTo1d": "Badilisha hadi 1d",
+      "errorTitle": "Uso wa chati haupatikani",
+      "errorDesc": "Mishumaa, tabaka na paneli za viashiria hazikuweza kuonyeshwa."
+    },
+    "indicators": {
+      "button": "Viashiria",
+      "ready": "{{count}} tayari",
+      "registryEntries": "Maingizo {{count}} ya rejista",
+      "removeExecutable": "Ondoa kiashiria kinachotekelezeka",
+      "removeSelected": "Ondoa kiashiria cha katalogi/kiendelezi kilichochaguliwa",
+      "browser": "Kivinjari cha viashiria",
+      "browserDesc": "Ongeza viashiria tayari kwenye chati au chagua maingizo ya katalogi na kiendelezi kukagua hali ya mchango.",
+      "searchPlaceholder": "Tafuta viashiria 100+",
+      "statusReady": "Tayari",
+      "statusExtension": "Kiendelezi",
+      "statusCatalog": "Katalogi",
+      "extensionDetail": "Imesajiliwa na kiendelezi. Hook ya hesabu ya wakati wa utekelezaji inatambuliwa na rejista; utekelezaji wa chati unahitaji adapta ya hesabu inayotolewa na kiendelezi.",
+      "catalogTarget": "Lengo la katalogi. Kiashiria hiki kimeandikwa kwa wachangiaji lakini bado hakitekelezeki kwenye chati."
+    },
+    "stats": {
+      "emaHelper": "Msaada wa mwelekeo wa muda mfupi",
+      "smaHelper": "Msingi wa mwelekeo wa kati",
+      "rsiHelper": "Oscillator ya kasi",
+      "atrHelper": "Tofauti kwa kila mshumaa",
+      "support": "Eneo la msaada",
+      "supportHelper": "Sakafu ya mishumaa 24 inayozunguka",
+      "resistance": "Eneo la upinzani",
+      "resistanceHelper": "Dari ya mishumaa 24 inayozunguka"
+    },
+    "signal": {
+      "noCurrentTitle": "Hakuna ishara ya sasa kwa alama hii",
+      "noCurrentDesc": "Hali hii hubaki na kadi ya uamuzi ya reli ya kulia wazi hata wakati hakuna ishara ya backend inayopatikana.",
+      "errorTitle": "Ishara ya sasa haipatikani",
+      "errorDesc": "Kadi ya ishara ya uhakika haikuweza kupakiwa.",
+      "current": "Ishara ya sasa",
+      "decisionCard": "Kadi ya uamuzi ya uhakika",
+      "confidence": "Uhakika unaotegemea ushahidi",
+      "lowConfidence": "Onyo la ishara ya uhakika mdogo",
+      "entryZone": "Eneo la kuingia",
+      "stopLadder": "Simamisha {{stop}} · ngazi ya TP {{tp}}",
+      "generated": "Imezalishwa {{time}} UTC",
+      "viewFull": "Tazama ishara kamili",
+      "runBacktest": "Endesha backtest kwa usanidi huu",
+      "createAlert": "Tengeneza tahadhari"
+    },
+    "news": {
+      "eyebrow": "Habari za hivi karibuni",
+      "title": "Tepu ya kichocheo",
+      "description": "Mlisho wa habari unaohudumiwa na backend. Upangaji unaoungwa mkono na mtoa huduma na uingizaji wa moja kwa moja bado ni pengo linalofuata la tabaka la habari.",
+      "empty": "Hakuna habari inayopatikana kwa alama hii sasa.",
+      "errorTitle": "Tepu ya habari haipatikani",
+      "errorDesc": "Orodha ya habari ya backend haikuweza kupakiwa."
+    },
+    "volume": {
+      "eyebrow": "Muktadha wa ujazo",
+      "title": "Mishumaa iliyofungwa pekee",
+      "descBackend": "Hakuna baa zisizokamilika. Mishumaa hii inatoka kwenye hifadhi ya korido ya backend ya ndani, yenye urekebishaji wa backend inapohitajika.",
+      "descFallback": "Hakuna baa zisizokamilika. Muda huu bado unatumia mishumaa ya akiba ya uhakika.",
+      "latestVolume": "Ujazo wa hivi karibuni",
+      "latestVolumeHelper": "Baa zilizofungwa pekee",
+      "candleCount": "Idadi ya mishumaa",
+      "windowBackend": "Dirisha lililotokana na backend {{timeframe}}",
+      "windowFallback": "Dirisha la akiba {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

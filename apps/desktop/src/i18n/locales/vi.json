@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass là phần mềm nghiên cứu và hỗ trợ quyết định. Đây không phải lời khuyên tài chính, cố vấn đầu tư, nhà môi giới-giao dịch, hay lời hứa về hiệu suất giao dịch."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Mã không xác định",
+    "unknownTitle": "Không tìm thấy mã được yêu cầu",
+    "unknownDescription": "Tuyến chi tiết mã giữ rõ ràng khi id mã không hợp lệ, thay vì âm thầm chuyển sang công cụ khác.",
+    "unavailableTitle": "Chi tiết mã không khả dụng",
+    "noDefinition": "Không có định nghĩa mã cho \"{{id}}\".",
+    "returnToDashboard": "Quay lại bảng điều khiển",
+    "openSymbol": "Mở {{symbol}}",
+    "headerTitle": "Chi tiết {{name}}",
+    "description": "Biểu đồ lớn với công tắc lớp phủ, ngữ cảnh tín hiệu tất định, nến hành lang backend có lấy mẫu lại backend khi có thể, tin tức do backend cung cấp, và tuyến trực tiếp đến ngăn tín hiệu, hộp thoại cảnh báo và backtest điền sẵn.",
+    "refreshing": "Đang làm mới hành lang...",
+    "refresh": "Làm mới hành lang",
+    "chart": {
+      "noCandlesTitle": "Không có nến đã đóng cho khung này",
+      "noCandlesDesc": "Không có nến đã đóng khả dụng cho khung thời gian này. Đổi khung thời gian hoặc mở mã khác để tiếp tục điều hướng.",
+      "switchTo1d": "Chuyển sang 1d",
+      "errorTitle": "Bề mặt biểu đồ không khả dụng",
+      "errorDesc": "Không thể hiển thị nến, lớp phủ và bảng chỉ báo."
+    },
+    "indicators": {
+      "button": "Chỉ báo",
+      "ready": "{{count}} sẵn sàng",
+      "registryEntries": "{{count}} mục đăng ký",
+      "removeExecutable": "Xóa chỉ báo có thể thực thi",
+      "removeSelected": "Xóa chỉ báo danh mục/tiện ích đã chọn",
+      "browser": "Trình duyệt chỉ báo",
+      "browserDesc": "Thêm chỉ báo sẵn sàng vào biểu đồ hoặc chọn mục danh mục và tiện ích để kiểm tra trạng thái đóng góp.",
+      "searchPlaceholder": "Tìm hơn 100 chỉ báo",
+      "statusReady": "Sẵn sàng",
+      "statusExtension": "Tiện ích",
+      "statusCatalog": "Danh mục",
+      "extensionDetail": "Được đăng ký bởi một tiện ích. Hook tính toán thời gian chạy được sổ đăng ký nhận diện; thực thi biểu đồ cần bộ chuyển đổi tính toán do tiện ích cung cấp.",
+      "catalogTarget": "Mục tiêu danh mục. Chỉ báo này được tài liệu hóa cho người đóng góp nhưng chưa thể thực thi trong biểu đồ."
+    },
+    "stats": {
+      "emaHelper": "Hỗ trợ xu hướng ngắn hạn",
+      "smaHelper": "Đường cơ sở xu hướng trung hạn",
+      "rsiHelper": "Bộ dao động động lượng",
+      "atrHelper": "Biến động mỗi nến",
+      "support": "Vùng hỗ trợ",
+      "supportHelper": "Sàn trượt 24 nến",
+      "resistance": "Vùng kháng cự",
+      "resistanceHelper": "Trần trượt 24 nến"
+    },
+    "signal": {
+      "noCurrentTitle": "Không có tín hiệu hiện tại cho mã này",
+      "noCurrentDesc": "Trạng thái này giữ thẻ quyết định ở thanh phải rõ ràng ngay cả khi không có tín hiệu backend khả dụng.",
+      "errorTitle": "Tín hiệu hiện tại không khả dụng",
+      "errorDesc": "Không thể tải thẻ tín hiệu tất định.",
+      "current": "Tín hiệu hiện tại",
+      "decisionCard": "Thẻ quyết định tất định",
+      "confidence": "Độ tin cậy dựa trên bằng chứng",
+      "lowConfidence": "Cảnh báo tín hiệu độ tin cậy thấp",
+      "entryZone": "Vùng vào lệnh",
+      "stopLadder": "Cắt lỗ {{stop}} · thang TP {{tp}}",
+      "generated": "Tạo lúc {{time}} UTC",
+      "viewFull": "Xem tín hiệu đầy đủ",
+      "runBacktest": "Chạy backtest cho thiết lập này",
+      "createAlert": "Tạo cảnh báo"
+    },
+    "news": {
+      "eyebrow": "Tin tức gần đây",
+      "title": "Băng xúc tác",
+      "description": "Nguồn tin do backend cung cấp. Xếp hạng dựa trên nhà cung cấp và thu thập trực tiếp vẫn là khoảng trống tiếp theo của lớp tin tức.",
+      "empty": "Hiện không có tin tức nào khả dụng cho mã này.",
+      "errorTitle": "Băng tin tức không khả dụng",
+      "errorDesc": "Không thể tải danh sách tin tức backend."
+    },
+    "volume": {
+      "eyebrow": "Ngữ cảnh khối lượng",
+      "title": "Chỉ nến đã đóng",
+      "descBackend": "Không có thanh chưa hoàn thành. Các nến này đến từ kho hành lang backend cục bộ, có lấy mẫu lại backend khi cần.",
+      "descFallback": "Không có thanh chưa hoàn thành. Khung thời gian này vẫn dùng nến dự phòng tất định.",
+      "latestVolume": "Khối lượng mới nhất",
+      "latestVolumeHelper": "Chỉ thanh đã đóng",
+      "candleCount": "Số nến",
+      "windowBackend": "Cửa sổ phái sinh từ backend {{timeframe}}",
+      "windowFallback": "Cửa sổ dự phòng {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

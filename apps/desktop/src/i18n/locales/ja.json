@@ -591,6 +591,86 @@
       "disclaimer": "QuantGlass は調査および意思決定支援ソフトウェアです。投資助言、投資顧問、ブローカーディーラー、または取引成績の約束ではありません。"
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "不明な銘柄",
+    "unknownTitle": "要求された銘柄が見つかりませんでした",
+    "unknownDescription": "銘柄IDが無効な場合、銘柄詳細ルートは明示的なままになり、別の銘柄へ静かに切り替えることはありません。",
+    "unavailableTitle": "銘柄詳細を利用できません",
+    "noDefinition": "\"{{id}}\" の銘柄定義は存在しません。",
+    "returnToDashboard": "ダッシュボードに戻る",
+    "openSymbol": "{{symbol}} を開く",
+    "headerTitle": "{{name}} の詳細",
+    "description": "オーバーレイ切り替え付きの大きなチャート、決定論的なシグナルコンテキスト、可能な場合はバックエンドでリサンプリングされたバックエンドコリドー足、バックエンド配信のニュース、そしてシグナルドロワー・アラートモーダル・事前入力済みバックテストへの直接ルート。",
+    "refreshing": "コリドーを更新中...",
+    "refresh": "コリドーを更新",
+    "chart": {
+      "noCandlesTitle": "このビューに確定足はありません",
+      "noCandlesDesc": "この時間軸では確定足を利用できません。時間軸を切り替えるか別の銘柄を開いて移動を続けてください。",
+      "switchTo1d": "1d に切り替え",
+      "errorTitle": "チャート面を利用できません",
+      "errorDesc": "ローソク足、オーバーレイ、インジケーターパネルをレンダリングできませんでした。"
+    },
+    "indicators": {
+      "button": "インジケーター",
+      "ready": "{{count}} 件準備済み",
+      "registryEntries": "{{count}} 件のレジストリエントリ",
+      "removeExecutable": "実行可能なインジケーターを削除",
+      "removeSelected": "選択したカタログ/拡張インジケーターを削除",
+      "browser": "インジケーターブラウザ",
+      "browserDesc": "準備済みインジケーターをチャートに追加するか、カタログと拡張のエントリを選択して貢献ステータスを確認します。",
+      "searchPlaceholder": "100以上のインジケーターを検索",
+      "statusReady": "準備済み",
+      "statusExtension": "拡張",
+      "statusCatalog": "カタログ",
+      "extensionDetail": "拡張機能により登録。ランタイムの計算フックはレジストリに認識されます。チャート実行には拡張機能が提供する計算アダプターが必要です。",
+      "catalogTarget": "カタログ対象。このインジケーターは貢献者向けに文書化されていますが、まだチャートで実行できません。"
+    },
+    "stats": {
+      "emaHelper": "短期トレンドのサポート",
+      "smaHelper": "中期トレンドのベースライン",
+      "rsiHelper": "モメンタムオシレーター",
+      "atrHelper": "足あたりのボラティリティ",
+      "support": "サポートゾーン",
+      "supportHelper": "ローリング24足の下限",
+      "resistance": "レジスタンスゾーン",
+      "resistanceHelper": "ローリング24足の上限"
+    },
+    "signal": {
+      "noCurrentTitle": "この銘柄に現在のシグナルはありません",
+      "noCurrentDesc": "この状態は、バックエンドシグナルが利用できない場合でも右レールの判断カードを明示的に保ちます。",
+      "errorTitle": "現在のシグナルを利用できません",
+      "errorDesc": "決定論的なシグナルカードを読み込めませんでした。",
+      "current": "現在のシグナル",
+      "decisionCard": "決定論的な判断カード",
+      "confidence": "証拠に基づく信頼度",
+      "lowConfidence": "低信頼度シグナルの警告",
+      "entryZone": "エントリーゾーン",
+      "stopLadder": "ストップ {{stop}} · TPラダー {{tp}}",
+      "generated": "生成 {{time}} UTC",
+      "viewFull": "シグナル全体を表示",
+      "runBacktest": "このセットアップでバックテストを実行",
+      "createAlert": "アラートを作成"
+    },
+    "news": {
+      "eyebrow": "最近のニュース",
+      "title": "カタリストテープ",
+      "description": "バックエンド配信のニュースフィード。プロバイダー基盤のランキングとライブ取り込みは、ニュースレイヤーの次のギャップのままです。",
+      "empty": "現在、この銘柄に利用できるニュースはありません。",
+      "errorTitle": "ニューステープを利用できません",
+      "errorDesc": "バックエンドのニュースリストを読み込めませんでした。"
+    },
+    "volume": {
+      "eyebrow": "出来高コンテキスト",
+      "title": "確定足のみ",
+      "descBackend": "未確定バーなし。これらの足はローカルのバックエンドコリドーストアから取得され、必要に応じてバックエンドでリサンプリングされます。",
+      "descFallback": "未確定バーなし。この時間軸はまだ決定論的なフォールバック足を使用しています。",
+      "latestVolume": "最新出来高",
+      "latestVolumeHelper": "確定バーのみ",
+      "candleCount": "足の本数",
+      "windowBackend": "{{timeframe}} バックエンド由来のウィンドウ",
+      "windowFallback": "{{timeframe}} フォールバックウィンドウ"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

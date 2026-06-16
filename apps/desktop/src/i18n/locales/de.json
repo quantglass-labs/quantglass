@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass ist Forschungs- und Entscheidungsunterstützungssoftware. Es ist keine Finanzberatung, kein Anlageberater, kein Broker-Dealer und kein Versprechen einer Handelsperformance."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Unbekanntes Symbol",
+    "unknownTitle": "Angefordertes Symbol wurde nicht gefunden",
+    "unknownDescription": "Die Symbol-Detail-Route bleibt explizit, wenn eine Symbol-ID ungültig ist, statt stillschweigend zu einem anderen Instrument zu wechseln.",
+    "unavailableTitle": "Symboldetail nicht verfügbar",
+    "noDefinition": "Für \"{{id}}\" existiert keine Symboldefinition.",
+    "returnToDashboard": "Zurück zur Übersicht",
+    "openSymbol": "{{symbol}} öffnen",
+    "headerTitle": "{{name}} – Detail",
+    "description": "Großer Chart mit Overlay-Schaltern, deterministischem Signalkontext, Backend-Korridor-Kerzen mit Backend-Resampling wo möglich, vom Backend gelieferten Nachrichten und direkten Routen zum Signal-Drawer, Alarm-Modal und vorausgefüllten Backtest.",
+    "refreshing": "Korridor wird aktualisiert...",
+    "refresh": "Korridor aktualisieren",
+    "chart": {
+      "noCandlesTitle": "Keine geschlossenen Kerzen für diese Ansicht",
+      "noCandlesDesc": "Für diesen Zeitrahmen sind keine geschlossenen Kerzen verfügbar. Wechseln Sie den Zeitrahmen oder öffnen Sie ein anderes Symbol, um weiter zu navigieren.",
+      "switchTo1d": "Zu 1d wechseln",
+      "errorTitle": "Chart-Oberfläche nicht verfügbar",
+      "errorDesc": "Die Kerzen, Overlays und Indikatorpanels konnten nicht gerendert werden."
+    },
+    "indicators": {
+      "button": "Indikatoren",
+      "ready": "{{count}} bereit",
+      "registryEntries": "{{count}} Registry-Einträge",
+      "removeExecutable": "Ausführbaren Indikator entfernen",
+      "removeSelected": "Ausgewählten Katalog-/Erweiterungsindikator entfernen",
+      "browser": "Indikator-Browser",
+      "browserDesc": "Fügen Sie bereite Indikatoren zum Chart hinzu oder wählen Sie Katalog- und Erweiterungseinträge, um den Beitragsstatus zu prüfen.",
+      "searchPlaceholder": "Über 100 Indikatoren durchsuchen",
+      "statusReady": "Bereit",
+      "statusExtension": "Erweiterung",
+      "statusCatalog": "Katalog",
+      "extensionDetail": "Von einer Erweiterung registriert. Laufzeit-Compute-Hooks werden vom Registry erkannt; die Chart-Ausführung benötigt einen von der Erweiterung bereitgestellten Compute-Adapter.",
+      "catalogTarget": "Katalogziel. Dieser Indikator ist für Beitragende dokumentiert, aber noch nicht im Chart ausführbar."
+    },
+    "stats": {
+      "emaHelper": "Kurzfristige Trendunterstützung",
+      "smaHelper": "Mittelfristige Trend-Basislinie",
+      "rsiHelper": "Momentum-Oszillator",
+      "atrHelper": "Volatilität pro Kerze",
+      "support": "Unterstützungszone",
+      "supportHelper": "Rollender 24-Kerzen-Boden",
+      "resistance": "Widerstandszone",
+      "resistanceHelper": "Rollende 24-Kerzen-Decke"
+    },
+    "signal": {
+      "noCurrentTitle": "Kein aktuelles Signal für dieses Symbol",
+      "noCurrentDesc": "Dieser Zustand hält die Entscheidungskarte in der rechten Leiste explizit, auch wenn kein Backend-Signal verfügbar ist.",
+      "errorTitle": "Aktuelles Signal nicht verfügbar",
+      "errorDesc": "Die deterministische Signalkarte konnte nicht geladen werden.",
+      "current": "Aktuelles Signal",
+      "decisionCard": "Deterministische Entscheidungskarte",
+      "confidence": "Evidenzbasierte Konfidenz",
+      "lowConfidence": "Warnung: Signal mit geringer Konfidenz",
+      "entryZone": "Einstiegszone",
+      "stopLadder": "Stop {{stop}} · TP-Leiter {{tp}}",
+      "generated": "Erzeugt {{time}} UTC",
+      "viewFull": "Vollständiges Signal ansehen",
+      "runBacktest": "Backtest für dieses Setup ausführen",
+      "createAlert": "Warnung erstellen"
+    },
+    "news": {
+      "eyebrow": "Aktuelle Nachrichten",
+      "title": "Katalysator-Ticker",
+      "description": "Vom Backend gelieferter Nachrichtenfeed. Anbietergestütztes Ranking und Live-Erfassung bleiben die nächste Lücke der Nachrichtenebene.",
+      "empty": "Für dieses Symbol sind derzeit keine Nachrichten verfügbar.",
+      "errorTitle": "Nachrichten-Ticker nicht verfügbar",
+      "errorDesc": "Die Backend-Nachrichtenliste konnte nicht geladen werden."
+    },
+    "volume": {
+      "eyebrow": "Volumenkontext",
+      "title": "Nur geschlossene Kerzen",
+      "descBackend": "Keine Teilbalken. Diese Kerzen stammen aus dem lokalen Backend-Korridorspeicher, mit Backend-Resampling bei Bedarf.",
+      "descFallback": "Keine Teilbalken. Dieser Zeitrahmen verwendet noch deterministische Fallback-Kerzen.",
+      "latestVolume": "Letztes Volumen",
+      "latestVolumeHelper": "Nur geschlossene Kerze",
+      "candleCount": "Kerzenanzahl",
+      "windowBackend": "{{timeframe}} backend-abgeleitetes Fenster",
+      "windowFallback": "{{timeframe}} Fallback-Fenster"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

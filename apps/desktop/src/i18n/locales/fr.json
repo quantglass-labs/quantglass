@@ -597,6 +597,86 @@
       "disclaimer": "QuantGlass est un logiciel de recherche et d'aide à la décision. Ce n'est pas un conseil financier, un conseiller en investissement, un courtier-négociant, ni une promesse de performance de trading."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Symbole inconnu",
+    "unknownTitle": "Le symbole demandé est introuvable",
+    "unknownDescription": "La route de détail du symbole reste explicite lorsqu'un id de symbole est invalide, au lieu de basculer silencieusement vers un autre instrument.",
+    "unavailableTitle": "Détail du symbole indisponible",
+    "noDefinition": "Aucune définition de symbole n'existe pour « {{id}} ».",
+    "returnToDashboard": "Retour au tableau de bord",
+    "openSymbol": "Ouvrir {{symbol}}",
+    "headerTitle": "Détail de {{name}}",
+    "description": "Grand graphique avec bascules d'overlays, contexte de signal déterministe, bougies du corridor backend avec rééchantillonnage backend lorsque possible, actualités servies par le backend, et routes directes vers le panneau de signal, la modale d'alerte et le backtest prérempli.",
+    "refreshing": "Actualisation du corridor...",
+    "refresh": "Actualiser le corridor",
+    "chart": {
+      "noCandlesTitle": "Aucune bougie clôturée pour cette vue",
+      "noCandlesDesc": "Aucune bougie clôturée n'est disponible pour cette unité de temps. Changez d'unité de temps ou ouvrez un autre symbole pour continuer à naviguer.",
+      "switchTo1d": "Passer en 1d",
+      "errorTitle": "Surface du graphique indisponible",
+      "errorDesc": "Les chandeliers, les overlays et les panneaux d'indicateurs n'ont pas pu être rendus."
+    },
+    "indicators": {
+      "button": "Indicateurs",
+      "ready": "{{count}} prêts",
+      "registryEntries": "{{count}} entrées de registre",
+      "removeExecutable": "Retirer l'indicateur exécutable",
+      "removeSelected": "Retirer l'indicateur catalogue/extension sélectionné",
+      "browser": "Explorateur d'indicateurs",
+      "browserDesc": "Ajoutez des indicateurs prêts au graphique ou sélectionnez des entrées catalogue et extension pour inspecter l'état de contribution.",
+      "searchPlaceholder": "Rechercher parmi plus de 100 indicateurs",
+      "statusReady": "Prêt",
+      "statusExtension": "Extension",
+      "statusCatalog": "Catalogue",
+      "extensionDetail": "Enregistré par une extension. Les hooks de calcul à l'exécution sont reconnus par le registre ; l'exécution dans le graphique nécessite un adaptateur de calcul fourni par l'extension.",
+      "catalogTarget": "Cible de catalogue. Cet indicateur est documenté pour les contributeurs mais n'est pas encore exécutable dans le graphique."
+    },
+    "stats": {
+      "emaHelper": "Support de tendance à court terme",
+      "smaHelper": "Ligne de base de tendance intermédiaire",
+      "rsiHelper": "Oscillateur de momentum",
+      "atrHelper": "Volatilité par bougie",
+      "support": "Zone de support",
+      "supportHelper": "Plancher mobile sur 24 bougies",
+      "resistance": "Zone de résistance",
+      "resistanceHelper": "Plafond mobile sur 24 bougies"
+    },
+    "signal": {
+      "noCurrentTitle": "Aucun signal actuel pour ce symbole",
+      "noCurrentDesc": "Cet état garde la carte de décision du panneau de droite explicite même lorsqu'aucun signal du backend n'est disponible.",
+      "errorTitle": "Signal actuel indisponible",
+      "errorDesc": "La carte de signal déterministe n'a pas pu être chargée.",
+      "current": "Signal actuel",
+      "decisionCard": "Carte de décision déterministe",
+      "confidence": "Confiance fondée sur des preuves",
+      "lowConfidence": "Avertissement de signal à faible confiance",
+      "entryZone": "Zone d'entrée",
+      "stopLadder": "Stop {{stop}} · échelle TP {{tp}}",
+      "generated": "Généré {{time}} UTC",
+      "viewFull": "Voir le signal complet",
+      "runBacktest": "Lancer un backtest sur ce setup",
+      "createAlert": "Créer une alerte"
+    },
+    "news": {
+      "eyebrow": "Actualités récentes",
+      "title": "Fil des catalyseurs",
+      "description": "Flux d'actualités servi par le backend. Le classement basé sur le fournisseur et l'ingestion en direct restent la prochaine lacune de la couche actualités.",
+      "empty": "Aucune actualité n'est disponible pour ce symbole pour le moment.",
+      "errorTitle": "Fil d'actualités indisponible",
+      "errorDesc": "La liste d'actualités du backend n'a pas pu être chargée."
+    },
+    "volume": {
+      "eyebrow": "Contexte de volume",
+      "title": "Bougies clôturées uniquement",
+      "descBackend": "Pas de barres partielles. Ces bougies proviennent du magasin local du corridor backend, avec rééchantillonnage backend si nécessaire.",
+      "descFallback": "Pas de barres partielles. Cette unité de temps utilise encore des bougies de repli déterministes.",
+      "latestVolume": "Dernier volume",
+      "latestVolumeHelper": "Bougie clôturée uniquement",
+      "candleCount": "Nombre de bougies",
+      "windowBackend": "Fenêtre dérivée du backend {{timeframe}}",
+      "windowFallback": "Fenêtre de repli {{timeframe}}"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

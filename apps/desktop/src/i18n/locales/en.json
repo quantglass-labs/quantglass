@@ -594,6 +594,86 @@
       "disclaimer": "QuantGlass is research and decision-support software. It is not financial advice, an investment adviser, a broker-dealer, or a promise of trading performance."
     }
   },
+  "symbolDetail": {
+    "unknownEyebrow": "Unknown symbol",
+    "unknownTitle": "Requested symbol was not found",
+    "unknownDescription": "The symbol-detail route stays explicit when a symbol id is invalid instead of silently swapping to another instrument.",
+    "unavailableTitle": "Symbol detail unavailable",
+    "noDefinition": "No symbol definition exists for \"{{id}}\".",
+    "returnToDashboard": "Return to dashboard",
+    "openSymbol": "Open {{symbol}}",
+    "headerTitle": "{{name}} detail",
+    "description": "Large chart with overlay toggles, deterministic signal context, backend corridor candles with backend resampling where possible, backend-served news, and direct routes to the signal drawer, alert modal, and prefilled backtest.",
+    "refreshing": "Refreshing corridor...",
+    "refresh": "Refresh corridor",
+    "chart": {
+      "noCandlesTitle": "No closed candles for this view",
+      "noCandlesDesc": "No closed candles are available for this timeframe. Switch timeframe or open another symbol to keep navigating.",
+      "switchTo1d": "Switch to 1d",
+      "errorTitle": "Chart surface unavailable",
+      "errorDesc": "The candlestick, overlays, and indicator panels could not be rendered."
+    },
+    "indicators": {
+      "button": "Indicators",
+      "ready": "{{count}} ready",
+      "registryEntries": "{{count}} registry entries",
+      "removeExecutable": "Remove executable indicator",
+      "removeSelected": "Remove selected catalog/extension indicator",
+      "browser": "Indicator browser",
+      "browserDesc": "Add ready indicators to the chart or select catalog and extension entries to inspect contribution status.",
+      "searchPlaceholder": "Search 100+ indicators",
+      "statusReady": "Ready",
+      "statusExtension": "Extension",
+      "statusCatalog": "Catalog",
+      "extensionDetail": "Registered by an extension. Runtime compute hooks are recognized by the registry; chart execution needs an extension-provided compute adapter.",
+      "catalogTarget": "Catalog target. This indicator is documented for contributors but is not executable in the chart yet."
+    },
+    "stats": {
+      "emaHelper": "Short-term trend support",
+      "smaHelper": "Intermediate trend baseline",
+      "rsiHelper": "Momentum oscillator",
+      "atrHelper": "Volatility per bar",
+      "support": "Support zone",
+      "supportHelper": "Rolling 24-bar floor",
+      "resistance": "Resistance zone",
+      "resistanceHelper": "Rolling 24-bar ceiling"
+    },
+    "signal": {
+      "noCurrentTitle": "No current signal for this symbol",
+      "noCurrentDesc": "This state keeps the right-rail decision card explicit even when no backend signal is available.",
+      "errorTitle": "Current signal unavailable",
+      "errorDesc": "The deterministic signal card could not be loaded.",
+      "current": "Current signal",
+      "decisionCard": "Deterministic decision card",
+      "confidence": "Evidence-based confidence",
+      "lowConfidence": "Low-confidence signal warning",
+      "entryZone": "Entry zone",
+      "stopLadder": "Stop {{stop}} · TP ladder {{tp}}",
+      "generated": "Generated {{time}} UTC",
+      "viewFull": "View full signal",
+      "runBacktest": "Run backtest on this setup",
+      "createAlert": "Create alert"
+    },
+    "news": {
+      "eyebrow": "Recent news",
+      "title": "Catalyst tape",
+      "description": "Backend-served news feed. Provider-backed ranking and live ingestion remain the next news-layer gap.",
+      "empty": "No news items are available for this symbol right now.",
+      "errorTitle": "News tape unavailable",
+      "errorDesc": "The backend news list could not be loaded."
+    },
+    "volume": {
+      "eyebrow": "Volume context",
+      "title": "Closed-candle only",
+      "descBackend": "No partial bars. These candles come from the local backend corridor store, with backend resampling when needed.",
+      "descFallback": "No partial bars. This timeframe is still using deterministic fallback candles.",
+      "latestVolume": "Latest volume",
+      "latestVolumeHelper": "Closed bar only",
+      "candleCount": "Candle count",
+      "windowBackend": "{{timeframe}} backend-derived window",
+      "windowFallback": "{{timeframe}} fallback window"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",
