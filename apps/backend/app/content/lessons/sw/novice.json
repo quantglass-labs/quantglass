@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "novice-06-asset-classes",
+    "title": "Unachoweza kufanyia biashara: madaraja ya mali",
+    "summary": "Hisa, ETF na crypto — kila chombo kinawakilisha nini hasa.",
+    "concept": "**Daraja la mali** ni familia ya vyombo vinavyotenda kwa namna inayofanana. **Hisa** ni sehemu za umiliki katika kampuni: thamani yake hufuata biashara na huuzwa katika saa za soko la hisa. **ETF** huunganisha mali nyingi katika hisa moja inayouzika. **Sarafu za crypto** ni mali za kidijitali za mbeba zinazouzwa katika sehemu zinazofunguka daima — hakuna kampuni, hakuna faida, ni ugavi tu, mahitaji na sheria za itifaki.\n\nQuantGlass inalenga **hisa za Marekani** na **crypto spot** kwa sababu zote zina data ya umma ya bure na bei ya uwazi. *Spot* maana yake unanunua mali yenyewe; derivatives (futures, options) hurejelea bei ya mali kwa lever na tarehe za mwisho, na ziko nje ya wigo hapa.\n\nKwa nini ni muhimu: mchoro ule ule wa chati una maana tofauti kwenye hisa (inayoendeshwa na ripoti, vipindi, mwanya) ikilinganishwa na crypto (24/7, nyeti kwa hisia, tete). Ndiyo maana injini inachukulia `market_type` kama uga wa daraja la kwanza kwenye kila alama.",
+    "key_terms": [
+      {
+        "term": "Daraja la mali",
+        "definition": "Familia ya vyombo vyenye tabia na sheria zinazofanana — hisa, crypto, hatifungani, bidhaa."
+      },
+      {
+        "term": "Hisa",
+        "definition": "Sehemu ya umiliki katika kampuni."
+      },
+      {
+        "term": "ETF",
+        "definition": "Mfuko unaouzwa sokoni: kikapu cha mali kinachouzwa kama hisa moja."
+      },
+      {
+        "term": "Soko la spot",
+        "definition": "Kununua au kuuza mali yenyewe kwa malipo ya papo hapo."
+      },
+      {
+        "term": "Derivative",
+        "definition": "Mkataba ambao thamani yake hurejelea bei ya mali nyingine — nje ya wigo wa QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Kauli ipi kuhusu masoko ya crypto spot ni sahihi?",
+      "options": [
+        "Hufunga saa 16:00 za New York kama masoko ya hisa.",
+        "Unashikilia mali yenyewe, na biashara huendelea saa 24.",
+        "Kila biashara ya crypto ni mkataba wa futures wenye lever.",
+        "Bei huwekwa na itifaki mara moja kwa siku."
+      ],
+      "explanation": "Crypto spot huuza mali yenyewe katika sehemu zisizofunga kamwe. Masoko ya hisa yana vipindi; futures na lever ni sifa za derivatives, si za spot."
+    },
+    "live_apply": {
+      "cta": "Fungua orodha ya kufuatilia na andika ni alama zipi ni crypto na zipi ni hisa — lebo ya aina ya soko huamua jinsi injini inavyoshughulikia kila moja."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "title": "Masoko na sehemu za biashara",
+    "summary": "Biashara zinakofanyika hasa, na kwa nini sehemu huathiri bei yako.",
+    "concept": "**Soko** ni sehemu inayolinganisha wanunuzi na wauzaji kwa sheria zilizochapishwa. Hisa za Marekani huuzwa kwenye masoko yanayodhibitiwa (NYSE, Nasdaq) pamoja na sehemu kadhaa mbadala, zote zikiunganishwa na udhibiti kuwa bei moja bora ya kitaifa. Crypto ni tofauti: kila sehemu (Coinbase, Kraken, Binance) ni **kisiwa chake** chenye kitabu chake cha amri, hivyo sarafu *ile ile* inaweza kuuzwa kwa bei tofauti kidogo katika sehemu tofauti kwa wakati ule ule.\n\nNdiyo maana QuantGlass inakuruhusu kuchagua **njia za mtoa-huduma** — vyanzo vya data vya msingi, vya pili na vya kurejea kwa kila soko. Wakati data ya Coinbase haipatikani, injini inaweza kubadilisha kwenda Kraken; mishumaa itakuwa karibu, lakini si sawasawa, inayofanana.\n\nKanuni: daima jua *bei ya sehemu ipi* unayoangalia. Ishara iliyokokotolewa kwa mishumaa ya sehemu fulani inatumika kwa bei za sehemu hiyo.",
+    "key_terms": [
+      {
+        "term": "Soko",
+        "definition": "Sehemu inayoongozwa na sheria inayolinganisha wanunuzi na wauzaji."
+      },
+      {
+        "term": "Kitabu cha amri",
+        "definition": "Orodha ya moja kwa moja ya amri za kununua na kuuza zinazosubiri za soko."
+      },
+      {
+        "term": "Mgawanyiko",
+        "definition": "Mali ile ile inayouzwa katika sehemu nyingi kwa bei tofauti kidogo."
+      },
+      {
+        "term": "Njia ya mtoa-huduma",
+        "definition": "Chaguo la QuantGlass la sehemu ya data ya msingi/pili/kurejea kwa kila soko."
+      }
+    ],
+    "exercise": {
+      "question": "BTC inaonyesha 67,950 katika soko moja na 68,010 katika lingine kwa wakati ule ule. Kwa nini?",
+      "options": [
+        "Moja ya bei mbili lazima iwe kosa.",
+        "Kila soko la crypto lina kitabu chake cha amri, hivyo bei zinaweza kutofautiana kidogo kati ya sehemu.",
+        "Itifaki ya Bitcoin huweka bei tofauti kwa kila nchi.",
+        "Soko moja linaonyesha bei ya kufunga ya jana."
+      ],
+      "explanation": "Sehemu za crypto ni vitabu vya amri huru. Tofauti ndogo za bei ni za kawaida na huwekwa sawa na wafanyabiashara wa arbitrage."
+    },
+    "live_apply": {
+      "cta": "Fungua Mipangilio → Watoa-huduma na utafute njia ya crypto: ni sehemu ipi ya msingi, na ipi ya kurejea?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "title": "Vipindi na saa ya soko",
+    "summary": "Masoko yanapofunguka, kwa nini ni muhimu, na jinsi crypto inavyotofautiana.",
+    "concept": "Masoko ya hisa ya Marekani hushikilia **kipindi cha kawaida** (09:30–16:00 saa za New York) kilichozungukwa na vipindi vyembamba vya kabla ya soko na baada ya saa. Kiasi na ukwasi hujikusanya karibu na **ufunguzi** na **ufungaji**; mchana huwa kimya. Crypto haifungi kamwe — lakini bado ina mdundo: shughuli hujikusanya karibu na saa za kuamka za Amerika na Asia, na wikendi ni nyembamba.\n\nVipindi ni muhimu kwa msomaji wa ishara kwa sababu moja kubwa: **mishumaa lazima ifunge**. Mshumaa wa hisa wa siku-1 hufunga 16:00 New York; mshumaa wa crypto wa saa-1 hufunga mwanzoni mwa kila saa. QuantGlass huitathmini **mishumaa iliyofunga tu** — mchoro unaoonekana katikati ya mshumaa unaweza kuyeyuka kabla ya kufunga, hivyo kufanya kazi kwa mshumaa usiokamilika ni kufanya kazi kwa kelele.\n\nBeji ya ufreshi ya ishara inakuambia umri wa mshumaa wa mwisho *uliofunga*, ili uwe daima unajua uko kwenye saa ipi.",
+    "key_terms": [
+      {
+        "term": "Kipindi cha kawaida",
+        "definition": "Saa kuu za biashara za soko — 09:30–16:00 NY kwa hisa za Marekani."
+      },
+      {
+        "term": "Kabla/baada ya soko",
+        "definition": "Vipindi vyembamba vya hisa karibu na kawaida, vyenye spread pana zaidi."
+      },
+      {
+        "term": "Ufungaji wa mshumaa",
+        "definition": "Wakati ambapo upau wa muda unakamilishwa — bei pekee ambayo injini huitathmini."
+      },
+      {
+        "term": "Ufreshi",
+        "definition": "Umri wa mshumaa wa mwisho uliofunga, unaoonyeshwa kwenye kila ishara ya QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini QuantGlass husubiri mshumaa ufunge kabla ya kutathmini mpangilio?",
+      "options": [
+        "Mishumaa iliyofunga hupakuliwa haraka zaidi.",
+        "Hadi kufunga, juu, chini na kufunga ya mwisho ya mshumaa bado vinaweza kubadilika — michoro ya katikati inaweza kuyeyuka.",
+        "Masoko huchapisha data mara moja tu kwa siku.",
+        "Kuchambua mishumaa iliyo wazi ni haramu."
+      ],
+      "explanation": "Mshumaa ni ukweli baada ya kufunga tu. Kanuni ya mshumaa-uliofunga ya injini huzuia kufanya kazi kwa michoro ambayo huenda isidumu hadi mwisho wa upau."
+    },
+    "live_apply": {
+      "cta": "Fungua Ishara na uangalie beji ya ufreshi: mshumaa wa mwisho uliofunga nyuma ya ishara mpya zaidi una umri gani?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "title": "Kitabu cha amri, bid, ask na spread",
+    "summary": "Kila bei unayoiona kwa kweli ni bei mbili.",
+    "concept": "Kwa wakati wowote, soko hushikilia amri zinazosubiri: bei ya juu zaidi ambayo mnunuzi atalipa ni **bid**; ya chini zaidi ambayo muuzaji atakubali ni **ask**. Pengo kati yao ni **spread**. Nukuu ya 'bei' kawaida ni biashara ya mwisho, iliyoruka kati ya kuta hizi mbili.\n\nSpread ni gharama yako ya kwanza isiyoonekana: nunua kwa ask, na mara moja uko hasara ya spread moja kama ungelazimika kuuza kwa bid. Masoko yenye ukwasi (hisa kubwa, BTC, ETH) hushikilia spread za sehemu za mia za asilimia; masoko membamba yanaweza kuwa na spread za 1% au zaidi — kubwa za kutosha kufuta kabisa makali madogo.\n\nMajaribio ya nyuma ya QuantGlass hutoza akiba ya **slippage** kwenye kila utekelezaji wa kuiga kwa sababu hasa kwamba utekelezaji halisi hutokea kwenye kingo za spread, si kwenye sehemu ya kati inayoonyeshwa kwenye chati.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "Bei ya juu zaidi ya kununua inayosubiri."
+      },
+      {
+        "term": "Ask (toleo)",
+        "definition": "Bei ya chini zaidi ya kuuza inayosubiri."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask kasoro bid — gharama ya papo hapo ya kwenda-kurudi ya kuvuka kitabu."
+      },
+      {
+        "term": "Bei ya mwisho",
+        "definition": "Biashara ya hivi karibuni — huruka kati ya bid na ask."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Tofauti kati ya bei ya chati na bei yako halisi ya utekelezaji."
+      }
+    ],
+    "exercise": {
+      "question": "Sarafu inaonyesha bid 99.95 / ask 100.05. Unanunua kwa soko na unauza mara moja kwa soko. Ukipuuza ada, nini hutokea?",
+      "options": [
+        "Uko sawasawa hasa.",
+        "Unapoteza takriban 0.10 — ulinunua kwa ask na kuuza kwa bid.",
+        "Unapata spread kama rejesho.",
+        "Amri zote mbili zinatekelezwa kwa 100.00, sehemu ya kati."
+      ],
+      "explanation": "Amri za soko huvuka spread: nunua kwa 100.05, uza kwa 99.95 — hasara ya 0.10. Spread ni gharama halisi ambayo mstari mmoja wa bei wa chati huificha."
+    },
+    "live_apply": {
+      "cta": "Fungua alama na ufikirie ufungaji wa mshumaa kama jozi ya bid/ask kuuzunguka — dhana ya slippage ya injini huiga pengo hili hasa."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "title": "Aina za amri: soko na kikomo",
+    "summary": "Amri mbili za msingi, na kila moja inaachayo nini.",
+    "concept": "**Amri ya soko** husema *nitekeleze sasa kwa bei bora inayopatikana* — utekelezaji wa hakika, bei si hakika. **Amri ya kikomo** husema *nitekeleze tu kwa bei yangu au bora* — bei ya hakika, utekelezaji si hakika. Kila kitu kingine cha kisasa zaidi (stop-loss, stop-limit, take-profit) hujengwa kutoka kwa hizi mbili za msingi pamoja na kichocheo.\n\n**Stop-loss** ni kichocheo kinachosubiri: bei inapogusa kiwango chako cha stop, hutoa amri ya soko kutoka. Ndiyo jiometri hasa ambayo kila ishara ya QuantGlass huonyesha — **eneo la kuingia** (ambapo kuingia kwa aina ya kikomo kunaeleweka), kiwango cha **stop-loss** (kichocheo chako cha kutoka kama umekosea) na **ngazi ya take-profit** (kutoka kwa kikomo kwa hatua kama uko sahihi).\n\nBiashara ya karatasi ya QuantGlass hutekeleza nia kwa bei inayofuata inayopatikana — ikiiga amri rahisi ya soko — ili upate kuhisi kwa uaminifu kutokuwa na uhakika wa utekelezaji badala ya utekelezaji kamili wa kitabu.",
+    "key_terms": [
+      {
+        "term": "Amri ya soko",
+        "definition": "Hutekeleza mara moja kwa bei bora inayopatikana — utekelezaji wa hakika, bei si hakika."
+      },
+      {
+        "term": "Amri ya kikomo",
+        "definition": "Hutekeleza tu kwa bei iliyochaguliwa au bora — bei ya hakika, utekelezaji si hakika."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Kiwango cha kichocheo kinachotoa amri ya kutoka bei inapokigusa."
+      },
+      {
+        "term": "Take-profit",
+        "definition": "Kutoka kunakosubiri kwa bei lengwa — QuantGlass huonyesha ngazi ya hatua tatu."
+      }
+    ],
+    "exercise": {
+      "question": "Unahitaji kutoka sasa katika nafasi ya hasara katika soko linaloanguka haraka. Amri ipi inahakikisha kutoka kwako?",
+      "options": [
+        "Amri ya kikomo kwa bei yako ya kuingia.",
+        "Amri ya soko — unakubali bei ambayo kitabu hutoa.",
+        "Amri ya take-profit juu ya soko.",
+        "Hakuna aina ya amri inayoweza kamwe kutoka katika nafasi."
+      ],
+      "explanation": "Amri ya soko pekee inahakikisha utekelezaji, kwa gharama ya uhakika wa bei. Kikomo kwa kuingia kwako huenda kisingetekelezwa kamwe katika soko linaloanguka."
+    },
+    "common_mistakes": [
+      "Kutumia amri za soko katika vitabu vyembamba na kushangaa na bei ya utekelezaji. Hakikisho ni utekelezaji, kamwe si bei.",
+      "Kuweka stop-limit ukidhani inalinda kama stop. Katika soko la haraka, mguu wa kikomo unaweza kubaki bila kutekelezwa na nafasi inaendelea.",
+      "Kuweka stop kwenye namba za mviringo dhahiri ambapo stop za kila mtu ziko — madimbwi hasa yanayofagiliwa."
+    ],
+    "live_apply": {
+      "cta": "Fungua ishara na utambue vipengele vyake vitatu vya aina ya amri: eneo la kuingia, kichocheo cha stop-loss na ngazi ya take-profit."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "title": "Ukwasi na kiasi",
+    "summary": "Kwa nini ukubwa husogeza bei, na jinsi kiasi huthibitisha mwenendo.",
+    "concept": "**Ukwasi** ni kile unachoweza kuuza bila kusogeza bei; **kiasi** ni kile kilichouzwa. Vinahusiana lakini si sawa: kiasi ni risiti, ukwasi ni uwezo.\n\nSoko linapokuwa la kina (kitabu kinene cha amri), hata amri kubwa hazisogezi bei kwa shida. Linapokuwa jembamba, amri ya kawaida ya soko humeza viwango kadhaa vya bei kwa wakati mmoja — hii ni slippage kazini. Ukwasi pia hukauka usiku, wikendi (crypto) na karibu na habari.\n\nKwa msomaji wa ishara, kiasi ni **zana ya uthibitisho**: kuvunja kwa mara mbili ya kiasi cha wastani cha hivi karibuni maana yake ushiriki halisi; kuvunja kule kule kwa kiasi kilichokufa ni cha kutiliwa shaka. QuantGlass huiweka kanuni hii kama **uwiano wa kiasi** (kiasi cha sasa ÷ wastani wa hivi karibuni) na kuingiza katika alama ya `volume_confirmation` ya ishara — moja ya pembejeo za imani unazoweza kukagua kwenye kila ishara.",
+    "key_terms": [
+      {
+        "term": "Ukwasi",
+        "definition": "Kile kinachoweza kuuzwa bila kusogeza bei."
+      },
+      {
+        "term": "Kiasi",
+        "definition": "Kiwango kilichouzwa kweli katika kipindi."
+      },
+      {
+        "term": "Uwiano wa kiasi",
+        "definition": "Kiasi cha upau wa sasa kikigawanywa na wastani wa hivi karibuni — kipimo cha ushiriki cha QuantGlass."
+      },
+      {
+        "term": "Soko jembamba",
+        "definition": "Ukwasi mdogo: amri ndogo husababisha mienendo ya bei isiyolingana."
+      }
+    ],
+    "exercise": {
+      "question": "Mshumaa wa kuvunja huchapisha kwa kiasi cha mara 2.3 ya wastani wake wa hivi karibuni. Uwiano huu unakuambia nini?",
+      "options": [
+        "Hakuna — kiasi hakihusiani na mienendo ya bei.",
+        "Ushiriki uko juu isivyo kawaida, jambo linaloimarisha uaminifu wa kuvunja.",
+        "Soko linafanya kazi vibaya.",
+        "Ukwasi umetoweka kutoka kitabuni."
+      ],
+      "explanation": "Uwiano wa kiasi hulinganisha upau na msingi wake wa hivi karibuni. Kuvunja kwa ushiriki wa juu kihistoria ni cha kuaminika zaidi kuliko mienendo ya kiasi kilichokufa."
+    },
+    "live_apply": {
+      "cta": "Fungua maelezo ya alama na utafute vipimo vya kiasi — linganisha kiasi cha upau wa mwisho na msingi wa hivi karibuni."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "title": "Ada na slippage: gharama ya kwenda-kurudi",
+    "summary": "Kila biashara hulipa mara mbili — kokotoa gharama halisi kabla ya kuhesabu makali yoyote.",
+    "concept": "Gharama mbili hupiga kila biashara. **Ada** ni za wazi: masoko hutoza asilimia kwa kila upande (ada za taker za crypto mara nyingi karibu 0.10%; tume za hisa za Marekani ni karibu sifuri lakini msuguano mwingine hubaki). **Slippage** ni ya wazi-pasi: pengo kati ya bei ya chati na utekelezaji wako halisi, lililozaliwa kutoka spread na kina cha kitabu.\n\nZote hulipwa **mara mbili** — moja kuingia, moja kutoka. Mfano wa gharama chaguo-msingi wa QuantGlass hudhani, kwa kila upande, **0.10% ada + 0.05% slippage kwa crypto** na **0.02% + 0.01% kwa hisa**, na mjaribu-nyuma hutoa kwenda-kurudi kamili kutoka kila biashara ya kuiga. Mkakati wenye faida kabla ya gharama na usio na faida baada haina makali — ina udanganyifu.\n\nMfano: nafasi ya crypto ya 10,000 hulipa (0.10% + 0.05%) × 2 = **0.30%** kwenda-kurudi — yaani 30 kabla biashara haijaenda popote.",
+    "key_terms": [
+      {
+        "term": "Ada",
+        "definition": "Asilimia ya wazi ambayo soko au broker hutoza kwa kila upande."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Gharama ya wazi-pasi kati ya bei ya chati na utekelezaji halisi."
+      },
+      {
+        "term": "Kwenda-kurudi",
+        "definition": "Kuingia pamoja na kutoka — gharama hulipwa kwa zote mbili."
+      },
+      {
+        "term": "Jaribio-nyuma lenye ufahamu wa gharama",
+        "definition": "Uigaji unaotoa ada na slippage kutoka kila biashara, kama QuantGlass hufanya chaguo-msingi."
+      }
+    ],
+    "exercise": {
+      "question": "Ukitumia chaguo-msingi za crypto za QuantGlass (0.10% ada + 0.05% slippage kwa kila upande), gharama jumla ya kwenda-kurudi kwa dola kwenye nafasi ya 10,000 ni ngapi?",
+      "hint": "gharama = nafasi × (ada% + slippage%) × pande 2",
+      "explanation": "(0.0010 + 0.0005) × 2 = 0.0030; 10,000 × 0.0030 = **30**. Injini hutoa hasa hii kutoka kila kwenda-kurudi ya crypto ya kuiga."
+    },
+    "live_apply": {
+      "cta": "Fungua Jaribio-nyuma na utafute dhana za ada/slippage kwenye preset — zinalingana na chaguo-msingi zinazotumiwa na somo hili."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "title": "Nani yuko upande mwingine",
+    "summary": "Watengeneza-soko, taasisi, algoritimu na wewe.",
+    "concept": "Kila utekelezaji una mshirika. **Watengeneza-soko** hunukuu bid na ask mchana kutwa, wakipata spread huku wakitoa ukwasi. **Taasisi** (mifuko, hazina) husogeza ukubwa polepole kuepuka athari — alama zao za miguu ni mienendo endelevu ya kiasi. **Wafanyabiashara wa algoritimu** huanzia arbitrage ya mikrosekunde hadi mikakati ya mfumo ya polepole, na huunda sehemu kubwa ya kiasi cha kisasa. **Wafanyabiashara wadogo** — wewe — ni washiriki wadogo na wa polepole zaidi.\n\nHii si sababu ya kukata tamaa; ni sababu ya **nidhamu**. Makali ya mdogo kamwe si kasi. Ni uchaguzi (uza mipangilio safi tu), uvumilivu (acha mshumaa uliofunga uthibitishe), udhibiti wa hatari (pima kutoka stop, si kutoka usadikisho) na uaminifu kuhusu takwimu — vitu vinne hasa ambavyo injini ya QuantGlass huvilazimisha kimekanika.\n\nKujua unafanya biashara dhidi ya nani kunakuambia ni michezo ipi usiicheze: huwezi kuitikia haraka kuliko algoritimu iliyo karibu, lakini unaweza kuisubiri kwa muda mrefu zaidi.",
+    "key_terms": [
+      {
+        "term": "Mtengeneza-soko",
+        "definition": "Mshiriki anayenukuu pande zote mbili bila kukoma, akipata spread."
+      },
+      {
+        "term": "Mtiririko wa taasisi",
+        "definition": "Amri kubwa za polepole zinazotekelezwa kwa muda kupunguza athari ya soko."
+      },
+      {
+        "term": "Biashara ya algoritimu",
+        "definition": "Mikakati ya kiotomatiki — wingi wa kiasi cha kisasa."
+      },
+      {
+        "term": "Makali ya mdogo",
+        "definition": "Uchaguzi, uvumilivu na udhibiti wa hatari — si kasi."
+      }
+    ],
+    "exercise": {
+      "question": "Kipi kati ya hivi ni makali halisi kwa mfanyabiashara mdogo?",
+      "options": [
+        "Kuitikia habari haraka kuliko algoritimu zilizo karibu.",
+        "Kuwa mteuzi, kusubiri uthibitisho wa mshumaa uliofunga na kupima kila biashara kutoka stop yake.",
+        "Kufanya biashara mara nyingi kuliko watengeneza-soko.",
+        "Kupata ada bora kuliko taasisi."
+      ],
+      "explanation": "Michezo ya kasi, marudio na ada ni ya wataalamu. Uchaguzi, uvumilivu na udhibiti wa kimekanika wa hatari ni makali yanayodumu kwa kiwango cha mdogo."
+    },
+    "live_apply": {
+      "cta": "Pitia tena somo la upimaji wa nafasi katika Hatari na Ukubwa — usemi halisi zaidi wa makali ya mdogo."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "title": "Crypto dhidi ya hisa katika QuantGlass",
+    "summary": "Injini ile ile, masoko mawili tofauti sana.",
+    "concept": "QuantGlass huendesha injini ya uhakika katika aina mbili za soko, na tofauti zimewekwa kanuni badala ya kupuuzwa.\n\n**Wakati**: mishumaa ya crypto hutiririka 24/7; mishumaa ya hisa ipo tu kwa vipindi vya soko, hivyo mshumaa wa hisa wa siku-1 ni kipindi, si siku ya kalenda. **Tete**: ATR ya kawaida ya crypto kama sehemu ya bei iko juu zaidi, ndiyo maana stop ni vizidisho vya ATR badala ya asilimia thabiti. **Gharama**: mfano chaguo-msingi wa kwenda-kurudi hutoza 0.30% kwa crypto na 0.06% kwa hisa — mjaribu-nyuma hutumia ile inayolingana na `market_type` ya alama. **Alama**: jozi za crypto hunukuliwa kama `BTCUSD` (mali/sarafu ya nukuu), hisa ni tiketi za soko kama `AAPL`.\n\nMatokeo ya kivitendo: kamwe usinakili ukubwa wa nafasi au umbali wa stop kati ya aina za soko. Mantiki ya utawala na tete ya injini hujirekebisha kiotomatiki; matarajio yako pia yanapaswa.",
+    "key_terms": [
+      {
+        "term": "Aina ya soko",
+        "definition": "Tofauti ya crypto/hisa ya daraja la kwanza ya QuantGlass kwenye kila alama."
+      },
+      {
+        "term": "Stop ya kuhusiana na ATR",
+        "definition": "Stop iliyopimwa kama kizidisho cha tete ya sasa, si asilimia thabiti."
+      },
+      {
+        "term": "Jozi ya biashara",
+        "definition": "Alama ya crypto inayonukuu mali moja kwa nyingine, mfano BTC kwa USD."
+      },
+      {
+        "term": "Mshumaa wa kipindi",
+        "definition": "Mshumaa wa hisa wa kila siku unaofunika saa za soko tu."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini QuantGlass hupima stop kwa vizidisho vya ATR badala ya asilimia thabiti kwa alama zote?",
+      "options": [
+        "Asilimia thabiti ni haramu.",
+        "Tete hutofautiana sana kati ya alama na aina za soko — kizidisho cha ATR hurekebisha stop kwa mwenendo halisi wa kila soko.",
+        "ATR ni rahisi kukokotoa kuliko asilimia.",
+        "Stop ni za mapambo."
+      ],
+      "explanation": "Stop ya 2% inaweza kuwa kubwa mno kwa hisa tulivu na ndogo mno kwa sarafu tete. Vizidisho vya ATR hurekebisha stop kwa kile chombo husogeza kweli."
+    },
+    "live_apply": {
+      "cta": "Linganisha mipaka ya mishumaa ya hivi karibuni ya alama ya crypto na hisa — angalia jinsi zinavyosogea tofauti, kisha tafuta tofauti hiyo katika thamani zao za ATR."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "title": "Kutoka tiki hadi mishumaa: jinsi OHLCV inavyoundwa",
+    "summary": "Malighafi ya injini hutoka wapi.",
+    "concept": "Masoko huzalisha mtiririko wa biashara mmoja mmoja — **tiki**. Mshumaa hubana tiki zote za dirisha la muda katika namba tano: **O**pen (biashara ya kwanza), **H**igh, **L**ow, **C**lose (biashara ya mwisho) na **V**olume (jumla iliyouzwa). Badilisha dirisha na unabadilisha hadithi: saa ile ile ni mshumaa mmoja wa 1h, au mishumaa minne ya 15m, au robo ya mshumaa mmoja wa 4h.\n\nQuantGlass humeza OHLCV kwa muda thabiti (**15m, 1h, 4h, 1d**), huihifadhi ndani, na huipiga mhuri kila mfululizo kwa sehemu yake **chanzo** na wakati wa kumeza. Kila mshumaa pia hubeba `open_time_utc` yake — kokotoo la ufreshi la injini hutoa kutoka hapo pamoja na urefu wa muda wakati wa kufunga.\n\nKanuni mbili za data huweka uchambuzi wa uaminifu: mishumaa ni **isiyobadilika baada ya kufunga** (historia iliyobadilishwa ni hitilafu ya mtoa-huduma, na safu ya uadilifu huitia alama), na **kila namba unayoiona hufuatiliwa hadi sehemu** — hakuna bei zilizochanganywa, zisizofuatiliwa.",
+    "key_terms": [
+      {
+        "term": "Tiki",
+        "definition": "Biashara moja iliyotekelezwa."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — namba tano zinazofupisha dirisha la tiki."
+      },
+      {
+        "term": "Muda",
+        "definition": "Urefu wa dirisha la kila mshumaa — 15m, 1h, 4h au 1d katika QuantGlass."
+      },
+      {
+        "term": "Uadilifu wa data",
+        "definition": "Ukaguzi kwamba mishumaa iliyofunga haibadiliki kamwe na mwanya hugunduliwa."
+      }
+    ],
+    "exercise": {
+      "question": "Mshumaa wa saa moja unaonyesha O=100, H=104, L=99, C=103. Ni kitu kipi pekee USICHOweza kuhitimisha kutoka kwake?",
+      "options": [
+        "Biashara ya kwanza ya saa ilikuwa kwa 100.",
+        "Bei iligusa 104 wakati fulani wa saa.",
+        "Njia halisi ambayo bei ilichukua kati ya viwango hivi.",
+        "Biashara ya mwisho ya saa ilikuwa kwa 103."
+      ],
+      "explanation": "Mshumaa ni muhtasari: huhifadhi viwango vya juu kabisa na ncha lakini huharibu njia. Bei ingeweza kugusa chini kabla ya juu au kinyume — mshumaa hauwezi kusema."
+    },
+    "live_apply": {
+      "cta": "Badilisha chati kati ya 15m na 1h — angalia mishumaa minne midogo ikiunganishwa kuwa mmoja mkubwa unaobeba taarifa ile ile ya OHLCV."
+    }
+  },
+  {
+    "id": "novice-01-candlestick",
+    "title": "Kusoma mshumaa",
+    "summary": "Elewa thamani nne za bei ambazo kila mshumaa huziweka kanuni.",
+    "concept": "**Mshumaa** huweka kanuni bei nne katika upau mmoja: **Open** (ambapo kipindi kilianza), **High** na **Low** (bei za mwisho zilizofikiwa) na **Close** (ambapo kipindi kilimalizika). *Mwili* wa mstatili hunyooka kutoka Open hadi Close. Mshumaa wa *kijani/wa kupanda* maana yake Close > Open; wa *nyekundu/wa kushuka* maana yake Close < Open. Mistari myembamba juu na chini ya mwili huitwa **utambi (wicks)** (au vivuli) na huonyesha juu na chini.\n\n**Kiasi** — idadi ya vipimo vilivyouzwa katika kipindi — huonekana chini ya chati. Kiasi cha juu kwenye kufunga imara huashiria usadikisho; kiasi cha juu kwenye kugeuka huashiria uchovu.",
+    "key_terms": [
+      {
+        "term": "Open",
+        "definition": "Bei kwenye biashara ya kwanza kabisa ya kipindi."
+      },
+      {
+        "term": "High",
+        "definition": "Bei ya juu zaidi iliyouzwa katika kipindi."
+      },
+      {
+        "term": "Low",
+        "definition": "Bei ya chini zaidi iliyouzwa katika kipindi."
+      },
+      {
+        "term": "Close",
+        "definition": "Bei kwenye biashara ya mwisho kabisa ya kipindi."
+      },
+      {
+        "term": "Mwili",
+        "definition": "Mstatili kati ya Open na Close."
+      },
+      {
+        "term": "Utambi / kivuli",
+        "definition": "Mstari mwembamba unaonyooka zaidi ya mwili hadi juu au chini."
+      },
+      {
+        "term": "Kiasi",
+        "definition": "Idadi ya vipimo vilivyouzwa katika kipindi."
+      }
+    ],
+    "exercise": {
+      "question": "Mshumaa unafunguka kwa 100, hufikia juu ya 110, hushuka hadi 95 na hufunga kwa 107. Utambi wa juu unawakilisha nini?",
+      "options": [
+        "Bei ilisafiri kutoka 107 hadi 110 na ikakataliwa chini.",
+        "Bei ya wastani ya kipindi.",
+        "Bei ya kufungua ya mshumaa unaofuata.",
+        "Kiasi jumla kilichouzwa."
+      ],
+      "explanation": "**Utambi wa juu** unawakilisha umbali kati ya Close (107) na High (110). Bei ilifikia 110 lakini wanunuzi hawakuweza kuishikilia — wauzaji waliisukuma hadi 107 wakati wa kufunga. Utambi mrefu wa juu kwenye mshumaa wa kupanda mara nyingi ni onyo la ugavi ulio juu."
+    },
+    "common_mistakes": [
+      "Kusoma mshumaa mmoja kama ishara. Mshumaa ni mnada; muktadha wake tu (mwenendo, kiwango, kiasi) humpa maana.",
+      "Kukariri majina ya michoro badala ya shinikizo la kununua/kuuza wanaloweka kanuni. Lebo ni hadithi; shinikizo ni taarifa.",
+      "Kupuuza muda. 'Nyundo' ile ile kwenye chati ya dakika moja na chati ya wiki hubeba uzito tofauti kabisa."
+    ],
+    "live_apply": {
+      "cta": "Fungua Dashibodi, elea juu ya mshumaa wowote kwenye chati na ukague thamani za O/H/L/C kwenye kidirisha-dokezo."
+    }
+  },
+  {
+    "id": "novice-02-trend",
+    "title": "Kinachounda mwenendo",
+    "summary": "Jifunze jinsi juu za juu zaidi na chini za chini zaidi huelekeza mwelekeo.",
+    "concept": "**Mwenendo** ni mfululizo wa mizunguko ya bei inayosogea hasa katika mwelekeo mmoja.\n\n- **Mwenendo wa kupanda**: bei hufanya **juu za juu zaidi (HH)** na **chini za juu zaidi (HL)** mfululizo. Kila kurudi huweka sakafu ya juu kuliko iliyotangulia.\n- **Mwenendo wa kushuka**: bei hufanya **juu za chini zaidi (LH)** na **chini za chini zaidi (LL)** mfululizo.\n- **Mpaka / pembeni**: juu na chini huzunguka katika ukanda bila mwelekeo endelevu.\n\nQuantGlass hutambua mwenendo kupitia uhusiano kati ya **EMA-21** (wastani wa muda mfupi) na **SMA-50** (wastani wa muda wa kati). Wakati `Close > EMA21 > SMA50`, injini huainisha soko kama mwenendo wa kupanda. Wakati `Close < EMA21 < SMA50`, ni wa kushuka.",
+    "key_terms": [
+      {
+        "term": "Juu ya juu zaidi (HH)",
+        "definition": "Kila kilele cha mzunguko kinachofuata kiko juu ya kilele kilichotangulia."
+      },
+      {
+        "term": "Chini ya juu zaidi (HL)",
+        "definition": "Kila bonde la kurudi linalofuata liko juu ya lililotangulia."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Wastani wa kusonga wa kielezi wa vipindi 21 — huipa uzito zaidi funga za hivi karibuni."
+      },
+      {
+        "term": "SMA-50",
+        "definition": "Wastani wa kusonga rahisi wa vipindi 50 — uzito sawa kwa funga 50."
+      }
+    ],
+    "exercise": {
+      "question": "Bei hufunga kwa 250, EMA-21 iko 245, SMA-50 iko 240. QuantGlass huainisha hali ipi ya mwenendo?",
+      "options": [
+        "Kushuka — bei iko chini ya wastani zote mbili.",
+        "Kupanda — Close > EMA21 > SMA50.",
+        "Mpaka — wastani ziko karibu mno.",
+        "Tete — mwelekeo hauwezi kuamuliwa."
+      ],
+      "explanation": "Wakati `Close (250) > EMA21 (245) > SMA50 (240)`, mpangilio ni wa kupanda kikamilifu. Injini ya ishara hutumia mpangilio huu kuwezesha mipangilio ya BUY_ZONE ya familia ya mwenendo-kurudi."
+    },
+    "live_apply": {
+      "cta": "Fungua Ishara, bofya ishara yoyote ya BUY_ZONE na uangalie sehemu ya Sababu — tafuta sababu ya mpangilio wa mwenendo."
+    }
+  },
+  {
+    "id": "novice-03-support-resistance",
+    "title": "Misingi ya msaada na upinzani",
+    "summary": "Gundua viwango vya bei ambapo ugavi na mahitaji hugongana mara kwa mara.",
+    "concept": "**Msaada** ni kiwango cha bei ambapo bei inayoshuka huruka mara kwa mara — wanunuzi hushinda wauzaji hapo. **Upinzani** ni kiwango ambapo bei inayopanda hukwama mara kwa mara — wauzaji hushinda wanunuzi.\n\nViwango hivi huundwa kwa sababu wafanyabiashara hukumbuka pointi za kugeuka za zamani. Upinzani uliovunjwa mara nyingi huwa msaada mpya (*ugeuzi wa nguzo*). QuantGlass hutumia **mkondo wa Donchian** (juu/chini ya vipindi 20) kutambua mwisho wa mzunguko wa hivi karibuni unaofanya kazi kama S/R asilia.",
+    "key_terms": [
+      {
+        "term": "Msaada",
+        "definition": "Sakafu ya bei — wanunuzi huingilia kati kusimamisha kuanguka."
+      },
+      {
+        "term": "Upinzani",
+        "definition": "Dari ya bei — wauzaji huingilia kati kusimamisha kupanda."
+      },
+      {
+        "term": "Ugeuzi wa nguzo",
+        "definition": "Upinzani uliovunjwa huwa msaada baada ya kuvunja kuliothibitishwa."
+      },
+      {
+        "term": "Mkondo wa Donchian",
+        "definition": "Juu ya juu zaidi na chini ya chini zaidi katika vipindi N."
+      }
+    ],
+    "exercise": {
+      "question": "Bei huvunja juu ya upinzani wa $500 kwa kiasi imara, kisha hurudi $500. Sasa $500 ni nini?",
+      "options": [
+        "Bado upinzani — haujajithibitisha bado.",
+        "Msaada — nguzo iligeuka baada ya kuvunja kuliothibitishwa.",
+        "Thamani halali — lengo la kurudi kwa wastani.",
+        "Kiwango cha stop-loss."
+      ],
+      "explanation": "Baada ya kuvunja kuliothibitishwa kwa kiasi, upinzani wa awali wa $500 huwa msaada. Huu ni *ugeuzi wa nguzo*. Mpangilio wa kuvunja-kupima tena-kuendelea wa QuantGlass hutafuta hasa kurudi kwa bei kwenye kiwango cha kuvunja cha Donchian kabla ya kuingia tena."
+    },
+    "common_mistakes": [
+      "Kuchukua viwango kama bei kamili badala ya kanda. Masoko huheshimu maeneo; mistari kamili huchomwa na utambi daima.",
+      "Kuchora kiwango kwa kila mguso hadi chati isiwe na maana. Kanda mbili-tatu safi, zinazoheshimiwa sana ni bora kuliko mistari kumi na miwili yenye kelele.",
+      "Kusahau kwamba msaada uliovunjwa huelekea kuwa upinzani. Viwango vya zamani havitoweki vinapovunjwa — hubadilisha upande."
+    ],
+    "live_apply": {
+      "cta": "Tafuta ishara ya WATCH ya aina ya mpangilio 'breakout_retest_continuation' — eneo la kuingia liko karibu na kiwango kilichogeuzwa."
+    }
+  },
+  {
+    "id": "novice-04-volume",
+    "title": "Kiasi kama uthibitisho",
+    "summary": "Jifunze kwa nini kiasi hutoa uaminifu kwa mienendo ya bei.",
+    "concept": "**Kiasi** ni idadi ya vipimo vilivyouzwa. Mwenendo wa bei *wenye* kiasi imara una uwezekano zaidi wa kudumu kuliko mwenendo wa kiasi jembamba. Kiasi huthibitisha kwamba washiriki wa kutosha wanakubaliana na mwelekeo.\n\nQuantGlass hukokotoa **uwiano wa kiasi** — kiasi cha upau wa sasa kikigawanywa na wastani wa vipindi 20. Uwiano ≥ 1.75 hupata mkopo kamili wa `volume_confirmation` katika fomula ya imani. Kuingia kwa kuvunja (kuvunja kwa Donchian) huhitaji volume_ratio ≥ 1.0 kama kizingiti cha chini.\n\n**Mtengano**: bei hupanda lakini kiasi hushuka → mwenendo dhaifu, uchovu unaowezekana. Bei hushuka kwa kiasi cha juu → usambazaji wa kitaasisi, ishara ya kushuka.",
+    "key_terms": [
+      {
+        "term": "Uwiano wa kiasi",
+        "definition": "Kiasi cha upau wa sasa ÷ kiasi cha wastani cha vipindi 20."
+      },
+      {
+        "term": "Uthibitisho wa kiasi",
+        "definition": "Alama ya 0 hadi 1: kiasi husaidia kiasi gani mwenendo wa sasa."
+      },
+      {
+        "term": "Mtengano",
+        "definition": "Bei na kiasi kusogea katika mielekeo tofauti — hudhoofisha mwenendo."
+      }
+    ],
+    "exercise": {
+      "question": "Mshumaa wa kuvunja wa kupanda una kiasi cha mara 3 ya wastani wa vipindi 20. Hii inakuambia nini?",
+      "options": [
+        "Ni kuvunja kwa uongo — kiasi cha juu maana yake uchovu.",
+        "Mwenendo una ushiriki imara wa kitaasisi na una uwezekano zaidi wa kudumu.",
+        "Kiasi hakihusiani na kuvunja.",
+        "Unapaswa kusubiri kiasi kishuke kabla ya kuingia."
+      ],
+      "explanation": "Kiasi cha juu kwenye kuvunja huthibitisha washiriki wengi wanakubaliana. Taasisi haziwezi kuficha shughuli zao — huacha alama ya kiasi. Alama ya volume_confirmation ya QuantGlass hufikia 1.0 wakati volume_ratio ≥ 1.75."
+    },
+    "live_apply": {
+      "cta": "Fungua droo ya maelezo ya ishara na ukague thamani ya confidence_basis.volume_confirmation."
+    }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "title": "Muda: soko moja, lenzi nyingi",
+    "summary": "Hatua ile ile ya bei huonekana tofauti kwenye 15m, 1h, 4h na 1d.",
+    "concept": "**Muda** ni dirisha ambalo kila mshumaa hufupisha. Muda wa chini (15m) huonyesha undani mzuri na kelele zaidi; wa juu (1d) huonyesha muundo na kelele kidogo. Hakuna 'wa kweli zaidi' — ni mibano tofauti ya mtiririko ule ule wa tiki.\n\nKanuni mbili za kivitendo. Kwanza, **mwenendo unahusiana na muda**: mwenendo wa kushuka wa 15m unaweza kuishi ndani ya wa kupanda wa 1h ndani ya mpaka wa 1d. Daima taja muda unapotaja mwenendo. Pili, **ishara hurithi muda wao**: ishara ya QuantGlass iliyozalishwa kwenye mishumaa ya 1h ina stop, malengo na muda wa kushikilia wa kiwango cha 1h — kuihukumu dhidi ya chati ya 1d ni kuisoma vibaya.\n\nMipangilio ya injini hata hushauriana na lenzi ya polepole zaidi ndani: ukaguzi wa mteremko wa muda wa juu hulinganisha msingi wa upau 50 sasa dhidi ya upau 10 kabla, ukizawadi mipangilio iliyopangiliwa na mtelemko mpana.",
+    "key_terms": [
+      {
+        "term": "Muda",
+        "definition": "Urefu wa dirisha ambalo kila mshumaa hufupisha."
+      },
+      {
+        "term": "Kelele",
+        "definition": "Mabadiliko ya muda mfupi yanayotoweka kwenye mbano mkubwa zaidi."
+      },
+      {
+        "term": "Mpangilio wa muda wa juu",
+        "definition": "Makubaliano kati ya muda wa mpangilio na mwenendo wa polepole — pembejeo ya muunganiko katika QuantGlass."
+      },
+      {
+        "term": "Muda wa kushikilia",
+        "definition": "Nafasi inapaswa kubaki wazi kwa muda gani — sawia na muda."
+      }
+    ],
+    "exercise": {
+      "question": "Alama hushuka kwenye chati ya 15m lakini hupanda kwenye 1d. Kauli ipi ni sahihi?",
+      "options": [
+        "Mlisho wa data umevunjika.",
+        "Zote ni za kweli: mwenendo unahusiana na muda unaoupima.",
+        "Chati ya 15m daima hutawala 1d.",
+        "Alama haina mwenendo."
+      ],
+      "explanation": "Mienendo huingiliana. Kurudi kwa lenzi fupi ndani ya mwenendo wa kupanda wa lenzi ndefu ni anatomia ya kawaida ya masoko ya mwenendo — na msingi wa mipangilio ya kurudi."
+    },
+    "live_apply": {
+      "cta": "Pitia chati kutoka 15m → 1h → 4h → 1d na andika mwenendo ungeutaja kwenye kila lenzi."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "title": "Mizunguko, mistari ya mwenendo na muundo",
+    "summary": "Juu za juu zaidi, chini za juu zaidi, na mifupa chini ya kila chati.",
+    "concept": "Bei husogea kwa **mizunguko** — misukumo na kurudi. Weka alama pointi za kugeuka na unapata mifupa ya soko: **mwenendo wa kupanda** ni ngazi ya juu za juu zaidi (HH) na chini za juu zaidi (HL); **wa kushuka** ni juu za chini zaidi (LH) na chini za chini zaidi (LL); **mpaka** ni mizunguko inayoingiliana bila ngazi.\n\n**Mstari wa mwenendo** huunganisha mabonde ya mzunguko mfululizo (katika kupanda) au vilele (katika kushuka). Si uchawi — ni muhtasari wa kuona wa mdundo wa ngazi. Ngazi inapovunjika (katika kupanda bei huchukua HL ya mwisho), muundo umeharibika, na uharibifu wa kimuundo ni onyo la kwanza la mchora-chati, muda mrefu kabla kiashiria chochote hakijageuka.\n\nSababu za ishara za QuantGlass mara nyingi hutaja mwisho wa mzunguko wa hivi karibuni — nanga ya ubatili ya mpangilio wa long kawaida ni bonde la mzunguko la hivi karibuni, kwa sababu ndipo mantiki ya ngazi yenyewe hushindwa.",
+    "key_terms": [
+      {
+        "term": "Kilele/bonde la mzunguko",
+        "definition": "Pointi ya kugeuka ya ndani katika bei."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "Michoro ya ngazi inayofafanua mienendo ya kupanda na kushuka."
+      },
+      {
+        "term": "Mstari wa mwenendo",
+        "definition": "Mstari kupitia pointi za mzunguko mfululizo unaofupisha mdundo wa mwenendo."
+      },
+      {
+        "term": "Kuvunjika kwa muundo",
+        "definition": "Bei kuvunja mzunguko wa hivi karibuni wa ngazi tawala."
+      }
+    ],
+    "exercise": {
+      "question": "Katika mwenendo wa kupanda uliofafanuliwa na juu na chini za juu zaidi, tukio gani moja huharibu muundo moja kwa moja zaidi?",
+      "options": [
+        "Mshumaa nyekundu wa ukubwa wowote.",
+        "Bei kuvunja chini ya chini ya juu zaidi ya hivi karibuni.",
+        "Kiasi kupungua wakati wa upau.",
+        "Mwanya wa wikendi."
+      ],
+      "explanation": "Ngazi hudumu mishumaa nyekundu na kiasi tulivu. Inafafanuliwa na mabonde yake ya mzunguko — kupoteza chini ya juu zaidi ya mwisho huvunja mchoro."
+    },
+    "live_apply": {
+      "cta": "Kwenye chati ya alama, weka alama kiakili mabonde matatu ya mwisho ya mzunguko — kisha tafuta kiwango cha ubatili cha ishara na uone jinsi kinavyohusiana nayo."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "title": "Mwanya, utambi na wanachofunua",
+    "summary": "Alama za uakifishaji za chati: kukataa, mshangao na kutokuwepo.",
+    "concept": "**Utambi** (kivuli) ni sehemu ya mshumaa nje ya mwili wake: bei ilienda huko na ikasukumwa nyuma katika upau ule ule. Utambi mrefu wa juu kwenye mshumaa wa kupanda maana yake wauzaji walinyonya msukumo — **kukataa**. Utambi mrefu wa chini baada ya kushuka maana yake wanunuzi waliingilia kati. Utambi kwenye viwango muhimu (msaada, upinzani, wastani za kusonga) ndio jinsi mipangilio ya kukataa hujitangaza.\n\n**Mwanya** ni ruka kati ya kufunga kwa mshumaa mmoja na kufungua kwa unaofuata. Chati za hisa hufanya mwanya mara kwa mara — habari huanguka wakati soko limefungwa. Crypto, inayouzwa 24/7, mara chache hufanya mwanya; 'mwanya' wa crypto kawaida maana yake kukatika kwa data, ambako ukaguzi wa uadilifu wa QuantGlass huutia alama badala ya kuujaza kimya.\n\nKanuni ya kusoma: utambi ni taarifa kuhusu pambano la *ndani ya upau*; mwanya ni taarifa kuhusu mshangao wa *kati ya pau*. Hakuna unaoonekana ishara peke yake — zote ni muktadha unaoimarisha au kudhoofisha mpangilio.",
+    "key_terms": [
+      {
+        "term": "Utambi / kivuli",
+        "definition": "Upeo wa mshumaa nje ya mwili wake — bei zilizotembelewa lakini zilizokataliwa."
+      },
+      {
+        "term": "Kukataa",
+        "definition": "Msukumo kwenye kiwango ulioufunga ukiondoka mbali nacho."
+      },
+      {
+        "term": "Mwanya",
+        "definition": "Ufunguzi tofauti na kufunga kuliotangulia — kawaida katika hisa, isiyo kawaida katika crypto."
+      },
+      {
+        "term": "Mwanya wa data",
+        "definition": "Bidhaa-bandia ya mshumaa unaokosekana ambayo safu ya uadilifu hugundua."
+      }
+    ],
+    "exercise": {
+      "question": "Mfululizo wa crypto wa 1h huonyesha mwanya mkubwa kati ya kufunga kwa mshumaa mmoja na kufungua kwa unaofuata. Ufafanuzi unaowezekana zaidi ni upi?",
+      "options": [
+        "Masoko ya crypto hufunga usiku kama masoko ya hisa.",
+        "Kukatika kwa data — masoko endelevu mara chache huzalisha mwanya halisi wa bei, hivyo QuantGlass huutia alama mishumaa inayokosekana.",
+        "Itifaki iliweka upya bei.",
+        "Mwanya hauwezekani kuwakilishwa katika OHLCV."
+      ],
+      "explanation": "Crypto huuzwa saa 24, hivyo mishumaa mfululizo kawaida hugusana. Mwanya kawaida huashiria data inayokosekana — tukio la uadilifu, si tukio la soko."
+    },
+    "live_apply": {
+      "cta": "Tafuta mshumaa wenye utambi unaodhihirika karibu na wastani wa kusonga — jiometri hii ni malighafi ya mipangilio ya kukataa ya injini."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "title": "Kusoma viwango kama injini",
+    "summary": "Kutoka mistari iliyochorwa kwa mkono hadi viwango vinavyozaliwa upya.",
+    "concept": "Msaada/upinzani wa kawaida huchorwa kwa jicho — wenye manufaa, lakini usiozalika upya: wafanyabiashara wawili huchora mistari miwili tofauti. QuantGlass hupendelea **viwango vinavyokokotoleka** ili kila kiwango unachoona kiweze kukokotolewa tena na kukaguliwa.\n\nMsamiati wa viwango wa injini: **mwisho wa hivi karibuni** (juu/chini ya pau ~20 za mwisho — mkondo wa Donchian), **wastani za kusonga** kama msaada wenye nguvu (eneo la kurudi la 21-EMA katika mipangilio ya mwenendo) na **bahasha za tete** (Keltner: EMA ± kizidisho cha ATR; Bollinger: wastani ± kizidisho cha mkengeuko wa kawaida). Kila moja ni fomula sahihi kwenye mishumaa iliyofunga — hakuna leseni ya kisanaa.\n\nIshara inaposema 'kurudi katika eneo la EMA' au kuweka nanga ubatili 'karibu na bonde la mzunguko la hivi karibuni', vifungu hivi huchorwa moja-kwa-moja kwa viwango hivi vilivyokokotolewa. Mistari iliyochorwa kwa mkono inabaki zana nzuri ya kufikiri; injini hukataa tu *kufanyia biashara* kile isichoweza kukokotoa tena.",
+    "key_terms": [
+      {
+        "term": "Kiwango kinachokokotoleka",
+        "definition": "Kiwango cha msaada/upinzani kinachotokana na fomula, si kuchorwa kwa mkono."
+      },
+      {
+        "term": "Mkondo wa Donchian",
+        "definition": "Juu na chini ya pau N — kiwango cha mwisho-wa-hivi-karibuni cha injini."
+      },
+      {
+        "term": "Msaada wenye nguvu",
+        "definition": "Wastani wa kusonga unaofanya kazi kama kiwango kinachopanda/kushuka, mfano 21-EMA."
+      },
+      {
+        "term": "Bahasha ya tete",
+        "definition": "Bendi kuzunguka mstari wa kati zilizopimwa na ATR (Keltner) au mkengeuko wa kawaida (Bollinger)."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini QuantGlass huweka nanga viwango vyake kwa fomula (Donchian, EMA, bendi za ATR) badala ya mistari iliyochorwa kwa mkono?",
+      "options": [
+        "Fomula daima hutabiri wakati ujao kwa usahihi.",
+        "Viwango vilivyokokotolewa vinazalika upya na vinaweza kukaguliwa — kila kiwango kwenye skrini kinaweza kukokotolewa tena kutoka mishumaa ile ile.",
+        "Zana za kuchora zimepewa hati miliki.",
+        "Mistari iliyochorwa kwa mkono daima ni makosa."
+      ],
+      "explanation": "Lengo ni uaminifu, si unabii: kiwango kinachotokana na fomula kinaweza kuthibitishwa na yeyote mwenye data ile ile, ndio kiwango ambacho injini nzima hujitiisha kwacho."
+    },
+    "live_apply": {
+      "cta": "Washa michoro-juu ya bendi kwenye chati na uangalie jinsi bei inavyoingiliana na kingo za bahasha iliyokokotolewa."
+    }
+  },
+  {
+    "id": "novice-05-reading-signal",
+    "title": "Kusoma ishara yako ya kwanza",
+    "summary": "Fumbua kila uga katika matokeo ya ishara ya QuantGlass.",
+    "concept": "Ishara ya QuantGlass ina:\n\n- **Aina ya ishara**: BUY_ZONE / SELL / HOLD / WAIT / WATCH\n- **Eneo la kuingia**: mpaka wa bei [low, high] wa kuingia\n- **Stop-loss**: bei ambapo wazo la biashara linathibitishwa kuwa la uongo\n- **Take-profit [TP1, TP2, TP3]**: hatua tatu za kutoka (50 / 30 / 20% ya nafasi)\n- **Hatari:Tuzo (R:R)**: unapata R ngapi kama TP2 inafikiwa\n- **Imani (0–89)**: alama iliyorekebishwa — si uwezekano wa kushinda\n- **Msingi wa imani**: alama-ndogo zilizoelekeza imani jumla\n- **Sababu**: ufafanuzi wa wazi kwa nini mpangilio huu ulitambuliwa\n- **Ubatili**: hali inayobatilisha mpangilio huu\n\n**Muhimu**: Imani ≠ kiwango cha kushinda. Ishara ya imani 70 SI 'nafasi ya 70% ya kushinda'. Maana yake injini ina ushahidi imara kiasi *wakati wa kuchanganua*. Daima kagua `out_of_sample_validated` — kama ni False, jaribio-nyuma halikupita mtihani wa takwimu.",
+    "key_terms": [
+      {
+        "term": "Eneo la kuingia",
+        "definition": "Mpaka wa bei [low, high] uliohukumiwa kuwa unaokubalika kuingia."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Kiwango cha bei ambapo mpangilio unabatilishwa; hasara ya juu inayokubalika."
+      },
+      {
+        "term": "Ngazi ya take-profit",
+        "definition": "Bei tatu za kutoka kwa hatua (TP1=50%, TP2=30%, TP3=20% ya nafasi)."
+      },
+      {
+        "term": "R:R (Hatari:Tuzo)",
+        "definition": "Tuzo ÷ Hatari — R:R ya 2.0 maana yake faida inayowezekana ni mara 2 ya hatari."
+      },
+      {
+        "term": "Imethibitishwa nje ya sampuli",
+        "definition": "True wakati kipande cha OOS cha jaribio-nyuma kina biashara ≥ min_sample za matarajio chanya."
+      }
+    ],
+    "exercise": {
+      "question": "Ishara ya BUY_ZONE inaonyesha kuingia 100–102, stop 96, TP2 = 108. R:R takriban hadi TP2 ni nini?",
+      "options": [
+        "R:R ≈ 1.0 — tuzo inalingana na hatari.",
+        "R:R ≈ 1.5 — tuzo ni 50% zaidi ya hatari.",
+        "R:R ≈ 2.0 — tuzo ni mara mbili ya hatari.",
+        "R:R ≈ 0.5 — hatari ni mara mbili ya tuzo."
+      ],
+      "explanation": "Sehemu ya kati ya kuingia ≈ 101, Stop = 96 → Hatari = 5. TP2 = 108 → Tuzo = 7. R:R = 7/5 = 1.4 ≈ 1.5. QuantGlass hulenga kima cha chini cha 1.5–2.4× R:R kulingana na aina ya mpangilio."
+    },
+    "live_apply": {
+      "cta": "Bofya ishara yoyote ya BUY_ZONE na utafute entry_zone, stop_loss, take_profit na risk_reward katika droo ya maelezo."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "title": "Anatomia ya ishara ya QuantGlass",
+    "summary": "Kila uga kwenye kadi ya ishara na kwa nini upo.",
+    "concept": "Ishara ya QuantGlass ni dai lililoundwa, si dokezo. Sehemu zake: **hali** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) hutaja injini inachoona; **aina ya mpangilio** hutaja familia ya mchoro iliyouunda; **eneo la kuingia** huweka mipaka mahali ambapo kutenda kunaeleweka; **stop-loss** ni bei pekee ambapo wazo ni la makosa; **ngazi ya take-profit** huweka hatua za kutoka katika viwango vitatu kwa uzito thabiti (50% / 30% / 20%); na **hatari:tuzo** hulinganisha umbali wa lengo la wastani na ule wa stop.\n\nUga mbili za uaminifu hukamilisha kadi: **sababu** huorodhesha ukweli wa mshumaa-uliofunga nyuma ya hali, na **msingi wa imani** hufunua kila takwimu iliyolisha namba ya imani — ukiwemo ukubwa wa sampuli.\n\nHakuna kitu kwenye kadi ni ushauri. Ni injini ikionyesha kazi yake, ili uweze kukubaliana au kutokubaliana na *hoja*, si tu hitimisho.",
+    "key_terms": [
+      {
+        "term": "Hali ya ishara",
+        "definition": "Usomaji wa injini: BUY_ZONE, SELL, WATCH, HOLD au WAIT."
+      },
+      {
+        "term": "Aina ya mpangilio",
+        "definition": "Familia ya mchoro iliyozalisha hali."
+      },
+      {
+        "term": "Eneo la kuingia",
+        "definition": "Mpaka wa bei ambapo mpangilio unatekelezeka."
+      },
+      {
+        "term": "Ngazi ya TP",
+        "definition": "Viwango vitatu vya kutoka kwa hatua vyenye uzito 50/30/20."
+      },
+      {
+        "term": "Msingi wa imani",
+        "definition": "Takwimu zilizofunuliwa nyuma ya namba ya imani."
+      }
+    ],
+    "exercise": {
+      "question": "Stop-loss huwakilisha nini kimsingi katika ishara ya QuantGlass?",
+      "options": [
+        "Bei ya kutoka iliyohakikishwa.",
+        "Bei ambapo dhana ya mpangilio inabatilishwa — wazo ni la makosa hapo, hivyo nafasi haipaswi kuwepo.",
+        "Bei ya chini zaidi ya mwaka.",
+        "Kizingiti cha ada."
+      ],
+      "explanation": "Stop ni pointi ya kuthibitisha-uongo ya wazo la biashara. Utekelezaji unaweza kuteleza zaidi yake, lakini maana yake ni 'zaidi ya hapa, hoja haisimami'."
+    },
+    "live_apply": {
+      "cta": "Fungua ishara yoyote na utafute sehemu saba: hali, mpangilio, eneo la kuingia, stop, ngazi, hatari:tuzo, sababu."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "title": "Namba ya imani inamaanisha nini",
+    "summary": "Alama iliyorekebishwa yenye pembejeo zinazoonekana — si uwezekano wa faida.",
+    "concept": "Alama ya imani (20–89) huchanganya **mpangilio wa mwenendo**, **uthibitisho wa kiasi**, **muunganiko** na **historia ya jaribio-nyuma** ya familia hiyo ya mpangilio — huku takwimu zikipunguzwa kimakusudi kuelekea wastani sampuli zinapokuwa nyembamba. Historia ya kushinda 100% kwa biashara 3 huchukuliwa kama isiyo na maana karibu, kama inavyopaswa.\n\nMipaka miwili huweka namba ya uaminifu: imani haiwezi kuzidi 62 isipokuwa mpangilio uwe **umethibitishwa nje ya sampuli**, na kamwe haizidi 89 — uhakika hauko menyuni. Wakati biashara za kutosha za nje ya sampuli zipo, ishara pia huonyesha **mpaka wenye ufunikaji uliohakikishwa** kwa matokeo ya biashara inayofuata, mpaka usio na usambazaji unaodumu kwa uwezekano uliotangazwa.\n\nUisome hivi: *ushahidi kiasi gani unaunga mkono mchoro huu wa mpangilio*, kamwe si *nafasi ya biashara hii kushinda*. Biashara za mtu mmoja mmoja hubaki zisizotabirika; muda mrefu tu ndio una takwimu.",
+    "key_terms": [
+      {
+        "term": "Imani",
+        "definition": "Alama ya ushahidi ya 20–89 yenye pembejeo zote zikifunuliwa."
+      },
+      {
+        "term": "Upunguzaji (shrinkage)",
+        "definition": "Kuvuta takwimu za sampuli nyembamba kuelekea wastani ili sampuli ndogo zisipige kelele."
+      },
+      {
+        "term": "Imethibitishwa OOS",
+        "definition": "Makali ya mpangilio yalidumu kwenye data ambayo injini haijawahi kurekebishwa juu yake."
+      },
+      {
+        "term": "Hakikisho la ufunikaji",
+        "definition": "Mpaka usio na usambazaji kwa matokeo ya biashara inayofuata kwa uwezekano uliotangazwa."
+      }
+    ],
+    "exercise": {
+      "question": "Ishara inaonyesha imani 58 kwa ukubwa wa sampuli ya jaribio-nyuma wa 7. Unapaswa kuisoma vipi?",
+      "options": [
+        "Nafasi ya 58% kwamba biashara hii itakuwa na faida.",
+        "Ushahidi wa mchoro wa wastani, uliopunguzwa sana kwa sababu biashara saba kitakwimu ni karibu hakuna kitu.",
+        "Hakikisho la faida ya tiki 58.",
+        "Injini ilimaliza 58% ya kokotoo."
+      ],
+      "explanation": "Imani ni nguvu ya ushahidi, si uwezekano wa kushinda — na kwa n=7 upunguzaji hufanya alama itegemee zaidi ubora wa kimuundo wa mpangilio, si historia yake ndogo."
+    },
+    "live_apply": {
+      "cta": "Fungua msingi wa imani wa ishara na utafute ukubwa wa sampuli — angalia jinsi alama inavyoshughulikia ndogo."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "title": "Ufreshi na ubatili: ishara hufa lini",
+    "summary": "Ishara huisha kwa njia mbili — kwa wakati na kwa bei.",
+    "concept": "Ishara ni dai kuhusu soko *kwa tarehe ya mshumaa wake wa mwisho uliofunga*. Hufa kwa njia mbili.\n\n**Kwa wakati**: kila mshumaa mpya uliofunga hutathmini upya dunia; beji ya ufreshi huonyesha umri wa data nyuma ya unachoona. Freshi (ndani ya pau ~2) maana yake ya sasa; beji za kuchelewa na kuchakaa maana yake picha huenda imebadilika — kamwe usitende kwa ishara iliyochakaa bila kufanya upya.\n\n**Kwa bei**: kila ishara hutaja **ubatili** wake — kawaida kufunga zaidi ya kiwango cha stop. Bei inapofunga hapo, dhana ya mpangilio inathibitishwa-uongo, na hali ya ishara hugeuka kuwa batili. Hakuna aibu katika wazo lililobatilishwa; kuna kosa tu katika kuendelea kutenda juu yake.\n\nNidhamu inayofundisha hii hujumuisha: wazo lolote la biashara unaloshikilia linapaswa kuwa na hali ya kuisha iliyoandikwa katika vipimo viwili — *lini* huchakaa na *wapi* huwa la uongo.",
+    "key_terms": [
+      {
+        "term": "Beji ya ufreshi",
+        "definition": "Freshi / kuchelewa / kuchakaa, kwa umri wa mshumaa wa mwisho uliofunga dhidi ya muda."
+      },
+      {
+        "term": "Ubatili",
+        "definition": "Hali iliyotajwa (kawaida kufunga zaidi ya stop) inayothibitisha-uongo mpangilio."
+      },
+      {
+        "term": "Ishara iliyochakaa",
+        "definition": "Ishara ambayo mshumaa wake wa msingi una pau nyingi nyuma — fanya upya kabla ya kutenda."
+      },
+      {
+        "term": "Tathmini upya",
+        "definition": "Kila mshumaa uliofunga huchochea usomaji freshi wa injini."
+      }
+    ],
+    "exercise": {
+      "question": "Ishara ya 1h inaonyesha beji ya ufreshi ya saa 7. Jibu sahihi ni lipi?",
+      "options": [
+        "Tenda mara moja — ishara za zamani ni kama mvinyo.",
+        "Fanya data upya kwanza: mishumaa saba iliyofunga imepita, na usomaji wa sasa wa injini unaweza kutofautiana.",
+        "Maradufu ukubwa wa nafasi kufidia.",
+        "Ufreshi ni muhimu kwa hisa tu."
+      ],
+      "explanation": "Kuna pau saba za taarifa mpya ambazo ishara iliyoonyeshwa haijaona. Fanya upya, acha injini itathmini upya, na utende tu kwa usomaji wa sasa."
+    },
+    "common_mistakes": [
+      "Kutenda kwa ishara iliyochakaa. Mpangilio uliokokotolewa saa kadhaa zilizopita hueleza soko ambalo halipo tena.",
+      "Kuchukua ubatili kama pendekezo. Kiwango kinapovunjika, wazo la biashara limekufa — kulishikilia ni biashara mpya, isiyopangwa."
+    ],
+    "live_apply": {
+      "cta": "Tafuta beji ya ufreshi kwenye kila ishara — kisha fanya upya korido na uangalie beji zikijiweka upya."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "title": "Kuweka biashara yako ya kwanza ya karatasi",
+    "summary": "Kutoka ishara hadi nafasi ya kuiga, kwa dola sifuri zinazohatarishwa.",
+    "concept": "Biashara ya karatasi ni mazoezi kwa data halisi ya soko na pesa za kuwaza. Katika QuantGlass: fungua ishara, chagua **Biashara ya karatasi**, weka kiasi na uwasilishe. Nia huwekwa kwenye foleni na hutekelezwa kwa bei inayofuata inayopatikana — ukijumuisha aibu halisi ya kutopata bei kamili ya chati. Akaunti yako ya karatasi hufuatilia salio, uwezo wa kununua, nafasi zilizo wazi na PnL iliyotimizwa.\n\nTumia jiometri ya ishara yenyewe: pima nafasi ili, kama bei igusa stop, upoteze sehemu ndogo thabiti ya akaunti (njia ya Hatari huifanya kuwa fomula). Kisha — hii ni sehemu ya mazoezi — **simamia biashara kana kwamba ni halisi**: heshimu stop, chukua kutoka za ngazi na uandike kwa nini uliingia.\n\nKila unachofanya hapa hulisha mzunguko wa kujifunza: paneli ya ukocha huangalia biashara zako za karatasi na huibua somo unalohitaji wakati tabia inateleza.",
+    "key_terms": [
+      {
+        "term": "Biashara ya karatasi",
+        "definition": "Utekelezaji wa kuiga dhidi ya data halisi ya soko."
+      },
+      {
+        "term": "Nia ya biashara",
+        "definition": "Amri yako iliyowekwa kwenye foleni, inayotekelezwa kwa bei inayofuata inayopatikana."
+      },
+      {
+        "term": "Uwezo wa kununua",
+        "definition": "Uwezo wa akaunti uliobaki baada ya nafasi zilizo wazi."
+      },
+      {
+        "term": "PnL iliyotimizwa",
+        "definition": "Faida na hasara kutoka nafasi zilizofungwa tu."
+      }
+    ],
+    "exercise": {
+      "question": "Njia ya thamani zaidi ya kushughulikia biashara ya karatasi ni ipi?",
+      "options": [
+        "Kama tikiti ya bahati nasibu — ipime kipuuzi kwa kuwa ni ya kuwaza.",
+        "Kana kwamba ni halisi hasa: ukubwa uliopangwa, stop iliyoheshimiwa, hoja iliyorekodiwa.",
+        "Kama njia ya kujaribu vitufe vya amri tu.",
+        "Ipuuze baada ya kuingia."
+      ],
+      "explanation": "Biashara ya karatasi hujenga tabia utakazoshikilia. Kufanya mazoezi ya upimaji wa kichekesho au stop zilizopuuzwa hufanya mazoezi hasa ya tabia zinazoharibu akaunti halisi."
+    },
+    "common_mistakes": [
+      "Kuruka mpango kwa sababu 'ni karatasi tu'. Biashara ya karatasi ipo kufundisha tabia ya kupanga — iruke na unafanya mazoezi ya kubuni-papo.",
+      "Kupima kupita kiasi kwa sababu pesa si halisi. Tabia zilizoundwa kwa hatari ya kuwaza ya 10% huhamishwa zikiwa kamili kwenda akaunti halisi."
+    ],
+    "live_apply": {
+      "cta": "Chagua ishara freshi zaidi, weka biashara ndogo ya karatasi kwa eneo lake la kuingia na stop, na uandike hoja yako kwa sentensi moja."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "title": "Baada ya biashara: kusoma matokeo yako",
+    "summary": "Nafasi, PnL, na tofauti kati ya matokeo na uamuzi.",
+    "concept": "Mara baada ya kutekelezwa, nafasi yako huonekana na bei ya wastani na alama ya moja kwa moja ya PnL isiyotimizwa; kuifunga huibadilisha kuwa PnL iliyotimizwa. Namba ni rahisi — saikolojia si.\n\nTofauti ya msingi: **uamuzi mzuri unaweza kupoteza na mbaya unaweza kushinda.** Matokeo ya biashara hutawaliwa na kelele; kupitia biashara nyingi tu ndipo ubora wa uamuzi huonekana katika takwimu. Hivyo hukumu kila biashara kwa *mchakato* — je mpangilio ulikuwa halali, ukubwa ulipangwa, stop iliheshimiwa? — na hukumu *mbinu* yako kwa jumla: kiwango cha kushinda, R ya wastani, matarajio.\n\nNdiyo maana QuantGlass husisitiza vizidisho vya R na ukubwa wa sampuli kila mahali: huzigeuza rundo la hadithi za mtu mmoja kuwa ushahidi. Historia yako ya karatasi ni seti yako ya kwanza ya data. Njia za Hatari na Takwimu hukufundisha kuisoma kama mchambuzi badala ya mcheza-kamari.",
+    "key_terms": [
+      {
+        "term": "PnL isiyotimizwa",
+        "definition": "Faida/hasara kwa thamani ya soko kwenye nafasi zilizo wazi."
+      },
+      {
+        "term": "PnL iliyotimizwa",
+        "definition": "Matokeo yaliyofungwa ya nafasi zilizofungwa."
+      },
+      {
+        "term": "Mchakato dhidi ya matokeo",
+        "definition": "Maamuzi huhukumiwa kwa hoja yao; mbinu kwa takwimu zao za muda mrefu."
+      },
+      {
+        "term": "Kizidisho cha R",
+        "definition": "Matokeo yaliyoonyeshwa kwa vipimo vya hatari iliyopangwa — kipimo asilia cha injini."
+      }
+    ],
+    "exercise": {
+      "question": "Biashara yako iliyopangwa vizuri iligusa stop yake kwa hasara ya -1R. Hii inathibitisha nini kuhusu uamuzi wa kuichukua?",
+      "options": [
+        "Uamuzi ulikuwa mbaya — hasara huthibitisha makosa.",
+        "Karibu hakuna kitu chenyewe: matokeo ya mtu mmoja ni kelele; uamuzi huhukumiwa kwa mchakato wake na mbinu kwa biashara nyingi.",
+        "Stop ilisababisha hasara.",
+        "Unapaswa kuondoa stop wakati ujao."
+      ],
+      "explanation": "-1R kwenye mpangilio halali wenye ukubwa uliopangwa ni mfumo unaofanya kazi kama ilivyoundwa. Uwindaji wa makosa ni wa kiwango cha mchakato, na hukumu ni za kiwango cha sampuli."
+    },
+    "live_apply": {
+      "cta": "Fungua muhtasari wa akaunti yako ya karatasi: tenganisha kiakili ni namba zipi ni matokeo (PnL) na zipi ni mchakato (upimaji wako na stop)."
+    }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "title": "Anatomia ya utapeli wa biashara",
+    "summary": "Kila njama hufanya kazi kwa ahadi zile zile tatu.",
+    "concept": "Utapeli wa biashara huvikwa nguo mpya bila kikomo lakini ni sawa kimuundo. Huuza mchanganyiko wa ahadi tatu zisizowezekana: **mapato yaliyohakikishwa** ('1% kwa siku, bila hatari'), **maarifa ya siri** ('kiashiria ambacho WAO hawataki ujue') na **utajiri bila juhudi** ('boti hufanya biashara unapolala'). Kila ahadi hupingana na kitu ambacho tayari umejifunza katika Akademia hii: mapato hubeba hatari kwa ufafanuzi (hisabati ya drawdown), makali ya umma endelevu hudhoofika (uaminifu wa takwimu), na gharama pamoja na ushindani hufanya faida bila juhudi kuwa upingamizi.\n\nMfumo wa uendeshaji ni thabiti kadhalika: **uharaka** ('nafasi 5 tu zimebaki'), **uthibitisho wa kijamii usioweza kuthibitishwa** (picha za skrini, ushuhuda, Lamborghini za kukodi) na **funeli ya kutenga** (kukuhamisha kutoka mifumo ya umma hadi vikundi vya faragha vya Telegram/WhatsApp ambako uangalizi na mashahidi hutoweka).\n\nTabia ya kinga zaidi: wakati *mapato yaliyotangazwa* ya toleo yangemfanya muuzaji kuwa tajiri bila kuhitaji pesa zako, uliza kwa nini anahitaji pesa zako. Makali halisi huuzwa kimya, hayuauzwi kwa kelele.",
+    "key_terms": [
+      {
+        "term": "Mapato yaliyohakikishwa",
+        "definition": "Ahadi inayopingana na ufafanuzi wa hatari ya soko — alama ya ulimwengu ya utapeli."
+      },
+      {
+        "term": "Shinikizo la uharaka",
+        "definition": "Tarehe za mwisho za bandia zilizoundwa kuzuia uthibitisho."
+      },
+      {
+        "term": "Funeli ya kutenga",
+        "definition": "Kuhamisha walengwa kuelekea njia za faragha mbali na uangalizi na mashahidi."
+      },
+      {
+        "term": "Upingamizi wa muuzaji",
+        "definition": "Kama makali yangekuwa halisi, kuyauza kungekuwa si lazima na cha kinyume."
+      }
+    ],
+    "exercise": {
+      "question": "Tangazo huahidi '2% kwa siku, kuhakikishwa, toa wakati wowote'. Kabla ya bendera nyekundu nyingine yoyote, ni nini kinachoifanya kimahisabati kuwa utapeli?",
+      "options": [
+        "2% ni ndogo mno kujali.",
+        "Kuongezeka kwa kila siku kuliohakikishwa kwa kiwango hicho kungezidi utajiri wa dunia ndani ya miaka michache — mapato bila hatari hayapo, hivyo ahadi yenyewe ni ushahidi.",
+        "Kutoa hakuruhusiwi popote kamwe.",
+        "Asilimia zaidi ya 5% tu ndizo utapeli."
+      ],
+      "explanation": "2% kwa siku huongezeka hadi takriban 1,377% kwa mwaka. Yeyote ambaye angekuwa nayo kweli hangehitaji kamwe waweka-amana. Ahadi hujikanusha hata kabla ya kukagua kitu kingine chochote."
+    },
+    "live_apply": {
+      "cta": "Pitia tena somo la drawdown: hisabati ya kurejea uliyokokotoa pale ni hasa kile ambacho 'mapato bila hatari' hujifanya kupuuza."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "title": "Maguru bandia na wauzaji wa ishara",
+    "summary": "Uuzaji wa mtindo wa maisha, rekodi zisizoweza kuthibitishwa, na funeli ya kozi.",
+    "concept": "Mfano wa biashara wa guru ni kuuza *picha* ya mafanikio ya biashara ili kufadhili mtindo wa maisha ambao biashara yenyewe haifadhili. Dalili zake: **maudhui ya mtindo wa maisha kwanza** (magari, saa, kompyuta ufukweni — kamwe taarifa zilizokaguliwa), **picha za skrini zilizochaguliwa** (zilizoshinda zikichapishwa, zilizopoteza zikifutwa; akaunti za demo zikionyeshwa kama halisi), **madai yasiyoweza kuthibitishwa** ('nilibadilisha $1,000 kuwa milioni 1' bila taarifa za broker) na mapato yanayotoka wazi kutoka **kozi, ishara na viungo vya washirika** badala ya biashara.\n\n**Wauzaji wa ishara** wanastahili tahadhari maalum: kumlipa mtu akuambie wakati wa kununua huunganisha hatari zote (zako) na uelewa sifuri (pia wako). Huwezi kupima, kusimamia au kutoka katika nafasi ambayo huijui hoja yake — ndiyo maana Akademia hii hukufundisha *kusoma sababu za injini* badala ya kuamini hitimisho zake.\n\nUlinganifu wa uaminifu unaoumiliki sasa: QuantGlass huonyesha ukubwa wa sampuli, migawanyo ya nje ya sampuli, gharama na drawdown kwenye kila dai, *kwa sababu ndivyo ripoti ya utendaji ya uaminifu inavyoonekana*. Dai kiwango sawa kutoka kwa binadamu yeyote: imekaguliwa, kamili, imerekebishwa kwa hatari, hasara zimejumuishwa. Karibu hakuna anayedumu dai hilo.",
+    "key_terms": [
+      {
+        "term": "Uuzaji wa mtindo wa maisha",
+        "definition": "Kuuza picha za utajiri badala ya utendaji unaoweza kuthibitishwa."
+      },
+      {
+        "term": "Uchaguzi wa upendeleo",
+        "definition": "Kuchapisha zilizoshinda huku zikifuta zilizopoteza — upendeleo wa walionusurika kama zana ya uuzaji."
+      },
+      {
+        "term": "Uuzaji wa ishara",
+        "definition": "Kutoza kwa simu za kuingia ambazo hoja na hatari zao hubaki zikifichwa."
+      },
+      {
+        "term": "Rekodi iliyokaguliwa",
+        "definition": "Utendaji kamili uliothibitishwa na broker, hasara zikiwemo — kiwango ambacho maguru huepuka."
+      }
+    ],
+    "exercise": {
+      "question": "Guru huchapisha picha za skrini 47 za biashara zilizoshinda mwezi huu. Kama msomaji aliyefundishwa takwimu, swali la kwanza ni lipi?",
+      "options": [
+        "Ni broker yupi mwenye kiolesura kizuri zaidi?",
+        "Zilizopoteza ziko wapi? Sampuli isiyo na hasara imechaguliwa, si kupatikana — upendeleo ule ule wa walionusurika unaopotosha jaribio-nyuma hupotosha rekodi.",
+        "Ninawezaje kujiandikisha haraka zaidi?",
+        "Saa ile ni ipi?"
+      ],
+      "explanation": "Ulijifunza hili kama upendeleo wa walionusurika katika njia ya jaribio-nyuma. Picha za skrini ni sampuli ambayo huwezi kukagua, iliyochaguliwa na mtu anayekuuzia."
+    },
+    "live_apply": {
+      "cta": "Fungua preset yoyote: hasara, drawdown na ukubwa wa sampuli vimechapishwa kando ya faida. Ukamilifu huu ndio jinsi ripoti halisi inavyoonekana."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "title": "Utapeli wa mfumo na uvuvi-data",
+    "summary": "Masoko bandia, mitego ya kutoa na wizi wa stakabadhi.",
+    "concept": "Familia ya pili ya utapeli hushambulia *ufikiaji* wako badala ya hukumu yako. **Mifumo bandia**: tovuti za soko/broker zilizong'aa zinazokubali amana, zinazoonyesha faida za kuwaza kuhimiza amana zaidi, kisha zikazuia kutoa ('lipa kodi/ada kwanza' — **mtego wa kutoa**, daima wizi wa pili, kamwe si ada halisi). **Uvuvi-data**: tovuti na barua-pepe mfanano zinazovuna stakabadhi yako ya soko au fungu la kurejesha; ubandikaji mmoja mbaya na uangalizi unapotea. **Usaidizi bandia**: matapeli katika njia za jumuiya hutuma DM ya 'usaidizi' inayoishia kukufanya ufunue stakabadhi — usaidizi halisi kamwe hauandiki kwanza na kamwe hauhitaji nenosiri au fungu lako la kurejesha.\n\nUlinzi ni wa kimekanika, si wa ujanja: fikia masoko **kwa alamisho tu** (kamwe si kwa viungo vya matangazo ya utafutaji), washa **orodha za ruhusa za kutoa na 2FA**, ipe **funguo za API wigo wa chini zaidi** (kanuni ya somo la uangalizi — funguo za data-tu kwa programu za data-tu, kamwe haki za kutoa), na uchukulie dai lolote la 'lipa kufungua kutoa kwako' kama ukiri ulivyo.\n\nAngalia msimamo wa QuantGlass unaoweza kuthibitisha: funguo huishi katika kasha la ndani lililofichwa, programu kamwe haiombi nenosiri au mafungu ya kurejesha, na hakuna kitu hapa kinachoweza kutoa — kwa muundo.",
+    "key_terms": [
+      {
+        "term": "Mtego wa kutoa",
+        "definition": "Ada bandia zinazodaiwa 'kuachilia' fedha — wizi wa pili, kamwe si halali."
+      },
+      {
+        "term": "Uvuvi-data",
+        "definition": "Tovuti/ujumbe mfanano zinazovuna stakabadhi au mafungu ya kurejesha."
+      },
+      {
+        "term": "Usaidizi bandia",
+        "definition": "'Usaidizi' usioombwa unaoishia kufunua stakabadhi."
+      },
+      {
+        "term": "Nidhamu ya alamisho",
+        "definition": "Kufikia tovuti za kifedha kwa viungo vilivyohifadhiwa, vilivyothibitishwa tu."
+      }
+    ],
+    "exercise": {
+      "question": "'Mfumo' unaonyesha salio lako limepanda hadi $11,400 lakini unadai 'ada ya kuachilia' ya $900 kutoa. Mfano sahihi wa hali hii ni upi?",
+      "options": [
+        "Ada za kawaida za udhibiti — zilipe.",
+        "Salio lililoonyeshwa ni hadithi na ada ni jaribio la wizi wa pili; hakuna sehemu halali inayotoza kuidhinisha kutoa kwa fedha zako mwenyewe.",
+        "Sema bei ya ada hadi $450.",
+        "Weka amana zaidi ili ustahiki kutoa bila malipo."
+      ],
+      "explanation": "Namba kwenye skrini daima ilikuwa pikseli tu. Kulipa ada ya 'kuachilia' kunaashiria tu kwamba unaweza kutozwa tena — matumizi sahihi ni sifuri na hatua sahihi ni kuripoti."
+    },
+    "live_apply": {
+      "cta": "Kagua skrini yako ya funguo za API: wigo, usimbaji-fiche, hakuna haki za kutoa popote — thibitisha msimamo ambao somo hili lilieleza."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "title": "Uhandisi wa kijamii na utapeli wa muda mrefu",
+    "summary": "'Kuchinja nguruwe', funeli za mapenzi, na uaminifu kama uso wa shambulizi.",
+    "concept": "Utapeli wenye uharibifu mkubwa zaidi kifedha hushambulia uaminifu, polepole. Mfumo wa **utapeli wa muda mrefu** (unaoitwa kikatili 'kuchinja nguruwe'): mgeni huanzisha mawasiliano (namba mbaya, programu ya kuchumbiana, mitandao ya kijamii), huwekeza wiki katika uhusiano wa kirafiki au wa kimapenzi, hufunua kwa uzembe mafanikio yake ya biashara, na hatimaye hupendekeza 'kukusaidia kuwekeza' — kwenye mfumo anaoudhibiti. Kutoa kudogo huheshimiwa mapema kutengeneza uaminifu; wizi huja baada ya mhanga kupanda hadi akiba ya maisha. Hasara katika kategoria hii mara kwa mara ni za maafa hasa kwa sababu uhusiano huonekana halisi.\n\nUlinzi wa kimuundo, kwa sababu hukumu ya papo hapo ndio hasa kile ambacho utapeli huzima: **kanuni ya njia** — yeyote anayeanzisha mawasiliano NA hatimaye anaongoza kuelekea uwekezaji huchukuliwa kuwa adui, haijalishi uhusiano hudumu muda gani; **kanuni ya mfumo** — kamwe usitumie sehemu iliyotambulishwa na mtu unayemjua mtandaoni; **kanuni ya uthibitisho** — jadili 'fursa' yoyote mpya na mtu nje ya mtandao anayekupenda na asiyepata chochote kutokana nayo; na **kanuni ya kutoa** — 'kutoa kuliofanikiwa' kwa mapema hakuthibitishi chochote, kwa sababu kuheshimu kutoa kudogo ni mtaji wa uendeshaji wa njama.\n\nKama hii ilitokea kwako au mpendwa: ni uhalifu wa kiviwanda uliopangwa, si ujinga — ripoti, na kamwe usilipe 'huduma za kurejesha' (utapeli unaofuata unaolenga wahanga mara mbili).",
+    "key_terms": [
+      {
+        "term": "Utapeli wa muda mrefu",
+        "definition": "Wiki za uhusiano uliotengenezwa kabla ya dai la kifedha."
+      },
+      {
+        "term": "Mtaji wa uaminifu",
+        "definition": "Kutoa kudogo kulikoheshimiwa kunakotumika kufungua amana kubwa."
+      },
+      {
+        "term": "Kanuni ya njia",
+        "definition": "Mawasiliano yaliyoanzishwa + kuongoza kuelekea uwekezaji = anachukuliwa adui."
+      },
+      {
+        "term": "Utapeli wa kurejesha",
+        "definition": "Huduma bandia zinazotoza wahanga 'kurejesha' fedha zilizoibwa."
+      }
+    ],
+    "exercise": {
+      "question": "Rafiki wa mtandaoni wa miezi miwili, ambaye hajawahi kuomba chochote, hutaja mfumo wa biashara wa mjomba wake na kupendekeza kukuongoza huko. Ni ukweli upi mmoja unaotawala tathmini ya hatari?",
+      "options": [
+        "Miezi miwili inatosha kuanzisha uaminifu.",
+        "Aliyeanzisha mawasiliano ya awali na njia sasa inaongoza kwenye mfumo wa uwekezaji aliouwasilisha — saini kamili ya utapeli wa muda mrefu, haijalishi unahisi halisi kiasi gani.",
+        "Wajomba kawaida ni wa kuaminika.",
+        "Tovuti ya mfumo inaonekana ya kitaalamu."
+      ],
+      "explanation": "Muundo wote wa utapeli ni kufanya uhusiano uonekane halisi na bila haraka. Mchoro hushinda hisia: mawasiliano yaliyoanzishwa pamoja na uwekezaji ulioongozwa ni saini, na jibu salama pekee ni kanuni ya njia."
+    },
+    "live_apply": {
+      "cta": "Shiriki kanuni ya njia na mtu unayemjua anayeanza kuwekeza — ulinzi huenea unaposemwa kwa sauti."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "title": "Orodha ya ukaguzi dhidi ya utapeli",
+    "summary": "Maswali kumi yanayochuja karibu kila kitu.",
+    "concept": "Imebanwa kutoka njia hii, orodha ya kupitisha kwenye fursa yoyote: kila 'ndio' ni bendera nyekundu, tatu ni hukumu:\n\n1. Je mapato yamehakikishwa au 'bila hatari'?\n2. Je kuna uharaka (tarehe za mwisho, nafasi finyu)?\n3. Je walikuwasiliana kwanza?\n4. Je unahamishwa kuelekea njia ya faragha?\n5. Je rekodi haiwezi kuthibitishwa (picha za skrini, hakuna taarifa zilizokaguliwa)?\n6. Je muuzaji hupata kutoka ada/kozi/marejeleo badala ya biashara?\n7. Je lazima utumie mfumo wao au ulipe kutoa?\n8. Je wanataka stakabadhi, mafungu ya kurejesha au ufikiaji wa mbali?\n9. Je mkakati ni siri ('hatuwezi kufunua jinsi unavyofanya kazi')?\n10. Je mapato yaliyotangazwa yangefanya uuzaji kuwa si lazima kama yangekuwa halisi?\n\nAngalia mchoro wa kile kinachodumu kwenye kichujio hiki: vitu vya kuchosha. Kujifunza kwa kujihifadhi, data ya umma iliyokaguliwa, zana zinazoonyesha kazi yao, mapato yaliyotangazwa kwa vizidisho vya R vya uaminifu vyenye drawdown vilivyoambatishwa. Kejeli ya mwisho ya Akademia ni ya kukusudia: kila kitu kilichofanya injini kuaminika — hoja inayoonekana, ukubwa wa sampuli, uaminifu wa nje ya sampuli, gharama zikiwemo, hakuna ahadi — ni kinyume hasa cha kila bendera nyekundu juu. Sasa unajua jinsi uaminifu unavyoonekana katika uwanja huu. Udai kila mahali.",
+    "key_terms": [
+      {
+        "term": "Mrundikano wa bendera nyekundu",
+        "definition": "Bendera moja ni shaka; tatu ni hukumu."
+      },
+      {
+        "term": "Uwezekano wa kuthibitisha",
+        "definition": "Mstari wa kugawanya kati ya uuzaji na ushahidi."
+      },
+      {
+        "term": "Mnusurika wa kuchosha",
+        "definition": "Kinachopita kichujio: kimekaguliwa, cha uwazi, bila ahadi."
+      },
+      {
+        "term": "Kinyume cha uaminifu",
+        "definition": "Kila kipengele cha uwazi cha injini huakisi bendera nyekundu ya utapeli."
+      }
+    ],
+    "exercise": {
+      "question": "Ni sifa ipi ambayo matoleo YOTE yanayodumu orodha ya maswali kumi yanaishiriki kimsingi?",
+      "options": [
+        "Mapato yaliyoahidiwa ya juu kuliko utapeli.",
+        "Uwazi unaoweza kuthibitishwa: madai yanayokaguliwa, hoja inayoonekana, hasara zikiwemo, na hakuna utegemezi wa uharaka au usiri.",
+        "Uungaji mkono wa watu mashuhuri.",
+        "Ufikiaji wa faragha wa Telegram."
+      ],
+      "explanation": "Kichujio hiki hakitafuti vito vilivyofichwa — hutafuta uaminifu. Zana na walimu halali hudumu kwa sababu wanaonyesha kazi yao; kingine chote kinahitaji bendera nyekundu kufanya kazi."
+    },
+    "common_mistakes": [
+      "Kudhani akili ni ulinzi. Utapeli umeundwa kwa watu werevu, wenye kujiamini — orodha hufanya kazi hasa kwa sababu haitegemei hukumu ya papo hapo.",
+      "Kukagua orodha kwa wageni tu. Marafiki na familia hupitisha utapeli wanaouamini; orodha inatumika kwa ujumbe, si kwa mtumaji."
+    ],
+    "live_apply": {
+      "cta": "Pitisha orodha kwa QuantGlass yenyewe, pointi kwa pointi — injini inapaswa kupita hasa kwa sababu kila dai kwenye skrini linaweza kukaguliwa."
+    }
+  }
+]
