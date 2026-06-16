@@ -544,6 +544,53 @@
       "experimentLine": "실험 {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "설정",
+    "title": "제공자, 안전, AI 및 전략 제어",
+    "description": "단순/고급 제공자 라우팅, 마스킹된 API 키, 모의/실거래 안전 제어, 모델 선택, 그리고 백테스트 화면에서 저장된 전략.",
+    "unavailableTitle": "설정을 사용할 수 없음",
+    "unavailableDescription": "설정 화면을 불러오지 못했습니다.",
+    "tabs": {
+      "providers": "제공자",
+      "keys": "API 키",
+      "risk": "리스크 및 안전",
+      "ai": "AI",
+      "extensions": "확장",
+      "strategies": "전략",
+      "legal": "법적 고지"
+    },
+    "risk": {
+      "tradingMode": "거래 모드",
+      "tradingModeDesc": "기본값은 모의입니다. 실거래 모드는 저장된 Alpaca 자격 증명, 명시적 확인, 백엔드 실거래 주문 안전 점검 뒤에 잠겨 있습니다.",
+      "paper": "모의",
+      "live": "실거래",
+      "enableLive": "실거래 브로커 라우팅 활성화",
+      "saveAlpacaFirst": "실거래 모드를 활성화하기 전에 Alpaca의 Key ID와 시크릿을 저장하세요",
+      "goToKeys": "API 키로 이동",
+      "liveConfirmation": "실거래 확인:",
+      "liveEnabled": "현재 백엔드 설정에 대해 활성화됨",
+      "liveNotEnabled": "활성화되지 않음",
+      "alpacaSaved": "Alpaca 자격 증명이 저장되어 있습니다.",
+      "alpacaMissing": "Alpaca 자격 증명이 없습니다.",
+      "partialCandles": "미완성 캔들",
+      "partialCandlesDesc": "현재 빌드에서 `act_on_partial_candles = false`가 강제됩니다. 신호는 마감 캔들만 사용합니다.",
+      "minSample": "최소 백테스트 표본",
+      "minSampleDesc": "{{count}}건 거래. 이 임계값 미만의 전략은 백테스팅에서 경고 배지를 표시합니다."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "AGPL-3.0-or-later로 라이선스됩니다. AGPL에 따라 이 소프트웨어를 사용, 연구, 수정, 재배포할 수 있습니다. 독점 임베딩, 클로즈드 소스 재배포, 호스팅 제품, 엔터프라이즈 지원을 위한 상용 라이선스가 제공됩니다.",
+      "sourceTitle": "소스 코드",
+      "sourceDesc": "이 빌드에 해당하는 전체 소스는 공개 저장소에서 제공됩니다.",
+      "githubRepo": "GitHub 저장소",
+      "documents": "법적 문서",
+      "agplLicense": "AGPL 라이선스",
+      "commercialLicensing": "상용 라이선스",
+      "financialDisclaimer": "금융 면책 조항",
+      "thirdParty": "제3자 고지",
+      "disclaimer": "QuantGlass는 리서치 및 의사결정 지원 소프트웨어입니다. 투자 자문, 투자 자문업자, 브로커-딜러, 또는 거래 성과의 약속이 아닙니다."
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

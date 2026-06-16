@@ -550,6 +550,53 @@
       "experimentLine": "jaribio {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Mipangilio",
+    "title": "Vidhibiti vya mtoa huduma, usalama, AI, na mkakati",
+    "description": "Uelekezaji wa mtoa huduma Rahisi/Wa Juu, funguo za API zilizofichwa, vidhibiti vya usalama vya karatasi/moja kwa moja, uteuzi wa modeli, na mikakati iliyohifadhiwa kutoka skrini ya backtest.",
+    "unavailableTitle": "Mipangilio haipatikani",
+    "unavailableDescription": "Uso wa mipangilio haukuweza kupakiwa.",
+    "tabs": {
+      "providers": "Watoa huduma",
+      "keys": "Funguo za API",
+      "risk": "Hatari na usalama",
+      "ai": "AI",
+      "extensions": "Viendelezi",
+      "strategies": "Mikakati",
+      "legal": "Kisheria"
+    },
+    "risk": {
+      "tradingMode": "Hali ya biashara",
+      "tradingModeDesc": "Chaguo-msingi ni karatasi. Hali ya moja kwa moja imefungwa nyuma ya kitambulisho cha Alpaca kilichohifadhiwa, uthibitisho wazi, na ukaguzi wa usalama wa maagizo ya moja kwa moja ya backend.",
+      "paper": "karatasi",
+      "live": "moja kwa moja",
+      "enableLive": "Washa uelekezaji wa broker wa moja kwa moja",
+      "saveAlpacaFirst": "Hifadhi Key ID na siri ya Alpaca kabla ya kuwasha hali ya moja kwa moja",
+      "goToKeys": "Nenda kwa Funguo za API",
+      "liveConfirmation": "Uthibitisho wa moja kwa moja:",
+      "liveEnabled": "umewashwa kwa mipangilio ya sasa ya backend",
+      "liveNotEnabled": "haujawashwa",
+      "alpacaSaved": "Kitambulisho cha Alpaca kimehifadhiwa.",
+      "alpacaMissing": "Kitambulisho cha Alpaca hakipo.",
+      "partialCandles": "Mishumaa isiyokamilika",
+      "partialCandlesDesc": "`act_on_partial_candles = false` inalazimishwa katika muundo wa sasa. Ishara hutumia mishumaa iliyofungwa pekee.",
+      "minSample": "Sampuli ndogo ya backtest",
+      "minSampleDesc": "Biashara {{count}}. Mikakati iliyo chini ya kizingiti hiki huonyesha beji ya onyo katika Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Imeidhinishwa chini ya AGPL-3.0-or-later. Unaweza kutumia, kusoma, kurekebisha, na kusambaza tena programu hii chini ya AGPL. Leseni za kibiashara zinapatikana kwa upachikaji wa kumiliki, usambazaji wa msimbo uliofungwa, bidhaa zinazopangishwa, na usaidizi wa biashara.",
+      "sourceTitle": "Msimbo wa chanzo",
+      "sourceDesc": "Chanzo kamili kinacholingana na muundo huu kinapatikana kutoka hazina ya umma.",
+      "githubRepo": "Hazina ya GitHub",
+      "documents": "Hati za kisheria",
+      "agplLicense": "Leseni ya AGPL",
+      "commercialLicensing": "Utoaji leseni wa kibiashara",
+      "financialDisclaimer": "Kanusho la kifedha",
+      "thirdParty": "Notisi za wahusika wengine",
+      "disclaimer": "QuantGlass ni programu ya utafiti na usaidizi wa maamuzi. Si ushauri wa kifedha, mshauri wa uwekezaji, broker-dealer, wala ahadi ya utendaji wa biashara."
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

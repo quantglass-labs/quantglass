@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { ExternalLink, Scale } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 async function openExternalLink(url: string) {
   try {
@@ -13,17 +14,14 @@ async function openExternalLink(url: string) {
 }
 
 export function LegalTab() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-5">
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-medium text-ink">QuantGlass Community Edition</p>
-            <p className="mt-2 text-sm text-muted">
-              Licensed under AGPL-3.0-or-later. You may use, study, modify, and redistribute this
-              software under the AGPL. Commercial licenses are available for proprietary embedding,
-              closed-source redistribution, hosted products, and enterprise support.
-            </p>
+            <p className="font-medium text-ink">{t('settings.legal.communityTitle')}</p>
+            <p className="mt-2 text-sm text-muted">{t('settings.legal.communityDesc')}</p>
           </div>
           <Scale className="size-5 text-accent" />
         </div>
@@ -31,22 +29,19 @@ export function LegalTab() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-          <p className="font-medium text-ink">Source code</p>
-          <p className="mt-2 text-sm text-muted">
-            The complete corresponding source for this build is available from the public
-            repository.
-          </p>
+          <p className="font-medium text-ink">{t('settings.legal.sourceTitle')}</p>
+          <p className="mt-2 text-sm text-muted">{t('settings.legal.sourceDesc')}</p>
           <button
             type="button"
             className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-ink"
             onClick={() => void openExternalLink('https://github.com/quantglass-labs/quantglass')}
           >
-            GitHub repository
+            {t('settings.legal.githubRepo')}
             <ExternalLink className="size-4" />
           </button>
         </div>
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-          <p className="font-medium text-ink">Legal documents</p>
+          <p className="font-medium text-ink">{t('settings.legal.documents')}</p>
           <div className="mt-3 grid gap-2 text-sm">
             <button
               type="button"
@@ -57,7 +52,7 @@ export function LegalTab() {
                 )
               }
             >
-              AGPL license <ExternalLink className="size-4" />
+              {t('settings.legal.agplLicense')} <ExternalLink className="size-4" />
             </button>
             <button
               type="button"
@@ -68,7 +63,7 @@ export function LegalTab() {
                 )
               }
             >
-              Commercial licensing <ExternalLink className="size-4" />
+              {t('settings.legal.commercialLicensing')} <ExternalLink className="size-4" />
             </button>
             <button
               type="button"
@@ -79,7 +74,7 @@ export function LegalTab() {
                 )
               }
             >
-              Financial disclaimer <ExternalLink className="size-4" />
+              {t('settings.legal.financialDisclaimer')} <ExternalLink className="size-4" />
             </button>
             <button
               type="button"
@@ -90,15 +85,14 @@ export function LegalTab() {
                 )
               }
             >
-              Third-party notices <ExternalLink className="size-4" />
+              {t('settings.legal.thirdParty')} <ExternalLink className="size-4" />
             </button>
           </div>
         </div>
       </div>
 
       <div className="rounded-3xl border border-watch/25 bg-watch/10 p-4 text-sm text-muted">
-        QuantGlass is research and decision-support software. It is not financial advice, an
-        investment adviser, a broker-dealer, or a promise of trading performance.
+        {t('settings.legal.disclaimer')}
       </div>
     </div>
   );

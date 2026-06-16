@@ -550,6 +550,53 @@
       "experimentLine": "experimento {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Configurações",
+    "title": "Controles de provedor, segurança, IA e estratégia",
+    "description": "Roteamento de provedor Simples/Avançado, chaves de API mascaradas, controles de segurança papel/real, seleção de modelo e estratégias salvas da tela de backtest.",
+    "unavailableTitle": "Configurações indisponíveis",
+    "unavailableDescription": "A superfície de configurações não pôde ser carregada.",
+    "tabs": {
+      "providers": "Provedores",
+      "keys": "Chaves de API",
+      "risk": "Risco e segurança",
+      "ai": "IA",
+      "extensions": "Extensões",
+      "strategies": "Estratégias",
+      "legal": "Legal"
+    },
+    "risk": {
+      "tradingMode": "Modo de negociação",
+      "tradingModeDesc": "O padrão é papel. O modo real é restrito por credenciais Alpaca salvas, confirmação explícita e verificações de segurança de ordens reais do backend.",
+      "paper": "papel",
+      "live": "real",
+      "enableLive": "Habilitar roteamento para corretora real",
+      "saveAlpacaFirst": "Salve o Key ID e o segredo da Alpaca antes de habilitar o modo real",
+      "goToKeys": "Ir para Chaves de API",
+      "liveConfirmation": "Confirmação real:",
+      "liveEnabled": "habilitada para as configurações atuais do backend",
+      "liveNotEnabled": "não habilitada",
+      "alpacaSaved": "As credenciais Alpaca estão salvas.",
+      "alpacaMissing": "As credenciais Alpaca estão faltando.",
+      "partialCandles": "Velas parciais",
+      "partialCandlesDesc": "`act_on_partial_candles = false` é aplicado na build atual. Os sinais usam apenas velas fechadas.",
+      "minSample": "Amostra mínima de backtest",
+      "minSampleDesc": "{{count}} trades. Estratégias abaixo deste limite mostram um selo de aviso no Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Licenciado sob AGPL-3.0-or-later. Você pode usar, estudar, modificar e redistribuir este software sob a AGPL. Licenças comerciais estão disponíveis para incorporação proprietária, redistribuição de código fechado, produtos hospedados e suporte empresarial.",
+      "sourceTitle": "Código-fonte",
+      "sourceDesc": "O código-fonte completo correspondente a esta build está disponível no repositório público.",
+      "githubRepo": "Repositório GitHub",
+      "documents": "Documentos legais",
+      "agplLicense": "Licença AGPL",
+      "commercialLicensing": "Licenciamento comercial",
+      "financialDisclaimer": "Aviso financeiro",
+      "thirdParty": "Avisos de terceiros",
+      "disclaimer": "QuantGlass é software de pesquisa e apoio à decisão. Não é aconselhamento financeiro, um consultor de investimentos, uma corretora-distribuidora, nem uma promessa de desempenho de negociação."
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

@@ -550,6 +550,53 @@
       "experimentLine": "thí nghiệm {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Cài đặt",
+    "title": "Điều khiển nhà cung cấp, an toàn, AI và chiến lược",
+    "description": "Định tuyến nhà cung cấp Đơn giản/Nâng cao, khóa API được che, điều khiển an toàn giấy/trực tiếp, lựa chọn mô hình, và các chiến lược đã lưu từ màn hình backtest.",
+    "unavailableTitle": "Cài đặt không khả dụng",
+    "unavailableDescription": "Không thể tải giao diện cài đặt.",
+    "tabs": {
+      "providers": "Nhà cung cấp",
+      "keys": "Khóa API",
+      "risk": "Rủi ro & an toàn",
+      "ai": "AI",
+      "extensions": "Tiện ích mở rộng",
+      "strategies": "Chiến lược",
+      "legal": "Pháp lý"
+    },
+    "risk": {
+      "tradingMode": "Chế độ giao dịch",
+      "tradingModeDesc": "Mặc định là giấy. Chế độ trực tiếp bị khóa sau thông tin xác thực Alpaca đã lưu, xác nhận rõ ràng, và kiểm tra an toàn lệnh trực tiếp của backend.",
+      "paper": "giấy",
+      "live": "trực tiếp",
+      "enableLive": "Bật định tuyến môi giới trực tiếp",
+      "saveAlpacaFirst": "Lưu Key ID và bí mật Alpaca trước khi bật chế độ trực tiếp",
+      "goToKeys": "Đi tới Khóa API",
+      "liveConfirmation": "Xác nhận trực tiếp:",
+      "liveEnabled": "đã bật cho cài đặt backend hiện tại",
+      "liveNotEnabled": "chưa bật",
+      "alpacaSaved": "Thông tin xác thực Alpaca đã được lưu.",
+      "alpacaMissing": "Thiếu thông tin xác thực Alpaca.",
+      "partialCandles": "Nến chưa đóng",
+      "partialCandlesDesc": "`act_on_partial_candles = false` được áp dụng trong bản dựng hiện tại. Tín hiệu chỉ dùng nến đã đóng.",
+      "minSample": "Mẫu backtest tối thiểu",
+      "minSampleDesc": "{{count}} giao dịch. Chiến lược dưới ngưỡng này hiển thị huy hiệu cảnh báo trong Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Được cấp phép theo AGPL-3.0-or-later. Bạn có thể sử dụng, nghiên cứu, sửa đổi và phân phối lại phần mềm này theo AGPL. Giấy phép thương mại có sẵn cho nhúng độc quyền, phân phối lại mã nguồn đóng, sản phẩm lưu trữ và hỗ trợ doanh nghiệp.",
+      "sourceTitle": "Mã nguồn",
+      "sourceDesc": "Mã nguồn tương ứng đầy đủ cho bản dựng này có sẵn từ kho lưu trữ công khai.",
+      "githubRepo": "Kho GitHub",
+      "documents": "Tài liệu pháp lý",
+      "agplLicense": "Giấy phép AGPL",
+      "commercialLicensing": "Cấp phép thương mại",
+      "financialDisclaimer": "Tuyên bố miễn trừ tài chính",
+      "thirdParty": "Thông báo bên thứ ba",
+      "disclaimer": "QuantGlass là phần mềm nghiên cứu và hỗ trợ quyết định. Đây không phải lời khuyên tài chính, cố vấn đầu tư, nhà môi giới-giao dịch, hay lời hứa về hiệu suất giao dịch."
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

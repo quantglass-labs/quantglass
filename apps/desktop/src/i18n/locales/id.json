@@ -550,6 +550,53 @@
       "experimentLine": "eksperimen {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Pengaturan",
+    "title": "Kontrol penyedia, keamanan, AI, dan strategi",
+    "description": "Perutean penyedia Sederhana/Lanjutan, kunci API tersamar, kontrol keamanan kertas/langsung, pemilihan model, dan strategi tersimpan dari layar backtest.",
+    "unavailableTitle": "Pengaturan tidak tersedia",
+    "unavailableDescription": "Permukaan pengaturan tidak dapat dimuat.",
+    "tabs": {
+      "providers": "Penyedia",
+      "keys": "Kunci API",
+      "risk": "Risiko & keamanan",
+      "ai": "AI",
+      "extensions": "Ekstensi",
+      "strategies": "Strategi",
+      "legal": "Legal"
+    },
+    "risk": {
+      "tradingMode": "Mode perdagangan",
+      "tradingModeDesc": "Default-nya kertas. Mode langsung dikunci di balik kredensial Alpaca tersimpan, konfirmasi eksplisit, dan pemeriksaan keamanan pesanan langsung backend.",
+      "paper": "kertas",
+      "live": "langsung",
+      "enableLive": "Aktifkan perutean broker langsung",
+      "saveAlpacaFirst": "Simpan Key ID dan rahasia Alpaca sebelum mengaktifkan mode langsung",
+      "goToKeys": "Buka Kunci API",
+      "liveConfirmation": "Konfirmasi langsung:",
+      "liveEnabled": "diaktifkan untuk pengaturan backend saat ini",
+      "liveNotEnabled": "tidak diaktifkan",
+      "alpacaSaved": "Kredensial Alpaca tersimpan.",
+      "alpacaMissing": "Kredensial Alpaca tidak ada.",
+      "partialCandles": "Candle parsial",
+      "partialCandlesDesc": "`act_on_partial_candles = false` diterapkan pada build saat ini. Sinyal hanya menggunakan candle tertutup.",
+      "minSample": "Sampel backtest minimum",
+      "minSampleDesc": "{{count}} perdagangan. Strategi di bawah ambang ini menampilkan lencana peringatan di Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Dilisensikan di bawah AGPL-3.0-or-later. Anda boleh menggunakan, mempelajari, memodifikasi, dan mendistribusikan ulang perangkat lunak ini di bawah AGPL. Lisensi komersial tersedia untuk penyematan kepemilikan, distribusi ulang sumber tertutup, produk terhosting, dan dukungan perusahaan.",
+      "sourceTitle": "Kode sumber",
+      "sourceDesc": "Sumber lengkap yang sesuai untuk build ini tersedia dari repositori publik.",
+      "githubRepo": "Repositori GitHub",
+      "documents": "Dokumen legal",
+      "agplLicense": "Lisensi AGPL",
+      "commercialLicensing": "Lisensi komersial",
+      "financialDisclaimer": "Penafian keuangan",
+      "thirdParty": "Pemberitahuan pihak ketiga",
+      "disclaimer": "QuantGlass adalah perangkat lunak riset dan pendukung keputusan. Ini bukan nasihat keuangan, penasihat investasi, broker-dealer, atau janji kinerja perdagangan."
+    }
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

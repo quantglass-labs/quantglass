@@ -550,6 +550,53 @@
       "experimentLine": "Experiment {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Einstellungen",
+    "title": "Anbieter-, Sicherheits-, KI- und Strategiesteuerung",
+    "description": "Einfaches/Erweitertes Anbieter-Routing, maskierte API-Schlüssel, Papier-/Live-Sicherheitskontrollen, Modellauswahl und gespeicherte Strategien vom Backtest-Bildschirm.",
+    "unavailableTitle": "Einstellungen nicht verfügbar",
+    "unavailableDescription": "Die Einstellungsoberfläche konnte nicht geladen werden.",
+    "tabs": {
+      "providers": "Anbieter",
+      "keys": "API-Schlüssel",
+      "risk": "Risiko & Sicherheit",
+      "ai": "KI",
+      "extensions": "Erweiterungen",
+      "strategies": "Strategien",
+      "legal": "Rechtliches"
+    },
+    "risk": {
+      "tradingMode": "Handelsmodus",
+      "tradingModeDesc": "Standard ist Papier. Der Live-Modus ist hinter gespeicherten Alpaca-Zugangsdaten, ausdrücklicher Bestätigung und Backend-Sicherheitsprüfungen für Live-Orders gesperrt.",
+      "paper": "Papier",
+      "live": "Live",
+      "enableLive": "Live-Broker-Routing aktivieren",
+      "saveAlpacaFirst": "Speichern Sie Alpaca Key ID und Secret, bevor Sie den Live-Modus aktivieren",
+      "goToKeys": "Zu API-Schlüsseln",
+      "liveConfirmation": "Live-Bestätigung:",
+      "liveEnabled": "für die aktuellen Backend-Einstellungen aktiviert",
+      "liveNotEnabled": "nicht aktiviert",
+      "alpacaSaved": "Alpaca-Zugangsdaten sind gespeichert.",
+      "alpacaMissing": "Alpaca-Zugangsdaten fehlen.",
+      "partialCandles": "Teilkerzen",
+      "partialCandlesDesc": "`act_on_partial_candles = false` wird im aktuellen Build erzwungen. Signale verwenden nur geschlossene Kerzen.",
+      "minSample": "Mindest-Backtest-Stichprobe",
+      "minSampleDesc": "{{count}} Trades. Strategien unter dieser Schwelle zeigen im Backtesting ein Warn-Badge."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Lizenziert unter AGPL-3.0-or-later. Sie dürfen diese Software unter der AGPL nutzen, untersuchen, ändern und weiterverbreiten. Kommerzielle Lizenzen sind für proprietäre Einbettung, Closed-Source-Weiterverbreitung, gehostete Produkte und Enterprise-Support verfügbar.",
+      "sourceTitle": "Quellcode",
+      "sourceDesc": "Der vollständige zugehörige Quellcode für diesen Build ist im öffentlichen Repository verfügbar.",
+      "githubRepo": "GitHub-Repository",
+      "documents": "Rechtliche Dokumente",
+      "agplLicense": "AGPL-Lizenz",
+      "commercialLicensing": "Kommerzielle Lizenzierung",
+      "financialDisclaimer": "Finanzieller Haftungsausschluss",
+      "thirdParty": "Hinweise zu Drittanbietern",
+      "disclaimer": "QuantGlass ist Forschungs- und Entscheidungsunterstützungssoftware. Es ist keine Finanzberatung, kein Anlageberater, kein Broker-Dealer und kein Versprechen einer Handelsperformance."
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

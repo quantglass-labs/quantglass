@@ -550,6 +550,53 @@
       "experimentLine": "deney {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Ayarlar",
+    "title": "Sağlayıcı, güvenlik, yapay zekâ ve strateji kontrolleri",
+    "description": "Basit/Gelişmiş sağlayıcı yönlendirmesi, maskelenmiş API anahtarları, kâğıt/canlı güvenlik kontrolleri, model seçimi ve backtest ekranından kaydedilmiş stratejiler.",
+    "unavailableTitle": "Ayarlar kullanılamıyor",
+    "unavailableDescription": "Ayarlar yüzeyi yüklenemedi.",
+    "tabs": {
+      "providers": "Sağlayıcılar",
+      "keys": "API Anahtarları",
+      "risk": "Risk ve güvenlik",
+      "ai": "Yapay zekâ",
+      "extensions": "Uzantılar",
+      "strategies": "Stratejiler",
+      "legal": "Yasal"
+    },
+    "risk": {
+      "tradingMode": "İşlem modu",
+      "tradingModeDesc": "Varsayılan kâğıttır. Canlı mod, kayıtlı Alpaca kimlik bilgileri, açık onay ve backend canlı emir güvenlik kontrollerinin arkasında kilitlidir.",
+      "paper": "kâğıt",
+      "live": "canlı",
+      "enableLive": "Canlı aracı yönlendirmesini etkinleştir",
+      "saveAlpacaFirst": "Canlı modu etkinleştirmeden önce Alpaca Key ID ve gizli anahtarını kaydedin",
+      "goToKeys": "API Anahtarlarına git",
+      "liveConfirmation": "Canlı onay:",
+      "liveEnabled": "mevcut backend ayarları için etkin",
+      "liveNotEnabled": "etkin değil",
+      "alpacaSaved": "Alpaca kimlik bilgileri kayıtlı.",
+      "alpacaMissing": "Alpaca kimlik bilgileri eksik.",
+      "partialCandles": "Kısmi mumlar",
+      "partialCandlesDesc": "Mevcut yapıda `act_on_partial_candles = false` zorunlu kılınır. Sinyaller yalnızca kapanmış mumları kullanır.",
+      "minSample": "Minimum backtest örneği",
+      "minSampleDesc": "{{count}} işlem. Bu eşiğin altındaki stratejiler Backtesting'de uyarı rozeti gösterir."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "AGPL-3.0-or-later altında lisanslıdır. Bu yazılımı AGPL altında kullanabilir, inceleyebilir, değiştirebilir ve yeniden dağıtabilirsiniz. Tescilli gömme, kapalı kaynak yeniden dağıtım, barındırılan ürünler ve kurumsal destek için ticari lisanslar mevcuttur.",
+      "sourceTitle": "Kaynak kodu",
+      "sourceDesc": "Bu yapıya karşılık gelen tam kaynak, herkese açık depodan edinilebilir.",
+      "githubRepo": "GitHub deposu",
+      "documents": "Yasal belgeler",
+      "agplLicense": "AGPL lisansı",
+      "commercialLicensing": "Ticari lisanslama",
+      "financialDisclaimer": "Finansal sorumluluk reddi",
+      "thirdParty": "Üçüncü taraf bildirimleri",
+      "disclaimer": "QuantGlass araştırma ve karar destek yazılımıdır. Yatırım tavsiyesi, yatırım danışmanı, aracı kurum ya da işlem performansı vaadi değildir."
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

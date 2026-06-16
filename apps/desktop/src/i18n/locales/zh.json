@@ -544,6 +544,53 @@
       "experimentLine": "实验 {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "设置",
+    "title": "数据源、安全、AI 与策略控制",
+    "description": "简单/高级数据源路由、脱敏 API 密钥、模拟/实盘安全控制、模型选择，以及来自回测屏幕的已保存策略。",
+    "unavailableTitle": "设置不可用",
+    "unavailableDescription": "无法加载设置界面。",
+    "tabs": {
+      "providers": "数据源",
+      "keys": "API 密钥",
+      "risk": "风险与安全",
+      "ai": "AI",
+      "extensions": "扩展",
+      "strategies": "策略",
+      "legal": "法律"
+    },
+    "risk": {
+      "tradingMode": "交易模式",
+      "tradingModeDesc": "默认是模拟。实盘模式受已保存的 Alpaca 凭据、明确确认及后端实盘下单安全检查的限制。",
+      "paper": "模拟",
+      "live": "实盘",
+      "enableLive": "启用实盘券商路由",
+      "saveAlpacaFirst": "启用实盘模式前请保存 Alpaca 的 Key ID 与密钥",
+      "goToKeys": "前往 API 密钥",
+      "liveConfirmation": "实盘确认：",
+      "liveEnabled": "已为当前后端设置启用",
+      "liveNotEnabled": "未启用",
+      "alpacaSaved": "Alpaca 凭据已保存。",
+      "alpacaMissing": "缺少 Alpaca 凭据。",
+      "partialCandles": "未完成K线",
+      "partialCandlesDesc": "当前构建强制 `act_on_partial_candles = false`。信号仅使用收盘K线。",
+      "minSample": "最小回测样本",
+      "minSampleDesc": "{{count}} 笔交易。低于此阈值的策略在回测中显示警告徽章。"
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "依据 AGPL-3.0-or-later 授权。你可以在 AGPL 下使用、研究、修改并再分发本软件。商业许可可用于专有嵌入、闭源再分发、托管产品及企业支持。",
+      "sourceTitle": "源代码",
+      "sourceDesc": "本构建对应的完整源代码可从公共仓库获取。",
+      "githubRepo": "GitHub 仓库",
+      "documents": "法律文档",
+      "agplLicense": "AGPL 许可证",
+      "commercialLicensing": "商业授权",
+      "financialDisclaimer": "财务免责声明",
+      "thirdParty": "第三方声明",
+      "disclaimer": "QuantGlass 是研究与决策支持软件。它不是投资建议、投资顾问、经纪交易商，也不是对交易表现的承诺。"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

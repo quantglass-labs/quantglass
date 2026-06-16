@@ -544,6 +544,53 @@
       "experimentLine": "تجربو {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "ترتيبون",
+    "title": "پرووائيڊر، حفاظت، AI، ۽ اسٽريٽجي ڪنٽرول",
+    "description": "سادو/ايڊوانسڊ پرووائيڊر روٽنگ، ماسڪ ٿيل API ڪيز، پيپر/لائيو حفاظتي ڪنٽرول، ماڊل چونڊ، ۽ بيڪ ٽيسٽ اسڪرين مان محفوظ اسٽريٽجيز.",
+    "unavailableTitle": "ترتيبون موجود ناهن",
+    "unavailableDescription": "ترتيبون سرفيس لوڊ نه ٿي سگهيو.",
+    "tabs": {
+      "providers": "پرووائيڊرز",
+      "keys": "API ڪيز",
+      "risk": "رسڪ ۽ حفاظت",
+      "ai": "AI",
+      "extensions": "ايڪسٽينشنز",
+      "strategies": "اسٽريٽجيز",
+      "legal": "قانوني"
+    },
+    "risk": {
+      "tradingMode": "ٽريڊنگ موڊ",
+      "tradingModeDesc": "ڊيفالٽ پيپر آهي. لائيو موڊ محفوظ Alpaca سندن، واضح تصديق، ۽ بيڪ اينڊ لائيو-آرڊر حفاظتي جانچ جي پويان بند آهي.",
+      "paper": "پيپر",
+      "live": "لائيو",
+      "enableLive": "لائيو بروڪر روٽنگ فعال ڪريو",
+      "saveAlpacaFirst": "لائيو موڊ فعال ڪرڻ کان اڳ Alpaca جي Key ID ۽ سيڪريٽ محفوظ ڪريو",
+      "goToKeys": "API ڪيز ڏانهن وڃو",
+      "liveConfirmation": "لائيو تصديق:",
+      "liveEnabled": "موجوده بيڪ اينڊ ترتيبن لاءِ فعال",
+      "liveNotEnabled": "فعال ناهي",
+      "alpacaSaved": "Alpaca سندون محفوظ آهن.",
+      "alpacaMissing": "Alpaca سندون غائب آهن.",
+      "partialCandles": "جزوي ڪينڊلز",
+      "partialCandlesDesc": "`act_on_partial_candles = false` موجوده بلڊ ۾ لاڳو آهي. سگنل رڳو بند ٿيل ڪينڊلز استعمال ڪن ٿا.",
+      "minSample": "گهٽ ۾ گهٽ بيڪ ٽيسٽ سيمپل",
+      "minSampleDesc": "{{count}} ٽريڊ. هن حد کان هيٺ اسٽريٽجيز بيڪ ٽيسٽنگ ۾ وارننگ بيج ڏيکارين ٿيون."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "AGPL-3.0-or-later هيٺ لائسنس ٿيل. توهان هي سافٽويئر AGPL هيٺ استعمال، مطالعو، ترميم، ۽ ٻيهر ورهائي سگهو ٿا. ملڪيتي ايمبيڊنگ، بند-سورس ٻيهر ورهاست، هوسٽ ٿيل پراڊڪٽس، ۽ اينٽرپرائز سپورٽ لاءِ ڪمرشل لائسنس موجود آهن.",
+      "sourceTitle": "سورس ڪوڊ",
+      "sourceDesc": "هن بلڊ لاءِ مڪمل لاڳاپيل سورس عوامي ريپوزٽري مان موجود آهي.",
+      "githubRepo": "GitHub ريپوزٽري",
+      "documents": "قانوني دستاويز",
+      "agplLicense": "AGPL لائسنس",
+      "commercialLicensing": "ڪمرشل لائسنسنگ",
+      "financialDisclaimer": "مالي ڊسڪليمر",
+      "thirdParty": "ٽئين ڌر نوٽيسون",
+      "disclaimer": "QuantGlass تحقيق ۽ فيصلي-مدد سافٽويئر آهي. هي مالي صلاح، سيڙپڪاري صلاحڪار، بروڪر-ڊيلر، يا ٽريڊنگ ڪارڪردگي جو واعدو ناهي."
+    }
+  },
   "nav": {
     "dashboard": "ڊيش بورڊ",
     "signals": "سگنل",

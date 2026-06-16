@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '../../components/ui';
 import type { TradingMode } from '../../types';
@@ -25,16 +26,14 @@ export function RiskTab({
   onSetMinBacktestSample: (value: number) => void;
   onGoToKeys: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-5">
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-medium text-ink">Trading mode</p>
-            <p className="text-sm text-muted">
-              Default is paper. Live mode is gated behind saved Alpaca credentials, explicit
-              confirmation, and backend live-order safety checks.
-            </p>
+            <p className="font-medium text-ink">{t('settings.risk.tradingMode')}</p>
+            <p className="text-sm text-muted">{t('settings.risk.tradingModeDesc')}</p>
           </div>
           <ShieldCheck className="size-5 text-accent" />
         </div>
@@ -43,46 +42,41 @@ export function RiskTab({
             variant={tradingMode === 'paper' ? 'primary' : 'secondary'}
             onClick={() => onSetTradingMode('paper')}
           >
-            paper
+            {t('settings.risk.paper')}
           </Button>
           <button
             type="button"
             title={
               hasAlpacaCredentials
-                ? 'Enable live broker routing'
-                : 'Save Alpaca key ID and secret before enabling live mode'
+                ? t('settings.risk.enableLive')
+                : t('settings.risk.saveAlpacaFirst')
             }
             disabled={!hasAlpacaCredentials}
             className={`rounded-2xl border border-border px-4 py-2.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50 ${tradingMode === 'live' ? 'bg-sell/15 text-sell' : 'bg-white/[0.03] text-muted'}`}
             onClick={onRequestLiveTrading}
           >
-            live
+            {t('settings.risk.live')}
           </button>
           <Button variant="ghost" onClick={() => onGoToKeys()}>
-            Go to API Keys
+            {t('settings.risk.goToKeys')}
           </Button>
         </div>
         <p className="mt-3 text-xs text-muted">
-          Live confirmation:{' '}
+          {t('settings.risk.liveConfirmation')}{' '}
           {tradingMode === 'live' && liveTradingConfirmed
-            ? 'enabled for the current backend settings'
-            : 'not enabled'}
-          .
-          {hasAlpacaCredentials
-            ? ' Alpaca credentials are saved.'
-            : ' Alpaca credentials are missing.'}
+            ? t('settings.risk.liveEnabled')
+            : t('settings.risk.liveNotEnabled')}
+          .{' '}
+          {hasAlpacaCredentials ? t('settings.risk.alpacaSaved') : t('settings.risk.alpacaMissing')}
         </p>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-          <p className="font-medium text-ink">Partial candles</p>
-          <p className="mt-2 text-sm text-muted">
-            `act_on_partial_candles = false` is enforced in the current build. Signals use closed
-            candles only.
-          </p>
+          <p className="font-medium text-ink">{t('settings.risk.partialCandles')}</p>
+          <p className="mt-2 text-sm text-muted">{t('settings.risk.partialCandlesDesc')}</p>
         </div>
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-          <p className="font-medium text-ink">Minimum backtest sample</p>
+          <p className="font-medium text-ink">{t('settings.risk.minSample')}</p>
           <input
             className="mt-4 w-full"
             type="range"
@@ -93,8 +87,7 @@ export function RiskTab({
             onChange={(event) => onSetMinBacktestSample(Number(event.target.value))}
           />
           <p className="mt-2 text-sm text-muted">
-            {minBacktestSample} trades. Strategies below this threshold show a warning badge in
-            Backtesting.
+            {t('settings.risk.minSampleDesc', { count: minBacktestSample })}
           </p>
         </div>
       </div>
