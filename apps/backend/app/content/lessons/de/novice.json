@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "novice-06-asset-classes",
+    "title": "Was du handeln kannst: Anlageklassen",
+    "summary": "Aktien, ETFs und Krypto — was jedes Instrument wirklich darstellt.",
+    "concept": "Eine **Anlageklasse** ist eine Familie von Instrumenten, die sich ähnlich verhalten. **Aktien** sind Eigentumsanteile an einem Unternehmen: Ihr Wert folgt dem Geschäft, und sie werden zu Börsenzeiten gehandelt. **ETFs** bündeln viele Vermögenswerte in einen handelbaren Anteil. **Kryptowährungen** sind digitale Inhaberwerte, die an stets geöffneten Handelsplätzen gehandelt werden — kein Unternehmen, keine Gewinne, nur Angebot, Nachfrage und die Regeln des Protokolls.\n\nQuantGlass konzentriert sich auf **US-Aktien** und **Krypto-Spot**, weil beide kostenlose öffentliche Daten und transparente Preisbildung haben. *Spot* bedeutet, du kaufst den Vermögenswert selbst; Derivate (Futures, Optionen) referenzieren den Preis eines Vermögenswerts mit Hebel und Verfall und sind hier außerhalb des Rahmens.\n\nWarum das wichtig ist: Dasselbe Chartmuster bedeutet bei einer Aktie etwas anderes (getrieben von Quartalszahlen, Sitzungen, Gaps) als bei Krypto (24/7, stimmungssensibel, volatil). Daher behandelt die Engine `market_type` als erstklassiges Feld an jedem Symbol.",
+    "key_terms": [
+      {
+        "term": "Anlageklasse",
+        "definition": "Eine Familie von Instrumenten mit ähnlichem Verhalten und Regeln — Aktien, Krypto, Anleihen, Rohstoffe."
+      },
+      {
+        "term": "Aktie",
+        "definition": "Ein Eigentumsanteil an einem Unternehmen."
+      },
+      {
+        "term": "ETF",
+        "definition": "Börsengehandelter Fonds: ein Korb von Vermögenswerten, der als ein Anteil gehandelt wird."
+      },
+      {
+        "term": "Spot-Markt",
+        "definition": "Den Vermögenswert selbst kaufen oder verkaufen mit sofortiger Abwicklung."
+      },
+      {
+        "term": "Derivat",
+        "definition": "Ein Kontrakt, dessen Wert den Preis eines anderen Vermögenswerts referenziert — außerhalb des Rahmens von QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Welche Aussage über Krypto-Spot-Märkte ist korrekt?",
+      "options": [
+        "Sie schließen um 16:00 New Yorker Zeit, wie Aktienbörsen.",
+        "Du hältst den Vermögenswert selbst, und der Handel läuft rund um die Uhr.",
+        "Jeder Krypto-Trade ist ein gehebelter Futures-Kontrakt.",
+        "Preise werden vom Protokoll einmal täglich festgesetzt."
+      ],
+      "explanation": "Krypto-Spot handelt den Vermögenswert selbst an Plätzen, die nie schließen. Aktienbörsen haben Sitzungen; Futures und Hebel sind Merkmale von Derivaten, nicht von Spot."
+    },
+    "live_apply": {
+      "cta": "Öffne die Watchlist und notiere, welche Symbole Krypto und welche Aktien sind — die Markttyp-Kennzeichnung bestimmt, wie die Engine jedes behandelt."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "title": "Börsen und Handelsplätze",
+    "summary": "Wo Trades wirklich geschehen und warum der Platz deinen Preis beeinflusst.",
+    "concept": "Eine **Börse** ist ein Platz, der Käufer und Verkäufer nach veröffentlichten Regeln zusammenführt. US-Aktien handeln an regulierten Börsen (NYSE, Nasdaq) plus Dutzenden alternativen Plätzen, alle durch Regulierung zu einem einzigen nationalen Bestpreis vernäht. Krypto ist anders: Jeder Platz (Coinbase, Kraken, Binance) ist **seine eigene Insel** mit eigenem Orderbuch, sodass *dieselbe* Münze im selben Augenblick an verschiedenen Plätzen zu leicht unterschiedlichen Preisen handeln kann.\n\nDeshalb lässt QuantGlass dich **Provider-Routen** wählen — primäre, sekundäre und Ausweich-Datenquellen je Markt. Wenn Coinbase-Daten nicht verfügbar sind, kann die Engine zu Kraken wechseln; die Candles werden fast, aber nicht exakt, identisch sein.\n\nFaustregel: Wisse stets, *von welchem Platz* der Preis ist, den du betrachtest. Ein auf den Candles eines Platzes berechnetes Signal gilt für die Preise dieses Platzes.",
+    "key_terms": [
+      {
+        "term": "Börse",
+        "definition": "Ein regelgeführter Platz, der Käufer und Verkäufer zusammenführt."
+      },
+      {
+        "term": "Orderbuch",
+        "definition": "Die Live-Liste der wartenden Kauf- und Verkaufsorders der Börse."
+      },
+      {
+        "term": "Fragmentierung",
+        "definition": "Derselbe Vermögenswert an mehreren Plätzen zu leicht unterschiedlichen Preisen gehandelt."
+      },
+      {
+        "term": "Provider-Route",
+        "definition": "QuantGlass' Wahl von primärem/sekundärem/Ausweich-Datenplatz je Markt."
+      }
+    ],
+    "exercise": {
+      "question": "BTC zeigt 67.950 an einer Börse und 68.010 an einer anderen im selben Moment. Warum?",
+      "options": [
+        "Einer der beiden Preise muss ein Fehler sein.",
+        "Jede Krypto-Börse hat ihr eigenes Orderbuch, daher können Preise zwischen Plätzen leicht abweichen.",
+        "Bitcoins Protokoll setzt für jedes Land einen anderen Preis fest.",
+        "Eine Börse zeigt den gestrigen Schluss."
+      ],
+      "explanation": "Krypto-Plätze sind unabhängige Orderbücher. Kleine Preisunterschiede sind normal und werden von Arbitrageuren ausgerichtet gehalten."
+    },
+    "live_apply": {
+      "cta": "Öffne Einstellungen → Provider und finde die Krypto-Route: Welcher Platz ist primär, und welcher ist der Ausweich?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "title": "Sitzungen und die Marktuhr",
+    "summary": "Wann Märkte offen sind, warum es zählt und wie Krypto sich unterscheidet.",
+    "concept": "US-Aktienbörsen halten eine **reguläre Sitzung** (09:30–16:00 New Yorker Zeit), flankiert von dünneren Vor- und Nachbörse-Sitzungen. Volumen und Liquidität ballen sich nahe **Eröffnung** und **Schluss**; die Mittagszeit ist meist ruhig. Krypto schließt nie — hat aber dennoch einen Rhythmus: Aktivität sammelt sich um die Wachzeiten Amerikas und Asiens, und Wochenenden sind dünner.\n\nSitzungen zählen für den Signalleser aus einem großen Grund: **Candles müssen schließen**. Eine 1-Tages-Aktien-Candle schließt um 16:00 in New York; eine 1-Stunden-Krypto-Candle schließt zu Beginn jeder Stunde. QuantGlass bewertet **nur geschlossene Candles** — ein Muster, das mitten in der Candle erscheint, kann vor dem Schluss verdampfen, also heißt Handeln auf einer unfertigen Candle, auf Rauschen zu handeln.\n\nDas Frische-Abzeichen des Signals nennt dir das Alter der letzten *geschlossenen* Candle, damit du stets weißt, auf welcher Uhr du bist.",
+    "key_terms": [
+      {
+        "term": "Reguläre Sitzung",
+        "definition": "Die Haupthandelszeiten einer Börse — 09:30–16:00 NY für US-Aktien."
+      },
+      {
+        "term": "Vor-/Nachbörse",
+        "definition": "Dünnere Aktiensitzungen um die reguläre herum, mit weiteren Spreads."
+      },
+      {
+        "term": "Candle-Schluss",
+        "definition": "Der Moment, in dem der Balken eines Zeitrahmens finalisiert wird — der einzige Preis, den die Engine bewertet."
+      },
+      {
+        "term": "Frische",
+        "definition": "Das Alter der letzten geschlossenen Candle, auf jedem QuantGlass-Signal angezeigt."
+      }
+    ],
+    "exercise": {
+      "question": "Warum wartet QuantGlass auf den Schluss einer Candle, bevor es ein Setup bewertet?",
+      "options": [
+        "Geschlossene Candles laden schneller herunter.",
+        "Bis zum Schluss können das endgültige Hoch, Tief und der Schluss der Candle noch ändern — Muster mitten in der Candle können verdampfen.",
+        "Börsen veröffentlichen Daten nur einmal täglich.",
+        "Offene Candles zu analysieren ist illegal."
+      ],
+      "explanation": "Eine Candle ist erst nach dem Schluss eine Tatsache. Die Geschlossene-Candle-Regel der Engine verhindert das Handeln auf Mustern, die den Balken vielleicht nicht überleben."
+    },
+    "live_apply": {
+      "cta": "Öffne Signale und prüfe ein Frische-Abzeichen: Wie alt ist die letzte geschlossene Candle hinter dem neuesten Signal?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "title": "Das Orderbuch, Bid, Ask und Spread",
+    "summary": "Jeder Preis, den du siehst, sind in Wahrheit zwei Preise.",
+    "concept": "Zu jedem Zeitpunkt hält eine Börse wartende Orders: Der höchste Preis, den ein Käufer zahlt, ist das **Bid**; der niedrigste, den ein Verkäufer akzeptiert, ist das **Ask**. Die Lücke dazwischen ist der **Spread**. Eine 'Preis'-Quotierung ist meist der letzte Trade, der zwischen diesen beiden Mauern hin- und hersprang.\n\nDer Spread ist deine erste unsichtbare Kosten: Kaufe zum Ask, und du bist sofort einen Spread im Minus, müsstest du zum Bid verkaufen. Liquide Märkte (große Aktien, BTC, ETH) halten Spreads von einigen hundertstel Prozent; dünne Märkte können Spreads von 1% oder mehr haben — groß genug, um einen kleinen Vorteil ganz zu tilgen.\n\nQuantGlass' Backtests berechnen auf jede simulierte Ausführung einen **Slippage**-Aufschlag, gerade weil echte Ausführungen an den Rändern des Spreads geschehen, nicht am im Chart gezeigten Mittelpunkt.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "Der höchste wartende Kaufpreis."
+      },
+      {
+        "term": "Ask (Angebot)",
+        "definition": "Der niedrigste wartende Verkaufspreis."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask minus Bid — die sofortige Hin-und-Rück-Kosten, das Buch zu queren."
+      },
+      {
+        "term": "Letzter Preis",
+        "definition": "Der jüngste Trade — er springt zwischen Bid und Ask."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Der Unterschied zwischen Chartpreis und deinem echten Ausführungspreis."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Münze zeigt Bid 99,95 / Ask 100,05. Du kaufst zum Markt und verkaufst sofort zum Markt. Gebühren ignoriert, was geschieht?",
+      "options": [
+        "Du bist genau bei null.",
+        "Du verlierst etwa 0,10 — du kauftest zum Ask und verkauftest zum Bid.",
+        "Du verdienst den Spread als Rabatt.",
+        "Beide Orders führen zu 100,00 aus, dem Mittelpunkt."
+      ],
+      "explanation": "Markt-Orders queren den Spread: Kauf zu 100,05, Verkauf zu 99,95 — ein Verlust von 0,10. Der Spread ist eine echte Kosten, die die einzelne Preislinie des Charts verbirgt."
+    },
+    "live_apply": {
+      "cta": "Öffne ein Symbol und stelle dir den Candle-Schluss als Bid/Ask-Paar darum vor — die Slippage-Annahme der Engine modelliert genau diese Lücke."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "title": "Ordertypen: Markt und Limit",
+    "summary": "Die zwei grundlegenden Orders und worauf jede verzichtet.",
+    "concept": "Eine **Markt-Order** sagt *führe mich jetzt zum besten verfügbaren Preis aus* — Ausführung sicher, Preis nicht. Eine **Limit-Order** sagt *führe mich nur zu meinem Preis oder besser aus* — Preis sicher, Ausführung nicht. Alles Aufwendigere (Stop-Loss, Stop-Limit, Take-Profit) baut auf diesen zwei Primitiven plus einem Auslöser auf.\n\nEin **Stop-Loss** ist ein wartender Auslöser: Wenn der Preis dein Stop-Niveau berührt, startet er eine Markt-Order zum Ausstieg. Das ist genau die Geometrie, die jedes QuantGlass-Signal zeigt — eine **Einstiegszone** (wo ein Einstieg vom Limit-Typ Sinn ergibt), ein **Stop-Loss**-Niveau (dein Ausstiegsauslöser, falls du falsch liegst) und eine **Take-Profit-Leiter** (gestaffelte Limit-Ausstiege, falls du richtig liegst).\n\nQuantGlass' Paper-Trading führt Absichten zum nächsten verfügbaren Preis aus — modelliert eine einfache Markt-Order — damit du die Ausführungs-Unsicherheit ehrlich erlebst statt lehrbuchhaft perfekter Fills.",
+    "key_terms": [
+      {
+        "term": "Markt-Order",
+        "definition": "Führt sofort zum besten verfügbaren Preis aus — Ausführung sicher, Preis unsicher."
+      },
+      {
+        "term": "Limit-Order",
+        "definition": "Führt nur zu einem gewählten Preis oder besser aus — Preis sicher, Ausführung unsicher."
+      },
+      {
+        "term": "Stop-Loss",
+        "definition": "Ein Auslöse-Niveau, das eine Ausstiegs-Order startet, wenn der Preis es berührt."
+      },
+      {
+        "term": "Take-Profit",
+        "definition": "Ein wartender Ausstieg zu einem Zielpreis — QuantGlass zeigt eine Drei-Stufen-Leiter."
+      }
+    ],
+    "exercise": {
+      "question": "Du musst in einem schnell fallenden Markt sofort aus einer Verlustposition. Welche Order garantiert deinen Ausstieg?",
+      "options": [
+        "Eine Limit-Order zu deinem Einstiegspreis.",
+        "Eine Markt-Order — du akzeptierst den Preis, den das Buch bietet.",
+        "Eine Take-Profit-Order über dem Markt.",
+        "Kein Ordertyp kann je aus einer Position aussteigen."
+      ],
+      "explanation": "Nur eine Markt-Order garantiert die Ausführung, zum Preis der Preis-Gewissheit. Ein Limit an deinem Einstieg würde in einem fallenden Markt wohl nie ausführen."
+    },
+    "common_mistakes": [
+      "Markt-Orders in dünnen Büchern nutzen und vom Ausführungspreis überrascht sein. Die Garantie ist die Ausführung, nie der Preis.",
+      "Ein Stop-Limit setzen in der Annahme, es schütze wie ein Stop. In einem schnellen Markt kann das Limit-Bein unausgeführt bleiben und die Position läuft weiter.",
+      "Stops auf offensichtliche runde Zahlen setzen, wo die aller anderen liegen — genau die Pfützen, die ausgespült werden."
+    ],
+    "live_apply": {
+      "cta": "Öffne ein Signal und identifiziere seine drei Ordertyp-Bestandteile: die Einstiegszone, den Stop-Loss-Auslöser und die Take-Profit-Leiter."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "title": "Liquidität und Volumen",
+    "summary": "Warum Größe den Preis bewegt und wie Volumen eine Bewegung bestätigt.",
+    "concept": "**Liquidität** ist, was du handeln kannst, ohne den Preis zu bewegen; **Volumen** ist, was *gehandelt wurde*. Sie hängen zusammen, sind aber nicht identisch: Volumen ist der Beleg, Liquidität ist die Kapazität.\n\nWenn ein Markt tief ist (dickes Orderbuch), bewegen selbst große Orders den Preis kaum. Wenn er dünn ist, verschlingt eine bescheidene Markt-Order mehrere Preisstufen auf einmal — das ist Slippage in Aktion. Liquidität versiegt auch nachts, an Wochenenden (Krypto) und um Nachrichten herum.\n\nFür einen Signalleser ist Volumen ein **Bestätigungswerkzeug**: ein Ausbruch auf dem Doppelten des jüngsten Durchschnittsvolumens bedeutet echte Beteiligung; derselbe Ausbruch auf totem Volumen ist verdächtig. QuantGlass kodiert dies als **Volumenverhältnis** (aktuelles Volumen ÷ jüngster Durchschnitt) und baut es in den `volume_confirmation`-Score eines Signals ein — eine der Vertrauens-Eingaben, die du an jedem Signal prüfen kannst.",
+    "key_terms": [
+      {
+        "term": "Liquidität",
+        "definition": "Was gehandelt werden kann, ohne den Preis zu bewegen."
+      },
+      {
+        "term": "Volumen",
+        "definition": "Die in einem Zeitraum tatsächlich gehandelte Menge."
+      },
+      {
+        "term": "Volumenverhältnis",
+        "definition": "Volumen des aktuellen Balkens geteilt durch den jüngsten Durchschnitt — QuantGlass' Beteiligungsmesser."
+      },
+      {
+        "term": "Dünner Markt",
+        "definition": "Geringe Liquidität: kleine Orders verursachen unverhältnismäßige Preisbewegungen."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Ausbruchs-Candle druckt auf einem Volumen von 2,3× ihres jüngsten Durchschnitts. Was sagt dir dieses Verhältnis?",
+      "options": [
+        "Nichts — Volumen hat keinen Bezug zu Preisbewegungen.",
+        "Die Beteiligung ist ungewöhnlich hoch, was die Glaubwürdigkeit des Ausbruchs stärkt.",
+        "Die Börse hat eine Störung.",
+        "Liquidität ist aus dem Buch verschwunden."
+      ],
+      "explanation": "Das Volumenverhältnis vergleicht den Balken mit seiner eigenen jüngsten Basis. Ausbrüche auf hoher Beteiligung sind historisch verlässlicher als Bewegungen auf totem Volumen."
+    },
+    "live_apply": {
+      "cta": "Öffne ein Symbol-Detail und finde die Volumen-Metriken — vergleiche das Volumen des letzten Balkens mit der jüngsten Basis."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "title": "Gebühren und Slippage: die Hin-und-Rück-Kosten",
+    "summary": "Jeder Trade zahlt zweimal — berechne die echten Kosten, bevor du einen Vorteil zählst.",
+    "concept": "Zwei Kosten treffen jeden Trade. **Gebühren** sind explizit: Börsen berechnen einen Prozentsatz je Seite (Krypto-Taker-Gebühren liegen oft nahe 0,10%; US-Aktien-Provisionen sind nahe null, doch andere Reibungen bleiben). **Slippage** ist implizit: die Lücke zwischen Chartpreis und deiner echten Ausführung, geboren aus Spread und Buchtiefe.\n\nBeide zahlen sich **zweimal** — einmal beim Einstieg, einmal beim Ausstieg. QuantGlass' Standard-Kostenmodell nimmt je Seite **0,10% Gebühr + 0,05% Slippage für Krypto** und **0,02% + 0,01% für Aktien** an, und der Backtester zieht die volle Hin-und-Rück-Runde von jedem simulierten Trade ab. Eine vor Kosten profitable und nach Kosten unprofitable Strategie hat keinen Vorteil — sie hat eine Illusion.\n\nBeispiel: eine Krypto-Position von 10.000 zahlt (0,10% + 0,05%) × 2 = **0,30%** hin und zurück — also 30, bevor der Trade überhaupt irgendwohin geht.",
+    "key_terms": [
+      {
+        "term": "Gebühren",
+        "definition": "Der explizite Prozentsatz, den eine Börse oder ein Broker je Seite berechnet."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Die implizite Kosten zwischen Chartpreis und echter Ausführung."
+      },
+      {
+        "term": "Hin und zurück",
+        "definition": "Einstieg plus Ausstieg — Kosten zahlen sich auf beiden."
+      },
+      {
+        "term": "Kostenbewusster Backtest",
+        "definition": "Eine Simulation, die Gebühren und Slippage von jedem Trade abzieht, wie QuantGlass es standardmäßig tut."
+      }
+    ],
+    "exercise": {
+      "question": "Mit QuantGlass' Krypto-Standardwerten (0,10% Gebühr + 0,05% Slippage je Seite), wie hoch ist die gesamte Hin-und-Rück-Kosten in Dollar bei einer Position von 10.000?",
+      "hint": "Kosten = Position × (Gebühr% + Slippage%) × 2 Seiten",
+      "explanation": "(0,0010 + 0,0005) × 2 = 0,0030; 10.000 × 0,0030 = **30**. Die Engine zieht genau das von jeder simulierten Krypto-Hin-und-Rück-Runde ab."
+    },
+    "live_apply": {
+      "cta": "Öffne das Backtesting und finde die Gebühren-/Slippage-Annahmen an einem Preset — sie entsprechen den von dieser Lektion verwendeten Standardwerten."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "title": "Wer auf der anderen Seite ist",
+    "summary": "Market Maker, Institutionen, Algorithmen und du.",
+    "concept": "Jede Ausführung hat eine Gegenpartei. **Market Maker** quotieren den ganzen Tag Bid und Ask, verdienen den Spread und stellen Liquidität bereit. **Institutionen** (Fonds, Treasuries) bewegen Größe langsam, um Wirkung zu vermeiden — ihre Spuren sind anhaltende Volumentrends. **Algorithmische Trader** reichen vom Mikrosekunden-Arbitrage bis zu langsamen systematischen Strategien und machen den Großteil des modernen Volumens aus. **Privatanleger** — du — sind die kleinsten und langsamsten Teilnehmer.\n\nDas ist kein Grund zur Verzweiflung; es ist ein Grund für **Disziplin**. Der Vorteil des Privatanlegers ist nie Geschwindigkeit. Es ist Selektivität (handle nur saubere Setups), Geduld (lass die geschlossene Candle bestätigen), Risikokontrolle (dimensioniere vom Stop, nicht von der Überzeugung) und Ehrlichkeit bei der Statistik — genau die vier Dinge, die QuantGlass' Engine mechanisch erzwingt.\n\nZu wissen, gegen wen du handelst, sagt dir, welche Spiele du nicht spielen sollst: Du kannst nicht schneller reagieren als ein kolokierter Algorithmus, aber du kannst länger warten als er.",
+    "key_terms": [
+      {
+        "term": "Market Maker",
+        "definition": "Ein Teilnehmer, der beide Seiten fortlaufend quotiert und den Spread verdient."
+      },
+      {
+        "term": "Institutioneller Fluss",
+        "definition": "Große langsame Orders, über die Zeit ausgeführt, um Marktwirkung zu begrenzen."
+      },
+      {
+        "term": "Algorithmischer Handel",
+        "definition": "Automatisierte Strategien — die Mehrheit des modernen Volumens."
+      },
+      {
+        "term": "Vorteil des Privatanlegers",
+        "definition": "Selektivität, Geduld und Risikokontrolle — nicht Geschwindigkeit."
+      }
+    ],
+    "exercise": {
+      "question": "Welches davon ist ein realistischer Vorteil für einen Privatanleger?",
+      "options": [
+        "Auf Nachrichten schneller reagieren als kolokierte Algorithmen.",
+        "Selektiv sein, auf die Bestätigung der geschlossenen Candle warten und jeden Trade von seinem Stop dimensionieren.",
+        "Häufiger handeln als Market Maker.",
+        "Bessere Gebühren bekommen als Institutionen."
+      ],
+      "explanation": "Die Spiele von Geschwindigkeit, Häufigkeit und Gebühren gehören den Profis. Selektivität, Geduld und mechanische Risikokontrolle sind die Vorteile, die auf der Privatanleger-Skala überleben."
+    },
+    "live_apply": {
+      "cta": "Sieh dir die Positionsgrößen-Lektion in Risiko und Größe erneut an — sie ist der konkreteste Ausdruck des Vorteils des Privatanlegers."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "title": "Krypto vs. Aktien in QuantGlass",
+    "summary": "Dieselbe Engine, zwei sehr verschiedene Märkte.",
+    "concept": "QuantGlass betreibt eine deterministische Engine auf zwei Markttypen, und die Unterschiede sind kodiert statt ignoriert.\n\n**Zeit**: Krypto-Candles fließen 24/7; Aktien-Candles existieren nur für Börsensitzungen, also ist eine 1-Tages-Aktien-Candle eine Sitzung, kein Kalendertag. **Volatilität**: Der typische ATR von Krypto als Bruchteil des Preises ist weit höher, daher sind Stops Vielfache des ATR statt fester Prozentsätze. **Kosten**: Das Standard-Hin-und-Rück-Modell berechnet 0,30% für Krypto und 0,06% für Aktien — der Backtester wendet das an, das zum `market_type` des Symbols passt. **Symbole**: Krypto-Paare quotieren als `BTCUSD` (Vermögenswert/Kotierungswährung), Aktien sind Börsentickers wie `AAPL`.\n\nPraktische Folge: Kopiere nie Positionsgrößen oder Stop-Distanzen zwischen Markttypen. Die Regime- und Volatilitätslogik der Engine passt sich automatisch an; deine Erwartungen sollten es auch.",
+    "key_terms": [
+      {
+        "term": "Markttyp",
+        "definition": "QuantGlass' erstklassige Krypto/Aktien-Unterscheidung an jedem Symbol."
+      },
+      {
+        "term": "ATR-relativer Stop",
+        "definition": "Ein als Vielfaches der aktuellen Volatilität dimensionierter Stop, kein fester Prozentsatz."
+      },
+      {
+        "term": "Handelspaar",
+        "definition": "Ein Krypto-Symbol, das einen Vermögenswert in einem anderen quotiert, z. B. BTC in USD."
+      },
+      {
+        "term": "Sitzungs-Candle",
+        "definition": "Eine tägliche Aktien-Candle, die nur die Börsenzeiten abdeckt."
+      }
+    ],
+    "exercise": {
+      "question": "Warum dimensioniert QuantGlass Stops in Vielfachen des ATR statt fester Prozentsätze für alle Symbole?",
+      "options": [
+        "Feste Prozentsätze sind illegal.",
+        "Volatilität unterscheidet sich enorm zwischen Symbolen und Markttypen — ein ATR-Vielfaches passt den Stop an die echte Bewegung jedes Marktes an.",
+        "ATR ist leichter zu berechnen als ein Prozentsatz.",
+        "Stops sind dekorativ."
+      ],
+      "explanation": "Ein 2%-Stop kann für eine ruhige Aktie riesig und für eine volatile Münze winzig sein. ATR-Vielfache normalisieren den Stop auf das, was das Instrument wirklich bewegt."
+    },
+    "live_apply": {
+      "cta": "Vergleiche die jüngsten Candle-Spannen eines Krypto-Symbols und einer Aktie — bemerke, wie unterschiedlich sie sich bewegen, dann finde diesen Unterschied in ihren ATR-Werten."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "title": "Von Ticks zu Candles: wie OHLCV erzeugt wird",
+    "summary": "Woher der Rohstoff der Engine kommt.",
+    "concept": "Märkte erzeugen einen Strom einzelner Trades — die **Ticks**. Eine Candle komprimiert alle Ticks eines Zeitfensters in fünf Zahlen: **O**pen (erster Trade), **H**igh, **L**ow, **C**lose (letzter Trade) und **V**olume (gesamt gehandelt). Ändere das Fenster, und du änderst die Geschichte: Dieselbe Stunde ist eine 1h-Candle, oder vier 15m-Candles, oder ein Viertel einer 4h-Candle.\n\nQuantGlass nimmt OHLCV in festen Zeitrahmen auf (**15m, 1h, 4h, 1d**), speichert lokal und stempelt jede Serie mit ihrem **Quell**-Platz und der Aufnahmezeit. Jede Candle trägt auch ihren `open_time_utc` — die Frische-Berechnung der Engine leitet daraus plus der Zeitrahmen-Länge die Schlusszeit ab.\n\nZwei Datenregeln halten die Analyse ehrlich: Candles sind **nach dem Schluss unveränderlich** (eine geänderte Historie ist ein Provider-Bug, und die Integritätsschicht markiert ihn), und **jede Zahl, die du siehst, geht auf einen Platz zurück** — keine vermischten, nicht nachverfolgbaren Preise.",
+    "key_terms": [
+      {
+        "term": "Tick",
+        "definition": "Ein einzelner ausgeführter Trade."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — die fünf Zahlen, die ein Tick-Fenster zusammenfassen."
+      },
+      {
+        "term": "Zeitrahmen",
+        "definition": "Die Fensterlänge jeder Candle — 15m, 1h, 4h oder 1d in QuantGlass."
+      },
+      {
+        "term": "Datenintegrität",
+        "definition": "Prüfungen, dass geschlossene Candles nie mutieren und Lücken erkannt werden."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Ein-Stunden-Candle zeigt O=100, H=104, L=99, C=103. Was ist das Einzige, das du daraus NICHT folgern kannst?",
+      "options": [
+        "Der erste Trade der Stunde war bei 100.",
+        "Der Preis berührte 104 zu einem Zeitpunkt der Stunde.",
+        "Den genauen Weg, den der Preis zwischen diesen Niveaus nahm.",
+        "Der letzte Trade der Stunde war bei 103."
+      ],
+      "explanation": "Eine Candle ist eine Zusammenfassung: Sie bewahrt die Extreme und Endpunkte, zerstört aber den Weg. Der Preis könnte das Tief vor dem Hoch berührt haben oder umgekehrt — die Candle kann es nicht sagen."
+    },
+    "live_apply": {
+      "cta": "Schalte einen Chart zwischen 15m und 1h um — sieh, wie vier kleine Candles zu einer größeren verschmelzen, die dieselbe OHLCV-Information trägt."
+    }
+  },
+  {
+    "id": "novice-01-candlestick",
+    "title": "Eine Candle lesen",
+    "summary": "Verstehe die vier Preiswerte, die jede Candle kodiert.",
+    "concept": "Eine **Candle** kodiert vier Preise in einem Balken: das **Open** (wo die Periode begann), das **High** und **Low** (die erreichten Extrempreise) und das **Close** (wo die Periode endete). Der rechteckige *Körper* erstreckt sich von Open bis Close. Eine *grüne/bullische* Candle bedeutet Close > Open; eine *rote/bärische* bedeutet Close < Open. Die dünnen Linien über und unter dem Körper heißen **Dochte (Wicks)** (oder Schatten) und zeigen Hoch und Tief.\n\nDas **Volumen** — die Zahl der in der Periode gehandelten Einheiten — erscheint unter dem Chart. Hohes Volumen auf einem starken Schluss signalisiert Überzeugung; hohes Volumen auf einer Umkehr signalisiert Erschöpfung.",
+    "key_terms": [
+      {
+        "term": "Open",
+        "definition": "Der Preis beim allerersten Trade der Periode."
+      },
+      {
+        "term": "High",
+        "definition": "Der höchste in der Periode gehandelte Preis."
+      },
+      {
+        "term": "Low",
+        "definition": "Der niedrigste in der Periode gehandelte Preis."
+      },
+      {
+        "term": "Close",
+        "definition": "Der Preis beim allerletzten Trade der Periode."
+      },
+      {
+        "term": "Körper",
+        "definition": "Das Rechteck zwischen Open und Close."
+      },
+      {
+        "term": "Docht / Schatten",
+        "definition": "Die dünne Linie, die sich über den Körper hinaus zum Hoch oder Tief erstreckt."
+      },
+      {
+        "term": "Volumen",
+        "definition": "Zahl der in der Periode gehandelten Einheiten."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Candle öffnet bei 100, erreicht ein Hoch von 110, fällt auf 95 und schließt bei 107. Was stellt der obere Docht dar?",
+      "options": [
+        "Der Preis reiste von 107 zu 110 und wurde nach unten abgewiesen.",
+        "Den Durchschnittspreis der Periode.",
+        "Den Eröffnungspreis der nächsten Candle.",
+        "Das gesamte gehandelte Volumen."
+      ],
+      "explanation": "Der **obere Docht** stellt die Distanz zwischen Close (107) und High (110) dar. Der Preis erreichte 110, doch die Käufer konnten ihn nicht halten — die Verkäufer drückten ihn zum Schluss auf 107 zurück. Ein langer oberer Docht auf einer bullischen Candle ist oft eine Warnung vor Angebot oben."
+    },
+    "common_mistakes": [
+      "Eine einzelne Candle als Signal lesen. Eine Candle ist eine Auktion; nur ihr Kontext (Trend, Niveau, Volumen) gibt ihr Bedeutung.",
+      "Musternamen auswendig lernen statt des Kauf-/Verkaufsdrucks, den sie kodieren. Das Etikett ist eine Anekdote; der Druck ist die Information.",
+      "Den Zeitrahmen ignorieren. Derselbe 'Hammer' auf einem Minuten-Chart und einem Wochen-Chart tragen völlig unterschiedliches Gewicht."
+    ],
+    "live_apply": {
+      "cta": "Öffne das Dashboard, fahre über eine beliebige Candle im Chart und prüfe die O/H/L/C-Werte im Tooltip."
+    }
+  },
+  {
+    "id": "novice-02-trend",
+    "title": "Was einen Trend ausmacht",
+    "summary": "Lerne, wie höhere Hochs und tiefere Tiefs die Richtung definieren.",
+    "concept": "Ein **Trend** ist eine Reihe von Preisschwüngen, die sich überwiegend in eine Richtung bewegen.\n\n- **Aufwärtstrend**: Der Preis macht aufeinanderfolgende **höhere Hochs (HH)** und **höhere Tiefs (HL)**. Jeder Rücksetzer setzt einen Boden höher als der vorige.\n- **Abwärtstrend**: Der Preis macht aufeinanderfolgende **tiefere Hochs (LH)** und **tiefere Tiefs (LL)**.\n- **Range / seitwärts**: Hochs und Tiefs schwingen in einem Band ohne anhaltende Richtung.\n\nQuantGlass identifiziert den Trend durch das Verhältnis zwischen **EMA-21** (kurzfristiger Durchschnitt) und **SMA-50** (mittelfristiger Durchschnitt). Wenn `Close > EMA21 > SMA50`, klassifiziert die Engine den Markt als Aufwärtstrend. Wenn `Close < EMA21 < SMA50`, ist er bärisch.",
+    "key_terms": [
+      {
+        "term": "Höheres Hoch (HH)",
+        "definition": "Jeder folgende Schwung-Gipfel liegt über dem vorigen Gipfel."
+      },
+      {
+        "term": "Höheres Tief (HL)",
+        "definition": "Jedes folgende Rücksetzer-Tal liegt über dem vorigen."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Exponentieller gleitender Durchschnitt über 21 Perioden — gewichtet jüngste Schlusskurse höher."
+      },
+      {
+        "term": "SMA-50",
+        "definition": "Einfacher gleitender Durchschnitt über 50 Perioden — gleiches Gewicht auf 50 Schlusskursen."
+      }
+    ],
+    "exercise": {
+      "question": "Der Preis schließt bei 250, EMA-21 liegt bei 245, SMA-50 bei 240. Welchen Trendzustand weist QuantGlass zu?",
+      "options": [
+        "Bärisch — der Preis ist unter beiden Durchschnitten.",
+        "Bullisch — Close > EMA21 > SMA50.",
+        "Range — die Durchschnitte sind zu nah.",
+        "Volatil — Richtung unbestimmbar."
+      ],
+      "explanation": "Wenn `Close (250) > EMA21 (245) > SMA50 (240)`, ist die Anordnung perfekt bullisch. Die Signal-Engine nutzt diese Ausrichtung, um die BUY_ZONE-Setups der Trend-Rücksetzer-Familie zu aktivieren."
+    },
+    "live_apply": {
+      "cta": "Öffne Signale, klicke ein beliebiges BUY_ZONE-Signal und sieh den Abschnitt Gründe — finde den Grund der Trendausrichtung."
+    }
+  },
+  {
+    "id": "novice-03-support-resistance",
+    "title": "Grundlagen von Unterstützung und Widerstand",
+    "summary": "Entdecke die Preisniveaus, an denen Angebot und Nachfrage wiederholt aufeinandertreffen.",
+    "concept": "**Unterstützung** ist ein Preisniveau, an dem ein fallender Preis wiederholt abprallt — Käufer obsiegen dort über Verkäufer. **Widerstand** ist ein Niveau, an dem ein steigender Preis wiederholt stockt — Verkäufer obsiegen über Käufer.\n\nDiese Niveaus bilden sich, weil Trader sich an vergangene Wendepunkte erinnern. Ein gebrochener Widerstand wird oft zur neuen Unterstützung (*Polaritätsumkehr*). QuantGlass nutzt den **Donchian-Kanal** (20-Perioden-Hoch/Tief), um jüngste Schwung-Extreme zu identifizieren, die als natürliche S/R wirken.",
+    "key_terms": [
+      {
+        "term": "Unterstützung",
+        "definition": "Preisboden — Käufer greifen ein, um den Fall zu stoppen."
+      },
+      {
+        "term": "Widerstand",
+        "definition": "Preisdecke — Verkäufer greifen ein, um den Anstieg zu stoppen."
+      },
+      {
+        "term": "Polaritätsumkehr",
+        "definition": "Gebrochener Widerstand wird nach einem bestätigten Ausbruch zur Unterstützung."
+      },
+      {
+        "term": "Donchian-Kanal",
+        "definition": "Das höchste Hoch und tiefste Tief über N Perioden."
+      }
+    ],
+    "exercise": {
+      "question": "Der Preis bricht über einen Widerstand bei 500 $ auf starkem Volumen, fällt dann auf 500 $ zurück. Was ist 500 $ jetzt?",
+      "options": [
+        "Immer noch Widerstand — er hat sich noch nicht bewiesen.",
+        "Eine Unterstützung — die Polarität kehrte sich nach einem bestätigten Ausbruch um.",
+        "Der faire Wert — Mean-Reversion-Ziel.",
+        "Ein Stop-Loss-Niveau."
+      ],
+      "explanation": "Nach einem auf Volumen bestätigten Ausbruch wird der vorige Widerstand bei 500 $ zur Unterstützung. Das ist die *Polaritätsumkehr*. QuantGlass' Ausbruch-Retest-Fortsetzung-Setup sucht gezielt die Rückkehr des Preises zum Donchian-Ausbruchsniveau vor dem Wiedereinstieg."
+    },
+    "common_mistakes": [
+      "Niveaus als exakte Preise statt Zonen behandeln. Märkte respektieren Bereiche; präzise Linien werden ständig durchdocht.",
+      "Bei jeder Berührung eine Linie ziehen, bis der Chart unbrauchbar ist. Zwei oder drei saubere, breit respektierte Zonen sind besser als zwölf laute Linien.",
+      "Vergessen, dass gebrochene Unterstützung dazu neigt, Widerstand zu werden. Alte Niveaus verschwinden nicht beim Bruch — sie wechseln die Seite."
+    ],
+    "live_apply": {
+      "cta": "Finde ein WATCH-Signal vom Setup-Typ 'breakout_retest_continuation' — die Einstiegszone liegt nahe dem umgekehrten Niveau."
+    }
+  },
+  {
+    "id": "novice-04-volume",
+    "title": "Volumen als Bestätigung",
+    "summary": "Lerne, warum Volumen Preisbewegungen Glaubwürdigkeit verleiht.",
+    "concept": "**Volumen** ist die Zahl der gehandelten Einheiten. Eine Preisbewegung *mit* starkem Volumen hält eher als eine Bewegung auf dünnem Volumen. Volumen bestätigt, dass genug Teilnehmer mit der Richtung übereinstimmen.\n\nQuantGlass berechnet ein **Volumenverhältnis** — Volumen des aktuellen Balkens geteilt durch den 20-Perioden-Durchschnitt. Ein Verhältnis ≥ 1,75 erhält vollen `volume_confirmation`-Kredit in der Vertrauensformel. Ausbruchs-Einstiege (Donchian-Ausbruch) verlangen volume_ratio ≥ 1,0 als Mindestschwelle.\n\n**Divergenz**: Preis steigt, aber Volumen fällt → schwache Bewegung, mögliche Erschöpfung. Preis fällt auf hohem Volumen → institutionelle Verteilung, bärisches Signal.",
+    "key_terms": [
+      {
+        "term": "Volumenverhältnis",
+        "definition": "Volumen des aktuellen Balkens ÷ 20-Perioden-Durchschnittsvolumen."
+      },
+      {
+        "term": "Volumenbestätigung",
+        "definition": "Ein Score von 0 bis 1: wie sehr das Volumen die aktuelle Bewegung stützt."
+      },
+      {
+        "term": "Divergenz",
+        "definition": "Preis und Volumen bewegen sich in entgegengesetzte Richtungen — schwächt die Bewegung."
+      }
+    ],
+    "exercise": {
+      "question": "Eine bullische Ausbruchs-Candle hat ein Volumen von 3× des 20-Perioden-Durchschnitts. Was sagt dir das?",
+      "options": [
+        "Es ist ein Fehlausbruch — hohes Volumen bedeutet Erschöpfung.",
+        "Die Bewegung hat starke institutionelle Beteiligung und hält eher.",
+        "Volumen ist für Ausbrüche irrelevant.",
+        "Du solltest auf fallendes Volumen warten, bevor du einsteigst."
+      ],
+      "explanation": "Hohes Volumen auf einem Ausbruch bestätigt, dass viele Teilnehmer übereinstimmen. Institutionen können ihre Aktivität nicht verbergen — sie hinterlassen eine Volumenspur. QuantGlass' volume_confirmation-Score erreicht 1,0, wenn volume_ratio ≥ 1,75."
+    },
+    "live_apply": {
+      "cta": "Öffne die Detail-Schublade eines Signals und prüfe den Wert confidence_basis.volume_confirmation."
+    }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "title": "Zeitrahmen: ein Markt, mehrere Linsen",
+    "summary": "Dieselbe Preisaktion sieht auf 15m, 1h, 4h und 1d unterschiedlich aus.",
+    "concept": "Ein **Zeitrahmen** ist das Fenster, das jede Candle zusammenfasst. Niedrigere Zeitrahmen (15m) zeigen feine Details und mehr Rauschen; höhere (1d) zeigen Struktur und weniger Rauschen. Keiner ist 'wahrer' — es sind verschiedene Komprimierungen desselben Tick-Stroms.\n\nZwei praktische Regeln. Erstens, **der Trend ist relativ zum Zeitrahmen**: Ein 15m-Abwärtstrend kann in einem 1h-Aufwärtstrend in einer 1d-Range leben. Benenne stets den Zeitrahmen, wenn du einen Trend benennst. Zweitens, **Signale erben ihren Zeitrahmen**: Ein auf 1h-Candles erzeugtes QuantGlass-Signal hat Stops, Ziele und Haltedauern im 1h-Maßstab — es gegen einen 1d-Chart zu beurteilen, liest es falsch.\n\nDie Setups der Engine konsultieren sogar intern eine langsamere Linse: Die Höherer-Zeitrahmen-Neigungsprüfung vergleicht die 50-Balken-Basis jetzt gegen 10 Balken zuvor und belohnt Setups, die mit der breiteren Drift ausgerichtet sind.",
+    "key_terms": [
+      {
+        "term": "Zeitrahmen",
+        "definition": "Die Fensterlänge, die jede Candle zusammenfasst."
+      },
+      {
+        "term": "Rauschen",
+        "definition": "Kurz-Zeitrahmen-Schwankung, die bei stärkerer Komprimierung verschwindet."
+      },
+      {
+        "term": "Höherer-Zeitrahmen-Ausrichtung",
+        "definition": "Übereinstimmung zwischen dem Zeitrahmen eines Setups und dem langsameren Trend — eine Konfluenz-Eingabe in QuantGlass."
+      },
+      {
+        "term": "Haltedauer",
+        "definition": "Wie lange eine Position offen bleiben sollte — proportional zum Zeitrahmen."
+      }
+    ],
+    "exercise": {
+      "question": "Ein Symbol fällt auf dem 15m-Chart, steigt aber auf dem 1d. Welche Aussage ist korrekt?",
+      "options": [
+        "Der Datenfeed ist kaputt.",
+        "Beide sind wahr: Der Trend ist relativ zum Zeitrahmen, auf dem du ihn misst.",
+        "Der 15m-Chart hat stets Vorrang vor dem 1d.",
+        "Das Symbol hat keinen Trend."
+      ],
+      "explanation": "Trends sind verschachtelt. Ein Kurz-Linsen-Rücksetzer in einem Lang-Linsen-Aufwärtstrend ist die normale Anatomie von Trendmärkten — und die Basis von Rücksetzer-Setups."
+    },
+    "live_apply": {
+      "cta": "Gehe einen Chart von 15m → 1h → 4h → 1d durch und notiere den Trend, den du auf jeder Linse benennen würdest."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "title": "Schwünge, Trendlinien und Struktur",
+    "summary": "Höhere Hochs, höhere Tiefs und das Skelett unter jedem Chart.",
+    "concept": "Der Preis bewegt sich in **Schwüngen** — Schübe und Rücksetzer. Markiere die Wendepunkte, und du erhältst das Skelett des Marktes: Ein **Aufwärtstrend** ist eine Treppe höherer Hochs (HH) und höherer Tiefs (HL); ein **Abwärtstrend** sind tiefere Hochs (LH) und tiefere Tiefs (LL); eine **Range** sind überlappende Schwünge ohne Treppe.\n\nEine **Trendlinie** verbindet aufeinanderfolgende Schwung-Täler (im Aufwärtstrend) oder -Gipfel (im Abwärtstrend). Sie ist nicht magisch — sie ist eine visuelle Zusammenfassung des Treppen-Rhythmus. Wenn die Treppe bricht (im Aufwärtstrend nimmt der Preis das letzte HL), ist die Struktur beschädigt, und struktureller Schaden ist die erste Warnung des Chartisten, lange bevor ein Indikator dreht.\n\nDie Gründe von QuantGlass-Signalen zitieren oft die jüngsten Schwung-Extreme — der Invalidierungsanker eines Long-Setups ist typischerweise das jüngste Schwung-Tal, denn dort scheitert die Treppen-Logik selbst.",
+    "key_terms": [
+      {
+        "term": "Schwung-Gipfel/-Tal",
+        "definition": "Ein lokaler Wendepunkt im Preis."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "Die Treppen-Muster, die Aufwärts- und Abwärtstrends definieren."
+      },
+      {
+        "term": "Trendlinie",
+        "definition": "Eine Linie durch aufeinanderfolgende Schwung-Punkte, die den Trend-Rhythmus zusammenfasst."
+      },
+      {
+        "term": "Strukturbruch",
+        "definition": "Der Preis verletzt den jüngsten Schwung der dominanten Treppe."
+      }
+    ],
+    "exercise": {
+      "question": "In einem durch höhere Hochs und höhere Tiefs definierten Aufwärtstrend, welches einzelne Ereignis beschädigt die Struktur am direktesten?",
+      "options": [
+        "Eine rote Candle beliebiger Größe.",
+        "Der Preis bricht unter das jüngste höhere Tief.",
+        "Volumen sinkt während eines Balkens.",
+        "Ein Wochenend-Gap."
+      ],
+      "explanation": "Die Treppe überlebt rote Candles und ruhiges Volumen. Sie ist durch ihre Schwung-Täler definiert — das letzte höhere Tief zu verlieren, bricht das Muster."
+    },
+    "live_apply": {
+      "cta": "Markiere auf dem Chart eines Symbols mental die letzten drei Schwung-Täler — finde dann das Invalidierungsniveau des Signals und sieh, wie es sich dazu verhält."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "title": "Gaps, Dochte und was sie verraten",
+    "summary": "Die Satzzeichen des Charts: Abweisung, Überraschung und Abwesenheit.",
+    "concept": "Ein **Docht** (Schatten) ist der Teil einer Candle außerhalb ihres Körpers: Der Preis war dort und wurde im selben Balken zurückgedrückt. Ein langer oberer Docht auf einer Rally-Candle bedeutet, die Verkäufer absorbierten den Schub — **Abweisung**. Ein langer unterer Docht nach einem Rückgang bedeutet, die Käufer griffen ein. Dochte an Schlüsselniveaus (Unterstützung, Widerstand, gleitende Durchschnitte) sind die Art, wie Abweisungs-Setups sich ankündigen.\n\nEin **Gap** ist ein Sprung zwischen dem Schluss einer Candle und der Eröffnung der nächsten. Aktien-Charts gappen routinemäßig — Nachrichten fallen, während die Börse geschlossen ist. Krypto, 24/7 gehandelt, gappt selten; ein Krypto-'Gap' bedeutet meist einen Datenausfall, den QuantGlass' Integritätsprüfungen markieren statt still zu füllen.\n\nLeseregel: Ein Docht ist Information über den Kampf *innerhalb des Balkens*; ein Gap ist Information über die Überraschung *zwischen Balken*. Keiner ist allein ein Signal — beide sind Kontext, der ein Setup stärkt oder schwächt.",
+    "key_terms": [
+      {
+        "term": "Docht / Schatten",
+        "definition": "Die Spanne der Candle außerhalb ihres Körpers — besuchte, aber abgewiesene Preise."
+      },
+      {
+        "term": "Abweisung",
+        "definition": "Ein Schub zu einem Niveau, der von ihm weg schloss."
+      },
+      {
+        "term": "Gap",
+        "definition": "Eröffnung anders als der vorige Schluss — üblich bei Aktien, abnormal bei Krypto."
+      },
+      {
+        "term": "Datenlücke",
+        "definition": "Ein Fehlende-Candle-Artefakt, das die Integritätsschicht erkennt."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Krypto-1h-Serie zeigt ein großes Gap zwischen dem Schluss einer Candle und der Eröffnung der nächsten. Was ist die wahrscheinlichste Erklärung?",
+      "options": [
+        "Krypto-Börsen schließen nachts, wie Aktienmärkte.",
+        "Ein Datenausfall — kontinuierliche Märkte erzeugen selten echte Preis-Gaps, also markiert QuantGlass fehlende Candles.",
+        "Das Protokoll setzte den Preis zurück.",
+        "Gaps sind in OHLCV unmöglich darzustellen."
+      ],
+      "explanation": "Krypto handelt rund um die Uhr, also berühren sich aufeinanderfolgende Candles normalerweise. Ein Gap markiert meist fehlende Daten — ein Integritätsereignis, kein Marktereignis."
+    },
+    "live_apply": {
+      "cta": "Finde eine Candle mit einem ausgeprägten Docht nahe einem gleitenden Durchschnitt — diese Geometrie ist der Rohstoff für die Abweisungs-Setups der Engine."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "title": "Niveaus lesen wie die Engine",
+    "summary": "Von handgezeichneten Linien zu reproduzierbaren Niveaus.",
+    "concept": "Klassische Unterstützung/Widerstand wird mit dem Auge gezeichnet — nützlich, aber nicht reproduzierbar: Zwei Trader zeichnen zwei verschiedene Linien. QuantGlass bevorzugt **berechenbare Niveaus**, damit jedes Niveau, das du siehst, neu berechnet und geprüft werden kann.\n\nDas Niveau-Vokabular der Engine: **jüngste Extreme** (das Hoch/Tief der letzten ~20 Balken — der Donchian-Kanal), **gleitende Durchschnitte** als dynamische Unterstützung (die Rücksetzer-Zone der 21-EMA in Trend-Setups) und **Volatilitäts-Hüllen** (Keltner: EMA ± ein Vielfaches des ATR; Bollinger: Mittel ± ein Vielfaches der Standardabweichung). Jedes ist eine präzise Formel auf geschlossenen Candles — keine künstlerische Freiheit.\n\nWenn ein Signal 'Rücksetzer in die EMA-Zone' sagt oder die Invalidierung 'nahe dem jüngsten Schwung-Tal' verankert, bilden diese Phrasen eins zu eins auf diese berechneten Niveaus ab. Handgezeichnete Linien bleiben ein gutes Denkwerkzeug; die Engine weigert sich nur, das zu *handeln*, was sie nicht neu berechnen kann.",
+    "key_terms": [
+      {
+        "term": "Berechenbares Niveau",
+        "definition": "Ein aus einer Formel abgeleitetes Unterstützung/Widerstand-Niveau, nicht handgezeichnet."
+      },
+      {
+        "term": "Donchian-Kanal",
+        "definition": "Hoch und Tief von N Balken — das Jüngste-Extreme-Niveau der Engine."
+      },
+      {
+        "term": "Dynamische Unterstützung",
+        "definition": "Ein gleitender Durchschnitt, der als steigendes/fallendes Niveau wirkt, z. B. die 21-EMA."
+      },
+      {
+        "term": "Volatilitäts-Hülle",
+        "definition": "Bänder um eine Mittellinie, dimensioniert nach ATR (Keltner) oder Standardabweichung (Bollinger)."
+      }
+    ],
+    "exercise": {
+      "question": "Warum verankert QuantGlass seine Niveaus an Formeln (Donchian, EMA, ATR-Bänder) statt an handgezeichneten Linien?",
+      "options": [
+        "Formeln sagen die Zukunft stets richtig voraus.",
+        "Berechnete Niveaus sind reproduzierbar und prüfbar — jedes Niveau auf dem Bildschirm kann aus denselben Candles neu berechnet werden.",
+        "Zeichenwerkzeuge sind patentiert.",
+        "Handgezeichnete Linien sind stets falsch."
+      ],
+      "explanation": "Das Ziel ist Ehrlichkeit, nicht Prophezeiung: Ein aus einer Formel abgeleitetes Niveau kann jeder mit denselben Daten überprüfen, was der Standard ist, dem sich die ganze Engine unterwirft."
+    },
+    "live_apply": {
+      "cta": "Aktiviere die Band-Überlagerungen auf einem Chart und sieh, wie der Preis mit den Rändern der berechneten Hülle interagiert."
+    }
+  },
+  {
+    "id": "novice-05-reading-signal",
+    "title": "Dein erstes Signal lesen",
+    "summary": "Dekodiere jedes Feld in der Ausgabe eines QuantGlass-Signals.",
+    "concept": "Ein QuantGlass-Signal enthält:\n\n- **Signaltyp**: BUY_ZONE / SELL / HOLD / WAIT / WATCH\n- **Einstiegszone**: eine Preisspanne [low, high] zum Einstieg\n- **Stop-Loss**: Preis, bei dem die Trade-Idee sich als falsch erweist\n- **Take-Profit [TP1, TP2, TP3]**: drei Ausstiegsstufen (50 / 30 / 20% der Position)\n- **Risiko:Ertrag (R:R)**: wie viele R du verdienst, wenn TP2 erreicht wird\n- **Vertrauen (0–89)**: ein kalibrierter Score — keine Gewinnwahrscheinlichkeit\n- **Vertrauensbasis**: die Teil-Scores, die das Gesamtvertrauen leiteten\n- **Gründe**: Erklärung in Klartext, warum dieses Setup identifiziert wurde\n- **Invalidierung**: die Bedingung, die dieses Setup annulliert\n\n**Wichtig**: Vertrauen ≠ Trefferquote. Ein Signal mit Vertrauen 70 ist NICHT '70% Gewinnchance'. Es bedeutet, die Engine hat relativ starke Belege *zum Scan-Zeitpunkt*. Prüfe stets `out_of_sample_validated` — wenn False, bestand der Backtest die statistische Prüfung nicht.",
+    "key_terms": [
+      {
+        "term": "Einstiegszone",
+        "definition": "Die als zum Einstieg akzeptabel beurteilte Preisspanne [low, high]."
+      },
+      {
+        "term": "Stop-Loss",
+        "definition": "Preisniveau, bei dem das Setup invalidiert wird; akzeptabler Maximalverlust."
+      },
+      {
+        "term": "Take-Profit-Leiter",
+        "definition": "Drei gestaffelte Ausstiegspreise (TP1=50%, TP2=30%, TP3=20% der Position)."
+      },
+      {
+        "term": "R:R (Risiko:Ertrag)",
+        "definition": "Ertrag ÷ Risiko — ein R:R von 2,0 bedeutet, der potenzielle Gewinn ist 2× das Risiko."
+      },
+      {
+        "term": "Out-of-Sample validiert",
+        "definition": "True, wenn der OOS-Abschnitt des Backtests ≥ min_sample Trades mit positiver Erwartung hat."
+      }
+    ],
+    "exercise": {
+      "question": "Ein BUY_ZONE-Signal zeigt Einstieg 100–102, Stop 96, TP2 = 108. Was ist das ungefähre R:R bis TP2?",
+      "options": [
+        "R:R ≈ 1,0 — der Ertrag gleicht dem Risiko.",
+        "R:R ≈ 1,5 — der Ertrag ist 50% mehr als das Risiko.",
+        "R:R ≈ 2,0 — der Ertrag ist das Doppelte des Risikos.",
+        "R:R ≈ 0,5 — das Risiko ist das Doppelte des Ertrags."
+      ],
+      "explanation": "Einstiegsmittelpunkt ≈ 101, Stop = 96 → Risiko = 5. TP2 = 108 → Ertrag = 7. R:R = 7/5 = 1,4 ≈ 1,5. QuantGlass zielt je nach Setup-Typ auf ein Minimum von 1,5–2,4× R:R."
+    },
+    "live_apply": {
+      "cta": "Klicke ein beliebiges BUY_ZONE-Signal und lokalisiere entry_zone, stop_loss, take_profit und risk_reward in der Detail-Schublade."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "title": "Anatomie eines QuantGlass-Signals",
+    "summary": "Jedes Feld auf der Signalkarte und warum es existiert.",
+    "concept": "Ein QuantGlass-Signal ist eine strukturierte Behauptung, kein Tipp. Seine Teile: Der **Zustand** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) benennt, was die Engine sieht; der **Setup-Typ** benennt die Musterfamilie, die es erzeugte; die **Einstiegszone** umgrenzt, wo Handeln Sinn ergibt; der **Stop-Loss** ist der eine Preis, bei dem die Idee falsch ist; die **Take-Profit-Leiter** staffelt Ausstiege auf drei Niveaus mit festen Gewichten (50% / 30% / 20%); und das **Risiko:Ertrag** vergleicht die Distanz des Median-Ziels mit der des Stops.\n\nZwei Ehrlichkeitsfelder vervollständigen die Karte: Die **Gründe** listen die Geschlossene-Candle-Tatsachen hinter dem Zustand, und die **Vertrauensbasis** legt jede Statistik offen, die in die Vertrauenszahl einfloss — Stichprobengrößen inbegriffen.\n\nNichts auf der Karte ist ein Ratschlag. Es ist die Engine, die ihre Arbeit zeigt, damit du der *Begründung* zustimmen oder widersprechen kannst, nicht nur der Schlussfolgerung.",
+    "key_terms": [
+      {
+        "term": "Signalzustand",
+        "definition": "Die Lesart der Engine: BUY_ZONE, SELL, WATCH, HOLD oder WAIT."
+      },
+      {
+        "term": "Setup-Typ",
+        "definition": "Die Musterfamilie, die den Zustand erzeugte."
+      },
+      {
+        "term": "Einstiegszone",
+        "definition": "Die Preisspanne, in der das Setup handlungsfähig ist."
+      },
+      {
+        "term": "TP-Leiter",
+        "definition": "Drei gestaffelte Ausstiegsniveaus mit Gewichten 50/30/20."
+      },
+      {
+        "term": "Vertrauensbasis",
+        "definition": "Die hinter der Vertrauenszahl offengelegten Statistiken."
+      }
+    ],
+    "exercise": {
+      "question": "Was stellt der Stop-Loss in einem QuantGlass-Signal grundlegend dar?",
+      "options": [
+        "Einen garantierten Ausstiegspreis.",
+        "Den Preis, bei dem die Prämisse des Setups invalidiert wird — die Idee ist dort falsch, also sollte die Position nicht existieren.",
+        "Den niedrigsten Preis des Jahres.",
+        "Eine Gebührenschwelle."
+      ],
+      "explanation": "Der Stop ist der Falsifikationspunkt der Trade-Idee. Die Ausführung kann darüber hinaus rutschen, doch seine Bedeutung ist 'jenseits hier hält die Begründung nicht'."
+    },
+    "live_apply": {
+      "cta": "Öffne ein beliebiges Signal und lokalisiere die sieben Teile: Zustand, Setup, Einstiegszone, Stop, Leiter, Risiko:Ertrag, Gründe."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "title": "Was die Vertrauenszahl bedeutet",
+    "summary": "Ein kalibrierter Score mit sichtbaren Eingaben — keine Gewinnwahrscheinlichkeit.",
+    "concept": "Der Vertrauens-Score (20–89) mischt die **Trendausrichtung**, die **Volumenbestätigung**, die **Konfluenz** und die **Backtest-Historie** dieser Setup-Familie — mit den Statistiken bewusst zum Neutralen gestaucht, wenn die Stichproben dünn sind. Eine 100%-Trefferhistorie auf 3 Trades wird als nahezu bedeutungslos behandelt, genau wie es sein sollte.\n\nZwei Decken halten die Zahl ehrlich: Vertrauen kann 62 nicht übersteigen, es sei denn, das Setup ist **Out-of-Sample validiert**, und übersteigt nie 89 — Gewissheit steht nicht auf der Karte. Wenn genug Out-of-Sample-Trades existieren, zeigt das Signal auch eine **Spanne mit garantierter Abdeckung** für das Ergebnis des nächsten Trades, eine verteilungsfreie Grenze, die mit einer angegebenen Wahrscheinlichkeit hält.\n\nLies es so: *wie viel Beleg dieses Setup-Muster stützt*, nie als *die Chance, dass dieser Trade gewinnt*. Einzelne Trades bleiben unvorhersehbar; nur die lange Frist hat Statistik.",
+    "key_terms": [
+      {
+        "term": "Vertrauen",
+        "definition": "Ein Beleg-Score von 20–89 mit allen offengelegten Eingaben."
+      },
+      {
+        "term": "Stauchung (Shrinkage)",
+        "definition": "Dünne-Stichproben-Statistik zum Neutralen ziehen, damit kleine Stichproben nicht schreien."
+      },
+      {
+        "term": "OOS validiert",
+        "definition": "Der Vorteil des Setups hielt auf Daten, an denen die Engine nie angepasst wurde."
+      },
+      {
+        "term": "Abdeckungsgarantie",
+        "definition": "Eine verteilungsfreie Spanne für das Ergebnis des nächsten Trades zu einer angegebenen Wahrscheinlichkeit."
+      }
+    ],
+    "exercise": {
+      "question": "Ein Signal zeigt Vertrauen 58 mit einer Backtest-Stichprobengröße von 7. Wie solltest du es lesen?",
+      "options": [
+        "Eine 58%-Chance, dass dieser Trade profitabel ist.",
+        "Moderater Muster-Beleg, stark gestaucht, weil sieben Trades statistisch fast nichts sind.",
+        "Eine Garantie von 58 Ticks Gewinn.",
+        "Die Engine beendete 58% der Berechnung."
+      ],
+      "explanation": "Vertrauen ist Belegstärke, keine Gewinnwahrscheinlichkeit — und bei n=7 lässt die Stauchung den Score vor allem auf der strukturellen Qualität des Setups ruhen, nicht auf seiner winzigen Historie."
+    },
+    "live_apply": {
+      "cta": "Öffne die Vertrauensbasis eines Signals und finde die Stichprobengrößen — bemerke, wie der Score kleine behandelt."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "title": "Frische und Invalidierung: wann ein Signal stirbt",
+    "summary": "Signale verfallen auf zwei Weisen — durch Zeit und durch Preis.",
+    "concept": "Ein Signal ist eine Behauptung über den Markt *zum Datum seiner letzten geschlossenen Candle*. Es stirbt auf zwei Weisen.\n\n**Durch Zeit**: Jede neue geschlossene Candle bewertet die Welt neu; das Frische-Abzeichen zeigt das Alter der Daten hinter dem, was du siehst. Frisch (innerhalb ~2 Balken) bedeutet aktuell; die Abzeichen verzögert und veraltet bedeuten, das Bild könnte sich entwickelt haben — handle nie auf einem veralteten Signal ohne zu aktualisieren.\n\n**Durch Preis**: Jedes Signal nennt seine **Invalidierung** — typischerweise ein Schluss jenseits des Stop-Niveaus. Sobald der Preis dort schließt, ist die Prämisse des Setups falsifiziert, und der Signalzustand kippt zu invalidiert. Es ist keine Schande in einer invalidierten Idee; der Fehler liegt nur im Weiterhandeln auf ihr.\n\nDie Disziplin, die dies lehrt, verallgemeinert sich: Jede Trade-Idee, die du hältst, sollte eine Verfallsbedingung in beiden Dimensionen geschrieben haben — *wann* sie veraltet und *wo* sie falsch wird.",
+    "key_terms": [
+      {
+        "term": "Frische-Abzeichen",
+        "definition": "Frisch / verzögert / veraltet, je nach Alter der letzten geschlossenen Candle gegen den Zeitrahmen."
+      },
+      {
+        "term": "Invalidierung",
+        "definition": "Die genannte Bedingung (meist ein Schluss jenseits des Stops), die das Setup falsifiziert."
+      },
+      {
+        "term": "Veraltetes Signal",
+        "definition": "Ein Signal, dessen zugrundeliegende Candle viele Balken zurückliegt — aktualisiere vor dem Handeln."
+      },
+      {
+        "term": "Neubewertung",
+        "definition": "Jede geschlossene Candle löst eine frische Lesart der Engine aus."
+      }
+    ],
+    "exercise": {
+      "question": "Ein 1h-Signal zeigt ein Frische-Abzeichen von 7 Stunden. Was ist die richtige Antwort?",
+      "options": [
+        "Sofort handeln — alte Signale sind wie Wein.",
+        "Zuerst die Daten aktualisieren: Sieben geschlossene Candles sind vergangen, und die aktuelle Lesart der Engine könnte abweichen.",
+        "Die Positionsgröße verdoppeln zum Ausgleich.",
+        "Frische zählt nur für Aktien."
+      ],
+      "explanation": "Es existieren sieben Balken neuer Information, die das angezeigte Signal nicht sah. Aktualisiere, lass die Engine neu bewerten und handle nur auf einer aktuellen Lesart."
+    },
+    "common_mistakes": [
+      "Auf einem veralteten Signal handeln. Ein vor Stunden berechnetes Setup beschreibt einen Markt, der nicht mehr existiert.",
+      "Die Invalidierung als Vorschlag behandeln. Wenn das Niveau bricht, ist die Trade-Idee tot — sie zu halten ist ein neuer, ungeplanter Trade."
+    ],
+    "live_apply": {
+      "cta": "Finde das Frische-Abzeichen an jedem Signal — aktualisiere dann den Korridor und sieh die Abzeichen zurücksetzen."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "title": "Deinen ersten Paper-Trade platzieren",
+    "summary": "Vom Signal zu einer simulierten Position, mit null Dollar im Spiel.",
+    "concept": "Paper-Trading ist eine Probe mit echten Marktdaten und fiktivem Geld. In QuantGlass: Öffne ein Signal, wähle **Paper-Trade**, setze eine Menge und sende ab. Die Absicht wird eingereiht und zum nächsten verfügbaren Preis ausgeführt — inklusive der realistischen Unbill, nicht den exakten Chartpreis zu bekommen. Dein Paper-Konto verfolgt Saldo, Kaufkraft, offene Positionen und realisiertes PnL.\n\nNutze die Geometrie des Signals selbst: Dimensioniere die Position so, dass du, wenn der Preis den Stop berührt, einen kleinen festen Bruchteil des Kontos verlierst (die Risiko-Route macht daraus eine Formel). Dann — das ist der Probenteil — **verwalte den Trade, als wäre er echt**: Respektiere den Stop, nimm die Leiter-Ausstiege und notiere, warum du eingestiegen bist.\n\nAlles, was du hier tust, speist die Lernschleife: Das Coaching-Panel beobachtet deine Paper-Trades und bringt die Lektion hervor, die du brauchst, wenn eine Gewohnheit abrutscht.",
+    "key_terms": [
+      {
+        "term": "Paper-Trading",
+        "definition": "Simulierte Ausführung gegen echte Marktdaten."
+      },
+      {
+        "term": "Trade-Absicht",
+        "definition": "Deine eingereihte Order, zum nächsten verfügbaren Preis ausgeführt."
+      },
+      {
+        "term": "Kaufkraft",
+        "definition": "Verbleibende Kontokapazität nach offenen Positionen."
+      },
+      {
+        "term": "Realisiertes PnL",
+        "definition": "Gewinn und Verlust nur aus geschlossenen Positionen."
+      }
+    ],
+    "exercise": {
+      "question": "Was ist die wertvollste Art, einen Paper-Trade zu behandeln?",
+      "options": [
+        "Wie ein Lottoschein — dimensioniere ihn absurd, da er fiktiv ist.",
+        "Genau, als wäre er echt: geplante Größe, respektierter Stop, festgehaltene Begründung.",
+        "Als ein Mittel, nur die Order-Buttons zu testen.",
+        "Ignoriere ihn nach dem Einstieg."
+      ],
+      "explanation": "Paper-Trading baut die Gewohnheiten, die du behältst. Verspielte Dimensionierung oder ignorierte Stops zu üben, probt genau die Verhaltensweisen, die echte Konten zerstören."
+    },
+    "common_mistakes": [
+      "Den Plan überspringen, weil 'es nur Papier ist'. Paper-Trading existiert, um die Gewohnheit des Planens zu trainieren — überspringe es, und du übst Improvisation.",
+      "Übergroß dimensionieren, weil das Geld nicht echt ist. Bei 10% fiktivem Risiko geformte Gewohnheiten übertragen sich unverändert auf echte Konten."
+    ],
+    "live_apply": {
+      "cta": "Wähle das frischeste Signal, platziere einen kleinen Paper-Trade mit seiner Einstiegszone und seinem Stop und notiere deine Begründung in einem Satz."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "title": "Nach dem Trade: deine Ergebnisse lesen",
+    "summary": "Positionen, PnL und der Unterschied zwischen Ergebnis und Entscheidung.",
+    "concept": "Einmal ausgeführt, erscheint deine Position mit einem Durchschnittspreis und einer Live-Markierung des unrealisierten PnL; sie zu schließen wandelt es in realisiertes PnL. Die Zahlen sind einfach — die Psychologie nicht.\n\nZentrale Unterscheidung: **Eine gute Entscheidung kann verlieren und eine schlechte gewinnen.** Das Ergebnis eines Trades wird von Rauschen dominiert; nur durch viele Trades erscheint die Entscheidungsqualität in der Statistik. Beurteile also jeden Trade nach dem *Prozess* — war das Setup gültig, die Größe geplant, der Stop respektiert? — und beurteile deine *Methode* nach den Aggregaten: Trefferquote, mittleres R, Erwartung.\n\nDeshalb besteht QuantGlass überall auf R-Vielfachen und Stichprobengrößen: Sie wandeln einen Haufen einzelner Geschichten in Beleg. Deine Paper-Historie ist dein erster Datensatz. Die Risiko- und Statistik-Routen lehren dich, sie wie ein Analyst statt wie ein Spieler zu lesen.",
+    "key_terms": [
+      {
+        "term": "Unrealisiertes PnL",
+        "definition": "Gewinn/Verlust zum Marktwert offener Positionen."
+      },
+      {
+        "term": "Realisiertes PnL",
+        "definition": "Festgeschriebenes Ergebnis geschlossener Positionen."
+      },
+      {
+        "term": "Prozess vs. Ergebnis",
+        "definition": "Entscheidungen werden nach ihrer Begründung beurteilt; Methoden nach ihrer Langzeitstatistik."
+      },
+      {
+        "term": "R-Vielfaches",
+        "definition": "Ein Ergebnis ausgedrückt in Einheiten des geplanten Risikos — die native Einheit der Engine."
+      }
+    ],
+    "exercise": {
+      "question": "Dein gut geplanter Trade berührte seinen Stop für einen Verlust von -1R. Was beweist das über die Entscheidung, ihn einzugehen?",
+      "options": [
+        "Die Entscheidung war schlecht — Verluste beweisen Fehler.",
+        "Fast nichts für sich: Einzelne Ergebnisse sind Rauschen; die Entscheidung wird nach dem Prozess und die Methode nach vielen Trades beurteilt.",
+        "Der Stop verursachte den Verlust.",
+        "Du solltest künftig Stops entfernen."
+      ],
+      "explanation": "Ein -1R auf einem gültigen Setup mit geplanter Größe ist das System, das wie vorgesehen arbeitet. Die Fehlerjagd gehört auf die Prozessebene, und die Urteile auf die Stichprobenebene."
+    },
+    "live_apply": {
+      "cta": "Öffne die Zusammenfassung deines Paper-Kontos: Trenne mental, welche Zahlen Ergebnisse (PnL) und welche Prozess (deine Dimensionierung und Stops) sind."
+    }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "title": "Die Anatomie eines Trading-Betrugs",
+    "summary": "Jede Masche läuft auf denselben drei Versprechen.",
+    "concept": "Trading-Betrügereien werden endlos neu eingekleidet, sind aber strukturell identisch. Sie verkaufen eine Mischung dreier unmöglicher Versprechen: **garantierte Renditen** ('1% pro Tag, ohne Risiko'), **geheimes Wissen** ('der Indikator, den SIE dir nicht zeigen wollen') und **mühelosen Reichtum** ('der Bot handelt, während du schläfst'). Jedes Versprechen widerspricht etwas, das du in dieser Akademie bereits gelernt hast: Rendite trägt definitionsgemäß Risiko (Drawdown-Mathematik), anhaltende öffentliche Vorteile degradieren (statistische Ehrlichkeit), und Kosten plus Wettbewerb machen mühelosen Gewinn zum Widerspruch.\n\nDas operative Drehbuch ist ebenso beständig: **Dringlichkeit** ('nur noch 5 Plätze'), **unprüfbarer Sozialbeweis** (Screenshots, Testimonials, gemietete Lamborghinis) und ein **Isolationstrichter** (dich von öffentlichen Plattformen in private Telegram-/WhatsApp-Gruppen ziehen, wo Moderation und Zeugen verschwinden).\n\nDie schützendste Gewohnheit: Wenn die *angekündigten Renditen* eines Angebots seinen Verkäufer reich machen würden, ohne dein Geld zu brauchen, frage, warum er dein Geld braucht. Echte Vorteile werden still gehandelt, nicht lautstark verkauft.",
+    "key_terms": [
+      {
+        "term": "Garantierte Rendite",
+        "definition": "Ein Versprechen, das der Definition von Marktrisiko widerspricht — der universelle Betrugsmarker."
+      },
+      {
+        "term": "Dringlichkeitsdruck",
+        "definition": "Künstliche Fristen, gestaltet, um Überprüfung zu verhindern."
+      },
+      {
+        "term": "Isolationstrichter",
+        "definition": "Ziele in private Kanäle fern von Moderation und Zeugen ziehen."
+      },
+      {
+        "term": "Verkäufer-Paradox",
+        "definition": "Wäre der Vorteil echt, wäre sein Verkauf unnötig und kontraproduktiv."
+      }
+    ],
+    "exercise": {
+      "question": "Eine Werbung verspricht '2% pro Tag, garantiert, jederzeit auszahlen'. Vor jedem anderen Warnsignal, was macht es mathematisch zu einem Betrug?",
+      "options": [
+        "2% ist zu klein, um sich zu kümmern.",
+        "Die garantierte tägliche Verzinsung zu diesem Satz würde den Weltreichtum in wenigen Jahren übersteigen — risikofreie Rendite existiert nicht, also ist das Versprechen selbst der Beweis.",
+        "Auszahlungen werden nirgends je erlaubt.",
+        "Nur Prozentsätze über 5% sind Betrug."
+      ],
+      "explanation": "2% pro Tag verzinst sich auf etwa 1.377% pro Jahr. Wer das wirklich hätte, bräuchte nie Einzahler. Das Versprechen widerlegt sich, noch bevor du irgendetwas anderes prüfst."
+    },
+    "live_apply": {
+      "cta": "Sieh die Drawdown-Lektion erneut an: Die Erholungsmathematik, die du dort berechnet hast, ist genau das, was 'risikofreie Rendite' zu ignorieren vorgibt."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "title": "Falsche Gurus und Signalverkäufer",
+    "summary": "Lifestyle-Marketing, unprüfbare Erfolgsbilanzen und der Kurs-Trichter.",
+    "concept": "Das Geschäftsmodell des Gurus ist, das *Bild* des Trading-Erfolgs zu verkaufen, um einen Lebensstil zu finanzieren, den das Trading selbst nicht finanziert. Seine Hinweise: **Lifestyle-Inhalt zuerst** (Autos, Uhren, Laptops am Strand — nie geprüfte Auszüge), **gesiebte Screenshots** (Gewinner gepostet, Verlierer gelöscht; Demo-Konten als echt ausgegeben), **unprüfbare Behauptungen** ('verwandelte 1.000 $ in 1 Mio. $' ohne Broker-Auszüge) und Einnahmen, die sichtbar aus **Kursen, Signalen und Affiliate-Links** statt aus Trading kommen.\n\n**Signalverkäufer** verdienen besondere Vorsicht: Jemanden zu bezahlen, dir zu sagen, wann zu kaufen, verbindet das ganze Risiko (deins) mit null Verständnis (auch deins). Du kannst eine Position, deren Begründung du nicht kennst, nicht dimensionieren, verwalten oder verlassen — deshalb lehrt dich diese Akademie, *die Gründe der Engine zu lesen*, statt ihren Schlussfolgerungen zu vertrauen.\n\nDer ehrliche Kontrast, den du nun besitzt: QuantGlass zeigt Stichprobengrößen, Out-of-Sample-Aufteilungen, Kosten und Drawdowns bei jeder Behauptung, *weil so eine ehrliche Performance-Berichterstattung aussieht*. Verlange denselben Standard von jedem Menschen: geprüft, vollständig, risikobereinigt, mit Verlusten. Fast keiner überlebt die Forderung.",
+    "key_terms": [
+      {
+        "term": "Lifestyle-Marketing",
+        "definition": "Reichtumsbilder verkaufen anstelle prüfbarer Performance."
+      },
+      {
+        "term": "Rosinenpicken",
+        "definition": "Gewinner posten und Verlierer löschen — der Überlebensbias als Verkaufswerkzeug."
+      },
+      {
+        "term": "Signalverkauf",
+        "definition": "Für Einstiegsrufe kassieren, deren Begründung und Risiko verborgen bleiben."
+      },
+      {
+        "term": "Geprüfte Erfolgsbilanz",
+        "definition": "Broker-verifizierte vollständige Performance mit Verlusten — der Standard, den Gurus meiden."
+      }
+    ],
+    "exercise": {
+      "question": "Ein Guru postet diesen Monat 47 Screenshots von Gewinner-Trades. Als statistisch geschulter Leser, was ist die erste Frage?",
+      "options": [
+        "Welcher Broker hat die schönste Oberfläche?",
+        "Wo sind die Verlierer? Eine Stichprobe ohne Verluste ist kuratiert, nicht verdient — derselbe Überlebensbias, der Backtests fälscht, fälscht Erfolgsbilanzen.",
+        "Wie abonniere ich am schnellsten?",
+        "Was ist das für eine Uhr?"
+      ],
+      "explanation": "Du hast das als Überlebensbias in der Backtesting-Route gelernt. Die Screenshots sind eine Stichprobe, die du nicht prüfen kannst, ausgewählt von der Person, die dir verkauft."
+    },
+    "live_apply": {
+      "cta": "Öffne ein beliebiges Preset: Die Verluste, der Drawdown und die Stichprobengrößen stehen neben den Gewinnen gedruckt. Diese Vollständigkeit ist, wie echte Berichterstattung aussieht."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "title": "Plattform-Betrug und Phishing",
+    "summary": "Falsche Börsen, Auszahlungsfallen und Diebstahl von Zugangsdaten.",
+    "concept": "Die zweite Betrugsfamilie greift deinen *Zugang* an statt dein Urteil. **Falsche Plattformen**: aufpolierte Börsen-/Broker-Seiten, die Einzahlungen annehmen, fiktive Gewinne anzeigen, um mehr Einzahlungen zu fördern, dann die Auszahlung blockieren ('erst Steuer/Gebühr zahlen' — die **Auszahlungsfalle**, stets ein zweiter Diebstahl, nie echte Gebühren). **Phishing**: Doppelgänger-Seiten und -Mails, die deine Börsen-Zugangsdaten oder Wiederherstellungsphrase ernten; ein falsches Einfügen, und die Verwahrung ist verloren. **Falscher Support**: Betrüger in Community-Kanälen schicken per DM 'Hilfe', die dich am Ende Zugangsdaten preisgeben lässt — echter Support schreibt nie zuerst und braucht nie dein Passwort oder deine Wiederherstellungsphrase.\n\nDie Abwehr ist mechanisch, nicht clever: Erreiche Börsen **nur per Lesezeichen** (nie über Suchanzeigen-Links), aktiviere **Auszahlungs-Erlaubnislisten und 2FA**, gib **API-Schlüsseln den geringsten Umfang** (die Regel der Verwahrungslektion — Nur-Daten-Schlüssel für Nur-Daten-Apps, nie Auszahlungsrechte) und behandle jede Forderung 'zahle, um deine Auszahlung freizuschalten' als das Geständnis, das sie ist.\n\nBeachte die Haltung von QuantGlass, die du überprüfen kannst: Schlüssel leben in einem lokalen verschlüsselten Tresor, die App fragt nie nach Passwörtern oder Wiederherstellungsphrasen, und nichts hier kann auszahlen — per Design.",
+    "key_terms": [
+      {
+        "term": "Auszahlungsfalle",
+        "definition": "Falsche Gebühren, gefordert, um Gelder 'freizugeben' — ein zweiter Diebstahl, nie legitim."
+      },
+      {
+        "term": "Phishing",
+        "definition": "Doppelgänger-Seiten/-Nachrichten, die Zugangsdaten oder Wiederherstellungsphrasen ernten."
+      },
+      {
+        "term": "Falscher Support",
+        "definition": "Unaufgeforderte 'Hilfe', die in der Preisgabe von Zugangsdaten endet."
+      },
+      {
+        "term": "Lesezeichen-Disziplin",
+        "definition": "Finanzseiten nur über gespeicherte, verifizierte Links erreichen."
+      }
+    ],
+    "exercise": {
+      "question": "Eine 'Plattform' zeigt, dass dein Saldo auf 11.400 $ stieg, fordert aber eine 'Freigabegebühr' von 900 $ zur Auszahlung. Was ist das richtige Modell dieser Situation?",
+      "options": [
+        "Normale regulatorische Gebühren — zahle sie.",
+        "Der angezeigte Saldo ist eine Fiktion und die Gebühr ein Versuch eines zweiten Diebstahls; kein legitimer Platz berechnet für die Genehmigung der Auszahlung deiner eigenen Gelder.",
+        "Handle die Gebühr auf 450 $ herunter.",
+        "Zahle mehr ein, um Anspruch auf kostenlose Auszahlungen zu haben."
+      ],
+      "explanation": "Die Zahl auf dem Bildschirm war immer nur Pixel. Eine 'Freigabe'-Gebühr zu zahlen signalisiert nur, dass du erneut belastet werden kannst — die richtige Ausgabe ist null und die richtige Handlung ist zu melden."
+    },
+    "live_apply": {
+      "cta": "Prüfe deinen API-Schlüssel-Bildschirm: Umfänge, Verschlüsselung, nirgends Auszahlungsrechte — überprüfe die Haltung, die diese Lektion beschrieb."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "title": "Social Engineering und Langzeit-Betrug",
+    "summary": "Das 'Pig Butchering', romantische Trichter und Vertrauen als Angriffsfläche.",
+    "concept": "Die finanziell verheerendsten Betrügereien greifen Vertrauen an, langsam. Das Drehbuch des **Langzeit-Betrugs** (roh 'Pig Butchering' genannt): Ein Fremder initiiert Kontakt (falsche Nummer, Dating-App, soziale Medien), investiert Wochen in eine freundschaftliche oder romantische Beziehung, enthüllt beiläufig seinen Trading-Erfolg und bietet schließlich an, 'dir beim Investieren zu helfen' — auf einer Plattform, die er kontrolliert. Kleine Auszahlungen werden früh honoriert, um Vertrauen zu fabrizieren; der Diebstahl kommt, nachdem das Opfer auf die Lebensersparnisse hochskaliert. Verluste in dieser Kategorie sind regelmäßig katastrophal, gerade weil die Beziehung echt wirkt.\n\nStrukturelle Abwehr, denn das Urteil des Augenblicks ist genau das, was der Betrug abschaltet: **die Kanalregel** — wer den Kontakt initiiert UND schließlich zum Investieren führt, gilt als feindlich, egal wie lange die Beziehung dauert; **die Plattformregel** — nutze nie einen von einem Online-Bekannten vorgestellten Platz; **die Verifizierungsregel** — bespreche jede neue 'Gelegenheit' mit jemandem offline, der dich liebt und nichts daran verdient; und **die Auszahlungsregel** — frühe 'erfolgreiche Auszahlungen' beweisen nichts, denn das Honorieren kleiner Auszahlungen ist das Betriebskapital der Masche.\n\nWenn dir oder einem Nahestehenden dies geschah: Es ist organisierte industrielle Kriminalität, keine Naivität — melde es, und zahle nie für 'Wiederbeschaffungsdienste' (der Folgebetrug, der Opfer zweimal ins Visier nimmt).",
+    "key_terms": [
+      {
+        "term": "Langzeit-Betrug",
+        "definition": "Wochen fabrizierter Beziehung vor der finanziellen Forderung."
+      },
+      {
+        "term": "Vertrauenskapital",
+        "definition": "Honorierte kleine Auszahlungen, genutzt, um größere Einzahlungen freizuschalten."
+      },
+      {
+        "term": "Kanalregel",
+        "definition": "Initiierter Kontakt + Führung zum Investieren = als feindlich angenommen."
+      },
+      {
+        "term": "Wiederbeschaffungsbetrug",
+        "definition": "Falsche Dienste, die Opfern Gebühren für die 'Wiederbeschaffung' gestohlener Gelder berechnen."
+      }
+    ],
+    "exercise": {
+      "question": "Ein Online-Freund von zwei Monaten, der nie etwas erbat, erwähnt die Trading-Plattform seines Onkels und bietet an, dich dorthin zu führen. Welche einzelne Tatsache dominiert die Risikobewertung?",
+      "options": [
+        "Zwei Monate genügen, um Vertrauen aufzubauen.",
+        "Er initiierte den ursprünglichen Kontakt, und der Weg führt nun zu einer Investmentplattform, die er vorstellte — die vollständige Signatur des Langzeit-Betrugs, egal wie authentisch es sich anfühlt.",
+        "Onkel sind meist vertrauenswürdig.",
+        "Die Plattform-Seite sieht professionell aus."
+      ],
+      "explanation": "Das ganze Design des Betrugs ist, die Beziehung echt und ungehetzt wirken zu lassen. Das Muster schlägt das Gefühl: Initiierter Kontakt plus geführtes Investieren ist die Signatur, und die einzige sichere Antwort ist die Kanalregel."
+    },
+    "live_apply": {
+      "cta": "Teile die Kanalregel mit jemandem, den du kennst und der mit dem Investieren beginnt — die Abwehr verbreitet sich, indem sie laut ausgesprochen wird."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "title": "Die Anti-Betrugs-Checkliste",
+    "summary": "Zehn Fragen, die fast alles filtern.",
+    "concept": "Aus dieser Route komprimiert, eine Liste zum Durchlaufen jeder Gelegenheit: Jedes 'Ja' ist ein Warnsignal, drei sind ein Urteil:\n\n1. Sind die Renditen **garantiert** oder 'risikofrei'?\n2. Gibt es **Dringlichkeit** (Fristen, begrenzte Plätze)?\n3. Haben **sie dich zuerst kontaktiert**?\n4. Wirst du in einen **privaten Kanal** gezogen?\n5. Ist die Erfolgsbilanz **unprüfbar** (Screenshots, keine geprüften Auszüge)?\n6. Verdient der Verkäufer an **Gebühren/Kursen/Empfehlungen** statt am Trading?\n7. Musst du **ihre Plattform** nutzen oder zur Auszahlung zahlen?\n8. Wollen sie **Zugangsdaten, Wiederherstellungsphrasen oder Fernzugriff**?\n9. Ist die Strategie **geheim** ('wir können nicht verraten, wie es funktioniert')?\n10. Würden die angekündigten Renditen den Verkauf **unnötig** machen, wären sie echt?\n\nBeachte das Muster dessen, was diesen Filter überlebt: langweilige Dinge. Selbstverwahrtes Lernen, geprüfte öffentliche Daten, Werkzeuge, die ihre Arbeit zeigen, in ehrlichen R-Vielfachen angekündigte Renditen mit angehängten Drawdowns. Die letzte Ironie der Akademie ist beabsichtigt: Alles, was die Engine vertrauenswürdig machte — sichtbare Begründung, Stichprobengrößen, Out-of-Sample-Ehrlichkeit, einbezogene Kosten, keine Versprechen — ist das exakte Gegenteil jedes Warnsignals oben. Du weißt nun, wie Ehrlichkeit in diesem Feld aussieht. Verlange sie überall.",
+    "key_terms": [
+      {
+        "term": "Warnsignal-Stapelung",
+        "definition": "Ein Signal ist ein Verdacht; drei sind ein Urteil."
+      },
+      {
+        "term": "Prüfbarkeit",
+        "definition": "Die Trennlinie zwischen Marketing und Beweis."
+      },
+      {
+        "term": "Langweiliger Überlebender",
+        "definition": "Was den Filter passiert: geprüft, transparent, ohne Versprechen."
+      },
+      {
+        "term": "Gegenteil der Ehrlichkeit",
+        "definition": "Jede Transparenzfunktion der Engine spiegelt ein Betrugs-Warnsignal."
+      }
+    ],
+    "exercise": {
+      "question": "Welche Eigenschaft teilen ALLE Angebote, die die Zehn-Fragen-Liste überleben, grundlegend?",
+      "options": [
+        "Versprochene Renditen höher als Betrügereien.",
+        "Prüfbare Transparenz: prüfbare Behauptungen, sichtbare Begründung, einbezogene Verluste und keine Abhängigkeit von Dringlichkeit oder Geheimhaltung.",
+        "Promi-Empfehlungen.",
+        "Privater Telegram-Zugang."
+      ],
+      "explanation": "Der Filter findet keine versteckten Juwelen — er findet Ehrlichkeit. Legitime Werkzeuge und Lehrer überleben, weil sie ihre Arbeit zeigen; alles andere braucht die Warnsignale, um zu funktionieren."
+    },
+    "common_mistakes": [
+      "Annehmen, Intelligenz sei ein Schutz. Betrügereien sind für intelligente, selbstbewusste Menschen gestaltet — die Liste funktioniert gerade, weil sie nicht vom Urteil des Augenblicks abhängt.",
+      "Die Liste nur für Fremde prüfen. Freunde und Familie leiten Betrügereien weiter, an die sie glauben; die Liste gilt der Nachricht, nicht dem Boten."
+    ],
+    "live_apply": {
+      "cta": "Lass die Liste über QuantGlass selbst laufen, Punkt für Punkt — die Engine sollte bestehen, gerade weil jede Behauptung auf dem Bildschirm prüfbar ist."
+    }
+  }
+]
