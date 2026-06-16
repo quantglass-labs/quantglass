@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "novice-06-asset-classes",
+    "title": "Neyi işlem edebilirsin: varlık sınıfları",
+    "summary": "Hisseler, ETF'ler ve kripto — her aracın gerçekte neyi temsil ettiği.",
+    "concept": "Bir **varlık sınıfı**, benzer davranan araçlardan oluşan bir ailedir. **Hisseler** bir şirketteki mülkiyet paylarıdır: değerleri işi izler ve borsa saatlerinde işlem görür. **ETF'ler** birçok varlığı tek bir işlem görebilir paya toplar. **Kripto paralar**, her zaman açık mekânlarda işlem gören dijital hamiline varlıklardır — şirket yok, kâr yok, yalnızca arz, talep ve protokol kuralları.\n\nQuantGlass **ABD hisselerine** ve **kripto spota** odaklanır çünkü ikisinin de ücretsiz kamu verisi ve şeffaf fiyatlaması vardır. *Spot*, varlığın kendisini satın aldığın anlamına gelir; türevler (vadeli işlemler, opsiyonlar) bir varlığın fiyatını kaldıraç ve vade ile referanslar ve burada kapsam dışıdır.\n\nNeden önemli: aynı grafik deseni bir hissede (bilançolar, seanslar, boşluklarla tetiklenen) ve kriptoda (24/7, duyguya duyarlı, oynak) farklı şeyler ifade eder. Bu yüzden motor `market_type` alanını her sembolde birinci sınıf bir alan olarak ele alır.",
+    "key_terms": [
+      {
+        "term": "Varlık sınıfı",
+        "definition": "Benzer davranış ve kurallara sahip araç ailesi — hisseler, kripto, tahviller, emtialar."
+      },
+      {
+        "term": "Hisse",
+        "definition": "Bir şirketteki mülkiyet payı."
+      },
+      {
+        "term": "ETF",
+        "definition": "Borsada işlem gören fon: tek bir pay gibi işlem gören bir varlık sepeti."
+      },
+      {
+        "term": "Spot piyasa",
+        "definition": "Anlık takas için varlığın kendisini almak veya satmak."
+      },
+      {
+        "term": "Türev",
+        "definition": "Değeri başka bir varlığın fiyatını referanslayan bir sözleşme — QuantGlass kapsamı dışında."
+      }
+    ],
+    "exercise": {
+      "question": "Kripto spot piyasalar hakkında hangi ifade doğrudur?",
+      "options": [
+        "Hisse borsaları gibi New York saatiyle 16:00'da kapanırlar.",
+        "Varlığın kendisini elinde tutarsın ve işlem 24 saat sürer.",
+        "Her kripto işlemi kaldıraçlı bir vadeli sözleşmedir.",
+        "Fiyatlar protokol tarafından günde bir kez belirlenir."
+      ],
+      "explanation": "Kripto spot, asla kapanmayan mekânlarda varlığın kendisini işler. Hisse borsalarının seansları vardır; vadeli işlemler ve kaldıraç türev özellikleridir, spotun değil."
+    },
+    "live_apply": {
+      "cta": "İzleme listesini aç ve hangi sembollerin kripto, hangilerinin hisse olduğunu not et — piyasa-türü etiketi motorun her birini nasıl ele aldığını belirler."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "title": "Borsalar ve işlem mekânları",
+    "summary": "İşlemlerin gerçekte nerede olduğu ve mekânın fiyatını neden etkilediği.",
+    "concept": "Bir **borsa**, alıcı ve satıcıları yayımlanmış kurallara göre eşleştiren bir mekândır. ABD hisseleri düzenlenmiş borsalarda (NYSE, Nasdaq) artı onlarca alternatif mekânda işlem görür, hepsi düzenleme ile tek bir ulusal en iyi fiyata dikilir. Kripto farklıdır: her mekân (Coinbase, Kraken, Binance) kendi emir defterine sahip **kendi adasıdır**, böylece *aynı* coin aynı anda farklı mekânlarda hafifçe farklı fiyatlarla işlem görebilir.\n\nİşte bu yüzden QuantGlass **sağlayıcı rotaları** seçmene izin verir — her piyasa için birincil, ikincil ve yedek veri kaynakları. Coinbase verisi kullanılamaz olduğunda, motor Kraken'e geçebilir; mumlar neredeyse, ama tam olarak değil, aynı olur.\n\nPratik kural: her zaman *hangi mekânın fiyatına* baktığını bil. Bir mekânın mumlarında hesaplanan bir sinyal o mekânın fiyatlarına uygulanır.",
+    "key_terms": [
+      {
+        "term": "Borsa",
+        "definition": "Alıcı ve satıcıları eşleştiren kural-yönetimli mekân."
+      },
+      {
+        "term": "Emir defteri",
+        "definition": "Borsanın bekleyen alış ve satış emirlerinin canlı listesi."
+      },
+      {
+        "term": "Parçalanma",
+        "definition": "Aynı varlığın birçok mekânda hafifçe farklı fiyatlarla işlem görmesi."
+      },
+      {
+        "term": "Sağlayıcı rotası",
+        "definition": "QuantGlass'ın piyasa başına birincil/ikincil/yedek veri-mekânı seçimi."
+      }
+    ],
+    "exercise": {
+      "question": "BTC bir borsada 67.950, başka birinde aynı anda 68.010 gösteriyor. Neden?",
+      "options": [
+        "İki fiyattan biri hata olmalı.",
+        "Her kripto borsasının kendi emir defteri vardır, bu yüzden fiyatlar mekânlar arasında hafifçe değişebilir.",
+        "Bitcoin'in protokolü her ülke için farklı fiyat belirler.",
+        "Bir borsa dünkü kapanışı gösteriyor."
+      ],
+      "explanation": "Kripto mekânları bağımsız emir defterleridir. Küçük fiyat farkları normaldir ve arbitrajcılar tarafından hizalı tutulur."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Sağlayıcılar'ı aç ve kripto rotasını bul: hangi mekân birincil, hangisi yedek?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "title": "Seanslar ve piyasa saati",
+    "summary": "Piyasaların ne zaman açık olduğu, neden önemli olduğu ve kriptonun nasıl farklı olduğu.",
+    "concept": "ABD hisse borsaları, daha ince ön-piyasa ve seans-sonrası seanslarla çevrili bir **düzenli seans** (New York saatiyle 09:30–16:00) tutar. Hacim ve likidite **açılış** ve **kapanış** yakınında yoğunlaşır; öğle vakti genelde sakindir. Kripto asla kapanmaz — yine de bir ritmi vardır: etkinlik Amerika ve Asya'nın uyanık saatleri etrafında toplanır ve hafta sonları daha incedir.\n\nSeanslar sinyal okuyucusu için büyük bir nedenle önemlidir: **mumlar kapanmalıdır**. Bir 1-günlük hisse mumu New York'ta 16:00'da kapanır; bir 1-saatlik kripto mumu her saatin başında kapanır. QuantGlass **yalnızca kapanmış mumları** değerlendirir — mumun ortasında beliren bir desen kapanıştan önce buharlaşabilir, bu yüzden bitmemiş bir mumda hareket etmek gürültüde hareket etmektir.\n\nSinyalin tazelik rozeti son *kapanmış* mumun yaşını söyler, böylece hangi saatte olduğunu hep bilirsin.",
+    "key_terms": [
+      {
+        "term": "Düzenli seans",
+        "definition": "Bir borsanın ana işlem saatleri — ABD hisseleri için NY saatiyle 09:30–16:00."
+      },
+      {
+        "term": "Ön/seans-sonrası piyasa",
+        "definition": "Düzenli seansın etrafındaki daha ince hisse seansları, daha geniş spreadlerle."
+      },
+      {
+        "term": "Mum kapanışı",
+        "definition": "Bir zaman diliminin barının kesinleştiği an — motorun değerlendirdiği tek fiyat."
+      },
+      {
+        "term": "Tazelik",
+        "definition": "Son kapanmış mumun yaşı, her QuantGlass sinyalinde gösterilir."
+      }
+    ],
+    "exercise": {
+      "question": "QuantGlass neden bir kurulumu değerlendirmeden önce bir mumun kapanmasını bekler?",
+      "options": [
+        "Kapanmış mumlar daha hızlı indirilir.",
+        "Kapanışa kadar mumun nihai yüksek, düşük ve kapanışı hâlâ değişebilir — orta-mum desenleri buharlaşabilir.",
+        "Borsalar veriyi günde yalnızca bir kez yayımlar.",
+        "Açık mumları analiz etmek yasadışıdır."
+      ],
+      "explanation": "Bir mum yalnızca kapandıktan sonra bir gerçektir. Motorun kapanmış-mum kuralı barı atlatamayabilecek desenlerde hareket etmeyi önler."
+    },
+    "live_apply": {
+      "cta": "Sinyaller'i aç ve bir tazelik rozetini kontrol et: en yeni sinyalin arkasındaki son kapanmış mum ne kadar eski?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "title": "Emir defteri, bid, ask ve spread",
+    "summary": "Gördüğün her fiyat aslında iki fiyattır.",
+    "concept": "Herhangi bir anda bir borsa bekleyen emirleri tutar: bir alıcının ödeyeceği en yüksek fiyat **bid**'dir; bir satıcının kabul edeceği en düşük fiyat **ask**'tır. Aralarındaki boşluk **spread**'dir. Bir 'fiyat' kotasyonu genelde bu iki duvar arasında zıplamış son işlemdir.\n\nSpread ilk görünmez maliyetindir: ask'ta al, ve bid'de satman gerekseydi anında bir spread zarardasın. Likit piyasalar (büyük hisseler, BTC, ETH) yüzde birkaç yüzdelikte spread tutar; ince piyasalar %1 veya daha fazla spreade sahip olabilir — küçük bir avantajı tümüyle silecek kadar büyük.\n\nQuantGlass'ın backtestleri her simüle edilen icraya bir **slippage** karşılığı uygular, tam da gerçek icraların grafikte gösterilen orta noktada değil spreadin kenarlarında olması nedeniyle.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "En yüksek bekleyen alış fiyatı."
+      },
+      {
+        "term": "Ask (teklif)",
+        "definition": "En düşük bekleyen satış fiyatı."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask eksi bid — defteri geçmenin anlık gidiş-dönüş maliyeti."
+      },
+      {
+        "term": "Son fiyat",
+        "definition": "En yeni işlem — bid ve ask arasında zıplar."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Grafik fiyatı ile gerçek icra fiyatın arasındaki fark."
+      }
+    ],
+    "exercise": {
+      "question": "Bir coin bid 99,95 / ask 100,05 gösteriyor. Piyasadan alıp hemen piyasadan satıyorsun. Ücretleri yok sayarsak ne olur?",
+      "options": [
+        "Tam başabaştasın.",
+        "Yaklaşık 0,10 kaybedersin — ask'ta aldın ve bid'de sattın.",
+        "Spreadi geri ödeme olarak kazanırsın.",
+        "Her iki emir de orta nokta olan 100,00'da icra olur."
+      ],
+      "explanation": "Piyasa emirleri spreadi geçer: 100,05'te alış, 99,95'te satış — 0,10 zarar. Spread, grafiğin tek fiyat çizgisinin gizlediği gerçek bir maliyettir."
+    },
+    "live_apply": {
+      "cta": "Bir sembol aç ve mum kapanışını etrafındaki bir bid/ask çifti olarak hayal et — motorun slippage varsayımı tam olarak bu boşluğu modeller."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "title": "Emir türleri: piyasa ve limit",
+    "summary": "İki temel emir ve her birinin neden vazgeçtiği.",
+    "concept": "Bir **piyasa emri** *beni şimdi en iyi mevcut fiyattan icra et* der — icra kesin, fiyat değil. Bir **limit emri** *beni yalnızca fiyatımdan veya daha iyisinden icra et* der — fiyat kesin, icra değil. Daha sofistike her şey (stop-loss, stop-limit, take-profit) bu iki ilkele artı bir tetikleyiciden inşa edilir.\n\nBir **stop-loss** bekleyen bir tetikleyicidir: fiyat stop seviyene dokunduğunda, çıkmak için bir piyasa emri başlatır. Bu tam olarak her QuantGlass sinyalinin gösterdiği geometridir — bir **giriş bölgesi** (limit-tarzı bir girişin mantıklı olduğu yer), bir **stop-loss** seviyesi (yanılıyorsan çıkış tetikleyicin) ve bir **take-profit merdiveni** (haklıysan kademeli limit çıkışları).\n\nQuantGlass'ın kâğıt ticareti niyetleri bir sonraki mevcut fiyattan icra eder — basit bir piyasa emrini modelleyerek — böylece ders kitabı mükemmel doluşları yerine icra belirsizliğini dürüstçe yaşarsın.",
+    "key_terms": [
+      {
+        "term": "Piyasa emri",
+        "definition": "Hemen en iyi mevcut fiyattan icra eder — icra kesin, fiyat belirsiz."
+      },
+      {
+        "term": "Limit emri",
+        "definition": "Yalnızca seçilen fiyattan veya daha iyisinden icra eder — fiyat kesin, icra belirsiz."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Fiyat dokunduğunda bir çıkış emri başlatan tetik seviyesi."
+      },
+      {
+        "term": "Take-profit",
+        "definition": "Bir hedef fiyatta bekleyen bir çıkış — QuantGlass üç-basamaklı bir merdiven gösterir."
+      }
+    ],
+    "exercise": {
+      "question": "Hızlı düşen bir piyasada zarardaki bir pozisyondan hemen çıkman gerekiyor. Hangi emir çıkışını garanti eder?",
+      "options": [
+        "Giriş fiyatında bir limit emri.",
+        "Bir piyasa emri — defterin sunduğu fiyatı kabul edersin.",
+        "Piyasanın üzerinde bir take-profit emri.",
+        "Hiçbir emir türü bir pozisyondan asla çıkamaz."
+      ],
+      "explanation": "Yalnızca bir piyasa emri icrayı garanti eder, fiyat kesinliği pahasına. Girişindeki bir limit düşen bir piyasada muhtemelen asla icra olmazdı."
+    },
+    "common_mistakes": [
+      "İnce defterlerde piyasa emri kullanıp icra fiyatına şaşırmak. Garanti icradır, asla fiyat değil.",
+      "Bir stop-limit koyup onun bir stop gibi koruduğunu varsaymak. Hızlı bir piyasada limit bacağı icra olmadan kalabilir ve pozisyon devam eder.",
+      "Stopları herkesinkinin olduğu bariz yuvarlak sayılara koymak — tam da süpürülen su birikintileri."
+    ],
+    "live_apply": {
+      "cta": "Bir sinyal aç ve üç emir-türü bileşenini tanımla: giriş bölgesi, stop-loss tetikleyicisi ve take-profit merdiveni."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "title": "Likidite ve hacim",
+    "summary": "Neden boyutun fiyatı hareket ettirdiği ve hacmin bir hareketi nasıl doğruladığı.",
+    "concept": "**Likidite** fiyatı hareket ettirmeden işlem edebileceğin şeydir; **hacim** *işlem edilmiş* olandır. Bağlantılıdır ama özdeş değildir: hacim makbuz, likidite kapasitedir.\n\nBir piyasa derin olduğunda (kalın emir defteri), büyük emirler bile fiyatı zar zor hareket ettirir. İnce olduğunda, mütevazı bir piyasa emri birçok fiyat seviyesini bir kerede yutar — bu eylemdeki slippagedir. Likidite ayrıca geceleri, hafta sonları (kripto) ve haberlerin etrafında da kurur.\n\nBir sinyal okuyucusu için hacim bir **doğrulama aracıdır**: son ortalama hacmin iki katında bir kırılım gerçek katılım demektir; ölü hacimdeki aynı kırılım şüphelidir. QuantGlass bunu **hacim oranı** (mevcut hacim ÷ son ortalama) olarak kodlar ve bir sinyalin `volume_confirmation` skoruna katar — her sinyalde inceleyebileceğin güven girdilerinden biri.",
+    "key_terms": [
+      {
+        "term": "Likidite",
+        "definition": "Fiyatı hareket ettirmeden işlem edilebilecek olan."
+      },
+      {
+        "term": "Hacim",
+        "definition": "Bir dönemde gerçekten işlem edilen miktar."
+      },
+      {
+        "term": "Hacim oranı",
+        "definition": "Mevcut barın hacmi son ortalamaya bölünür — QuantGlass'ın katılım göstergesi."
+      },
+      {
+        "term": "İnce piyasa",
+        "definition": "Düşük likidite: küçük emirler orantısız fiyat hareketlerine neden olur."
+      }
+    ],
+    "exercise": {
+      "question": "Bir kırılım mumu son ortalamasının 2,3 katı bir hacimde basılıyor. Bu oran sana ne söyler?",
+      "options": [
+        "Hiçbir şey — hacmin fiyat hareketleriyle ilgisi yok.",
+        "Katılım olağandışı yüksek, bu kırılımın inandırıcılığını güçlendirir.",
+        "Borsa arızalı.",
+        "Likidite defterden kayboldu."
+      ],
+      "explanation": "Hacim oranı barı kendi son tabanıyla karşılaştırır. Yüksek katılımdaki kırılımlar tarihsel olarak ölü-hacim hareketlerinden daha güvenilirdir."
+    },
+    "live_apply": {
+      "cta": "Bir sembol detayı aç ve hacim metriklerini bul — son barın hacmini son tabanla karşılaştır."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "title": "Ücretler ve slippage: gidiş-dönüş maliyeti",
+    "summary": "Her işlem iki kez öder — herhangi bir avantaj saymadan önce gerçek maliyeti hesapla.",
+    "concept": "İki maliyet her işleme vurur. **Ücretler** açıktır: borsalar taraf başına bir yüzde alır (kripto taker ücretleri sıkça 0,10% civarındadır; ABD hisse komisyonları sıfıra yakındır ama başka sürtünmeler kalır). **Slippage** örtüktür: grafik fiyatı ile gerçek icran arasındaki boşluk, spread ve defter derinliğinden doğar.\n\nİkisi de **iki kez** ödenir — biri girişte, biri çıkışta. QuantGlass'ın varsayılan maliyet modeli taraf başına, **kripto için 0,10% ücret + 0,05% slippage** ve **hisseler için 0,02% + 0,01%** varsayar ve backtester her simüle işlemden tam gidiş-dönüşü düşer. Maliyet öncesi kârlı, maliyet sonrası kârsız bir strateji avantaja sahip değildir — bir yanılsamaya sahiptir.\n\nÖrnek: 10.000'lik bir kripto pozisyonu (0,10% + 0,05%) × 2 = **0,30%** gidiş-dönüş öder — yani işlem herhangi bir yere gitmeden önce 30.",
+    "key_terms": [
+      {
+        "term": "Ücretler",
+        "definition": "Bir borsa veya aracının taraf başına aldığı açık yüzde."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Grafik fiyatı ile gerçek icra arasındaki örtük maliyet."
+      },
+      {
+        "term": "Gidiş-dönüş",
+        "definition": "Giriş artı çıkış — maliyetler ikisinde de ödenir."
+      },
+      {
+        "term": "Maliyet-bilinçli backtest",
+        "definition": "Her işlemden ücret ve slippage düşen bir simülasyon, QuantGlass'ın varsayılan olarak yaptığı gibi."
+      }
+    ],
+    "exercise": {
+      "question": "QuantGlass'ın kripto varsayılanlarını kullanarak (taraf başına 0,10% ücret + 0,05% slippage), 10.000'lik bir pozisyonda toplam gidiş-dönüş maliyeti dolar olarak nedir?",
+      "hint": "maliyet = pozisyon × (ücret% + slippage%) × 2 taraf",
+      "explanation": "(0,0010 + 0,0005) × 2 = 0,0030; 10.000 × 0,0030 = **30**. Motor her simüle kripto gidiş-dönüşünden tam olarak bunu düşer."
+    },
+    "live_apply": {
+      "cta": "Backtesting'i aç ve bir ön ayarda ücret/slippage varsayımlarını bul — bu dersin kullandığı varsayılanlarla eşleşirler."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "title": "Diğer tarafta kim var",
+    "summary": "Piyasa yapıcılar, kurumlar, algoritmalar ve sen.",
+    "concept": "Her icranın bir karşı tarafı vardır. **Piyasa yapıcılar** gün boyu bid ve ask kote eder, likidite sağlarken spreadi kazanır. **Kurumlar** (fonlar, hazineler) etkiyi önlemek için boyutu yavaş hareket ettirir — ayak izleri sürekli hacim eğilimleridir. **Algoritmik tüccarlar** mikrosaniye arbitrajından yavaş sistematik stratejilere uzanır ve modern hacmin çoğunu oluşturur. **Bireysel tüccarlar** — sen — en küçük ve en yavaş katılımcılardır.\n\nBu umutsuzluk nedeni değil; **disiplin** nedenidir. Bireyin avantajı asla hız değildir. Seçicilik (yalnızca temiz kurulumları işle), sabır (kapanmış mumun doğrulamasına izin ver), risk kontrolü (kanaatten değil stoptan boyutlandır) ve istatistiklerde dürüstlüktür — tam olarak QuantGlass'ın motorunun mekanik olarak dayattığı dört şey.\n\nKime karşı işlem yaptığını bilmek hangi oyunları oynamayacağını söyler: konumlandırılmış bir algoritmadan daha hızlı tepki veremezsin ama ondan daha uzun bekleyebilirsin.",
+    "key_terms": [
+      {
+        "term": "Piyasa yapıcı",
+        "definition": "İki tarafı da sürekli kote eden, spreadi kazanan bir katılımcı."
+      },
+      {
+        "term": "Kurumsal akış",
+        "definition": "Piyasa etkisini sınırlamak için zamana yayılan büyük yavaş emirler."
+      },
+      {
+        "term": "Algoritmik ticaret",
+        "definition": "Otomatik stratejiler — modern hacmin çoğunluğu."
+      },
+      {
+        "term": "Bireyin avantajı",
+        "definition": "Seçicilik, sabır ve risk kontrolü — hız değil."
+      }
+    ],
+    "exercise": {
+      "question": "Bunlardan hangisi bir bireysel tüccar için gerçekçi bir avantajdır?",
+      "options": [
+        "Habere konumlandırılmış algoritmalardan daha hızlı tepki vermek.",
+        "Seçici olmak, kapanmış mum doğrulamasını beklemek ve her işlemi stopundan boyutlandırmak.",
+        "Piyasa yapıcılardan daha sık işlem yapmak.",
+        "Kurumlardan daha iyi ücretler almak."
+      ],
+      "explanation": "Hız, sıklık ve ücret oyunları profesyonellerindir. Seçicilik, sabır ve mekanik risk kontrolü bireysel ölçekte hayatta kalan avantajlardır."
+    },
+    "live_apply": {
+      "cta": "Risk ve Boyut'taki pozisyon boyutlandırma dersini tekrar gör — bireyin avantajının en somut ifadesidir."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "title": "QuantGlass'ta kripto vs hisseler",
+    "summary": "Aynı motor, çok farklı iki piyasa.",
+    "concept": "QuantGlass iki piyasa türünde deterministik bir motor çalıştırır ve farklar göz ardı edilmek yerine kodlanmıştır.\n\n**Zaman**: kripto mumları 24/7 akar; hisse mumları yalnızca borsa seansları için var olur, bu yüzden bir 1-günlük hisse mumu bir seanstır, takvim günü değil. **Oynaklık**: fiyatın kesri olarak kriptonun tipik ATR'si çok daha yüksektir, bu yüzden stoplar sabit yüzdeler yerine ATR'nin katlarıdır. **Maliyetler**: varsayılan gidiş-dönüş modeli kriptoya 0,30%, hisselere 0,06% alır — backtester sembolün `market_type`'ına uyanı uygular. **Semboller**: kripto çiftleri `BTCUSD` (varlık/kotasyon para birimi) olarak kote olur, hisseler `AAPL` gibi borsa kodlarıdır.\n\nPratik sonuç: piyasa türleri arasında asla pozisyon boyutlarını veya stop mesafelerini kopyalama. Motorun rejim ve oynaklık mantığı otomatik uyum sağlar; beklentilerin de sağlamalı.",
+    "key_terms": [
+      {
+        "term": "Piyasa türü",
+        "definition": "QuantGlass'ın her sembolde birinci sınıf kripto/hisse ayrımı."
+      },
+      {
+        "term": "ATR'ye göreli stop",
+        "definition": "Sabit yüzde değil, mevcut oynaklığın katı olarak boyutlandırılan bir stop."
+      },
+      {
+        "term": "İşlem çifti",
+        "definition": "Bir varlığı başkasında kote eden kripto sembolü, ör. USD'de BTC."
+      },
+      {
+        "term": "Seans mumu",
+        "definition": "Yalnızca borsa saatlerini kapsayan günlük hisse mumu."
+      }
+    ],
+    "exercise": {
+      "question": "QuantGlass neden tüm semboller için stopları sabit yüzde yerine ATR'nin katlarında boyutlandırır?",
+      "options": [
+        "Sabit yüzdeler yasadışıdır.",
+        "Oynaklık semboller ve piyasa türleri arasında muazzam değişir — bir ATR katı stopu her piyasanın gerçek hareketine uyarlar.",
+        "ATR'yi hesaplamak bir yüzdeden daha kolaydır.",
+        "Stoplar dekoratiftir."
+      ],
+      "explanation": "2%'lik bir stop sakin bir hisse için devasa, oynak bir coin için minik olabilir. ATR katları stopu aracın gerçekte hareket ettiği şeye normalleştirir."
+    },
+    "live_apply": {
+      "cta": "Bir kripto sembolünün ve bir hissenin son mum aralıklarını karşılaştır — ne kadar farklı hareket ettiklerine dikkat et, sonra bu farkı ATR değerlerinde bul."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "title": "Tick'lerden mumlara: OHLCV nasıl oluşturulur",
+    "summary": "Motorun ham maddesinin nereden geldiği.",
+    "concept": "Piyasalar bireysel işlemlerin bir akışını üretir — **tick'ler**. Bir mum, bir zaman penceresinin tüm tick'lerini beş sayıya sıkıştırır: **O**pen (ilk işlem), **H**igh, **L**ow, **C**lose (son işlem) ve **V**olume (toplam işlem). Pencereyi değiştir ve hikâyeyi değiştirirsin: aynı saat bir 1h mum, veya dört 15m mum, veya bir 4h mumun çeyreğidir.\n\nQuantGlass OHLCV'yi sabit zaman dilimlerinde (**15m, 1h, 4h, 1d**) alır, yerel olarak saklar ve her diziyi **kaynak** mekânı ve alım zamanıyla damgalar. Her mum ayrıca `open_time_utc`'sini taşır — motorun tazelik hesabı bundan artı zaman dilimi uzunluğundan kapanış zamanını türetir.\n\nİki veri kuralı analizi dürüst tutar: mumlar **kapandıktan sonra değişmezdir** (değiştirilmiş bir geçmiş bir sağlayıcı hatasıdır ve bütünlük katmanı onu işaretler) ve **gördüğün her sayı bir mekâna izlenebilir** — karışık, izlenemez fiyatlar yok.",
+    "key_terms": [
+      {
+        "term": "Tick",
+        "definition": "Tek bir icra edilmiş işlem."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — bir tick penceresini özetleyen beş sayı."
+      },
+      {
+        "term": "Zaman dilimi",
+        "definition": "Her mumun pencere uzunluğu — QuantGlass'ta 15m, 1h, 4h veya 1d."
+      },
+      {
+        "term": "Veri bütünlüğü",
+        "definition": "Kapanmış mumların asla mutasyona uğramadığı ve boşlukların yakalandığı kontrolleri."
+      }
+    ],
+    "exercise": {
+      "question": "Bir saatlik mum O=100, H=104, L=99, C=103 gösteriyor. Bundan çıkaramayacağın TEK şey nedir?",
+      "options": [
+        "Saatin ilk işlemi 100'deydi.",
+        "Fiyat saatin bir anında 104'e dokundu.",
+        "Fiyatın bu seviyeler arasında izlediği tam yol.",
+        "Saatin son işlemi 103'teydi."
+      ],
+      "explanation": "Bir mum bir özettir: uçları ve uç noktaları korur ama yolu yok eder. Fiyat düşüğe yüksekten önce dokunmuş olabilir veya tersine — mum söyleyemez."
+    },
+    "live_apply": {
+      "cta": "Bir grafiği 15m ve 1h arasında değiştir — dört küçük mumun aynı OHLCV bilgisini taşıyan daha büyük bir mumda birleşmesini izle."
+    }
+  },
+  {
+    "id": "novice-01-candlestick",
+    "title": "Bir mumu okumak",
+    "summary": "Her mumun kodladığı dört fiyat değerini anla.",
+    "concept": "Bir **mum** tek bir barda dört fiyat kodlar: **Açılış (Open)** (dönemin başladığı yer), **Yüksek (High)** ve **Düşük (Low)** (ulaşılan uç fiyatlar) ve **Kapanış (Close)** (dönemin bittiği yer). Dikdörtgen *gövde* açılıştan kapanışa uzanır. *Yeşil/yükselen* bir mum Kapanış > Açılış demektir; *kırmızı/düşen* bir mum Kapanış < Açılış demektir. Gövdenin üstündeki ve altındaki ince çizgilere **fitil (wicks)** (veya gölgeler) denir ve yüksek ile düşüğü gösterir.\n\n**Hacim** — dönemde işlem gören birim sayısı — grafiğin altında görünür. Güçlü bir kapanışta yüksek hacim kanaat sinyali verir; bir dönüşte yüksek hacim tükenme sinyali verir.",
+    "key_terms": [
+      {
+        "term": "Açılış (Open)",
+        "definition": "Dönemin ilk işlemindeki fiyat."
+      },
+      {
+        "term": "Yüksek (High)",
+        "definition": "Dönemde işlem gören en yüksek fiyat."
+      },
+      {
+        "term": "Düşük (Low)",
+        "definition": "Dönemde işlem gören en düşük fiyat."
+      },
+      {
+        "term": "Kapanış (Close)",
+        "definition": "Dönemin son işlemindeki fiyat."
+      },
+      {
+        "term": "Gövde",
+        "definition": "Açılış ile kapanış arasındaki dikdörtgen."
+      },
+      {
+        "term": "Fitil / gölge",
+        "definition": "Gövdenin ötesine yükseğe veya düşüğe uzanan ince çizgi."
+      },
+      {
+        "term": "Hacim",
+        "definition": "Dönemde işlem gören birim sayısı."
+      }
+    ],
+    "exercise": {
+      "question": "Bir mum 100'de açılır, 110 yükseğe ulaşır, 95'e düşer ve 107'de kapanır. Üst fitil neyi temsil eder?",
+      "options": [
+        "Fiyat 107'den 110'a gitti ve aşağı reddedildi.",
+        "Dönemin ortalama fiyatı.",
+        "Bir sonraki mumun açılış fiyatı.",
+        "Toplam işlem hacmi."
+      ],
+      "explanation": "**Üst fitil** Kapanış (107) ile Yüksek (110) arasındaki mesafeyi temsil eder. Fiyat 110'a ulaştı ama alıcılar onu tutamadı — satıcılar kapanışta 107'ye geri itti. Yükselen bir mumda uzun üst fitil çoğu zaman yukarıdaki arz uyarısıdır."
+    },
+    "common_mistakes": [
+      "Tek bir mumu sinyal olarak okumak. Bir mum bir açık artırmadır; yalnızca bağlamı (trend, seviye, hacim) ona anlam verir.",
+      "Kodladıkları alış/satış baskısı yerine desen adlarını ezberlemek. Etiket bir anekdottur; baskı bilgidir.",
+      "Zaman dilimini yok saymak. Aynı 'çekiç' bir dakikalık grafikte ve haftalık grafikte tümüyle farklı ağırlık taşır."
+    ],
+    "live_apply": {
+      "cta": "Panoyu aç, grafikteki herhangi bir mumun üzerine gel ve ipucu kutusunda O/H/L/C değerlerini kontrol et."
+    }
+  },
+  {
+    "id": "novice-02-trend",
+    "title": "Bir trendi ne oluşturur",
+    "summary": "Daha yüksek yüksekler ve daha düşük düşüklerin yönü nasıl tanımladığını öğren.",
+    "concept": "Bir **trend**, çoğunlukla bir yönde hareket eden fiyat salınımları dizisidir.\n\n- **Yükseliş trendi**: fiyat ardışık **daha yüksek yüksekler (HH)** ve **daha yüksek düşükler (HL)** yapar. Her geri çekilme bir öncekinden daha yüksek bir taban koyar.\n- **Düşüş trendi**: fiyat ardışık **daha düşük yüksekler (LH)** ve **daha düşük düşükler (LL)** yapar.\n- **Aralık / yatay**: yüksekler ve düşükler sürekli bir yön olmadan bir bantta salınır.\n\nQuantGlass trendi **EMA-21** (kısa vadeli ortalama) ve **SMA-50** (orta vadeli ortalama) arasındaki ilişkiyle tanımlar. `Close > EMA21 > SMA50` olduğunda, motor piyasayı yükseliş trendi olarak sınıflandırır. `Close < EMA21 < SMA50` olduğunda düşüştür.",
+    "key_terms": [
+      {
+        "term": "Daha yüksek yüksek (HH)",
+        "definition": "Her ardışık salınım tepesi öncekinin üzerinde."
+      },
+      {
+        "term": "Daha yüksek düşük (HL)",
+        "definition": "Her ardışık geri çekilme çukuru öncekinin üzerinde."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "21 dönemlik üstel hareketli ortalama — son kapanışları daha çok ağırlıklar."
+      },
+      {
+        "term": "SMA-50",
+        "definition": "50 dönemlik basit hareketli ortalama — 50 kapanışa eşit ağırlık."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat 250'de kapanır, EMA-21 245'te, SMA-50 240'ta. QuantGlass hangi trend durumunu atar?",
+      "options": [
+        "Düşüş — fiyat her iki ortalamanın altında.",
+        "Yükseliş — Close > EMA21 > SMA50.",
+        "Aralık — ortalamalar çok yakın.",
+        "Oynak — yön belirlenemez."
+      ],
+      "explanation": "`Close (250) > EMA21 (245) > SMA50 (240)` olduğunda, dizilim mükemmel yükseliştir. Sinyal motoru bu hizalamayı trend-geri çekilme ailesinin BUY_ZONE kurulumlarını etkinleştirmek için kullanır."
+    },
+    "live_apply": {
+      "cta": "Sinyaller'i aç, herhangi bir BUY_ZONE sinyaline tıkla ve Nedenler bölümüne bak — trend hizalama nedenini bul."
+    }
+  },
+  {
+    "id": "novice-03-support-resistance",
+    "title": "Destek ve direnç temelleri",
+    "summary": "Arz ve talebin tekrar tekrar çarpıştığı fiyat seviyelerini keşfet.",
+    "concept": "**Destek**, düşen fiyatın tekrar tekrar zıpladığı bir fiyat seviyesidir — alıcılar burada satıcılara üstün gelir. **Direnç**, yükselen fiyatın tekrar tekrar takıldığı bir seviyedir — satıcılar alıcılara üstün gelir.\n\nBu seviyeler oluşur çünkü tüccarlar geçmiş dönüş noktalarını hatırlar. Kırılmış bir direnç çoğu zaman yeni destek olur (*polarite tersinmesi*). QuantGlass doğal S/D olarak işlev gören son salınım uçlarını tanımlamak için **Donchian kanalını** (20 dönem yüksek/düşük) kullanır.",
+    "key_terms": [
+      {
+        "term": "Destek",
+        "definition": "Fiyat tabanı — alıcılar düşüşü durdurmak için müdahale eder."
+      },
+      {
+        "term": "Direnç",
+        "definition": "Fiyat tavanı — satıcılar yükselişi durdurmak için müdahale eder."
+      },
+      {
+        "term": "Polarite tersinmesi",
+        "definition": "Kırılmış direnç onaylı bir kırılımdan sonra destek olur."
+      },
+      {
+        "term": "Donchian kanalı",
+        "definition": "N dönem boyunca en yüksek yüksek ve en düşük düşük."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat güçlü hacimde 500 $ direncini kırar, sonra 500 $'a geri çekilir. 500 $ şimdi nedir?",
+      "options": [
+        "Hâlâ direnç — kendini henüz kanıtlamadı.",
+        "Bir destek — onaylı bir kırılımdan sonra polarite tersindi.",
+        "Adil değer — ortalamaya dönüş hedefi.",
+        "Bir stop-loss seviyesi."
+      ],
+      "explanation": "Hacimde onaylı bir kırılımdan sonra önceki 500 $ direnci destek olur. Bu *polarite tersinmesidir*. QuantGlass'ın kırılım-yeniden test-devam kurulumu, yeniden girmeden önce fiyatın Donchian kırılım seviyesine dönüşünü özellikle arar."
+    },
+    "common_mistakes": [
+      "Seviyeleri bölge yerine tam fiyat olarak ele almak. Piyasalar alanlara saygı duyar; kesin çizgiler sürekli fitillenir.",
+      "Grafik kullanılamaz hâle gelene dek her dokunuşta bir çizgi çizmek. İki üç temiz, geniş çapta saygı gören bölge, on iki gürültülü çizgiden iyidir.",
+      "Kırılmış desteğin direnç olma eğiliminde olduğunu unutmak. Eski seviyeler kırıldığında kaybolmaz — taraf değiştirir."
+    ],
+    "live_apply": {
+      "cta": "'breakout_retest_continuation' kurulum türünde bir WATCH sinyali bul — giriş bölgesi tersinmiş seviyenin yakınındadır."
+    }
+  },
+  {
+    "id": "novice-04-volume",
+    "title": "Doğrulama olarak hacim",
+    "summary": "Hacmin fiyat hareketlerine neden inandırıcılık verdiğini öğren.",
+    "concept": "**Hacim** işlem gören birim sayısıdır. Güçlü hacim *ile* bir fiyat hareketi, ince hacimdeki bir hareketten daha çok tutar. Hacim yeterli katılımcının yönle hemfikir olduğunu doğrular.\n\nQuantGlass bir **hacim oranı** hesaplar — mevcut barın hacmi 20 dönemlik ortalamaya bölünür. ≥ 1,75 oran güven formülünde tam `volume_confirmation` kredisi alır. Kırılım girişleri (Donchian kırılımı) asgari eşik olarak volume_ratio ≥ 1,0 ister.\n\n**Iraksama**: fiyat yükselir ama hacim düşer → zayıf hareket, olası tükenme. Fiyat yüksek hacimde düşer → kurumsal dağıtım, düşüş sinyali.",
+    "key_terms": [
+      {
+        "term": "Hacim oranı",
+        "definition": "Mevcut barın hacmi ÷ 20 dönemlik ortalama hacim."
+      },
+      {
+        "term": "Hacim doğrulaması",
+        "definition": "0 ile 1 arası bir skor: hacmin mevcut hareketi ne kadar desteklediği."
+      },
+      {
+        "term": "Iraksama",
+        "definition": "Fiyat ve hacmin zıt yönlerde hareket etmesi — hareketi zayıflatır."
+      }
+    ],
+    "exercise": {
+      "question": "Bir yükselen kırılım mumu 20 dönemlik ortalamanın 3 katı hacme sahip. Bu sana ne söyler?",
+      "options": [
+        "Sahte bir kırılım — yüksek hacim tükenme demek.",
+        "Hareketin güçlü kurumsal katılımı var ve tutma olasılığı daha yüksek.",
+        "Hacim kırılımlar için önemsizdir.",
+        "Girmeden önce hacmin düşmesini beklemelisin."
+      ],
+      "explanation": "Bir kırılımdaki yüksek hacim birçok katılımcının hemfikir olduğunu doğrular. Kurumlar etkinliklerini gizleyemez — bir hacim ayak izi bırakırlar. QuantGlass'ın volume_confirmation skoru volume_ratio ≥ 1,75 olduğunda 1,0'a ulaşır."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalin detay çekmecesini aç ve confidence_basis.volume_confirmation değerini incele."
+    }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "title": "Zaman dilimleri: bir piyasa, birden çok mercek",
+    "summary": "Aynı fiyat hareketi 15m, 1h, 4h ve 1d'de farklı görünür.",
+    "concept": "Bir **zaman dilimi** her mumun özetlediği penceredir. Daha düşük zaman dilimleri (15m) ince detay ve daha çok gürültü gösterir; daha yüksekler (1d) yapı ve daha az gürültü gösterir. Hiçbiri 'daha doğru' değil — aynı tick akışının farklı sıkıştırmalarıdır.\n\nİki pratik kural. Birincisi, **trend zaman dilimine görelidir**: bir 15m düşüş trendi, bir 1d aralık içindeki bir 1h yükseliş içinde yaşayabilir. Bir trendi adlandırırken her zaman zaman dilimini adlandır. İkincisi, **sinyaller zaman dilimini miras alır**: 1h mumlarda üretilen bir QuantGlass sinyalinin stopları, hedefleri ve tutma süreleri 1h ölçeğindedir — onu 1d grafiğine karşı yargılamak onu yanlış okumaktır.\n\nMotorun kurulumları içte daha yavaş bir merceğe bile danışır: daha yüksek zaman dilimi eğim kontrolü şimdiki 50-bar tabanını 10 bar öncesiyle karşılaştırır ve daha geniş kaymayla hizalı kurulumları ödüllendirir.",
+    "key_terms": [
+      {
+        "term": "Zaman dilimi",
+        "definition": "Her mumun özetlediği pencere uzunluğu."
+      },
+      {
+        "term": "Gürültü",
+        "definition": "Daha güçlü sıkıştırmada kaybolan kısa-zaman dilimi dalgalanması."
+      },
+      {
+        "term": "Daha yüksek zaman dilimi hizalaması",
+        "definition": "Bir kurulumun zaman dilimi ile daha yavaş trend arasındaki uyum — QuantGlass'ta bir birleşme girdisi."
+      },
+      {
+        "term": "Tutma süresi",
+        "definition": "Bir pozisyonun ne kadar açık kalması gerektiği — zaman dilimiyle orantılı."
+      }
+    ],
+    "exercise": {
+      "question": "Bir sembol 15m grafikte düşer ama 1d'de yükselir. Hangi ifade doğrudur?",
+      "options": [
+        "Veri akışı bozuk.",
+        "İkisi de doğru: trend onu ölçtüğün zaman dilimine görelidir.",
+        "15m grafik her zaman 1d'ye üstün gelir.",
+        "Sembolün trendi yok."
+      ],
+      "explanation": "Trendler iç içedir. Uzun-mercek bir yükseliş trendi içindeki kısa-mercek bir geri çekilme, trendli piyasaların normal anatomisidir — ve geri çekilme kurulumlarının temelidir."
+    },
+    "live_apply": {
+      "cta": "Bir grafiği 15m → 1h → 4h → 1d ile gez ve her mercekte adlandıracağın trendi not et."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "title": "Salınımlar, trend çizgileri ve yapı",
+    "summary": "Daha yüksek yüksekler, daha yüksek düşükler ve her grafiğin altındaki iskelet.",
+    "concept": "Fiyat **salınımlarla** hareket eder — itişler ve geri çekilmeler. Dönüş noktalarını işaretle ve piyasanın iskeletini elde edersin: bir **yükseliş trendi** daha yüksek yüksekler (HH) ve daha yüksek düşüklerden (HL) oluşan bir merdivendir; bir **düşüş** daha düşük yüksekler (LH) ve daha düşük düşüklerdir (LL); bir **aralık** merdivensiz çakışan salınımlardır.\n\nBir **trend çizgisi** ardışık salınım çukurlarını (yükselişte) veya tepelerini (düşüşte) birleştirir. Sihir değil — merdiven ritminin görsel bir özetidir. Merdiven kırıldığında (yükselişte fiyat son HL'yi alır), yapı hasar görür ve yapısal hasar, herhangi bir göstergenin dönmesinden çok önce, grafik okuyucusunun ilk uyarısıdır.\n\nQuantGlass sinyallerinin nedenleri çoğu zaman son salınım uçlarına atıf yapar — bir long kurulumun geçersizlik çapası tipik olarak son salınım çukurudur, çünkü merdiven mantığı tam orada başarısız olur.",
+    "key_terms": [
+      {
+        "term": "Salınım tepesi/çukuru",
+        "definition": "Fiyattaki yerel bir dönüş noktası."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "Yükseliş ve düşüş trendlerini tanımlayan merdiven desenleri."
+      },
+      {
+        "term": "Trend çizgisi",
+        "definition": "Ardışık salınım noktalarından geçen, trend ritmini özetleyen bir çizgi."
+      },
+      {
+        "term": "Yapı kırılımı",
+        "definition": "Fiyatın baskın merdivenin en son salınımını ihlal etmesi."
+      }
+    ],
+    "exercise": {
+      "question": "Daha yüksek yüksekler ve düşüklerle tanımlanan bir yükseliş trendinde, hangi tek olay yapıya en doğrudan zarar verir?",
+      "options": [
+        "Herhangi bir boyutta kırmızı bir mum.",
+        "Fiyatın en son daha yüksek düşüğün altına kırılması.",
+        "Bir bar boyunca hacmin azalması.",
+        "Bir hafta sonu boşluğu."
+      ],
+      "explanation": "Merdiven kırmızı mumları ve sakin hacmi atlatır. Salınım çukurlarıyla tanımlanır — son daha yüksek düşüğü kaybetmek deseni kırar."
+    },
+    "live_apply": {
+      "cta": "Bir sembolün grafiğinde son üç salınım çukurunu zihinsel olarak işaretle — sonra sinyalin geçersizlik seviyesini bul ve onlarla nasıl ilişkili olduğunu gör."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "title": "Boşluklar, fitiller ve açığa çıkardıkları",
+    "summary": "Grafiğin noktalama işaretleri: reddetme, sürpriz ve yokluk.",
+    "concept": "Bir **fitil** (gölge) bir mumun gövdesinin dışındaki kısmıdır: fiyat oraya gitti ve aynı barda geri itildi. Bir ralli mumundaki uzun bir üst fitil, satıcıların itişi emdiği anlamına gelir — **reddetme**. Bir düşüşten sonra uzun bir alt fitil, alıcıların müdahale ettiği anlamına gelir. Anahtar seviyelerdeki (destek, direnç, hareketli ortalamalar) fitiller, reddetme kurulumlarının kendilerini ilan etme biçimidir.\n\nBir **boşluk**, bir mumun kapanışı ile sonrakinin açılışı arasındaki sıçramadır. Hisse grafikleri rutin olarak boşluk yapar — borsa kapalıyken haberler düşer. 24/7 işlem gören kripto nadiren boşluk yapar; bir kripto 'boşluğu' genelde bir veri kesintisi demektir, ki QuantGlass'ın bütünlük kontrolleri onu sessizce doldurmak yerine işaretler.\n\nOkuma kuralı: bir fitil *bar-içi* savaşla ilgili bilgidir; bir boşluk *barlar-arası* sürprizle ilgili bilgidir. Hiçbiri tek başına sinyal değildir — ikisi de bir kurulumu güçlendiren veya zayıflatan bağlamdır.",
+    "key_terms": [
+      {
+        "term": "Fitil / gölge",
+        "definition": "Mumun gövdesinin dışındaki aralığı — ziyaret edilmiş ama reddedilmiş fiyatlar."
+      },
+      {
+        "term": "Reddetme",
+        "definition": "Bir seviyeye itiş ki ondan uzaklaşarak kapanmıştır."
+      },
+      {
+        "term": "Boşluk",
+        "definition": "Önceki kapanıştan farklı açılış — hisselerde olağan, kriptoda anormal."
+      },
+      {
+        "term": "Veri boşluğu",
+        "definition": "Bütünlük katmanının saptadığı eksik-mum yapay nesnesi."
+      }
+    ],
+    "exercise": {
+      "question": "Bir kripto 1h serisi bir mumun kapanışı ile sonrakinin açılışı arasında büyük bir boşluk gösteriyor. En olası açıklama nedir?",
+      "options": [
+        "Kripto borsaları hisse piyasaları gibi geceleri kapanır.",
+        "Bir veri kesintisi — sürekli piyasalar nadiren gerçek fiyat boşlukları üretir, bu yüzden QuantGlass eksik mumları işaretler.",
+        "Protokol fiyatı sıfırladı.",
+        "Boşlukları OHLCV'de temsil etmek imkânsızdır."
+      ],
+      "explanation": "Kripto 24 saat işlem görür, bu yüzden ardışık mumlar normalde birbirine değer. Bir boşluk genelde eksik veriyi işaretler — bir piyasa olayı değil, bir bütünlük olayı."
+    },
+    "live_apply": {
+      "cta": "Bir hareketli ortalamanın yakınında belirgin fitili olan bir mum bul — bu geometri motorun reddetme kurulumlarının ham maddesidir."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "title": "Seviyeleri motor gibi okumak",
+    "summary": "Elle çizilmiş çizgilerden yeniden üretilebilir seviyelere.",
+    "concept": "Klasik destek/direnç gözle çizilir — yararlı, ama yeniden üretilemez: iki tüccar iki farklı çizgi çizer. QuantGlass **hesaplanabilir seviyeleri** tercih eder, böylece gördüğün her seviye yeniden hesaplanabilir ve denetlenebilir.\n\nMotorun seviye sözcük dağarı: **son uçlar** (son ~20 barın yüksek/düşüğü — Donchian kanalı), dinamik destek olarak **hareketli ortalamalar** (trend kurulumlarında 21-EMA'nın geri çekilme bölgesi) ve **oynaklık zarfları** (Keltner: EMA ± ATR'nin katı; Bollinger: ortalama ± standart sapmanın katı). Her biri kapanmış mumlarda kesin bir formüldür — sanatsal serbestlik yok.\n\nBir sinyal 'EMA bölgesine geri çekilme' dediğinde veya geçersizliği 'son salınım çukuru yakınına' çapaladığında, bu ifadeler bu hesaplanan seviyelere birebir eşlenir. Elle çizilmiş çizgiler hâlâ iyi bir düşünme aracıdır; motor yalnızca yeniden hesaplayamadığını *işlemeyi* reddeder.",
+    "key_terms": [
+      {
+        "term": "Hesaplanabilir seviye",
+        "definition": "Elle çizim değil, bir formülden türetilmiş destek/direnç seviyesi."
+      },
+      {
+        "term": "Donchian kanalı",
+        "definition": "N barın yükseği ve düşüğü — motorun son-uç seviyesi."
+      },
+      {
+        "term": "Dinamik destek",
+        "definition": "Yükselen/düşen bir seviye olarak işlev gören hareketli ortalama, ör. 21-EMA."
+      },
+      {
+        "term": "Oynaklık zarfı",
+        "definition": "Bir merkez çizgisi etrafında ATR (Keltner) veya standart sapmayla (Bollinger) boyutlandırılan bantlar."
+      }
+    ],
+    "exercise": {
+      "question": "QuantGlass neden seviyelerini elle çizilmiş çizgiler yerine formüllere (Donchian, EMA, ATR bantları) çapalar?",
+      "options": [
+        "Formüller geleceği her zaman doğru tahmin eder.",
+        "Hesaplanan seviyeler yeniden üretilebilir ve denetlenebilir — ekrandaki her seviye aynı mumlardan yeniden hesaplanabilir.",
+        "Çizim araçları patentlidir.",
+        "Elle çizilmiş çizgiler her zaman yanlıştır."
+      ],
+      "explanation": "Amaç kehanet değil dürüstlüktür: bir formülden türetilen bir seviye aynı veriye sahip herkesçe doğrulanabilir, ki bu tüm motorun boyun eğdiği standarttır."
+    },
+    "live_apply": {
+      "cta": "Bir grafikte bant kaplamalarını aç ve fiyatın hesaplanan zarfın kenarlarıyla nasıl etkileştiğini izle."
+    }
+  },
+  {
+    "id": "novice-05-reading-signal",
+    "title": "İlk sinyalini okumak",
+    "summary": "Bir QuantGlass sinyalinin çıktısındaki her alanı çöz.",
+    "concept": "Bir QuantGlass sinyali şunları içerir:\n\n- **Sinyal türü**: BUY_ZONE / SELL / HOLD / WAIT / WATCH\n- **Giriş bölgesi**: girmek için bir fiyat aralığı [low, high]\n- **Stop-loss**: işlem fikrinin yanlış kanıtlandığı fiyat\n- **Take-profit [TP1, TP2, TP3]**: üç çıkış basamağı (pozisyonun 50 / 30 / 20%'si)\n- **Risk:Ödül (R:R)**: TP2'ye ulaşılırsa kaç R kazanırsın\n- **Güven (0–89)**: kalibre edilmiş bir skor — kazanma olasılığı değil\n- **Güven temeli**: genel güveni yönlendiren alt-skorlar\n- **Nedenler**: bu kurulumun neden tanımlandığının düz açıklaması\n- **Geçersizlik**: bu kurulumu iptal eden koşul\n\n**Önemli**: Güven ≠ isabet oranı. Güven 70 olan bir sinyal '%70 kazanma şansı' DEĞİLDİR. Motorun *tarama anında* nispeten güçlü kanıta sahip olduğu anlamına gelir. Her zaman `out_of_sample_validated`'ı kontrol et — False ise, backtest istatistiksel sınavı geçmedi.",
+    "key_terms": [
+      {
+        "term": "Giriş bölgesi",
+        "definition": "Girmek için kabul edilebilir yargılanan fiyat aralığı [low, high]."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Kurulumun geçersizleştiği fiyat seviyesi; kabul edilebilir maksimum zarar."
+      },
+      {
+        "term": "Take-profit merdiveni",
+        "definition": "Üç kademeli çıkış fiyatı (TP1=50%, TP2=30%, TP3=pozisyonun 20%'si)."
+      },
+      {
+        "term": "R:R (Risk:Ödül)",
+        "definition": "Ödül ÷ Risk — 2,0 R:R potansiyel kazancın riskin 2 katı olduğu anlamına gelir."
+      },
+      {
+        "term": "Örneklem-dışı doğrulanmış",
+        "definition": "Backtestin OOS dilimi ≥ min_sample pozitif-beklenti işleme sahip olduğunda True."
+      }
+    ],
+    "exercise": {
+      "question": "Bir BUY_ZONE sinyali giriş 100–102, stop 96, TP2 = 108 gösteriyor. TP2'ye kadar yaklaşık R:R nedir?",
+      "options": [
+        "R:R ≈ 1,0 — ödül riske eşit.",
+        "R:R ≈ 1,5 — ödül riskten %50 fazla.",
+        "R:R ≈ 2,0 — ödül riskin iki katı.",
+        "R:R ≈ 0,5 — risk ödülün iki katı."
+      ],
+      "explanation": "Giriş orta noktası ≈ 101, Stop = 96 → Risk = 5. TP2 = 108 → Ödül = 7. R:R = 7/5 = 1,4 ≈ 1,5. QuantGlass kurulum türüne göre asgari 1,5–2,4× R:R hedefler."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir BUY_ZONE sinyaline tıkla ve detay çekmecesinde entry_zone, stop_loss, take_profit ve risk_reward'ı bul."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "title": "Bir QuantGlass sinyalinin anatomisi",
+    "summary": "Sinyal kartındaki her alan ve neden var olduğu.",
+    "concept": "Bir QuantGlass sinyali yapılandırılmış bir iddiadır, bir tüyo değil. Parçaları: **durum** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) motorun ne gördüğünü adlandırır; **kurulum türü** onu üreten desen ailesini adlandırır; **giriş bölgesi** hareket etmenin mantıklı olduğu yeri sınırlar; **stop-loss** fikrin yanlış olduğu tek fiyattır; **take-profit merdiveni** sabit ağırlıklarla (50% / 30% / 20%) üç seviyede çıkışları kademeler; ve **risk:ödül** medyan hedefin mesafesini stopun mesafesiyle karşılaştırır.\n\nİki dürüstlük alanı kartı tamamlar: **nedenler** durumun arkasındaki kapanmış-mum gerçeklerini listeler ve **güven temeli** güven sayısını besleyen her istatistiği — örneklem boyutları dahil — açığa çıkarır.\n\nKarttaki hiçbir şey tavsiye değildir. Bu motorun işini göstermesidir, böylece yalnızca sonuca değil *muhakemeye* katılabilir ya da katılmayabilirsin.",
+    "key_terms": [
+      {
+        "term": "Sinyal durumu",
+        "definition": "Motorun okuması: BUY_ZONE, SELL, WATCH, HOLD veya WAIT."
+      },
+      {
+        "term": "Kurulum türü",
+        "definition": "Durumu üreten desen ailesi."
+      },
+      {
+        "term": "Giriş bölgesi",
+        "definition": "Kurulumun işlem edilebilir olduğu fiyat aralığı."
+      },
+      {
+        "term": "TP merdiveni",
+        "definition": "50/30/20 ağırlıklarıyla üç kademeli çıkış seviyesi."
+      },
+      {
+        "term": "Güven temeli",
+        "definition": "Güven sayısının arkasında açığa çıkarılan istatistikler."
+      }
+    ],
+    "exercise": {
+      "question": "Bir QuantGlass sinyalinde stop-loss temelde neyi temsil eder?",
+      "options": [
+        "Garantili bir çıkış fiyatı.",
+        "Kurulumun öncülünün geçersizleştiği fiyat — fikir orada yanlıştır, bu yüzden pozisyon var olmamalıdır.",
+        "Yılın en düşük fiyatı.",
+        "Bir ücret eşiği."
+      ],
+      "explanation": "Stop, işlem fikrinin yanlışlama noktasıdır. İcra onun ötesine kayabilir ama anlamı 'buradan öteye muhakeme tutmaz'dır."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir sinyali aç ve yedi parçayı bul: durum, kurulum, giriş bölgesi, stop, merdiven, risk:ödül, nedenler."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "title": "Güven sayısı ne demek",
+    "summary": "Görünür girdileri olan kalibre bir skor — kâr olasılığı değil.",
+    "concept": "Güven skoru (20–89) o kurulum ailesinin **trend hizalamasını**, **hacim doğrulamasını**, **birleşmesini** ve **backtest geçmişini** harmanlar — örneklemler ince olduğunda istatistikler kasten nötre büzülür. 3 işlemde %100 isabet geçmişi neredeyse anlamsız sayılır, tam da olması gerektiği gibi.\n\nİki tavan sayıyı dürüst tutar: kurulum **örneklem-dışı doğrulanmış** olmadıkça güven 62'yi aşamaz ve asla 89'u geçmez — kesinlik menüde yok. Yeterli örneklem-dışı işlem olduğunda, sinyal bir sonraki işlemin sonucu için bir **garantili kapsama aralığı** da gösterir — beyan edilen bir olasılıkla tutan dağılımsız bir sınır.\n\nŞöyle oku: *bu kurulum desenini ne kadar kanıt destekliyor*, asla *bu işlemin kazanma şansı* değil. Bireysel işlemler tahmin edilemez kalır; yalnızca uzun vadenin istatistiği vardır.",
+    "key_terms": [
+      {
+        "term": "Güven",
+        "definition": "Tüm girdileri açığa çıkarılmış 20–89 kanıt skoru."
+      },
+      {
+        "term": "Büzülme (shrinkage)",
+        "definition": "İnce-örneklem istatistiklerini nötre çekmek, böylece küçük örneklemler bağırmaz."
+      },
+      {
+        "term": "OOS doğrulanmış",
+        "definition": "Kurulumun avantajı motorun hiç uydurulmadığı veride tuttu."
+      },
+      {
+        "term": "Kapsama garantisi",
+        "definition": "Bir sonraki işlemin sonucu için beyan edilen bir olasılıkta dağılımsız bir aralık."
+      }
+    ],
+    "exercise": {
+      "question": "Bir sinyal 7 backtest örneklem boyutuyla güven 58 gösteriyor. Bunu nasıl okumalısın?",
+      "options": [
+        "Bu işlemin kârlı olma %58 şansı.",
+        "Orta düzeyde desen kanıtı, kuvvetle büzülmüş çünkü yedi işlem istatistiksel olarak neredeyse hiçbir şey.",
+        "58 tik kâr garantisi.",
+        "Motor hesabın %58'ini bitirdi."
+      ],
+      "explanation": "Güven kanıt gücüdür, kazanma olasılığı değil — ve n=7'de büzülme skoru çoğunlukla kurulumun yapısal kalitesine dayandırır, onun minik geçmişine değil."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalin güven temelini aç ve örneklem boyutlarını bul — skorun küçükleri nasıl ele aldığına dikkat et."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "title": "Tazelik ve geçersizlik: bir sinyal ne zaman ölür",
+    "summary": "Sinyaller iki yolla sona erer — zamanla ve fiyatla.",
+    "concept": "Bir sinyal piyasa hakkında bir iddiadır — *son kapanmış mumunun tarihinde*. İki yolla ölür.\n\n**Zamanla**: her yeni kapanmış mum dünyayı yeniden değerlendirir; tazelik rozeti gördüğünün arkasındaki verinin yaşını gösterir. Taze (~2 bar içinde) güncel demektir; gecikmiş ve bayat rozetleri resmin değişmiş olabileceği anlamına gelir — bir bayat sinyalde yenilemeden asla hareket etme.\n\n**Fiyatla**: her sinyal **geçersizliğini** belirtir — tipik olarak stop seviyesinin ötesinde bir kapanış. Fiyat orada kapandığında, kurulumun öncülü yanlışlanır ve sinyal durumu geçersize döner. Geçersizleşmiş bir fikirde utanç yok; hata yalnızca onun üzerinde hareket etmeye devam etmektedir.\n\nBunun öğrettiği disiplin genelleşir: tuttuğun herhangi bir işlem fikri iki boyutta yazılmış bir sona erme koşuluna sahip olmalı — *ne zaman* bayatlar ve *nerede* yanlış olur.",
+    "key_terms": [
+      {
+        "term": "Tazelik rozeti",
+        "definition": "Taze / gecikmiş / bayat, son kapanmış mumun zaman dilimine göre yaşına göre."
+      },
+      {
+        "term": "Geçersizlik",
+        "definition": "Kurulumu yanlışlayan belirtilmiş koşul (genelde stopun ötesinde bir kapanış)."
+      },
+      {
+        "term": "Bayat sinyal",
+        "definition": "Temel mumu birçok bar geride olan bir sinyal — hareketten önce yenile."
+      },
+      {
+        "term": "Yeniden değerlendirme",
+        "definition": "Her kapanmış mum motorun taze bir okumasını tetikler."
+      }
+    ],
+    "exercise": {
+      "question": "Bir 1h sinyali 7 saatlik bir tazelik rozeti gösteriyor. Doğru yanıt nedir?",
+      "options": [
+        "Hemen hareket et — eski sinyaller şarap gibidir.",
+        "Önce veriyi yenile: yedi kapanmış mum geçti ve motorun mevcut okuması farklı olabilir.",
+        "Telafi için pozisyon boyutunu ikiye katla.",
+        "Tazelik yalnızca hisseler için önemli."
+      ],
+      "explanation": "Gösterilen sinyalin görmediği yedi bar yeni bilgi var. Yenile, motorun yeniden değerlendirmesine izin ver ve yalnızca güncel bir okumada hareket et."
+    },
+    "common_mistakes": [
+      "Bayat bir sinyalde hareket etmek. Saatler önce hesaplanmış bir kurulum artık var olmayan bir piyasayı tanımlar.",
+      "Geçersizliği bir öneri olarak ele almak. Seviye kırıldığında, işlem fikri ölmüştür — onu tutmak yeni, planlanmamış bir işlemdir."
+    ],
+    "live_apply": {
+      "cta": "Her sinyaldeki tazelik rozetini bul — sonra koridoru yenile ve rozetlerin sıfırlanmasını izle."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "title": "İlk kâğıt işlemini yerleştirmek",
+    "summary": "Sinyalden simüle bir pozisyona, sıfır dolar tehlikede.",
+    "concept": "Kâğıt ticareti gerçek piyasa verisi ve hayali parayla bir provadır. QuantGlass'ta: bir sinyal aç, **Kâğıt işlem** seç, bir miktar belirle ve gönder. Niyet kuyruğa alınır ve bir sonraki mevcut fiyattan icra olur — grafiğin tam fiyatını alamama gerçekçi onursuzluğu dahil. Kâğıt hesabın bakiyeyi, alım gücünü, açık pozisyonları ve gerçekleşmiş PnL'yi izler.\n\nSinyalin kendi geometrisini kullan: pozisyonu, fiyat stopa dokunursa hesabın küçük sabit bir kesrini kaybedecek şekilde boyutlandır (Risk rotası bunu bir formüle çevirir). Sonra — bu provanın kısmı — **işlemi gerçekmiş gibi yönet**: stopa saygı duy, merdiven çıkışlarını al ve neden girdiğini not et.\n\nBurada yaptığın her şey öğrenme döngüsünü besler: koçluk paneli kâğıt işlemlerini gözler ve bir alışkanlık kaydığında ihtiyacın olan dersi yüzeye çıkarır.",
+    "key_terms": [
+      {
+        "term": "Kâğıt ticareti",
+        "definition": "Gerçek piyasa verisine karşı simüle icra."
+      },
+      {
+        "term": "İşlem niyeti",
+        "definition": "Kuyruğa alınmış emrin, bir sonraki mevcut fiyattan icra olur."
+      },
+      {
+        "term": "Alım gücü",
+        "definition": "Açık pozisyonlardan sonra kalan hesap kapasitesi."
+      },
+      {
+        "term": "Gerçekleşmiş PnL",
+        "definition": "Yalnızca kapatılmış pozisyonlardan kâr ve zarar."
+      }
+    ],
+    "exercise": {
+      "question": "Bir kâğıt işlemini ele almanın en değerli yolu nedir?",
+      "options": [
+        "Bir piyango bileti gibi — hayali olduğu için saçma boyutlandır.",
+        "Tam olarak gerçekmiş gibi: planlı boyut, saygı gösterilen stop, kaydedilmiş muhakeme.",
+        "Yalnızca emir düğmelerini test etme aracı olarak.",
+        "Girişten sonra onu yok say."
+      ],
+      "explanation": "Kâğıt ticareti tutacağın alışkanlıkları kurar. Tuhaf boyutlandırma veya yok sayılan stoplar pratiği tam da gerçek hesapları yok eden davranışları provadır."
+    },
+    "common_mistakes": [
+      "'Sadece kâğıt' diye planı atlamak. Kâğıt ticareti planlama alışkanlığını eğitmek için vardır — atla ve doğaçlama pratiği yaparsın.",
+      "Para gerçek olmadığı için aşırı boyutlandırmak. %10 hayali riskte oluşan alışkanlıklar gerçek hesaplara olduğu gibi taşınır."
+    ],
+    "live_apply": {
+      "cta": "En taze sinyali seç, giriş bölgesi ve stopuyla küçük bir kâğıt işlem yerleştir ve muhakemeni bir cümleyle not et."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "title": "İşlemden sonra: sonuçlarını okumak",
+    "summary": "Pozisyonlar, PnL ve sonuç ile karar arasındaki fark.",
+    "concept": "İcra edilince, pozisyonun bir ortalama fiyat ve canlı bir gerçekleşmemiş PnL işaretiyle belirir; onu kapatmak gerçekleşmiş PnL'ye çevirir. Sayılar basittir — psikoloji değil.\n\nMerkezi ayrım: **iyi bir karar kaybedebilir ve kötü bir karar kazanabilir.** Bir işlemin sonucu gürültüyle baskındır; karar kalitesi yalnızca birçok işlem boyunca istatistikte belirir. Bu yüzden her işlemi *süreçle* yargıla — kurulum geçerli miydi, boyut planlı mıydı, stopa saygı gösterildi mi? — ve *yöntemini* toplamlarla yargıla: isabet oranı, ortalama R, beklenti.\n\nİşte bu yüzden QuantGlass her yerde R katlarında ve örneklem boyutlarında ısrar eder: bir yığın bireysel öyküyü kanıta çevirirler. Kâğıt geçmişin ilk veri kümendir. Risk ve İstatistik rotaları onu bir kumarbaz değil bir analist gibi okumayı öğretir.",
+    "key_terms": [
+      {
+        "term": "Gerçekleşmemiş PnL",
+        "definition": "Açık pozisyonlarda piyasa değerine göre kâr/zarar."
+      },
+      {
+        "term": "Gerçekleşmiş PnL",
+        "definition": "Kapatılmış pozisyonların kilitli sonucu."
+      },
+      {
+        "term": "Süreç vs sonuç",
+        "definition": "Kararlar muhakemeleriyle yargılanır; yöntemler uzun-vade istatistikleriyle."
+      },
+      {
+        "term": "R katı",
+        "definition": "Planlı riskin birimlerinde ifade edilen bir sonuç — motorun yerel birimi."
+      }
+    ],
+    "exercise": {
+      "question": "İyi planlanmış işlemin stopuna dokundu, -1R zararına. Bu onu alma kararı hakkında ne kanıtlar?",
+      "options": [
+        "Karar kötüydü — zararlar hataları kanıtlar.",
+        "Tek başına neredeyse hiçbir şey: bireysel sonuçlar gürültüdür; karar süreciyle ve yöntem birçok işlemle yargılanır.",
+        "Stop zarara neden oldu.",
+        "Gelecekte stopları kaldırmalısın."
+      ],
+      "explanation": "Geçerli bir kurulumda, planlı boyutta -1R sistemin tasarlandığı gibi çalışmasıdır. Hata avı süreç düzeyine, kararlar örneklem düzeyine aittir."
+    },
+    "live_apply": {
+      "cta": "Kâğıt hesap özetini aç: hangi sayıların sonuç (PnL) ve hangilerinin süreç (boyutlandırman ve stopların) olduğunu zihinsel olarak ayır."
+    }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "title": "Bir ticaret dolandırıcılığının anatomisi",
+    "summary": "Her düzen aynı üç vaat üzerinde çalışır.",
+    "concept": "Ticaret dolandırıcılıkları sonsuzca yeniden giydirilir ama yapısal olarak özdeştir. Üç imkânsız vaadin bir karışımını satarlar: **garantili getiriler** ('günde %1, risksiz'), **gizli bilgi** ('ONLARIN bilmeni istemediği gösterge') ve **çabasız zenginlik** ('sen uyurken bot işlem yapar'). Her vaat bu Akademi'de zaten öğrendiğin bir şeyle çelişir: getiri tanımı gereği risk taşır (düşüş matematiği), kalıcı kamu avantajları bozulur (istatistiksel dürüstlük) ve maliyetler artı rekabet çabasız kârı bir çelişki yapar.\n\nOperasyonel senaryo da aynı derecede sabittir: **aciliyet** ('yalnızca 5 yer kaldı'), **doğrulanamaz sosyal kanıt** (ekran görüntüleri, referanslar, kiralık Lamborghini'ler) ve bir **yalıtım hunisi** (seni kamuya açık platformlardan moderasyonun ve tanıkların kaybolduğu özel Telegram/WhatsApp gruplarına taşımak).\n\nEn koruyucu alışkanlık: bir teklifin *ilan edilen getirileri* satıcısını senin paran olmadan zengin edecekse, neden senin parana ihtiyaç duyduğunu sor. Gerçek avantajlar sessizce işlem edilir, yüksek sesle satılmaz.",
+    "key_terms": [
+      {
+        "term": "Garantili getiri",
+        "definition": "Piyasa riskinin tanımıyla çelişen bir vaat — evrensel dolandırıcılık işareti."
+      },
+      {
+        "term": "Aciliyet baskısı",
+        "definition": "Doğrulamayı engellemek için tasarlanmış yapay son tarihler."
+      },
+      {
+        "term": "Yalıtım hunisi",
+        "definition": "Hedefleri moderasyon ve tanıklardan uzak özel kanallara taşımak."
+      },
+      {
+        "term": "Satıcı paradoksu",
+        "definition": "Avantaj gerçek olsaydı, onu satmak gereksiz ve ters etki yaratıcı olurdu."
+      }
+    ],
+    "exercise": {
+      "question": "Bir reklam 'günde %2, garantili, istediğin zaman çek' vaat ediyor. Başka herhangi bir kırmızı bayraktan önce, onu matematiksel olarak bir dolandırıcılık yapan nedir?",
+      "options": [
+        "%2 önemsenmeyecek kadar küçük.",
+        "Bu oranda garantili günlük bileşik birkaç yılda dünya servetini aşardı — risksiz getiri yoktur, bu yüzden vaadin kendisi kanıttır.",
+        "Çekimler hiçbir yerde asla izin verilmez.",
+        "Yalnızca %5'in üzerindeki yüzdeler dolandırıcılıktır."
+      ],
+      "explanation": "Günde %2 yılda yaklaşık %1.377 bileşiklenir. Buna gerçekten sahip olan biri asla mevduat sahiplerine ihtiyaç duymazdı. Vaat, başka bir şeyi kontrol etmeden önce kendini çürütür."
+    },
+    "live_apply": {
+      "cta": "Düşüş dersini tekrar gör: orada hesapladığın kurtarma matematiği tam da 'risksiz getiri'nin yok saymış gibi yaptığı şeydir."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "title": "Sahte gurular ve sinyal satıcıları",
+    "summary": "Yaşam tarzı pazarlaması, doğrulanamaz geçmişler ve kurs hunisi.",
+    "concept": "Gurunun iş modeli ticaret başarısının *imajını* satıp ticaretin kendisinin finanse etmediği bir yaşam tarzını finanse etmektir. İpuçları: **önce yaşam tarzı içeriği** (arabalar, saatler, sahilde dizüstüler — asla denetlenmiş ekstreler), **ayıklanmış ekran görüntüleri** (kazananlar paylaşılır, kaybedenler silinir; demo hesaplar gerçek gibi sunulur), **doğrulanamaz iddialar** ('1.000 doları 1 milyona çevirdim' aracı ekstresi olmadan) ve görünür biçimde ticaretten değil **kurslar, sinyaller ve ortaklık bağlantılarından** gelen gelirler.\n\n**Sinyal satıcıları** özel dikkat hak eder: birine ne zaman alacağını söylemesi için ödeme yapmak tüm riski (senin) sıfır anlayışla (yine senin) birleştirir. Muhakemesini bilmediğin bir pozisyonu boyutlandıramaz, yönetemez veya ondan çıkamazsın — bu yüzden bu Akademi sana sonuçlarına güvenmeyi değil *motorun nedenlerini okumayı* öğretir.\n\nArtık sahip olduğun dürüst karşıtlık: QuantGlass her iddiada örneklem boyutlarını, örneklem-dışı bölünmeleri, maliyetleri ve düşüşleri gösterir, *çünkü dürüst bir performans raporlaması böyle görünür*. Her insandan aynı standardı iste: denetlenmiş, eksiksiz, riske göre ayarlanmış, zararlar dahil. Neredeyse hiçbiri talebi atlatamaz.",
+    "key_terms": [
+      {
+        "term": "Yaşam tarzı pazarlaması",
+        "definition": "Doğrulanabilir performans yerine zenginlik imgeleri satmak."
+      },
+      {
+        "term": "Seçici ayıklama",
+        "definition": "Kazananları paylaşıp kaybedenleri silmek — satış aracı olarak hayatta kalan yanlılığı."
+      },
+      {
+        "term": "Sinyal satışı",
+        "definition": "Muhakemesi ve riski gizli kalan giriş çağrıları için ücret almak."
+      },
+      {
+        "term": "Denetlenmiş geçmiş",
+        "definition": "Zararlar dahil aracı-doğrulamalı eksiksiz performans — guruların kaçındığı standart."
+      }
+    ],
+    "exercise": {
+      "question": "Bir guru bu ay 47 kazanan işlem ekran görüntüsü paylaşıyor. İstatistikte eğitimli bir okuyucu olarak ilk soru nedir?",
+      "options": [
+        "Hangi aracının en güzel arayüzü var?",
+        "Kaybedenler nerede? Zararsız bir örneklem ayıklanmıştır, hak edilmemiştir — backtestleri sahteleştiren aynı hayatta kalan yanlılığı geçmişleri de sahteleştirir.",
+        "En hızlı nasıl abone olurum?",
+        "O saat ne?"
+      ],
+      "explanation": "Bunu backtest rotasında hayatta kalan yanlılığı olarak öğrendin. Ekran görüntüleri denetleyemeyeceğin, sana satan kişinin seçtiği bir örneklemdir."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir ön ayarı aç: zararlar, düşüş ve örneklem boyutları kazançların yanında basılıdır. Bu eksiksizlik gerçek raporlamanın nasıl göründüğüdür."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "title": "Platform dolandırıcılıkları ve oltalama",
+    "summary": "Sahte borsalar, çekim tuzakları ve kimlik bilgisi hırsızlığı.",
+    "concept": "İkinci dolandırıcılık ailesi yargın yerine *erişimine* saldırır. **Sahte platformlar**: mevduatları kabul eden, daha çok mevduatı teşvik için hayali kârlar gösteren, sonra çekimi engelleyen cilalı borsa/aracı siteleri ('önce vergi/ücret öde' — **çekim tuzağı**, daima ikinci bir hırsızlık, asla gerçek ücretler değil). **Oltalama**: borsa kimlik bilgilerini veya kurtarma ifadeni hasat eden ikiz siteler ve e-postalar; bir yanlış yapıştırma ve saklama kaybedilir. **Sahte destek**: topluluk kanallarındaki dolandırıcılar DM'le sonunda kimlik bilgilerini açıklatan 'yardım' gönderir — gerçek destek asla önce yazmaz ve asla parolana veya kurtarma ifadene ihtiyaç duymaz.\n\nSavunmalar zekice değil mekaniktir: borsalara **yalnızca yer iminden** eriş (asla arama reklamı bağlantılarından), **çekim izin listelerini ve 2FA'yı** etkinleştir, **API anahtarlarına en küçük kapsamı** ver (saklama dersinin kuralı — yalnızca-veri uygulamaları için yalnızca-veri anahtarları, asla çekim hakları) ve 'çekimini açmak için öde' her talebini, onun ne olduğunun itirafı olarak ele al.\n\nDoğrulayabileceğin QuantGlass duruşuna dikkat et: anahtarlar yerel şifreli bir kasada yaşar, uygulama asla parola veya kurtarma ifadesi istemez ve buradaki hiçbir şey çekemez — tasarımca.",
+    "key_terms": [
+      {
+        "term": "Çekim tuzağı",
+        "definition": "Fonları 'serbest bırakmak' için istenen sahte ücretler — ikinci bir hırsızlık, asla meşru değil."
+      },
+      {
+        "term": "Oltalama",
+        "definition": "Kimlik bilgileri veya kurtarma ifadelerini hasat eden ikiz siteler/mesajlar."
+      },
+      {
+        "term": "Sahte destek",
+        "definition": "Sonunda kimlik bilgisi açıklamasına yol açan istenmemiş 'yardım'."
+      },
+      {
+        "term": "Yer imi disiplini",
+        "definition": "Finansal sitelere yalnızca kaydedilmiş, doğrulanmış bağlantılardan erişmek."
+      }
+    ],
+    "exercise": {
+      "question": "Bir 'platform' bakiyenin 11.400 $'a çıktığını gösteriyor ama çekim için 900 $ 'serbest bırakma ücreti' istiyor. Bu durumun doğru modeli nedir?",
+      "options": [
+        "Normal düzenleyici ücretler — öde.",
+        "Gösterilen bakiye bir kurgu ve ücret ikinci bir hırsızlık girişimi; hiçbir meşru mekân kendi fonlarının çekimini yetkilendirmek için ücret almaz.",
+        "Ücreti 450 $'a pazarlık et.",
+        "Ücretsiz çekimlere hak kazanmak için daha çok yatır."
+      ],
+      "explanation": "Ekrandaki sayı her zaman yalnızca piksellerdi. Bir 'serbest bırakma' ücreti ödemek yalnızca tekrar ücretlendirilebileceğini gösterir — doğru harcama sıfırdır ve doğru eylem bildirmektir."
+    },
+    "live_apply": {
+      "cta": "API anahtarı ekranını kontrol et: kapsamlar, şifreleme, hiçbir yerde çekim hakkı yok — bu dersin tarif ettiği duruşu doğrula."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "title": "Sosyal mühendislik ve uzun-vadeli dolandırıcılıklar",
+    "summary": "'Domuz kesimi', romantik huniler ve saldırı yüzeyi olarak güven.",
+    "concept": "Finansal olarak en yıkıcı dolandırıcılıklar güvene yavaşça saldırır. **Uzun-vadeli dolandırıcılığın** senaryosu (kabaca 'domuz kesimi' denir): bir yabancı teması başlatır (yanlış numara, flört uygulaması, sosyal medya), dostça veya romantik bir ilişkiye haftalar yatırır, ticaret başarısını gelişigüzel açıklar ve sonunda 'yatırım yapmana yardım etmeyi' önerir — kontrol ettiği bir platformda. Güven uydurmak için erken küçük çekimler karşılanır; hırsızlık kurban ömür birikimlerine yükseldikten sonra gelir. Bu kategorideki kayıplar düzenli olarak yıkıcıdır, tam da ilişki gerçek göründüğü için.\n\nYapısal savunmalar, çünkü anın yargısı tam da dolandırıcılığın kapattığı şeydir: **kanal kuralı** — teması başlatan VE sonunda yatırıma yönlendiren herkes, ilişki ne kadar sürerse sürsün düşman varsayılır; **platform kuralı** — çevrimiçi bir tanıdığın sunduğu bir mekânı asla kullanma; **doğrulama kuralı** — herhangi bir yeni 'fırsatı' seni seven ve ondan hiçbir şey kazanmayan çevrimdışı biriyle tartış; ve **çekim kuralı** — erken 'başarılı çekimler' hiçbir şey kanıtlamaz, çünkü küçük çekimleri karşılamak düzenin işletme sermayesidir.\n\nBu sana veya bir yakınına olduysa: bu örgütlü endüstriyel suçtur, saflık değil — bildir ve asla 'kurtarma hizmetlerine' ödeme yapma (kurbanları iki kez hedefleyen takip dolandırıcılığı).",
+    "key_terms": [
+      {
+        "term": "Uzun-vadeli dolandırıcılık",
+        "definition": "Finansal talepten önce haftalarca uydurulmuş ilişki."
+      },
+      {
+        "term": "Güven sermayesi",
+        "definition": "Daha büyük mevduatları açmak için kullanılan karşılanmış küçük çekimler."
+      },
+      {
+        "term": "Kanal kuralı",
+        "definition": "Başlatılmış temas + yatırıma yönlendirme = düşman varsayılır."
+      },
+      {
+        "term": "Kurtarma dolandırıcılığı",
+        "definition": "Çalınmış fonları 'kurtarmak' için kurbanlardan ücret alan sahte hizmetler."
+      }
+    ],
+    "exercise": {
+      "question": "İki aylık, hiç bir şey istememiş çevrimiçi bir arkadaş amcasının ticaret platformundan söz ediyor ve seni oraya götürmeyi öneriyor. Hangi tek gerçek risk değerlendirmesini yönetir?",
+      "options": [
+        "İki ay güven kurmaya yeter.",
+        "Asıl teması o başlattı ve yol şimdi onun sunduğu bir yatırım platformuna gidiyor — ne kadar otantik hissettirirse hissettirsin, uzun-vadeli dolandırıcılığın tam imzası.",
+        "Amcalar genelde güvenilirdir.",
+        "Platform sitesi profesyonel görünüyor."
+      ],
+      "explanation": "Dolandırıcılığın tüm tasarımı ilişkinin gerçek ve acelesiz görünmesidir. Desen hissi yener: başlatılmış temas artı yönlendirilmiş yatırım imzadır ve tek güvenli yanıt kanal kuralıdır."
+    },
+    "live_apply": {
+      "cta": "Kanal kuralını tanıdığın ve yatırıma yeni başlayan biriyle paylaş — savunma yüksek sesle söylenerek yayılır."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "title": "Dolandırıcılık-karşıtı kontrol listesi",
+    "summary": "Neredeyse her şeyi eleyen on soru.",
+    "concept": "Bu rotadan sıkıştırılmış, herhangi bir fırsatta çalıştırılacak bir liste: her 'evet' bir kırmızı bayraktır, üçü bir hükümdür:\n\n1. Getiriler **garantili** mi yoksa 'risksiz' mi?\n2. **Aciliyet** var mı (son tarihler, sınırlı yer)?\n3. **Seninle önce onlar mı temas kurdu**?\n4. Bir **özel kanala** mı taşınıyorsun?\n5. Geçmiş **doğrulanamaz** mı (ekran görüntüleri, denetlenmiş ekstre yok)?\n6. Satıcı ticaretten değil **ücretlerden/kurslardan/yönlendirmelerden** mi kazanıyor?\n7. **Onların platformunu** mu kullanmalısın yoksa çekim için ödeme mi yapmalısın?\n8. **Kimlik bilgileri, kurtarma ifadeleri veya uzaktan erişim** mi istiyorlar?\n9. Strateji **gizli** mi ('nasıl çalıştığını açıklayamayız')?\n10. İlan edilen getiriler gerçek olsaydı satışı **gereksiz** kılar mıydı?\n\nBu elemeyi atlatanın desenine dikkat et: sıkıcı şeyler. Öz-saklamalı öğrenme, denetlenmiş kamu verisi, işini gösteren araçlar, düşüşler eklenmiş dürüst R katlarında ilan edilen getiriler. Akademi'nin son ironisi kasıtlıdır: motoru güvenilir kılan her şey — görünür muhakeme, örneklem boyutları, örneklem-dışı dürüstlük, dahil maliyetler, vaat yok — yukarıdaki her kırmızı bayrağın tam tersidir. Artık bu alanda dürüstlüğün nasıl göründüğünü biliyorsun. Her yerde onu iste.",
+    "key_terms": [
+      {
+        "term": "Kırmızı bayrak yığılması",
+        "definition": "Bir bayrak bir şüphe; üçü bir hüküm."
+      },
+      {
+        "term": "Doğrulanabilirlik",
+        "definition": "Pazarlama ile kanıt arasındaki bölücü çizgi."
+      },
+      {
+        "term": "Sıkıcı hayatta kalan",
+        "definition": "Elemeyi geçen: denetlenmiş, şeffaf, vaatsiz."
+      },
+      {
+        "term": "Dürüstlüğün tersi",
+        "definition": "Motorun her şeffaflık işlevi bir dolandırıcılık kırmızı bayrağını yansıtır."
+      }
+    ],
+    "exercise": {
+      "question": "On-soru listesini atlatan TÜM teklifler temelde hangi özelliği paylaşır?",
+      "options": [
+        "Dolandırıcılıklardan daha yüksek vaat edilen getiriler.",
+        "Doğrulanabilir şeffaflık: denetlenebilir iddialar, görünür muhakeme, dahil zararlar ve aciliyete veya gizliliğe hiçbir bağımlılık yok.",
+        "Ünlü onayları.",
+        "Özel Telegram erişimi."
+      ],
+      "explanation": "Bu eleme gizli mücevherleri bulmaz — dürüstlüğü bulur. Meşru araçlar ve öğretmenler işlerini gösterdikleri için hayatta kalır; geri kalan her şey çalışmak için kırmızı bayraklara ihtiyaç duyar."
+    },
+    "common_mistakes": [
+      "Zekânın bir koruma olduğunu varsaymak. Dolandırıcılıklar zeki, kendine güvenen insanlar için tasarlanır — liste tam da anın yargısına bağlı olmadığı için çalışır.",
+      "Listeyi yalnızca yabancılar için kontrol etmek. Arkadaşlar ve aile inandıkları dolandırıcılıkları iletir; liste habereye değil mesaja uygulanır."
+    ],
+    "live_apply": {
+      "cta": "Listeyi QuantGlass'ın kendisinde, madde madde çalıştır — motor geçmeli, tam da ekrandaki her iddia denetlenebilir olduğu için."
+    }
+  }
+]
