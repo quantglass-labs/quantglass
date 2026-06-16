@@ -252,7 +252,10 @@
       "processAllHelper": "Trung bình trọn đời"
     },
     "quadrant": {
-      "earnedWin": { "label": "Chiến thắng xứng đáng", "hint": "Quyết định tốt, kết quả tốt" },
+      "earnedWin": {
+        "label": "Chiến thắng xứng đáng",
+        "hint": "Quyết định tốt, kết quả tốt"
+      },
       "wellPlayedLoss": {
         "label": "Thua được chơi tốt",
         "hint": "Quyết định tốt, phương sai lấy đi"
@@ -675,6 +678,116 @@
       "candleCount": "Số nến",
       "windowBackend": "Cửa sổ phái sinh từ backend {{timeframe}}",
       "windowFallback": "Cửa sổ dự phòng {{timeframe}}"
+    }
+  },
+  "learn": {
+    "title": "Học",
+    "eduDisclaimer": "Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính.",
+    "percentComplete": "Hoàn thành {{percent}}%",
+    "locked": "Đã khóa",
+    "community": "cộng đồng",
+    "takeAssessment": "Làm bài đánh giá {{level}}",
+    "loadingAcademy": "Đang tải Học viện…",
+    "selectLesson": "Chọn một bài học để bắt đầu.",
+    "loadingCatalog": "Đang tải danh mục…",
+    "tiers": {
+      "novice": "Nhập môn",
+      "intermediate": "Trung cấp",
+      "advanced": "Nâng cao",
+      "expert": "Chuyên gia"
+    },
+    "readiness": {
+      "tooltip": "Mức sẵn sàng {{label}}",
+      "knowledge": "Kiến thức",
+      "execution": "Thực thi",
+      "risk": "Rủi ro",
+      "psych": "Tâm lý",
+      "consistency": "Nhất quán"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Tìm bài học…",
+      "searchLabel": "Tìm bài học",
+      "glossary": "Thuật ngữ",
+      "reference": "Tham khảo",
+      "practice": "Luyện tập",
+      "progress": "Tiến độ",
+      "noMatch": "Không có bài học phù hợp."
+    },
+    "errors": {
+      "catalogStale": "Backend cũ hơn phiên bản ứng dụng này và không thể phục vụ danh mục Học viện. Khởi động lại ứng dụng (hoặc backend) để cả hai đều cập nhật.",
+      "catalogLoad": "Không tải được danh mục học tập. Backend có đang chạy không?",
+      "lessonLoad": "Không tải được bài học '{{id}}'."
+    },
+    "review": {
+      "title": "Đánh giá quy trình của bạn",
+      "avgScore": "Điểm quy trình trung bình",
+      "over": "/100 qua {{count}} giao dịch",
+      "dangerousOne": "⚠ {{count}} thành công nguy hiểm — lợi nhuận thưởng cho một quy trình hỏng",
+      "dangerousMany": "⚠ {{count}} thành công nguy hiểm — lợi nhuận thưởng cho một quy trình hỏng"
+    },
+    "moments": {
+      "title": "Khoảnh khắc huấn luyện từ giao dịch giấy của bạn",
+      "openLesson": "Mở bài học →"
+    },
+    "assessment": {
+      "heading": "Đánh giá {{level}}",
+      "back": "Quay lại bài học",
+      "meta": "{{count}} câu hỏi · đạt ở {{percent}}%",
+      "loading": "Đang tải…",
+      "gradedNote": "được backend chấm điểm, giữ kết quả tốt nhất.",
+      "loadError": "Không tải được bài đánh giá. Backend có đang chạy không?",
+      "submitError": "Không gửi được bài đánh giá. Hãy thử lại.",
+      "passed": "Đạt",
+      "notYet": "Chưa",
+      "scoreLine": "điểm {{score}}% (ngưỡng {{bar}}%).",
+      "gateMet": "Cổng này nay đã được hoàn thành vĩnh viễn.",
+      "reviewRetake": "Xem giải thích bên dưới và làm lại bất cứ lúc nào.",
+      "question": "Câu hỏi {{number}} · {{title}}",
+      "correct": "Đúng. ",
+      "incorrect": "Sai. ",
+      "submit": "Gửi đáp án",
+      "retake": "Làm lại với câu hỏi mới"
+    },
+    "live": {
+      "title": "Luyện tập với dữ liệu trực tiếp",
+      "subtitle": "Cùng khái niệm, nhưng với dữ liệu thị trường thực và số dư giấy của bạn thay vì con số sách giáo khoa.",
+      "generate": "Tạo bài tập trực tiếp",
+      "answerPlaceholder": "Câu trả lời của bạn",
+      "check": "Kiểm tra",
+      "newNumbers": "Số mới",
+      "correct": "Đúng. ",
+      "notQuite": "Chưa hẳn. ",
+      "unavailable": "Dữ liệu thị trường trực tiếp chưa khả dụng. Hãy làm mới bảng điều khiển trước.",
+      "backendError": "Không thể kết nối backend. Hãy thử lại."
+    },
+    "exercise": {
+      "title": "Bài tập",
+      "checking": "Đang kiểm tra…",
+      "check": "Kiểm tra đáp án",
+      "correct": "Đúng!",
+      "notQuite": "Chưa hẳn — đây là lý do:",
+      "tryAgain": "Thử lại",
+      "backendError": "Không thể kết nối backend. Hãy thử lại.",
+      "placeholder": "Nhập câu trả lời của bạn…"
+    },
+    "tutor": {
+      "title": "Hỏi gia sư",
+      "placeholder": "Có gì khó hiểu ở đây? Hãy hỏi bằng lời của bạn…",
+      "thinking": "Đang nghĩ…",
+      "ask": "Hỏi",
+      "error": "Yêu cầu gia sư thất bại. Kiểm tra Cài đặt → AI rồi thử lại.",
+      "footer": "{{source}} · dựa trên bài học này · chỉ giáo dục, không bao giờ là lời khuyên tài chính"
+    },
+    "lesson": {
+      "number": "Bài học {{order}}",
+      "completed": "Hoàn thành",
+      "concept": "Khái niệm",
+      "keyTerms": "Thuật ngữ chính",
+      "commonMistakes": "Lỗi thường gặp",
+      "takeFurther": "Tiến xa hơn",
+      "openMissions": "Mở Nhiệm vụ",
+      "tryLive": "Thử trực tiếp",
+      "openScreen": "Mở {{screen}}"
     }
   },
   "nav": {

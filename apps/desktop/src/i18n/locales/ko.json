@@ -252,9 +252,18 @@
       "processAllHelper": "전체 평균"
     },
     "quadrant": {
-      "earnedWin": { "label": "정당한 승리", "hint": "좋은 결정, 좋은 결과" },
-      "wellPlayedLoss": { "label": "잘 대응한 손실", "hint": "좋은 결정, 분산이 가져감" },
-      "honestTuition": { "label": "정직한 수업료", "hint": "나쁜 결정, 시장이 청구함" },
+      "earnedWin": {
+        "label": "정당한 승리",
+        "hint": "좋은 결정, 좋은 결과"
+      },
+      "wellPlayedLoss": {
+        "label": "잘 대응한 손실",
+        "hint": "좋은 결정, 분산이 가져감"
+      },
+      "honestTuition": {
+        "label": "정직한 수업료",
+        "hint": "나쁜 결정, 시장이 청구함"
+      },
       "dangerousSuccess": {
         "label": "위험한 성공",
         "hint": "나쁜 결정이 보상받음 — 최악의 사분면"
@@ -669,6 +678,116 @@
       "candleCount": "캔들 수",
       "windowBackend": "{{timeframe}} 백엔드 파생 윈도우",
       "windowFallback": "{{timeframe}} 폴백 윈도우"
+    }
+  },
+  "learn": {
+    "title": "학습",
+    "eduDisclaimer": "교육 목적으로만 사용 — 금융 조언이 아닙니다.",
+    "percentComplete": "{{percent}}% 완료",
+    "locked": "잠김",
+    "community": "커뮤니티",
+    "takeAssessment": "{{level}} 평가 보기",
+    "loadingAcademy": "아카데미를 불러오는 중…",
+    "selectLesson": "시작하려면 레슨을 선택하세요.",
+    "loadingCatalog": "카탈로그를 불러오는 중…",
+    "tiers": {
+      "novice": "초급",
+      "intermediate": "중급",
+      "advanced": "고급",
+      "expert": "전문가"
+    },
+    "readiness": {
+      "tooltip": "{{label}} 준비도",
+      "knowledge": "지식",
+      "execution": "실행",
+      "risk": "리스크",
+      "psych": "심리",
+      "consistency": "일관성"
+    },
+    "sidebar": {
+      "searchPlaceholder": "레슨 검색…",
+      "searchLabel": "레슨 검색",
+      "glossary": "용어집",
+      "reference": "참고",
+      "practice": "연습",
+      "progress": "진행도",
+      "noMatch": "일치하는 레슨이 없습니다."
+    },
+    "errors": {
+      "catalogStale": "백엔드가 이 앱 버전보다 오래되어 아카데미 카탈로그를 제공할 수 없습니다. 둘 다 최신 상태가 되도록 앱(또는 백엔드)을 다시 시작하세요.",
+      "catalogLoad": "학습 카탈로그를 불러오지 못했습니다. 백엔드가 실행 중인가요?",
+      "lessonLoad": "레슨 '{{id}}'을(를) 불러오지 못했습니다."
+    },
+    "review": {
+      "title": "내 프로세스 리뷰",
+      "avgScore": "평균 프로세스 점수",
+      "over": "/100, {{count}}건 거래 기준",
+      "dangerousOne": "⚠ {{count}}건의 위험한 성공 — 잘못된 프로세스를 보상한 수익",
+      "dangerousMany": "⚠ {{count}}건의 위험한 성공 — 잘못된 프로세스를 보상한 수익"
+    },
+    "moments": {
+      "title": "모의 거래에서 얻은 코칭 순간",
+      "openLesson": "레슨 열기 →"
+    },
+    "assessment": {
+      "heading": "{{level}} 평가",
+      "back": "레슨으로 돌아가기",
+      "meta": "{{count}}개 문항 · {{percent}}%에서 합격",
+      "loading": "불러오는 중…",
+      "gradedNote": "백엔드가 채점하며 최고 결과가 유지됩니다.",
+      "loadError": "평가를 불러올 수 없습니다. 백엔드가 실행 중인가요?",
+      "submitError": "평가를 제출할 수 없습니다. 다시 시도하세요.",
+      "passed": "합격",
+      "notYet": "아직",
+      "scoreLine": "점수 {{score}}% (기준 {{bar}}%).",
+      "gateMet": "이 관문은 이제 영구적으로 충족되었습니다.",
+      "reviewRetake": "아래 설명을 검토하고 언제든지 다시 응시하세요.",
+      "question": "문항 {{number}} · {{title}}",
+      "correct": "정답. ",
+      "incorrect": "오답. ",
+      "submit": "답안 제출",
+      "retake": "새 문항으로 다시 응시"
+    },
+    "live": {
+      "title": "실시간 데이터로 연습",
+      "subtitle": "같은 개념이지만 교과서 숫자 대신 실제 시장 데이터와 모의 잔고를 사용합니다.",
+      "generate": "실시간 연습 생성",
+      "answerPlaceholder": "답안",
+      "check": "확인",
+      "newNumbers": "새 숫자",
+      "correct": "정답. ",
+      "notQuite": "거의. ",
+      "unavailable": "실시간 시장 데이터를 아직 사용할 수 없습니다. 먼저 대시보드를 새로고침하세요.",
+      "backendError": "백엔드에 연결할 수 없습니다. 다시 시도하세요."
+    },
+    "exercise": {
+      "title": "연습",
+      "checking": "확인 중…",
+      "check": "답안 확인",
+      "correct": "정답!",
+      "notQuite": "거의 — 이유는 다음과 같습니다:",
+      "tryAgain": "다시 시도",
+      "backendError": "백엔드에 연결할 수 없습니다. 다시 시도하세요.",
+      "placeholder": "답을 입력하세요…"
+    },
+    "tutor": {
+      "title": "튜터에게 질문",
+      "placeholder": "여기서 헷갈리는 게 있나요? 자신의 말로 물어보세요…",
+      "thinking": "생각 중…",
+      "ask": "질문",
+      "error": "튜터 요청이 실패했습니다. 설정 → AI를 확인하고 다시 시도하세요.",
+      "footer": "{{source}} · 이 레슨에 근거 · 교육용일 뿐, 금융 조언이 아닙니다"
+    },
+    "lesson": {
+      "number": "레슨 {{order}}",
+      "completed": "완료",
+      "concept": "개념",
+      "keyTerms": "핵심 용어",
+      "commonMistakes": "흔한 실수",
+      "takeFurther": "더 나아가기",
+      "openMissions": "미션 열기",
+      "tryLive": "실시간으로 시도",
+      "openScreen": "{{screen}} 열기"
     }
   },
   "nav": {

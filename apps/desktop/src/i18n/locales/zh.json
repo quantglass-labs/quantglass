@@ -252,9 +252,18 @@
       "processAllHelper": "终身平均"
     },
     "quadrant": {
-      "earnedWin": { "label": "应得的盈利", "hint": "决策正确，结果良好" },
-      "wellPlayedLoss": { "label": "处理得当的亏损", "hint": "决策正确，输给了方差" },
-      "honestTuition": { "label": "诚实的学费", "hint": "决策错误，市场向你收费" },
+      "earnedWin": {
+        "label": "应得的盈利",
+        "hint": "决策正确，结果良好"
+      },
+      "wellPlayedLoss": {
+        "label": "处理得当的亏损",
+        "hint": "决策正确，输给了方差"
+      },
+      "honestTuition": {
+        "label": "诚实的学费",
+        "hint": "决策错误，市场向你收费"
+      },
       "dangerousSuccess": {
         "label": "危险的成功",
         "hint": "错误决策却得到奖励——最糟糕的象限"
@@ -669,6 +678,116 @@
       "candleCount": "K线数量",
       "windowBackend": "{{timeframe}} 后端派生窗口",
       "windowFallback": "{{timeframe}} 回退窗口"
+    }
+  },
+  "learn": {
+    "title": "学习",
+    "eduDisclaimer": "仅供教育用途——非财务建议。",
+    "percentComplete": "完成 {{percent}}%",
+    "locked": "已锁定",
+    "community": "社区",
+    "takeAssessment": "参加{{level}}测评",
+    "loadingAcademy": "正在加载学院…",
+    "selectLesson": "选择一节课开始。",
+    "loadingCatalog": "正在加载目录…",
+    "tiers": {
+      "novice": "新手",
+      "intermediate": "进阶",
+      "advanced": "高级",
+      "expert": "专家"
+    },
+    "readiness": {
+      "tooltip": "{{label}}准备度",
+      "knowledge": "知识",
+      "execution": "执行",
+      "risk": "风险",
+      "psych": "心理",
+      "consistency": "一致性"
+    },
+    "sidebar": {
+      "searchPlaceholder": "搜索课程…",
+      "searchLabel": "搜索课程",
+      "glossary": "术语表",
+      "reference": "参考",
+      "practice": "练习",
+      "progress": "进度",
+      "noMatch": "没有匹配的课程。"
+    },
+    "errors": {
+      "catalogStale": "后端版本比此应用旧，无法提供学院目录。请重启应用（或后端）以使两者保持最新。",
+      "catalogLoad": "加载学习目录失败。后端是否正在运行？",
+      "lessonLoad": "加载课程 '{{id}}' 失败。"
+    },
+    "review": {
+      "title": "你的流程回顾",
+      "avgScore": "平均流程评分",
+      "over": "/100，共 {{count}} 笔交易",
+      "dangerousOne": "⚠ {{count}} 次危险的成功——奖励了错误流程的盈利",
+      "dangerousMany": "⚠ {{count}} 次危险的成功——奖励了错误流程的盈利"
+    },
+    "moments": {
+      "title": "来自你模拟交易的辅导时刻",
+      "openLesson": "打开课程 →"
+    },
+    "assessment": {
+      "heading": "{{level}}测评",
+      "back": "返回课程",
+      "meta": "{{count}} 道题 · {{percent}}% 通过",
+      "loading": "加载中…",
+      "gradedNote": "由后端评分，保留最佳成绩。",
+      "loadError": "无法加载测评。后端是否正在运行？",
+      "submitError": "无法提交测评。请重试。",
+      "passed": "通过",
+      "notYet": "尚未通过",
+      "scoreLine": "得分 {{score}}%（合格线 {{bar}}%）。",
+      "gateMet": "此关卡现已永久达成。",
+      "reviewRetake": "查看下方解释，可随时重考。",
+      "question": "第 {{number}} 题 · {{title}}",
+      "correct": "正确。",
+      "incorrect": "错误。",
+      "submit": "提交答案",
+      "retake": "用新题重考"
+    },
+    "live": {
+      "title": "用实时数据练习",
+      "subtitle": "相同概念，但用你真实的市场数据和模拟余额，而非教科书数字。",
+      "generate": "生成实时练习",
+      "answerPlaceholder": "你的答案",
+      "check": "检查",
+      "newNumbers": "换新数字",
+      "correct": "正确。",
+      "notQuite": "还差一点。",
+      "unavailable": "实时市场数据尚不可用。请先刷新仪表盘。",
+      "backendError": "无法连接后端。请重试。"
+    },
+    "exercise": {
+      "title": "练习",
+      "checking": "检查中…",
+      "check": "检查答案",
+      "correct": "正确！",
+      "notQuite": "还差一点——原因如下：",
+      "tryAgain": "再试一次",
+      "backendError": "无法连接后端。请重试。",
+      "placeholder": "输入你的答案…"
+    },
+    "tutor": {
+      "title": "向导师提问",
+      "placeholder": "对这里有疑问？用你自己的话提问…",
+      "thinking": "思考中…",
+      "ask": "提问",
+      "error": "导师请求失败。请检查 设置 → AI 后重试。",
+      "footer": "{{source}} · 基于本课内容 · 仅供教育，绝非财务建议"
+    },
+    "lesson": {
+      "number": "第 {{order}} 课",
+      "completed": "已完成",
+      "concept": "概念",
+      "keyTerms": "关键术语",
+      "commonMistakes": "常见错误",
+      "takeFurther": "更进一步",
+      "openMissions": "打开任务",
+      "tryLive": "实战体验",
+      "openScreen": "打开{{screen}}"
     }
   },
   "nav": {

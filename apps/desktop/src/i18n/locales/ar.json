@@ -252,9 +252,18 @@
       "processAllHelper": "المتوسط مدى الحياة"
     },
     "quadrant": {
-      "earnedWin": { "label": "أرباح مستحقة", "hint": "قرار جيد، نتيجة جيدة" },
-      "wellPlayedLoss": { "label": "خسائر مُحكمة", "hint": "قرار جيد، أخذها التباين" },
-      "honestTuition": { "label": "تعليم صادق", "hint": "قرار سيئ، حاسبك السوق" },
+      "earnedWin": {
+        "label": "أرباح مستحقة",
+        "hint": "قرار جيد، نتيجة جيدة"
+      },
+      "wellPlayedLoss": {
+        "label": "خسائر مُحكمة",
+        "hint": "قرار جيد، أخذها التباين"
+      },
+      "honestTuition": {
+        "label": "تعليم صادق",
+        "hint": "قرار سيئ، حاسبك السوق"
+      },
       "dangerousSuccess": {
         "label": "نجاحات خطيرة",
         "hint": "قرار سيئ كوفئ — أسوأ ربع"
@@ -669,6 +678,116 @@
       "candleCount": "عدد الشموع",
       "windowBackend": "نافذة مشتقة من الخادم {{timeframe}}",
       "windowFallback": "نافذة احتياطية {{timeframe}}"
+    }
+  },
+  "learn": {
+    "title": "تعلّم",
+    "eduDisclaimer": "للاستخدام التعليمي فقط — ليست نصيحة مالية.",
+    "percentComplete": "{{percent}}% مكتمل",
+    "locked": "مقفل",
+    "community": "المجتمع",
+    "takeAssessment": "خوض تقييم {{level}}",
+    "loadingAcademy": "جارٍ تحميل الأكاديمية…",
+    "selectLesson": "اختر درسًا للبدء.",
+    "loadingCatalog": "جارٍ تحميل الفهرس…",
+    "tiers": {
+      "novice": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم",
+      "expert": "خبير"
+    },
+    "readiness": {
+      "tooltip": "جاهزية {{label}}",
+      "knowledge": "المعرفة",
+      "execution": "التنفيذ",
+      "risk": "المخاطرة",
+      "psych": "النفسية",
+      "consistency": "الاتساق"
+    },
+    "sidebar": {
+      "searchPlaceholder": "ابحث في الدروس…",
+      "searchLabel": "ابحث في الدروس",
+      "glossary": "المصطلحات",
+      "reference": "المرجع",
+      "practice": "التدريب",
+      "progress": "التقدّم",
+      "noMatch": "لا توجد دروس مطابقة."
+    },
+    "errors": {
+      "catalogStale": "الخادم الخلفي أقدم من إصدار التطبيق ولا يمكنه تقديم فهرس الأكاديمية. أعد تشغيل التطبيق (أو الخادم) ليكونا محدّثين معًا.",
+      "catalogLoad": "فشل تحميل فهرس التعلّم. هل الخادم الخلفي يعمل؟",
+      "lessonLoad": "فشل تحميل الدرس '{{id}}'."
+    },
+    "review": {
+      "title": "مراجعة أسلوبك",
+      "avgScore": "متوسط درجة الأسلوب",
+      "over": "/100 عبر {{count}} صفقة",
+      "dangerousOne": "⚠ {{count}} نجاح خطير — أرباح كافأت أسلوبًا معطوبًا",
+      "dangerousMany": "⚠ {{count}} نجاحات خطيرة — أرباح كافأت أسلوبًا معطوبًا"
+    },
+    "moments": {
+      "title": "لحظات إرشادية من تداولك الورقي",
+      "openLesson": "افتح الدرس ←"
+    },
+    "assessment": {
+      "heading": "تقييم {{level}}",
+      "back": "العودة إلى الدروس",
+      "meta": "{{count}} سؤالًا · النجاح عند {{percent}}%",
+      "loading": "جارٍ التحميل…",
+      "gradedNote": "صُحّح بواسطة الخادم، ويُحتفظ بأفضل نتيجة.",
+      "loadError": "تعذّر تحميل التقييم. هل الخادم الخلفي يعمل؟",
+      "submitError": "تعذّر إرسال التقييم. حاول مجددًا.",
+      "passed": "ناجح",
+      "notYet": "ليس بعد",
+      "scoreLine": "الدرجة {{score}}% (الحد {{bar}}%).",
+      "gateMet": "تم استيفاء هذه البوابة بشكل دائم الآن.",
+      "reviewRetake": "راجع التفسيرات أدناه وأعد الاختبار في أي وقت.",
+      "question": "السؤال {{number}} · {{title}}",
+      "correct": "صحيح. ",
+      "incorrect": "خطأ. ",
+      "submit": "إرسال الإجابات",
+      "retake": "إعادة الاختبار بأسئلة جديدة"
+    },
+    "live": {
+      "title": "تدرّب ببيانات حية",
+      "subtitle": "المفهوم نفسه، لكن ببيانات سوقك الحقيقية ورصيدك الورقي بدلاً من أرقام الكتب.",
+      "generate": "إنشاء تمرين حي",
+      "answerPlaceholder": "إجابتك",
+      "check": "تحقّق",
+      "newNumbers": "أرقام جديدة",
+      "correct": "صحيح. ",
+      "notQuite": "ليس تمامًا. ",
+      "unavailable": "بيانات السوق الحية غير متاحة بعد. حدّث لوحة المعلومات أولاً.",
+      "backendError": "تعذّر الوصول إلى الخادم. حاول مجددًا."
+    },
+    "exercise": {
+      "title": "تمرين",
+      "checking": "جارٍ التحقق…",
+      "check": "تحقّق من الإجابة",
+      "correct": "صحيح!",
+      "notQuite": "ليس تمامًا — إليك السبب:",
+      "tryAgain": "حاول مجددًا",
+      "backendError": "تعذّر الوصول إلى الخادم. حاول مجددًا.",
+      "placeholder": "أدخل إجابتك…"
+    },
+    "tutor": {
+      "title": "اسأل المعلّم",
+      "placeholder": "محتار في شيء هنا؟ اسأل بكلماتك…",
+      "thinking": "يفكّر…",
+      "ask": "اسأل",
+      "error": "فشل طلب المعلّم. تحقّق من الإعدادات ← الذكاء الاصطناعي وأعد المحاولة.",
+      "footer": "{{source}} · مبني على هذا الدرس · تعليمي فقط، وليس نصيحة مالية أبدًا"
+    },
+    "lesson": {
+      "number": "الدرس {{order}}",
+      "completed": "مكتمل",
+      "concept": "المفهوم",
+      "keyTerms": "المصطلحات الأساسية",
+      "commonMistakes": "الأخطاء الشائعة",
+      "takeFurther": "اذهب أبعد",
+      "openMissions": "افتح المهام",
+      "tryLive": "جرّبه مباشرة",
+      "openScreen": "افتح {{screen}}"
     }
   },
   "nav": {

@@ -252,9 +252,18 @@
       "processAllHelper": "تاحيات اوسط"
     },
     "quadrant": {
-      "earnedWin": { "label": "حقدار کٽون", "hint": "سٺو فيصلو، سٺو نتيجو" },
-      "wellPlayedLoss": { "label": "چڱيءَ طرح کيڏيل هار", "hint": "سٺو فيصلو، ويري اينس کڻي ويو" },
-      "honestTuition": { "label": "ايماندار فيس", "hint": "خراب فيصلو، مارڪيٽ بل موڪليو" },
+      "earnedWin": {
+        "label": "حقدار کٽون",
+        "hint": "سٺو فيصلو، سٺو نتيجو"
+      },
+      "wellPlayedLoss": {
+        "label": "چڱيءَ طرح کيڏيل هار",
+        "hint": "سٺو فيصلو، ويري اينس کڻي ويو"
+      },
+      "honestTuition": {
+        "label": "ايماندار فيس",
+        "hint": "خراب فيصلو، مارڪيٽ بل موڪليو"
+      },
       "dangerousSuccess": {
         "label": "خطرناڪ ڪاميابيون",
         "hint": "خراب فيصلي کي انعام — بدترين ڪواڊرينٽ"
@@ -669,6 +678,116 @@
       "candleCount": "ميڻ بتي ڳڻپ",
       "windowBackend": "{{timeframe}} بيڪ اينڊ مان نڪتل ونڊو",
       "windowFallback": "{{timeframe}} فال بيڪ ونڊو"
+    }
+  },
+  "learn": {
+    "title": "سکجو",
+    "eduDisclaimer": "صرف تعليمي استعمال لاءِ — مالي صلاح ناهي.",
+    "percentComplete": "{{percent}}% مڪمل",
+    "locked": "بند",
+    "community": "ڪميونٽي",
+    "takeAssessment": "{{level}} جاچ ڏيو",
+    "loadingAcademy": "اڪيڊمي لوڊ ٿي رهي آهي…",
+    "selectLesson": "شروع ڪرڻ لاءِ ھڪ سبق چونڊيو.",
+    "loadingCatalog": "ڪيٽلاگ لوڊ ٿي رهيو آهي…",
+    "tiers": {
+      "novice": "نئون آموز",
+      "intermediate": "وچولو",
+      "advanced": "اعليٰ",
+      "expert": "ماهر"
+    },
+    "readiness": {
+      "tooltip": "{{label}} تياري",
+      "knowledge": "علم",
+      "execution": "عمل",
+      "risk": "خطرو",
+      "psych": "نفسيات",
+      "consistency": "تسلسل"
+    },
+    "sidebar": {
+      "searchPlaceholder": "سبق ڳوليو…",
+      "searchLabel": "سبق ڳوليو",
+      "glossary": "لغت",
+      "reference": "حوالو",
+      "practice": "مشق",
+      "progress": "ترقي",
+      "noMatch": "ڪوبه سبق نٿو ملي."
+    },
+    "errors": {
+      "catalogStale": "بئڪ اينڊ هن ايپ ورزن کان پراڻو آهي ۽ اڪيڊمي ڪيٽلاگ فراهم نٿو ڪري سگهي. ٻنهي کي تازو رکڻ لاءِ ايپ (يا بئڪ اينڊ) ٻيهر شروع ڪريو.",
+      "catalogLoad": "لرننگ ڪيٽلاگ لوڊ ڪرڻ ۾ ناڪامي. ڇا بئڪ اينڊ هلي رهيو آهي؟",
+      "lessonLoad": "سبق '{{id}}' لوڊ ڪرڻ ۾ ناڪامي."
+    },
+    "review": {
+      "title": "توهان جي عمل جو جائزو",
+      "avgScore": "اوسط عمل اسڪور",
+      "over": "/100، {{count}} واپارن تي",
+      "dangerousOne": "⚠ {{count}} خطرناڪ ڪاميابي — منافعو جنهن ٽٽل عمل کي انعام ڏنو",
+      "dangerousMany": "⚠ {{count}} خطرناڪ ڪاميابيون — منافعو جنهن ٽٽل عمل کي انعام ڏنو"
+    },
+    "moments": {
+      "title": "توهان جي پيپر ٽريڊنگ مان ڪوچنگ لمحا",
+      "openLesson": "سبق کوليو ←"
+    },
+    "assessment": {
+      "heading": "{{level}} جاچ",
+      "back": "سبقن ڏانهن واپس",
+      "meta": "{{count}} سوال · {{percent}}% تي پاس",
+      "loading": "لوڊ ٿي رهيو آهي…",
+      "gradedNote": "بئڪ اينڊ پاران جانچيو ويو، بهترين نتيجو رکيو ويو.",
+      "loadError": "جاچ لوڊ نه ٿي سگهي. ڇا بئڪ اينڊ هلي رهيو آهي؟",
+      "submitError": "جاچ جمع نه ٿي سگهي. ٻيهر ڪوشش ڪريو.",
+      "passed": "پاس",
+      "notYet": "اڃا نه",
+      "scoreLine": "اسڪور {{score}}% (حد {{bar}}%).",
+      "gateMet": "هي گيٽ هاڻي مستقل طور تي پورو ٿي ويو آهي.",
+      "reviewRetake": "هيٺ وضاحتون ڏسو ۽ ڪنهن به وقت ٻيهر ڏيو.",
+      "question": "سوال {{number}} · {{title}}",
+      "correct": "صحيح. ",
+      "incorrect": "غلط. ",
+      "submit": "جواب جمع ڪريو",
+      "retake": "نون سوالن سان ٻيهر ڏيو"
+    },
+    "live": {
+      "title": "لائيو ڊيٽا سان مشق",
+      "subtitle": "ساڳيو تصور، پر نصابي انگن جي بدران توهان جي حقيقي مارڪيٽ ڊيٽا ۽ پيپر بيلنس سان.",
+      "generate": "لائيو مشق ٺاهيو",
+      "answerPlaceholder": "توهان جو جواب",
+      "check": "جانچيو",
+      "newNumbers": "نوان انگ",
+      "correct": "صحيح. ",
+      "notQuite": "بلڪل نه. ",
+      "unavailable": "لائيو مارڪيٽ ڊيٽا اڃا دستياب ناهي. پهرين ڊيش بورڊ تازو ڪريو.",
+      "backendError": "بئڪ اينڊ تائين نه پهچي سگهيو. ٻيهر ڪوشش ڪريو."
+    },
+    "exercise": {
+      "title": "مشق",
+      "checking": "جانچ ٿي رهي آهي…",
+      "check": "جواب جانچيو",
+      "correct": "صحيح!",
+      "notQuite": "بلڪل نه — سبب هي آهي:",
+      "tryAgain": "ٻيهر ڪوشش ڪريو",
+      "backendError": "بئڪ اينڊ تائين نه پهچي سگهيو. ٻيهر ڪوشش ڪريو.",
+      "placeholder": "پنهنجو جواب داخل ڪريو…"
+    },
+    "tutor": {
+      "title": "استاد کان پڇو",
+      "placeholder": "هتي ڪنهن ڳالهه تي منجهيل آهيو؟ پنهنجن لفظن ۾ پڇو…",
+      "thinking": "سوچي رهيو آهي…",
+      "ask": "پڇو",
+      "error": "استاد جي درخواست ناڪام. سيٽنگون ← AI ڏسو ۽ ٻيهر ڪوشش ڪريو.",
+      "footer": "{{source}} · هن سبق تي ٻڌل · صرف تعليمي، ڪڏهن به مالي صلاح ناهي"
+    },
+    "lesson": {
+      "number": "سبق {{order}}",
+      "completed": "مڪمل",
+      "concept": "تصور",
+      "keyTerms": "اهم اصطلاح",
+      "commonMistakes": "عام غلطيون",
+      "takeFurther": "اڳتي وڌايو",
+      "openMissions": "مشن کوليو",
+      "tryLive": "لائيو آزمايو",
+      "openScreen": "{{screen}} کوليو"
     }
   },
   "nav": {

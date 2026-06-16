@@ -252,7 +252,10 @@
       "processAllHelper": "Moyenne à vie"
     },
     "quadrant": {
-      "earnedWin": { "label": "Gains mérités", "hint": "Bonne décision, bon résultat" },
+      "earnedWin": {
+        "label": "Gains mérités",
+        "hint": "Bonne décision, bon résultat"
+      },
       "wellPlayedLoss": {
         "label": "Pertes bien jouées",
         "hint": "Bonne décision, la variance l'a emporté"
@@ -675,6 +678,116 @@
       "candleCount": "Nombre de bougies",
       "windowBackend": "Fenêtre dérivée du backend {{timeframe}}",
       "windowFallback": "Fenêtre de repli {{timeframe}}"
+    }
+  },
+  "learn": {
+    "title": "Apprendre",
+    "eduDisclaimer": "Usage éducatif uniquement — pas un conseil financier.",
+    "percentComplete": "{{percent}}% terminé",
+    "locked": "Verrouillé",
+    "community": "communauté",
+    "takeAssessment": "Passer l'évaluation {{level}}",
+    "loadingAcademy": "Chargement de l'Académie…",
+    "selectLesson": "Sélectionnez une leçon pour commencer.",
+    "loadingCatalog": "Chargement du catalogue…",
+    "tiers": {
+      "novice": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "expert": "Expert"
+    },
+    "readiness": {
+      "tooltip": "Préparation {{label}}",
+      "knowledge": "Connaissance",
+      "execution": "Exécution",
+      "risk": "Risque",
+      "psych": "Psycho",
+      "consistency": "Régularité"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Rechercher des leçons…",
+      "searchLabel": "Rechercher des leçons",
+      "glossary": "Glossaire",
+      "reference": "Référence",
+      "practice": "Pratique",
+      "progress": "Progrès",
+      "noMatch": "Aucune leçon ne correspond."
+    },
+    "errors": {
+      "catalogStale": "Le backend est plus ancien que cette version de l'app et ne peut pas servir le catalogue de l'Académie. Redémarrez l'app (ou le backend) pour les mettre à jour tous les deux.",
+      "catalogLoad": "Échec du chargement du catalogue d'apprentissage. Le backend est-il en cours d'exécution ?",
+      "lessonLoad": "Échec du chargement de la leçon '{{id}}'."
+    },
+    "review": {
+      "title": "Revue de votre processus",
+      "avgScore": "Score de processus moyen",
+      "over": "/100 sur {{count}} trades",
+      "dangerousOne": "⚠ {{count}} succès dangereux — des profits qui ont récompensé un processus défaillant",
+      "dangerousMany": "⚠ {{count}} succès dangereux — des profits qui ont récompensé un processus défaillant"
+    },
+    "moments": {
+      "title": "Moments de coaching issus de votre trading sur papier",
+      "openLesson": "Ouvrir la leçon →"
+    },
+    "assessment": {
+      "heading": "Évaluation {{level}}",
+      "back": "Retour aux leçons",
+      "meta": "{{count}} questions · réussite à {{percent}}%",
+      "loading": "Chargement…",
+      "gradedNote": "noté par le backend, meilleur résultat conservé.",
+      "loadError": "Impossible de charger l'évaluation. Le backend est-il en cours d'exécution ?",
+      "submitError": "Impossible de soumettre l'évaluation. Réessayez.",
+      "passed": "Réussi",
+      "notYet": "Pas encore",
+      "scoreLine": "score {{score}}% (seuil {{bar}}%).",
+      "gateMet": "Ce palier est désormais validé de façon permanente.",
+      "reviewRetake": "Consultez les explications ci-dessous et repassez quand vous voulez.",
+      "question": "Question {{number}} · {{title}}",
+      "correct": "Correct. ",
+      "incorrect": "Incorrect. ",
+      "submit": "Soumettre les réponses",
+      "retake": "Repasser avec de nouvelles questions"
+    },
+    "live": {
+      "title": "Pratiquez avec des données en direct",
+      "subtitle": "Même concept, mais avec vos données de marché réelles et votre solde sur papier au lieu de chiffres de manuel.",
+      "generate": "Générer un exercice en direct",
+      "answerPlaceholder": "Votre réponse",
+      "check": "Vérifier",
+      "newNumbers": "Nouveaux chiffres",
+      "correct": "Correct. ",
+      "notQuite": "Pas tout à fait. ",
+      "unavailable": "Les données de marché en direct ne sont pas encore disponibles. Actualisez d'abord le tableau de bord.",
+      "backendError": "Impossible de joindre le backend. Réessayez."
+    },
+    "exercise": {
+      "title": "Exercice",
+      "checking": "Vérification…",
+      "check": "Vérifier la réponse",
+      "correct": "Correct !",
+      "notQuite": "Pas tout à fait — voici pourquoi :",
+      "tryAgain": "Réessayer",
+      "backendError": "Impossible de joindre le backend. Réessayez.",
+      "placeholder": "Entrez votre réponse…"
+    },
+    "tutor": {
+      "title": "Demandez au tuteur",
+      "placeholder": "Quelque chose vous échappe ici ? Demandez avec vos mots…",
+      "thinking": "Réflexion…",
+      "ask": "Demander",
+      "error": "La demande au tuteur a échoué. Vérifiez Paramètres → IA et réessayez.",
+      "footer": "{{source}} · ancré dans cette leçon · éducatif uniquement, jamais un conseil financier"
+    },
+    "lesson": {
+      "number": "Leçon {{order}}",
+      "completed": "Terminée",
+      "concept": "Concept",
+      "keyTerms": "Termes clés",
+      "commonMistakes": "Erreurs courantes",
+      "takeFurther": "Allez plus loin",
+      "openMissions": "Ouvrir les Missions",
+      "tryLive": "Essayez en direct",
+      "openScreen": "Ouvrir {{screen}}"
     }
   },
   "nav": {

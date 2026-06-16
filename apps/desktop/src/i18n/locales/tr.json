@@ -252,7 +252,10 @@
       "processAllHelper": "Ömür boyu ortalama"
     },
     "quadrant": {
-      "earnedWin": { "label": "Hak edilmiş kazançlar", "hint": "İyi karar, iyi sonuç" },
+      "earnedWin": {
+        "label": "Hak edilmiş kazançlar",
+        "hint": "İyi karar, iyi sonuç"
+      },
       "wellPlayedLoss": {
         "label": "İyi oynanmış kayıplar",
         "hint": "İyi karar, varyans aldı"
@@ -675,6 +678,116 @@
       "candleCount": "Mum sayısı",
       "windowBackend": "{{timeframe}} backend türevli pencere",
       "windowFallback": "{{timeframe}} yedek pencere"
+    }
+  },
+  "learn": {
+    "title": "Öğren",
+    "eduDisclaimer": "Yalnızca eğitim amaçlıdır — finansal tavsiye değildir.",
+    "percentComplete": "%{{percent}} tamamlandı",
+    "locked": "Kilitli",
+    "community": "topluluk",
+    "takeAssessment": "{{level}} değerlendirmesini yap",
+    "loadingAcademy": "Akademi yükleniyor…",
+    "selectLesson": "Başlamak için bir ders seçin.",
+    "loadingCatalog": "Katalog yükleniyor…",
+    "tiers": {
+      "novice": "Acemi",
+      "intermediate": "Orta",
+      "advanced": "İleri",
+      "expert": "Uzman"
+    },
+    "readiness": {
+      "tooltip": "{{label}} hazırlığı",
+      "knowledge": "Bilgi",
+      "execution": "Uygulama",
+      "risk": "Risk",
+      "psych": "Psikoloji",
+      "consistency": "Tutarlılık"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Ders ara…",
+      "searchLabel": "Ders ara",
+      "glossary": "Sözlük",
+      "reference": "Başvuru",
+      "practice": "Alıştırma",
+      "progress": "İlerleme",
+      "noMatch": "Eşleşen ders yok."
+    },
+    "errors": {
+      "catalogStale": "Arka uç bu uygulama sürümünden eski ve Akademi kataloğunu sunamıyor. Her ikisinin de güncel olması için uygulamayı (veya arka ucu) yeniden başlatın.",
+      "catalogLoad": "Öğrenme kataloğu yüklenemedi. Arka uç çalışıyor mu?",
+      "lessonLoad": "'{{id}}' dersi yüklenemedi."
+    },
+    "review": {
+      "title": "Süreç incelemeniz",
+      "avgScore": "Ortalama süreç puanı",
+      "over": "/100, {{count}} işlem üzerinden",
+      "dangerousOne": "⚠ {{count}} tehlikeli başarı — bozuk bir süreci ödüllendiren kârlar",
+      "dangerousMany": "⚠ {{count}} tehlikeli başarı — bozuk bir süreci ödüllendiren kârlar"
+    },
+    "moments": {
+      "title": "Kâğıt üzerinde işlemlerinizden koçluk anları",
+      "openLesson": "Dersi aç →"
+    },
+    "assessment": {
+      "heading": "{{level}} değerlendirmesi",
+      "back": "Derslere dön",
+      "meta": "{{count}} soru · %{{percent}} ile geçer",
+      "loading": "Yükleniyor…",
+      "gradedNote": "arka uç tarafından puanlandı, en iyi sonuç saklanır.",
+      "loadError": "Değerlendirme yüklenemedi. Arka uç çalışıyor mu?",
+      "submitError": "Değerlendirme gönderilemedi. Tekrar deneyin.",
+      "passed": "Geçti",
+      "notYet": "Henüz değil",
+      "scoreLine": "puan %{{score}} (eşik %{{bar}}).",
+      "gateMet": "Bu kapı artık kalıcı olarak karşılandı.",
+      "reviewRetake": "Aşağıdaki açıklamaları inceleyin ve istediğiniz zaman tekrar girin.",
+      "question": "Soru {{number}} · {{title}}",
+      "correct": "Doğru. ",
+      "incorrect": "Yanlış. ",
+      "submit": "Yanıtları gönder",
+      "retake": "Yeni sorularla tekrar gir"
+    },
+    "live": {
+      "title": "Canlı verilerle pratik yapın",
+      "subtitle": "Aynı kavram, ancak ders kitabı sayıları yerine gerçek piyasa verileriniz ve kâğıt bakiyenizle.",
+      "generate": "Canlı alıştırma oluştur",
+      "answerPlaceholder": "Yanıtınız",
+      "check": "Kontrol et",
+      "newNumbers": "Yeni sayılar",
+      "correct": "Doğru. ",
+      "notQuite": "Tam değil. ",
+      "unavailable": "Canlı piyasa verileri henüz mevcut değil. Önce panoyu yenileyin.",
+      "backendError": "Arka uca ulaşılamadı. Tekrar deneyin."
+    },
+    "exercise": {
+      "title": "Alıştırma",
+      "checking": "Kontrol ediliyor…",
+      "check": "Yanıtı kontrol et",
+      "correct": "Doğru!",
+      "notQuite": "Tam değil — nedeni şu:",
+      "tryAgain": "Tekrar dene",
+      "backendError": "Arka uca ulaşılamadı. Tekrar deneyin.",
+      "placeholder": "Yanıtınızı girin…"
+    },
+    "tutor": {
+      "title": "Eğitmene sor",
+      "placeholder": "Burada bir şey kafanı mı karıştırdı? Kendi sözlerinle sor…",
+      "thinking": "Düşünüyor…",
+      "ask": "Sor",
+      "error": "Eğitmen isteği başarısız oldu. Ayarlar → Yapay Zeka'yı kontrol edip tekrar deneyin.",
+      "footer": "{{source}} · bu derse dayalı · yalnızca eğitim, asla finansal tavsiye değil"
+    },
+    "lesson": {
+      "number": "Ders {{order}}",
+      "completed": "Tamamlandı",
+      "concept": "Kavram",
+      "keyTerms": "Anahtar terimler",
+      "commonMistakes": "Sık yapılan hatalar",
+      "takeFurther": "Daha ileri götür",
+      "openMissions": "Görevleri aç",
+      "tryLive": "Canlı dene",
+      "openScreen": "{{screen}} aç"
     }
   },
   "nav": {

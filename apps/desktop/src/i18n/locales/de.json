@@ -252,7 +252,10 @@
       "processAllHelper": "Lebenszeit-Durchschnitt"
     },
     "quadrant": {
-      "earnedWin": { "label": "Verdiente Gewinne", "hint": "Gute Entscheidung, gutes Ergebnis" },
+      "earnedWin": {
+        "label": "Verdiente Gewinne",
+        "hint": "Gute Entscheidung, gutes Ergebnis"
+      },
       "wellPlayedLoss": {
         "label": "Gut gespielte Verluste",
         "hint": "Gute Entscheidung, die Varianz hat es geholt"
@@ -675,6 +678,116 @@
       "candleCount": "Kerzenanzahl",
       "windowBackend": "{{timeframe}} backend-abgeleitetes Fenster",
       "windowFallback": "{{timeframe}} Fallback-Fenster"
+    }
+  },
+  "learn": {
+    "title": "Lernen",
+    "eduDisclaimer": "Nur zu Bildungszwecken — keine Finanzberatung.",
+    "percentComplete": "{{percent}}% abgeschlossen",
+    "locked": "Gesperrt",
+    "community": "Community",
+    "takeAssessment": "{{level}}-Bewertung ablegen",
+    "loadingAcademy": "Akademie wird geladen…",
+    "selectLesson": "Wähle eine Lektion, um zu beginnen.",
+    "loadingCatalog": "Katalog wird geladen…",
+    "tiers": {
+      "novice": "Anfänger",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Erweitert",
+      "expert": "Experte"
+    },
+    "readiness": {
+      "tooltip": "Bereitschaft: {{label}}",
+      "knowledge": "Wissen",
+      "execution": "Ausführung",
+      "risk": "Risiko",
+      "psych": "Psyche",
+      "consistency": "Konstanz"
+    },
+    "sidebar": {
+      "searchPlaceholder": "Lektionen suchen…",
+      "searchLabel": "Lektionen suchen",
+      "glossary": "Glossar",
+      "reference": "Referenz",
+      "practice": "Übung",
+      "progress": "Fortschritt",
+      "noMatch": "Keine Lektion passt."
+    },
+    "errors": {
+      "catalogStale": "Das Backend ist älter als diese App-Version und kann den Akademie-Katalog nicht bereitstellen. Starte die App (oder das Backend) neu, damit beide aktuell sind.",
+      "catalogLoad": "Lernkatalog konnte nicht geladen werden. Läuft das Backend?",
+      "lessonLoad": "Lektion '{{id}}' konnte nicht geladen werden."
+    },
+    "review": {
+      "title": "Deine Prozessüberprüfung",
+      "avgScore": "Durchschnittliche Prozessbewertung",
+      "over": "/100 über {{count}} Trades",
+      "dangerousOne": "⚠ {{count}} gefährlicher Erfolg — Gewinne, die einen kaputten Prozess belohnten",
+      "dangerousMany": "⚠ {{count}} gefährliche Erfolge — Gewinne, die einen kaputten Prozess belohnten"
+    },
+    "moments": {
+      "title": "Coaching-Momente aus deinem Paper-Trading",
+      "openLesson": "Lektion öffnen →"
+    },
+    "assessment": {
+      "heading": "{{level}}-Bewertung",
+      "back": "Zurück zu den Lektionen",
+      "meta": "{{count}} Fragen · bestehen bei {{percent}}%",
+      "loading": "Wird geladen…",
+      "gradedNote": "vom Backend bewertet, bestes Ergebnis bleibt erhalten.",
+      "loadError": "Bewertung konnte nicht geladen werden. Läuft das Backend?",
+      "submitError": "Bewertung konnte nicht gesendet werden. Versuche es erneut.",
+      "passed": "Bestanden",
+      "notYet": "Noch nicht",
+      "scoreLine": "Ergebnis {{score}}% (Grenze {{bar}}%).",
+      "gateMet": "Diese Hürde ist nun dauerhaft erfüllt.",
+      "reviewRetake": "Sieh dir die Erklärungen unten an und wiederhole jederzeit.",
+      "question": "Frage {{number}} · {{title}}",
+      "correct": "Richtig. ",
+      "incorrect": "Falsch. ",
+      "submit": "Antworten absenden",
+      "retake": "Mit neuen Fragen wiederholen"
+    },
+    "live": {
+      "title": "Mit Live-Daten üben",
+      "subtitle": "Dasselbe Konzept, aber mit deinen echten Marktdaten und deinem Paper-Guthaben statt Lehrbuchzahlen.",
+      "generate": "Live-Übung erzeugen",
+      "answerPlaceholder": "Deine Antwort",
+      "check": "Prüfen",
+      "newNumbers": "Neue Zahlen",
+      "correct": "Richtig. ",
+      "notQuite": "Nicht ganz. ",
+      "unavailable": "Live-Marktdaten sind noch nicht verfügbar. Aktualisiere zuerst das Dashboard.",
+      "backendError": "Backend nicht erreichbar. Versuche es erneut."
+    },
+    "exercise": {
+      "title": "Übung",
+      "checking": "Wird geprüft…",
+      "check": "Antwort prüfen",
+      "correct": "Richtig!",
+      "notQuite": "Nicht ganz — hier ist der Grund:",
+      "tryAgain": "Erneut versuchen",
+      "backendError": "Backend nicht erreichbar. Versuche es erneut.",
+      "placeholder": "Gib deine Antwort ein…"
+    },
+    "tutor": {
+      "title": "Frag den Tutor",
+      "placeholder": "Hier etwas unklar? Frag in eigenen Worten…",
+      "thinking": "Denkt nach…",
+      "ask": "Fragen",
+      "error": "Tutor-Anfrage fehlgeschlagen. Prüfe Einstellungen → KI und versuche es erneut.",
+      "footer": "{{source}} · auf dieser Lektion basierend · nur Bildung, niemals Finanzberatung"
+    },
+    "lesson": {
+      "number": "Lektion {{order}}",
+      "completed": "Abgeschlossen",
+      "concept": "Konzept",
+      "keyTerms": "Schlüsselbegriffe",
+      "commonMistakes": "Häufige Fehler",
+      "takeFurther": "Geh weiter",
+      "openMissions": "Missionen öffnen",
+      "tryLive": "Live ausprobieren",
+      "openScreen": "{{screen}} öffnen"
     }
   },
   "nav": {
