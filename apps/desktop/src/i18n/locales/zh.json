@@ -205,6 +205,38 @@
       "remove": "移除 {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "提醒",
+    "title": "已配置触发器与提醒历史",
+    "description": "桌面提醒使用操作系统通知与应用内浮窗，Telegram 提醒使用已保存的机器人凭据，邮件提醒使用已保存的 SMTP 投递设置。",
+    "newAlert": "新建提醒",
+    "createAlert": "创建提醒",
+    "editAlert": "编辑提醒",
+    "never": "从未",
+    "channelLine": "渠道：{{channel}} · 上次触发：{{time}}",
+    "status": {
+      "armed": "已布防",
+      "paused": "已暂停",
+      "triggered": "已触发"
+    },
+    "empty": {
+      "title": "未配置提醒",
+      "description": "创建桌面、Telegram 或邮件提醒以填充此屏幕。"
+    },
+    "error": {
+      "title": "提醒列表不可用",
+      "description": "无法从后端加载已配置的提醒。"
+    },
+    "history": {
+      "eyebrow": "近期历史",
+      "title": "提醒审计流",
+      "description": "由本地后端审计轨迹记录的近期提醒触发。",
+      "emptyTitle": "暂无提醒历史",
+      "emptyDescription": "后端提醒触发后，近期触发将显示在此。",
+      "errorTitle": "提醒历史不可用",
+      "errorDescription": "无法加载近期提醒审计流。"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

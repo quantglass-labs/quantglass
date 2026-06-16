@@ -205,6 +205,38 @@
       "remove": "Xóa {{symbol}}"
     }
   },
+  "alerts": {
+    "eyebrow": "Cảnh báo",
+    "title": "Trình kích hoạt đã cấu hình và lịch sử cảnh báo",
+    "description": "Cảnh báo trên máy tính dùng thông báo hệ điều hành cùng thông báo trong ứng dụng, cảnh báo Telegram dùng thông tin xác thực bot đã lưu, và cảnh báo email dùng cài đặt gửi SMTP đã lưu.",
+    "newAlert": "Cảnh báo mới",
+    "createAlert": "Tạo cảnh báo",
+    "editAlert": "Sửa cảnh báo",
+    "never": "Chưa bao giờ",
+    "channelLine": "Kênh: {{channel}} · Lần kích hoạt cuối: {{time}}",
+    "status": {
+      "armed": "đã bật",
+      "paused": "tạm dừng",
+      "triggered": "đã kích hoạt"
+    },
+    "empty": {
+      "title": "Chưa cấu hình cảnh báo",
+      "description": "Tạo cảnh báo trên máy tính, Telegram hoặc email để điền vào màn hình này."
+    },
+    "error": {
+      "title": "Danh sách cảnh báo không khả dụng",
+      "description": "Không thể tải các cảnh báo đã cấu hình từ backend."
+    },
+    "history": {
+      "eyebrow": "Lịch sử gần đây",
+      "title": "Nguồn kiểm toán cảnh báo",
+      "description": "Các lần kích hoạt cảnh báo gần đây được ghi bởi dấu vết kiểm toán của backend cục bộ.",
+      "emptyTitle": "Chưa có lịch sử cảnh báo",
+      "emptyDescription": "Các lần kích hoạt gần đây sẽ xuất hiện ở đây khi cảnh báo backend được kích hoạt.",
+      "errorTitle": "Lịch sử cảnh báo không khả dụng",
+      "errorDescription": "Không thể tải nguồn kiểm toán cảnh báo gần đây."
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",
