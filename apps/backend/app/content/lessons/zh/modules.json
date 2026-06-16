@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "从蜡烛到信号",
+      "description": "建立基础词汇。最后你将能读懂任何一根蜡烛图、识别趋势、找到支撑/阻力，并解读你的第一个 QuantGlass 信号。"
+    },
+    "intermediate": {
+      "title": "指标与风险",
+      "description": "更深入：移动平均线、RSI 动量、基于 ATR 的止损设置、风险回报算术，以及仓位规模。学完本模块你能自己计算 QuantGlass 信号中的每个数字。"
+    },
+    "advanced": {
+      "title": "引擎深度剖析",
+      "description": "理解信号引擎如何思考：市场状态、MACD、布林带、诚实的回测，以及完整的 confidence_basis 推导。你将能够解释任何信号为何生成。"
+    },
+    "expert": {
+      "title": "构建与校准",
+      "description": "前推式 OOS 验证、经验贝叶斯校准、编写自定义指标与策略扩展，并将一切综合为一份有纪律的个人交易计划。"
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "市场基础",
+      "description": "工具、交易所、交易时段、订单类型、点差与流动性——在解读任何图表之前，市场究竟如何运作。"
+    },
+    {
+      "id": "chart-literacy",
+      "title": "图表识读",
+      "description": "读懂任何蜡烛图：蜡烛、趋势、支撑/阻力与成交量。"
+    },
+    {
+      "id": "first-signal",
+      "title": "你的第一个信号",
+      "description": "完整解读一个 QuantGlass 信号，并下你的第一笔模拟交易。"
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "指标精通",
+      "description": "每一个内置指标家族——移动平均、RSI、MACD、布林带、ATR、ADX、Donchian、Keltner——完全按引擎的计算方式。"
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "风险与仓位规模",
+      "description": "R 倍数、基于 ATR 的止损、仓位规模与组合热度。"
+    },
+    {
+      "id": "trade-planning",
+      "title": "交易计划与日志",
+      "description": "入场、出场、失效，以及书面计划与日志的纪律。"
+    },
+    {
+      "id": "market-regimes",
+      "title": "市场状态",
+      "description": "趋势、震荡与高波动状态——以及同一个设置为何在每种状态下表现不同。"
+    },
+    {
+      "id": "strategy-families",
+      "title": "策略家族",
+      "description": "趋势回调、突破回测、均值回归、动量——与引擎真实的设置检测器相连。"
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "回测与统计诚实",
+      "description": "样本内与样本外、过拟合、前推、期望、夏普、索提诺、盈利因子。"
+    },
+    {
+      "id": "execution-costs",
+      "title": "执行与成本",
+      "description": "手续费、滑点、流动性与部分成交——模拟结果与实盘结果分歧之处。"
+    },
+    {
+      "id": "trading-psychology",
+      "title": "交易心理",
+      "description": "偏差、上头、报复性交易，以及维持计划完整的日常流程。"
+    },
+    {
+      "id": "quant-validation",
+      "title": "量化验证",
+      "description": "保形预测、校准、经验贝叶斯收缩与蒙特卡洛回撤。"
+    },
+    {
+      "id": "building-extensions",
+      "title": "构建扩展",
+      "description": "用 QuantGlass 扩展 SDK 编写自定义指标与策略。"
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "AI 辅助研究",
+      "description": "事实守护的叙述、结构化输出与 MCP 工作流——使用 AI 而不让它编造数字。"
+    },
+    {
+      "id": "going-live",
+      "title": "实盘就绪",
+      "description": "券商管道、密钥托管与安全闸门。仅供教育——绝非财务建议。"
+    },
+    {
+      "id": "scam-defense",
+      "title": "防骗",
+      "description": "识别并拒绝针对新手的骗局：假大师、信号贩子、钓鱼与社会工程骗局。"
+    },
+    {
+      "id": "leverage-margin",
+      "title": "保证金、杠杆与卖空",
+      "description": "借入的购买力、清算算术、卖空机制，以及放大为何双刃。仅供教育——QuantGlass 本身为现货、模拟优先。"
+    },
+    {
+      "id": "options-foundation",
+      "title": "期权基础",
+      "description": "看涨、看跌、权利金、时间衰减与买卖方不对称——足以理解期权并知道它们为何超出引擎范围。"
+    },
+    {
+      "id": "fundamentals",
+      "title": "交易者的基本面",
+      "description": "财报、代币经济与催化剂——基本面作为技术交易者的波动背景，而非估值课程。"
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "宏观与跨市场",
+      "description": "利率、美元、流动性周期与跨资产相关性——每张图表之下的潮汐。"
+    },
+    {
+      "id": "microstructure",
+      "title": "市场微观结构",
+      "description": "订单究竟如何撮合：拍卖、做市方与吃单方、订单流，以及逐笔推动价格的因素。"
+    },
+    {
+      "id": "risk-officer",
+      "title": "风控官模式",
+      "description": "将交易者与风控部门分开：限额作为政策、违规复盘与资本保全准则。"
+    },
+    {
+      "id": "pro-workflow",
+      "title": "专业工作流",
+      "description": "操盘手的循环：每日流程、研究管线、基于 R 的报告，以及完整交易者的综合。"
+    }
+  ]
+}

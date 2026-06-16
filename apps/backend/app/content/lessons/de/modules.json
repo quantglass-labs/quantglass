@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "Von der Kerze zum Signal",
+      "description": "Baue das grundlegende Vokabular auf. Am Ende liest du jede Kerze, erkennst einen Trend, findest Support/Widerstand und interpretierst dein erstes QuantGlass-Signal."
+    },
+    "intermediate": {
+      "title": "Indikatoren & Risiko",
+      "description": "Geh tiefer: gleitende Durchschnitte, RSI-Momentum, ATR-basierte Stops, Risiko:Ertrag-Arithmetik und Positionsgrößen. Nach diesem Modul berechnest du jede Zahl eines QuantGlass-Signals selbst."
+    },
+    "advanced": {
+      "title": "Tiefer Blick in die Engine",
+      "description": "Verstehe, wie die Signal-Engine denkt: Marktregime, MACD, Bollinger-Bänder, ehrliches Backtesting und die vollständige confidence_basis-Herleitung. Du kannst erklären, *warum* ein Signal entstand."
+    },
+    "expert": {
+      "title": "Bauen & Kalibrieren",
+      "description": "Walk-Forward-OOS-Validierung, empirische Bayes-Kalibrierung, eigene Indikator- und Strategie-Erweiterungen schreiben und alles zu einem disziplinierten persönlichen Handelsplan zusammenfügen."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Marktgrundlagen",
+      "description": "Instrumente, Börsen, Sitzungen, Ordertypen, Spreads und Liquidität — wie Märkte wirklich funktionieren, bevor ein Chart gelesen wird."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "Chart-Kompetenz",
+      "description": "Lies jeden Kerzenchart: Kerzen, Trends, Support/Widerstand und Volumen."
+    },
+    {
+      "id": "first-signal",
+      "title": "Dein erstes Signal",
+      "description": "Lies ein QuantGlass-Signal von Anfang bis Ende und platziere deinen ersten Paper-Trade."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Indikator-Meisterschaft",
+      "description": "Jede eingebaute Indikatorfamilie — gleitende Durchschnitte, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — genau wie die Engine sie berechnet."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Risiko & Positionsgröße",
+      "description": "R-Vielfache, ATR-basierte Stops, Positionsgrößen und Portfolio-Hitze."
+    },
+    {
+      "id": "trade-planning",
+      "title": "Handelsplanung & Journal",
+      "description": "Einstiege, Ausstiege, Invalidierung und die Disziplin eines schriftlichen Plans und Journals."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Marktregime",
+      "description": "Trend-, Range- und volatile Regime — und warum dasselbe Setup in jedem anders reagiert."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Strategie-Familien",
+      "description": "Trend-Pullback, Breakout-Retest, Mean-Reversion, Momentum — an die echten Setup-Detektoren der Engine gebunden."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Backtesting & statistische Ehrlichkeit",
+      "description": "In-Sample vs. Out-of-Sample, Overfitting, Walk-Forward, Erwartungswert, Sharpe, Sortino, Profitfaktor."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Ausführung & Kosten",
+      "description": "Gebühren, Slippage, Liquidität und Teilausführungen — wo Paper- und Live-Ergebnisse auseinandergehen."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "Handelspsychologie",
+      "description": "Verzerrungen, Tilt, Rache-Trading und die Routinen, die einen Plan intakt halten."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Quantitative Validierung",
+      "description": "Konforme Vorhersage, Kalibrierung, empirische Bayes-Schrumpfung und Monte-Carlo-Drawdowns."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Erweiterungen bauen",
+      "description": "Schreibe eigene Indikatoren und Strategien mit dem QuantGlass-Erweiterungs-SDK."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "KI-gestützte Recherche",
+      "description": "Faktengeschützte Erzählung, strukturierte Ausgaben und MCP-Workflows — KI nutzen, ohne sie Zahlen erfinden zu lassen."
+    },
+    {
+      "id": "going-live",
+      "title": "Live-Bereitschaft",
+      "description": "Broker-Anbindung, Schlüsselverwahrung und Sicherheits-Gates. Nur Bildung — niemals Finanzberatung."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Betrugsabwehr",
+      "description": "Erkenne und verweigere Betrügereien, die neue Trader ins Visier nehmen: falsche Gurus, Signalverkäufer, Phishing und Social-Engineering."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Margin, Hebel & Leerverkauf",
+      "description": "Geliehene Kaufkraft, Liquidationsmathematik, Short-Mechanik und warum Verstärkung in beide Richtungen schneidet. Nur Bildung — QuantGlass selbst ist Spot, Paper zuerst."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Optionen-Grundlagen",
+      "description": "Calls, Puts, Prämie, Zeitverfall und die Käufer/Verkäufer-Asymmetrie — genug, um Optionen zu verstehen und zu wissen, warum sie außerhalb des Engine-Umfangs liegen."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Fundamentaldaten für Trader",
+      "description": "Gewinne, Tokenomics und Katalysatoren — Fundamentaldaten als Volatilitätskontext für technische Trader, nicht als Bewertungskurs."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Makro & Intermarket",
+      "description": "Zinsen, Dollar, Liquiditätszyklen und Cross-Asset-Korrelation — die Gezeiten unter jedem Chart."
+    },
+    {
+      "id": "microstructure",
+      "title": "Marktmikrostruktur",
+      "description": "Wie Orders sich wirklich treffen: Auktionen, Maker und Taker, Orderfluss und was den Preis Tick für Tick bewegt."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Risk-Officer-Modus",
+      "description": "Den Trader vom Risikobüro trennen: Limits als Richtlinie, Verstoßprüfung und die Doktrin der Kapitalerhaltung."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Professioneller Workflow",
+      "description": "Die Schleife des Operators: täglicher Prozess, Recherche-Pipeline, R-basiertes Reporting und die Synthese des vollständigen Traders."
+    }
+  ]
+}

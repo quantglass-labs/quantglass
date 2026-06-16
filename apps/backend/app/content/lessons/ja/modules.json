@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "ローソクからシグナルへ",
+      "description": "基礎語彙を築きます。最後にはどんなローソク足も読め、トレンドを見分け、サポート/レジスタンスを見つけ、最初の QuantGlass シグナルを解釈できます。"
+    },
+    "intermediate": {
+      "title": "指標とリスク",
+      "description": "さらに深く：移動平均、RSI モメンタム、ATR ベースのストップ設定、リスク:リワード計算、ポジションサイズ。本モジュール後は QuantGlass シグナルの各数値を自分で計算できます。"
+    },
+    "advanced": {
+      "title": "エンジンの深掘り",
+      "description": "シグナルエンジンの考え方を理解：市場レジーム、MACD、ボリンジャーバンド、誠実なバックテスト、confidence_basis の完全な導出。なぜシグナルが生成されたか説明できます。"
+    },
+    "expert": {
+      "title": "構築と較正",
+      "description": "ウォークフォワード OOS 検証、経験ベイズ較正、カスタム指標・戦略拡張の作成、そしてすべてを規律ある個人トレード計画へ統合します。"
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "市場の基礎",
+      "description": "銘柄、取引所、セッション、注文種別、スプレッド、流動性 — チャートを読む前に市場が実際どう動くか。"
+    },
+    {
+      "id": "chart-literacy",
+      "title": "チャート読解",
+      "description": "どんなローソク足チャートも読む：ローソク、トレンド、サポート/レジスタンス、出来高。"
+    },
+    {
+      "id": "first-signal",
+      "title": "最初のシグナル",
+      "description": "QuantGlass シグナルを端から端まで読み、最初のペーパートレードを行います。"
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "指標の習得",
+      "description": "すべての組み込み指標ファミリー — 移動平均、RSI、MACD、ボリンジャー、ATR、ADX、Donchian、Keltner — エンジンの計算どおりに。"
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "リスクとポジションサイズ",
+      "description": "R 倍数、ATR ベースのストップ、ポジションサイズ、ポートフォリオヒート。"
+    },
+    {
+      "id": "trade-planning",
+      "title": "トレード計画と記録",
+      "description": "エントリー、エグジット、無効化、そして書面の計画とジャーナルの規律。"
+    },
+    {
+      "id": "market-regimes",
+      "title": "市場レジーム",
+      "description": "トレンド、レンジ、ボラタイルのレジーム — そして同じセットアップが各々で異なる挙動を示す理由。"
+    },
+    {
+      "id": "strategy-families",
+      "title": "戦略ファミリー",
+      "description": "トレンドプルバック、ブレイクアウトリテスト、平均回帰、モメンタム — エンジンの実際のセットアップ検出器に紐付く。"
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "バックテストと統計的誠実さ",
+      "description": "インサンプル対アウトオブサンプル、過剰適合、ウォークフォワード、期待値、シャープ、ソルティノ、プロフィットファクター。"
+    },
+    {
+      "id": "execution-costs",
+      "title": "執行とコスト",
+      "description": "手数料、スリッページ、流動性、部分約定 — ペーパー結果とライブ結果が乖離する場所。"
+    },
+    {
+      "id": "trading-psychology",
+      "title": "トレード心理",
+      "description": "バイアス、ティルト、リベンジトレード、そして計画を保つルーティン。"
+    },
+    {
+      "id": "quant-validation",
+      "title": "定量的検証",
+      "description": "конформal 予測、較正、経験ベイズ収縮、モンテカルロ・ドローダウン。"
+    },
+    {
+      "id": "building-extensions",
+      "title": "拡張の構築",
+      "description": "QuantGlass 拡張 SDK でカスタム指標と戦略を書く。"
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "AI 支援リサーチ",
+      "description": "事実保護のナレーション、構造化出力、MCP ワークフロー — AI に数値を捏造させずに使う。"
+    },
+    {
+      "id": "going-live",
+      "title": "ライブ準備",
+      "description": "ブローカー配管、鍵の保管、安全ゲート。教育目的のみ — 決して金融助言ではありません。"
+    },
+    {
+      "id": "scam-defense",
+      "title": "詐欺防御",
+      "description": "新規トレーダーを狙う詐欺を見抜き拒否する：偽グル、シグナル販売、フィッシング、ソーシャルエンジニアリング。"
+    },
+    {
+      "id": "leverage-margin",
+      "title": "証拠金・レバレッジ・空売り",
+      "description": "借入購買力、清算の計算、空売りの仕組み、そして増幅が両刃である理由。教育目的のみ — QuantGlass 自体は現物・ペーパー優先。"
+    },
+    {
+      "id": "options-foundation",
+      "title": "オプションの基礎",
+      "description": "コール、プット、プレミアム、時間減衰、買い手/売り手の非対称性 — オプションを理解し、なぜエンジン範囲外かを知るのに十分。"
+    },
+    {
+      "id": "fundamentals",
+      "title": "トレーダーのためのファンダメンタルズ",
+      "description": "決算、トークノミクス、カタリスト — テクニカルトレーダーのボラティリティ文脈としてのファンダメンタルズ。評価コースではない。"
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "マクロとインターマーケット",
+      "description": "金利、ドル、流動性サイクル、資産間相関 — すべてのチャートの下の潮流。"
+    },
+    {
+      "id": "microstructure",
+      "title": "市場マイクロストラクチャー",
+      "description": "注文が実際にどう出会うか：オークション、メイカーとテイカー、注文フロー、ティックごとに価格を動かすもの。"
+    },
+    {
+      "id": "risk-officer",
+      "title": "リスクオフィサーモード",
+      "description": "トレーダーをリスク部門から分離：方針としての制限、違反レビュー、資本保全の原則。"
+    },
+    {
+      "id": "pro-workflow",
+      "title": "プロのワークフロー",
+      "description": "オペレーターのループ：日次プロセス、リサーチパイプライン、R ベースの報告、完全なトレーダーの統合。"
+    }
+  ]
+}

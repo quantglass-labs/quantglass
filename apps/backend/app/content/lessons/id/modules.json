@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "Dari Candle ke Sinyal",
+      "description": "Bangun kosakata dasar. Di akhir Anda dapat membaca candlestick apa pun, mengidentifikasi tren, menemukan support/resistance, dan menafsirkan sinyal QuantGlass pertama Anda."
+    },
+    "intermediate": {
+      "title": "Indikator & Risiko",
+      "description": "Lebih dalam: moving average, momentum RSI, stop berbasis ATR, aritmetika risiko:imbalan, dan penentuan ukuran posisi. Setelah modul ini Anda dapat menghitung sendiri setiap angka dalam sinyal QuantGlass."
+    },
+    "advanced": {
+      "title": "Menyelami Mesin",
+      "description": "Pahami cara mesin sinyal berpikir: rezim pasar, MACD, Bollinger Bands, backtesting jujur, dan penurunan confidence_basis lengkap. Anda akan dapat menjelaskan *mengapa* sinyal mana pun dihasilkan."
+    },
+    "expert": {
+      "title": "Bangun & Kalibrasi",
+      "description": "Validasi OOS walk-forward, kalibrasi Bayes empiris, menulis ekstensi indikator dan strategi kustom, serta menyintesis semuanya menjadi rencana trading pribadi yang disiplin."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Dasar Pasar",
+      "description": "Instrumen, bursa, sesi, jenis order, spread, dan likuiditas — bagaimana pasar benar-benar bekerja sebelum membaca grafik apa pun."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "Literasi Grafik",
+      "description": "Baca grafik candlestick apa pun: candle, tren, support/resistance, dan volume."
+    },
+    {
+      "id": "first-signal",
+      "title": "Sinyal Pertama Anda",
+      "description": "Baca sinyal QuantGlass dari ujung ke ujung dan lakukan paper trade pertama Anda."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Penguasaan Indikator",
+      "description": "Setiap keluarga indikator bawaan — moving average, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — persis seperti mesin menghitungnya."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Risiko & Ukuran Posisi",
+      "description": "Kelipatan R, stop berbasis ATR, penentuan ukuran posisi, dan panas portofolio."
+    },
+    {
+      "id": "trade-planning",
+      "title": "Perencanaan & Jurnal Trade",
+      "description": "Masuk, keluar, invalidasi, dan disiplin rencana dan jurnal tertulis."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Rezim Pasar",
+      "description": "Rezim tren, range, dan volatil — dan mengapa setup yang sama berperilaku berbeda di setiap rezim."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Keluarga Strategi",
+      "description": "Pullback tren, retest breakout, reversi rata-rata, momentum — terkait dengan detektor setup nyata mesin."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Backtesting & Kejujuran Statistik",
+      "description": "In-sample vs out-of-sample, overfitting, walk-forward, ekspektansi, Sharpe, Sortino, faktor profit."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Eksekusi & Biaya",
+      "description": "Biaya, slippage, likuiditas, dan fill parsial — di mana hasil paper dan live berbeda."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "Psikologi Trading",
+      "description": "Bias, tilt, revenge trading, dan rutinitas yang menjaga rencana tetap utuh."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Validasi Kuantitatif",
+      "description": "Prediksi konformal, kalibrasi, penyusutan Bayes empiris, dan drawdown Monte Carlo."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Membangun Ekstensi",
+      "description": "Tulis indikator dan strategi kustom dengan SDK ekstensi QuantGlass."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "Riset Berbantuan AI",
+      "description": "Narasi yang dijaga fakta, output terstruktur, dan alur MCP — gunakan AI tanpa membiarkannya mengarang angka."
+    },
+    {
+      "id": "going-live",
+      "title": "Kesiapan Live",
+      "description": "Pipa broker, kustodi kunci, dan gerbang keamanan. Hanya edukasi — tidak pernah nasihat keuangan."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Pertahanan Penipuan",
+      "description": "Kenali dan tolak penipuan yang menargetkan trader baru: guru palsu, penjual sinyal, phishing, dan rekayasa sosial."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Margin, Leverage & Short",
+      "description": "Daya beli pinjaman, matematika likuidasi, mekanika short, dan mengapa amplifikasi memotong dua arah. Hanya edukasi — QuantGlass sendiri spot, paper dulu."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Dasar Opsi",
+      "description": "Call, put, premi, peluruhan waktu, dan asimetri pembeli/penjual — cukup untuk memahami opsi dan tahu mengapa di luar cakupan mesin."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Fundamental untuk Trader",
+      "description": "Laba, tokenomik, dan katalis — fundamental sebagai konteks volatilitas bagi trader teknikal, bukan kursus valuasi."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Makro & Antarpasar",
+      "description": "Suku bunga, dolar, siklus likuiditas, dan korelasi lintas aset — pasang surut di bawah setiap grafik."
+    },
+    {
+      "id": "microstructure",
+      "title": "Mikrostruktur Pasar",
+      "description": "Bagaimana order benar-benar bertemu: lelang, maker dan taker, aliran order, dan apa yang menggerakkan harga tick demi tick."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Mode Petugas Risiko",
+      "description": "Memisahkan trader dari kantor risiko: batas sebagai kebijakan, tinjauan pelanggaran, dan doktrin pelestarian modal."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Alur Kerja Profesional",
+      "description": "Loop operator: proses harian, pipeline riset, pelaporan berbasis R, dan sintesis trader lengkap."
+    }
+  ]
+}

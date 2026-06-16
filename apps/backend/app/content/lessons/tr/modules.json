@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "Mumdan Sinyale",
+      "description": "Temel sözcük dağarcığını oluştur. Sonunda herhangi bir mumu okuyabilecek, trendi tanıyacak, destek/direnç bulacak ve ilk QuantGlass sinyalini yorumlayacaksın."
+    },
+    "intermediate": {
+      "title": "Göstergeler ve Risk",
+      "description": "Daha derine in: hareketli ortalamalar, RSI momentumu, ATR tabanlı stop boyutlama, risk:ödül aritmetiği ve pozisyon boyutlama. Bu modülden sonra bir QuantGlass sinyalindeki her sayıyı kendin hesaplayabilirsin."
+    },
+    "advanced": {
+      "title": "Motora Derin Dalış",
+      "description": "Sinyal motorunun nasıl düşündüğünü anla: piyasa rejimleri, MACD, Bollinger Bantları, dürüst geriye dönük test ve tam confidence_basis türetimi. Herhangi bir sinyalin *neden* üretildiğini açıklayabileceksin."
+    },
+    "expert": {
+      "title": "İnşa Et ve Kalibre Et",
+      "description": "Walk-forward OOS doğrulama, ampirik Bayes kalibrasyonu, özel gösterge ve strateji uzantıları yazma ve her şeyi disiplinli bir kişisel işlem planında birleştirme."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Piyasa Temelleri",
+      "description": "Enstrümanlar, borsalar, seanslar, emir türleri, spreadler ve likidite — herhangi bir grafik okunmadan önce piyasalar gerçekte nasıl çalışır."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "Grafik Okuryazarlığı",
+      "description": "Herhangi bir mum grafiğini oku: mumlar, trendler, destek/direnç ve hacim."
+    },
+    {
+      "id": "first-signal",
+      "title": "İlk Sinyalin",
+      "description": "Bir QuantGlass sinyalini baştan sona oku ve ilk kâğıt işlemini yap."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Gösterge Ustalığı",
+      "description": "Her yerleşik gösterge ailesi — hareketli ortalamalar, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — tam olarak motorun hesapladığı gibi."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Risk ve Pozisyon Boyutlama",
+      "description": "R katları, ATR tabanlı stoplar, pozisyon boyutlama ve portföy ısısı."
+    },
+    {
+      "id": "trade-planning",
+      "title": "İşlem Planlama ve Günlük",
+      "description": "Girişler, çıkışlar, geçersizleme ve yazılı bir plan ile günlüğün disiplini."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Piyasa Rejimleri",
+      "description": "Trend, yatay ve oynak rejimler — ve aynı kurulumun her birinde neden farklı davrandığı."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Strateji Aileleri",
+      "description": "Trend geri çekilmesi, kırılım yeniden testi, ortalamaya dönüş, momentum — motorun gerçek kurulum dedektörlerine bağlı."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Geriye Dönük Test ve İstatistiksel Dürüstlük",
+      "description": "Örneklem içi ve dışı, aşırı uyum, walk-forward, beklenti, Sharpe, Sortino, kâr faktörü."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Uygulama ve Maliyetler",
+      "description": "Ücretler, kayma, likidite ve kısmi dolumlar — kâğıt ve canlı sonuçların ayrıştığı yer."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "İşlem Psikolojisi",
+      "description": "Önyargılar, tilt, intikam işlemi ve bir planı bütün tutan rutinler."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Nicel Doğrulama",
+      "description": "Konformal tahmin, kalibrasyon, ampirik Bayes büzülmesi ve Monte Carlo düşüşleri."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Uzantı Oluşturma",
+      "description": "QuantGlass uzantı SDK’sı ile özel gösterge ve stratejiler yaz."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "Yapay Zeka Destekli Araştırma",
+      "description": "Gerçeklerle korunan anlatım, yapılandırılmış çıktılar ve MCP iş akışları — yapay zekayı sayı uydurmadan kullanmak."
+    },
+    {
+      "id": "going-live",
+      "title": "Canlıya Geçiş Hazırlığı",
+      "description": "Aracı tesisatı, anahtar saklama ve güvenlik geçitleri. Yalnızca eğitim — asla finansal tavsiye değil."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Dolandırıcılığa Karşı Savunma",
+      "description": "Yeni yatırımcıları hedefleyen dolandırıcılıkları tanı ve reddet: sahte gurular, sinyal satıcıları, kimlik avı ve sosyal mühendislik."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Marj, Kaldıraç ve Açığa Satış",
+      "description": "Ödünç alım gücü, tasfiye matematiği, açığa satış mekaniği ve büyütmenin neden iki yönlü kestiği. Yalnızca eğitim — QuantGlass’ın kendisi spot, kâğıt önceliklidir."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Opsiyon Temelleri",
+      "description": "Alımlar, satımlar, prim, zaman değeri erimesi ve alıcı/satıcı asimetrisi — opsiyonları anlamaya ve neden motor kapsamı dışında olduğunu bilmeye yetecek kadar."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Yatırımcılar için Temeller",
+      "description": "Kazançlar, tokenomik ve katalizörler — teknik yatırımcılar için oynaklık bağlamı olarak temeller, bir değerleme kursu değil."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Makro ve Piyasalar Arası",
+      "description": "Faizler, dolar, likidite döngüleri ve varlıklar arası korelasyon — her grafiğin altındaki gelgitler."
+    },
+    {
+      "id": "microstructure",
+      "title": "Piyasa Mikro Yapısı",
+      "description": "Emirler gerçekte nasıl buluşur: açık artırmalar, maker ve takerlar, emir akışı ve fiyatı tik tik ne hareket ettirir."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Risk Görevlisi Modu",
+      "description": "Yatırımcıyı risk ofisinden ayırmak: politika olarak limitler, ihlal incelemesi ve sermaye koruma doktrini."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Profesyonel İş Akışı",
+      "description": "Operatörün döngüsü: günlük süreç, araştırma hattı, R tabanlı raporlama ve eksiksiz yatırımcı sentezi."
+    }
+  ]
+}

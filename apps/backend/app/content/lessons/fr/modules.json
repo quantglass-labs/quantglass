@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "De la bougie au signal",
+      "description": "Construisez le vocabulaire fondamental. À la fin, vous saurez lire n’importe quelle bougie, identifier une tendance, trouver support/résistance et interpréter votre premier signal QuantGlass."
+    },
+    "intermediate": {
+      "title": "Indicateurs et risque",
+      "description": "Approfondissez : moyennes mobiles, momentum RSI, stops basés sur l’ATR, arithmétique risque:rendement et dimensionnement de position. Après ce module, vous calculerez vous-même chaque chiffre d’un signal QuantGlass."
+    },
+    "advanced": {
+      "title": "Plongée dans le moteur",
+      "description": "Comprenez comment pense le moteur de signaux : régimes de marché, MACD, bandes de Bollinger, backtesting honnête et la dérivation complète de confidence_basis. Vous pourrez expliquer *pourquoi* un signal a été généré."
+    },
+    "expert": {
+      "title": "Construire et calibrer",
+      "description": "Validation OOS walk-forward, calibration bayésienne empirique, écriture d’extensions d’indicateurs et de stratégies, et la synthèse du tout en un plan de trading personnel discipliné."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Fondations du marché",
+      "description": "Instruments, places, sessions, types d’ordres, spreads et liquidité — comment les marchés fonctionnent vraiment avant de lire un graphique."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "Lecture des graphiques",
+      "description": "Lisez n’importe quel graphique en bougies : bougies, tendances, support/résistance et volume."
+    },
+    {
+      "id": "first-signal",
+      "title": "Votre premier signal",
+      "description": "Lisez un signal QuantGlass de bout en bout et placez votre première opération sur papier."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Maîtrise des indicateurs",
+      "description": "Chaque famille d’indicateurs intégrée — moyennes mobiles, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — exactement comme le moteur les calcule."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Risque et dimensionnement",
+      "description": "Multiples R, stops basés sur l’ATR, dimensionnement de position et chaleur du portefeuille."
+    },
+    {
+      "id": "trade-planning",
+      "title": "Planification et journal",
+      "description": "Entrées, sorties, invalidation et la discipline d’un plan et d’un journal écrits."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Régimes de marché",
+      "description": "Régimes en tendance, en range et volatil — et pourquoi la même configuration se comporte différemment dans chacun."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Familles de stratégies",
+      "description": "Pullback de tendance, retest de cassure, retour à la moyenne, momentum — liées aux détecteurs réels du moteur."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Backtesting et honnêteté statistique",
+      "description": "In-sample vs out-of-sample, surapprentissage, walk-forward, espérance, Sharpe, Sortino, facteur de profit."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Exécution et coûts",
+      "description": "Frais, slippage, liquidité et exécutions partielles — là où les résultats papier et réels divergent."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "Psychologie du trading",
+      "description": "Biais, tilt, trading de revanche et les routines qui gardent un plan intact."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Validation quantitative",
+      "description": "Prédiction conforme, calibration, rétrécissement bayésien empirique et drawdowns de Monte-Carlo."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Construire des extensions",
+      "description": "Écrivez des indicateurs et stratégies personnalisés avec le SDK d’extensions QuantGlass."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "Recherche assistée par IA",
+      "description": "Narration protégée par les faits, sorties structurées et flux MCP — utiliser l’IA sans la laisser inventer des chiffres."
+    },
+    {
+      "id": "going-live",
+      "title": "Prêt pour le réel",
+      "description": "Plomberie du courtier, garde des clés et barrières de sécurité. Éducatif uniquement — jamais un conseil financier."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Défense anti-arnaque",
+      "description": "Reconnaissez et refusez les arnaques qui visent les nouveaux traders : faux gourous, vendeurs de signaux, hameçonnage et ingénierie sociale."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Marge, levier et vente à découvert",
+      "description": "Pouvoir d’achat emprunté, mathématique de liquidation, mécanique du short et pourquoi l’amplification coupe dans les deux sens. Éducatif uniquement — QuantGlass est spot, papier d’abord."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Fondamentaux des options",
+      "description": "Calls, puts, prime, décroissance temporelle et l’asymétrie acheteur/vendeur — assez pour comprendre les options et savoir pourquoi elles sortent du périmètre du moteur."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Fondamentaux pour traders",
+      "description": "Résultats, tokenomics et catalyseurs — les fondamentaux comme contexte de volatilité pour traders techniques, pas comme cours de valorisation."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Macro et intermarché",
+      "description": "Taux, dollar, cycles de liquidité et corrélation inter-actifs — les marées sous chaque graphique."
+    },
+    {
+      "id": "microstructure",
+      "title": "Microstructure de marché",
+      "description": "Comment les ordres se rencontrent vraiment : enchères, makers et takers, flux d’ordres et ce qui meut le prix tick par tick."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Mode responsable des risques",
+      "description": "Séparer le trader du bureau des risques : limites comme politique, revue des dépassements et la doctrine de préservation du capital."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Flux de travail professionnel",
+      "description": "La boucle de l’opérateur : processus quotidien, pipeline de recherche, reporting en R et la synthèse du trader complet."
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "Kutoka Kinara hadi Ishara",
+      "description": "Jenga msamiati wa msingi. Mwishoni utaweza kusoma kinara chochote, kutambua mwelekeo, kupata msaada/upinzani, na kufasiri ishara yako ya kwanza ya QuantGlass."
+    },
+    "intermediate": {
+      "title": "Viashiria na Hatari",
+      "description": "Nenda ndani zaidi: wastani wa kusonga, kasi ya RSI, vituo vinavyotegemea ATR, hesabu ya hatari:tuzo, na ukubwa wa nafasi. Baada ya moduli hii utaweza kuhesabu mwenyewe kila nambari katika ishara ya QuantGlass."
+    },
+    "advanced": {
+      "title": "Uchunguzi wa Kina wa Injini",
+      "description": "Elewa jinsi injini ya ishara inavyofikiri: tawala za soko, MACD, Bendi za Bollinger, ujaribio wa nyuma wa uaminifu, na utokeo kamili wa confidence_basis. Utaweza kueleza *kwa nini* ishara yoyote ilitengenezwa."
+    },
+    "expert": {
+      "title": "Jenga na Kalibu",
+      "description": "Uthibitisho wa OOS wa walk-forward, ukalibu wa Bayes wa kimajaribio, kuandika viendelezo vya viashiria na mikakati maalum, na kuunganisha yote kuwa mpango binafsi wa biashara wenye nidhamu."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Misingi ya Soko",
+      "description": "Vyombo, masoko, vipindi, aina za oda, spredi na ukwasi — jinsi masoko yanavyofanya kazi kabla ya kusoma chati yoyote."
+    },
+    {
+      "id": "chart-literacy",
+      "title": " Usomaji wa Chati",
+      "description": "Soma chati yoyote ya vinara: vinara, mielekeo, msaada/upinzani na ujazo."
+    },
+    {
+      "id": "first-signal",
+      "title": "Ishara Yako ya Kwanza",
+      "description": "Soma ishara ya QuantGlass mwanzo hadi mwisho na uweke biashara yako ya kwanza ya karatasi."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Umahiri wa Viashiria",
+      "description": "Kila familia ya viashiria iliyojengwa — wastani wa kusonga, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — kama injini inavyohesabu."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Hatari na Ukubwa wa Nafasi",
+      "description": "Mizidisho ya R, vituo vinavyotegemea ATR, ukubwa wa nafasi, na joto la kasha."
+    },
+    {
+      "id": "trade-planning",
+      "title": "Upangaji na Daftari la Biashara",
+      "description": "Kuingia, kutoka, kubatilisha, na nidhamu ya mpango na daftari ulioandikwa."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Tawala za Soko",
+      "description": "Tawala za mwelekeo, mfululizo na tete — na kwa nini mpangilio uleule huishi tofauti katika kila moja."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Familia za Mikakati",
+      "description": "Kurudi nyuma kwa mwelekeo, kujaribu tena kuvunja, kurudi wastani, kasi — vimefungwa na vigunduzi halisi vya mpangilio vya injini."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Ujaribio wa Nyuma na Uaminifu wa Takwimu",
+      "description": "Ndani ya sampuli dhidi ya nje, kuzidisha kufaa, walk-forward, matarajio, Sharpe, Sortino, sababu ya faida."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Utekelezaji na Gharama",
+      "description": "Ada, mtelezo, ukwasi na ujazaji wa sehemu — mahali matokeo ya karatasi na ya moja kwa moja yanapotofautiana."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "Saikolojia ya Biashara",
+      "description": "Upendeleo, tilt, biashara ya kulipiza kisasi, na ratiba zinazoweka mpango salama."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Uthibitisho wa Kiasi",
+      "description": "Utabiri wa conformal, ukalibu, mkunjo wa Bayes wa kimajaribio, na drawdown za Monte Carlo."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Kujenga Viendelezo",
+      "description": "Andika viashiria na mikakati maalum kwa SDK ya viendelezo vya QuantGlass."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "Utafiti unaosaidiwa na AI",
+      "description": "Masimulizi yanayolindwa kwa ukweli, matokeo yaliyopangwa, na mtiririko wa MCP — kutumia AI bila kuiacha ibuni nambari."
+    },
+    {
+      "id": "going-live",
+      "title": "Utayari wa Kwenda Moja kwa Moja",
+      "description": "Mfumo wa broka, uhifadhi wa funguo, na malango ya usalama. Kielimu pekee — kamwe si ushauri wa kifedha."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Ulinzi dhidi ya Ulaghai",
+      "description": "Tambua na ukatae ulaghai unaolenga wafanyabiashara wapya: walimu bandia, wauzaji wa ishara, hadaa, na mipango ya uhandisi wa kijamii."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Marjini, Mzigo na Uuzaji wa Mkopo",
+      "description": "Nguvu ya ununuzi iliyokopwa, hesabu ya ufutaji, mekaniki ya short, na kwa nini ukuzaji hukata pande zote mbili. Kielimu pekee — QuantGlass yenyewe ni spot, karatasi kwanza."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Msingi wa Chaguo",
+      "description": "Call, put, premia, kuoza kwa muda, na kutolingana kwa mnunuzi/muuzaji — vya kutosha kuelewa chaguo na kujua kwa nini ziko nje ya wigo wa injini."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Misingi kwa Wafanyabiashara",
+      "description": "Mapato, tokenomics, na vichocheo — misingi kama muktadha wa tete kwa wafanyabiashara wa kiufundi, si kozi ya uthamini."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Makro na Soko-Mtambuka",
+      "description": "Viwango, dola, mizunguko ya ukwasi, na uhusiano wa mali-mtambuka — mawimbi chini ya kila chati."
+    },
+    {
+      "id": "microstructure",
+      "title": "Muundo Mdogo wa Soko",
+      "description": "Jinsi oda zinavyokutana kweli: minada, makers na takers, mtiririko wa oda, na nini husogeza bei tiki kwa tiki."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Hali ya Afisa wa Hatari",
+      "description": "Kumtenga mfanyabiashara na ofisi ya hatari: vikomo kama sera, mapitio ya ukiukaji, na fundisho la kuhifadhi mtaji."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Mtiririko wa Kitaalamu",
+      "description": "Mzunguko wa mwendeshaji: mchakato wa kila siku, bomba la utafiti, ripoti yenye msingi wa R, na muundo wa mfanyabiashara kamili."
+    }
+  ]
+}
