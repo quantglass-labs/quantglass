@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { AlertTriangle, ClipboardCheck, ScrollText } from 'lucide-react';
@@ -25,30 +26,16 @@ import type {
   ConstitutionRules,
 } from '../types';
 
-const QUADRANT_META: Record<string, { label: string; tone: string; hint: string }> = {
-  earned_win: {
-    label: 'Earned wins',
-    tone: 'text-emerald-300',
-    hint: 'Good decision, good outcome',
-  },
-  well_played_loss: {
-    label: 'Well-played losses',
-    tone: 'text-sky-300',
-    hint: 'Good decision, variance took it',
-  },
-  honest_tuition: {
-    label: 'Honest tuition',
-    tone: 'text-zinc-300',
-    hint: 'Bad decision, the market billed you',
-  },
-  dangerous_success: {
-    label: 'Dangerous successes',
-    tone: 'text-amber-300',
-    hint: 'Bad decision rewarded — the worst quadrant',
-  },
+// Maps a quadrant id to its tone + the `review.quadrant.<key>` translation subtree.
+const QUADRANT_META: Record<string, { key: string; tone: string }> = {
+  earned_win: { key: 'earnedWin', tone: 'text-emerald-300' },
+  well_played_loss: { key: 'wellPlayedLoss', tone: 'text-sky-300' },
+  honest_tuition: { key: 'honestTuition', tone: 'text-zinc-300' },
+  dangerous_success: { key: 'dangerousSuccess', tone: 'text-amber-300' },
 };
 
 function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [compliance, setCompliance] = useState<ConstitutionCompliance | null>(null);
   const [rules, setRules] = useState<ConstitutionRules | null>(null);
   const [saving, setSaving] = useState(false);
@@ -83,22 +70,22 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
       <div className="flex items-center gap-2">
         <ScrollText size={16} className="text-indigo-400" />
         <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
-          Trading Constitution
+          {t('review.constitution.title')}
         </h2>
         {compliance?.adopted ? (
           <span className="ml-auto rounded-full border border-emerald-500/40 px-2.5 py-0.5 text-xs text-emerald-300">
-            Adopted — the ticket enforces it
+            {t('review.constitution.adopted')}
           </span>
         ) : (
           <span className="ml-auto text-xs text-zinc-600">
-            Not adopted yet — write your rules, then hold yourself to them.
+            {t('review.constitution.notAdopted')}
           </span>
         )}
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <label className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-3 py-2.5 text-sm text-zinc-300">
-          Max risk per trade (%)
+          {t('review.constitution.maxRisk')}
           <input
             type="number"
             min={0.1}
@@ -112,7 +99,7 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
           />
         </label>
         <label className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-3 py-2.5 text-sm text-zinc-300">
-          Max trades per day
+          {t('review.constitution.maxTrades')}
           <input
             type="number"
             min={1}
@@ -125,7 +112,7 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
           />
         </label>
         <label className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-3 py-2.5 text-sm text-zinc-300">
-          Every trade has a stop
+          {t('review.constitution.requireStop')}
           <input
             type="checkbox"
             checked={rules.require_stop}
@@ -134,7 +121,7 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
           />
         </label>
         <label className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/40 px-3 py-2.5 text-sm text-zinc-300">
-          Every trade has a written reason
+          {t('review.constitution.requireReason')}
           <input
             type="checkbox"
             checked={rules.require_reason}
@@ -151,11 +138,18 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
           onClick={() => void handleAdopt()}
           className="rounded-lg border border-indigo-500/50 px-4 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-40"
         >
-          {saving ? 'Saving…' : compliance?.adopted ? 'Amend constitution' : 'Adopt constitution'}
+          {saving
+            ? t('common.saving')
+            : compliance?.adopted
+              ? t('review.constitution.amend')
+              : t('review.constitution.adopt')}
         </button>
         {compliance?.adopted ? (
           <span className="text-xs text-zinc-600">
-            {compliance.trades_today} / {compliance.rules.daily_max_trades} trades used today
+            {t('review.constitution.tradesUsed', {
+              used: compliance.trades_today,
+              max: compliance.rules.daily_max_trades,
+            })}
           </span>
         ) : null}
       </div>
@@ -172,8 +166,11 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
               <span className="text-zinc-400">{check.label}</span>
               <span className="ml-auto text-xs text-zinc-600">
                 {check.violations === 0
-                  ? 'clean'
-                  : `${check.violations} of ${compliance.total_trades} trades broke this`}
+                  ? t('review.constitution.clean')
+                  : t('review.constitution.violations', {
+                      count: check.violations,
+                      total: compliance.total_trades,
+                    })}
               </span>
             </li>
           ))}
@@ -184,6 +181,7 @@ function ConstitutionPanel({ backendStatus }: { backendStatus: BackendStatus }) 
 }
 
 export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [coach, setCoach] = useState<CoachResponse | null>(null);
   const [narrative, setNarrative] = useState<CoachNarrative | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -193,12 +191,12 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
     backendClient
       .getReviewCoach()
       .then(setCoach)
-      .catch(() => setError('Could not load the review. Is the backend running?'));
+      .catch(() => setError(t('review.loadError')));
     backendClient
       .getCoachNarrative()
       .then(setNarrative)
       .catch(() => setNarrative(null));
-  }, [backendStatus]);
+  }, [backendStatus, t]);
 
   const summary = coach?.summary;
   const quadrants = summary?.quadrants ?? {};
@@ -207,10 +205,8 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
     <div className="mx-auto max-w-4xl">
       <div className="flex items-center gap-2">
         <ClipboardCheck size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">Review</h1>
-        <span className="ml-auto text-xs text-zinc-600">
-          Grades the decision, not the outcome — then prescribes the fix.
-        </span>
+        <h1 className="text-lg font-semibold text-zinc-100">{t('review.title')}</h1>
+        <span className="ml-auto text-xs text-zinc-600">{t('review.tagline')}</span>
       </div>
 
       <BackendStatusNotice status={backendStatus} />
@@ -230,28 +226,37 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
       {coach ? (
         <>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <MetricTile label="Trades (7 days)" helper="This week's activity">
+            <MetricTile
+              label={t('review.tiles.trades7d')}
+              helper={t('review.tiles.trades7dHelper')}
+            >
               <CountUp value={coach.weekly.trades} format={(n) => String(Math.round(n))} />
             </MetricTile>
             <MetricTile
-              label="Process (7 days)"
+              label={t('review.tiles.process7d')}
               hero
               toneClass={
                 coach.weekly.average_process_score >= (summary?.process_good_bar ?? 70)
                   ? 'text-buy'
                   : 'text-watch'
               }
-              helper={`Good bar ${summary?.process_good_bar ?? 70}`}
+              helper={t('review.tiles.process7dHelper', { bar: summary?.process_good_bar ?? 70 })}
             >
               <CountUp
                 value={coach.weekly.average_process_score}
                 format={(n) => String(Math.round(n))}
               />
             </MetricTile>
-            <MetricTile label="Trades (all time)" helper="Since inception">
+            <MetricTile
+              label={t('review.tiles.tradesAll')}
+              helper={t('review.tiles.tradesAllHelper')}
+            >
               <CountUp value={summary?.trades ?? 0} format={(n) => String(Math.round(n))} />
             </MetricTile>
-            <MetricTile label="Process (all time)" helper="Lifetime average">
+            <MetricTile
+              label={t('review.tiles.processAll')}
+              helper={t('review.tiles.processAllHelper')}
+            >
               <CountUp
                 value={summary?.average_process_score ?? 0}
                 format={(n) => String(Math.round(n))}
@@ -264,8 +269,12 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
               <FadeIn key={key} delayMs={index * 50}>
                 <div className="rounded-2xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-md shadow-black/15">
                   <p className={`metric-text text-2xl ${meta.tone}`}>{quadrants[key] ?? 0}</p>
-                  <p className="mt-1 text-xs font-medium text-zinc-400">{meta.label}</p>
-                  <p className="text-[11px] text-zinc-600">{meta.hint}</p>
+                  <p className="mt-1 text-xs font-medium text-zinc-400">
+                    {t(`review.quadrant.${meta.key}.label`)}
+                  </p>
+                  <p className="text-[11px] text-zinc-600">
+                    {t(`review.quadrant.${meta.key}.hint`)}
+                  </p>
                 </div>
               </FadeIn>
             ))}
@@ -275,7 +284,7 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
             <div className="mt-6 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
               <div className="flex items-center gap-2">
                 <p className="text-xs font-semibold uppercase tracking-wider text-indigo-300">
-                  Coach's note
+                  {t('review.coachNote')}
                 </p>
                 <span className="rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] text-zinc-500">
                   {narrative.source}
@@ -288,11 +297,11 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
           ) : null}
 
           <h2 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-400">
-            What keeps happening
+            {t('review.whatKeepsHappening')}
           </h2>
           {coach.detections.length === 0 ? (
             <p className="mt-3 rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-4 text-sm text-emerald-300">
-              No repeated mistakes detected. Keep the journal honest and the streak alive.
+              {t('review.noMistakes')}
             </p>
           ) : (
             <div className="mt-3 space-y-3">
@@ -310,11 +319,13 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
                   </div>
                   {detection.symbols.filter(Boolean).length ? (
                     <p className="mt-1 text-xs text-zinc-600">
-                      Seen on {detection.symbols.filter(Boolean).join(', ')}
+                      {t('review.seenOn', {
+                        symbols: detection.symbols.filter(Boolean).join(', '),
+                      })}
                     </p>
                   ) : null}
                   <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-                    <span className="text-zinc-500">Train the fix:</span>
+                    <span className="text-zinc-500">{t('review.trainTheFix')}</span>
                     {detection.lessons.map((lesson) => (
                       <Link
                         key={lesson.id}
@@ -330,7 +341,7 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
                         to="/missions"
                         className="rounded-full border border-emerald-500/40 px-2.5 py-1 text-emerald-300 transition-colors hover:bg-emerald-600/20"
                       >
-                        Mission: {mission.replace(/-/g, ' ')}
+                        {t('review.missionLabel', { name: mission.replace(/-/g, ' ') })}
                       </Link>
                     ))}
                   </div>
@@ -339,9 +350,7 @@ export function ReviewScreen({ backendStatus }: { backendStatus: BackendStatus }
             </div>
           )}
           <ConstitutionPanel backendStatus={backendStatus} />
-          <p className="mt-6 text-xs text-zinc-600">
-            Educational instrumentation over your own paper trading — never financial advice.
-          </p>
+          <p className="mt-6 text-xs text-zinc-600">{t('review.footer')}</p>
         </>
       ) : null}
     </div>

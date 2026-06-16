@@ -237,6 +237,57 @@
       "errorDescription": "O feed de auditoria recente de alertas não pôde ser carregado."
     }
   },
+  "review": {
+    "title": "Revisão",
+    "tagline": "Avalia a decisão, não o resultado — e então prescreve a correção.",
+    "loadError": "Não foi possível carregar a revisão. O backend está em execução?",
+    "tiles": {
+      "trades7d": "Trades (7 dias)",
+      "trades7dHelper": "Atividade desta semana",
+      "process7d": "Processo (7 dias)",
+      "process7dHelper": "Barra boa {{bar}}",
+      "tradesAll": "Trades (histórico)",
+      "tradesAllHelper": "Desde o início",
+      "processAll": "Processo (histórico)",
+      "processAllHelper": "Média vitalícia"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Ganhos merecidos", "hint": "Boa decisão, bom resultado" },
+      "wellPlayedLoss": {
+        "label": "Perdas bem jogadas",
+        "hint": "Boa decisão, a variância levou"
+      },
+      "honestTuition": {
+        "label": "Mensalidade honesta",
+        "hint": "Má decisão, o mercado cobrou"
+      },
+      "dangerousSuccess": {
+        "label": "Sucessos perigosos",
+        "hint": "Má decisão recompensada — o pior quadrante"
+      }
+    },
+    "coachNote": "Nota do coach",
+    "whatKeepsHappening": "O que continua acontecendo",
+    "noMistakes": "Nenhum erro repetido detectado. Mantenha o diário honesto e a sequência viva.",
+    "seenOn": "Visto em {{symbols}}",
+    "trainTheFix": "Treine a correção:",
+    "missionLabel": "Missão: {{name}}",
+    "footer": "Instrumentação educativa sobre seu próprio trading em papel — nunca aconselhamento financeiro.",
+    "constitution": {
+      "title": "Constituição de trading",
+      "adopted": "Adotada — o bilhete a impõe",
+      "notAdopted": "Ainda não adotada — escreva suas regras e então cumpra-as.",
+      "maxRisk": "Risco máx. por trade (%)",
+      "maxTrades": "Máx. trades por dia",
+      "requireStop": "Todo trade tem um stop",
+      "requireReason": "Todo trade tem uma razão escrita",
+      "amend": "Emendar constituição",
+      "adopt": "Adotar constituição",
+      "tradesUsed": "{{used}} / {{max}} trades usados hoje",
+      "clean": "limpo",
+      "violations": "{{count}} de {{total}} trades violaram isto"
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

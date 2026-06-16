@@ -237,6 +237,57 @@
       "errorDescription": "Son uyarı denetim akışı yüklenemedi."
     }
   },
+  "review": {
+    "title": "Değerlendirme",
+    "tagline": "Sonucu değil kararı puanlar — sonra düzeltmeyi reçete eder.",
+    "loadError": "Değerlendirme yüklenemedi. Arka uç çalışıyor mu?",
+    "tiles": {
+      "trades7d": "İşlemler (7 gün)",
+      "trades7dHelper": "Bu haftanın etkinliği",
+      "process7d": "Süreç (7 gün)",
+      "process7dHelper": "İyi eşik {{bar}}",
+      "tradesAll": "İşlemler (tüm zamanlar)",
+      "tradesAllHelper": "Başlangıçtan beri",
+      "processAll": "Süreç (tüm zamanlar)",
+      "processAllHelper": "Ömür boyu ortalama"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Hak edilmiş kazançlar", "hint": "İyi karar, iyi sonuç" },
+      "wellPlayedLoss": {
+        "label": "İyi oynanmış kayıplar",
+        "hint": "İyi karar, varyans aldı"
+      },
+      "honestTuition": {
+        "label": "Dürüst öğrenim ücreti",
+        "hint": "Kötü karar, piyasa faturayı kesti"
+      },
+      "dangerousSuccess": {
+        "label": "Tehlikeli başarılar",
+        "hint": "Kötü kararın ödüllendirilmesi — en kötü çeyrek"
+      }
+    },
+    "coachNote": "Koç notu",
+    "whatKeepsHappening": "Sürekli olan şey",
+    "noMistakes": "Tekrarlayan hata tespit edilmedi. Günlüğü dürüst, seriyi canlı tutun.",
+    "seenOn": "{{symbols}} üzerinde görüldü",
+    "trainTheFix": "Düzeltmeyi çalışın:",
+    "missionLabel": "Görev: {{name}}",
+    "footer": "Kendi kâğıt işlemleriniz üzerine eğitimsel ölçüm — asla yatırım tavsiyesi değildir.",
+    "constitution": {
+      "title": "İşlem anayasası",
+      "adopted": "Benimsendi — işlem fişi uygular",
+      "notAdopted": "Henüz benimsenmedi — kurallarınızı yazın, sonra onlara uyun.",
+      "maxRisk": "İşlem başına maks. risk (%)",
+      "maxTrades": "Günde maks. işlem",
+      "requireStop": "Her işlemin bir stopu var",
+      "requireReason": "Her işlemin yazılı bir gerekçesi var",
+      "amend": "Anayasayı değiştir",
+      "adopt": "Anayasayı benimse",
+      "tradesUsed": "Bugün {{used}} / {{max}} işlem kullanıldı",
+      "clean": "temiz",
+      "violations": "{{total}} işlemden {{count}} tanesi bunu ihlal etti"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

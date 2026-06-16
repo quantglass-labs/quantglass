@@ -237,6 +237,51 @@
       "errorDescription": "无法加载近期提醒审计流。"
     }
   },
+  "review": {
+    "title": "复盘",
+    "tagline": "评判决策而非结果——然后开出修正方案。",
+    "loadError": "无法加载复盘。后端是否在运行？",
+    "tiles": {
+      "trades7d": "交易（7天）",
+      "trades7dHelper": "本周活动",
+      "process7d": "过程（7天）",
+      "process7dHelper": "良好基准 {{bar}}",
+      "tradesAll": "交易（全部）",
+      "tradesAllHelper": "自创建以来",
+      "processAll": "过程（全部）",
+      "processAllHelper": "终身平均"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "应得的盈利", "hint": "决策正确，结果良好" },
+      "wellPlayedLoss": { "label": "处理得当的亏损", "hint": "决策正确，输给了方差" },
+      "honestTuition": { "label": "诚实的学费", "hint": "决策错误，市场向你收费" },
+      "dangerousSuccess": {
+        "label": "危险的成功",
+        "hint": "错误决策却得到奖励——最糟糕的象限"
+      }
+    },
+    "coachNote": "教练笔记",
+    "whatKeepsHappening": "反复发生的情况",
+    "noMistakes": "未检测到重复错误。保持日志诚实，让连胜延续。",
+    "seenOn": "出现于 {{symbols}}",
+    "trainTheFix": "训练修正：",
+    "missionLabel": "任务：{{name}}",
+    "footer": "针对你自己的模拟交易的教育性度量——绝非投资建议。",
+    "constitution": {
+      "title": "交易宪章",
+      "adopted": "已采纳——下单票据会强制执行",
+      "notAdopted": "尚未采纳——写下你的规则，然后严守它们。",
+      "maxRisk": "每笔交易最大风险（%）",
+      "maxTrades": "每日最大交易数",
+      "requireStop": "每笔交易都有止损",
+      "requireReason": "每笔交易都有书面理由",
+      "amend": "修订宪章",
+      "adopt": "采纳宪章",
+      "tradesUsed": "今日已用 {{used}} / {{max}} 笔交易",
+      "clean": "无违规",
+      "violations": "{{total}} 笔交易中有 {{count}} 笔违反此项"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

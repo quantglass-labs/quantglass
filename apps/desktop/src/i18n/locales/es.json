@@ -237,6 +237,57 @@
       "errorDescription": "No se pudo cargar el feed de auditoría reciente."
     }
   },
+  "review": {
+    "title": "Revisión",
+    "tagline": "Califica la decisión, no el resultado — y luego receta la corrección.",
+    "loadError": "No se pudo cargar la revisión. ¿El backend está en ejecución?",
+    "tiles": {
+      "trades7d": "Operaciones (7 días)",
+      "trades7dHelper": "Actividad de esta semana",
+      "process7d": "Proceso (7 días)",
+      "process7dHelper": "Barra buena {{bar}}",
+      "tradesAll": "Operaciones (histórico)",
+      "tradesAllHelper": "Desde el inicio",
+      "processAll": "Proceso (histórico)",
+      "processAllHelper": "Promedio de por vida"
+    },
+    "quadrant": {
+      "earnedWin": { "label": "Ganancias merecidas", "hint": "Buena decisión, buen resultado" },
+      "wellPlayedLoss": {
+        "label": "Pérdidas bien jugadas",
+        "hint": "Buena decisión, la varianza se la llevó"
+      },
+      "honestTuition": {
+        "label": "Matrícula honesta",
+        "hint": "Mala decisión, el mercado te cobró"
+      },
+      "dangerousSuccess": {
+        "label": "Éxitos peligrosos",
+        "hint": "Mala decisión recompensada — el peor cuadrante"
+      }
+    },
+    "coachNote": "Nota del entrenador",
+    "whatKeepsHappening": "Lo que sigue ocurriendo",
+    "noMistakes": "No se detectaron errores repetidos. Mantén el diario honesto y la racha viva.",
+    "seenOn": "Visto en {{symbols}}",
+    "trainTheFix": "Entrena la corrección:",
+    "missionLabel": "Misión: {{name}}",
+    "footer": "Instrumentación educativa sobre tu propio trading en papel — nunca asesoramiento financiero.",
+    "constitution": {
+      "title": "Constitución de trading",
+      "adopted": "Adoptada — el ticket la hace cumplir",
+      "notAdopted": "Aún no adoptada — escribe tus reglas y luego cúmplelas.",
+      "maxRisk": "Riesgo máx. por operación (%)",
+      "maxTrades": "Máx. operaciones por día",
+      "requireStop": "Cada operación tiene un stop",
+      "requireReason": "Cada operación tiene una razón escrita",
+      "amend": "Enmendar constitución",
+      "adopt": "Adoptar constitución",
+      "tradesUsed": "{{used}} / {{max}} operaciones usadas hoy",
+      "clean": "limpio",
+      "violations": "{{count}} de {{total}} operaciones rompieron esto"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",
