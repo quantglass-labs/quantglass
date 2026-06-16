@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "캔들에서 시그널까지",
+      "description": "기초 어휘를 쌓습니다. 마지막에는 어떤 캔들도 읽고, 추세를 식별하고, 지지/저항을 찾고, 첫 QuantGlass 시그널을 해석할 수 있습니다."
+    },
+    "intermediate": {
+      "title": "지표와 리스크",
+      "description": "더 깊이: 이동평균, RSI 모멘텀, ATR 기반 손절 설정, 위험:보상 산술, 포지션 크기. 이 모듈 후에는 QuantGlass 시그널의 모든 숫자를 직접 계산할 수 있습니다."
+    },
+    "advanced": {
+      "title": "엔진 심층 분석",
+      "description": "시그널 엔진이 어떻게 생각하는지 이해: 시장 레짐, MACD, 볼린저 밴드, 정직한 백테스트, 전체 confidence_basis 도출. 어떤 시그널이 *왜* 생성됐는지 설명할 수 있습니다."
+    },
+    "expert": {
+      "title": "구축과 보정",
+      "description": "워크포워드 OOS 검증, 경험적 베이즈 보정, 사용자 지표·전략 확장 작성, 그리고 모든 것을 규율 있는 개인 트레이딩 계획으로 종합합니다."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "시장의 기초",
+      "description": "종목, 거래소, 세션, 주문 유형, 스프레드, 유동성 — 차트를 읽기 전에 시장이 실제로 어떻게 작동하는지."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "차트 읽기",
+      "description": "어떤 캔들 차트도 읽기: 캔들, 추세, 지지/저항, 거래량."
+    },
+    {
+      "id": "first-signal",
+      "title": "첫 시그널",
+      "description": "QuantGlass 시그널을 처음부터 끝까지 읽고 첫 모의 거래를 실행합니다."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "지표 숙달",
+      "description": "모든 내장 지표 계열 — 이동평균, RSI, MACD, 볼린저, ATR, ADX, Donchian, Keltner — 엔진이 계산하는 그대로."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "리스크와 포지션 크기",
+      "description": "R 배수, ATR 기반 손절, 포지션 크기, 포트폴리오 열."
+    },
+    {
+      "id": "trade-planning",
+      "title": "거래 계획과 일지",
+      "description": "진입, 청산, 무효화, 그리고 작성된 계획과 일지의 규율."
+    },
+    {
+      "id": "market-regimes",
+      "title": "시장 레짐",
+      "description": "추세, 횡보, 변동 레짐 — 그리고 같은 셋업이 각각에서 다르게 작동하는 이유."
+    },
+    {
+      "id": "strategy-families",
+      "title": "전략 계열",
+      "description": "추세 풀백, 돌파 리테스트, 평균 회귀, 모멘텀 — 엔진의 실제 셋업 감지기에 연결됨."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "백테스트와 통계적 정직성",
+      "description": "표본 내 대 표본 외, 과적합, 워크포워드, 기대값, 샤프, 소르티노, 손익 계수."
+    },
+    {
+      "id": "execution-costs",
+      "title": "실행과 비용",
+      "description": "수수료, 슬리피지, 유동성, 부분 체결 — 모의 결과와 실거래 결과가 갈리는 지점."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "트레이딩 심리",
+      "description": "편향, 틸트, 복수 거래, 그리고 계획을 온전히 유지하는 루틴."
+    },
+    {
+      "id": "quant-validation",
+      "title": "정량적 검증",
+      "description": "컨포멀 예측, 보정, 경험적 베이즈 수축, 몬테카를로 드로다운."
+    },
+    {
+      "id": "building-extensions",
+      "title": "확장 만들기",
+      "description": "QuantGlass 확장 SDK로 사용자 지표와 전략을 작성합니다."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "AI 보조 리서치",
+      "description": "사실 보호 내레이션, 구조화 출력, MCP 워크플로 — AI가 숫자를 지어내지 못하게 하면서 사용."
+    },
+    {
+      "id": "going-live",
+      "title": "실거래 준비",
+      "description": "브로커 배관, 키 보관, 안전 게이트. 교육용일 뿐 — 결코 금융 조언이 아닙니다."
+    },
+    {
+      "id": "scam-defense",
+      "title": "사기 방어",
+      "description": "신규 트레이더를 노리는 사기를 인식하고 거부: 가짜 구루, 시그널 판매자, 피싱, 사회공학."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "마진, 레버리지, 공매도",
+      "description": "빌린 매수력, 청산 산술, 공매도 메커니즘, 그리고 증폭이 양방향으로 베는 이유. 교육용일 뿐 — QuantGlass 자체는 현물, 모의 우선."
+    },
+    {
+      "id": "options-foundation",
+      "title": "옵션 기초",
+      "description": "콜, 풋, 프리미엄, 시간 가치 소멸, 매수자/매도자 비대칭 — 옵션을 이해하고 왜 엔진 범위 밖인지 알기에 충분."
+    },
+    {
+      "id": "fundamentals",
+      "title": "트레이더를 위한 펀더멘털",
+      "description": "실적, 토크노믹스, 촉매 — 기술적 트레이더를 위한 변동성 맥락으로서의 펀더멘털, 가치평가 과정이 아님."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "매크로와 인터마켓",
+      "description": "금리, 달러, 유동성 사이클, 자산 간 상관관계 — 모든 차트 아래의 조류."
+    },
+    {
+      "id": "microstructure",
+      "title": "시장 미시구조",
+      "description": "주문이 실제로 어떻게 만나는가: 경매, 메이커와 테이커, 주문 흐름, 그리고 틱마다 가격을 움직이는 것."
+    },
+    {
+      "id": "risk-officer",
+      "title": "리스크 책임자 모드",
+      "description": "트레이더를 리스크 부서와 분리: 정책으로서의 한도, 위반 검토, 자본 보전 원칙."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "전문가 워크플로",
+      "description": "운영자의 루프: 일일 프로세스, 리서치 파이프라인, R 기반 보고, 완전한 트레이더의 종합."
+    }
+  ]
+}

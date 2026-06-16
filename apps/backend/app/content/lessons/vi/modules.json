@@ -1,0 +1,137 @@
+{
+  "levels": {
+    "novice": {
+      "title": "Từ Nến đến Tín hiệu",
+      "description": "Xây vốn từ nền tảng. Cuối cùng bạn đọc được bất kỳ cây nến nào, nhận diện xu hướng, tìm hỗ trợ/kháng cự và diễn giải tín hiệu QuantGlass đầu tiên."
+    },
+    "intermediate": {
+      "title": "Chỉ báo & Rủi ro",
+      "description": "Đi sâu hơn: đường trung bình, động lượng RSI, đặt dừng lỗ theo ATR, số học rủi ro:phần thưởng và định cỡ vị thế. Sau mô-đun này bạn tự tính được mọi con số trong tín hiệu QuantGlass."
+    },
+    "advanced": {
+      "title": "Đào sâu Động cơ",
+      "description": "Hiểu cách động cơ tín hiệu suy nghĩ: chế độ thị trường, MACD, dải Bollinger, backtest trung thực và toàn bộ suy luận confidence_basis. Bạn sẽ giải thích được *vì sao* một tín hiệu được tạo ra."
+    },
+    "expert": {
+      "title": "Xây dựng & Hiệu chỉnh",
+      "description": "Xác thực OOS walk-forward, hiệu chỉnh Bayes thực nghiệm, viết phần mở rộng chỉ báo và chiến lược tùy chỉnh, và tổng hợp tất cả thành một kế hoạch giao dịch cá nhân kỷ luật."
+    }
+  },
+  "tracks": [
+    {
+      "id": "market-foundations",
+      "title": "Nền tảng Thị trường",
+      "description": "Công cụ, sàn, phiên, loại lệnh, chênh lệch và thanh khoản — thị trường thực sự vận hành thế nào trước khi đọc bất kỳ biểu đồ nào."
+    },
+    {
+      "id": "chart-literacy",
+      "title": "Đọc Biểu đồ",
+      "description": "Đọc mọi biểu đồ nến: nến, xu hướng, hỗ trợ/kháng cự và khối lượng."
+    },
+    {
+      "id": "first-signal",
+      "title": "Tín hiệu Đầu tiên",
+      "description": "Đọc một tín hiệu QuantGlass từ đầu đến cuối và đặt giao dịch giấy đầu tiên."
+    },
+    {
+      "id": "indicator-mastery",
+      "title": "Thành thạo Chỉ báo",
+      "description": "Mọi họ chỉ báo tích hợp — đường trung bình, RSI, MACD, Bollinger, ATR, ADX, Donchian, Keltner — đúng như động cơ tính toán."
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "Rủi ro & Định cỡ Vị thế",
+      "description": "Bội số R, dừng lỗ theo ATR, định cỡ vị thế và nhiệt danh mục."
+    },
+    {
+      "id": "trade-planning",
+      "title": "Lập kế hoạch & Nhật ký",
+      "description": "Vào lệnh, thoát lệnh, vô hiệu hóa và kỷ luật của một kế hoạch và nhật ký viết ra."
+    },
+    {
+      "id": "market-regimes",
+      "title": "Chế độ Thị trường",
+      "description": "Chế độ xu hướng, đi ngang và biến động — và vì sao cùng một thiết lập hành xử khác nhau trong mỗi chế độ."
+    },
+    {
+      "id": "strategy-families",
+      "title": "Họ Chiến lược",
+      "description": "Pullback xu hướng, retest phá vỡ, hồi quy trung bình, động lượng — gắn với các bộ dò thiết lập thực của động cơ."
+    },
+    {
+      "id": "statistical-honesty",
+      "title": "Backtest & Trung thực Thống kê",
+      "description": "Trong mẫu và ngoài mẫu, quá khớp, walk-forward, kỳ vọng, Sharpe, Sortino, hệ số lợi nhuận."
+    },
+    {
+      "id": "execution-costs",
+      "title": "Thực thi & Chi phí",
+      "description": "Phí, trượt giá, thanh khoản và khớp một phần — nơi kết quả giấy và thực phân kỳ."
+    },
+    {
+      "id": "trading-psychology",
+      "title": "Tâm lý Giao dịch",
+      "description": "Thiên kiến, tilt, giao dịch trả thù và các thói quen giữ kế hoạch nguyên vẹn."
+    },
+    {
+      "id": "quant-validation",
+      "title": "Xác thực Định lượng",
+      "description": "Dự đoán conformal, hiệu chỉnh, co Bayes thực nghiệm và drawdown Monte Carlo."
+    },
+    {
+      "id": "building-extensions",
+      "title": "Xây Phần mở rộng",
+      "description": "Viết chỉ báo và chiến lược tùy chỉnh với SDK phần mở rộng QuantGlass."
+    },
+    {
+      "id": "ai-assisted-research",
+      "title": "Nghiên cứu Hỗ trợ AI",
+      "description": "Tường thuật được bảo vệ bằng sự thật, đầu ra có cấu trúc và quy trình MCP — dùng AI mà không để nó bịa số."
+    },
+    {
+      "id": "going-live",
+      "title": "Sẵn sàng Giao dịch thật",
+      "description": "Hệ thống môi giới, lưu ký khóa và cổng an toàn. Chỉ giáo dục — không bao giờ là lời khuyên tài chính."
+    },
+    {
+      "id": "scam-defense",
+      "title": "Phòng vệ Lừa đảo",
+      "description": "Nhận diện và từ chối các trò lừa nhắm vào nhà giao dịch mới: guru giả, người bán tín hiệu, lừa đảo và kỹ thuật xã hội."
+    },
+    {
+      "id": "leverage-margin",
+      "title": "Ký quỹ, Đòn bẩy & Bán khống",
+      "description": "Sức mua vay, toán học thanh lý, cơ chế bán khống và vì sao khuếch đại cắt cả hai chiều. Chỉ giáo dục — QuantGlass tự nó là giao ngay, giấy trước."
+    },
+    {
+      "id": "options-foundation",
+      "title": "Nền tảng Quyền chọn",
+      "description": "Mua, bán, phí quyền chọn, suy giảm thời gian và bất đối xứng người mua/người bán — đủ để hiểu quyền chọn và biết vì sao chúng ngoài phạm vi động cơ."
+    },
+    {
+      "id": "fundamentals",
+      "title": "Cơ bản cho Nhà giao dịch",
+      "description": "Lợi nhuận, kinh tế token và chất xúc tác — cơ bản như bối cảnh biến động cho nhà giao dịch kỹ thuật, không phải khóa định giá."
+    },
+    {
+      "id": "macro-intermarket",
+      "title": "Vĩ mô & Liên thị trường",
+      "description": "Lãi suất, đồng đô la, chu kỳ thanh khoản và tương quan chéo tài sản — những con sóng dưới mỗi biểu đồ."
+    },
+    {
+      "id": "microstructure",
+      "title": "Vi cấu trúc Thị trường",
+      "description": "Lệnh thực sự gặp nhau thế nào: đấu giá, maker và taker, dòng lệnh và điều gì đẩy giá từng tick."
+    },
+    {
+      "id": "risk-officer",
+      "title": "Chế độ Quản lý Rủi ro",
+      "description": "Tách nhà giao dịch khỏi bộ phận rủi ro: giới hạn như chính sách, rà soát vi phạm và học thuyết bảo toàn vốn."
+    },
+    {
+      "id": "pro-workflow",
+      "title": "Quy trình Chuyên nghiệp",
+      "description": "Vòng lặp của nhà điều hành: quy trình hằng ngày, đường ống nghiên cứu, báo cáo theo R và sự tổng hợp của nhà giao dịch hoàn chỉnh."
+    }
+  ]
+}
