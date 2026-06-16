@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import {
@@ -31,19 +32,20 @@ import { DecisionDrill } from './missions/DecisionDrill';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
 import type { BackendStatus, MissionRecord, ScenarioDetail, ScenarioSummary } from '../types';
 
-const CATEGORY_META: Record<string, { title: string; order: number }> = {
-  'risk-discipline': { title: 'Risk Discipline', order: 1 },
-  'process-quality': { title: 'Process Quality', order: 2 },
-  'loss-acceptance': { title: 'Loss Acceptance', order: 3 },
-  'tilt-control': { title: 'Tilt Control', order: 4 },
-  journaling: { title: 'Journaling', order: 5 },
-  selectivity: { title: 'Selectivity', order: 6 },
-  'outcome-integrity': { title: 'Outcome Integrity', order: 7 },
-  'replay-mastery': { title: 'Replay Mastery', order: 8 },
-  'academy-scholar': { title: 'Academy Scholar', order: 9 },
-  consistency: { title: 'Consistency', order: 10 },
-  constitution: { title: 'Constitution', order: 11 },
-  capstone: { title: 'Capstones', order: 12 },
+// Order + `missions.categories.<key>` subkey for each mission category.
+const CATEGORY_META: Record<string, { key: string; order: number }> = {
+  'risk-discipline': { key: 'riskDiscipline', order: 1 },
+  'process-quality': { key: 'processQuality', order: 2 },
+  'loss-acceptance': { key: 'lossAcceptance', order: 3 },
+  'tilt-control': { key: 'tiltControl', order: 4 },
+  journaling: { key: 'journaling', order: 5 },
+  selectivity: { key: 'selectivity', order: 6 },
+  'outcome-integrity': { key: 'outcomeIntegrity', order: 7 },
+  'replay-mastery': { key: 'replayMastery', order: 8 },
+  'academy-scholar': { key: 'academyScholar', order: 9 },
+  consistency: { key: 'consistency', order: 10 },
+  constitution: { key: 'constitution', order: 11 },
+  capstone: { key: 'capstone', order: 12 },
 };
 
 const LEVELS = ['novice', 'intermediate', 'advanced', 'expert'] as const;
@@ -55,6 +57,7 @@ function ObjectiveList({
   mission: MissionRecord;
   onRunDrill: (category: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <ul className="mt-3 space-y-1.5">
       {mission.criteria.map((criterion) => (
@@ -76,7 +79,7 @@ function ObjectiveList({
               onClick={() => onRunDrill(criterion.drill as string)}
               className="flex shrink-0 items-center gap-0.5 rounded-full border border-emerald-500/40 px-2 py-0.5 text-[11px] text-emerald-300 transition-colors hover:bg-emerald-600/20"
             >
-              Run drill <ArrowUpRight size={11} />
+              {t('missions.card.runDrill')} <ArrowUpRight size={11} />
             </button>
           ) : !criterion.met && criterion.action ? (
             <Link
@@ -84,7 +87,7 @@ function ObjectiveList({
               title={criterion.action.cta}
               className="flex shrink-0 items-center gap-0.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[11px] text-indigo-300 transition-colors hover:bg-indigo-600/20"
             >
-              Go <ArrowUpRight size={11} />
+              {t('missions.card.go')} <ArrowUpRight size={11} />
             </Link>
           ) : null}
         </li>
@@ -102,6 +105,7 @@ function ActiveMissionCard({
   onAbandon: (id: string) => void;
   onRunDrill: (category: string) => void;
 }) {
+  const { t } = useTranslation();
   const met = mission.criteria.filter((criterion) => criterion.met).length;
   const next = mission.criteria.find((criterion) => !criterion.met);
   return (
@@ -117,7 +121,7 @@ function ActiveMissionCard({
           onClick={() => onAbandon(mission.id)}
           className="ml-auto shrink-0 text-[11px] text-zinc-500 hover:text-zinc-300"
         >
-          Stand down
+          {t('missions.card.standDown')}
         </button>
       </div>
       <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-zinc-800">
@@ -127,11 +131,13 @@ function ActiveMissionCard({
         />
       </div>
       <p className="mt-1 text-[11px] text-zinc-500">
-        {met} / {mission.criteria.length} objectives complete
+        {t('missions.card.objectivesComplete', { met, total: mission.criteria.length })}
       </p>
       {next ? (
         <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/60 bg-zinc-900/50 px-3 py-2">
-          <span className="text-xs uppercase tracking-wider text-indigo-300/80">Next</span>
+          <span className="text-xs uppercase tracking-wider text-indigo-300/80">
+            {t('missions.card.next')}
+          </span>
           <span className="min-w-0 truncate text-sm text-zinc-200">{next.label}</span>
           {next.drill ? (
             <button
@@ -139,7 +145,7 @@ function ActiveMissionCard({
               onClick={() => onRunDrill(next.drill as string)}
               className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-emerald-500/50 px-2.5 py-1 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
             >
-              Run the decision drill <ArrowUpRight size={12} />
+              {t('missions.card.runDecisionDrill')} <ArrowUpRight size={12} />
             </button>
           ) : next.action ? (
             <Link
@@ -166,6 +172,7 @@ function MissionCard({
   onRunDrill: (category: string) => void;
   slotsFull: boolean;
 }) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const met = mission.criteria.filter((criterion) => criterion.met).length;
 
@@ -193,16 +200,16 @@ function MissionCard({
           <p className="font-semibold text-zinc-100">
             {mission.title}
             <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
-              {mission.level}
+              {t(`missions.levels.${mission.level}`, { defaultValue: mission.level })}
             </span>
             {mission.active ? (
               <span className="ml-1.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[10px] text-indigo-300">
-                active
+                {t('missions.card.activeBadge')}
               </span>
             ) : null}
             {mission.source === 'community' ? (
               <span className="ml-1.5 rounded-full border border-sky-500/40 px-2 py-0.5 text-[10px] text-sky-300">
-                community
+                {t('missions.card.communityBadge')}
               </span>
             ) : null}
           </p>
@@ -212,7 +219,7 @@ function MissionCard({
         </div>
         {mission.completed ? (
           <span className="shrink-0 rounded-full border border-emerald-500/40 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
-            Done
+            {t('missions.card.done')}
           </span>
         ) : (
           <span className="shrink-0 text-xs text-zinc-600">
@@ -224,7 +231,7 @@ function MissionCard({
         <div className="px-4 pb-4 pl-11">
           <p className="text-sm text-zinc-400">{mission.description}</p>
           <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Objectives
+            {t('missions.card.objectives')}
           </p>
           <ObjectiveList mission={mission} onRunDrill={onRunDrill} />
           <div className="mt-3 flex items-center gap-3">
@@ -233,15 +240,15 @@ function MissionCard({
                 type="button"
                 disabled={slotsFull}
                 onClick={() => onAccept(mission.id)}
-                title={slotsFull ? 'All active slots are taken — stand down from one first.' : ''}
+                title={slotsFull ? t('missions.card.slotsFull') : ''}
                 className="rounded-lg border border-indigo-500/50 px-4 py-1.5 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Start mission
+                {t('missions.card.startMission')}
               </button>
             ) : null}
             {mission.lesson_links.length ? (
               <p className="text-xs text-zinc-500">
-                Study first:{' '}
+                {t('missions.card.studyFirst')}{' '}
                 {mission.lesson_links.map((lessonId, i) => (
                   <span key={lessonId}>
                     {i > 0 ? ' · ' : ''}
@@ -260,6 +267,7 @@ function MissionCard({
 }
 
 export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [missions, setMissions] = useState<MissionRecord[] | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioSummary[] | null>(null);
   const [activeScenario, setActiveScenario] = useState<ScenarioDetail | null>(null);
@@ -279,12 +287,12 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         setMissions(response.items);
         setMaxActive(response.max_active);
       })
-      .catch(() => setError('Could not load missions. Is the backend running?'));
+      .catch(() => setError(t('missions.loadError')));
     backendClient
       .getScenarios()
       .then((response) => setScenarios(response.items))
       .catch(() => setScenarios([]));
-  }, [backendStatus]);
+  }, [backendStatus, t]);
 
   const refreshMissions = () => {
     void backendClient.getMissions().then((response) => setMissions(response.items));
@@ -361,36 +369,45 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
     <div className="mx-auto max-w-4xl">
       <div className="flex items-center gap-2">
         <Target size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">Missions</h1>
+        <h1 className="text-lg font-semibold text-zinc-100">{t('missions.title')}</h1>
         {missions ? (
           <span className="rounded-full border border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-400">
-            {completedCount} / {missions.length} earned
+            {t('missions.earnedBadge', { completed: completedCount, total: missions.length })}
           </span>
         ) : null}
-        <span className="ml-auto text-xs text-zinc-600">
-          Earned by conduct, not clicks — every criterion reads your real activity.
-        </span>
+        <span className="ml-auto text-xs text-zinc-600">{t('missions.tagline')}</span>
       </div>
 
       {missions ? (
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <MetricTile label="Certifications earned" hero helper={`of ${missions.length} missions`}>
+          <MetricTile
+            label={t('missions.tiles.certificationsEarned')}
+            hero
+            helper={t('missions.tiles.certificationsEarnedHelper', { count: missions.length })}
+          >
             <CountUp value={completedCount} format={(n) => String(Math.round(n))} />
           </MetricTile>
-          <MetricTile label="Completion" toneClass="text-buy" helper="Of the full mission catalog">
+          <MetricTile
+            label={t('missions.tiles.completion')}
+            toneClass="text-buy"
+            helper={t('missions.tiles.completionHelper')}
+          >
             <CountUp
               value={missions.length ? (100 * completedCount) / missions.length : 0}
               format={(n) => `${Math.round(n)}%`}
             />
           </MetricTile>
           <MetricTile
-            label="Active missions"
+            label={t('missions.tiles.activeMissions')}
             toneClass="text-watch"
-            helper={`of ${maxActive} slots`}
+            helper={t('missions.tiles.activeMissionsHelper', { count: maxActive })}
           >
             <CountUp value={activeMissions.length} format={(n) => String(Math.round(n))} />
           </MetricTile>
-          <MetricTile label="Replays passed" helper="Scenario episodes cleared">
+          <MetricTile
+            label={t('missions.tiles.replaysPassed')}
+            helper={t('missions.tiles.replaysPassedHelper')}
+          >
             <CountUp
               value={scenarios?.filter((scenario) => scenario.passed).length ?? 0}
               format={(n) => String(Math.round(n))}
@@ -402,8 +419,8 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <input
           type="search"
-          placeholder="Search missions…"
-          aria-label="Search missions"
+          placeholder={t('missions.searchPlaceholder')}
+          aria-label={t('missions.searchPlaceholder')}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           className="w-56 rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
@@ -413,13 +430,13 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
             key={level}
             type="button"
             onClick={() => setLevelFilter(level)}
-            className={`rounded-full border px-3 py-1 text-xs capitalize transition-colors ${
+            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
               levelFilter === level
                 ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
                 : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
             }`}
           >
-            {level}
+            {t(`missions.levels.${level}`)}
           </button>
         ))}
       </div>
@@ -428,9 +445,9 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         <>
           <h2 className="mt-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-indigo-300">
             <Crosshair size={14} />
-            Active missions
+            {t('missions.activeHeading')}
             <span className="text-xs font-normal normal-case tracking-normal text-zinc-600">
-              {activeMissions.length} / {maxActive} slots
+              {t('missions.slots', { active: activeMissions.length, max: maxActive })}
             </span>
           </h2>
           <div className="mt-3 space-y-3">
@@ -446,13 +463,12 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         </>
       ) : missions ? (
         <p className="mt-6 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/30 p-4 text-sm text-zinc-500">
-          No active missions. Open a category below and start one — active missions pin your next
-          objective and link straight to where you act.
+          {t('missions.noActive')}
         </p>
       ) : null}
 
       <BackendStatusNotice status={backendStatus} />
-      <AiInsight surface="missions" title="Mission coach" />
+      <AiInsight surface="missions" title={t('missions.aiTitle')} />
       {error ? (
         <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
           {error}
@@ -469,7 +485,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       <div className="mt-5 space-y-4">
         {grouped?.length === 0 ? (
           <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
-            No missions match.
+            {t('missions.noMatch')}
           </p>
         ) : null}
         {grouped?.map(([category, categoryMissions]) => {
@@ -489,7 +505,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
                   <ChevronRight size={15} className="text-zinc-500" />
                 )}
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-300">
-                  {meta?.title ?? category.replace(/-/g, ' ')}
+                  {meta ? t(`missions.categories.${meta.key}`) : category.replace(/-/g, ' ')}
                 </h2>
                 <span
                   className={`text-xs ${
@@ -522,12 +538,9 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
         <>
           <h2 className="mt-10 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-400">
             <PlayCircle size={15} className="text-indigo-400" />
-            Replay missions
+            {t('missions.replay.title')}
           </h2>
-          <p className="mt-1 text-xs text-zinc-600">
-            Stylized recreations of real market episodes. Play them bar by bar and make the calls —
-            the debrief grades the decision, not the outcome.
-          </p>
+          <p className="mt-1 text-xs text-zinc-600">{t('missions.replay.description')}</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {scenarios.map((scenario, index) => (
               <FadeIn key={scenario.id} delayMs={Math.min(index, 8) * 50}>
@@ -543,19 +556,22 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
                   <p className="font-semibold text-zinc-100">
                     {scenario.title}
                     <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
-                      {scenario.level}
+                      {t(`missions.levels.${scenario.level}`, { defaultValue: scenario.level })}
                     </span>
                   </p>
                   <p className="mt-1 line-clamp-3 text-sm text-zinc-400">{scenario.description}</p>
                   <p className="mt-3 text-xs text-zinc-500">
-                    {scenario.checkpoints} decisions · pass at {scenario.pass_percent}%
+                    {t('missions.replay.decisions', {
+                      count: scenario.checkpoints,
+                      percent: scenario.pass_percent,
+                    })}
                     {scenario.best_percent !== null ? (
                       <span
                         className={`ml-2 font-semibold ${
                           scenario.passed ? 'text-emerald-300' : 'text-amber-300'
                         }`}
                       >
-                        best {scenario.best_percent}%
+                        {t('missions.replay.best', { percent: scenario.best_percent })}
                       </span>
                     ) : null}
                   </p>
@@ -565,10 +581,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </div>
         </>
       ) : null}
-      <p className="mt-6 text-xs text-zinc-600">
-        Completing missions unlocks Academy levels. Community packs can add more via the extension
-        SDK. Educational use only — not financial advice.
-      </p>
+      <p className="mt-6 text-xs text-zinc-600">{t('missions.footer')}</p>
     </div>
   );
 }

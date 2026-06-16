@@ -333,6 +333,71 @@
       "dangerousSuccess": "Thành công nguy hiểm"
     }
   },
+  "missions": {
+    "title": "Nhiệm vụ",
+    "earnedBadge": "Đã đạt {{completed}} / {{total}}",
+    "tagline": "Đạt được bằng hành vi, không phải bằng nhấp chuột — mỗi tiêu chí đọc hoạt động thực của bạn.",
+    "aiTitle": "Huấn luyện viên nhiệm vụ",
+    "loadError": "Không thể tải nhiệm vụ. Backend có đang chạy không?",
+    "searchPlaceholder": "Tìm nhiệm vụ…",
+    "tiles": {
+      "certificationsEarned": "Chứng nhận đã đạt",
+      "certificationsEarnedHelper": "trên {{count}} nhiệm vụ",
+      "completion": "Hoàn thành",
+      "completionHelper": "Trên toàn bộ danh mục nhiệm vụ",
+      "activeMissions": "Nhiệm vụ đang hoạt động",
+      "activeMissionsHelper": "trên {{count}} chỗ",
+      "replaysPassed": "Phát lại đã đạt",
+      "replaysPassedHelper": "Các tập kịch bản đã hoàn thành"
+    },
+    "levels": {
+      "all": "Tất cả",
+      "novice": "Mới bắt đầu",
+      "intermediate": "Trung cấp",
+      "advanced": "Nâng cao",
+      "expert": "Chuyên gia"
+    },
+    "activeHeading": "Nhiệm vụ đang hoạt động",
+    "slots": "{{active}} / {{max}} chỗ",
+    "noActive": "Không có nhiệm vụ nào đang hoạt động. Mở một danh mục bên dưới và bắt đầu một nhiệm vụ — nhiệm vụ đang hoạt động ghim mục tiêu tiếp theo và liên kết thẳng đến nơi bạn hành động.",
+    "noMatch": "Không có nhiệm vụ nào khớp.",
+    "categories": {
+      "riskDiscipline": "Kỷ luật rủi ro",
+      "processQuality": "Chất lượng quy trình",
+      "lossAcceptance": "Chấp nhận thua lỗ",
+      "tiltControl": "Kiểm soát tilt",
+      "journaling": "Ghi nhật ký",
+      "selectivity": "Tính chọn lọc",
+      "outcomeIntegrity": "Tính trung thực của kết quả",
+      "replayMastery": "Thành thạo phát lại",
+      "academyScholar": "Học giả Academy",
+      "consistency": "Nhất quán",
+      "constitution": "Hiến pháp",
+      "capstone": "Dự án đỉnh cao"
+    },
+    "card": {
+      "activeBadge": "đang hoạt động",
+      "communityBadge": "cộng đồng",
+      "done": "Xong",
+      "objectives": "Mục tiêu",
+      "startMission": "Bắt đầu nhiệm vụ",
+      "slotsFull": "Tất cả chỗ đang hoạt động đã đầy — hãy rút khỏi một cái trước.",
+      "studyFirst": "Học trước:",
+      "standDown": "Rút lui",
+      "objectivesComplete": "Hoàn thành {{met}} / {{total}} mục tiêu",
+      "next": "Tiếp theo",
+      "runDecisionDrill": "Chạy bài tập quyết định",
+      "runDrill": "Chạy bài tập",
+      "go": "Đi"
+    },
+    "replay": {
+      "title": "Nhiệm vụ phát lại",
+      "description": "Tái hiện cách điệu các sự kiện thị trường thực. Chơi từng nến và đưa ra quyết định — bản tổng kết chấm điểm quyết định, không phải kết quả.",
+      "decisions": "{{count}} quyết định · đạt ở {{percent}}%",
+      "best": "tốt nhất {{percent}}%"
+    },
+    "footer": "Hoàn thành nhiệm vụ mở khóa các cấp độ Academy. Gói cộng đồng có thể thêm nhiều hơn qua SDK tiện ích mở rộng. Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính."
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

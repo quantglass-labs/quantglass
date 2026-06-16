@@ -327,6 +327,71 @@
       "dangerousSuccess": "خطرناڪ ڪاميابي"
     }
   },
+  "missions": {
+    "title": "مشن",
+    "earnedBadge": "{{completed}} / {{total}} حاصل ڪيل",
+    "tagline": "ڪلڪن سان نه، عمل سان ڪمايا وڃن ٿا — هر معيار توهان جي اصل سرگرمي پڙهي ٿو.",
+    "aiTitle": "مشن ڪوچ",
+    "loadError": "مشن لوڊ نه ٿي سگهيا. ڇا بئڪ اينڊ هلي رهيو آهي؟",
+    "searchPlaceholder": "مشن ڳوليو…",
+    "tiles": {
+      "certificationsEarned": "حاصل ڪيل سرٽيفڪيشن",
+      "certificationsEarnedHelper": "{{count}} مشنن مان",
+      "completion": "مڪمليت",
+      "completionHelper": "مڪمل مشن ڪيٽلاگ جو",
+      "activeMissions": "فعال مشن",
+      "activeMissionsHelper": "{{count}} سلاٽن مان",
+      "replaysPassed": "ري پلي پاس",
+      "replaysPassedHelper": "مڪمل ٿيل منظرنامي وارا قسط"
+    },
+    "levels": {
+      "all": "سڀ",
+      "novice": "نئون سکندڙ",
+      "intermediate": "وچولو",
+      "advanced": "اعليٰ",
+      "expert": "ماهر"
+    },
+    "activeHeading": "فعال مشن",
+    "slots": "{{active}} / {{max}} سلاٽ",
+    "noActive": "ڪو فعال مشن ناهي. هيٺ ڪو زمرو کوليو ۽ هڪ شروع ڪريو — فعال مشن توهان جو ايندڙ مقصد پن ڪن ٿا ۽ سڌو عمل واري جاءِ سان ڳنڍين ٿا.",
+    "noMatch": "ڪو مشن نٿو ملي.",
+    "categories": {
+      "riskDiscipline": "رسڪ نظم",
+      "processQuality": "پراسيس ڪوالٽي",
+      "lossAcceptance": "نقصان جي قبوليت",
+      "tiltControl": "ٽِلٽ ڪنٽرول",
+      "journaling": "جرنلنگ",
+      "selectivity": "چونڊيندڙ",
+      "outcomeIntegrity": "نتيجن جي سالميت",
+      "replayMastery": "ري پلي مهارت",
+      "academyScholar": "اڪيڊمي اسڪالر",
+      "consistency": "تسلسل",
+      "constitution": "آئين",
+      "capstone": "ڪيپ اسٽون"
+    },
+    "card": {
+      "activeBadge": "فعال",
+      "communityBadge": "ڪميونٽي",
+      "done": "مڪمل",
+      "objectives": "مقصد",
+      "startMission": "مشن شروع ڪريو",
+      "slotsFull": "سڀ فعال سلاٽ ڀريل آهن — پهرين هڪ مان پاسو ڪريو.",
+      "studyFirst": "پهرين مطالعو ڪريو:",
+      "standDown": "پاسو ڪريو",
+      "objectivesComplete": "{{met}} / {{total}} مقصد مڪمل",
+      "next": "اڳيون",
+      "runDecisionDrill": "فيصلي جي ڊرل هلايو",
+      "runDrill": "ڊرل هلايو",
+      "go": "وڃو"
+    },
+    "replay": {
+      "title": "ري پلي مشن",
+      "description": "حقيقي مارڪيٽ قسطن جي اسٽائلائزڊ بحالي. انهن کي ڪينڊل بہ ڪينڊل کيڏو ۽ فيصلا ڪريو — ڊي برِيف فيصلي کي ماپي ٿو، نتيجي کي نه.",
+      "decisions": "{{count}} فيصلا · پاس {{percent}}% تي",
+      "best": "بهترين {{percent}}%"
+    },
+    "footer": "مشن مڪمل ڪرڻ سان اڪيڊمي ليول کلن ٿا. ڪميونٽي پيڪ ايڪسٽينشن SDK ذريعي وڌيڪ شامل ڪري سگهن ٿا. رڳو تعليمي استعمال — مالي صلاح ناهي."
+  },
   "nav": {
     "dashboard": "ڊيش بورڊ",
     "signals": "سگنل",

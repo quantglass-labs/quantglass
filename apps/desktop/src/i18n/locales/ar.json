@@ -327,6 +327,71 @@
       "dangerousSuccess": "نجاح خطير"
     }
   },
+  "missions": {
+    "title": "المهام",
+    "earnedBadge": "{{completed}} / {{total}} مكتسبة",
+    "tagline": "تُكتسب بالسلوك لا بالنقرات — كل معيار يقرأ نشاطك الحقيقي.",
+    "aiTitle": "مدرّب المهام",
+    "loadError": "تعذّر تحميل المهام. هل الخادم قيد التشغيل؟",
+    "searchPlaceholder": "ابحث في المهام…",
+    "tiles": {
+      "certificationsEarned": "الشهادات المكتسبة",
+      "certificationsEarnedHelper": "من {{count}} مهمة",
+      "completion": "الإكمال",
+      "completionHelper": "من كامل فهرس المهام",
+      "activeMissions": "المهام النشطة",
+      "activeMissionsHelper": "من {{count}} خانات",
+      "replaysPassed": "الإعادات المجتازة",
+      "replaysPassedHelper": "حلقات السيناريو المجتازة"
+    },
+    "levels": {
+      "all": "الكل",
+      "novice": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدّم",
+      "expert": "خبير"
+    },
+    "activeHeading": "المهام النشطة",
+    "slots": "{{active}} / {{max}} خانات",
+    "noActive": "لا مهام نشطة. افتح فئة بالأسفل وابدأ واحدة — تثبّت المهام النشطة هدفك التالي وتربطك مباشرةً بمكان التنفيذ.",
+    "noMatch": "لا توجد مهمة مطابقة.",
+    "categories": {
+      "riskDiscipline": "انضباط المخاطرة",
+      "processQuality": "جودة العملية",
+      "lossAcceptance": "تقبّل الخسارة",
+      "tiltControl": "ضبط الانفعال",
+      "journaling": "التدوين",
+      "selectivity": "الانتقائية",
+      "outcomeIntegrity": "نزاهة النتائج",
+      "replayMastery": "إتقان الإعادات",
+      "academyScholar": "باحث الأكاديمية",
+      "consistency": "الاتساق",
+      "constitution": "الدستور",
+      "capstone": "المشاريع الختامية"
+    },
+    "card": {
+      "activeBadge": "نشطة",
+      "communityBadge": "مجتمعية",
+      "done": "تمّ",
+      "objectives": "الأهداف",
+      "startMission": "ابدأ المهمة",
+      "slotsFull": "كل الخانات النشطة مشغولة — انسحب من واحدة أولاً.",
+      "studyFirst": "ادرس أولاً:",
+      "standDown": "انسحاب",
+      "objectivesComplete": "{{met}} / {{total}} أهداف مكتملة",
+      "next": "التالي",
+      "runDecisionDrill": "تشغيل تمرين القرار",
+      "runDrill": "تشغيل التمرين",
+      "go": "اذهب"
+    },
+    "replay": {
+      "title": "مهام الإعادة",
+      "description": "إعادات منمّقة لحلقات سوق حقيقية. العبها شمعة بشمعة واتخذ القرارات — يقيّم الموجز القرار لا النتيجة.",
+      "decisions": "{{count}} قرارات · النجاح عند {{percent}}%",
+      "best": "الأفضل {{percent}}%"
+    },
+    "footer": "إكمال المهام يفتح مستويات الأكاديمية. يمكن لحزم المجتمع إضافة المزيد عبر SDK الإضافات. للاستخدام التعليمي فقط — ليست نصيحة مالية."
+  },
   "nav": {
     "dashboard": "لوحة المعلومات",
     "signals": "الإشارات",

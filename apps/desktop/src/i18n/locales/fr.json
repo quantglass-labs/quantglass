@@ -333,6 +333,71 @@
       "dangerousSuccess": "Succès dangereux"
     }
   },
+  "missions": {
+    "title": "Missions",
+    "earnedBadge": "{{completed}} / {{total}} obtenues",
+    "tagline": "Gagnées par la conduite, pas par les clics — chaque critère lit votre activité réelle.",
+    "aiTitle": "Coach de missions",
+    "loadError": "Impossible de charger les missions. Le backend est-il en cours d'exécution ?",
+    "searchPlaceholder": "Rechercher des missions…",
+    "tiles": {
+      "certificationsEarned": "Certifications obtenues",
+      "certificationsEarnedHelper": "sur {{count}} missions",
+      "completion": "Achèvement",
+      "completionHelper": "Du catalogue complet de missions",
+      "activeMissions": "Missions actives",
+      "activeMissionsHelper": "sur {{count}} emplacements",
+      "replaysPassed": "Rejouages réussis",
+      "replaysPassedHelper": "Épisodes de scénario réussis"
+    },
+    "levels": {
+      "all": "Tous",
+      "novice": "Novice",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "expert": "Expert"
+    },
+    "activeHeading": "Missions actives",
+    "slots": "{{active}} / {{max}} emplacements",
+    "noActive": "Aucune mission active. Ouvrez une catégorie ci-dessous et lancez-en une — les missions actives épinglent votre prochain objectif et renvoient directement là où vous agissez.",
+    "noMatch": "Aucune mission ne correspond.",
+    "categories": {
+      "riskDiscipline": "Discipline du risque",
+      "processQuality": "Qualité du processus",
+      "lossAcceptance": "Acceptation des pertes",
+      "tiltControl": "Contrôle du tilt",
+      "journaling": "Journalisation",
+      "selectivity": "Sélectivité",
+      "outcomeIntegrity": "Intégrité des résultats",
+      "replayMastery": "Maîtrise des rejouages",
+      "academyScholar": "Érudit de l'Académie",
+      "consistency": "Constance",
+      "constitution": "Constitution",
+      "capstone": "Projets finaux"
+    },
+    "card": {
+      "activeBadge": "active",
+      "communityBadge": "communauté",
+      "done": "Terminé",
+      "objectives": "Objectifs",
+      "startMission": "Démarrer la mission",
+      "slotsFull": "Tous les emplacements actifs sont pris — abandonnez-en un d'abord.",
+      "studyFirst": "Étudiez d'abord :",
+      "standDown": "Abandonner",
+      "objectivesComplete": "{{met}} / {{total}} objectifs accomplis",
+      "next": "Suivant",
+      "runDecisionDrill": "Lancer l'exercice de décision",
+      "runDrill": "Lancer l'exercice",
+      "go": "Aller"
+    },
+    "replay": {
+      "title": "Missions de rejouage",
+      "description": "Recréations stylisées d'épisodes de marché réels. Jouez-les bougie par bougie et prenez les décisions — le débriefing note la décision, pas le résultat.",
+      "decisions": "{{count}} décisions · réussite à {{percent}}%",
+      "best": "meilleur {{percent}}%"
+    },
+    "footer": "Compléter des missions débloque des niveaux de l'Académie. Les packs communautaires peuvent en ajouter via le SDK d'extensions. Usage éducatif uniquement — pas un conseil financier."
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

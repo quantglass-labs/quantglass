@@ -333,6 +333,71 @@
       "dangerousSuccess": "Successo pericoloso"
     }
   },
+  "missions": {
+    "title": "Missioni",
+    "earnedBadge": "{{completed}} / {{total}} ottenute",
+    "tagline": "Guadagnate con la condotta, non con i clic — ogni criterio legge la tua attività reale.",
+    "aiTitle": "Coach delle missioni",
+    "loadError": "Impossibile caricare le missioni. Il backend è in esecuzione?",
+    "searchPlaceholder": "Cerca missioni…",
+    "tiles": {
+      "certificationsEarned": "Certificazioni ottenute",
+      "certificationsEarnedHelper": "su {{count}} missioni",
+      "completion": "Completamento",
+      "completionHelper": "Dell'intero catalogo di missioni",
+      "activeMissions": "Missioni attive",
+      "activeMissionsHelper": "su {{count}} slot",
+      "replaysPassed": "Replay superati",
+      "replaysPassedHelper": "Episodi di scenario superati"
+    },
+    "levels": {
+      "all": "Tutti",
+      "novice": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzato",
+      "expert": "Esperto"
+    },
+    "activeHeading": "Missioni attive",
+    "slots": "{{active}} / {{max}} slot",
+    "noActive": "Nessuna missione attiva. Apri una categoria qui sotto e avviane una — le missioni attive fissano il tuo prossimo obiettivo e rimandano direttamente al punto di azione.",
+    "noMatch": "Nessuna missione corrisponde.",
+    "categories": {
+      "riskDiscipline": "Disciplina del rischio",
+      "processQuality": "Qualità del processo",
+      "lossAcceptance": "Accettazione delle perdite",
+      "tiltControl": "Controllo del tilt",
+      "journaling": "Diario",
+      "selectivity": "Selettività",
+      "outcomeIntegrity": "Integrità dei risultati",
+      "replayMastery": "Maestria nei replay",
+      "academyScholar": "Studioso dell'Accademia",
+      "consistency": "Coerenza",
+      "constitution": "Costituzione",
+      "capstone": "Progetti finali"
+    },
+    "card": {
+      "activeBadge": "attiva",
+      "communityBadge": "comunità",
+      "done": "Fatto",
+      "objectives": "Obiettivi",
+      "startMission": "Avvia missione",
+      "slotsFull": "Tutti gli slot attivi sono occupati — abbandonane uno prima.",
+      "studyFirst": "Studia prima:",
+      "standDown": "Abbandona",
+      "objectivesComplete": "{{met}} / {{total}} obiettivi completati",
+      "next": "Successivo",
+      "runDecisionDrill": "Esegui l'esercizio decisionale",
+      "runDrill": "Esegui esercizio",
+      "go": "Vai"
+    },
+    "replay": {
+      "title": "Missioni replay",
+      "description": "Ricreazioni stilizzate di episodi di mercato reali. Giocale candela per candela e prendi le decisioni — il debrief valuta la decisione, non il risultato.",
+      "decisions": "{{count}} decisioni · superamento al {{percent}}%",
+      "best": "migliore {{percent}}%"
+    },
+    "footer": "Completare le missioni sblocca i livelli dell'Accademia. I pacchetti della community possono aggiungerne altri tramite l'SDK delle estensioni. Solo uso educativo — non è una consulenza finanziaria."
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

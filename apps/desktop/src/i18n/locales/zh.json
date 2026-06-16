@@ -327,6 +327,71 @@
       "dangerousSuccess": "危险的成功"
     }
   },
+  "missions": {
+    "title": "任务",
+    "earnedBadge": "已获得 {{completed}} / {{total}}",
+    "tagline": "凭行为而非点击获得——每条标准都读取你的真实活动。",
+    "aiTitle": "任务教练",
+    "loadError": "无法加载任务。后端是否在运行？",
+    "searchPlaceholder": "搜索任务…",
+    "tiles": {
+      "certificationsEarned": "已获认证",
+      "certificationsEarnedHelper": "共 {{count}} 个任务",
+      "completion": "完成度",
+      "completionHelper": "占完整任务目录",
+      "activeMissions": "进行中任务",
+      "activeMissionsHelper": "共 {{count}} 个名额",
+      "replaysPassed": "回放通过",
+      "replaysPassedHelper": "已通过的情景剧集"
+    },
+    "levels": {
+      "all": "全部",
+      "novice": "新手",
+      "intermediate": "中级",
+      "advanced": "高级",
+      "expert": "专家"
+    },
+    "activeHeading": "进行中任务",
+    "slots": "{{active}} / {{max}} 名额",
+    "noActive": "没有进行中的任务。打开下方某个类别并开始一个——进行中任务会固定你的下一个目标，并直接链接到操作处。",
+    "noMatch": "没有匹配的任务。",
+    "categories": {
+      "riskDiscipline": "风险纪律",
+      "processQuality": "过程质量",
+      "lossAcceptance": "接受亏损",
+      "tiltControl": "情绪控制",
+      "journaling": "写日志",
+      "selectivity": "选择性",
+      "outcomeIntegrity": "结果诚信",
+      "replayMastery": "回放精通",
+      "academyScholar": "学院学者",
+      "consistency": "一致性",
+      "constitution": "宪章",
+      "capstone": "顶点项目"
+    },
+    "card": {
+      "activeBadge": "进行中",
+      "communityBadge": "社区",
+      "done": "完成",
+      "objectives": "目标",
+      "startMission": "开始任务",
+      "slotsFull": "所有进行中名额已满——请先放弃一个。",
+      "studyFirst": "先学习：",
+      "standDown": "放弃",
+      "objectivesComplete": "已完成 {{met}} / {{total}} 个目标",
+      "next": "下一个",
+      "runDecisionDrill": "运行决策演练",
+      "runDrill": "运行演练",
+      "go": "前往"
+    },
+    "replay": {
+      "title": "回放任务",
+      "description": "对真实市场情景的风格化再现。逐根K线进行并作出决策——复盘评判决策，而非结果。",
+      "decisions": "{{count}} 个决策 · 通过线 {{percent}}%",
+      "best": "最佳 {{percent}}%"
+    },
+    "footer": "完成任务可解锁学院等级。社区扩展包可通过扩展 SDK 添加更多。仅供教育用途——并非投资建议。"
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

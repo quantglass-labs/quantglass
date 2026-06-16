@@ -333,6 +333,71 @@
       "dangerousSuccess": "Tehlikeli başarı"
     }
   },
+  "missions": {
+    "title": "Görevler",
+    "earnedBadge": "{{completed}} / {{total}} kazanıldı",
+    "tagline": "Tıklamayla değil davranışla kazanılır — her ölçüt gerçek etkinliğinizi okur.",
+    "aiTitle": "Görev koçu",
+    "loadError": "Görevler yüklenemedi. Arka uç çalışıyor mu?",
+    "searchPlaceholder": "Görev ara…",
+    "tiles": {
+      "certificationsEarned": "Kazanılan sertifikalar",
+      "certificationsEarnedHelper": "{{count}} görevden",
+      "completion": "Tamamlama",
+      "completionHelper": "Tüm görev kataloğundan",
+      "activeMissions": "Etkin görevler",
+      "activeMissionsHelper": "{{count}} yuvadan",
+      "replaysPassed": "Tekrarlar geçildi",
+      "replaysPassedHelper": "Tamamlanan senaryo bölümleri"
+    },
+    "levels": {
+      "all": "Tümü",
+      "novice": "Acemi",
+      "intermediate": "Orta",
+      "advanced": "İleri",
+      "expert": "Uzman"
+    },
+    "activeHeading": "Etkin görevler",
+    "slots": "{{active}} / {{max}} yuva",
+    "noActive": "Etkin görev yok. Aşağıdan bir kategori açın ve bir tane başlatın — etkin görevler sonraki hedefinizi sabitler ve doğrudan harekete geçtiğiniz yere bağlanır.",
+    "noMatch": "Eşleşen görev yok.",
+    "categories": {
+      "riskDiscipline": "Risk disiplini",
+      "processQuality": "Süreç kalitesi",
+      "lossAcceptance": "Kayıp kabulü",
+      "tiltControl": "Tilt kontrolü",
+      "journaling": "Günlük tutma",
+      "selectivity": "Seçicilik",
+      "outcomeIntegrity": "Sonuç bütünlüğü",
+      "replayMastery": "Tekrar ustalığı",
+      "academyScholar": "Akademi bilgini",
+      "consistency": "Tutarlılık",
+      "constitution": "Anayasa",
+      "capstone": "Bitirme projeleri"
+    },
+    "card": {
+      "activeBadge": "etkin",
+      "communityBadge": "topluluk",
+      "done": "Bitti",
+      "objectives": "Hedefler",
+      "startMission": "Görevi başlat",
+      "slotsFull": "Tüm etkin yuvalar dolu — önce birinden çekilin.",
+      "studyFirst": "Önce çalışın:",
+      "standDown": "Çekil",
+      "objectivesComplete": "{{met}} / {{total}} hedef tamamlandı",
+      "next": "Sonraki",
+      "runDecisionDrill": "Karar alıştırmasını çalıştır",
+      "runDrill": "Alıştırmayı çalıştır",
+      "go": "Git"
+    },
+    "replay": {
+      "title": "Tekrar görevleri",
+      "description": "Gerçek piyasa olaylarının stilize yeniden canlandırmaları. Onları mum mum oynayın ve kararları verin — değerlendirme sonucu değil kararı puanlar.",
+      "decisions": "{{count}} karar · geçme {{percent}}%",
+      "best": "en iyi {{percent}}%"
+    },
+    "footer": "Görevleri tamamlamak Akademi seviyelerini açar. Topluluk paketleri eklenti SDK'sı ile daha fazlasını ekleyebilir. Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir."
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

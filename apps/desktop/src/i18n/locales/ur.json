@@ -327,6 +327,71 @@
       "dangerousSuccess": "خطرناک کامیابی"
     }
   },
+  "missions": {
+    "title": "مشنز",
+    "earnedBadge": "{{completed}} / {{total}} حاصل کیے",
+    "tagline": "کلکس سے نہیں، عمل سے کمائے جاتے ہیں — ہر معیار آپ کی اصل سرگرمی پڑھتا ہے۔",
+    "aiTitle": "مشن کوچ",
+    "loadError": "مشنز لوڈ نہیں ہو سکے۔ کیا بیک اینڈ چل رہا ہے؟",
+    "searchPlaceholder": "مشنز تلاش کریں…",
+    "tiles": {
+      "certificationsEarned": "حاصل کردہ سرٹیفکیشنز",
+      "certificationsEarnedHelper": "{{count}} مشنز میں سے",
+      "completion": "تکمیل",
+      "completionHelper": "مکمل مشن کیٹلاگ کا",
+      "activeMissions": "فعال مشنز",
+      "activeMissionsHelper": "{{count}} سلاٹس میں سے",
+      "replaysPassed": "ری پلے پاس",
+      "replaysPassedHelper": "منظر نامہ ایپیسوڈز مکمل"
+    },
+    "levels": {
+      "all": "سب",
+      "novice": "ابتدائی",
+      "intermediate": "درمیانی",
+      "advanced": "اعلیٰ",
+      "expert": "ماہر"
+    },
+    "activeHeading": "فعال مشنز",
+    "slots": "{{active}} / {{max}} سلاٹس",
+    "noActive": "کوئی فعال مشن نہیں۔ نیچے کوئی زمرہ کھولیں اور ایک شروع کریں — فعال مشنز آپ کا اگلا مقصد پن کرتے ہیں اور سیدھا عمل کی جگہ سے جوڑتے ہیں۔",
+    "noMatch": "کوئی مشن مماثل نہیں۔",
+    "categories": {
+      "riskDiscipline": "رسک نظم",
+      "processQuality": "پراسیس کوالٹی",
+      "lossAcceptance": "نقصان کی قبولیت",
+      "tiltControl": "ٹِلٹ کنٹرول",
+      "journaling": "جرنلنگ",
+      "selectivity": "انتخابیت",
+      "outcomeIntegrity": "نتائج کی سالمیت",
+      "replayMastery": "ری پلے مہارت",
+      "academyScholar": "اکیڈمی اسکالر",
+      "consistency": "تسلسل",
+      "constitution": "آئین",
+      "capstone": "کیپ اسٹون"
+    },
+    "card": {
+      "activeBadge": "فعال",
+      "communityBadge": "کمیونٹی",
+      "done": "مکمل",
+      "objectives": "مقاصد",
+      "startMission": "مشن شروع کریں",
+      "slotsFull": "تمام فعال سلاٹس بھرے ہیں — پہلے ایک سے دستبردار ہوں۔",
+      "studyFirst": "پہلے مطالعہ کریں:",
+      "standDown": "دستبردار",
+      "objectivesComplete": "{{met}} / {{total}} مقاصد مکمل",
+      "next": "اگلا",
+      "runDecisionDrill": "فیصلہ ڈرل چلائیں",
+      "runDrill": "ڈرل چلائیں",
+      "go": "جائیں"
+    },
+    "replay": {
+      "title": "ری پلے مشنز",
+      "description": "حقیقی مارکیٹ ایپیسوڈز کی اسٹائلائزڈ تخلیقِ نو۔ انہیں کینڈل بہ کینڈل کھیلیں اور فیصلے کریں — ڈی بریف فیصلے کی درجہ بندی کرتا ہے، نتیجے کی نہیں۔",
+      "decisions": "{{count}} فیصلے · پاس {{percent}}% پر",
+      "best": "بہترین {{percent}}%"
+    },
+    "footer": "مشنز مکمل کرنے سے اکیڈمی لیولز کھلتے ہیں۔ کمیونٹی پیکس ایکسٹینشن SDK کے ذریعے مزید شامل کر سکتے ہیں۔ صرف تعلیمی استعمال — مالی مشورہ نہیں۔"
+  },
   "nav": {
     "dashboard": "ڈیش بورڈ",
     "signals": "سگنلز",
