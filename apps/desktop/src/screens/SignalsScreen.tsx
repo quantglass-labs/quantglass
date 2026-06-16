@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
 import {
@@ -28,12 +29,13 @@ import type {
 import { backendClient } from '../lib/backend';
 import type { ContextSignal, RiskSignal } from '../types';
 
-const FAMILY_LABELS: Record<string, string> = {
-  technical: 'Technical',
-  'market-structure': 'Structure',
-  volatility: 'Volatility',
-  regime: 'Regime',
-  'portfolio-risk': 'Risk',
+// Maps a signal family id to its translation subkey under `signals.families`.
+const FAMILY_KEYS: Record<string, string> = {
+  technical: 'technical',
+  'market-structure': 'structure',
+  volatility: 'volatility',
+  regime: 'regime',
+  'portfolio-risk': 'risk',
 };
 
 export function SignalsScreen({
@@ -55,6 +57,7 @@ export function SignalsScreen({
   onOpenSignal: (signalId: string) => void;
   onOpenPaperTrade: (signalId: string) => void;
 }) {
+  const { t } = useTranslation();
   const [signalType, setSignalType] = useState<'all' | SignalType>('all');
   const [minConfidence, setMinConfidence] = useState(0);
   const [timeframe, setTimeframe] = useState<'all' | Timeframe>('all');
@@ -134,37 +137,47 @@ export function SignalsScreen({
   return (
     <div className="space-y-6">
       <SectionHeading
-        eyebrow="Signals"
-        title="Filterable signal inventory"
-        description="Current and historical signals with setup type, expectancy, status, and direct routing to the symbol detail screen or signal drawer. Signal records are generated from stored market corridor candles on the backend."
+        eyebrow={t('signals.eyebrow')}
+        title={t('signals.title')}
+        description={t('signals.description')}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <MetricTile
-          label="Signals shown"
+          label={t('signals.tiles.shown')}
           hero
           toneClass={rows.length > 0 ? 'text-accent' : 'text-muted'}
-          helper="Matching the current filters"
+          helper={t('signals.tiles.shownHelper')}
         >
           <CountUp value={rows.length} format={(n) => String(Math.round(n))} />
         </MetricTile>
-        <MetricTile label="Buy zones" toneClass="text-buy" helper="Actionable long setups">
+        <MetricTile
+          label={t('signals.tiles.buyZones')}
+          toneClass="text-buy"
+          helper={t('signals.tiles.buyZonesHelper')}
+        >
           <CountUp value={buyZones} format={(n) => String(Math.round(n))} />
         </MetricTile>
-        <MetricTile label="Avg confidence" helper="Across the shown signals">
+        <MetricTile
+          label={t('signals.tiles.avgConfidence')}
+          helper={t('signals.tiles.avgConfidenceHelper')}
+        >
           <CountUp value={avgConfidence} format={(n) => `${Math.round(n)}%`} />
         </MetricTile>
-        <MetricTile label="Active" toneClass="text-watch" helper="Live, closed-candle only">
+        <MetricTile
+          label={t('signals.tiles.active')}
+          toneClass="text-watch"
+          helper={t('signals.tiles.activeHelper')}
+        >
           <CountUp value={activeShown} format={(n) => String(Math.round(n))} />
         </MetricTile>
       </div>
 
       {signalsError ? (
         <div className="rounded-2xl border border-sell/40 bg-sell/10 p-4">
-          <p className="text-sm font-semibold text-ink">Signal feed error</p>
+          <p className="text-sm font-semibold text-ink">{t('signals.feedError')}</p>
           <p className="mt-1 text-sm text-muted">
-            {signalsError} The list below may be stale or empty because the backend is failing, not
-            because there are no signals.
+            {signalsError} {t('signals.feedErrorDetail')}
           </p>
         </div>
       ) : null}
@@ -183,7 +196,7 @@ export function SignalsScreen({
               <p className="text-sm font-semibold text-ink">
                 {risk.display_name}
                 <span className="ml-2 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
-                  risk
+                  {t('signals.riskBadge')}
                 </span>
               </p>
               <p className="mt-1 text-sm text-muted">{risk.message}</p>
@@ -208,7 +221,7 @@ export function SignalsScreen({
       ) : null}
 
       <div className="flex flex-wrap items-center gap-2">
-        {['all', ...Object.keys(FAMILY_LABELS)].map((family) => (
+        {['all', ...Object.keys(FAMILY_KEYS)].map((family) => (
           <button
             key={family}
             type="button"
@@ -219,13 +232,14 @@ export function SignalsScreen({
                 : 'border-border text-muted hover:text-ink'
             }`}
           >
-            {family === 'all' ? 'All families' : FAMILY_LABELS[family]}
+            {family === 'all'
+              ? t('signals.families.all')
+              : t(`signals.families.${FAMILY_KEYS[family]}`)}
           </button>
         ))}
         {lockedCount > 0 ? (
           <span className="ml-auto text-xs text-muted">
-            {lockedCount} expert-layer signal{lockedCount === 1 ? '' : 's'} locked — unlocks with
-            Academy expert readiness
+            {t('signals.lockedNotice', { count: lockedCount })}
           </span>
         ) : null}
       </div>
@@ -234,24 +248,24 @@ export function SignalsScreen({
         <div className="grid gap-3 lg:grid-cols-[repeat(4,minmax(0,1fr)),auto]">
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-              Signal type
+              {t('signals.filters.signalType')}
             </span>
             <select
               className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
               value={signalType}
               onChange={(event) => setSignalType(event.target.value as typeof signalType)}
             >
-              <option value="all">All</option>
-              <option value="BUY_ZONE">Buy zone</option>
-              <option value="SELL">Sell</option>
-              <option value="HOLD">Hold</option>
-              <option value="WAIT">Wait</option>
-              <option value="WATCH">Watch</option>
+              <option value="all">{t('signals.filters.all')}</option>
+              <option value="BUY_ZONE">{t('signals.filters.buyZone')}</option>
+              <option value="SELL">{t('signals.filters.sell')}</option>
+              <option value="HOLD">{t('signals.filters.hold')}</option>
+              <option value="WAIT">{t('signals.filters.wait')}</option>
+              <option value="WATCH">{t('signals.filters.watch')}</option>
             </select>
           </label>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-              Min confidence
+              {t('signals.filters.minConfidence')}
             </span>
             <select
               className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -266,14 +280,14 @@ export function SignalsScreen({
           </label>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-              Timeframe
+              {t('signals.filters.timeframe')}
             </span>
             <select
               className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
               value={timeframe}
               onChange={(event) => setTimeframe(event.target.value as typeof timeframe)}
             >
-              <option value="all">All</option>
+              <option value="all">{t('signals.filters.all')}</option>
               <option value="15m">15m</option>
               <option value="1h">1h</option>
               <option value="4h">4h</option>
@@ -282,14 +296,14 @@ export function SignalsScreen({
           </label>
           <label className="space-y-2 text-sm text-muted">
             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-              Status scope
+              {t('signals.filters.statusScope')}
             </span>
             <button
               type="button"
               className={`w-full rounded-2xl border px-4 py-3 text-left ${activeOnly ? 'border-accent bg-accentStrong/15 text-ink' : 'border-border bg-white/[0.04] text-muted'}`}
               onClick={() => setActiveOnly((current) => !current)}
             >
-              {activeOnly ? 'Active only' : 'All statuses'}
+              {activeOnly ? t('signals.filters.activeOnly') : t('signals.filters.allStatuses')}
             </button>
           </label>
           <div className="flex items-end">
@@ -303,7 +317,7 @@ export function SignalsScreen({
                 setActiveOnly(false);
               }}
             >
-              Reset filters
+              {t('signals.filters.reset')}
             </Button>
           </div>
         </div>
@@ -316,14 +330,14 @@ export function SignalsScreen({
           loading={<LoadingSkeleton rows={6} />}
           empty={
             <EmptyState
-              title="No signals match the current filter"
-              description="Try broadening the market, status, or confidence filters to repopulate the backend-generated table."
+              title={t('signals.emptyTitle')}
+              description={t('signals.emptyDescription')}
             />
           }
           error={
             <ErrorState
-              title="Signals table unavailable"
-              description="The backend signal inventory could not be loaded."
+              title={t('signals.errorTitle')}
+              description={t('signals.errorDescription')}
               onRetry={retryMockView}
             />
           }
@@ -332,16 +346,16 @@ export function SignalsScreen({
               <table className="min-w-full border-separate border-spacing-y-3 text-left">
                 <thead>
                   <tr className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                    <th className="px-4">Symbol</th>
-                    <th className="px-4">Signal</th>
-                    <th className="px-4">Confidence</th>
-                    <th className="px-4">R:R</th>
-                    <th className="px-4">Setup type</th>
-                    <th className="px-4">Backtested win-rate</th>
-                    <th className="px-4">Status</th>
-                    <th className="px-4">Freshness</th>
-                    <th className="px-4">Generated</th>
-                    <th className="px-4">Actions</th>
+                    <th className="px-4">{t('signals.table.symbol')}</th>
+                    <th className="px-4">{t('signals.table.signal')}</th>
+                    <th className="px-4">{t('signals.table.confidence')}</th>
+                    <th className="px-4">{t('signals.table.rr')}</th>
+                    <th className="px-4">{t('signals.table.setupType')}</th>
+                    <th className="px-4">{t('signals.table.winRate')}</th>
+                    <th className="px-4">{t('signals.table.status')}</th>
+                    <th className="px-4">{t('signals.table.freshness')}</th>
+                    <th className="px-4">{t('signals.table.generated')}</th>
+                    <th className="px-4">{t('signals.table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -383,9 +397,11 @@ export function SignalsScreen({
                               record.signal.confidence_basis.setup_type}
                           </p>
                           <p className="text-xs">
-                            {FAMILY_LABELS[record.signal.family ?? ''] ?? record.signal.family}
+                            {FAMILY_KEYS[record.signal.family ?? '']
+                              ? t(`signals.families.${FAMILY_KEYS[record.signal.family ?? '']}`)
+                              : record.signal.family}
                             {record.signal.quality !== undefined
-                              ? ` · quality ${record.signal.quality}`
+                              ? ` · ${t('signals.table.quality', { value: record.signal.quality })}`
                               : ''}
                           </p>
                         </td>
@@ -411,20 +427,20 @@ export function SignalsScreen({
                               className="px-3 py-2 text-xs"
                               onClick={() => onOpenSymbol(record.symbolId)}
                             >
-                              Symbol
+                              {t('signals.actions.symbol')}
                             </Button>
                             <Button
                               variant="ghost"
                               className="px-3 py-2 text-xs"
                               onClick={() => onOpenSignal(record.id)}
                             >
-                              Detail drawer
+                              {t('signals.actions.detailDrawer')}
                             </Button>
                             <Button
                               className="px-3 py-2 text-xs"
                               onClick={() => onOpenPaperTrade(record.id)}
                             >
-                              Paper trade
+                              {t('signals.actions.paperTrade')}
                             </Button>
                           </div>
                         </td>
@@ -440,9 +456,9 @@ export function SignalsScreen({
 
       <Panel>
         <SectionHeading
-          eyebrow="Canonical signal shape"
-          title="Schema summary"
-          description="The table above derives from the same field-for-field canonical signal object shown in the signal detail drawer."
+          eyebrow={t('signals.schema.eyebrow')}
+          title={t('signals.schema.title')}
+          description={t('signals.schema.description')}
         />
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           {signals.slice(0, 3).map((record, index) => (
@@ -450,11 +466,11 @@ export function SignalsScreen({
               <div className="rounded-2xl border border-border bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-md shadow-black/15">
                 <p className="font-medium text-ink">{record.signal.symbol}</p>
                 <p className="mt-2 text-sm text-muted">
-                  Entry zone{' '}
+                  {t('signals.schema.entryZone')}{' '}
                   {record.signal.entry_zone.map((level) => formatCurrency(level)).join(' - ')}
                 </p>
                 <p className="mt-1 text-sm text-muted">
-                  Fees/slippage {record.signal.fees_slippage_assumed}
+                  {t('signals.schema.feesSlippage')} {record.signal.fees_slippage_assumed}
                 </p>
               </div>
             </FadeIn>

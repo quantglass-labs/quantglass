@@ -50,6 +50,77 @@
       "footer": "エンジン自身の読み取り（レジーム・シグナル・リスク）から記述。助言ではありません。"
     }
   },
+  "signals": {
+    "eyebrow": "シグナル",
+    "title": "フィルター可能なシグナル一覧",
+    "description": "現在および過去のシグナルを、セットアップ種別・期待値・ステータスとともに表示し、銘柄詳細画面やシグナルドロワーへ直接遷移できます。シグナルレコードはバックエンドに保存された市場コリドーの足から生成されます。",
+    "tiles": {
+      "shown": "表示中のシグナル",
+      "shownHelper": "現在のフィルターに一致",
+      "buyZones": "買いゾーン",
+      "buyZonesHelper": "実行可能なロングセットアップ",
+      "avgConfidence": "平均信頼度",
+      "avgConfidenceHelper": "表示中のシグナル全体",
+      "active": "アクティブ",
+      "activeHelper": "ライブ、確定足のみ"
+    },
+    "feedError": "シグナルフィードのエラー",
+    "feedErrorDetail": "下のリストは古いか空の可能性があります。これはシグナルが無いためではなく、バックエンドが失敗しているためです。",
+    "riskBadge": "リスク",
+    "lockedNotice": "エキスパート層シグナルがロック中：{{count}} — アカデミーのエキスパート到達で解除",
+    "families": {
+      "all": "すべてのファミリー",
+      "technical": "テクニカル",
+      "structure": "構造",
+      "volatility": "ボラティリティ",
+      "regime": "レジーム",
+      "risk": "リスク"
+    },
+    "filters": {
+      "signalType": "シグナル種別",
+      "minConfidence": "最小信頼度",
+      "timeframe": "時間軸",
+      "statusScope": "ステータス範囲",
+      "reset": "フィルターをリセット",
+      "all": "すべて",
+      "buyZone": "買いゾーン",
+      "sell": "売り",
+      "hold": "ホールド",
+      "wait": "待機",
+      "watch": "監視",
+      "activeOnly": "アクティブのみ",
+      "allStatuses": "すべてのステータス"
+    },
+    "table": {
+      "symbol": "銘柄",
+      "signal": "シグナル",
+      "confidence": "信頼度",
+      "rr": "R:R",
+      "setupType": "セットアップ種別",
+      "winRate": "バックテスト勝率",
+      "status": "ステータス",
+      "freshness": "鮮度",
+      "generated": "生成",
+      "actions": "操作",
+      "quality": "品質 {{value}}"
+    },
+    "actions": {
+      "symbol": "銘柄",
+      "detailDrawer": "詳細ドロワー",
+      "paperTrade": "ペーパートレード"
+    },
+    "emptyTitle": "現在のフィルターに一致するシグナルはありません",
+    "emptyDescription": "市場・ステータス・信頼度のフィルターを広げて、バックエンド生成のテーブルを再表示してください。",
+    "errorTitle": "シグナルテーブルを利用できません",
+    "errorDescription": "バックエンドのシグナル一覧を読み込めませんでした。",
+    "schema": {
+      "eyebrow": "シグナルの正規形",
+      "title": "スキーマ概要",
+      "description": "上の表は、シグナル詳細ドロワーに表示されるのと同じ正規シグナルオブジェクトからフィールドごとに導出されます。",
+      "entryZone": "エントリーゾーン",
+      "feesSlippage": "手数料/スリッページ"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

@@ -50,6 +50,77 @@
       "footer": "Rédigé à partir des propres lectures du moteur — régimes, signaux, risque. Jamais un conseil."
     }
   },
+  "signals": {
+    "eyebrow": "Signaux",
+    "title": "Inventaire de signaux filtrable",
+    "description": "Signaux actuels et historiques avec type de configuration, espérance, statut et routage direct vers l'écran de détail du symbole ou le panneau de signaux. Les enregistrements de signaux sont générés à partir des bougies du corridor de marché stockées sur le backend.",
+    "tiles": {
+      "shown": "Signaux affichés",
+      "shownHelper": "Correspondant aux filtres actuels",
+      "buyZones": "Zones d'achat",
+      "buyZonesHelper": "Configurations longues exploitables",
+      "avgConfidence": "Confiance moyenne",
+      "avgConfidenceHelper": "Sur les signaux affichés",
+      "active": "Actifs",
+      "activeHelper": "En direct, bougies clôturées uniquement"
+    },
+    "feedError": "Erreur du flux de signaux",
+    "feedErrorDetail": "La liste ci-dessous peut être obsolète ou vide parce que le backend échoue, et non parce qu'il n'y a pas de signaux.",
+    "riskBadge": "risque",
+    "lockedNotice": "Signaux de couche experte verrouillés : {{count}} — débloqués avec la maîtrise experte de l'Académie",
+    "families": {
+      "all": "Toutes les familles",
+      "technical": "Technique",
+      "structure": "Structure",
+      "volatility": "Volatilité",
+      "regime": "Régime",
+      "risk": "Risque"
+    },
+    "filters": {
+      "signalType": "Type de signal",
+      "minConfidence": "Confiance min.",
+      "timeframe": "Unité de temps",
+      "statusScope": "Portée du statut",
+      "reset": "Réinitialiser les filtres",
+      "all": "Tous",
+      "buyZone": "Zone d'achat",
+      "sell": "Vente",
+      "hold": "Conserver",
+      "wait": "Attendre",
+      "watch": "Surveiller",
+      "activeOnly": "Actifs uniquement",
+      "allStatuses": "Tous les statuts"
+    },
+    "table": {
+      "symbol": "Symbole",
+      "signal": "Signal",
+      "confidence": "Confiance",
+      "rr": "R:R",
+      "setupType": "Type de configuration",
+      "winRate": "Taux de réussite (backtest)",
+      "status": "Statut",
+      "freshness": "Fraîcheur",
+      "generated": "Généré",
+      "actions": "Actions",
+      "quality": "qualité {{value}}"
+    },
+    "actions": {
+      "symbol": "Symbole",
+      "detailDrawer": "Panneau de détail",
+      "paperTrade": "Trade papier"
+    },
+    "emptyTitle": "Aucun signal ne correspond au filtre actuel",
+    "emptyDescription": "Essayez d'élargir les filtres de marché, de statut ou de confiance pour repeupler la table générée par le backend.",
+    "errorTitle": "Table des signaux indisponible",
+    "errorDescription": "L'inventaire de signaux du backend n'a pas pu être chargé.",
+    "schema": {
+      "eyebrow": "Forme canonique du signal",
+      "title": "Résumé du schéma",
+      "description": "La table ci-dessus dérive du même objet de signal canonique, champ par champ, affiché dans le panneau de détail du signal.",
+      "entryZone": "Zone d'entrée",
+      "feesSlippage": "Frais/slippage"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

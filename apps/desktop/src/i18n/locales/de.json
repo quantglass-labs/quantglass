@@ -50,6 +50,77 @@
       "footer": "Erzählt aus den eigenen Auswertungen der Engine – Regime, Signale, Risiko. Niemals eine Beratung."
     }
   },
+  "signals": {
+    "eyebrow": "Signale",
+    "title": "Filterbares Signal-Inventar",
+    "description": "Aktuelle und historische Signale mit Setup-Typ, Erwartungswert, Status und direkter Weiterleitung zum Symbol-Detail oder Signal-Drawer. Signaldatensätze werden aus gespeicherten Marktkorridor-Kerzen im Backend erzeugt.",
+    "tiles": {
+      "shown": "Angezeigte Signale",
+      "shownHelper": "Passend zu den aktuellen Filtern",
+      "buyZones": "Kaufzonen",
+      "buyZonesHelper": "Handelbare Long-Setups",
+      "avgConfidence": "Durchschn. Konfidenz",
+      "avgConfidenceHelper": "Über die angezeigten Signale",
+      "active": "Aktiv",
+      "activeHelper": "Live, nur geschlossene Kerzen"
+    },
+    "feedError": "Fehler im Signal-Feed",
+    "feedErrorDetail": "Die Liste unten kann veraltet oder leer sein, weil das Backend ausfällt – nicht, weil es keine Signale gibt.",
+    "riskBadge": "Risiko",
+    "lockedNotice": "Experten-Signale gesperrt: {{count}} — werden mit Akademie-Expertenreife freigeschaltet",
+    "families": {
+      "all": "Alle Familien",
+      "technical": "Technisch",
+      "structure": "Struktur",
+      "volatility": "Volatilität",
+      "regime": "Regime",
+      "risk": "Risiko"
+    },
+    "filters": {
+      "signalType": "Signaltyp",
+      "minConfidence": "Min. Konfidenz",
+      "timeframe": "Zeitrahmen",
+      "statusScope": "Statusbereich",
+      "reset": "Filter zurücksetzen",
+      "all": "Alle",
+      "buyZone": "Kaufzone",
+      "sell": "Verkauf",
+      "hold": "Halten",
+      "wait": "Warten",
+      "watch": "Beobachten",
+      "activeOnly": "Nur aktive",
+      "allStatuses": "Alle Status"
+    },
+    "table": {
+      "symbol": "Symbol",
+      "signal": "Signal",
+      "confidence": "Konfidenz",
+      "rr": "R:R",
+      "setupType": "Setup-Typ",
+      "winRate": "Backtest-Trefferquote",
+      "status": "Status",
+      "freshness": "Aktualität",
+      "generated": "Erzeugt",
+      "actions": "Aktionen",
+      "quality": "Qualität {{value}}"
+    },
+    "actions": {
+      "symbol": "Symbol",
+      "detailDrawer": "Detail-Drawer",
+      "paperTrade": "Papier-Trade"
+    },
+    "emptyTitle": "Keine Signale entsprechen dem aktuellen Filter",
+    "emptyDescription": "Erweitern Sie die Filter für Markt, Status oder Konfidenz, um die vom Backend erzeugte Tabelle neu zu füllen.",
+    "errorTitle": "Signaltabelle nicht verfügbar",
+    "errorDescription": "Das Signal-Inventar des Backends konnte nicht geladen werden.",
+    "schema": {
+      "eyebrow": "Kanonische Signalform",
+      "title": "Schema-Zusammenfassung",
+      "description": "Die obige Tabelle leitet sich Feld für Feld vom selben kanonischen Signalobjekt ab, das im Signal-Detail-Drawer gezeigt wird.",
+      "entryZone": "Einstiegszone",
+      "feesSlippage": "Gebühren/Slippage"
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

@@ -50,6 +50,77 @@
       "footer": "依据引擎自身的读数撰写——状态、信号、风险。绝非投资建议。"
     }
   },
+  "signals": {
+    "eyebrow": "信号",
+    "title": "可筛选的信号清单",
+    "description": "当前与历史信号，包含形态类型、期望值、状态，并可直接跳转到标的详情页或信号抽屉。信号记录由后端存储的市场走廊K线生成。",
+    "tiles": {
+      "shown": "显示的信号",
+      "shownHelper": "符合当前筛选条件",
+      "buyZones": "买入区",
+      "buyZonesHelper": "可操作的多头形态",
+      "avgConfidence": "平均置信度",
+      "avgConfidenceHelper": "基于所显示的信号",
+      "active": "活跃",
+      "activeHelper": "实时，仅收盘K线"
+    },
+    "feedError": "信号源错误",
+    "feedErrorDetail": "下方列表可能过时或为空，是因为后端出错，而非没有信号。",
+    "riskBadge": "风险",
+    "lockedNotice": "专家层信号已锁定：{{count}} — 达到学院专家水平后解锁",
+    "families": {
+      "all": "全部类别",
+      "technical": "技术",
+      "structure": "结构",
+      "volatility": "波动率",
+      "regime": "状态",
+      "risk": "风险"
+    },
+    "filters": {
+      "signalType": "信号类型",
+      "minConfidence": "最低置信度",
+      "timeframe": "时间周期",
+      "statusScope": "状态范围",
+      "reset": "重置筛选",
+      "all": "全部",
+      "buyZone": "买入区",
+      "sell": "卖出",
+      "hold": "持有",
+      "wait": "等待",
+      "watch": "观察",
+      "activeOnly": "仅活跃",
+      "allStatuses": "全部状态"
+    },
+    "table": {
+      "symbol": "标的",
+      "signal": "信号",
+      "confidence": "置信度",
+      "rr": "盈亏比",
+      "setupType": "形态类型",
+      "winRate": "回测胜率",
+      "status": "状态",
+      "freshness": "新鲜度",
+      "generated": "生成时间",
+      "actions": "操作",
+      "quality": "质量 {{value}}"
+    },
+    "actions": {
+      "symbol": "标的",
+      "detailDrawer": "详情抽屉",
+      "paperTrade": "模拟交易"
+    },
+    "emptyTitle": "没有信号符合当前筛选",
+    "emptyDescription": "尝试放宽市场、状态或置信度筛选，以重新填充由后端生成的表格。",
+    "errorTitle": "信号表不可用",
+    "errorDescription": "无法加载后端信号清单。",
+    "schema": {
+      "eyebrow": "规范信号结构",
+      "title": "模式摘要",
+      "description": "上表逐字段派生自信号详情抽屉中所示的同一规范信号对象。",
+      "entryZone": "入场区",
+      "feesSlippage": "费用/滑点"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",

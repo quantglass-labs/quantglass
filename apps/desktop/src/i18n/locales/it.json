@@ -50,6 +50,77 @@
       "footer": "Narrato dalle letture del motore stesso — regimi, segnali, rischio. Mai un consiglio."
     }
   },
+  "signals": {
+    "eyebrow": "Segnali",
+    "title": "Inventario di segnali filtrabile",
+    "description": "Segnali attuali e storici con tipo di configurazione, aspettativa, stato e instradamento diretto alla schermata di dettaglio del simbolo o al pannello dei segnali. I record dei segnali sono generati da candele del corridoio di mercato memorizzate nel backend.",
+    "tiles": {
+      "shown": "Segnali mostrati",
+      "shownHelper": "Corrispondenti ai filtri attuali",
+      "buyZones": "Zone di acquisto",
+      "buyZonesHelper": "Configurazioni long attuabili",
+      "avgConfidence": "Affidabilità media",
+      "avgConfidenceHelper": "Sui segnali mostrati",
+      "active": "Attivi",
+      "activeHelper": "In tempo reale, solo candele chiuse"
+    },
+    "feedError": "Errore del feed dei segnali",
+    "feedErrorDetail": "L'elenco sotto potrebbe essere obsoleto o vuoto perché il backend è in errore, non perché non ci siano segnali.",
+    "riskBadge": "rischio",
+    "lockedNotice": "Segnali di livello esperto bloccati: {{count}} — si sbloccano con la preparazione esperta dell'Accademia",
+    "families": {
+      "all": "Tutte le famiglie",
+      "technical": "Tecnica",
+      "structure": "Struttura",
+      "volatility": "Volatilità",
+      "regime": "Regime",
+      "risk": "Rischio"
+    },
+    "filters": {
+      "signalType": "Tipo di segnale",
+      "minConfidence": "Affidabilità min.",
+      "timeframe": "Intervallo temporale",
+      "statusScope": "Ambito di stato",
+      "reset": "Reimposta filtri",
+      "all": "Tutti",
+      "buyZone": "Zona di acquisto",
+      "sell": "Vendita",
+      "hold": "Mantieni",
+      "wait": "Attendi",
+      "watch": "Osserva",
+      "activeOnly": "Solo attivi",
+      "allStatuses": "Tutti gli stati"
+    },
+    "table": {
+      "symbol": "Simbolo",
+      "signal": "Segnale",
+      "confidence": "Affidabilità",
+      "rr": "R:R",
+      "setupType": "Tipo di configurazione",
+      "winRate": "Tasso di vincita nel backtest",
+      "status": "Stato",
+      "freshness": "Freschezza",
+      "generated": "Generato",
+      "actions": "Azioni",
+      "quality": "qualità {{value}}"
+    },
+    "actions": {
+      "symbol": "Simbolo",
+      "detailDrawer": "Pannello di dettaglio",
+      "paperTrade": "Operazione simulata"
+    },
+    "emptyTitle": "Nessun segnale corrisponde al filtro attuale",
+    "emptyDescription": "Prova ad ampliare i filtri di mercato, stato o affidabilità per ripopolare la tabella generata dal backend.",
+    "errorTitle": "Tabella dei segnali non disponibile",
+    "errorDescription": "Impossibile caricare l'inventario dei segnali dal backend.",
+    "schema": {
+      "eyebrow": "Forma canonica del segnale",
+      "title": "Riepilogo dello schema",
+      "description": "La tabella sopra deriva dallo stesso oggetto segnale canonico, campo per campo, mostrato nel pannello di dettaglio del segnale.",
+      "entryZone": "Zona di ingresso",
+      "feesSlippage": "Commissioni/slippage"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

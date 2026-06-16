@@ -50,6 +50,77 @@
       "footer": "Imesimuliwa kutoka kwa usomaji wa injini yenyewe — hali, ishara, hatari. Kamwe si ushauri."
     }
   },
+  "signals": {
+    "eyebrow": "Ishara",
+    "title": "Orodha ya ishara inayoweza kuchujwa",
+    "description": "Ishara za sasa na za kihistoria zikiwa na aina ya mpangilio, matarajio, hali na uelekezaji wa moja kwa moja kwenda skrini ya maelezo ya alama au droo ya ishara. Rekodi za ishara hutengenezwa kutoka mishumaa ya korido ya soko iliyohifadhiwa kwenye backend.",
+    "tiles": {
+      "shown": "Ishara zilizoonyeshwa",
+      "shownHelper": "Zinazolingana na vichujio vya sasa",
+      "buyZones": "Maeneo ya kununua",
+      "buyZonesHelper": "Mipangilio ya ununuzi inayoweza kutekelezwa",
+      "avgConfidence": "Uhakika wastani",
+      "avgConfidenceHelper": "Kwa ishara zilizoonyeshwa",
+      "active": "Hai",
+      "activeHelper": "Moja kwa moja, mishumaa iliyofungwa pekee"
+    },
+    "feedError": "Hitilafu ya mlisho wa ishara",
+    "feedErrorDetail": "Orodha iliyo hapa chini inaweza kuwa ya zamani au tupu kwa sababu backend inashindwa, si kwa sababu hakuna ishara.",
+    "riskBadge": "hatari",
+    "lockedNotice": "Ishara za safu ya kitaalamu zimefungwa: {{count}} — hufunguliwa kwa utayari wa kitaalamu wa Academy",
+    "families": {
+      "all": "Familia zote",
+      "technical": "Kiufundi",
+      "structure": "Muundo",
+      "volatility": "Tetemeko",
+      "regime": "Hali",
+      "risk": "Hatari"
+    },
+    "filters": {
+      "signalType": "Aina ya ishara",
+      "minConfidence": "Uhakika wa chini",
+      "timeframe": "Kipindi cha muda",
+      "statusScope": "Wigo wa hali",
+      "reset": "Weka upya vichujio",
+      "all": "Zote",
+      "buyZone": "Eneo la kununua",
+      "sell": "Uza",
+      "hold": "Shikilia",
+      "wait": "Subiri",
+      "watch": "Fuatilia",
+      "activeOnly": "Hai pekee",
+      "allStatuses": "Hali zote"
+    },
+    "table": {
+      "symbol": "Alama",
+      "signal": "Ishara",
+      "confidence": "Uhakika",
+      "rr": "R:R",
+      "setupType": "Aina ya mpangilio",
+      "winRate": "Kiwango cha ushindi cha backtest",
+      "status": "Hali",
+      "freshness": "Upya",
+      "generated": "Imetengenezwa",
+      "actions": "Vitendo",
+      "quality": "ubora {{value}}"
+    },
+    "actions": {
+      "symbol": "Alama",
+      "detailDrawer": "Droo ya maelezo",
+      "paperTrade": "Biashara ya karatasi"
+    },
+    "emptyTitle": "Hakuna ishara inayolingana na kichujio cha sasa",
+    "emptyDescription": "Jaribu kupanua vichujio vya soko, hali au uhakika ili kujaza tena jedwali lililotengenezwa na backend.",
+    "errorTitle": "Jedwali la ishara halipatikani",
+    "errorDescription": "Orodha ya ishara ya backend haikuweza kupakiwa.",
+    "schema": {
+      "eyebrow": "Umbo kanuni la ishara",
+      "title": "Muhtasari wa schema",
+      "description": "Jedwali la hapo juu hutokana uga kwa uga na kitu kile kile cha ishara cha kanuni kinachoonyeshwa kwenye droo ya maelezo ya ishara.",
+      "entryZone": "Eneo la kuingia",
+      "feesSlippage": "Ada/utelezi"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

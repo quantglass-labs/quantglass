@@ -50,6 +50,77 @@
       "footer": "Narrado a partir das próprias leituras do motor — regimes, sinais, risco. Nunca é conselho."
     }
   },
+  "signals": {
+    "eyebrow": "Sinais",
+    "title": "Inventário de sinais filtrável",
+    "description": "Sinais atuais e históricos com tipo de configuração, expectativa, status e roteamento direto para a tela de detalhe do símbolo ou para o painel de sinais. Os registros de sinais são gerados a partir de velas do corredor de mercado armazenadas no backend.",
+    "tiles": {
+      "shown": "Sinais exibidos",
+      "shownHelper": "Correspondentes aos filtros atuais",
+      "buyZones": "Zonas de compra",
+      "buyZonesHelper": "Configurações compradas acionáveis",
+      "avgConfidence": "Confiança média",
+      "avgConfidenceHelper": "Sobre os sinais exibidos",
+      "active": "Ativos",
+      "activeHelper": "Ao vivo, apenas velas fechadas"
+    },
+    "feedError": "Erro no feed de sinais",
+    "feedErrorDetail": "A lista abaixo pode estar desatualizada ou vazia porque o backend está falhando, não porque não há sinais.",
+    "riskBadge": "risco",
+    "lockedNotice": "Sinais de camada especialista bloqueados: {{count}} — desbloqueiam com a prontidão especialista da Academia",
+    "families": {
+      "all": "Todas as famílias",
+      "technical": "Técnica",
+      "structure": "Estrutura",
+      "volatility": "Volatilidade",
+      "regime": "Regime",
+      "risk": "Risco"
+    },
+    "filters": {
+      "signalType": "Tipo de sinal",
+      "minConfidence": "Confiança mín.",
+      "timeframe": "Período",
+      "statusScope": "Escopo de status",
+      "reset": "Redefinir filtros",
+      "all": "Todos",
+      "buyZone": "Zona de compra",
+      "sell": "Venda",
+      "hold": "Manter",
+      "wait": "Aguardar",
+      "watch": "Observar",
+      "activeOnly": "Apenas ativos",
+      "allStatuses": "Todos os status"
+    },
+    "table": {
+      "symbol": "Símbolo",
+      "signal": "Sinal",
+      "confidence": "Confiança",
+      "rr": "R:R",
+      "setupType": "Tipo de configuração",
+      "winRate": "Taxa de acerto no backtest",
+      "status": "Status",
+      "freshness": "Atualidade",
+      "generated": "Gerado",
+      "actions": "Ações",
+      "quality": "qualidade {{value}}"
+    },
+    "actions": {
+      "symbol": "Símbolo",
+      "detailDrawer": "Painel de detalhe",
+      "paperTrade": "Operação em papel"
+    },
+    "emptyTitle": "Nenhum sinal corresponde ao filtro atual",
+    "emptyDescription": "Tente ampliar os filtros de mercado, status ou confiança para repovoar a tabela gerada pelo backend.",
+    "errorTitle": "Tabela de sinais indisponível",
+    "errorDescription": "Não foi possível carregar o inventário de sinais do backend.",
+    "schema": {
+      "eyebrow": "Forma canônica do sinal",
+      "title": "Resumo do esquema",
+      "description": "A tabela acima deriva do mesmo objeto de sinal canônico, campo a campo, exibido no painel de detalhe do sinal.",
+      "entryZone": "Zona de entrada",
+      "feesSlippage": "Taxas/slippage"
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",
