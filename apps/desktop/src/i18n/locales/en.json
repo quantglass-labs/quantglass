@@ -121,6 +121,52 @@
       "feesSlippage": "Fees/slippage"
     }
   },
+  "portfolio": {
+    "title": "Portfolio",
+    "tagline": "Paper venue · fills and exits on closed candles · never financial advice.",
+    "aiTitle": "Portfolio read",
+    "tiles": {
+      "balance": "Balance",
+      "balanceHelper": "{{count}} open positions",
+      "buyingPower": "Buying power",
+      "buyingPowerHelper": "Available to deploy",
+      "realizedPnl": "Realized P&L",
+      "realizedPnlHelper": "Since inception",
+      "openPositions": "Open positions",
+      "openPositionsHelper": "Paper venue"
+    },
+    "tabs": {
+      "positions": "Positions",
+      "orders": "Working orders",
+      "history": "History"
+    },
+    "notice": {
+      "closed": "{{symbol}} closed at the latest market price.",
+      "closeFailed": "Close failed.",
+      "cancelFailed": "Cancel failed."
+    },
+    "positions": {
+      "empty": "No open positions. Fills land here; stops and targets exit them automatically.",
+      "scaleOut": "Scale out: close half the position at the latest closed price",
+      "closeHalf": "Close ½",
+      "close": "Close"
+    },
+    "orders": {
+      "empty": "No working orders. Limit and stop entries wait here until price reaches them, expire by their time-in-force, or are cancelled.",
+      "submitted": "submitted {{time}}",
+      "cancel": "Cancel"
+    },
+    "history": {
+      "empty": "No closed trades yet. Every exit — stop, target, trailing, or manual — is recorded here with its realized P&L and R multiple.",
+      "summary": "{{count}} closed · {{winners}} winners · net"
+    },
+    "exitKind": {
+      "target": "target",
+      "stop": "stop",
+      "trailing": "trailing",
+      "manual": "manual"
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

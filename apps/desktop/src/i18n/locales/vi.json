@@ -121,6 +121,52 @@
       "feesSlippage": "Phí/trượt giá"
     }
   },
+  "portfolio": {
+    "title": "Danh mục",
+    "tagline": "Môi trường giấy · khớp và thoát trên nến đã đóng · không bao giờ là lời khuyên tài chính.",
+    "aiTitle": "Đọc danh mục",
+    "tiles": {
+      "balance": "Số dư",
+      "balanceHelper": "{{count}} vị thế mở",
+      "buyingPower": "Sức mua",
+      "buyingPowerHelper": "Sẵn sàng để triển khai",
+      "realizedPnl": "Lãi/lỗ đã thực hiện",
+      "realizedPnlHelper": "Từ khi bắt đầu",
+      "openPositions": "Vị thế mở",
+      "openPositionsHelper": "Môi trường giấy"
+    },
+    "tabs": {
+      "positions": "Vị thế",
+      "orders": "Lệnh đang chờ",
+      "history": "Lịch sử"
+    },
+    "notice": {
+      "closed": "{{symbol}} đã đóng ở giá thị trường mới nhất.",
+      "closeFailed": "Đóng thất bại.",
+      "cancelFailed": "Hủy thất bại."
+    },
+    "positions": {
+      "empty": "Không có vị thế mở. Lệnh khớp hiển thị ở đây; cắt lỗ và mục tiêu tự động đóng chúng.",
+      "scaleOut": "Thoát một phần: đóng nửa vị thế ở giá đóng cửa mới nhất",
+      "closeHalf": "Đóng ½",
+      "close": "Đóng"
+    },
+    "orders": {
+      "empty": "Không có lệnh đang chờ. Lệnh giới hạn và dừng chờ ở đây cho đến khi giá chạm tới, hết hạn theo thời hiệu, hoặc bị hủy.",
+      "submitted": "đã gửi {{time}}",
+      "cancel": "Hủy"
+    },
+    "history": {
+      "empty": "Chưa có giao dịch đã đóng. Mỗi lần thoát — cắt lỗ, mục tiêu, theo dõi hoặc thủ công — được ghi ở đây cùng lãi/lỗ đã thực hiện và bội số R.",
+      "summary": "{{count}} đã đóng · {{winners}} thắng · ròng"
+    },
+    "exitKind": {
+      "target": "mục tiêu",
+      "stop": "cắt lỗ",
+      "trailing": "theo dõi",
+      "manual": "thủ công"
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

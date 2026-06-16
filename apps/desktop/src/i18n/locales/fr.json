@@ -121,6 +121,52 @@
       "feesSlippage": "Frais/slippage"
     }
   },
+  "portfolio": {
+    "title": "Portefeuille",
+    "tagline": "Environnement papier · exécutions et sorties sur bougies clôturées · jamais un conseil financier.",
+    "aiTitle": "Lecture du portefeuille",
+    "tiles": {
+      "balance": "Solde",
+      "balanceHelper": "{{count}} positions ouvertes",
+      "buyingPower": "Pouvoir d'achat",
+      "buyingPowerHelper": "Disponible à déployer",
+      "realizedPnl": "P&L réalisé",
+      "realizedPnlHelper": "Depuis le début",
+      "openPositions": "Positions ouvertes",
+      "openPositionsHelper": "Environnement papier"
+    },
+    "tabs": {
+      "positions": "Positions",
+      "orders": "Ordres en cours",
+      "history": "Historique"
+    },
+    "notice": {
+      "closed": "{{symbol}} clôturée au dernier prix de marché.",
+      "closeFailed": "Échec de la clôture.",
+      "cancelFailed": "Échec de l'annulation."
+    },
+    "positions": {
+      "empty": "Aucune position ouverte. Les exécutions arrivent ici ; les stops et objectifs les clôturent automatiquement.",
+      "scaleOut": "Alléger : clôturer la moitié de la position au dernier prix clôturé",
+      "closeHalf": "Clôturer ½",
+      "close": "Clôturer"
+    },
+    "orders": {
+      "empty": "Aucun ordre en cours. Les entrées limites et stop attendent ici que le prix les atteigne, expirent selon leur validité ou sont annulées.",
+      "submitted": "soumis {{time}}",
+      "cancel": "Annuler"
+    },
+    "history": {
+      "empty": "Aucune opération clôturée pour l'instant. Chaque sortie — stop, objectif, suiveuse ou manuelle — est enregistrée ici avec son P&L réalisé et son multiple R.",
+      "summary": "{{count}} clôturées · {{winners}} gagnantes · net"
+    },
+    "exitKind": {
+      "target": "objectif",
+      "stop": "stop",
+      "trailing": "suiveuse",
+      "manual": "manuel"
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

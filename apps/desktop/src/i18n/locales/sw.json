@@ -121,6 +121,52 @@
       "feesSlippage": "Ada/utelezi"
     }
   },
+  "portfolio": {
+    "title": "Portfolio",
+    "tagline": "Mazingira ya karatasi · utekelezaji na kutoka kwenye mishumaa iliyofungwa · kamwe si ushauri wa kifedha.",
+    "aiTitle": "Usomaji wa portfolio",
+    "tiles": {
+      "balance": "Salio",
+      "balanceHelper": "nafasi {{count}} zilizo wazi",
+      "buyingPower": "Uwezo wa kununua",
+      "buyingPowerHelper": "Inapatikana kutumia",
+      "realizedPnl": "Faida/Hasara iliyotimia",
+      "realizedPnlHelper": "Tangu mwanzo",
+      "openPositions": "Nafasi zilizo wazi",
+      "openPositionsHelper": "Mazingira ya karatasi"
+    },
+    "tabs": {
+      "positions": "Nafasi",
+      "orders": "Maagizo hai",
+      "history": "Historia"
+    },
+    "notice": {
+      "closed": "{{symbol}} imefungwa kwa bei ya soko ya hivi punde.",
+      "closeFailed": "Kufunga kumeshindwa.",
+      "cancelFailed": "Kughairi kumeshindwa."
+    },
+    "positions": {
+      "empty": "Hakuna nafasi zilizo wazi. Utekelezaji huonekana hapa; stop na malengo huzifunga kiotomatiki.",
+      "scaleOut": "Punguza: funga nusu ya nafasi kwa bei ya mwisho iliyofungwa",
+      "closeHalf": "Funga ½",
+      "close": "Funga"
+    },
+    "orders": {
+      "empty": "Hakuna maagizo hai. Viingilio vya limit na stop husubiri hapa hadi bei ifikie, huisha kwa muda wake, au hughairiwa.",
+      "submitted": "imewasilishwa {{time}}",
+      "cancel": "Ghairi"
+    },
+    "history": {
+      "empty": "Bado hakuna biashara zilizofungwa. Kila kutoka — stop, lengo, kufuatilia au mwongozo — hurekodiwa hapa na faida/hasara iliyotimia na kizidishi cha R.",
+      "summary": "{{count}} zimefungwa · {{winners}} zilizoshinda · halisi"
+    },
+    "exitKind": {
+      "target": "lengo",
+      "stop": "stop",
+      "trailing": "kufuatilia",
+      "manual": "mwongozo"
+    }
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

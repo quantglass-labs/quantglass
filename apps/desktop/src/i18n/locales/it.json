@@ -121,6 +121,52 @@
       "feesSlippage": "Commissioni/slippage"
     }
   },
+  "portfolio": {
+    "title": "Portafoglio",
+    "tagline": "Ambiente simulato · esecuzioni e uscite su candele chiuse · mai una consulenza finanziaria.",
+    "aiTitle": "Lettura del portafoglio",
+    "tiles": {
+      "balance": "Saldo",
+      "balanceHelper": "{{count}} posizioni aperte",
+      "buyingPower": "Potere d'acquisto",
+      "buyingPowerHelper": "Disponibile da impiegare",
+      "realizedPnl": "P&L realizzato",
+      "realizedPnlHelper": "Dall'inizio",
+      "openPositions": "Posizioni aperte",
+      "openPositionsHelper": "Ambiente simulato"
+    },
+    "tabs": {
+      "positions": "Posizioni",
+      "orders": "Ordini attivi",
+      "history": "Cronologia"
+    },
+    "notice": {
+      "closed": "{{symbol}} chiusa all'ultimo prezzo di mercato.",
+      "closeFailed": "Chiusura non riuscita.",
+      "cancelFailed": "Annullamento non riuscito."
+    },
+    "positions": {
+      "empty": "Nessuna posizione aperta. Le esecuzioni compaiono qui; stop e obiettivi le chiudono automaticamente.",
+      "scaleOut": "Ridurre: chiudere metà della posizione all'ultimo prezzo chiuso",
+      "closeHalf": "Chiudi ½",
+      "close": "Chiudi"
+    },
+    "orders": {
+      "empty": "Nessun ordine attivo. Gli ingressi limit e stop attendono qui finché il prezzo li raggiunge, scadono per la loro validità o vengono annullati.",
+      "submitted": "inviato {{time}}",
+      "cancel": "Annulla"
+    },
+    "history": {
+      "empty": "Ancora nessuna operazione chiusa. Ogni uscita — stop, obiettivo, trailing o manuale — viene registrata qui con il suo P&L realizzato e il multiplo R.",
+      "summary": "{{count}} chiuse · {{winners}} vincenti · netto"
+    },
+    "exitKind": {
+      "target": "obiettivo",
+      "stop": "stop",
+      "trailing": "trailing",
+      "manual": "manuale"
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",
