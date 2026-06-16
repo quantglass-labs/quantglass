@@ -34,6 +34,11 @@
       "id": "indicator-mastery",
       "title": "انڈیکیٹر مہارت",
       "description": "ہر بلٹ اِن انڈیکیٹر خاندان — موونگ ایوریجز، RSI، MACD، Bollinger، ATR، ADX، Donchian، Keltner — بالکل جیسے انجن انہیں حساب کرتا ہے۔"
+    },
+    {
+      "id": "risk-position-sizing",
+      "title": "رسک اور پوزیشن سائزنگ",
+      "description": "R-ملٹیپلز، ATR-بنیاد اسٹاپ، پوزیشن سائزنگ، اور پورٹ فولیو حرارت۔"
     }
   ]
 }
