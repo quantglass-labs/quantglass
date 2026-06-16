@@ -12,13 +12,22 @@ this module only loads the catalog and evaluates exercises.
 from __future__ import annotations
 
 import json
-from functools import lru_cache
+from functools import cache, lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.services.locale import DEFAULT_LOCALE, get_locale
 from app.storage.state_store import StateStore
 
 _CONTENT_DIR = Path(__file__).resolve().parent.parent / "content" / "lessons"
+
+# Lesson fields whose values are translated prose; everything else (ids, the
+# track/tier/order skeleton, and the exercise answer keys) is identity data that
+# must stay byte-identical to English so progress and exam grading are unaffected.
+# These are restored from the English base after a translation overlay is merged,
+# so a malformed overlay can never silently break answer-checking.
+_PROTECTED_LESSON_KEYS = ("id", "module_id", "track_id", "tier", "order")
+_PROTECTED_EXERCISE_KEYS = ("type", "correct_index", "correct_answer", "tolerance_percent")
 
 
 @lru_cache(maxsize=1)
@@ -29,11 +38,90 @@ def _load_catalog_meta() -> dict[str, Any]:
 
 @lru_cache(maxsize=1)
 def _load_lessons() -> tuple[dict[str, Any], ...]:
+    """The English source curriculum — the fallback every locale builds on."""
     lessons: list[dict[str, Any]] = []
     for tier in _load_catalog_meta()["level_order"]:
         with open(_CONTENT_DIR / f"{tier}.json", encoding="utf-8") as handle:
             lessons.extend(json.load(handle))
     return tuple(lessons)
+
+
+@cache
+def _load_locale_overlay(locale: str) -> dict[str, dict[str, Any]]:
+    """Map lesson id -> partial translated lesson for ``locale``.
+
+    Translations live in ``content/lessons/<locale>/<tier>.json`` as a list of
+    partial lesson objects (each carrying at least ``id`` plus the prose fields
+    that have been translated). Missing files or missing lessons simply fall
+    back to English, so a locale can be filled in lesson-by-lesson.
+    """
+    if locale == DEFAULT_LOCALE:
+        return {}
+    overlay: dict[str, dict[str, Any]] = {}
+    locale_dir = _CONTENT_DIR / locale
+    if not locale_dir.is_dir():
+        return overlay
+    for tier in _load_catalog_meta()["level_order"]:
+        path = locale_dir / f"{tier}.json"
+        if not path.exists():
+            continue
+        with open(path, encoding="utf-8") as handle:
+            for entry in json.load(handle):
+                if isinstance(entry, dict) and "id" in entry:
+                    overlay[entry["id"]] = entry
+    return overlay
+
+
+def _merge_translation(base: Any, overlay: Any) -> Any:
+    """Field-by-field overlay with English fallback.
+
+    Recurses into dicts (so a translation can override just ``exercise.question``
+    while keeping the rest of the exercise); scalars and lists are replaced
+    wholesale when the overlay supplies them, and left as English otherwise.
+    """
+    if isinstance(base, dict) and isinstance(overlay, dict):
+        merged = dict(base)
+        for key, value in overlay.items():
+            existing = base.get(key)
+            merged[key] = (
+                _merge_translation(existing, value)
+                if isinstance(existing, dict) and isinstance(value, dict)
+                else value
+            )
+        return merged
+    return overlay
+
+
+def _apply_overlay(lesson: dict[str, Any], translation: dict[str, Any]) -> dict[str, Any]:
+    """Merge a translation onto an English lesson, then restore the identity and
+    answer-key fields so they can never be altered by a translation."""
+    merged = _merge_translation(lesson, translation)
+    for key in _PROTECTED_LESSON_KEYS:
+        if key in lesson:
+            merged[key] = lesson[key]
+    base_ex = lesson.get("exercise")
+    if isinstance(base_ex, dict) and isinstance(merged.get("exercise"), dict):
+        for key in _PROTECTED_EXERCISE_KEYS:
+            if key in base_ex:
+                merged["exercise"][key] = base_ex[key]
+    return merged
+
+
+@cache
+def _localized_lessons(locale: str) -> tuple[dict[str, Any], ...]:
+    """The curriculum in ``locale``, with per-lesson, per-field English fallback."""
+    overlay = _load_locale_overlay(locale)
+    if not overlay:
+        return _load_lessons()
+    return tuple(
+        _apply_overlay(lesson, overlay[lesson["id"]]) if lesson["id"] in overlay else lesson
+        for lesson in _load_lessons()
+    )
+
+
+def _current_lessons() -> tuple[dict[str, Any], ...]:
+    """The curriculum localized to the active request locale (ContextVar)."""
+    return _localized_lessons(get_locale())
 
 
 @lru_cache(maxsize=1)
@@ -43,16 +131,62 @@ def _load_reference() -> tuple[dict[str, Any], ...]:
         return tuple(json.load(handle))
 
 
+@cache
+def _localized_meta(locale: str) -> dict[str, Any]:
+    """The catalog skeleton (level + track titles/descriptions) in ``locale``.
+
+    Translations live in ``content/lessons/<locale>/modules.json`` as a partial
+    object (``{"levels": {id: {...}}, "tracks": [{id, ...}]}``); the structural
+    keys (``level_order`` and every ``id``/``level``/``order``) are always taken
+    from English so the catalog shape is locale-independent.
+    """
+    meta = _load_catalog_meta()
+    if locale == DEFAULT_LOCALE:
+        return meta
+    overlay_path = _CONTENT_DIR / locale / "modules.json"
+    if not overlay_path.exists():
+        return meta
+    with open(overlay_path, encoding="utf-8") as handle:
+        overlay = json.load(handle)
+    level_overlay = overlay.get("levels", {}) or {}
+    levels = {
+        level_id: {
+            **_merge_translation(level_meta, level_overlay.get(level_id, {})),
+            "id": level_id,
+        }
+        for level_id, level_meta in meta["levels"].items()
+    }
+    track_overlay = {
+        track["id"]: track
+        for track in overlay.get("tracks", []) or []
+        if isinstance(track, dict) and "id" in track
+    }
+    tracks = [
+        {
+            **_merge_translation(track, track_overlay.get(track["id"], {})),
+            "id": track["id"],
+            "level": track["level"],
+            "order": track["order"],
+        }
+        for track in meta["tracks"]
+    ]
+    return {**meta, "levels": levels, "tracks": tracks}
+
+
+def _current_meta() -> dict[str, Any]:
+    return _localized_meta(get_locale())
+
+
 def _tier_order() -> list[str]:
     return _load_catalog_meta()["level_order"]
 
 
 def _level_meta() -> dict[str, dict[str, str]]:
-    return _load_catalog_meta()["levels"]
+    return _current_meta()["levels"]
 
 
 def _tracks() -> list[dict[str, str]]:
-    return _load_catalog_meta()["tracks"]
+    return _current_meta()["tracks"]
 
 
 # ---------------------------------------------------------------------------
@@ -66,7 +200,7 @@ class LearnService:
         self._packs = lesson_pack_registry
 
     def _all_lessons(self) -> list[dict[str, Any]]:
-        lessons = list(_load_lessons())
+        lessons = list(_current_lessons())
         if self._packs is not None:
             lessons.extend(self._packs.all_lessons())
         return lessons
@@ -85,7 +219,7 @@ class LearnService:
                 key=lambda t: t["order"],
             ):
                 track_lessons = sorted(
-                    (les for les in _load_lessons() if les.get("track_id") == track["id"]),
+                    (les for les in _current_lessons() if les.get("track_id") == track["id"]),
                     key=lambda les: les["order"],
                 )
                 track_completed = sum(1 for les in track_lessons if les["id"] in completed_ids)
@@ -123,8 +257,8 @@ class LearnService:
                     "total": level_total,
                 }
             )
-        total = len(_load_lessons())
-        done = len(completed_ids & {les["id"] for les in _load_lessons()})
+        total = len(_current_lessons())
+        done = len(completed_ids & {les["id"] for les in _current_lessons()})
         return {
             "levels": levels,
             "progress": {
@@ -132,10 +266,10 @@ class LearnService:
                 "completed": done,
                 "by_tier": {
                     tier: {
-                        "total": sum(1 for les in _load_lessons() if les["module_id"] == tier),
+                        "total": sum(1 for les in _current_lessons() if les["module_id"] == tier),
                         "completed": sum(
                             1
-                            for les in _load_lessons()
+                            for les in _current_lessons()
                             if les["module_id"] == tier and les["id"] in completed_ids
                         ),
                     }
@@ -211,17 +345,17 @@ class LearnService:
     def get_progress(self) -> dict[str, Any]:
         progress = self._store.get_learn_progress()
         completed_ids = {lid for lid, data in progress.items() if data.get("completed_at")}
-        total = len(_load_lessons())
-        done = len(completed_ids & {les["id"] for les in _load_lessons()})
+        total = len(_current_lessons())
+        done = len(completed_ids & {les["id"] for les in _current_lessons()})
         return {
             "total": total,
             "completed": done,
             "by_tier": {
                 tier: {
-                    "total": sum(1 for les in _load_lessons() if les["module_id"] == tier),
+                    "total": sum(1 for les in _current_lessons() if les["module_id"] == tier),
                     "completed": sum(
                         1
-                        for les in _load_lessons()
+                        for les in _current_lessons()
                         if les["module_id"] == tier and les["id"] in completed_ids
                     ),
                 }
