@@ -167,6 +167,44 @@
       "manual": "manuel"
     }
   },
+  "watchlist": {
+    "eyebrow": "İzleme listesi",
+    "title": "Seçilmiş sembol izleyici",
+    "description": "Sparkline, son fiyat, aktif sinyal çipleri, uyarı erişimi ve kaldırma işlemleriyle gruplanmış kripto ve hisse satırları.",
+    "aiTitle": "İzleme listesi okuması",
+    "addPlaceholder": "Sembol ekle",
+    "trackCustom": "“{{symbol}}” izle",
+    "notListed": "Henüz listede değil — koridora şöyle ekleyin:",
+    "trackStock": "Hisse",
+    "trackCrypto": "Kripto",
+    "tiles": {
+      "onWatchlist": "İzleme listenizde",
+      "onWatchlistHelper": "Takip ettiğiniz semboller",
+      "trackedUniverse": "İzlenen evren",
+      "trackedUniverseHelper": "Piyasa koridorundaki semboller",
+      "topRs": "En yüksek göreli güç",
+      "topRsHelper": "En güçlü momentum yüzdelik dilimi"
+    },
+    "candidates": {
+      "title": "Göreli güce göre en iyi adaylar",
+      "subtitle": "Yerel evrende kesitsel momentum sıralaması"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "{{total}} {{market}} içinde #{{rank}}",
+    "empty": {
+      "title": "İzleme listesi boş",
+      "description": "Gruplanmış kripto ve hisse görünümlerini doldurmak için arama alanından ilk sembolünüzü ekleyin.",
+      "action": "İlk sembolünüzü ekleyin"
+    },
+    "error": {
+      "title": "İzleme listesi kullanılamıyor",
+      "description": "Gruplanmış izleme listesi satırları yüklenemedi."
+    },
+    "aria": {
+      "alert": "Uyarı {{symbol}}",
+      "remove": "{{symbol}} kaldır"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Sinyaller",

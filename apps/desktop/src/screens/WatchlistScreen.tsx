@@ -4,6 +4,7 @@
 import { Bell, Search, Trash2 } from 'lucide-react';
 import { AiInsight } from '../components/aiInsight';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Sparkline } from '../components/charts';
 import { CountUp, FadeIn } from '../components/motion';
 import { MetricTile } from '../components/surface';
@@ -41,6 +42,7 @@ export function WatchlistScreen({
   onOpenSymbol: (symbolId: string) => void;
   onOpenAlertModal: (symbolId: string, signalId?: string) => void;
 }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const watchlist = symbols.filter((symbol) => watchlistIds.includes(symbol.id));
   const candidates = useMemo(() => {
@@ -77,19 +79,19 @@ export function WatchlistScreen({
   return (
     <div className="space-y-8">
       <SectionHeading
-        eyebrow="Watchlist"
-        title="Curated symbol monitor"
-        description="Grouped crypto and stock rows with sparkline, last price, active signal chips, alert access, and removal actions."
+        eyebrow={t('watchlist.eyebrow')}
+        title={t('watchlist.title')}
+        description={t('watchlist.description')}
         action={
           <div className="relative w-full max-w-sm">
-            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <Search className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted" />
 
-            <AiInsight surface="watchlist" title="Watchlist read" />
+            <AiInsight surface="watchlist" title={t('watchlist.aiTitle')} />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Add symbol"
-              className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 pl-11 pr-4 text-sm text-ink outline-none focus:border-accent"
+              placeholder={t('watchlist.addPlaceholder')}
+              className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 ps-11 pe-4 text-sm text-ink outline-none focus:border-accent"
             />
             {candidates.length || canTrackCustom ? (
               <div className="glass-panel absolute left-0 right-0 top-[calc(100%+0.5rem)] rounded-3xl p-2">
@@ -107,25 +109,23 @@ export function WatchlistScreen({
                       <p className="font-medium text-ink">{candidate.symbol}</p>
                       <p className="text-xs text-muted">{candidate.name}</p>
                     </div>
-                    <Button className="px-3 py-2 text-xs">Add</Button>
+                    <Button className="px-3 py-2 text-xs">{t('common.add')}</Button>
                   </button>
                 ))}
                 {canTrackCustom ? (
                   <div className="flex items-center justify-between gap-2 rounded-2xl px-3 py-3">
                     <div className="min-w-0">
                       <p className="truncate font-medium text-ink">
-                        Track “{trimmedQuery.toUpperCase()}”
+                        {t('watchlist.trackCustom', { symbol: trimmedQuery.toUpperCase() })}
                       </p>
-                      <p className="text-xs text-muted">
-                        Not listed yet — add it to the corridor as:
-                      </p>
+                      <p className="text-xs text-muted">{t('watchlist.notListed')}</p>
                     </div>
                     <div className="flex shrink-0 gap-1.5">
                       <Button className="px-3 py-2 text-xs" onClick={() => trackCustom('stocks')}>
-                        Stock
+                        {t('watchlist.trackStock')}
                       </Button>
                       <Button className="px-3 py-2 text-xs" onClick={() => trackCustom('crypto')}>
-                        Crypto
+                        {t('watchlist.trackCrypto')}
                       </Button>
                     </div>
                   </div>
@@ -137,16 +137,23 @@ export function WatchlistScreen({
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <MetricTile label="On your watchlist" hero helper="Symbols you follow">
+        <MetricTile
+          label={t('watchlist.tiles.onWatchlist')}
+          hero
+          helper={t('watchlist.tiles.onWatchlistHelper')}
+        >
           <CountUp value={watchlist.length} format={(n) => String(Math.round(n))} />
         </MetricTile>
-        <MetricTile label="Tracked universe" helper="Symbols in the market corridor">
+        <MetricTile
+          label={t('watchlist.tiles.trackedUniverse')}
+          helper={t('watchlist.tiles.trackedUniverseHelper')}
+        >
           <CountUp value={symbols.length} format={(n) => String(Math.round(n))} />
         </MetricTile>
         <MetricTile
-          label="Top relative strength"
+          label={t('watchlist.tiles.topRs')}
           toneClass="text-buy"
-          helper="Strongest momentum percentile"
+          helper={t('watchlist.tiles.topRsHelper')}
         >
           <CountUp
             value={topRanked[0]?.relative_strength_percentile ?? 0}
@@ -159,10 +166,8 @@ export function WatchlistScreen({
         <Panel>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-ink">Top relative-strength candidates</h3>
-              <span className="text-xs text-muted">
-                Cross-sectional momentum rank across the local universe
-              </span>
+              <h3 className="text-lg font-semibold text-ink">{t('watchlist.candidates.title')}</h3>
+              <span className="text-xs text-muted">{t('watchlist.candidates.subtitle')}</span>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {topRanked.map((entry, index) => {
@@ -183,14 +188,18 @@ export function WatchlistScreen({
                       </div>
                       <p className="metric-text text-2xl text-ink">
                         {entry.relative_strength_percentile.toFixed(0)}
-                        <span className="text-sm text-muted"> RS</span>
+                        <span className="text-sm text-muted"> {t('watchlist.rsSuffix')}</span>
                       </p>
                       <div className="flex items-center justify-between text-sm">
                         <span className={positive ? 'text-buy' : 'text-sell'}>
                           {formatPercent(entry.momentum_score * 100)}
                         </span>
                         <span className="text-xs text-muted">
-                          #{entry.peer_rank} of {entry.peer_group_size} {entry.market_type}
+                          {t('watchlist.peerRank', {
+                            rank: entry.peer_rank,
+                            total: entry.peer_group_size,
+                            market: entry.market_type,
+                          })}
                         </span>
                       </div>
                     </button>
@@ -209,15 +218,17 @@ export function WatchlistScreen({
           loading={<LoadingSkeleton rows={5} />}
           empty={
             <EmptyState
-              title="Watchlist is empty"
-              description="Add your first symbol from the search field to populate the grouped crypto and stock views."
-              action={<Button onClick={() => setQuery('BTC')}>Add your first symbol</Button>}
+              title={t('watchlist.empty.title')}
+              description={t('watchlist.empty.description')}
+              action={
+                <Button onClick={() => setQuery('BTC')}>{t('watchlist.empty.action')}</Button>
+              }
             />
           }
           error={
             <ErrorState
-              title="Watchlist unavailable"
-              description="The grouped watchlist rows could not be loaded."
+              title={t('watchlist.error.title')}
+              description={t('watchlist.error.description')}
               onRetry={retryMockView}
             />
           }
@@ -228,7 +239,9 @@ export function WatchlistScreen({
                 if (!rows.length) return null;
                 return (
                   <div key={market} className="space-y-4">
-                    <h3 className="text-lg font-semibold capitalize text-ink">{market}</h3>
+                    <h3 className="text-lg font-semibold text-ink">
+                      {t(`common.markets.${market}`)}
+                    </h3>
                     <div className="space-y-3">
                       {rows.map((symbol) => {
                         const signal = signals.find((record) => record.symbolId === symbol.id);
@@ -276,7 +289,7 @@ export function WatchlistScreen({
                                 type="button"
                                 className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
                                 onClick={() => onOpenAlertModal(symbol.id, signal?.id)}
-                                aria-label={`Alert ${symbol.symbol}`}
+                                aria-label={t('watchlist.aria.alert', { symbol: symbol.symbol })}
                               >
                                 <Bell className="size-4" />
                               </button>
@@ -284,7 +297,7 @@ export function WatchlistScreen({
                                 type="button"
                                 className="rounded-full border border-border p-2 text-muted transition hover:bg-white/5 hover:text-ink"
                                 onClick={() => onToggleWatchlist(symbol.id)}
-                                aria-label={`Remove ${symbol.symbol}`}
+                                aria-label={t('watchlist.aria.remove', { symbol: symbol.symbol })}
                               >
                                 <Trash2 className="size-4" />
                               </button>

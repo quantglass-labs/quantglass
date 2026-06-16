@@ -167,6 +167,44 @@
       "manual": "manual"
     }
   },
+  "watchlist": {
+    "eyebrow": "Lista de seguimiento",
+    "title": "Monitor de símbolos curado",
+    "description": "Filas agrupadas de cripto y acciones con minigráfico, último precio, chips de señal activa, acceso a alertas y acciones de eliminación.",
+    "aiTitle": "Lectura de la lista",
+    "addPlaceholder": "Añadir símbolo",
+    "trackCustom": "Seguir “{{symbol}}”",
+    "notListed": "Aún no está en la lista — añádelo al corredor como:",
+    "trackStock": "Acción",
+    "trackCrypto": "Cripto",
+    "tiles": {
+      "onWatchlist": "En tu lista",
+      "onWatchlistHelper": "Símbolos que sigues",
+      "trackedUniverse": "Universo seguido",
+      "trackedUniverseHelper": "Símbolos en el corredor de mercado",
+      "topRs": "Mayor fuerza relativa",
+      "topRsHelper": "Percentil de momentum más fuerte"
+    },
+    "candidates": {
+      "title": "Principales candidatos por fuerza relativa",
+      "subtitle": "Ranking de momentum transversal en el universo local"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "#{{rank}} de {{total}} {{market}}",
+    "empty": {
+      "title": "La lista está vacía",
+      "description": "Añade tu primer símbolo desde el campo de búsqueda para poblar las vistas agrupadas de cripto y acciones.",
+      "action": "Añade tu primer símbolo"
+    },
+    "error": {
+      "title": "Lista no disponible",
+      "description": "No se pudieron cargar las filas agrupadas de la lista."
+    },
+    "aria": {
+      "alert": "Alerta {{symbol}}",
+      "remove": "Eliminar {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",

@@ -167,6 +167,44 @@
       "manual": "手動"
     }
   },
+  "watchlist": {
+    "eyebrow": "ウォッチリスト",
+    "title": "厳選銘柄モニター",
+    "description": "暗号資産と株式をグループ化した行。スパークライン、最新値、アクティブシグナルチップ、アラートアクセス、削除操作を表示します。",
+    "aiTitle": "ウォッチリストの解説",
+    "addPlaceholder": "銘柄を追加",
+    "trackCustom": "「{{symbol}}」を追跡",
+    "notListed": "未掲載 — コリドーに次として追加：",
+    "trackStock": "株式",
+    "trackCrypto": "暗号資産",
+    "tiles": {
+      "onWatchlist": "あなたのリスト",
+      "onWatchlistHelper": "フォロー中の銘柄",
+      "trackedUniverse": "追跡ユニバース",
+      "trackedUniverseHelper": "市場コリドーの銘柄",
+      "topRs": "最高の相対力",
+      "topRsHelper": "最も強いモメンタム百分位"
+    },
+    "candidates": {
+      "title": "相対力トップ候補",
+      "subtitle": "ローカルユニバースの横断的モメンタムランク"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "{{total}} {{market}} 中 {{rank}} 位",
+    "empty": {
+      "title": "ウォッチリストは空です",
+      "description": "検索欄から最初の銘柄を追加すると、暗号資産と株式のグループ表示が埋まります。",
+      "action": "最初の銘柄を追加"
+    },
+    "error": {
+      "title": "ウォッチリストを利用できません",
+      "description": "グループ化されたウォッチリストの行を読み込めませんでした。"
+    },
+    "aria": {
+      "alert": "アラート {{symbol}}",
+      "remove": "{{symbol}} を削除"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

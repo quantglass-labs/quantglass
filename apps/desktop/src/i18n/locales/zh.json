@@ -167,6 +167,44 @@
       "manual": "手动"
     }
   },
+  "watchlist": {
+    "eyebrow": "自选",
+    "title": "精选标的监视器",
+    "description": "分组的加密货币与股票行，含迷你图、最新价、活跃信号标签、提醒入口与移除操作。",
+    "aiTitle": "自选解读",
+    "addPlaceholder": "添加标的",
+    "trackCustom": "跟踪 “{{symbol}}”",
+    "notListed": "尚未收录——将其添加到走廊，作为：",
+    "trackStock": "股票",
+    "trackCrypto": "加密货币",
+    "tiles": {
+      "onWatchlist": "在你的自选中",
+      "onWatchlistHelper": "你关注的标的",
+      "trackedUniverse": "跟踪范围",
+      "trackedUniverseHelper": "市场走廊中的标的",
+      "topRs": "最高相对强度",
+      "topRsHelper": "最强动量百分位"
+    },
+    "candidates": {
+      "title": "相对强度顶级候选",
+      "subtitle": "本地范围内的横截面动量排名"
+    },
+    "rsSuffix": "RS",
+    "peerRank": "第 {{rank}} / 共 {{total}} {{market}}",
+    "empty": {
+      "title": "自选为空",
+      "description": "从搜索框添加你的第一个标的，以填充分组的加密货币与股票视图。",
+      "action": "添加你的第一个标的"
+    },
+    "error": {
+      "title": "自选不可用",
+      "description": "无法加载分组的自选行。"
+    },
+    "aria": {
+      "alert": "提醒 {{symbol}}",
+      "remove": "移除 {{symbol}}"
+    }
+  },
   "nav": {
     "dashboard": "仪表盘",
     "signals": "信号",
