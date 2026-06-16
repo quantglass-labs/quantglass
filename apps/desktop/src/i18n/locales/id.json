@@ -333,6 +333,71 @@
       "dangerousSuccess": "Sukses berbahaya"
     }
   },
+  "missions": {
+    "title": "Misi",
+    "earnedBadge": "{{completed}} / {{total}} diraih",
+    "tagline": "Diraih lewat perilaku, bukan klik — setiap kriteria membaca aktivitas nyata Anda.",
+    "aiTitle": "Pelatih misi",
+    "loadError": "Tidak dapat memuat misi. Apakah backend berjalan?",
+    "searchPlaceholder": "Cari misi…",
+    "tiles": {
+      "certificationsEarned": "Sertifikasi diraih",
+      "certificationsEarnedHelper": "dari {{count}} misi",
+      "completion": "Penyelesaian",
+      "completionHelper": "Dari seluruh katalog misi",
+      "activeMissions": "Misi aktif",
+      "activeMissionsHelper": "dari {{count}} slot",
+      "replaysPassed": "Replay lulus",
+      "replaysPassedHelper": "Episode skenario yang dituntaskan"
+    },
+    "levels": {
+      "all": "Semua",
+      "novice": "Pemula",
+      "intermediate": "Menengah",
+      "advanced": "Lanjutan",
+      "expert": "Ahli"
+    },
+    "activeHeading": "Misi aktif",
+    "slots": "{{active}} / {{max}} slot",
+    "noActive": "Tidak ada misi aktif. Buka kategori di bawah dan mulai satu — misi aktif menyematkan tujuan berikutnya dan menautkan langsung ke tempat Anda bertindak.",
+    "noMatch": "Tidak ada misi yang cocok.",
+    "categories": {
+      "riskDiscipline": "Disiplin risiko",
+      "processQuality": "Kualitas proses",
+      "lossAcceptance": "Penerimaan kerugian",
+      "tiltControl": "Kontrol tilt",
+      "journaling": "Penjurnalan",
+      "selectivity": "Selektivitas",
+      "outcomeIntegrity": "Integritas hasil",
+      "replayMastery": "Penguasaan replay",
+      "academyScholar": "Cendekiawan Academy",
+      "consistency": "Konsistensi",
+      "constitution": "Konstitusi",
+      "capstone": "Proyek puncak"
+    },
+    "card": {
+      "activeBadge": "aktif",
+      "communityBadge": "komunitas",
+      "done": "Selesai",
+      "objectives": "Tujuan",
+      "startMission": "Mulai misi",
+      "slotsFull": "Semua slot aktif terisi — lepaskan satu dulu.",
+      "studyFirst": "Pelajari dulu:",
+      "standDown": "Mundur",
+      "objectivesComplete": "{{met}} / {{total}} tujuan selesai",
+      "next": "Berikutnya",
+      "runDecisionDrill": "Jalankan latihan keputusan",
+      "runDrill": "Jalankan latihan",
+      "go": "Pergi"
+    },
+    "replay": {
+      "title": "Misi replay",
+      "description": "Rekreasi bergaya dari episode pasar nyata. Mainkan candle demi candle dan ambil keputusan — debrief menilai keputusan, bukan hasil.",
+      "decisions": "{{count}} keputusan · lulus di {{percent}}%",
+      "best": "terbaik {{percent}}%"
+    },
+    "footer": "Menyelesaikan misi membuka level Academy. Paket komunitas dapat menambahkan lebih banyak melalui SDK ekstensi. Hanya untuk tujuan edukasi — bukan nasihat keuangan."
+  },
   "nav": {
     "dashboard": "Dasbor",
     "signals": "Sinyal",

@@ -333,6 +333,71 @@
       "dangerousSuccess": "Mafanikio hatari"
     }
   },
+  "missions": {
+    "title": "Misheni",
+    "earnedBadge": "{{completed}} / {{total}} zimepatikana",
+    "tagline": "Hupatikana kwa mwenendo, si kwa mibofyo — kila kigezo husoma shughuli yako halisi.",
+    "aiTitle": "Kocha wa misheni",
+    "loadError": "Imeshindwa kupakia misheni. Je, backend inafanya kazi?",
+    "searchPlaceholder": "Tafuta misheni…",
+    "tiles": {
+      "certificationsEarned": "Vyeti vilivyopatikana",
+      "certificationsEarnedHelper": "kati ya misheni {{count}}",
+      "completion": "Ukamilishaji",
+      "completionHelper": "Ya katalogi nzima ya misheni",
+      "activeMissions": "Misheni hai",
+      "activeMissionsHelper": "kati ya nafasi {{count}}",
+      "replaysPassed": "Marudio yaliyopita",
+      "replaysPassedHelper": "Vipindi vya hali vilivyokamilika"
+    },
+    "levels": {
+      "all": "Zote",
+      "novice": "Mwanzo",
+      "intermediate": "Wastani",
+      "advanced": "Juu",
+      "expert": "Mtaalamu"
+    },
+    "activeHeading": "Misheni hai",
+    "slots": "{{active}} / {{max}} nafasi",
+    "noActive": "Hakuna misheni hai. Fungua kategoria hapa chini na uanze moja — misheni hai hubandika lengo lako linalofuata na huunganisha moja kwa moja mahali unapotenda.",
+    "noMatch": "Hakuna misheni inayolingana.",
+    "categories": {
+      "riskDiscipline": "Nidhamu ya hatari",
+      "processQuality": "Ubora wa mchakato",
+      "lossAcceptance": "Kukubali hasara",
+      "tiltControl": "Udhibiti wa tilt",
+      "journaling": "Kuandika jarida",
+      "selectivity": "Uchaguzi",
+      "outcomeIntegrity": "Uadilifu wa matokeo",
+      "replayMastery": "Umahiri wa marudio",
+      "academyScholar": "Msomi wa Academy",
+      "consistency": "Uthabiti",
+      "constitution": "Katiba",
+      "capstone": "Miradi ya kilele"
+    },
+    "card": {
+      "activeBadge": "hai",
+      "communityBadge": "jamii",
+      "done": "Imekamilika",
+      "objectives": "Malengo",
+      "startMission": "Anza misheni",
+      "slotsFull": "Nafasi zote hai zimejaa — jiondoe kwenye moja kwanza.",
+      "studyFirst": "Soma kwanza:",
+      "standDown": "Jiondoe",
+      "objectivesComplete": "Malengo {{met}} / {{total}} yamekamilika",
+      "next": "Inayofuata",
+      "runDecisionDrill": "Endesha zoezi la uamuzi",
+      "runDrill": "Endesha zoezi",
+      "go": "Nenda"
+    },
+    "replay": {
+      "title": "Misheni za marudio",
+      "description": "Uigaji wa kimtindo wa vipindi halisi vya soko. Vicheze mshumaa kwa mshumaa na fanya maamuzi — muhtasari hupima uamuzi, si matokeo.",
+      "decisions": "Maamuzi {{count}} · kupita kwa {{percent}}%",
+      "best": "bora {{percent}}%"
+    },
+    "footer": "Kukamilisha misheni hufungua viwango vya Academy. Pakiti za jamii zinaweza kuongeza zaidi kupitia SDK ya viendelezi. Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha."
+  },
   "nav": {
     "dashboard": "Dashibodi",
     "signals": "Ishara",

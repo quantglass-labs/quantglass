@@ -333,6 +333,71 @@
       "dangerousSuccess": "বিপজ্জনক সাফল্য"
     }
   },
+  "missions": {
+    "title": "মিশন",
+    "earnedBadge": "{{completed}} / {{total}} অর্জিত",
+    "tagline": "ক্লিকে নয়, আচরণে অর্জিত — প্রতিটি মানদণ্ড আপনার প্রকৃত কার্যকলাপ পড়ে।",
+    "aiTitle": "মিশন কোচ",
+    "loadError": "মিশন লোড করা যায়নি। ব্যাকএন্ড কি চলছে?",
+    "searchPlaceholder": "মিশন খুঁজুন…",
+    "tiles": {
+      "certificationsEarned": "অর্জিত সনদ",
+      "certificationsEarnedHelper": "{{count}}টি মিশনের মধ্যে",
+      "completion": "সম্পূর্ণতা",
+      "completionHelper": "সম্পূর্ণ মিশন ক্যাটালগের",
+      "activeMissions": "সক্রিয় মিশন",
+      "activeMissionsHelper": "{{count}}টি স্লটের মধ্যে",
+      "replaysPassed": "রিপ্লে উত্তীর্ণ",
+      "replaysPassedHelper": "সম্পন্ন পরিস্থিতি পর্ব"
+    },
+    "levels": {
+      "all": "সব",
+      "novice": "শিক্ষানবিশ",
+      "intermediate": "মধ্যবর্তী",
+      "advanced": "উন্নত",
+      "expert": "বিশেষজ্ঞ"
+    },
+    "activeHeading": "সক্রিয় মিশন",
+    "slots": "{{active}} / {{max}}টি স্লট",
+    "noActive": "কোনো সক্রিয় মিশন নেই। নিচে একটি বিভাগ খুলে একটি শুরু করুন — সক্রিয় মিশন আপনার পরবর্তী লক্ষ্য পিন করে এবং সরাসরি কাজের জায়গায় লিংক করে।",
+    "noMatch": "কোনো মিশন মেলে না।",
+    "categories": {
+      "riskDiscipline": "ঝুঁকি শৃঙ্খলা",
+      "processQuality": "প্রক্রিয়া মান",
+      "lossAcceptance": "ক্ষতি গ্রহণ",
+      "tiltControl": "টিল্ট নিয়ন্ত্রণ",
+      "journaling": "জার্নালিং",
+      "selectivity": "নির্বাচনশীলতা",
+      "outcomeIntegrity": "ফলাফল সততা",
+      "replayMastery": "রিপ্লে দক্ষতা",
+      "academyScholar": "অ্যাকাডেমি স্কলার",
+      "consistency": "ধারাবাহিকতা",
+      "constitution": "সংবিধান",
+      "capstone": "ক্যাপস্টোন"
+    },
+    "card": {
+      "activeBadge": "সক্রিয়",
+      "communityBadge": "কমিউনিটি",
+      "done": "সম্পন্ন",
+      "objectives": "উদ্দেশ্য",
+      "startMission": "মিশন শুরু করুন",
+      "slotsFull": "সব সক্রিয় স্লট পূর্ণ — আগে একটি থেকে সরে আসুন।",
+      "studyFirst": "আগে অধ্যয়ন করুন:",
+      "standDown": "সরে আসুন",
+      "objectivesComplete": "{{met}} / {{total}} উদ্দেশ্য সম্পন্ন",
+      "next": "পরবর্তী",
+      "runDecisionDrill": "সিদ্ধান্ত ড্রিল চালান",
+      "runDrill": "ড্রিল চালান",
+      "go": "যান"
+    },
+    "replay": {
+      "title": "রিপ্লে মিশন",
+      "description": "বাস্তব বাজার পর্বের শৈলীকৃত পুনর্নির্মাণ। ক্যান্ডেল-বাই-ক্যান্ডেল খেলুন এবং সিদ্ধান্ত নিন — ডিব্রিফ সিদ্ধান্তকে মূল্যায়ন করে, ফলাফলকে নয়।",
+      "decisions": "{{count}}টি সিদ্ধান্ত · উত্তীর্ণ {{percent}}%-এ",
+      "best": "সেরা {{percent}}%"
+    },
+    "footer": "মিশন সম্পূর্ণ করলে অ্যাকাডেমি স্তর আনলক হয়। কমিউনিটি প্যাক এক্সটেনশন SDK-এর মাধ্যমে আরও যোগ করতে পারে। শুধুমাত্র শিক্ষামূলক ব্যবহার — আর্থিক পরামর্শ নয়।"
+  },
   "nav": {
     "dashboard": "ড্যাশবোর্ড",
     "signals": "সিগন্যাল",

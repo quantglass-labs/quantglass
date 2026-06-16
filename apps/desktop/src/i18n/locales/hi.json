@@ -327,6 +327,71 @@
       "dangerousSuccess": "खतरनाक सफलता"
     }
   },
+  "missions": {
+    "title": "मिशन",
+    "earnedBadge": "{{completed}} / {{total}} अर्जित",
+    "tagline": "क्लिक से नहीं, आचरण से अर्जित — हर मानदंड आपकी वास्तविक गतिविधि पढ़ता है।",
+    "aiTitle": "मिशन कोच",
+    "loadError": "मिशन लोड नहीं हो सके। क्या बैकएंड चल रहा है?",
+    "searchPlaceholder": "मिशन खोजें…",
+    "tiles": {
+      "certificationsEarned": "अर्जित प्रमाणन",
+      "certificationsEarnedHelper": "{{count}} मिशनों में से",
+      "completion": "पूर्णता",
+      "completionHelper": "संपूर्ण मिशन कैटलॉग का",
+      "activeMissions": "सक्रिय मिशन",
+      "activeMissionsHelper": "{{count}} स्लॉट में से",
+      "replaysPassed": "रीप्ले पास",
+      "replaysPassedHelper": "पूर्ण किए गए परिदृश्य एपिसोड"
+    },
+    "levels": {
+      "all": "सभी",
+      "novice": "नौसिखिया",
+      "intermediate": "मध्यवर्ती",
+      "advanced": "उन्नत",
+      "expert": "विशेषज्ञ"
+    },
+    "activeHeading": "सक्रिय मिशन",
+    "slots": "{{active}} / {{max}} स्लॉट",
+    "noActive": "कोई सक्रिय मिशन नहीं। नीचे कोई श्रेणी खोलें और एक शुरू करें — सक्रिय मिशन आपका अगला लक्ष्य पिन करते हैं और सीधे कार्रवाई स्थल से जोड़ते हैं।",
+    "noMatch": "कोई मिशन मेल नहीं खाता।",
+    "categories": {
+      "riskDiscipline": "जोखिम अनुशासन",
+      "processQuality": "प्रक्रिया गुणवत्ता",
+      "lossAcceptance": "हानि स्वीकृति",
+      "tiltControl": "टिल्ट नियंत्रण",
+      "journaling": "जर्नलिंग",
+      "selectivity": "चयनात्मकता",
+      "outcomeIntegrity": "परिणाम सत्यनिष्ठा",
+      "replayMastery": "रीप्ले महारत",
+      "academyScholar": "अकादमी विद्वान",
+      "consistency": "निरंतरता",
+      "constitution": "संविधान",
+      "capstone": "कैपस्टोन"
+    },
+    "card": {
+      "activeBadge": "सक्रिय",
+      "communityBadge": "समुदाय",
+      "done": "पूर्ण",
+      "objectives": "उद्देश्य",
+      "startMission": "मिशन शुरू करें",
+      "slotsFull": "सभी सक्रिय स्लॉट भरे हैं — पहले किसी एक से हटें।",
+      "studyFirst": "पहले अध्ययन करें:",
+      "standDown": "हटें",
+      "objectivesComplete": "{{met}} / {{total}} उद्देश्य पूर्ण",
+      "next": "अगला",
+      "runDecisionDrill": "निर्णय ड्रिल चलाएं",
+      "runDrill": "ड्रिल चलाएं",
+      "go": "जाएं"
+    },
+    "replay": {
+      "title": "रीप्ले मिशन",
+      "description": "वास्तविक बाज़ार प्रकरणों के शैलीबद्ध पुनर्निर्माण। इन्हें कैंडल-दर-कैंडल खेलें और निर्णय लें — डीब्रीफ़ निर्णय को आंकता है, परिणाम को नहीं।",
+      "decisions": "{{count}} निर्णय · पास {{percent}}% पर",
+      "best": "सर्वश्रेष्ठ {{percent}}%"
+    },
+    "footer": "मिशन पूरा करने से अकादमी स्तर अनलॉक होते हैं। समुदाय पैक एक्सटेंशन SDK के माध्यम से और जोड़ सकते हैं। केवल शैक्षिक उपयोग — वित्तीय सलाह नहीं।"
+  },
   "nav": {
     "dashboard": "डैशबोर्ड",
     "signals": "सिग्नल",

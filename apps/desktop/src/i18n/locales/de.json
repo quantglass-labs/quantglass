@@ -333,6 +333,71 @@
       "dangerousSuccess": "Gefährlicher Erfolg"
     }
   },
+  "missions": {
+    "title": "Missionen",
+    "earnedBadge": "{{completed}} / {{total}} verdient",
+    "tagline": "Durch Verhalten verdient, nicht durch Klicks — jedes Kriterium liest Ihre echte Aktivität.",
+    "aiTitle": "Missions-Coach",
+    "loadError": "Missionen konnten nicht geladen werden. Läuft das Backend?",
+    "searchPlaceholder": "Missionen suchen…",
+    "tiles": {
+      "certificationsEarned": "Zertifizierungen verdient",
+      "certificationsEarnedHelper": "von {{count}} Missionen",
+      "completion": "Abschluss",
+      "completionHelper": "Vom vollständigen Missionskatalog",
+      "activeMissions": "Aktive Missionen",
+      "activeMissionsHelper": "von {{count}} Plätzen",
+      "replaysPassed": "Wiederholungen bestanden",
+      "replaysPassedHelper": "Szenario-Episoden bestanden"
+    },
+    "levels": {
+      "all": "Alle",
+      "novice": "Neuling",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Erweitert",
+      "expert": "Experte"
+    },
+    "activeHeading": "Aktive Missionen",
+    "slots": "{{active}} / {{max}} Plätze",
+    "noActive": "Keine aktiven Missionen. Öffnen Sie unten eine Kategorie und starten Sie eine — aktive Missionen heften Ihr nächstes Ziel an und verlinken direkt dorthin, wo Sie handeln.",
+    "noMatch": "Keine Mission passt.",
+    "categories": {
+      "riskDiscipline": "Risikodisziplin",
+      "processQuality": "Prozessqualität",
+      "lossAcceptance": "Verlustakzeptanz",
+      "tiltControl": "Tilt-Kontrolle",
+      "journaling": "Journaling",
+      "selectivity": "Selektivität",
+      "outcomeIntegrity": "Ergebnis-Integrität",
+      "replayMastery": "Wiederholungs-Meisterschaft",
+      "academyScholar": "Akademie-Gelehrter",
+      "consistency": "Beständigkeit",
+      "constitution": "Verfassung",
+      "capstone": "Abschlussprojekte"
+    },
+    "card": {
+      "activeBadge": "aktiv",
+      "communityBadge": "Community",
+      "done": "Fertig",
+      "objectives": "Ziele",
+      "startMission": "Mission starten",
+      "slotsFull": "Alle aktiven Plätze sind belegt — treten Sie zuerst von einem zurück.",
+      "studyFirst": "Zuerst lernen:",
+      "standDown": "Zurücktreten",
+      "objectivesComplete": "{{met}} / {{total}} Ziele abgeschlossen",
+      "next": "Nächstes",
+      "runDecisionDrill": "Entscheidungsübung starten",
+      "runDrill": "Übung starten",
+      "go": "Los"
+    },
+    "replay": {
+      "title": "Wiederholungs-Missionen",
+      "description": "Stilisierte Nachbildungen realer Marktepisoden. Spielen Sie sie Kerze für Kerze und treffen Sie die Entscheidungen — das Debriefing bewertet die Entscheidung, nicht das Ergebnis.",
+      "decisions": "{{count}} Entscheidungen · Bestehen bei {{percent}}%",
+      "best": "Beste {{percent}}%"
+    },
+    "footer": "Abgeschlossene Missionen schalten Akademie-Stufen frei. Community-Pakete können über das Erweiterungs-SDK mehr hinzufügen. Nur zu Bildungszwecken — keine Finanzberatung."
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

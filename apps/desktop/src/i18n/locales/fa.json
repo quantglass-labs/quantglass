@@ -327,6 +327,71 @@
       "dangerousSuccess": "موفقیت خطرناک"
     }
   },
+  "missions": {
+    "title": "ماموریت‌ها",
+    "earnedBadge": "{{completed}} / {{total}} کسب‌شده",
+    "tagline": "با رفتار به دست می‌آیند، نه با کلیک — هر معیار فعالیت واقعی شما را می‌خواند.",
+    "aiTitle": "مربی ماموریت",
+    "loadError": "ماموریت‌ها بارگذاری نشد. آیا بک‌اند در حال اجراست؟",
+    "searchPlaceholder": "جستجوی ماموریت‌ها…",
+    "tiles": {
+      "certificationsEarned": "گواهی‌های کسب‌شده",
+      "certificationsEarnedHelper": "از {{count}} ماموریت",
+      "completion": "تکمیل",
+      "completionHelper": "از کل فهرست ماموریت‌ها",
+      "activeMissions": "ماموریت‌های فعال",
+      "activeMissionsHelper": "از {{count}} جایگاه",
+      "replaysPassed": "بازپخش‌های موفق",
+      "replaysPassedHelper": "اپیزودهای سناریوی گذرانده‌شده"
+    },
+    "levels": {
+      "all": "همه",
+      "novice": "مبتدی",
+      "intermediate": "متوسط",
+      "advanced": "پیشرفته",
+      "expert": "خبره"
+    },
+    "activeHeading": "ماموریت‌های فعال",
+    "slots": "{{active}} / {{max}} جایگاه",
+    "noActive": "ماموریت فعالی نیست. یک دسته در پایین باز کنید و یکی را آغاز کنید — ماموریت‌های فعال هدف بعدی شما را سنجاق می‌کنند و مستقیم به محل اقدام پیوند می‌دهند.",
+    "noMatch": "هیچ ماموریتی مطابقت ندارد.",
+    "categories": {
+      "riskDiscipline": "انضباط ریسک",
+      "processQuality": "کیفیت فرایند",
+      "lossAcceptance": "پذیرش زیان",
+      "tiltControl": "کنترل تیلت",
+      "journaling": "دفترنویسی",
+      "selectivity": "گزینش‌گری",
+      "outcomeIntegrity": "درستی نتایج",
+      "replayMastery": "تسلط بر بازپخش",
+      "academyScholar": "دانش‌پژوه آکادمی",
+      "consistency": "ثبات",
+      "constitution": "قانون اساسی",
+      "capstone": "پروژه‌های نهایی"
+    },
+    "card": {
+      "activeBadge": "فعال",
+      "communityBadge": "جامعه",
+      "done": "انجام‌شده",
+      "objectives": "اهداف",
+      "startMission": "آغاز ماموریت",
+      "slotsFull": "همهٔ جایگاه‌های فعال پر هستند — ابتدا از یکی کنار بکشید.",
+      "studyFirst": "ابتدا مطالعه کنید:",
+      "standDown": "کناره‌گیری",
+      "objectivesComplete": "{{met}} / {{total}} هدف تکمیل‌شده",
+      "next": "بعدی",
+      "runDecisionDrill": "اجرای تمرین تصمیم",
+      "runDrill": "اجرای تمرین",
+      "go": "برو"
+    },
+    "replay": {
+      "title": "ماموریت‌های بازپخش",
+      "description": "بازآفرینی‌های سبک‌دار از اپیزودهای واقعی بازار. آن‌ها را کندل‌به‌کندل بازی کنید و تصمیم بگیرید — جمع‌بندی تصمیم را نمره می‌دهد، نه نتیجه را.",
+      "decisions": "{{count}} تصمیم · قبولی در {{percent}}%",
+      "best": "بهترین {{percent}}%"
+    },
+    "footer": "تکمیل ماموریت‌ها سطوح آکادمی را باز می‌کند. بسته‌های جامعه می‌توانند از طریق SDK افزونه‌ها موارد بیشتری اضافه کنند. فقط برای استفادهٔ آموزشی — توصیهٔ مالی نیست."
+  },
   "nav": {
     "dashboard": "داشبورد",
     "signals": "سیگنال‌ها",

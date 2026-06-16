@@ -330,6 +330,71 @@
       "dangerousSuccess": "Dangerous success"
     }
   },
+  "missions": {
+    "title": "Missions",
+    "earnedBadge": "{{completed}} / {{total}} earned",
+    "tagline": "Earned by conduct, not clicks — every criterion reads your real activity.",
+    "aiTitle": "Mission coach",
+    "loadError": "Could not load missions. Is the backend running?",
+    "searchPlaceholder": "Search missions…",
+    "tiles": {
+      "certificationsEarned": "Certifications earned",
+      "certificationsEarnedHelper": "of {{count}} missions",
+      "completion": "Completion",
+      "completionHelper": "Of the full mission catalog",
+      "activeMissions": "Active missions",
+      "activeMissionsHelper": "of {{count}} slots",
+      "replaysPassed": "Replays passed",
+      "replaysPassedHelper": "Scenario episodes cleared"
+    },
+    "levels": {
+      "all": "All",
+      "novice": "Novice",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "activeHeading": "Active missions",
+    "slots": "{{active}} / {{max}} slots",
+    "noActive": "No active missions. Open a category below and start one — active missions pin your next objective and link straight to where you act.",
+    "noMatch": "No missions match.",
+    "categories": {
+      "riskDiscipline": "Risk Discipline",
+      "processQuality": "Process Quality",
+      "lossAcceptance": "Loss Acceptance",
+      "tiltControl": "Tilt Control",
+      "journaling": "Journaling",
+      "selectivity": "Selectivity",
+      "outcomeIntegrity": "Outcome Integrity",
+      "replayMastery": "Replay Mastery",
+      "academyScholar": "Academy Scholar",
+      "consistency": "Consistency",
+      "constitution": "Constitution",
+      "capstone": "Capstones"
+    },
+    "card": {
+      "activeBadge": "active",
+      "communityBadge": "community",
+      "done": "Done",
+      "objectives": "Objectives",
+      "startMission": "Start mission",
+      "slotsFull": "All active slots are taken — stand down from one first.",
+      "studyFirst": "Study first:",
+      "standDown": "Stand down",
+      "objectivesComplete": "{{met}} / {{total}} objectives complete",
+      "next": "Next",
+      "runDecisionDrill": "Run the decision drill",
+      "runDrill": "Run drill",
+      "go": "Go"
+    },
+    "replay": {
+      "title": "Replay missions",
+      "description": "Stylized recreations of real market episodes. Play them bar by bar and make the calls — the debrief grades the decision, not the outcome.",
+      "decisions": "{{count}} decisions · pass at {{percent}}%",
+      "best": "best {{percent}}%"
+    },
+    "footer": "Completing missions unlocks Academy levels. Community packs can add more via the extension SDK. Educational use only — not financial advice."
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

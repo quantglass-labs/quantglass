@@ -327,6 +327,71 @@
       "dangerousSuccess": "危険な成功"
     }
   },
+  "missions": {
+    "title": "ミッション",
+    "earnedBadge": "{{completed}} / {{total}} 獲得",
+    "tagline": "クリックではなく行動で獲得——各基準はあなたの実際の活動を読み取ります。",
+    "aiTitle": "ミッションコーチ",
+    "loadError": "ミッションを読み込めませんでした。バックエンドは稼働していますか？",
+    "searchPlaceholder": "ミッションを検索…",
+    "tiles": {
+      "certificationsEarned": "獲得した認定",
+      "certificationsEarnedHelper": "{{count}} 件のミッション中",
+      "completion": "達成度",
+      "completionHelper": "全ミッションカタログのうち",
+      "activeMissions": "進行中ミッション",
+      "activeMissionsHelper": "{{count}} 枠中",
+      "replaysPassed": "リプレイ合格",
+      "replaysPassedHelper": "クリアしたシナリオエピソード"
+    },
+    "levels": {
+      "all": "すべて",
+      "novice": "初級",
+      "intermediate": "中級",
+      "advanced": "上級",
+      "expert": "エキスパート"
+    },
+    "activeHeading": "進行中ミッション",
+    "slots": "{{active}} / {{max}} 枠",
+    "noActive": "進行中のミッションはありません。下のカテゴリーを開いて1つ始めましょう——進行中ミッションは次の目標を固定し、行動する場所へ直接リンクします。",
+    "noMatch": "一致するミッションはありません。",
+    "categories": {
+      "riskDiscipline": "リスク規律",
+      "processQuality": "プロセス品質",
+      "lossAcceptance": "損失の受容",
+      "tiltControl": "ティルト制御",
+      "journaling": "ジャーナリング",
+      "selectivity": "選別性",
+      "outcomeIntegrity": "結果の誠実さ",
+      "replayMastery": "リプレイ習熟",
+      "academyScholar": "アカデミー学者",
+      "consistency": "一貫性",
+      "constitution": "憲章",
+      "capstone": "キャップストーン"
+    },
+    "card": {
+      "activeBadge": "進行中",
+      "communityBadge": "コミュニティ",
+      "done": "完了",
+      "objectives": "目標",
+      "startMission": "ミッション開始",
+      "slotsFull": "進行中の枠がすべて埋まっています——まず1つを降りてください。",
+      "studyFirst": "まず学習：",
+      "standDown": "降りる",
+      "objectivesComplete": "{{met}} / {{total}} 目標達成",
+      "next": "次",
+      "runDecisionDrill": "意思決定ドリルを実行",
+      "runDrill": "ドリルを実行",
+      "go": "移動"
+    },
+    "replay": {
+      "title": "リプレイミッション",
+      "description": "実際の市場エピソードの様式化された再現。1本ずつ進めて判断を下しましょう——デブリーフは結果ではなく判断を採点します。",
+      "decisions": "{{count}} 件の判断 · 合格は {{percent}}%",
+      "best": "ベスト {{percent}}%"
+    },
+    "footer": "ミッションを完了するとアカデミーのレベルが解放されます。コミュニティパックは拡張SDKで追加できます。教育目的のみ——投資助言ではありません。"
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

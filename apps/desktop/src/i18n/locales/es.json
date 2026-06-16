@@ -333,6 +333,71 @@
       "dangerousSuccess": "Éxito peligroso"
     }
   },
+  "missions": {
+    "title": "Misiones",
+    "earnedBadge": "{{completed}} / {{total}} obtenidas",
+    "tagline": "Se gana por conducta, no por clics — cada criterio lee tu actividad real.",
+    "aiTitle": "Entrenador de misiones",
+    "loadError": "No se pudieron cargar las misiones. ¿El backend está en ejecución?",
+    "searchPlaceholder": "Buscar misiones…",
+    "tiles": {
+      "certificationsEarned": "Certificaciones obtenidas",
+      "certificationsEarnedHelper": "de {{count}} misiones",
+      "completion": "Finalización",
+      "completionHelper": "Del catálogo completo de misiones",
+      "activeMissions": "Misiones activas",
+      "activeMissionsHelper": "de {{count}} espacios",
+      "replaysPassed": "Repeticiones superadas",
+      "replaysPassedHelper": "Episodios de escenario superados"
+    },
+    "levels": {
+      "all": "Todos",
+      "novice": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "expert": "Experto"
+    },
+    "activeHeading": "Misiones activas",
+    "slots": "{{active}} / {{max}} espacios",
+    "noActive": "No hay misiones activas. Abre una categoría abajo e inicia una — las misiones activas fijan tu próximo objetivo y enlazan directamente a donde actúas.",
+    "noMatch": "Ninguna misión coincide.",
+    "categories": {
+      "riskDiscipline": "Disciplina de riesgo",
+      "processQuality": "Calidad del proceso",
+      "lossAcceptance": "Aceptación de pérdidas",
+      "tiltControl": "Control del tilt",
+      "journaling": "Diario",
+      "selectivity": "Selectividad",
+      "outcomeIntegrity": "Integridad de resultados",
+      "replayMastery": "Maestría en repeticiones",
+      "academyScholar": "Erudito de la Academia",
+      "consistency": "Consistencia",
+      "constitution": "Constitución",
+      "capstone": "Proyectos finales"
+    },
+    "card": {
+      "activeBadge": "activa",
+      "communityBadge": "comunidad",
+      "done": "Hecho",
+      "objectives": "Objetivos",
+      "startMission": "Iniciar misión",
+      "slotsFull": "Todos los espacios activos están ocupados — abandona uno primero.",
+      "studyFirst": "Estudia primero:",
+      "standDown": "Abandonar",
+      "objectivesComplete": "{{met}} / {{total}} objetivos completados",
+      "next": "Siguiente",
+      "runDecisionDrill": "Ejecutar el simulacro de decisión",
+      "runDrill": "Ejecutar simulacro",
+      "go": "Ir"
+    },
+    "replay": {
+      "title": "Misiones de repetición",
+      "description": "Recreaciones estilizadas de episodios reales del mercado. Juégalas vela a vela y toma las decisiones — el análisis califica la decisión, no el resultado.",
+      "decisions": "{{count}} decisiones · aprobado al {{percent}}%",
+      "best": "mejor {{percent}}%"
+    },
+    "footer": "Completar misiones desbloquea niveles de la Academia. Los paquetes de la comunidad pueden añadir más mediante el SDK de extensiones. Solo uso educativo — no es asesoramiento financiero."
+  },
   "nav": {
     "dashboard": "Panel",
     "signals": "Señales",

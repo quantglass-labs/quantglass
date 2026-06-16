@@ -327,6 +327,71 @@
       "dangerousSuccess": "위험한 성공"
     }
   },
+  "missions": {
+    "title": "미션",
+    "earnedBadge": "{{completed}} / {{total}} 획득",
+    "tagline": "클릭이 아니라 행동으로 획득합니다 — 모든 기준이 당신의 실제 활동을 읽습니다.",
+    "aiTitle": "미션 코치",
+    "loadError": "미션을 불러올 수 없습니다. 백엔드가 실행 중인가요?",
+    "searchPlaceholder": "미션 검색…",
+    "tiles": {
+      "certificationsEarned": "획득한 인증",
+      "certificationsEarnedHelper": "총 {{count}}개 미션 중",
+      "completion": "완료율",
+      "completionHelper": "전체 미션 카탈로그 중",
+      "activeMissions": "진행 중 미션",
+      "activeMissionsHelper": "총 {{count}}개 슬롯 중",
+      "replaysPassed": "리플레이 통과",
+      "replaysPassedHelper": "클리어한 시나리오 에피소드"
+    },
+    "levels": {
+      "all": "전체",
+      "novice": "초급",
+      "intermediate": "중급",
+      "advanced": "고급",
+      "expert": "전문가"
+    },
+    "activeHeading": "진행 중 미션",
+    "slots": "{{active}} / {{max}} 슬롯",
+    "noActive": "진행 중인 미션이 없습니다. 아래 카테고리를 열고 하나를 시작하세요 — 진행 중 미션은 다음 목표를 고정하고 행동할 곳으로 바로 연결합니다.",
+    "noMatch": "일치하는 미션이 없습니다.",
+    "categories": {
+      "riskDiscipline": "리스크 규율",
+      "processQuality": "프로세스 품질",
+      "lossAcceptance": "손실 수용",
+      "tiltControl": "틸트 제어",
+      "journaling": "저널링",
+      "selectivity": "선별성",
+      "outcomeIntegrity": "결과 무결성",
+      "replayMastery": "리플레이 숙련",
+      "academyScholar": "아카데미 학자",
+      "consistency": "일관성",
+      "constitution": "헌장",
+      "capstone": "캡스톤"
+    },
+    "card": {
+      "activeBadge": "진행 중",
+      "communityBadge": "커뮤니티",
+      "done": "완료",
+      "objectives": "목표",
+      "startMission": "미션 시작",
+      "slotsFull": "진행 중 슬롯이 모두 찼습니다 — 먼저 하나에서 물러나세요.",
+      "studyFirst": "먼저 학습:",
+      "standDown": "물러나기",
+      "objectivesComplete": "{{met}} / {{total}} 목표 완료",
+      "next": "다음",
+      "runDecisionDrill": "의사결정 드릴 실행",
+      "runDrill": "드릴 실행",
+      "go": "이동"
+    },
+    "replay": {
+      "title": "리플레이 미션",
+      "description": "실제 시장 에피소드의 양식화된 재현. 캔들 단위로 진행하며 결정을 내리세요 — 디브리핑은 결과가 아니라 결정을 채점합니다.",
+      "decisions": "{{count}}개 결정 · 합격 기준 {{percent}}%",
+      "best": "최고 {{percent}}%"
+    },
+    "footer": "미션을 완료하면 아카데미 레벨이 잠금 해제됩니다. 커뮤니티 팩은 확장 SDK로 더 추가할 수 있습니다. 교육 목적으로만 사용 — 투자 자문이 아닙니다."
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",
