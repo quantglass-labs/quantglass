@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "novice-06-asset-classes",
+    "title": "Bạn có thể giao dịch gì: các lớp tài sản",
+    "summary": "Cổ phiếu, ETF và crypto — mỗi công cụ thực sự đại diện cho điều gì.",
+    "concept": "Một **lớp tài sản** là một họ các công cụ có hành vi tương tự. **Cổ phiếu** là phần sở hữu trong một công ty: giá trị của chúng đi theo hoạt động kinh doanh và được giao dịch trong giờ sàn. **ETF** gom nhiều tài sản vào một chứng chỉ có thể giao dịch. **Tiền mã hóa** là tài sản vô danh kỹ thuật số được giao dịch tại các nơi luôn mở — không công ty, không lợi nhuận, chỉ có cung, cầu và quy tắc giao thức.\n\nQuantGlass tập trung vào **cổ phiếu Mỹ** và **crypto giao ngay (spot)** vì cả hai đều có dữ liệu công khai miễn phí và định giá minh bạch. *Spot* nghĩa là bạn mua chính tài sản đó; phái sinh (hợp đồng tương lai, quyền chọn) tham chiếu giá của một tài sản với đòn bẩy và kỳ hạn, và nằm ngoài phạm vi ở đây.\n\nVì sao quan trọng: cùng một mẫu hình biểu đồ mang ý nghĩa khác nhau ở cổ phiếu (bị chi phối bởi báo cáo, phiên, gap) so với crypto (24/7, nhạy với tâm lý, biến động mạnh). Vì vậy động cơ coi `market_type` là một trường hạng nhất trên mỗi mã.",
+    "key_terms": [
+      {
+        "term": "Lớp tài sản",
+        "definition": "Một họ công cụ có hành vi và quy tắc tương tự — cổ phiếu, crypto, trái phiếu, hàng hóa."
+      },
+      {
+        "term": "Cổ phiếu",
+        "definition": "Một phần sở hữu trong một công ty."
+      },
+      {
+        "term": "ETF",
+        "definition": "Quỹ giao dịch trên sàn: một rổ tài sản được giao dịch như một chứng chỉ."
+      },
+      {
+        "term": "Thị trường giao ngay",
+        "definition": "Mua hoặc bán chính tài sản để thanh toán ngay."
+      },
+      {
+        "term": "Phái sinh",
+        "definition": "Một hợp đồng có giá trị tham chiếu giá của tài sản khác — ngoài phạm vi QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Phát biểu nào về thị trường crypto giao ngay là đúng?",
+      "options": [
+        "Chúng đóng cửa lúc 16:00 giờ New York như các sàn cổ phiếu.",
+        "Bạn nắm giữ chính tài sản, và giao dịch tiếp diễn 24 giờ.",
+        "Mọi giao dịch crypto là hợp đồng tương lai có đòn bẩy.",
+        "Giá được giao thức ấn định mỗi ngày một lần."
+      ],
+      "explanation": "Crypto giao ngay giao dịch chính tài sản tại các nơi không bao giờ đóng cửa. Sàn cổ phiếu có phiên; hợp đồng tương lai và đòn bẩy là đặc trưng của phái sinh, không phải giao ngay."
+    },
+    "live_apply": {
+      "cta": "Mở danh sách theo dõi và ghi chú mã nào là crypto, mã nào là cổ phiếu — nhãn loại thị trường quyết định cách động cơ xử lý mỗi mã."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "title": "Sàn giao dịch và nơi giao dịch",
+    "summary": "Giao dịch thực sự xảy ra ở đâu, và vì sao nơi giao dịch ảnh hưởng giá của bạn.",
+    "concept": "Một **sàn giao dịch** là nơi khớp người mua và người bán theo quy tắc đã công bố. Cổ phiếu Mỹ giao dịch trên các sàn được quản lý (NYSE, Nasdaq) cộng với hàng chục nơi thay thế, tất cả được quy định khâu lại thành một giá tốt nhất quốc gia duy nhất. Crypto khác: mỗi nơi (Coinbase, Kraken, Binance) là **hòn đảo riêng** với sổ lệnh riêng, nên *cùng một* đồng coin có thể giao dịch ở giá hơi khác nhau tại các nơi khác nhau cùng một thời điểm.\n\nĐó là lý do QuantGlass cho bạn chọn **tuyến nhà cung cấp** — nguồn dữ liệu chính, phụ và dự phòng cho mỗi thị trường. Khi dữ liệu Coinbase không khả dụng, động cơ có thể chuyển sang Kraken; các nến sẽ gần như, nhưng không hoàn toàn, giống nhau.\n\nQuy tắc: luôn biết bạn đang xem *giá của nơi nào*. Một tín hiệu tính trên nến của một nơi áp dụng cho giá của nơi đó.",
+    "key_terms": [
+      {
+        "term": "Sàn giao dịch",
+        "definition": "Một nơi vận hành theo quy tắc khớp người mua và người bán."
+      },
+      {
+        "term": "Sổ lệnh",
+        "definition": "Danh sách trực tiếp các lệnh mua bán đang chờ của sàn."
+      },
+      {
+        "term": "Phân mảnh",
+        "definition": "Cùng một tài sản giao dịch tại nhiều nơi ở giá hơi khác nhau."
+      },
+      {
+        "term": "Tuyến nhà cung cấp",
+        "definition": "Lựa chọn nơi dữ liệu chính/phụ/dự phòng của QuantGlass theo từng thị trường."
+      }
+    ],
+    "exercise": {
+      "question": "BTC hiển thị 67.950 tại một sàn và 68.010 tại sàn khác cùng lúc. Vì sao?",
+      "options": [
+        "Một trong hai giá hẳn là lỗi.",
+        "Mỗi sàn crypto có sổ lệnh riêng, nên giá có thể khác nhau chút ít giữa các nơi.",
+        "Giao thức Bitcoin đặt giá khác nhau cho mỗi quốc gia.",
+        "Một sàn đang hiển thị giá đóng cửa hôm qua."
+      ],
+      "explanation": "Các nơi crypto là sổ lệnh độc lập. Chênh lệch giá nhỏ là bình thường và được các nhà kinh doanh chênh lệch giữ cho cân bằng."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Nhà cung cấp và tìm tuyến crypto: nơi nào là chính, nơi nào là dự phòng?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "title": "Phiên và đồng hồ thị trường",
+    "summary": "Khi nào thị trường mở, vì sao quan trọng, và crypto khác thế nào.",
+    "concept": "Sàn cổ phiếu Mỹ duy trì một **phiên thường lệ** (09:30–16:00 giờ New York) kẹp giữa các phiên trước giờ và sau giờ mỏng hơn. Khối lượng và thanh khoản dồn gần **mở cửa** và **đóng cửa**; giữa trưa thường yên ắng. Crypto không bao giờ đóng cửa — nhưng vẫn có nhịp điệu: hoạt động tụ quanh giờ thức của Mỹ và châu Á, và cuối tuần mỏng hơn.\n\nPhiên quan trọng với người đọc tín hiệu vì một lý do lớn: **nến phải đóng**. Một nến cổ phiếu 1-ngày đóng lúc 16:00 ở New York; một nến crypto 1-giờ đóng đầu mỗi giờ. QuantGlass chỉ đánh giá **nến đã đóng** — một mẫu hình xuất hiện giữa nến có thể bốc hơi trước khi đóng, nên hành động trên một nến chưa hoàn tất là hành động trên nhiễu.\n\nHuy hiệu độ tươi của tín hiệu cho bạn biết tuổi của nến *đã đóng* gần nhất, để bạn luôn biết mình đang ở đồng hồ nào.",
+    "key_terms": [
+      {
+        "term": "Phiên thường lệ",
+        "definition": "Giờ giao dịch chính của một sàn — 09:30–16:00 NY cho cổ phiếu Mỹ."
+      },
+      {
+        "term": "Trước/sau giờ",
+        "definition": "Các phiên cổ phiếu mỏng hơn quanh phiên thường lệ, với spread rộng hơn."
+      },
+      {
+        "term": "Đóng nến",
+        "definition": "Thời điểm thanh của một khung thời gian được chốt — giá duy nhất động cơ đánh giá."
+      },
+      {
+        "term": "Độ tươi",
+        "definition": "Tuổi của nến đã đóng gần nhất, hiển thị trên mỗi tín hiệu QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao QuantGlass chờ một nến đóng trước khi đánh giá một thiết lập?",
+      "options": [
+        "Nến đã đóng tải nhanh hơn.",
+        "Cho đến khi đóng, giá cao, thấp và đóng cuối cùng của nến vẫn có thể thay đổi — mẫu hình giữa nến có thể bốc hơi.",
+        "Sàn chỉ công bố dữ liệu mỗi ngày một lần.",
+        "Phân tích nến đang mở là bất hợp pháp."
+      ],
+      "explanation": "Một nến chỉ là sự thật sau khi đóng. Quy tắc nến-đã-đóng của động cơ ngăn hành động trên các mẫu hình có thể không sống sót qua thanh."
+    },
+    "live_apply": {
+      "cta": "Mở Tín hiệu và kiểm tra một huy hiệu độ tươi: nến đã đóng gần nhất sau tín hiệu mới nhất bao lâu rồi?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "title": "Sổ lệnh, bid, ask và spread",
+    "summary": "Mỗi giá bạn thấy thực ra là hai giá.",
+    "concept": "Vào bất kỳ lúc nào, một sàn giữ các lệnh chờ: giá cao nhất người mua sẽ trả là **bid**; giá thấp nhất người bán chấp nhận là **ask**. Khoảng cách giữa chúng là **spread**. Một báo giá 'giá' thường là giao dịch cuối cùng, đã nảy giữa hai bức tường này.\n\nSpread là chi phí vô hình đầu tiên của bạn: mua ở ask, và bạn lập tức lỗ một spread nếu phải bán ở bid. Thị trường thanh khoản (cổ phiếu lớn, BTC, ETH) giữ spread vài phần trăm của phần trăm; thị trường mỏng có thể có spread 1% hoặc hơn — đủ lớn để xóa sạch một lợi thế nhỏ.\n\nCác backtest của QuantGlass tính một khoản dự phòng **trượt giá (slippage)** trên mỗi lần khớp mô phỏng chính vì các lần khớp thật xảy ra ở rìa của spread, không phải điểm giữa hiển thị trên biểu đồ.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "Giá mua đang chờ cao nhất."
+      },
+      {
+        "term": "Ask (chào bán)",
+        "definition": "Giá bán đang chờ thấp nhất."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask trừ bid — chi phí khứ hồi tức thời để băng qua sổ lệnh."
+      },
+      {
+        "term": "Giá cuối",
+        "definition": "Giao dịch gần nhất — nảy giữa bid và ask."
+      },
+      {
+        "term": "Trượt giá",
+        "definition": "Chênh lệch giữa giá biểu đồ và giá khớp thật của bạn."
+      }
+    ],
+    "exercise": {
+      "question": "Một đồng coin hiển thị bid 99,95 / ask 100,05. Bạn mua ở giá thị trường và bán ngay ở giá thị trường. Bỏ qua phí, điều gì xảy ra?",
+      "options": [
+        "Bạn hòa vốn chính xác.",
+        "Bạn lỗ khoảng 0,10 — bạn mua ở ask và bán ở bid.",
+        "Bạn kiếm được spread như khoản hoàn lại.",
+        "Cả hai lệnh khớp ở 100,00, điểm giữa."
+      ],
+      "explanation": "Lệnh thị trường băng qua spread: mua ở 100,05, bán ở 99,95 — lỗ 0,10. Spread là chi phí thật mà đường giá đơn của biểu đồ che giấu."
+    },
+    "live_apply": {
+      "cta": "Mở một mã và hình dung đóng nến như một cặp bid/ask quanh nó — giả định trượt giá của động cơ mô hình hóa chính khoảng cách này."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "title": "Loại lệnh: thị trường và giới hạn",
+    "summary": "Hai lệnh nền tảng, và mỗi loại từ bỏ điều gì.",
+    "concept": "Một **lệnh thị trường** nói *khớp tôi ngay ở giá tốt nhất hiện có* — khớp chắc chắn, giá thì không. Một **lệnh giới hạn** nói *chỉ khớp tôi ở giá của tôi hoặc tốt hơn* — giá chắc chắn, khớp thì không. Mọi thứ tinh vi hơn (cắt lỗ, cắt lỗ giới hạn, chốt lời) đều xây từ hai nguyên thủy này cộng một điều kiện kích hoạt.\n\nMột **cắt lỗ (stop-loss)** là một điều kiện kích hoạt đang chờ: khi giá chạm mức cắt lỗ của bạn, nó phóng một lệnh thị trường để thoát. Đó chính xác là hình học mà mỗi tín hiệu QuantGlass hiển thị — một **vùng vào lệnh** (nơi vào kiểu giới hạn hợp lý), một mức **cắt lỗ** (kích hoạt thoát nếu bạn sai) và một **thang chốt lời** (các lần thoát giới hạn theo bậc nếu bạn đúng).\n\nGiao dịch giấy của QuantGlass khớp ý định ở giá khả dụng tiếp theo — mô hình hóa một lệnh thị trường đơn giản — để bạn trải nghiệm trung thực sự bất định khi khớp thay vì những lần khớp hoàn hảo kiểu sách giáo khoa.",
+    "key_terms": [
+      {
+        "term": "Lệnh thị trường",
+        "definition": "Khớp ngay ở giá tốt nhất hiện có — khớp chắc chắn, giá bất định."
+      },
+      {
+        "term": "Lệnh giới hạn",
+        "definition": "Chỉ khớp ở giá đã chọn hoặc tốt hơn — giá chắc chắn, khớp bất định."
+      },
+      {
+        "term": "Cắt lỗ",
+        "definition": "Một mức kích hoạt phóng lệnh thoát khi giá chạm vào."
+      },
+      {
+        "term": "Chốt lời",
+        "definition": "Một lần thoát đang chờ ở giá mục tiêu — QuantGlass hiển thị thang ba bậc."
+      }
+    ],
+    "exercise": {
+      "question": "Bạn cần thoát ngay một vị thế thua trong một thị trường rơi nhanh. Lệnh nào bảo đảm bạn thoát?",
+      "options": [
+        "Một lệnh giới hạn ở giá vào của bạn.",
+        "Một lệnh thị trường — bạn chấp nhận giá mà sổ lệnh đưa ra.",
+        "Một lệnh chốt lời trên thị trường.",
+        "Không loại lệnh nào có thể thoát một vị thế."
+      ],
+      "explanation": "Chỉ lệnh thị trường bảo đảm khớp, với cái giá là sự chắc chắn về giá. Một lệnh giới hạn ở giá vào của bạn có lẽ không bao giờ khớp trong thị trường đang rơi."
+    },
+    "common_mistakes": [
+      "Dùng lệnh thị trường trong sổ lệnh mỏng và ngạc nhiên với giá khớp. Bảo đảm là khớp, không bao giờ là giá.",
+      "Đặt cắt lỗ giới hạn rồi cho rằng nó bảo vệ như cắt lỗ. Trong thị trường nhanh, nhánh giới hạn có thể không khớp và vị thế tiếp tục.",
+      "Đặt cắt lỗ ở các số tròn hiển nhiên nơi cắt lỗ của mọi người — chính những vũng nước bị quét."
+    ],
+    "live_apply": {
+      "cta": "Mở một tín hiệu và xác định ba thành phần loại lệnh của nó: vùng vào, kích hoạt cắt lỗ và thang chốt lời."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "title": "Thanh khoản và khối lượng",
+    "summary": "Vì sao kích thước làm giá dịch chuyển, và khối lượng xác nhận một động thái thế nào.",
+    "concept": "**Thanh khoản** là điều bạn có thể giao dịch mà không làm dịch giá; **khối lượng** là điều *đã được* giao dịch. Chúng liên quan nhưng không đồng nhất: khối lượng là biên lai, thanh khoản là sức chứa.\n\nKhi một thị trường sâu (sổ lệnh dày), ngay cả lệnh lớn cũng hầu như không làm dịch giá. Khi nó mỏng, một lệnh thị trường khiêm tốn nuốt nhiều mức giá cùng lúc — đó là trượt giá đang hoạt động. Thanh khoản cũng cạn về đêm, cuối tuần (crypto) và quanh tin tức.\n\nVới người đọc tín hiệu, khối lượng là một **công cụ xác nhận**: một cú phá vỡ trên gấp đôi khối lượng trung bình gần đây nghĩa là sự tham gia thật; cùng cú phá vỡ trên khối lượng chết thì đáng ngờ. QuantGlass mã hóa điều này thành **tỷ lệ khối lượng** (khối lượng hiện tại ÷ trung bình gần đây) và đưa vào điểm `volume_confirmation` của một tín hiệu — một trong các đầu vào độ tin cậy bạn có thể kiểm tra trên mỗi tín hiệu.",
+    "key_terms": [
+      {
+        "term": "Thanh khoản",
+        "definition": "Điều có thể giao dịch mà không làm dịch giá."
+      },
+      {
+        "term": "Khối lượng",
+        "definition": "Lượng thực sự được giao dịch trong một kỳ."
+      },
+      {
+        "term": "Tỷ lệ khối lượng",
+        "definition": "Khối lượng thanh hiện tại chia cho trung bình gần đây — đồng hồ đo sự tham gia của QuantGlass."
+      },
+      {
+        "term": "Thị trường mỏng",
+        "definition": "Thanh khoản thấp: lệnh nhỏ gây dịch chuyển giá mất cân đối."
+      }
+    ],
+    "exercise": {
+      "question": "Một nến phá vỡ in ra trên khối lượng gấp 2,3 lần trung bình gần đây. Tỷ lệ này nói gì với bạn?",
+      "options": [
+        "Không gì cả — khối lượng không liên quan đến dịch chuyển giá.",
+        "Sự tham gia cao bất thường, củng cố độ tin cậy của cú phá vỡ.",
+        "Sàn đang trục trặc.",
+        "Thanh khoản đã biến mất khỏi sổ lệnh."
+      ],
+      "explanation": "Tỷ lệ khối lượng so sánh thanh với nền tảng gần đây của chính nó. Các cú phá vỡ trên sự tham gia cao về mặt lịch sử đáng tin hơn các động thái trên khối lượng chết."
+    },
+    "live_apply": {
+      "cta": "Mở chi tiết một mã và tìm các chỉ số khối lượng — so sánh khối lượng thanh cuối với nền tảng gần đây."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "title": "Phí và trượt giá: chi phí khứ hồi",
+    "summary": "Mỗi giao dịch trả hai lần — tính chi phí thật trước khi đếm bất kỳ lợi thế nào.",
+    "concept": "Hai chi phí đánh vào mỗi giao dịch. **Phí** là tường minh: sàn tính một phần trăm mỗi bên (phí taker crypto thường quanh 0,10%; hoa hồng cổ phiếu Mỹ gần bằng không nhưng vẫn còn ma sát khác). **Trượt giá** là ngầm ẩn: khoảng cách giữa giá biểu đồ và lần khớp thật, sinh ra từ spread và độ sâu sổ lệnh.\n\nCả hai đều trả **hai lần** — một khi vào, một khi thoát. Mô hình chi phí mặc định của QuantGlass giả định, mỗi bên, **0,10% phí + 0,05% trượt giá cho crypto** và **0,02% + 0,01% cho cổ phiếu**, và bộ backtest trừ trọn vòng khứ hồi khỏi mỗi giao dịch mô phỏng. Một chiến lược có lãi trước chi phí và lỗ sau chi phí thì không có lợi thế — nó có một ảo tưởng.\n\nVí dụ: một vị thế crypto 10.000 trả (0,10% + 0,05%) × 2 = **0,30%** khứ hồi — tức 30 trước khi giao dịch đi đến đâu.",
+    "key_terms": [
+      {
+        "term": "Phí",
+        "definition": "Phần trăm tường minh mà sàn hoặc môi giới tính mỗi bên."
+      },
+      {
+        "term": "Trượt giá",
+        "definition": "Chi phí ngầm giữa giá biểu đồ và lần khớp thật."
+      },
+      {
+        "term": "Khứ hồi",
+        "definition": "Vào cộng thoát — chi phí trả ở cả hai."
+      },
+      {
+        "term": "Backtest có nhận thức chi phí",
+        "definition": "Một mô phỏng trừ phí và trượt giá khỏi mỗi giao dịch, như QuantGlass làm mặc định."
+      }
+    ],
+    "exercise": {
+      "question": "Dùng mặc định crypto của QuantGlass (0,10% phí + 0,05% trượt giá mỗi bên), tổng chi phí khứ hồi tính bằng đô la trên một vị thế 10.000 là bao nhiêu?",
+      "hint": "chi phí = vị thế × (phí% + trượt giá%) × 2 bên",
+      "explanation": "(0,0010 + 0,0005) × 2 = 0,0030; 10.000 × 0,0030 = **30**. Động cơ trừ chính xác con số này khỏi mỗi vòng khứ hồi crypto mô phỏng."
+    },
+    "live_apply": {
+      "cta": "Mở Backtesting và tìm các giả định phí/trượt giá trên một preset — chúng khớp với mặc định mà bài học này dùng."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "title": "Ai ở phía bên kia",
+    "summary": "Nhà tạo lập thị trường, tổ chức, thuật toán và bạn.",
+    "concept": "Mỗi lần khớp có một đối tác. **Nhà tạo lập thị trường** báo giá bid và ask cả ngày, kiếm spread trong khi cung cấp thanh khoản. **Tổ chức** (quỹ, kho bạc) di chuyển kích thước chậm để tránh tác động — dấu chân của họ là các xu hướng khối lượng bền bỉ. **Nhà giao dịch thuật toán** trải từ chênh lệch giá micro-giây đến chiến lược hệ thống chậm, và chiếm phần lớn khối lượng hiện đại. **Nhà giao dịch nhỏ lẻ** — bạn — là người tham gia nhỏ nhất và chậm nhất.\n\nĐây không phải lý do để tuyệt vọng; đây là lý do cho **kỷ luật**. Lợi thế của nhỏ lẻ không bao giờ là tốc độ. Đó là tính chọn lọc (chỉ giao dịch thiết lập sạch), kiên nhẫn (để nến đã đóng xác nhận), kiểm soát rủi ro (định cỡ từ cắt lỗ, không từ niềm tin) và trung thực với thống kê — chính xác bốn điều mà động cơ QuantGlass áp đặt một cách máy móc.\n\nBiết bạn giao dịch chống lại ai cho bạn biết trò nào không nên chơi: bạn không thể phản ứng nhanh hơn một thuật toán đặt cùng vị trí, nhưng bạn có thể chờ lâu hơn nó.",
+    "key_terms": [
+      {
+        "term": "Nhà tạo lập thị trường",
+        "definition": "Một người tham gia báo giá cả hai bên liên tục, kiếm spread."
+      },
+      {
+        "term": "Dòng tổ chức",
+        "definition": "Lệnh lớn chậm thực hiện theo thời gian để hạn chế tác động thị trường."
+      },
+      {
+        "term": "Giao dịch thuật toán",
+        "definition": "Chiến lược tự động — đa số khối lượng hiện đại."
+      },
+      {
+        "term": "Lợi thế nhỏ lẻ",
+        "definition": "Tính chọn lọc, kiên nhẫn và kiểm soát rủi ro — không phải tốc độ."
+      }
+    ],
+    "exercise": {
+      "question": "Điều nào sau đây là lợi thế thực tế cho một nhà giao dịch nhỏ lẻ?",
+      "options": [
+        "Phản ứng với tin tức nhanh hơn các thuật toán đặt cùng vị trí.",
+        "Chọn lọc, chờ xác nhận nến đã đóng và định cỡ mỗi giao dịch từ cắt lỗ của nó.",
+        "Giao dịch thường xuyên hơn nhà tạo lập thị trường.",
+        "Có phí tốt hơn tổ chức."
+      ],
+      "explanation": "Các trò tốc độ, tần suất và phí thuộc về dân chuyên. Tính chọn lọc, kiên nhẫn và kiểm soát rủi ro máy móc là các lợi thế sống sót ở quy mô nhỏ lẻ."
+    },
+    "live_apply": {
+      "cta": "Xem lại bài định cỡ vị thế trong Rủi ro và Kích cỡ — biểu hiện cụ thể nhất của lợi thế nhỏ lẻ."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "title": "Crypto so với cổ phiếu trong QuantGlass",
+    "summary": "Cùng một động cơ, hai thị trường rất khác nhau.",
+    "concept": "QuantGlass chạy một động cơ tất định trên hai loại thị trường, và khác biệt được mã hóa thay vì bỏ qua.\n\n**Thời gian**: nến crypto chảy 24/7; nến cổ phiếu chỉ tồn tại cho các phiên sàn, nên nến cổ phiếu 1-ngày là một phiên, không phải ngày lịch. **Biến động**: ATR điển hình của crypto theo tỷ lệ giá cao hơn nhiều, nên cắt lỗ là bội số của ATR thay vì phần trăm cố định. **Chi phí**: mô hình khứ hồi mặc định tính 0,30% cho crypto và 0,06% cho cổ phiếu — bộ backtest áp dụng cái khớp với `market_type` của mã. **Mã**: cặp crypto báo giá như `BTCUSD` (tài sản/tiền định giá), cổ phiếu là mã sàn như `AAPL`.\n\nHệ quả thực tế: không bao giờ sao chép kích thước vị thế hay khoảng cách cắt lỗ giữa các loại thị trường. Logic chế độ và biến động của động cơ tự thích nghi; kỳ vọng của bạn cũng nên vậy.",
+    "key_terms": [
+      {
+        "term": "Loại thị trường",
+        "definition": "Phân biệt crypto/cổ phiếu hạng nhất của QuantGlass trên mỗi mã."
+      },
+      {
+        "term": "Cắt lỗ tương đối ATR",
+        "definition": "Một cắt lỗ định cỡ như bội số của biến động hiện tại, không phải phần trăm cố định."
+      },
+      {
+        "term": "Cặp giao dịch",
+        "definition": "Một mã crypto báo giá một tài sản theo tài sản khác, vd BTC theo USD."
+      },
+      {
+        "term": "Nến phiên",
+        "definition": "Một nến cổ phiếu hằng ngày chỉ bao giờ sàn."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao QuantGlass định cỡ cắt lỗ theo bội số ATR thay vì phần trăm cố định cho mọi mã?",
+      "options": [
+        "Phần trăm cố định là bất hợp pháp.",
+        "Biến động khác nhau rất lớn giữa các mã và loại thị trường — một bội số ATR thích nghi cắt lỗ với động thái thật của mỗi thị trường.",
+        "ATR dễ tính hơn phần trăm.",
+        "Cắt lỗ là trang trí."
+      ],
+      "explanation": "Một cắt lỗ 2% có thể khổng lồ với một cổ phiếu yên ắng và tí hon với một đồng coin biến động. Bội số ATR chuẩn hóa cắt lỗ theo cái mà công cụ thực sự dịch chuyển."
+    },
+    "live_apply": {
+      "cta": "So sánh biên độ nến gần đây của một mã crypto và một cổ phiếu — chú ý chúng dịch chuyển khác nhau thế nào, rồi tìm khác biệt đó trong các giá trị ATR của chúng."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "title": "Từ tick đến nến: OHLCV được tạo thế nào",
+    "summary": "Nguyên liệu thô của động cơ đến từ đâu.",
+    "concept": "Thị trường tạo một dòng các giao dịch riêng lẻ — các **tick**. Một nến nén tất cả tick của một cửa sổ thời gian thành năm số: **O**pen (giao dịch đầu), **H**igh, **L**ow, **C**lose (giao dịch cuối) và **V**olume (tổng giao dịch). Đổi cửa sổ và bạn đổi câu chuyện: cùng một giờ là một nến 1h, hoặc bốn nến 15m, hoặc một phần tư của một nến 4h.\n\nQuantGlass nạp OHLCV ở các khung thời gian cố định (**15m, 1h, 4h, 1d**), lưu cục bộ và đóng dấu mỗi chuỗi với nơi **nguồn** và thời gian nạp. Mỗi nến cũng mang `open_time_utc` của nó — phép tính độ tươi của động cơ suy ra từ đó cộng độ dài khung thời gian để có thời gian đóng.\n\nHai quy tắc dữ liệu giữ phân tích trung thực: nến **bất biến sau khi đóng** (một lịch sử bị thay đổi là lỗi nhà cung cấp, và lớp toàn vẹn đánh dấu nó), và **mỗi số bạn thấy truy về một nơi** — không có giá pha trộn, không truy vết được.",
+    "key_terms": [
+      {
+        "term": "Tick",
+        "definition": "Một giao dịch được thực hiện đơn lẻ."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — năm số tóm tắt một cửa sổ tick."
+      },
+      {
+        "term": "Khung thời gian",
+        "definition": "Độ dài cửa sổ của mỗi nến — 15m, 1h, 4h hoặc 1d trong QuantGlass."
+      },
+      {
+        "term": "Toàn vẹn dữ liệu",
+        "definition": "Kiểm tra rằng nến đã đóng không bao giờ đột biến và khe hở được phát hiện."
+      }
+    ],
+    "exercise": {
+      "question": "Một nến một giờ hiển thị O=100, H=104, L=99, C=103. Điều duy nhất bạn KHÔNG thể kết luận từ nó là gì?",
+      "options": [
+        "Giao dịch đầu của giờ ở 100.",
+        "Giá chạm 104 vào một thời điểm trong giờ.",
+        "Đường đi chính xác giá đã đi giữa các mức này.",
+        "Giao dịch cuối của giờ ở 103."
+      ],
+      "explanation": "Một nến là một bản tóm tắt: nó giữ các cực trị và điểm cuối nhưng phá hủy đường đi. Giá có thể chạm thấp trước cao hoặc ngược lại — nến không thể nói."
+    },
+    "live_apply": {
+      "cta": "Chuyển một biểu đồ giữa 15m và 1h — xem bốn nến nhỏ hợp nhất thành một nến lớn hơn mang cùng thông tin OHLCV."
+    }
+  },
+  {
+    "id": "novice-01-candlestick",
+    "title": "Đọc một nến",
+    "summary": "Hiểu bốn giá trị giá mà mỗi nến mã hóa.",
+    "concept": "Một **nến** mã hóa bốn giá trong một thanh: **Mở (Open)** (nơi kỳ bắt đầu), **Cao (High)** và **Thấp (Low)** (các giá cực trị đạt được) và **Đóng (Close)** (nơi kỳ kết thúc). *Thân* hình chữ nhật trải từ mở đến đóng. Một nến *xanh/tăng* nghĩa là Đóng > Mở; một nến *đỏ/giảm* nghĩa là Đóng < Mở. Các đường mảnh trên và dưới thân gọi là **bấc (wicks)** (hay bóng) và cho thấy cao và thấp.\n\n**Khối lượng** — số đơn vị giao dịch trong kỳ — xuất hiện dưới biểu đồ. Khối lượng cao ở một đóng mạnh báo hiệu sự tin tưởng; khối lượng cao ở một đảo chiều báo hiệu sự kiệt sức.",
+    "key_terms": [
+      {
+        "term": "Mở (Open)",
+        "definition": "Giá ở giao dịch đầu tiên của kỳ."
+      },
+      {
+        "term": "Cao (High)",
+        "definition": "Giá cao nhất giao dịch trong kỳ."
+      },
+      {
+        "term": "Thấp (Low)",
+        "definition": "Giá thấp nhất giao dịch trong kỳ."
+      },
+      {
+        "term": "Đóng (Close)",
+        "definition": "Giá ở giao dịch cuối cùng của kỳ."
+      },
+      {
+        "term": "Thân",
+        "definition": "Hình chữ nhật giữa mở và đóng."
+      },
+      {
+        "term": "Bấc / bóng",
+        "definition": "Đường mảnh trải ra ngoài thân đến cao hoặc thấp."
+      },
+      {
+        "term": "Khối lượng",
+        "definition": "Số đơn vị giao dịch trong kỳ."
+      }
+    ],
+    "exercise": {
+      "question": "Một nến mở ở 100, chạm cao 110, rơi xuống 95 và đóng ở 107. Bấc trên đại diện điều gì?",
+      "options": [
+        "Giá đi từ 107 đến 110 và bị từ chối xuống.",
+        "Giá trung bình của kỳ.",
+        "Giá mở của nến kế tiếp.",
+        "Tổng khối lượng giao dịch."
+      ],
+      "explanation": "**Bấc trên** đại diện khoảng cách giữa Đóng (107) và Cao (110). Giá chạm 110 nhưng người mua không giữ được — người bán đẩy nó về 107 lúc đóng. Một bấc trên dài trên một nến tăng thường là cảnh báo về nguồn cung phía trên."
+    },
+    "common_mistakes": [
+      "Đọc một nến đơn lẻ như một tín hiệu. Một nến là một cuộc đấu giá; chỉ ngữ cảnh của nó (xu hướng, mức, khối lượng) cho nó ý nghĩa.",
+      "Học thuộc tên mẫu hình thay vì áp lực mua/bán chúng mã hóa. Nhãn là giai thoại; áp lực là thông tin.",
+      "Bỏ qua khung thời gian. Cùng một 'cây búa' trên biểu đồ một phút và biểu đồ tuần mang trọng lượng hoàn toàn khác nhau."
+    ],
+    "live_apply": {
+      "cta": "Mở Bảng điều khiển, di chuột qua bất kỳ nến nào trên biểu đồ và kiểm tra các giá trị O/H/L/C trong chú giải."
+    }
+  },
+  {
+    "id": "novice-02-trend",
+    "title": "Điều tạo nên một xu hướng",
+    "summary": "Học cách các đỉnh cao hơn và đáy thấp hơn định nghĩa hướng đi.",
+    "concept": "Một **xu hướng** là một chuỗi các dao động giá di chuyển chủ yếu theo một hướng.\n\n- **Xu hướng tăng**: giá tạo các **đỉnh cao hơn (HH)** và **đáy cao hơn (HL)** liên tiếp. Mỗi lần thoái lui đặt một sàn cao hơn lần trước.\n- **Xu hướng giảm**: giá tạo các **đỉnh thấp hơn (LH)** và **đáy thấp hơn (LL)** liên tiếp.\n- **Đi ngang / sideway**: đỉnh và đáy dao động trong một dải mà không có hướng bền vững.\n\nQuantGlass nhận diện xu hướng qua quan hệ giữa **EMA-21** (trung bình ngắn hạn) và **SMA-50** (trung bình trung hạn). Khi `Close > EMA21 > SMA50`, động cơ phân loại thị trường là xu hướng tăng. Khi `Close < EMA21 < SMA50`, đó là giảm.",
+    "key_terms": [
+      {
+        "term": "Đỉnh cao hơn (HH)",
+        "definition": "Mỗi đỉnh dao động liên tiếp ở trên đỉnh trước."
+      },
+      {
+        "term": "Đáy cao hơn (HL)",
+        "definition": "Mỗi đáy thoái lui liên tiếp ở trên đáy trước."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Trung bình động lũy thừa 21 kỳ — cân nặng các giá đóng gần đây hơn."
+      },
+      {
+        "term": "SMA-50",
+        "definition": "Trung bình động đơn giản 50 kỳ — cân bằng đều trên 50 giá đóng."
+      }
+    ],
+    "exercise": {
+      "question": "Giá đóng ở 250, EMA-21 ở 245, SMA-50 ở 240. QuantGlass gán trạng thái xu hướng nào?",
+      "options": [
+        "Giảm — giá ở dưới cả hai trung bình.",
+        "Tăng — Close > EMA21 > SMA50.",
+        "Đi ngang — các trung bình quá gần.",
+        "Biến động — không xác định được hướng."
+      ],
+      "explanation": "Khi `Close (250) > EMA21 (245) > SMA50 (240)`, sự sắp xếp hoàn toàn tăng. Động cơ tín hiệu dùng sự sắp xếp này để kích hoạt các thiết lập BUY_ZONE của họ xu hướng-thoái lui."
+    },
+    "live_apply": {
+      "cta": "Mở Tín hiệu, nhấp bất kỳ tín hiệu BUY_ZONE nào và xem mục Lý do — tìm lý do sắp xếp xu hướng."
+    }
+  },
+  {
+    "id": "novice-03-support-resistance",
+    "title": "Cơ bản về hỗ trợ và kháng cự",
+    "summary": "Khám phá các mức giá nơi cung và cầu va chạm lặp đi lặp lại.",
+    "concept": "**Hỗ trợ** là một mức giá nơi giá đang rơi nảy lên lặp lại — người mua thắng người bán ở đó. **Kháng cự** là một mức nơi giá đang lên khựng lại lặp lại — người bán thắng người mua.\n\nCác mức này hình thành vì nhà giao dịch nhớ các điểm đảo chiều quá khứ. Một kháng cự bị phá vỡ thường thành hỗ trợ mới (*đảo cực*). QuantGlass dùng **kênh Donchian** (cao/thấp 20 kỳ) để nhận diện các cực trị dao động gần đây hoạt động như S/K tự nhiên.",
+    "key_terms": [
+      {
+        "term": "Hỗ trợ",
+        "definition": "Sàn giá — người mua can thiệp để chặn rơi."
+      },
+      {
+        "term": "Kháng cự",
+        "definition": "Trần giá — người bán can thiệp để chặn lên."
+      },
+      {
+        "term": "Đảo cực",
+        "definition": "Kháng cự bị phá vỡ thành hỗ trợ sau một cú phá vỡ được xác nhận."
+      },
+      {
+        "term": "Kênh Donchian",
+        "definition": "Cao nhất và thấp nhất qua N kỳ."
+      }
+    ],
+    "exercise": {
+      "question": "Giá phá vỡ trên kháng cự ở 500$ trên khối lượng mạnh, rồi thoái lui về 500$. 500$ bây giờ là gì?",
+      "options": [
+        "Vẫn là kháng cự — nó chưa tự chứng minh.",
+        "Một hỗ trợ — cực đã đảo sau một cú phá vỡ được xác nhận.",
+        "Giá hợp lý — mục tiêu hồi quy trung bình.",
+        "Một mức cắt lỗ."
+      ],
+      "explanation": "Sau một cú phá vỡ được xác nhận trên khối lượng, kháng cự 500$ trước đó thành hỗ trợ. Đó là *đảo cực*. Thiết lập phá vỡ-kiểm tra lại-tiếp diễn của QuantGlass đặc biệt tìm sự quay lại của giá về mức phá vỡ Donchian trước khi vào lại."
+    },
+    "common_mistakes": [
+      "Xem các mức như giá chính xác thay vì vùng. Thị trường tôn trọng vùng; các đường chính xác bị bấc xuyên liên tục.",
+      "Vẽ một mức ở mỗi lần chạm cho đến khi biểu đồ không dùng được. Hai ba vùng sạch, được tôn trọng rộng rãi tốt hơn mười hai đường ồn ào.",
+      "Quên rằng hỗ trợ bị phá vỡ có xu hướng thành kháng cự. Các mức cũ không biến mất khi bị phá vỡ — chúng đổi phe."
+    ],
+    "live_apply": {
+      "cta": "Tìm một tín hiệu WATCH loại thiết lập 'breakout_retest_continuation' — vùng vào gần mức đã đảo."
+    }
+  },
+  {
+    "id": "novice-04-volume",
+    "title": "Khối lượng như sự xác nhận",
+    "summary": "Học vì sao khối lượng cho động thái giá độ tin cậy.",
+    "concept": "**Khối lượng** là số đơn vị giao dịch. Một động thái giá *với* khối lượng mạnh dễ duy trì hơn một động thái trên khối lượng mỏng. Khối lượng xác nhận đủ người tham gia đồng ý với hướng đi.\n\nQuantGlass tính một **tỷ lệ khối lượng** — khối lượng thanh hiện tại chia cho trung bình 20 kỳ. Tỷ lệ ≥ 1,75 nhận điểm `volume_confirmation` đầy đủ trong công thức độ tin cậy. Các lần vào phá vỡ (phá vỡ Donchian) đòi volume_ratio ≥ 1,0 như ngưỡng tối thiểu.\n\n**Phân kỳ**: giá lên nhưng khối lượng giảm → động thái yếu, có thể kiệt sức. Giá giảm trên khối lượng cao → phân phối tổ chức, tín hiệu giảm.",
+    "key_terms": [
+      {
+        "term": "Tỷ lệ khối lượng",
+        "definition": "Khối lượng thanh hiện tại ÷ khối lượng trung bình 20 kỳ."
+      },
+      {
+        "term": "Xác nhận khối lượng",
+        "definition": "Một điểm từ 0 đến 1: khối lượng hỗ trợ động thái hiện tại bao nhiêu."
+      },
+      {
+        "term": "Phân kỳ",
+        "definition": "Giá và khối lượng di chuyển ngược hướng — làm yếu động thái."
+      }
+    ],
+    "exercise": {
+      "question": "Một nến phá vỡ tăng có khối lượng gấp 3 lần trung bình 20 kỳ. Điều này nói gì với bạn?",
+      "options": [
+        "Đó là phá vỡ giả — khối lượng cao nghĩa là kiệt sức.",
+        "Động thái có sự tham gia tổ chức mạnh và dễ duy trì hơn.",
+        "Khối lượng không liên quan với phá vỡ.",
+        "Bạn nên chờ khối lượng giảm trước khi vào."
+      ],
+      "explanation": "Khối lượng cao trên một cú phá vỡ xác nhận nhiều người tham gia đồng ý. Tổ chức không thể giấu hoạt động — họ để lại dấu chân khối lượng. Điểm volume_confirmation của QuantGlass đạt 1,0 khi volume_ratio ≥ 1,75."
+    },
+    "live_apply": {
+      "cta": "Mở ngăn chi tiết của một tín hiệu và kiểm tra giá trị confidence_basis.volume_confirmation."
+    }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "title": "Khung thời gian: một thị trường, nhiều thấu kính",
+    "summary": "Cùng một hành động giá trông khác nhau trên 15m, 1h, 4h và 1d.",
+    "concept": "Một **khung thời gian** là cửa sổ mà mỗi nến tóm tắt. Khung thấp hơn (15m) cho thấy chi tiết tinh và nhiều nhiễu hơn; khung cao hơn (1d) cho thấy cấu trúc và ít nhiễu hơn. Không cái nào 'thật hơn' — chúng là các nén khác nhau của cùng dòng tick.\n\nHai quy tắc thực tế. Thứ nhất, **xu hướng tương đối với khung thời gian**: một xu hướng giảm 15m có thể sống trong một xu hướng tăng 1h trong một dải đi ngang 1d. Luôn gọi tên khung thời gian khi gọi tên một xu hướng. Thứ hai, **tín hiệu kế thừa khung thời gian của nó**: một tín hiệu QuantGlass sinh ra trên nến 1h có cắt lỗ, mục tiêu và thời gian giữ ở quy mô 1h — đánh giá nó theo biểu đồ 1d là đọc sai.\n\nCác thiết lập của động cơ thậm chí tham khảo một thấu kính chậm hơn bên trong: kiểm tra độ dốc khung cao hơn so sánh nền tảng 50 thanh hiện tại với 10 thanh trước, thưởng cho các thiết lập sắp xếp với độ trôi rộng hơn.",
+    "key_terms": [
+      {
+        "term": "Khung thời gian",
+        "definition": "Độ dài cửa sổ mà mỗi nến tóm tắt."
+      },
+      {
+        "term": "Nhiễu",
+        "definition": "Dao động khung ngắn biến mất ở nén mạnh hơn."
+      },
+      {
+        "term": "Sắp xếp khung cao hơn",
+        "definition": "Sự đồng thuận giữa khung thời gian của một thiết lập và xu hướng chậm hơn — một đầu vào hợp lưu trong QuantGlass."
+      },
+      {
+        "term": "Thời gian giữ",
+        "definition": "Một vị thế nên mở bao lâu — tỷ lệ với khung thời gian."
+      }
+    ],
+    "exercise": {
+      "question": "Một mã rơi trên biểu đồ 15m nhưng lên trên 1d. Phát biểu nào đúng?",
+      "options": [
+        "Luồng dữ liệu bị hỏng.",
+        "Cả hai đều đúng: xu hướng tương đối với khung thời gian bạn đo nó.",
+        "Biểu đồ 15m luôn thắng 1d.",
+        "Mã không có xu hướng."
+      ],
+      "explanation": "Xu hướng lồng nhau. Một thoái lui thấu kính ngắn trong một xu hướng tăng thấu kính dài là giải phẫu bình thường của thị trường xu hướng — và là cơ sở của các thiết lập thoái lui."
+    },
+    "live_apply": {
+      "cta": "Đi qua một biểu đồ từ 15m → 1h → 4h → 1d và ghi chú xu hướng bạn sẽ gọi tên ở mỗi thấu kính."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "title": "Dao động, đường xu hướng và cấu trúc",
+    "summary": "Đỉnh cao hơn, đáy cao hơn, và bộ xương dưới mỗi biểu đồ.",
+    "concept": "Giá di chuyển trong **các dao động** — đẩy và thoái lui. Đánh dấu các điểm đảo chiều và bạn có bộ xương của thị trường: một **xu hướng tăng** là một cầu thang các đỉnh cao hơn (HH) và đáy cao hơn (HL); một **xu hướng giảm** là các đỉnh thấp hơn (LH) và đáy thấp hơn (LL); một **dải đi ngang** là các dao động chồng lấn không có cầu thang.\n\nMột **đường xu hướng** nối các đáy dao động liên tiếp (trong tăng) hoặc đỉnh (trong giảm). Nó không kỳ diệu — nó là một bản tóm tắt thị giác của nhịp điệu cầu thang. Khi cầu thang gãy (trong tăng giá lấy HL cuối cùng), cấu trúc bị hư hại, và hư hại cấu trúc là cảnh báo đầu tiên của người đọc biểu đồ, rất lâu trước khi bất kỳ chỉ báo nào quay đầu.\n\nLý do của các tín hiệu QuantGlass thường trích dẫn các cực trị dao động gần đây — mỏ neo vô hiệu hóa của một thiết lập mua thường là đáy dao động gần đây, vì chính ở đó logic cầu thang tự thất bại.",
+    "key_terms": [
+      {
+        "term": "Đỉnh/đáy dao động",
+        "definition": "Một điểm đảo chiều cục bộ trong giá."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "Các mẫu cầu thang định nghĩa xu hướng tăng và giảm."
+      },
+      {
+        "term": "Đường xu hướng",
+        "definition": "Một đường qua các điểm dao động liên tiếp tóm tắt nhịp điệu xu hướng."
+      },
+      {
+        "term": "Phá vỡ cấu trúc",
+        "definition": "Giá vi phạm dao động gần nhất của cầu thang chủ đạo."
+      }
+    ],
+    "exercise": {
+      "question": "Trong một xu hướng tăng định nghĩa bởi các đỉnh và đáy cao hơn, sự kiện đơn lẻ nào làm hư hại cấu trúc trực tiếp nhất?",
+      "options": [
+        "Một nến đỏ kích thước bất kỳ.",
+        "Giá phá vỡ xuống dưới đáy cao hơn gần nhất.",
+        "Khối lượng suy giảm trong một thanh.",
+        "Một khe hở cuối tuần."
+      ],
+      "explanation": "Cầu thang sống sót qua các nến đỏ và khối lượng yên ắng. Nó được định nghĩa bởi các đáy dao động — mất đáy cao hơn cuối cùng phá vỡ mẫu hình."
+    },
+    "live_apply": {
+      "cta": "Trên biểu đồ một mã, đánh dấu trong đầu ba đáy dao động cuối — rồi tìm mức vô hiệu hóa của tín hiệu và xem nó liên hệ với chúng thế nào."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "title": "Khe hở, bấc và điều chúng tiết lộ",
+    "summary": "Các dấu câu của biểu đồ: từ chối, bất ngờ và vắng mặt.",
+    "concept": "Một **bấc** (bóng) là phần của một nến nằm ngoài thân: giá đã đến đó và bị đẩy lùi trong cùng thanh. Một bấc trên dài trên một nến tăng giá nghĩa là người bán hấp thụ cú đẩy — **từ chối**. Một bấc dưới dài sau một sụt giảm nghĩa là người mua can thiệp. Bấc tại các mức then chốt (hỗ trợ, kháng cự, trung bình động) là cách các thiết lập từ chối tự thông báo.\n\nMột **khe hở** là một bước nhảy giữa đóng của một nến và mở của nến kế tiếp. Biểu đồ cổ phiếu tạo khe hở thường lệ — tin tức rơi khi sàn đóng cửa. Crypto, giao dịch 24/7, hiếm khi tạo khe hở; một 'khe hở' crypto thường nghĩa là gián đoạn dữ liệu, mà các kiểm tra toàn vẹn của QuantGlass đánh dấu thay vì lặng lẽ lấp.\n\nQuy tắc đọc: một bấc là thông tin về trận chiến *trong thanh*; một khe hở là thông tin về bất ngờ *giữa các thanh*. Không cái nào một mình là tín hiệu — cả hai là ngữ cảnh củng cố hoặc làm yếu một thiết lập.",
+    "key_terms": [
+      {
+        "term": "Bấc / bóng",
+        "definition": "Biên độ của nến ngoài thân — các giá đã ghé nhưng bị từ chối."
+      },
+      {
+        "term": "Từ chối",
+        "definition": "Một cú đẩy đến một mức rồi đóng rời xa nó."
+      },
+      {
+        "term": "Khe hở",
+        "definition": "Mở khác đóng trước đó — phổ biến ở cổ phiếu, bất thường ở crypto."
+      },
+      {
+        "term": "Khe hở dữ liệu",
+        "definition": "Một hiện vật nến thiếu mà lớp toàn vẹn phát hiện."
+      }
+    ],
+    "exercise": {
+      "question": "Một chuỗi crypto 1h cho thấy một khe hở lớn giữa đóng của một nến và mở của nến kế tiếp. Giải thích khả dĩ nhất là gì?",
+      "options": [
+        "Sàn crypto đóng cửa về đêm như thị trường cổ phiếu.",
+        "Một gián đoạn dữ liệu — thị trường liên tục hiếm khi tạo khe hở giá thật, nên QuantGlass đánh dấu các nến thiếu.",
+        "Giao thức đặt lại giá.",
+        "Khe hở không thể biểu diễn trong OHLCV."
+      ],
+      "explanation": "Crypto giao dịch 24 giờ, nên các nến liên tiếp thường chạm nhau. Một khe hở thường đánh dấu dữ liệu thiếu — một sự kiện toàn vẹn, không phải sự kiện thị trường."
+    },
+    "live_apply": {
+      "cta": "Tìm một nến có bấc rõ rệt gần một trung bình động — hình học này là nguyên liệu thô cho các thiết lập từ chối của động cơ."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "title": "Đọc các mức như động cơ",
+    "summary": "Từ các đường vẽ tay đến các mức tái lập được.",
+    "concept": "Hỗ trợ/kháng cự cổ điển được vẽ bằng mắt — hữu ích, nhưng không tái lập được: hai nhà giao dịch vẽ hai đường khác nhau. QuantGlass ưu tiên **các mức tính được** để mỗi mức bạn thấy có thể tính lại và kiểm toán.\n\nTừ vựng mức của động cơ: **cực trị gần đây** (cao/thấp của khoảng 20 thanh gần nhất — kênh Donchian), **trung bình động** như hỗ trợ động (vùng thoái lui của 21-EMA trong các thiết lập xu hướng) và **bao biến động** (Keltner: EMA ± một bội số ATR; Bollinger: trung bình ± một bội số độ lệch chuẩn). Mỗi cái là một công thức chính xác trên nến đã đóng — không có tự do nghệ thuật.\n\nKhi một tín hiệu nói 'thoái lui vào vùng EMA' hoặc neo sự vô hiệu hóa 'gần đáy dao động gần đây', các cụm từ này ánh xạ một-một vào các mức tính được này. Các đường vẽ tay vẫn là công cụ tư duy tốt; động cơ chỉ từ chối *giao dịch* cái nó không thể tính lại.",
+    "key_terms": [
+      {
+        "term": "Mức tính được",
+        "definition": "Một mức hỗ trợ/kháng cự suy ra từ một công thức, không vẽ tay."
+      },
+      {
+        "term": "Kênh Donchian",
+        "definition": "Cao và thấp của N thanh — mức cực trị gần đây của động cơ."
+      },
+      {
+        "term": "Hỗ trợ động",
+        "definition": "Một trung bình động hoạt động như mức lên/xuống, vd 21-EMA."
+      },
+      {
+        "term": "Bao biến động",
+        "definition": "Các dải quanh một đường trung tâm định cỡ bởi ATR (Keltner) hoặc độ lệch chuẩn (Bollinger)."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao QuantGlass neo các mức vào công thức (Donchian, EMA, dải ATR) thay vì đường vẽ tay?",
+      "options": [
+        "Công thức luôn dự đoán đúng tương lai.",
+        "Các mức tính được tái lập được và kiểm toán được — mỗi mức trên màn hình có thể tính lại từ cùng các nến.",
+        "Công cụ vẽ được cấp bằng sáng chế.",
+        "Đường vẽ tay luôn sai."
+      ],
+      "explanation": "Mục tiêu là trung thực, không phải tiên tri: một mức suy ra từ công thức có thể được kiểm chứng bởi bất kỳ ai có cùng dữ liệu, đó là tiêu chuẩn mà cả động cơ tuân theo."
+    },
+    "live_apply": {
+      "cta": "Bật các lớp phủ dải trên một biểu đồ và xem giá tương tác với các rìa của bao tính được thế nào."
+    }
+  },
+  {
+    "id": "novice-05-reading-signal",
+    "title": "Đọc tín hiệu đầu tiên của bạn",
+    "summary": "Giải mã mỗi trường trong đầu ra một tín hiệu QuantGlass.",
+    "concept": "Một tín hiệu QuantGlass chứa:\n\n- **Loại tín hiệu**: BUY_ZONE / SELL / HOLD / WAIT / WATCH\n- **Vùng vào**: một khoảng giá [low, high] để vào\n- **Cắt lỗ**: giá nơi ý tưởng giao dịch được chứng minh là sai\n- **Chốt lời [TP1, TP2, TP3]**: ba bậc thoát (50 / 30 / 20% vị thế)\n- **Rủi ro:Phần thưởng (R:R)**: bạn kiếm bao nhiêu R nếu TP2 đạt được\n- **Độ tin cậy (0–89)**: một điểm đã hiệu chuẩn — không phải xác suất thắng\n- **Cơ sở độ tin cậy**: các điểm thành phần dẫn dắt độ tin cậy tổng thể\n- **Lý do**: giải thích rõ ràng vì sao thiết lập này được nhận diện\n- **Vô hiệu hóa**: điều kiện hủy thiết lập này\n\n**Quan trọng**: Độ tin cậy ≠ tỷ lệ thắng. Một tín hiệu độ tin cậy 70 KHÔNG phải '70% cơ hội thắng'. Nó nghĩa là động cơ có bằng chứng tương đối mạnh *tại thời điểm quét*. Luôn kiểm tra `out_of_sample_validated` — nếu False, backtest chưa qua kỳ thi thống kê.",
+    "key_terms": [
+      {
+        "term": "Vùng vào",
+        "definition": "Khoảng giá [low, high] được đánh giá là chấp nhận được để vào."
+      },
+      {
+        "term": "Cắt lỗ",
+        "definition": "Mức giá nơi thiết lập bị vô hiệu hóa; lỗ tối đa chấp nhận được."
+      },
+      {
+        "term": "Thang chốt lời",
+        "definition": "Ba giá thoát theo bậc (TP1=50%, TP2=30%, TP3=20% vị thế)."
+      },
+      {
+        "term": "R:R (Rủi ro:Phần thưởng)",
+        "definition": "Phần thưởng ÷ Rủi ro — R:R 2,0 nghĩa là lợi nhuận tiềm năng gấp 2 lần rủi ro."
+      },
+      {
+        "term": "Được xác thực ngoài mẫu",
+        "definition": "True khi lát cắt OOS của backtest có ≥ min_sample giao dịch kỳ vọng dương."
+      }
+    ],
+    "exercise": {
+      "question": "Một tín hiệu BUY_ZONE hiển thị vào 100–102, cắt lỗ 96, TP2 = 108. R:R xấp xỉ đến TP2 là bao nhiêu?",
+      "options": [
+        "R:R ≈ 1,0 — phần thưởng bằng rủi ro.",
+        "R:R ≈ 1,5 — phần thưởng hơn rủi ro 50%.",
+        "R:R ≈ 2,0 — phần thưởng gấp đôi rủi ro.",
+        "R:R ≈ 0,5 — rủi ro gấp đôi phần thưởng."
+      ],
+      "explanation": "Điểm giữa vào ≈ 101, Cắt lỗ = 96 → Rủi ro = 5. TP2 = 108 → Phần thưởng = 7. R:R = 7/5 = 1,4 ≈ 1,5. QuantGlass nhắm tối thiểu 1,5–2,4× R:R tùy loại thiết lập."
+    },
+    "live_apply": {
+      "cta": "Nhấp bất kỳ tín hiệu BUY_ZONE nào và định vị entry_zone, stop_loss, take_profit và risk_reward trong ngăn chi tiết."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "title": "Giải phẫu một tín hiệu QuantGlass",
+    "summary": "Mỗi trường trên thẻ tín hiệu và vì sao nó tồn tại.",
+    "concept": "Một tín hiệu QuantGlass là một khẳng định có cấu trúc, không phải mật báo. Các phần của nó: **trạng thái** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) gọi tên điều động cơ thấy; **loại thiết lập** gọi tên họ mẫu hình tạo ra nó; **vùng vào** giới hạn nơi hành động có lý; **cắt lỗ** là giá duy nhất nơi ý tưởng sai; **thang chốt lời** chia bậc các lần thoát ở ba mức với trọng số cố định (50% / 30% / 20%); và **rủi ro:phần thưởng** so sánh khoảng cách của mục tiêu trung vị với của cắt lỗ.\n\nHai trường trung thực hoàn tất thẻ: **lý do** liệt kê các sự thật nến-đã-đóng phía sau trạng thái, và **cơ sở độ tin cậy** phơi bày mỗi thống kê đã nuôi con số độ tin cậy — bao gồm cỡ mẫu.\n\nKhông gì trên thẻ là lời khuyên. Đó là động cơ trình bày công việc của nó, để bạn có thể đồng ý hoặc không đồng ý với *lý luận*, không chỉ kết luận.",
+    "key_terms": [
+      {
+        "term": "Trạng thái tín hiệu",
+        "definition": "Đọc của động cơ: BUY_ZONE, SELL, WATCH, HOLD hoặc WAIT."
+      },
+      {
+        "term": "Loại thiết lập",
+        "definition": "Họ mẫu hình tạo ra trạng thái."
+      },
+      {
+        "term": "Vùng vào",
+        "definition": "Khoảng giá nơi thiết lập có thể hành động."
+      },
+      {
+        "term": "Thang TP",
+        "definition": "Ba mức thoát theo bậc với trọng số 50/30/20."
+      },
+      {
+        "term": "Cơ sở độ tin cậy",
+        "definition": "Các thống kê phơi bày phía sau con số độ tin cậy."
+      }
+    ],
+    "exercise": {
+      "question": "Cắt lỗ về cơ bản đại diện điều gì trong một tín hiệu QuantGlass?",
+      "options": [
+        "Một giá thoát được bảo đảm.",
+        "Giá nơi tiền đề của thiết lập bị vô hiệu hóa — ý tưởng sai ở đó, nên vị thế không nên tồn tại.",
+        "Giá thấp nhất của năm.",
+        "Một ngưỡng phí."
+      ],
+      "explanation": "Cắt lỗ là điểm chứng minh sai của ý tưởng giao dịch. Lần khớp có thể trượt qua nó, nhưng ý nghĩa của nó là 'vượt đây, lý luận không còn đứng vững'."
+    },
+    "live_apply": {
+      "cta": "Mở bất kỳ tín hiệu nào và định vị bảy phần: trạng thái, thiết lập, vùng vào, cắt lỗ, thang, rủi ro:phần thưởng, lý do."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "title": "Con số độ tin cậy nghĩa là gì",
+    "summary": "Một điểm đã hiệu chuẩn với đầu vào nhìn thấy được — không phải xác suất lợi nhuận.",
+    "concept": "Điểm độ tin cậy (20–89) trộn **sắp xếp xu hướng**, **xác nhận khối lượng**, **hợp lưu** và **lịch sử backtest** của họ thiết lập đó — với thống kê được cố ý co về trung tính khi mẫu mỏng. Một lịch sử 100% thắng trên 3 giao dịch được coi gần như vô nghĩa, đúng như nó nên vậy.\n\nHai trần giữ con số trung thực: độ tin cậy không thể vượt 62 trừ khi thiết lập được **xác thực ngoài mẫu**, và không bao giờ vượt 89 — sự chắc chắn không có trong thực đơn. Khi đủ giao dịch ngoài mẫu tồn tại, tín hiệu cũng hiển thị một **khoảng có bảo đảm bao phủ** cho kết quả giao dịch kế tiếp, một biên không phân phối giữ với một xác suất đã nêu.\n\nĐọc nó như: *bao nhiêu bằng chứng hỗ trợ mẫu hình thiết lập này*, không bao giờ là *cơ hội giao dịch này thắng*. Các giao dịch riêng lẻ vẫn không thể đoán; chỉ dài hạn mới có thống kê.",
+    "key_terms": [
+      {
+        "term": "Độ tin cậy",
+        "definition": "Một điểm bằng chứng 20–89 với mọi đầu vào phơi bày."
+      },
+      {
+        "term": "Co (shrinkage)",
+        "definition": "Kéo thống kê mẫu mỏng về trung tính để mẫu nhỏ không hét lên."
+      },
+      {
+        "term": "Xác thực OOS",
+        "definition": "Lợi thế của thiết lập giữ vững trên dữ liệu mà động cơ chưa bao giờ được khớp vào."
+      },
+      {
+        "term": "Bảo đảm bao phủ",
+        "definition": "Một khoảng không phân phối cho kết quả giao dịch kế tiếp ở một xác suất đã nêu."
+      }
+    ],
+    "exercise": {
+      "question": "Một tín hiệu hiển thị độ tin cậy 58 với cỡ mẫu backtest là 7. Bạn nên đọc nó thế nào?",
+      "options": [
+        "Một cơ hội 58% giao dịch này có lãi.",
+        "Bằng chứng mẫu hình vừa phải, bị co mạnh vì bảy giao dịch về mặt thống kê gần như không là gì.",
+        "Một bảo đảm 58 tick lợi nhuận.",
+        "Động cơ hoàn thành 58% phép tính."
+      ],
+      "explanation": "Độ tin cậy là sức mạnh bằng chứng, không phải xác suất thắng — và ở n=7 sự co khiến điểm dựa chủ yếu vào chất lượng cấu trúc của thiết lập, không phải lịch sử tí hon của nó."
+    },
+    "live_apply": {
+      "cta": "Mở cơ sở độ tin cậy của một tín hiệu và tìm các cỡ mẫu — chú ý điểm xử lý cái nhỏ thế nào."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "title": "Độ tươi và vô hiệu hóa: khi nào một tín hiệu chết",
+    "summary": "Tín hiệu hết hạn theo hai cách — theo thời gian và theo giá.",
+    "concept": "Một tín hiệu là một khẳng định về thị trường *tại ngày của nến đã đóng cuối cùng của nó*. Nó chết theo hai cách.\n\n**Theo thời gian**: mỗi nến đã đóng mới đánh giá lại thế giới; huy hiệu độ tươi cho thấy tuổi của dữ liệu phía sau điều bạn thấy. Tươi (trong khoảng 2 thanh) nghĩa là hiện tại; các huy hiệu trễ và cũ nghĩa là bức tranh có thể đã tiến triển — không bao giờ hành động trên một tín hiệu cũ mà không làm mới.\n\n**Theo giá**: mỗi tín hiệu nêu **sự vô hiệu hóa** của nó — thường là một đóng vượt mức cắt lỗ. Một khi giá đóng ở đó, tiền đề của thiết lập bị chứng minh sai, và trạng thái tín hiệu lật sang vô hiệu hóa. Không có xấu hổ trong một ý tưởng bị vô hiệu hóa; chỉ có sai lầm trong việc tiếp tục hành động trên nó.\n\nKỷ luật điều này dạy khái quát hóa: bất kỳ ý tưởng giao dịch nào bạn giữ nên có một điều kiện hết hạn viết theo hai chiều — *khi nào* nó trở nên cũ và *ở đâu* nó trở nên sai.",
+    "key_terms": [
+      {
+        "term": "Huy hiệu độ tươi",
+        "definition": "Tươi / trễ / cũ, theo tuổi của nến đã đóng cuối cùng so với khung thời gian."
+      },
+      {
+        "term": "Vô hiệu hóa",
+        "definition": "Điều kiện đã nêu (thường là một đóng vượt cắt lỗ) chứng minh sai thiết lập."
+      },
+      {
+        "term": "Tín hiệu cũ",
+        "definition": "Một tín hiệu mà nến nền tảng của nó cách nhiều thanh — làm mới trước khi hành động."
+      },
+      {
+        "term": "Đánh giá lại",
+        "definition": "Mỗi nến đã đóng kích hoạt một đọc mới của động cơ."
+      }
+    ],
+    "exercise": {
+      "question": "Một tín hiệu 1h hiển thị huy hiệu độ tươi 7 giờ. Phản ứng đúng là gì?",
+      "options": [
+        "Hành động ngay — tín hiệu cũ như rượu vang.",
+        "Làm mới dữ liệu trước: bảy nến đã đóng đã trôi qua, và đọc hiện tại của động cơ có thể khác.",
+        "Nhân đôi kích thước vị thế để bù.",
+        "Độ tươi chỉ quan trọng với cổ phiếu."
+      ],
+      "explanation": "Tồn tại bảy thanh thông tin mới mà tín hiệu hiển thị chưa thấy. Làm mới, để động cơ đánh giá lại, và chỉ hành động trên một đọc hiện tại."
+    },
+    "common_mistakes": [
+      "Hành động trên một tín hiệu cũ. Một thiết lập tính cách đây nhiều giờ mô tả một thị trường không còn tồn tại.",
+      "Xem vô hiệu hóa như một gợi ý. Khi mức gãy, ý tưởng giao dịch đã chết — giữ nó là một giao dịch mới, không kế hoạch."
+    ],
+    "live_apply": {
+      "cta": "Tìm huy hiệu độ tươi trên mỗi tín hiệu — rồi làm mới hành lang và xem các huy hiệu đặt lại."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "title": "Đặt giao dịch giấy đầu tiên của bạn",
+    "summary": "Từ tín hiệu đến một vị thế mô phỏng, với không đô la đặt cược.",
+    "concept": "Giao dịch giấy là một buổi diễn tập với dữ liệu thị trường thật và tiền giả tưởng. Trong QuantGlass: mở một tín hiệu, chọn **Giao dịch giấy**, đặt một số lượng và gửi. Ý định được xếp hàng và khớp ở giá khả dụng kế tiếp — bao gồm sự sỉ nhục thực tế của việc không có được giá chính xác trên biểu đồ. Tài khoản giấy của bạn theo dõi số dư, sức mua, vị thế mở và PnL đã thực hiện.\n\nDùng chính hình học của tín hiệu: định cỡ vị thế sao cho, nếu giá chạm cắt lỗ, bạn mất một phần nhỏ cố định của tài khoản (lộ trình Rủi ro biến điều này thành một công thức). Rồi — đây là phần diễn tập — **quản lý giao dịch như thể nó là thật**: tôn trọng cắt lỗ, lấy các lần thoát thang và ghi chú vì sao bạn vào.\n\nMọi thứ bạn làm ở đây nuôi vòng học: bảng huấn luyện quan sát các giao dịch giấy của bạn và làm nổi bài học bạn cần khi một thói quen trượt.",
+    "key_terms": [
+      {
+        "term": "Giao dịch giấy",
+        "definition": "Khớp mô phỏng dựa trên dữ liệu thị trường thật."
+      },
+      {
+        "term": "Ý định giao dịch",
+        "definition": "Lệnh đã xếp hàng của bạn, khớp ở giá khả dụng kế tiếp."
+      },
+      {
+        "term": "Sức mua",
+        "definition": "Sức chứa tài khoản còn lại sau các vị thế mở."
+      },
+      {
+        "term": "PnL đã thực hiện",
+        "definition": "Lãi và lỗ chỉ từ các vị thế đã đóng."
+      }
+    ],
+    "exercise": {
+      "question": "Cách giá trị nhất để đối xử với một giao dịch giấy là gì?",
+      "options": [
+        "Như một vé số — định cỡ nó vô lý vì nó giả tưởng.",
+        "Chính xác như thể nó là thật: kích thước có kế hoạch, cắt lỗ được tôn trọng, lý luận được ghi lại.",
+        "Như một cách chỉ để thử các nút lệnh.",
+        "Bỏ qua nó sau khi vào."
+      ],
+      "explanation": "Giao dịch giấy xây các thói quen bạn sẽ giữ. Luyện định cỡ kỳ quái hay cắt lỗ bị bỏ qua chính là diễn tập các hành vi phá hủy tài khoản thật."
+    },
+    "common_mistakes": [
+      "Bỏ qua kế hoạch vì 'chỉ là giấy'. Giao dịch giấy tồn tại để rèn thói quen lập kế hoạch — bỏ qua nó và bạn luyện ứng biến.",
+      "Định cỡ quá lớn vì tiền không thật. Thói quen hình thành ở 10% rủi ro giả tưởng chuyển nguyên vẹn sang tài khoản thật."
+    ],
+    "live_apply": {
+      "cta": "Chọn tín hiệu tươi nhất, đặt một giao dịch giấy nhỏ với vùng vào và cắt lỗ của nó, và ghi lý luận của bạn trong một câu."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "title": "Sau giao dịch: đọc kết quả của bạn",
+    "summary": "Vị thế, PnL, và khác biệt giữa kết quả và quyết định.",
+    "concept": "Một khi khớp, vị thế của bạn xuất hiện với một giá trung bình và một dấu PnL chưa thực hiện trực tiếp; đóng nó chuyển nó thành PnL đã thực hiện. Các con số đơn giản — tâm lý thì không.\n\nPhân biệt cốt lõi: **một quyết định tốt có thể thua và một quyết định tồi có thể thắng.** Kết quả của một giao dịch bị nhiễu chi phối; chỉ qua nhiều giao dịch chất lượng quyết định mới xuất hiện trong thống kê. Vậy hãy đánh giá mỗi giao dịch theo *quy trình* — thiết lập có hợp lệ, kích thước có kế hoạch, cắt lỗ có được tôn trọng? — và đánh giá *phương pháp* của bạn theo tổng hợp: tỷ lệ thắng, R trung bình, kỳ vọng.\n\nĐó là vì sao QuantGlass nhấn mạnh bội số R và cỡ mẫu khắp nơi: chúng biến một đống câu chuyện riêng lẻ thành bằng chứng. Lịch sử giấy của bạn là tập dữ liệu đầu tiên. Các lộ trình Rủi ro và Thống kê dạy bạn đọc nó như một nhà phân tích thay vì một con bạc.",
+    "key_terms": [
+      {
+        "term": "PnL chưa thực hiện",
+        "definition": "Lãi/lỗ theo giá thị trường trên các vị thế mở."
+      },
+      {
+        "term": "PnL đã thực hiện",
+        "definition": "Kết quả đã chốt của các vị thế đã đóng."
+      },
+      {
+        "term": "Quy trình so với kết quả",
+        "definition": "Quyết định được đánh giá theo lý luận; phương pháp theo thống kê dài hạn."
+      },
+      {
+        "term": "Bội số R",
+        "definition": "Một kết quả biểu thị theo đơn vị rủi ro kế hoạch — đơn vị bản địa của động cơ."
+      }
+    ],
+    "exercise": {
+      "question": "Giao dịch có kế hoạch tốt của bạn chạm cắt lỗ với lỗ -1R. Điều này chứng minh gì về quyết định thực hiện nó?",
+      "options": [
+        "Quyết định tồi — lỗ chứng minh sai lầm.",
+        "Gần như không gì tự thân: kết quả riêng lẻ là nhiễu; quyết định được đánh giá theo quy trình và phương pháp theo nhiều giao dịch.",
+        "Cắt lỗ gây ra lỗ.",
+        "Bạn nên bỏ cắt lỗ trong tương lai."
+      ],
+      "explanation": "Một -1R trên một thiết lập hợp lệ với kích thước kế hoạch là hệ thống hoạt động như thiết kế. Săn lỗi thuộc về cấp quy trình, và các phán quyết thuộc về cấp mẫu."
+    },
+    "live_apply": {
+      "cta": "Mở tóm tắt tài khoản giấy của bạn: tách trong đầu con số nào là kết quả (PnL) và con số nào là quy trình (định cỡ và cắt lỗ của bạn)."
+    }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "title": "Giải phẫu một vụ lừa đảo giao dịch",
+    "summary": "Mọi mưu kế đều chạy trên cùng ba lời hứa.",
+    "concept": "Lừa đảo giao dịch được khoác áo mới không ngừng nhưng giống nhau về cấu trúc. Chúng bán một hỗn hợp ba lời hứa bất khả: **lợi nhuận bảo đảm** ('1% mỗi ngày, không rủi ro'), **kiến thức bí mật** ('chỉ báo mà HỌ không muốn bạn biết') và **giàu có không cần nỗ lực** ('bot giao dịch trong khi bạn ngủ'). Mỗi lời hứa mâu thuẫn với điều bạn đã học trong Học viện này: lợi nhuận đi kèm rủi ro theo định nghĩa (toán học sụt giảm), lợi thế công khai bền vững thoái hóa (trung thực thống kê), và chi phí cộng cạnh tranh khiến lợi nhuận không nỗ lực thành mâu thuẫn.\n\nKịch bản vận hành cũng kiên định không kém: **khẩn cấp** ('chỉ còn 5 chỗ'), **bằng chứng xã hội không kiểm chứng được** (ảnh chụp màn hình, lời chứng, Lamborghini thuê) và một **phễu cô lập** (đưa bạn từ nền tảng công khai vào các nhóm Telegram/WhatsApp riêng tư nơi kiểm duyệt và nhân chứng biến mất).\n\nThói quen bảo vệ nhất: khi *lợi nhuận quảng cáo* của một đề nghị sẽ làm người bán giàu mà không cần tiền của bạn, hãy hỏi vì sao họ cần tiền của bạn. Lợi thế thật được giao dịch lặng lẽ, không được bán to tiếng.",
+    "key_terms": [
+      {
+        "term": "Lợi nhuận bảo đảm",
+        "definition": "Một lời hứa mâu thuẫn với định nghĩa rủi ro thị trường — dấu hiệu lừa đảo phổ quát."
+      },
+      {
+        "term": "Áp lực khẩn cấp",
+        "definition": "Các thời hạn nhân tạo thiết kế để ngăn kiểm chứng."
+      },
+      {
+        "term": "Phễu cô lập",
+        "definition": "Đưa mục tiêu vào các kênh riêng tư xa kiểm duyệt và nhân chứng."
+      },
+      {
+        "term": "Nghịch lý người bán",
+        "definition": "Nếu lợi thế là thật, bán nó là không cần thiết và phản tác dụng."
+      }
+    ],
+    "exercise": {
+      "question": "Một quảng cáo hứa '2% mỗi ngày, bảo đảm, rút lúc nào cũng được'. Trước bất kỳ cờ đỏ nào khác, điều gì khiến nó về mặt toán học là một vụ lừa đảo?",
+      "options": [
+        "2% quá nhỏ để bận tâm.",
+        "Lãi kép hằng ngày bảo đảm ở tỷ lệ đó sẽ vượt của cải toàn cầu trong vài năm — lợi nhuận không rủi ro không tồn tại, nên chính lời hứa là bằng chứng.",
+        "Rút tiền không bao giờ được phép ở bất kỳ đâu.",
+        "Chỉ phần trăm trên 5% là lừa đảo."
+      ],
+      "explanation": "2% mỗi ngày gộp khoảng 1.377% mỗi năm. Ai thực sự có nó sẽ không bao giờ cần người gửi tiền. Lời hứa tự bác bỏ trước cả khi bạn kiểm tra bất cứ thứ gì khác."
+    },
+    "live_apply": {
+      "cta": "Xem lại bài sụt giảm: toán học phục hồi bạn tính ở đó chính là điều mà 'lợi nhuận không rủi ro' giả vờ phớt lờ."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "title": "Guru giả và người bán tín hiệu",
+    "summary": "Tiếp thị lối sống, hồ sơ thành tích không kiểm chứng được, và phễu khóa học.",
+    "concept": "Mô hình kinh doanh của guru là bán *hình ảnh* thành công giao dịch để tài trợ một lối sống mà giao dịch tự thân không tài trợ. Các manh mối: **nội dung lối sống trước hết** (xe, đồng hồ, laptop trên bãi biển — không bao giờ là sao kê được kiểm toán), **ảnh chụp màn hình được chọn lọc** (thắng được đăng, thua bị xóa; tài khoản demo trình bày như thật), **tuyên bố không kiểm chứng được** ('biến 1.000 đô thành 1 triệu' không sao kê môi giới) và doanh thu rõ ràng đến từ **khóa học, tín hiệu và liên kết tiếp thị** thay vì giao dịch.\n\n**Người bán tín hiệu** xứng đáng cảnh giác đặc biệt: trả tiền cho ai đó bảo bạn khi nào mua kết hợp toàn bộ rủi ro (của bạn) với không hiểu biết (cũng của bạn). Bạn không thể định cỡ, quản lý hay thoát một vị thế mà bạn không biết lý luận — đó là vì sao Học viện này dạy bạn *đọc lý do của động cơ* thay vì tin kết luận của nó.\n\nSự tương phản trung thực bạn giờ sở hữu: QuantGlass hiển thị cỡ mẫu, phân chia ngoài mẫu, chi phí và sụt giảm trên mỗi tuyên bố, *vì đó là cách báo cáo hiệu suất trung thực trông như thế nào*. Đòi cùng tiêu chuẩn từ bất kỳ con người nào: được kiểm toán, đầy đủ, điều chỉnh rủi ro, bao gồm thua lỗ. Gần như không ai sống sót qua yêu cầu đó.",
+    "key_terms": [
+      {
+        "term": "Tiếp thị lối sống",
+        "definition": "Bán hình ảnh giàu có thay cho hiệu suất kiểm chứng được."
+      },
+      {
+        "term": "Chọn lọc thiên vị",
+        "definition": "Đăng thắng trong khi xóa thua — thiên kiến sống sót như công cụ bán hàng."
+      },
+      {
+        "term": "Bán tín hiệu",
+        "definition": "Tính phí cho các cuộc gọi vào lệnh mà lý luận và rủi ro vẫn bị giấu."
+      },
+      {
+        "term": "Hồ sơ được kiểm toán",
+        "definition": "Hiệu suất đầy đủ được môi giới xác minh, bao gồm thua lỗ — tiêu chuẩn guru né tránh."
+      }
+    ],
+    "exercise": {
+      "question": "Một guru đăng 47 ảnh chụp màn hình các giao dịch thắng tháng này. Là một người đọc được đào tạo về thống kê, câu hỏi đầu tiên là gì?",
+      "options": [
+        "Môi giới nào có giao diện đẹp nhất?",
+        "Các lần thua ở đâu? Một mẫu không có thua lỗ là được chọn lọc, không phải xứng đáng — cùng thiên kiến sống sót làm giả backtest cũng làm giả hồ sơ thành tích.",
+        "Làm sao đăng ký nhanh nhất?",
+        "Đồng hồ đó là gì?"
+      ],
+      "explanation": "Bạn đã học điều này như thiên kiến sống sót trong lộ trình backtest. Các ảnh chụp là một mẫu bạn không thể kiểm toán, được chọn bởi người đang bán cho bạn."
+    },
+    "live_apply": {
+      "cta": "Mở bất kỳ preset nào: các lần thua, sụt giảm và cỡ mẫu được in bên cạnh các lần thắng. Sự đầy đủ này là cách báo cáo thật trông như thế nào."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "title": "Lừa đảo nền tảng và lừa đảo lấy cắp thông tin",
+    "summary": "Sàn giả, bẫy rút tiền và trộm thông tin đăng nhập.",
+    "concept": "Họ lừa đảo thứ hai tấn công *quyền truy cập* của bạn thay vì phán đoán. **Nền tảng giả**: các trang sàn/môi giới bóng bẩy chấp nhận tiền gửi, hiển thị lợi nhuận giả tưởng để khuyến khích gửi thêm, rồi chặn rút tiền ('trả thuế/phí trước' — **bẫy rút tiền**, luôn là một vụ trộm thứ hai, không bao giờ là phí thật). **Lừa đảo lấy cắp**: các trang và email giả mạo thu hoạch thông tin đăng nhập sàn hoặc cụm từ khôi phục của bạn; một lần dán sai và quyền giám hộ mất. **Hỗ trợ giả**: kẻ lừa trong các kênh cộng đồng nhắn tin 'giúp đỡ' cuối cùng khiến bạn tiết lộ thông tin đăng nhập — hỗ trợ thật không bao giờ nhắn trước và không bao giờ cần mật khẩu hay cụm từ khôi phục của bạn.\n\nPhòng thủ là máy móc, không phải khôn khéo: truy cập sàn **chỉ bằng dấu trang** (không bao giờ qua liên kết quảng cáo tìm kiếm), bật **danh sách cho phép rút tiền và 2FA**, cho **khóa API phạm vi nhỏ nhất** (quy tắc của bài giám hộ — khóa chỉ-dữ-liệu cho ứng dụng chỉ-dữ-liệu, không bao giờ quyền rút tiền), và coi mọi đòi hỏi 'trả tiền để mở khóa rút tiền của bạn' như lời thú nhận mà nó là.\n\nLưu ý lập trường của QuantGlass mà bạn có thể kiểm chứng: khóa sống trong một kho mã hóa cục bộ, ứng dụng không bao giờ hỏi mật khẩu hay cụm từ khôi phục, và không gì ở đây có thể rút tiền — theo thiết kế.",
+    "key_terms": [
+      {
+        "term": "Bẫy rút tiền",
+        "definition": "Phí giả đòi để 'giải phóng' tiền — một vụ trộm thứ hai, không bao giờ chính đáng."
+      },
+      {
+        "term": "Lừa đảo lấy cắp",
+        "definition": "Các trang/tin nhắn giả mạo thu hoạch thông tin đăng nhập hoặc cụm từ khôi phục."
+      },
+      {
+        "term": "Hỗ trợ giả",
+        "definition": "'Giúp đỡ' không mời mà đến cuối cùng dẫn đến tiết lộ thông tin đăng nhập."
+      },
+      {
+        "term": "Kỷ luật dấu trang",
+        "definition": "Đến các trang tài chính chỉ qua các liên kết đã lưu, đã kiểm chứng."
+      }
+    ],
+    "exercise": {
+      "question": "Một 'nền tảng' hiển thị số dư của bạn lên 11.400 đô nhưng đòi 'phí giải phóng' 900 đô để rút. Mô hình đúng của tình huống này là gì?",
+      "options": [
+        "Phí quy định bình thường — trả chúng.",
+        "Số dư hiển thị là hư cấu và phí là nỗ lực trộm lần hai; không nơi chính đáng nào tính phí để cho phép rút tiền của chính bạn.",
+        "Trả giá phí xuống 450 đô.",
+        "Gửi thêm để đủ điều kiện rút miễn phí."
+      ],
+      "explanation": "Con số trên màn hình luôn chỉ là điểm ảnh. Trả một phí 'giải phóng' chỉ báo hiệu bạn có thể bị tính phí lần nữa — chi tiêu đúng là không và hành động đúng là báo cáo."
+    },
+    "live_apply": {
+      "cta": "Kiểm tra màn hình khóa API của bạn: phạm vi, mã hóa, không quyền rút tiền ở bất kỳ đâu — kiểm chứng lập trường mà bài này mô tả."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "title": "Kỹ thuật xã hội và lừa đảo dài hơi",
+    "summary": "'Mổ heo', phễu lãng mạn, và niềm tin như bề mặt tấn công.",
+    "concept": "Các vụ lừa tàn phá tài chính nhất tấn công niềm tin, chậm rãi. Kịch bản của **lừa đảo dài hơi** (gọi thô là 'mổ heo'): một người lạ khởi xướng liên hệ (số nhầm, ứng dụng hẹn hò, mạng xã hội), đầu tư hàng tuần vào một mối quan hệ thân thiện hoặc lãng mạn, tiết lộ tình cờ thành công giao dịch của mình, và cuối cùng đề nghị 'giúp bạn đầu tư' — trên một nền tảng họ kiểm soát. Các lần rút nhỏ được tôn trọng sớm để chế tạo niềm tin; vụ trộm đến sau khi nạn nhân leo thang đến tiền tiết kiệm cả đời. Thua lỗ trong loại này thường thảm khốc chính vì mối quan hệ trông có vẻ thật.\n\nPhòng thủ cấu trúc, vì phán đoán của khoảnh khắc chính là điều vụ lừa tắt đi: **quy tắc kênh** — bất kỳ ai khởi xướng liên hệ VÀ cuối cùng dẫn đến đầu tư đều được giả định là thù địch, bất kể mối quan hệ kéo dài bao lâu; **quy tắc nền tảng** — không bao giờ dùng một nơi do người quen trực tuyến giới thiệu; **quy tắc kiểm chứng** — thảo luận bất kỳ 'cơ hội' mới nào với một người ngoại tuyến yêu bạn và không thu lợi gì từ đó; và **quy tắc rút tiền** — các 'lần rút thành công' sớm không chứng minh gì, vì tôn trọng các lần rút nhỏ là vốn lưu động của mưu kế.\n\nNếu điều này xảy ra với bạn hoặc người thân: đây là tội phạm công nghiệp có tổ chức, không phải sự ngây thơ — báo cáo nó, và không bao giờ trả cho 'dịch vụ thu hồi' (vụ lừa tiếp theo nhắm vào nạn nhân hai lần).",
+    "key_terms": [
+      {
+        "term": "Lừa đảo dài hơi",
+        "definition": "Hàng tuần mối quan hệ chế tạo trước yêu cầu tài chính."
+      },
+      {
+        "term": "Vốn niềm tin",
+        "definition": "Các lần rút nhỏ được tôn trọng dùng để mở khóa tiền gửi lớn hơn."
+      },
+      {
+        "term": "Quy tắc kênh",
+        "definition": "Liên hệ khởi xướng + dẫn đến đầu tư = giả định thù địch."
+      },
+      {
+        "term": "Lừa thu hồi",
+        "definition": "Dịch vụ giả tính phí nạn nhân để 'thu hồi' tiền bị đánh cắp."
+      }
+    ],
+    "exercise": {
+      "question": "Một người bạn trực tuyến hai tháng, chưa từng đòi hỏi gì, nhắc đến nền tảng giao dịch của chú mình và đề nghị dẫn bạn vào đó. Sự thật đơn lẻ nào chi phối đánh giá rủi ro?",
+      "options": [
+        "Hai tháng đủ để thiết lập niềm tin.",
+        "Họ khởi xướng liên hệ ban đầu và con đường giờ dẫn đến một nền tảng đầu tư họ giới thiệu — chữ ký đầy đủ của lừa đảo dài hơi, dù cảm thấy chân thật đến đâu.",
+        "Các ông chú thường đáng tin.",
+        "Trang nền tảng trông chuyên nghiệp."
+      ],
+      "explanation": "Toàn bộ thiết kế của vụ lừa là làm mối quan hệ trông thật và không vội. Mẫu hình thắng cảm giác: liên hệ khởi xướng cộng đầu tư được dẫn dắt là chữ ký, và phản ứng an toàn duy nhất là quy tắc kênh."
+    },
+    "live_apply": {
+      "cta": "Chia sẻ quy tắc kênh với một người bạn biết đang bắt đầu đầu tư — phòng thủ lan ra khi được nói thành lời."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "title": "Danh sách kiểm tra chống lừa đảo",
+    "summary": "Mười câu hỏi lọc gần như mọi thứ.",
+    "concept": "Được nén từ lộ trình này, một danh sách để chạy qua bất kỳ cơ hội nào: mỗi 'có' là một cờ đỏ, ba là một phán quyết:\n\n1. Lợi nhuận có **bảo đảm** hay 'không rủi ro' không?\n2. Có **khẩn cấp** không (thời hạn, chỗ giới hạn)?\n3. **Họ liên hệ bạn** trước không?\n4. Bạn có bị đưa vào một **kênh riêng tư** không?\n5. Hồ sơ thành tích có **không kiểm chứng được** không (ảnh chụp, không sao kê kiểm toán)?\n6. Người bán có kiếm từ **phí/khóa học/giới thiệu** thay vì giao dịch không?\n7. Bạn có phải dùng **nền tảng của họ** hay trả tiền để rút không?\n8. Họ có muốn **thông tin đăng nhập, cụm từ khôi phục hay truy cập từ xa** không?\n9. Chiến lược có **bí mật** không ('không thể tiết lộ nó hoạt động thế nào')?\n10. Lợi nhuận quảng cáo có làm việc bán **không cần thiết** nếu chúng là thật không?\n\nLưu ý mẫu hình của thứ sống sót qua bộ lọc này: những thứ nhàm chán. Học tự giám hộ, dữ liệu công khai được kiểm toán, công cụ trình bày công việc, lợi nhuận quảng cáo bằng bội số R trung thực kèm sụt giảm. Sự mỉa mai cuối cùng của Học viện là cố ý: mọi thứ làm động cơ đáng tin — lý luận nhìn thấy được, cỡ mẫu, trung thực ngoài mẫu, chi phí bao gồm, không lời hứa — là ngược lại chính xác của mỗi cờ đỏ ở trên. Bạn giờ biết trung thực trông như thế nào trong lĩnh vực này. Đòi nó ở mọi nơi.",
+    "key_terms": [
+      {
+        "term": "Chồng cờ đỏ",
+        "definition": "Một cờ là nghi ngờ; ba là phán quyết."
+      },
+      {
+        "term": "Tính kiểm chứng",
+        "definition": "Đường phân chia giữa tiếp thị và bằng chứng."
+      },
+      {
+        "term": "Người sống sót nhàm chán",
+        "definition": "Thứ qua được bộ lọc: được kiểm toán, minh bạch, không lời hứa."
+      },
+      {
+        "term": "Ngược lại của trung thực",
+        "definition": "Mỗi tính năng minh bạch của động cơ phản chiếu một cờ đỏ lừa đảo."
+      }
+    ],
+    "exercise": {
+      "question": "TẤT CẢ các đề nghị sống sót qua danh sách mười câu hỏi về cơ bản chia sẻ thuộc tính nào?",
+      "options": [
+        "Lợi nhuận hứa hẹn cao hơn các vụ lừa.",
+        "Minh bạch kiểm chứng được: tuyên bố kiểm toán được, lý luận nhìn thấy được, bao gồm thua lỗ, và không phụ thuộc vào khẩn cấp hay bí mật.",
+        "Sự ủng hộ của người nổi tiếng.",
+        "Truy cập Telegram riêng tư."
+      ],
+      "explanation": "Bộ lọc không tìm các viên ngọc ẩn — nó tìm sự trung thực. Công cụ và giáo viên chính đáng sống sót vì họ trình bày công việc; mọi thứ khác cần các cờ đỏ để hoạt động."
+    },
+    "common_mistakes": [
+      "Cho rằng trí tuệ là một sự bảo vệ. Lừa đảo được thiết kế cho người thông minh, tự tin — danh sách hoạt động chính vì nó không phụ thuộc vào phán đoán của khoảnh khắc.",
+      "Chỉ kiểm tra danh sách cho người lạ. Bạn bè và gia đình chuyển tiếp các vụ lừa họ tin; danh sách áp dụng cho thông điệp, không phải người đưa tin."
+    ],
+    "live_apply": {
+      "cta": "Chạy danh sách trên chính QuantGlass, từng điểm một — động cơ nên qua được chính vì mỗi tuyên bố trên màn hình đều kiểm toán được."
+    }
+  }
+]
