@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "대시보드",
+    "title": "마켓 펄스",
+    "refresh": "코리도 새로고침",
+    "refreshing": "새로고침 중…",
+    "tiles": {
+      "activeSignals": "활성 신호",
+      "activeSignalsHelper": "현재 {{count}}건 실행 가능 · 마감 캔들만",
+      "marketRegime": "시장 국면",
+      "marketRegimeHelper": "실시간 신호 인벤토리에서 도출",
+      "paperBalance": "모의 잔고",
+      "paperBalanceHelper": "미결제 {{count}}건",
+      "realizedPnl": "실현 손익",
+      "realizedPnlHelper": "개설 이후 모의 계좌"
+    },
+    "regime": {
+      "riskOn": "위험 선호 / 추세",
+      "mixed": "혼조 / 순환"
+    },
+    "topSignals": {
+      "eyebrow": "지금 발생 중",
+      "title": "상위 활성 신호",
+      "description": "신뢰도순 — 전체 유니버스에서 가장 강한 실행 가능 셋업.",
+      "emptyTitle": "현재 활성 신호가 없습니다",
+      "emptyDescription": "결정론적 엔진은 현재 국면에서 셋업을 발생시키지 않으며 인위적으로 만들지도 않습니다. 아래의 국면과 실시간 시장 그리드는 계속 작동합니다.",
+      "errorTitle": "신호 피드를 사용할 수 없음",
+      "errorDescription": "신호 피드를 불러오지 못했습니다."
+    },
+    "grid": {
+      "eyebrow": "시장",
+      "title": "전체 코리도 · 심볼 {{count}}개",
+      "description": "추적 중인 각 심볼을 가격, 변동, 마감 캔들 스파크라인과 함께 표시합니다. 셀을 클릭하면 열립니다.",
+      "emptyTitle": "시장 그리드가 비어 있습니다",
+      "emptyDescription": "아직 코리도 데이터가 없습니다. 백엔드가 수집하면서 채워집니다.",
+      "errorTitle": "시장 그리드를 사용할 수 없음",
+      "errorDescription": "코리도 가격을 불러오지 못했습니다."
+    },
+    "movers": {
+      "title": "변동 상위",
+      "empty": "아직 움직임이 없습니다."
+    },
+    "paperAccount": {
+      "title": "모의 계좌",
+      "empty": "미결제 포지션이 없습니다. 모의 티켓 체결이 여기에 표시됩니다."
+    },
+    "brief": {
+      "generating": "모닝 브리프 생성 중…",
+      "title": "모닝 브리프",
+      "footer": "엔진 자체의 판독(국면·신호·리스크)에서 작성. 결코 투자 자문이 아닙니다."
+    }
+  },
   "nav": {
     "dashboard": "대시보드",
     "signals": "신호",

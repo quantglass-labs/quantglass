@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Pannello",
+    "title": "Battito del mercato",
+    "refresh": "Aggiorna corridoio",
+    "refreshing": "Aggiornamento…",
+    "tiles": {
+      "activeSignals": "Segnali attivi",
+      "activeSignalsHelper": "{{count}} attuabili ora · solo candele chiuse",
+      "marketRegime": "Regime di mercato",
+      "marketRegimeHelper": "Derivato dall'inventario dei segnali in tempo reale",
+      "paperBalance": "Saldo simulato",
+      "paperBalanceHelper": "{{count}} posizioni aperte",
+      "realizedPnl": "P&L realizzato",
+      "realizedPnlHelper": "Conto simulato dall'inizio"
+    },
+    "regime": {
+      "riskOn": "Rischio attivo / Tendenza",
+      "mixed": "Misto / Rotazionale"
+    },
+    "topSignals": {
+      "eyebrow": "Cosa si attiva ora",
+      "title": "Principali segnali attivi",
+      "description": "Ordinati per affidabilità: le configurazioni attuabili più forti dell'intero universo.",
+      "emptyTitle": "Nessun segnale attivo al momento",
+      "emptyDescription": "Il motore deterministico non sta generando configurazioni nel regime attuale e non le fabbricherà. Il regime e la griglia di mercato in tempo reale restano attivi.",
+      "errorTitle": "Feed dei segnali non disponibile",
+      "errorDescription": "Impossibile caricare il feed dei segnali."
+    },
+    "grid": {
+      "eyebrow": "Mercato",
+      "title": "Tutto il corridoio · {{count}} simboli",
+      "description": "Ogni simbolo monitorato con prezzo, variazione e un mini-grafico a candele chiuse. Fai clic su una cella per aprirla.",
+      "emptyTitle": "La griglia di mercato è vuota",
+      "emptyDescription": "Ancora nessun dato del corridoio; si riempie man mano che il backend acquisisce.",
+      "errorTitle": "Griglia di mercato non disponibile",
+      "errorDescription": "Impossibile caricare i prezzi del corridoio."
+    },
+    "movers": {
+      "title": "Maggiori variazioni",
+      "empty": "Ancora nessun movimento."
+    },
+    "paperAccount": {
+      "title": "Conto simulato",
+      "empty": "Nessuna posizione aperta. Le esecuzioni del ticket simulato compaiono qui."
+    },
+    "brief": {
+      "generating": "Generazione del riepilogo mattutino…",
+      "title": "Riepilogo mattutino",
+      "footer": "Narrato dalle letture del motore stesso — regimi, segnali, rischio. Mai un consiglio."
+    }
+  },
   "nav": {
     "dashboard": "Pannello",
     "signals": "Segnali",

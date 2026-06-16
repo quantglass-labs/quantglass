@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Bảng điều khiển",
+    "title": "Nhịp thị trường",
+    "refresh": "Làm mới hành lang",
+    "refreshing": "Đang làm mới…",
+    "tiles": {
+      "activeSignals": "Tín hiệu hoạt động",
+      "activeSignalsHelper": "{{count}} có thể hành động ngay · chỉ nến đã đóng",
+      "marketRegime": "Chế độ thị trường",
+      "marketRegimeHelper": "Suy ra từ kho tín hiệu trực tiếp",
+      "paperBalance": "Số dư giấy",
+      "paperBalanceHelper": "{{count}} vị thế mở",
+      "realizedPnl": "Lãi/lỗ đã thực hiện",
+      "realizedPnlHelper": "Tài khoản giấy từ khi bắt đầu"
+    },
+    "regime": {
+      "riskOn": "Ưa rủi ro / Xu hướng",
+      "mixed": "Hỗn hợp / Luân phiên"
+    },
+    "topSignals": {
+      "eyebrow": "Đang kích hoạt",
+      "title": "Tín hiệu hoạt động hàng đầu",
+      "description": "Sắp xếp theo độ tin cậy — các thiết lập có thể hành động mạnh nhất trên toàn vũ trụ.",
+      "emptyTitle": "Hiện không có tín hiệu hoạt động",
+      "emptyDescription": "Động cơ tất định không kích hoạt thiết lập trong chế độ hiện tại — và sẽ không bịa ra. Chế độ và lưới thị trường trực tiếp bên dưới vẫn hoạt động.",
+      "errorTitle": "Nguồn tín hiệu không khả dụng",
+      "errorDescription": "Không thể tải nguồn tín hiệu."
+    },
+    "grid": {
+      "eyebrow": "Thị trường",
+      "title": "Toàn bộ hành lang · {{count}} mã",
+      "description": "Mỗi mã được theo dõi với giá, thay đổi và biểu đồ nến đã đóng thu nhỏ. Nhấp vào ô bất kỳ để mở.",
+      "emptyTitle": "Lưới thị trường trống",
+      "emptyDescription": "Chưa có dữ liệu hành lang; sẽ lấp đầy khi backend nạp dữ liệu.",
+      "errorTitle": "Lưới thị trường không khả dụng",
+      "errorDescription": "Không thể tải giá hành lang."
+    },
+    "movers": {
+      "title": "Biến động lớn nhất",
+      "empty": "Chưa có biến động."
+    },
+    "paperAccount": {
+      "title": "Tài khoản giấy",
+      "empty": "Không có vị thế mở. Lệnh khớp từ phiếu giấy sẽ hiển thị ở đây."
+    },
+    "brief": {
+      "generating": "Đang tạo bản tóm tắt buổi sáng…",
+      "title": "Bản tóm tắt buổi sáng",
+      "footer": "Được tường thuật từ chính số liệu của động cơ — chế độ, tín hiệu, rủi ro. Không bao giờ là lời khuyên."
+    }
+  },
   "nav": {
     "dashboard": "Bảng điều khiển",
     "signals": "Tín hiệu",

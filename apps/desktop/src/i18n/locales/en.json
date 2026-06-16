@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Dashboard",
+    "title": "Market pulse",
+    "refresh": "Refresh corridor",
+    "refreshing": "Refreshing…",
+    "tiles": {
+      "activeSignals": "Active Signals",
+      "activeSignalsHelper": "{{count}} actionable now · closed-candle only",
+      "marketRegime": "Market Regime",
+      "marketRegimeHelper": "Derived from the live signal inventory",
+      "paperBalance": "Paper Balance",
+      "paperBalanceHelper": "{{count}} open positions",
+      "realizedPnl": "Realized P&L",
+      "realizedPnlHelper": "Paper account since inception"
+    },
+    "regime": {
+      "riskOn": "Risk-On / Trending",
+      "mixed": "Mixed / Rotational"
+    },
+    "topSignals": {
+      "eyebrow": "What's firing now",
+      "title": "Top active signals",
+      "description": "Ranked by confidence — the strongest actionable setups across the whole universe.",
+      "emptyTitle": "No active signals right now",
+      "emptyDescription": "The deterministic engine isn't firing setups in the current regime — it won't manufacture them. Regime and the live market grid below are still active.",
+      "errorTitle": "Signal feed unavailable",
+      "errorDescription": "The signal feed could not be loaded."
+    },
+    "grid": {
+      "eyebrow": "Market",
+      "title": "The whole corridor · {{count}} symbols",
+      "description": "Every tracked symbol with price, change, and a closed-candle sparkline. Click any cell to open it.",
+      "emptyTitle": "Market grid is empty",
+      "emptyDescription": "No corridor data yet — it fills in as the backend ingests.",
+      "errorTitle": "Market grid unavailable",
+      "errorDescription": "Corridor prices could not be loaded."
+    },
+    "movers": {
+      "title": "Biggest movers",
+      "empty": "No movement yet."
+    },
+    "paperAccount": {
+      "title": "Paper account",
+      "empty": "No open positions. Fills from the paper ticket land here."
+    },
+    "brief": {
+      "generating": "Morning brief is generating…",
+      "title": "Morning brief",
+      "footer": "Narrated from the engine's own reads — regimes, signals, risk. Never advice."
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",

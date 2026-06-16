@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Übersicht",
+    "title": "Marktpuls",
+    "refresh": "Korridor aktualisieren",
+    "refreshing": "Wird aktualisiert…",
+    "tiles": {
+      "activeSignals": "Aktive Signale",
+      "activeSignalsHelper": "{{count}} jetzt handelbar · nur geschlossene Kerzen",
+      "marketRegime": "Marktregime",
+      "marketRegimeHelper": "Abgeleitet aus dem Live-Signalbestand",
+      "paperBalance": "Papier-Guthaben",
+      "paperBalanceHelper": "{{count}} offene Positionen",
+      "realizedPnl": "Realisierter G&V",
+      "realizedPnlHelper": "Papierkonto seit Beginn"
+    },
+    "regime": {
+      "riskOn": "Risk-On / Trend",
+      "mixed": "Gemischt / Rotierend"
+    },
+    "topSignals": {
+      "eyebrow": "Was gerade auslöst",
+      "title": "Top aktive Signale",
+      "description": "Nach Konfidenz sortiert – die stärksten handelbaren Setups im gesamten Universum.",
+      "emptyTitle": "Derzeit keine aktiven Signale",
+      "emptyDescription": "Die deterministische Engine löst im aktuellen Regime keine Setups aus – und erfindet keine. Regime und das Live-Marktraster unten bleiben aktiv.",
+      "errorTitle": "Signal-Feed nicht verfügbar",
+      "errorDescription": "Der Signal-Feed konnte nicht geladen werden."
+    },
+    "grid": {
+      "eyebrow": "Markt",
+      "title": "Der gesamte Korridor · {{count}} Symbole",
+      "description": "Jedes verfolgte Symbol mit Preis, Veränderung und einem Sparkline aus geschlossenen Kerzen. Auf eine Zelle klicken, um sie zu öffnen.",
+      "emptyTitle": "Das Marktraster ist leer",
+      "emptyDescription": "Noch keine Korridordaten; es füllt sich, während das Backend Daten einliest.",
+      "errorTitle": "Marktraster nicht verfügbar",
+      "errorDescription": "Die Korridorpreise konnten nicht geladen werden."
+    },
+    "movers": {
+      "title": "Größte Bewegungen",
+      "empty": "Noch keine Bewegung."
+    },
+    "paperAccount": {
+      "title": "Papierkonto",
+      "empty": "Keine offenen Positionen. Ausführungen aus dem Papier-Ticket erscheinen hier."
+    },
+    "brief": {
+      "generating": "Morgenbriefing wird erstellt…",
+      "title": "Morgenbriefing",
+      "footer": "Erzählt aus den eigenen Auswertungen der Engine – Regime, Signale, Risiko. Niemals eine Beratung."
+    }
+  },
   "nav": {
     "dashboard": "Übersicht",
     "signals": "Signale",

@@ -1,4 +1,55 @@
 {
+  "dashboard": {
+    "eyebrow": "Painel",
+    "title": "Pulso do mercado",
+    "refresh": "Atualizar corredor",
+    "refreshing": "Atualizando…",
+    "tiles": {
+      "activeSignals": "Sinais ativos",
+      "activeSignalsHelper": "{{count}} acionáveis agora · apenas velas fechadas",
+      "marketRegime": "Regime de mercado",
+      "marketRegimeHelper": "Derivado do inventário de sinais ao vivo",
+      "paperBalance": "Saldo em papel",
+      "paperBalanceHelper": "{{count}} posições abertas",
+      "realizedPnl": "P&L realizado",
+      "realizedPnlHelper": "Conta em papel desde o início"
+    },
+    "regime": {
+      "riskOn": "Risco ativo / Tendência",
+      "mixed": "Misto / Rotacional"
+    },
+    "topSignals": {
+      "eyebrow": "O que está disparando",
+      "title": "Principais sinais ativos",
+      "description": "Ordenados por confiança: as configurações acionáveis mais fortes de todo o universo.",
+      "emptyTitle": "Nenhum sinal ativo no momento",
+      "emptyDescription": "O motor determinístico não está disparando configurações no regime atual e não as fabricará. O regime e a grade de mercado ao vivo continuam ativos.",
+      "errorTitle": "Feed de sinais indisponível",
+      "errorDescription": "Não foi possível carregar o feed de sinais."
+    },
+    "grid": {
+      "eyebrow": "Mercado",
+      "title": "Todo o corredor · {{count}} símbolos",
+      "description": "Cada símbolo acompanhado com preço, variação e um minigráfico de velas fechadas. Clique em qualquer célula para abri-la.",
+      "emptyTitle": "A grade de mercado está vazia",
+      "emptyDescription": "Ainda não há dados do corredor; ela é preenchida conforme o backend ingere.",
+      "errorTitle": "Grade de mercado indisponível",
+      "errorDescription": "Não foi possível carregar os preços do corredor."
+    },
+    "movers": {
+      "title": "Maiores movimentos",
+      "empty": "Ainda sem movimento."
+    },
+    "paperAccount": {
+      "title": "Conta em papel",
+      "empty": "Nenhuma posição aberta. As execuções do bilhete em papel aparecem aqui."
+    },
+    "brief": {
+      "generating": "Gerando o resumo matinal…",
+      "title": "Resumo matinal",
+      "footer": "Narrado a partir das próprias leituras do motor — regimes, sinais, risco. Nunca é conselho."
+    }
+  },
   "nav": {
     "dashboard": "Painel",
     "signals": "Sinais",

@@ -19,6 +19,7 @@ import { MetricTile } from '../components/surface';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatPercent } from '../lib/format';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { backendClient } from '../lib/backend';
 import { AiMarkdown } from '../components/AiMarkdown';
 import type {
@@ -146,6 +147,7 @@ export function DashboardScreen({
   onOpenSignal: (signalId: string) => void;
   onRunBacktest: (symbolId: string, setupType: string) => void;
 }) {
+  const { t } = useTranslation();
   const marketRows: MarketRow[] = symbols.map((symbol) => ({
     symbol,
     display: buildMarketDisplay(symbol, marketCorridorItems, marketCandlesByKey),
@@ -164,22 +166,24 @@ export function DashboardScreen({
   ).slice(0, 6);
   const activeCount = signals.filter((record) => record.status === 'active').length;
   const buyCount = signals.filter((record) => record.signal.signal === 'BUY_ZONE').length;
-  const regime = buyCount >= 3 ? 'Risk-On / Trending' : 'Mixed / Rotational';
+  const regime = buyCount >= 3 ? t('dashboard.regime.riskOn') : t('dashboard.regime.mixed');
   const retryMockView = () => window.location.reload();
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">Dashboard</p>
-          <h1 className="mt-1 text-2xl font-semibold text-ink">Market pulse</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">
+            {t('dashboard.eyebrow')}
+          </p>
+          <h1 className="mt-1 text-2xl font-semibold text-ink">{t('dashboard.title')}</h1>
         </div>
         <Button
           variant="secondary"
           onClick={onRefreshMarketCorridor}
           disabled={marketCorridorRefreshing}
         >
-          {marketCorridorRefreshing ? 'Refreshing…' : 'Refresh corridor'}
+          {marketCorridorRefreshing ? t('dashboard.refreshing') : t('dashboard.refresh')}
         </Button>
       </div>
 
@@ -194,30 +198,32 @@ export function DashboardScreen({
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <MetricTile
-            label="Active Signals"
+            label={t('dashboard.tiles.activeSignals')}
             hero
             toneClass={activeCount > 0 ? 'text-accent' : 'text-muted'}
-            helper={`${heroSignals.length} actionable now · closed-candle only`}
+            helper={t('dashboard.tiles.activeSignalsHelper', { count: heroSignals.length })}
           >
             <CountUp value={activeCount} format={(n) => String(Math.round(n))} />
           </MetricTile>
           <MetricTile
-            label="Market Regime"
+            label={t('dashboard.tiles.marketRegime')}
             toneClass={buyCount >= 3 ? 'text-buy' : 'text-watch'}
-            helper="Derived from the live signal inventory"
+            helper={t('dashboard.tiles.marketRegimeHelper')}
           >
             <span className="text-2xl">{regime}</span>
           </MetricTile>
           <MetricTile
-            label="Paper Balance"
-            helper={`${paperAccount.openPositions.length} open positions`}
+            label={t('dashboard.tiles.paperBalance')}
+            helper={t('dashboard.tiles.paperBalanceHelper', {
+              count: paperAccount.openPositions.length,
+            })}
           >
             <CountUp value={paperAccount.balance} format={(n) => formatCurrency(n)} />
           </MetricTile>
           <MetricTile
-            label="Realized P&L"
+            label={t('dashboard.tiles.realizedPnl')}
             toneClass={paperAccount.realizedPnl >= 0 ? 'text-buy' : 'text-sell'}
-            helper="Paper account since inception"
+            helper={t('dashboard.tiles.realizedPnlHelper')}
           >
             <CountUp value={paperAccount.realizedPnl} format={(n) => formatCurrency(n)} />
           </MetricTile>
@@ -226,9 +232,9 @@ export function DashboardScreen({
 
       <Panel>
         <SectionHeading
-          eyebrow="What's firing now"
-          title="Top active signals"
-          description="Ranked by confidence — the strongest actionable setups across the whole universe."
+          eyebrow={t('dashboard.topSignals.eyebrow')}
+          title={t('dashboard.topSignals.title')}
+          description={t('dashboard.topSignals.description')}
         />
         <div className="mt-5">
           <DataStateView
@@ -237,14 +243,14 @@ export function DashboardScreen({
             loading={<LoadingSkeleton rows={4} />}
             empty={
               <EmptyState
-                title="No active signals right now"
-                description="The deterministic engine isn't firing setups in the current regime — it won't manufacture them. Regime and the live market grid below are still active."
+                title={t('dashboard.topSignals.emptyTitle')}
+                description={t('dashboard.topSignals.emptyDescription')}
               />
             }
             error={
               <ErrorState
-                title="Signal feed unavailable"
-                description="The signal feed could not be loaded."
+                title={t('dashboard.topSignals.errorTitle')}
+                description={t('dashboard.topSignals.errorDescription')}
                 onRetry={retryMockView}
               />
             }
@@ -311,9 +317,9 @@ export function DashboardScreen({
 
       <Panel>
         <SectionHeading
-          eyebrow="Market"
-          title={`The whole corridor · ${marketRows.length} symbols`}
-          description="Every tracked symbol with price, change, and a closed-candle sparkline. Click any cell to open it."
+          eyebrow={t('dashboard.grid.eyebrow')}
+          title={t('dashboard.grid.title', { count: marketRows.length })}
+          description={t('dashboard.grid.description')}
         />
         <div className="mt-5 grid gap-5 xl:grid-cols-[2.4fr,1fr]">
           <DataStateView
@@ -322,14 +328,14 @@ export function DashboardScreen({
             loading={<LoadingSkeleton rows={6} />}
             empty={
               <EmptyState
-                title="Market grid is empty"
-                description="No corridor data yet — it fills in as the backend ingests."
+                title={t('dashboard.grid.emptyTitle')}
+                description={t('dashboard.grid.emptyDescription')}
               />
             }
             error={
               <ErrorState
-                title="Market grid unavailable"
-                description="Corridor prices could not be loaded."
+                title={t('dashboard.grid.errorTitle')}
+                description={t('dashboard.grid.errorDescription')}
                 onRetry={retryMockView}
               />
             }
@@ -358,7 +364,7 @@ export function DashboardScreen({
           <div className="space-y-4">
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Biggest movers
+                {t('dashboard.movers.title')}
               </p>
               <div className="mt-3 space-y-1">
                 {movers.length ? (
@@ -386,14 +392,14 @@ export function DashboardScreen({
                     );
                   })
                 ) : (
-                  <p className="text-sm text-muted">No movement yet.</p>
+                  <p className="text-sm text-muted">{t('dashboard.movers.empty')}</p>
                 )}
               </div>
             </div>
 
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Paper account
+                {t('dashboard.paperAccount.title')}
               </p>
               {paperAccount.openPositions.length ? (
                 <div className="mt-3 space-y-2">
@@ -423,16 +429,14 @@ export function DashboardScreen({
                           onClick={() => onClosePosition(position.symbolId)}
                           className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted transition hover:border-sell/50 hover:text-sell"
                         >
-                          Close
+                          {t('common.close')}
                         </button>
                       ) : null}
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="mt-3 text-sm text-muted">
-                  No open positions. Fills from the paper ticket land here.
-                </p>
+                <p className="mt-3 text-sm text-muted">{t('dashboard.paperAccount.empty')}</p>
               )}
             </div>
           </div>
@@ -443,6 +447,7 @@ export function DashboardScreen({
 }
 
 function DailyBrief() {
+  const { t } = useTranslation();
   const [brief, setBrief] = useState<{ summary: string; source: string } | null>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   useEffect(() => {
@@ -458,7 +463,7 @@ function DailyBrief() {
     return (
       <div className="flex items-center gap-3 rounded-2xl border border-border bg-white/[0.03] px-4 py-2.5">
         <span className="size-3 shrink-0 animate-spin rounded-full border-2 border-accent/30 border-t-accent motion-reduce:animate-none" />
-        <p className="text-xs text-muted">Morning brief is generating…</p>
+        <p className="text-xs text-muted">{t('dashboard.brief.generating')}</p>
       </div>
     );
   }
@@ -468,15 +473,15 @@ function DailyBrief() {
   return (
     <div className="space-y-2 rounded-2xl border border-accent/25 bg-accentStrong/8 p-4">
       <div className="flex items-center gap-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Morning brief</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+          {t('dashboard.brief.title')}
+        </p>
         <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted">
           {brief.source}
         </span>
       </div>
       <AiMarkdown className="text-sm leading-relaxed text-ink">{brief.summary}</AiMarkdown>
-      <p className="text-[11px] text-muted">
-        Narrated from the engine's own reads — regimes, signals, risk. Never advice.
-      </p>
+      <p className="text-[11px] text-muted">{t('dashboard.brief.footer')}</p>
     </div>
   );
 }
