@@ -544,6 +544,53 @@
       "experimentLine": "تجربہ {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "ترتیبات",
+    "title": "پرووائیڈر، حفاظت، AI، اور اسٹریٹجی کنٹرول",
+    "description": "سادہ/ایڈوانسڈ پرووائیڈر روٹنگ، ماسک شدہ API کیز، پیپر/لائیو حفاظتی کنٹرول، ماڈل انتخاب، اور بیک ٹیسٹ اسکرین سے محفوظ اسٹریٹجیز۔",
+    "unavailableTitle": "ترتیبات دستیاب نہیں",
+    "unavailableDescription": "ترتیبات سرفیس لوڈ نہیں ہو سکا۔",
+    "tabs": {
+      "providers": "پرووائیڈرز",
+      "keys": "API کیز",
+      "risk": "رسک اور حفاظت",
+      "ai": "AI",
+      "extensions": "ایکسٹینشنز",
+      "strategies": "اسٹریٹجیز",
+      "legal": "قانونی"
+    },
+    "risk": {
+      "tradingMode": "ٹریڈنگ موڈ",
+      "tradingModeDesc": "ڈیفالٹ پیپر ہے۔ لائیو موڈ محفوظ Alpaca کریڈینشلز، واضح تصدیق، اور بیک اینڈ لائیو-آرڈر حفاظتی جانچ کے پیچھے محدود ہے۔",
+      "paper": "پیپر",
+      "live": "لائیو",
+      "enableLive": "لائیو بروکر روٹنگ فعال کریں",
+      "saveAlpacaFirst": "لائیو موڈ فعال کرنے سے پہلے Alpaca کی Key ID اور سیکریٹ محفوظ کریں",
+      "goToKeys": "API کیز پر جائیں",
+      "liveConfirmation": "لائیو تصدیق:",
+      "liveEnabled": "موجودہ بیک اینڈ ترتیبات کے لیے فعال",
+      "liveNotEnabled": "فعال نہیں",
+      "alpacaSaved": "Alpaca کریڈینشلز محفوظ ہیں۔",
+      "alpacaMissing": "Alpaca کریڈینشلز غائب ہیں۔",
+      "partialCandles": "جزوی کینڈلز",
+      "partialCandlesDesc": "`act_on_partial_candles = false` موجودہ بلڈ میں نافذ ہے۔ سگنل صرف بند کینڈلز استعمال کرتے ہیں۔",
+      "minSample": "کم از کم بیک ٹیسٹ سیمپل",
+      "minSampleDesc": "{{count}} ٹریڈز۔ اس حد سے نیچے کی اسٹریٹجیز بیک ٹیسٹنگ میں وارننگ بیج دکھاتی ہیں۔"
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "AGPL-3.0-or-later کے تحت لائسنس یافتہ۔ آپ اس سافٹ ویئر کو AGPL کے تحت استعمال، مطالعہ، ترمیم، اور دوبارہ تقسیم کر سکتے ہیں۔ ملکیتی ایمبیڈنگ، بند-سورس دوبارہ تقسیم، ہوسٹڈ پروڈکٹس، اور انٹرپرائز سپورٹ کے لیے کمرشل لائسنس دستیاب ہیں۔",
+      "sourceTitle": "سورس کوڈ",
+      "sourceDesc": "اس بلڈ کے لیے مکمل متعلقہ سورس عوامی ریپوزٹری سے دستیاب ہے۔",
+      "githubRepo": "GitHub ریپوزٹری",
+      "documents": "قانونی دستاویزات",
+      "agplLicense": "AGPL لائسنس",
+      "commercialLicensing": "کمرشل لائسنسنگ",
+      "financialDisclaimer": "مالی ڈسکلیمر",
+      "thirdParty": "فریقِ ثالث نوٹسز",
+      "disclaimer": "QuantGlass تحقیق اور فیصلہ-معاونت سافٹ ویئر ہے۔ یہ مالی مشورہ، سرمایہ کاری مشیر، بروکر-ڈیلر، یا ٹریڈنگ کارکردگی کا وعدہ نہیں۔"
+    }
+  },
   "nav": {
     "dashboard": "ڈیش بورڈ",
     "signals": "سگنلز",

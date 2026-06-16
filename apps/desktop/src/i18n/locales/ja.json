@@ -544,6 +544,53 @@
       "experimentLine": "実験 {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "設定",
+    "title": "プロバイダー・安全性・AI・戦略の制御",
+    "description": "シンプル/詳細のプロバイダールーティング、マスク済みAPIキー、ペーパー/ライブの安全制御、モデル選択、バックテスト画面からの保存済み戦略。",
+    "unavailableTitle": "設定を利用できません",
+    "unavailableDescription": "設定画面を読み込めませんでした。",
+    "tabs": {
+      "providers": "プロバイダー",
+      "keys": "APIキー",
+      "risk": "リスクと安全性",
+      "ai": "AI",
+      "extensions": "拡張機能",
+      "strategies": "戦略",
+      "legal": "法務"
+    },
+    "risk": {
+      "tradingMode": "取引モード",
+      "tradingModeDesc": "デフォルトはペーパーです。ライブモードは保存済みのAlpaca認証情報、明示的な確認、バックエンドのライブ注文安全チェックの背後でロックされています。",
+      "paper": "ペーパー",
+      "live": "ライブ",
+      "enableLive": "ライブブローカールーティングを有効化",
+      "saveAlpacaFirst": "ライブモードを有効にする前にAlpacaのKey IDとシークレットを保存してください",
+      "goToKeys": "APIキーへ移動",
+      "liveConfirmation": "ライブ確認：",
+      "liveEnabled": "現在のバックエンド設定で有効",
+      "liveNotEnabled": "未有効",
+      "alpacaSaved": "Alpaca認証情報は保存済みです。",
+      "alpacaMissing": "Alpaca認証情報がありません。",
+      "partialCandles": "未確定足",
+      "partialCandlesDesc": "現在のビルドでは `act_on_partial_candles = false` が強制されます。シグナルは確定足のみを使用します。",
+      "minSample": "最小バックテストサンプル",
+      "minSampleDesc": "{{count}} トレード。このしきい値を下回る戦略はバックテストで警告バッジを表示します。"
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "AGPL-3.0-or-later の下でライセンスされています。AGPL の下で本ソフトウェアを使用・研究・改変・再配布できます。プロプライエタリな組み込み、クローズドソースの再配布、ホスト型製品、エンタープライズサポート向けに商用ライセンスが利用可能です。",
+      "sourceTitle": "ソースコード",
+      "sourceDesc": "このビルドに対応する完全なソースコードは公開リポジトリから入手できます。",
+      "githubRepo": "GitHubリポジトリ",
+      "documents": "法的文書",
+      "agplLicense": "AGPLライセンス",
+      "commercialLicensing": "商用ライセンス",
+      "financialDisclaimer": "金融に関する免責事項",
+      "thirdParty": "サードパーティ通知",
+      "disclaimer": "QuantGlass は調査および意思決定支援ソフトウェアです。投資助言、投資顧問、ブローカーディーラー、または取引成績の約束ではありません。"
+    }
+  },
   "nav": {
     "dashboard": "ダッシュボード",
     "signals": "シグナル",

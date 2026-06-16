@@ -3,6 +3,7 @@
 
 import {} from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import {
   DataStateView,
@@ -226,6 +227,7 @@ export function SettingsScreen({
   onDeleteSavedStrategy: (strategyId: string) => void;
   onImportSavedStrategies: (strategies: SavedStrategy[]) => void;
 }) {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentTab = (searchParams.get('tab') as SettingsTab | null) ?? 'providers';
   const tab = useMemo<SettingsTab>(() => {
@@ -510,22 +512,22 @@ export function SettingsScreen({
   return (
     <div className="space-y-8">
       <SectionHeading
-        eyebrow="Settings"
-        title="Provider, safety, AI, and strategy controls"
-        description="Simple/Advanced provider routing, masked API keys, paper/live safety controls, model selection, and saved strategies from the backtest screen."
+        eyebrow={t('settings.eyebrow')}
+        title={t('settings.title')}
+        description={t('settings.description')}
       />
 
       <PillTabs
         value={tab}
         onChange={(value) => setSearchParams({ tab: value })}
         options={[
-          { value: 'providers', label: 'Providers' },
-          { value: 'keys', label: 'API Keys' },
-          { value: 'risk', label: 'Risk & Safety' },
-          { value: 'ai', label: 'AI' },
-          { value: 'extensions', label: 'Extensions' },
-          { value: 'strategies', label: 'Strategies' },
-          { value: 'legal', label: 'Legal' },
+          { value: 'providers', label: t('settings.tabs.providers') },
+          { value: 'keys', label: t('settings.tabs.keys') },
+          { value: 'risk', label: t('settings.tabs.risk') },
+          { value: 'ai', label: t('settings.tabs.ai') },
+          { value: 'extensions', label: t('settings.tabs.extensions') },
+          { value: 'strategies', label: t('settings.tabs.strategies') },
+          { value: 'legal', label: t('settings.tabs.legal') },
         ]}
       />
 
@@ -535,8 +537,8 @@ export function SettingsScreen({
           loading={<LoadingSkeleton rows={5} />}
           error={
             <ErrorState
-              title="Settings unavailable"
-              description="The settings surface could not be loaded."
+              title={t('settings.unavailableTitle')}
+              description={t('settings.unavailableDescription')}
               onRetry={retryMockView}
             />
           }

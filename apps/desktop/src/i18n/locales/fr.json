@@ -550,6 +550,53 @@
       "experimentLine": "expérience {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Paramètres",
+    "title": "Contrôles de fournisseur, sécurité, IA et stratégie",
+    "description": "Routage de fournisseur Simple/Avancé, clés API masquées, contrôles de sécurité papier/réel, sélection de modèle et stratégies enregistrées depuis l'écran de backtest.",
+    "unavailableTitle": "Paramètres indisponibles",
+    "unavailableDescription": "La surface des paramètres n'a pas pu être chargée.",
+    "tabs": {
+      "providers": "Fournisseurs",
+      "keys": "Clés API",
+      "risk": "Risque et sécurité",
+      "ai": "IA",
+      "extensions": "Extensions",
+      "strategies": "Stratégies",
+      "legal": "Légal"
+    },
+    "risk": {
+      "tradingMode": "Mode de trading",
+      "tradingModeDesc": "Le mode par défaut est papier. Le mode réel est verrouillé derrière des identifiants Alpaca enregistrés, une confirmation explicite et des contrôles de sécurité d'ordres réels du backend.",
+      "paper": "papier",
+      "live": "réel",
+      "enableLive": "Activer le routage vers le courtier réel",
+      "saveAlpacaFirst": "Enregistrez le Key ID et le secret Alpaca avant d'activer le mode réel",
+      "goToKeys": "Aller aux Clés API",
+      "liveConfirmation": "Confirmation réelle :",
+      "liveEnabled": "activée pour les paramètres backend actuels",
+      "liveNotEnabled": "non activée",
+      "alpacaSaved": "Les identifiants Alpaca sont enregistrés.",
+      "alpacaMissing": "Les identifiants Alpaca sont manquants.",
+      "partialCandles": "Bougies partielles",
+      "partialCandlesDesc": "`act_on_partial_candles = false` est appliqué dans la build actuelle. Les signaux n'utilisent que des bougies clôturées.",
+      "minSample": "Échantillon minimal de backtest",
+      "minSampleDesc": "{{count}} trades. Les stratégies en dessous de ce seuil affichent un badge d'avertissement dans Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Sous licence AGPL-3.0-or-later. Vous pouvez utiliser, étudier, modifier et redistribuer ce logiciel sous l'AGPL. Des licences commerciales sont disponibles pour l'intégration propriétaire, la redistribution à code fermé, les produits hébergés et le support entreprise.",
+      "sourceTitle": "Code source",
+      "sourceDesc": "Le code source complet correspondant à cette build est disponible dans le dépôt public.",
+      "githubRepo": "Dépôt GitHub",
+      "documents": "Documents légaux",
+      "agplLicense": "Licence AGPL",
+      "commercialLicensing": "Licences commerciales",
+      "financialDisclaimer": "Avertissement financier",
+      "thirdParty": "Mentions de tiers",
+      "disclaimer": "QuantGlass est un logiciel de recherche et d'aide à la décision. Ce n'est pas un conseil financier, un conseiller en investissement, un courtier-négociant, ni une promesse de performance de trading."
+    }
+  },
   "nav": {
     "dashboard": "Tableau de bord",
     "signals": "Signaux",

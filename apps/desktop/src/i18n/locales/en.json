@@ -547,6 +547,53 @@
       "experimentLine": "experiment {{id}} · {{range}}"
     }
   },
+  "settings": {
+    "eyebrow": "Settings",
+    "title": "Provider, safety, AI, and strategy controls",
+    "description": "Simple/Advanced provider routing, masked API keys, paper/live safety controls, model selection, and saved strategies from the backtest screen.",
+    "unavailableTitle": "Settings unavailable",
+    "unavailableDescription": "The settings surface could not be loaded.",
+    "tabs": {
+      "providers": "Providers",
+      "keys": "API Keys",
+      "risk": "Risk & Safety",
+      "ai": "AI",
+      "extensions": "Extensions",
+      "strategies": "Strategies",
+      "legal": "Legal"
+    },
+    "risk": {
+      "tradingMode": "Trading mode",
+      "tradingModeDesc": "Default is paper. Live mode is gated behind saved Alpaca credentials, explicit confirmation, and backend live-order safety checks.",
+      "paper": "paper",
+      "live": "live",
+      "enableLive": "Enable live broker routing",
+      "saveAlpacaFirst": "Save Alpaca key ID and secret before enabling live mode",
+      "goToKeys": "Go to API Keys",
+      "liveConfirmation": "Live confirmation:",
+      "liveEnabled": "enabled for the current backend settings",
+      "liveNotEnabled": "not enabled",
+      "alpacaSaved": "Alpaca credentials are saved.",
+      "alpacaMissing": "Alpaca credentials are missing.",
+      "partialCandles": "Partial candles",
+      "partialCandlesDesc": "`act_on_partial_candles = false` is enforced in the current build. Signals use closed candles only.",
+      "minSample": "Minimum backtest sample",
+      "minSampleDesc": "{{count}} trades. Strategies below this threshold show a warning badge in Backtesting."
+    },
+    "legal": {
+      "communityTitle": "QuantGlass Community Edition",
+      "communityDesc": "Licensed under AGPL-3.0-or-later. You may use, study, modify, and redistribute this software under the AGPL. Commercial licenses are available for proprietary embedding, closed-source redistribution, hosted products, and enterprise support.",
+      "sourceTitle": "Source code",
+      "sourceDesc": "The complete corresponding source for this build is available from the public repository.",
+      "githubRepo": "GitHub repository",
+      "documents": "Legal documents",
+      "agplLicense": "AGPL license",
+      "commercialLicensing": "Commercial licensing",
+      "financialDisclaimer": "Financial disclaimer",
+      "thirdParty": "Third-party notices",
+      "disclaimer": "QuantGlass is research and decision-support software. It is not financial advice, an investment adviser, a broker-dealer, or a promise of trading performance."
+    }
+  },
   "nav": {
     "dashboard": "Dashboard",
     "signals": "Signals",
