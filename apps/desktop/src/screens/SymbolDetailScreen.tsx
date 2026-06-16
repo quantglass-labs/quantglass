@@ -560,14 +560,26 @@ export function SymbolDetailScreen({
   }
 
   const indicatorStats = [
-    { label: 'EMA 21', value: formatCurrency(ema.at(-1) ?? 0), helper: t('symbolDetail.stats.emaHelper') },
+    {
+      label: 'EMA 21',
+      value: formatCurrency(ema.at(-1) ?? 0),
+      helper: t('symbolDetail.stats.emaHelper'),
+    },
     {
       label: 'SMA 50',
       value: formatCurrency(sma.at(-1) ?? 0),
       helper: t('symbolDetail.stats.smaHelper'),
     },
-    { label: 'RSI 14', value: `${(rsi.at(-1) ?? 0).toFixed(1)}`, helper: t('symbolDetail.stats.rsiHelper') },
-    { label: 'ATR 14', value: formatCurrency(atr.at(-1) ?? 0), helper: t('symbolDetail.stats.atrHelper') },
+    {
+      label: 'RSI 14',
+      value: `${(rsi.at(-1) ?? 0).toFixed(1)}`,
+      helper: t('symbolDetail.stats.rsiHelper'),
+    },
+    {
+      label: 'ATR 14',
+      value: formatCurrency(atr.at(-1) ?? 0),
+      helper: t('symbolDetail.stats.atrHelper'),
+    },
     {
       label: t('symbolDetail.stats.support'),
       value: formatCurrency(supportLevel),
@@ -628,7 +640,9 @@ export function SymbolDetailScreen({
                 onClick={onRefreshMarketCorridor}
                 disabled={marketCorridorRefreshing}
               >
-                {marketCorridorRefreshing ? t('symbolDetail.refreshing') : t('symbolDetail.refresh')}
+                {marketCorridorRefreshing
+                  ? t('symbolDetail.refreshing')
+                  : t('symbolDetail.refresh')}
               </Button>
             ) : null}
             <Button variant="secondary" onClick={() => onToggleWatchlist(symbol.id)}>
