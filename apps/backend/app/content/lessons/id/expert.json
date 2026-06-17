@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "expert-01-oos-validation",
+    "title": "Validasi OOS Walk-Forward",
+    "summary": "Pahami dasar statistik dari backtesting yang jujur.",
+    "concept": "**Analisis walk-forward** menguji strategi berulang kali pada jendela luar-sampel (out-of-sample) yang bergulir alih-alih satu pembagian tetap. Intuisinya: jika sebuah strategi tangguh, ia harus menunjukkan ekspektasi positif di *beberapa* jendela OOS independen, bukan hanya satu.\n\n**Kriteria validasi OOS QuantGlass:**\n1. Jumlah perdagangan OOS ≥ `min_backtest_sample` (default: 50 perdagangan)\n2. Ekspektasi OOS > 0.0R (penyiapan menghasilkan uang di periode yang ditahan)\n\nKeduanya harus benar agar `out_of_sample_validated = True`.\n\n**Mengapa ukuran sampel penting**: tingkat kemenangan 80% dari 5 perdagangan OOS tidak bermakna secara statistik. **Penyusutan Empirical Bayes (Empirical Bayes shrinkage)** dalam `_calibrate_win_rate` menangani ini dengan menarik tingkat kemenangan sampel tipis menuju 50% secara proporsional dengan ketipisan sampel.",
+    "key_terms": [
+      {
+        "term": "Walk-Forward",
+        "definition": "Backtest jendela bergulir melintasi beberapa periode OOS."
+      },
+      {
+        "term": "min_backtest_sample",
+        "definition": "Jumlah minimum perdagangan OOS yang diperlukan sebelum validasi OOS diklaim."
+      },
+      {
+        "term": "Ekspektasi OOS",
+        "definition": "R rata-rata per perdagangan dalam 30% data yang ditahan."
+      },
+      {
+        "term": "Penyusutan Empirical Bayes",
+        "definition": "Menarik tingkat kemenangan mentah menuju 50% saat sampel tipis — mencegah overfitting."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah penyiapan memiliki 8 perdagangan OOS dengan tingkat kemenangan 75% dan ekspektasi +0.9R. min_backtest_sample = 50. Apakah OOS tervalidasi?",
+      "options": [
+        "Ya — tingkat kemenangan 75% adalah bukti kuat.",
+        "Tidak — jumlah perdagangan OOS (8) < min_backtest_sample (50). Kedua syarat harus terpenuhi.",
+        "Ya — ekspektasi positif saja sudah cukup.",
+        "Tidak — tingkat kemenangan 75% terlalu tinggi; itu mengisyaratkan bias lookahead."
+      ],
+      "explanation": "Meskipun ekspektasi positif (+0.9R), jumlah perdagangan OOS (8) di bawah minimum (50). **Kedua** syarat harus lolos: `oos_count ≥ min_sample AND oos_expectancy > 0`. 8 perdagangan adalah sampel yang terlalu kecil — bahkan tingkat kemenangan 75% dari 8 perdagangan tidak signifikan secara statistik. Keyakinan akan dibatasi pada 62 dan ditandai sebagai belum tervalidasi."
+    },
+    "live_apply": {
+      "cta": "Di Pengaturan → Keamanan, coba kurangi min_backtest_sample menjadi 10 dan lihat berapa banyak sinyal yang menampilkan OOS_validated=True — lalu pikirkan apakah itu dapat dipercaya."
+    }
+  },
+  {
+    "id": "expert-02-empirical-bayes",
+    "title": "Kalibrasi Keyakinan Empirical Bayes",
+    "summary": "Pelajari bagaimana mesin mencegah hasil backtest sampel kecil menggelembungkan keyakinan.",
+    "concept": "**Masalahnya**: strategi dengan 3 perdagangan menang dari 3 memiliki tingkat kemenangan teramati 100%. Memperlakukannya sebagai keyakinan 100% akan menyesatkan secara berbahaya.\n\n**Penyusutan Empirical Bayes** menyelesaikan ini dengan menggabungkan *prior* (keyakinan skeptis bahwa tingkat kemenangan sebenarnya adalah 50%) dan memperbaruinya dengan bukti:\n\n`calibrated_win_rate = (raw_win_rate × sample_size + 0.5 × prior_strength) / (sample_size + prior_strength)`\n\ndi mana `prior_strength = min_backtest_sample` (default: 50).\n\n**Efek:**\n- 3 dari 3 (mentah 100%): terkalibrasi = (3 + 25) / (3 + 50) = 52.8% → hampir netral\n- 40 dari 50 (mentah 80%): terkalibrasi = (40 + 25) / (50 + 50) = 65% → keyakinan moderat\n- 100 dari 120 (mentah 83%): terkalibrasi = (100 + 25) / (120 + 50) = 73.5% → keyakinan tinggi\n\nLebih banyak data = lebih sedikit penyusutan = skor terkalibrasi mendekati realitas mentah.",
+    "key_terms": [
+      {
+        "term": "Prior",
+        "definition": "Keyakinan awal (tingkat kemenangan 50%) sebelum melihat data apa pun."
+      },
+      {
+        "term": "Kekuatan Prior (Prior Strength)",
+        "definition": "Seberapa dominan prior — sama dengan min_backtest_sample (50 pseudo-perdagangan)."
+      },
+      {
+        "term": "Penyusutan (Shrinkage)",
+        "definition": "Menarik estimasi menuju prior saat sampel kecil."
+      },
+      {
+        "term": "Tingkat Kemenangan Terkalibrasi",
+        "definition": "Tingkat kemenangan yang disesuaikan secara Bayesian — lebih andal daripada tingkat mentah dari sampel kecil."
+      }
+    ],
+    "exercise": {
+      "question": "raw_win_rate = 0.70, sample_size = 20, prior_strength = 50. Berapa calibrated_win_rate? (bulatkan ke 2 desimal, mis. 0.63)",
+      "hint": "terkalibrasi = (raw × n + 0.5 × prior) / (n + prior)",
+      "explanation": "terkalibrasi = (0.70 × 20 + 0.5 × 50) / (20 + 50) = (14 + 25) / 70 = 39 / 70 = **0.557 ≈ 0.56**. Tingkat kemenangan mentah 70% dari 20 perdagangan menyusut menjadi ~56% — mendekati netral. Ini mencegah kepercayaan diri berlebih pada backtest yang tipis."
+    },
+    "live_apply": {
+      "cta": "Bandingkan penyiapan dengan 10 perdagangan OOS dengan satu dengan 80 perdagangan OOS. Perhatikan bagaimana keyakinan berbeda bahkan untuk tingkat kemenangan mentah yang serupa."
+    }
+  },
+  {
+    "id": "expert-06-conformal-prediction",
+    "title": "Prediksi Konformal: Jaminan Tanpa Asumsi",
+    "summary": "Matematika di balik rentang berjaminan-cakupan pada laci sinyal.",
+    "concept": "Sebagian besar interval prediksi bersandar pada asumsi yang ditolak pasar untuk dihormati (normalitas, varians stabil). **Prediksi split-conformal (Split-conformal prediction)** hampir tidak membutuhkan apa pun: ambil set kalibrasi hasil masa lalu (QuantGlass menggunakan **hasil perdagangan luar-sampel dalam R**), urutkan, dan baca kuantil yang disesuaikan-peringkat. Interval yang dihasilkan memuat hasil *berikutnya* dengan setidaknya probabilitas yang dinyatakan, dalam sampel hingga, dengan hanya mengasumsikan keterpertukaran (tanpa mengintip, tanpa penyusunan ulang).\n\nMekanika persis mesin untuk cakupan 90%: dengan n hasil kalibrasi, batas bawah adalah yang ke-⌊(n+1)·0.05⌋ terkecil dan batas atas yang ke-⌈(n+1)·0.95⌉. Peringkat-peringkat itu hanya ada saat **n ≥ 19** — di bawahnya, laci menampilkan *tidak ada* interval alih-alih yang tanpa dasar. Kejujuran mencakup penolakan untuk membuat-buat jaminan.\n\nMembaca «rentang perdagangan berikutnya −1.0R hingga +2.1R (90% terjamin atas 214 perdagangan OOS)» pada laci: ia mengurung hasil, bukan keuntungan — dan lebarnya adalah informasi: interval lebar adalah data yang mengakui sebaran dirinya sendiri.",
+    "key_terms": [
+      {
+        "term": "Split-conformal",
+        "definition": "Interval bebas-distribusi dari statistik peringkat suatu set kalibrasi."
+      },
+      {
+        "term": "Keterpertukaran (Exchangeability)",
+        "definition": "Satu-satunya asumsi: hasil kalibrasi dan masa depan tak peduli urutan."
+      },
+      {
+        "term": "Cakupan (Coverage)",
+        "definition": "Probabilitas terjamin bahwa hasil berikutnya jatuh di dalam interval."
+      },
+      {
+        "term": "n minimum",
+        "definition": "n ≥ 19 untuk cakupan 90% — di bawahnya mesin tak menampilkan apa pun."
+      },
+      {
+        "term": "Lebar interval",
+        "definition": "Sebaran jujur: interval lebar berarti penyiapan berisik."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa laci sinyal kadang TIDAK menampilkan rentang perdagangan berikutnya sama sekali?",
+      "options": [
+        "Fitur ini hanya berbayar.",
+        "Set kalibrasi OOS di bawah minimum (19 perdagangan untuk 90%) — matematika peringkat tak bisa memberikan jaminan, jadi mesin menolak memalsukan satu.",
+        "Interval konformal hanya ada untuk saham.",
+        "Rentang disembunyikan saat terlihat buruk."
+      ],
+      "explanation": "Jaminan yang tak bisa dihitung tak boleh ditampilkan. Ketiadaan interval itu sendiri adalah informasi jujur tentang ukuran sampel."
+    },
+    "live_apply": {
+      "cta": "Buka laci sinyal dengan sampel OOS besar dan baca rentang terjaminnya — lalu temukan satu tanpanya dan periksa ukuran sampel."
+    }
+  },
+  {
+    "id": "expert-07-calibration",
+    "title": "Kalibrasi: Apakah Keyakinan Berarti Sesuatu?",
+    "summary": "Diprediksi versus terwujud — ujian akhir dari skor.",
+    "concept": "Skor keyakinan hanya mendapat kepercayaan jika **terkalibrasi**: di antara semua sinyal yang diberi skor sekitar 70, kira-kira fraksi yang sesuai harus berhasil; sinyal berskor 55 harus berhasil lebih jarang daripada yang berskor 75. Kalibrasi diperiksa dengan tabel yang sederhana hingga melucuti senjata: kelompokkan sinyal masa lalu berdasarkan keyakinan, lalu bandingkan tingkat *diprediksi* tiap kelompok dengan frekuensi *terwujudnya*.\n\nMode kegagalan punya nama: **kepercayaan diri berlebih (overconfidence)** (terwujud di bawah diprediksi — yang berbahaya) dan pola diagram keandalan yang mengungkap di mana dalam rentang skor itu berada. QuantGlass sudah melawan kepercayaan diri berlebih secara struktural — penyusutan, batas 62 poin untuk yang belum tervalidasi, plafon keras 89 — dan tabel pelacakan kalibrasi (puncak peta jalan mesin) menutup lingkaran dengan menilai penilai terhadap riwayat aplikasi Anda sendiri.\n\nKebiasaan yang dapat dibawa: skor apa pun yang ditunjukkan siapa pun kepada Anda — termasuk milik kami — layak mendapat pertanyaan *«terkalibrasi terhadap apa?»*. Angka keyakinan tanpa pemeriksaan kalibrasi adalah kata sifat yang menyamar.",
+    "key_terms": [
+      {
+        "term": "Kalibrasi",
+        "definition": "Kesesuaian antara keyakinan yang diprediksi dan frekuensi yang terwujud."
+      },
+      {
+        "term": "Kelompok keandalan",
+        "definition": "Sinyal yang dikelompokkan berdasarkan pita skor, dibandingkan diprediksi-versus-terwujud."
+      },
+      {
+        "term": "Kepercayaan diri berlebih (Overconfidence)",
+        "definition": "Keberhasilan terwujud di bawah diprediksi — miskalibrasi yang mahal."
+      },
+      {
+        "term": "Menilai penilai",
+        "definition": "Mengaudit model keyakinan itu sendiri terhadap hasil."
+      }
+    ],
+    "exercise": {
+      "question": "Sinyal berskor 70–79 dalam riwayat Anda berhasil 48% dari waktu. Apa temuannya?",
+      "options": [
+        "Tidak ada — skor itu dekoratif.",
+        "Skor terlalu percaya diri di pita itu: prediksi melampaui realitas, jadi input atau pembobotan perlu dikalibrasi ulang.",
+        "48% dibulatkan menjadi 75%.",
+        "Tingkat keberhasilan tidak dapat diukur."
+      ],
+      "explanation": "Kesenjangan itu persis yang ada untuk diungkap oleh tabel kalibrasi. Kelompok 70-an yang terkalibrasi baik harus terwujud mendekati klaimnya — kekurangan yang terus-menerus berarti model menyanjung dirinya sendiri."
+    },
+    "live_apply": {
+      "cta": "Catat keyakinan lima sinyal berikutnya yang Anda tindak lanjuti dan hasilnya — lima baris tabel kalibrasi Anda sendiri."
+    }
+  },
+  {
+    "id": "expert-08-monte-carlo",
+    "title": "Monte Carlo: Satu Riwayat Tidak Cukup",
+    "summary": "Mengambil ulang sampel hasil perdagangan untuk melihat masa depan yang tidak Anda dapatkan.",
+    "concept": "Kurva ekuitas backtest adalah **satu penarikan** dari distribusi strategi — urutan tertentu di mana kemenangan dan kekalahan terjadi. Kocok ulang perdagangan yang sama dan drawdown maksimum berubah, kadang secara dramatis: urutan adalah keberuntungan, dan riwayat tunggal Anda mewujudkan satu urutan beruntung-atau-tidak.\n\n**Pengambilan ulang sampel Monte Carlo (Monte Carlo resampling)** membuat itu eksplisit: ambil sampel perdagangan (dengan penggantian) dari daftar hasil Anda, bangun ribuan kurva ekuitas sintetis, dan baca *distribusi* alih-alih titik — drawdown maksimum median, drawdown persentil ke-95, probabilitas mencapai ambang kehancuran sebelum target. Strategi yang backtest-nya menunjukkan drawdown maksimum −12% dapat menunjukkan persentil ke-95 sebesar −28% di bawah pengambilan ulang sampel; perbedaannya adalah risiko urutan yang disembunyikan kurva tunggal.\n\nPenggunaan praktis: tentukan ukuran agar drawdown *persentil ke-95* tetap dapat bertahan (bukan yang historis), dan tetapkan kedalaman aturan jeda dari distribusi alih-alih dari harapan. Hasil R per perdagangan mesin — daftar yang sama yang memberi makan kalibrasi konformal — persis adalah input pengambilan ulang sampel.",
+    "key_terms": [
+      {
+        "term": "Risiko urutan (Sequence risk)",
+        "definition": "Ketergantungan drawdown pada urutan hasil."
+      },
+      {
+        "term": "Pengambilan ulang sampel (Resampling)",
+        "definition": "Menarik perdagangan dengan penggantian untuk menghasilkan riwayat sintetis."
+      },
+      {
+        "term": "Distribusi drawdown",
+        "definition": "Persentil drawdown maksimum di seluruh simulasi."
+      },
+      {
+        "term": "Probabilitas kehancuran",
+        "definition": "Fraksi jalur yang melanggar ambang kelangsungan hidup."
+      }
+    ],
+    "exercise": {
+      "question": "Dua strategi berbagi hasil perdagangan identik tetapi urutan berbeda, menghasilkan drawdown maksimum −9% dan −22%. Apa yang menjelaskan perbedaannya?",
+      "options": [
+        "Satu backtest rusak.",
+        "Urutan: hasil yang sama dalam urutan sial mengelompokkan kerugian — drawdown bergantung-jalur, yang persis mengapa Monte Carlo mengambil ulang sampel urutan.",
+        "Drawdown adalah derau acak tanpa makna.",
+        "Strategi −9% memiliki tingkat kemenangan lebih baik."
+      ],
+      "explanation": "Perdagangan yang sama, ekspektasi yang sama, keberuntungan susunan yang berbeda. Menilai ketangguhan pada satu urutan adalah menilai dadu dari satu lemparan."
+    },
+    "live_apply": {
+      "cta": "Ambil statistik hasil sebuah preset dan tanyakan: jika perdagangan yang sama ini tiba dalam urutan terburuk yang masuk akal, apakah penentuan ukuran Anda akan bertahan?"
+    },
+    "common_mistakes": [
+      "Membaca jalur median sebagai ekspektasi. Sebaran jalur - terutama drawdown persentil ke-95 - adalah keluaran yang relevan untuk keputusan.",
+      "Mengambil ulang sampel tanpa mempertimbangkan pengelompokan rezim. Imbal hasil yang dikocok meremehkan deret; kerugian nyata datang berkelompok."
+    ]
+  },
+  {
+    "id": "expert-03-custom-indicator",
+    "title": "Menulis Ekstensi Indikator Kustom",
+    "summary": "Berkontribusi indikator deterministik ke QuantGlass menggunakan API ekstensi.",
+    "concept": "Indikator di QuantGlass harus memenuhi batasan ini:\n1. **Deterministik** — input yang sama selalu menghasilkan output yang sama\n2. **Tanpa panggilan jaringan** — komputasi murni pada data lilin yang disediakan\n3. **Tanpa lookahead** — indeks N hanya boleh menggunakan lilin 0…N\n4. **Tanpa keadaan tersembunyi** — fungsi tanpa-keadaan atau kelas yang mereset tiap panggilan\n\n**Ekstensi indikator minimal:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nLetakkan berkas ini di `workspace/extensions/` dan mulai ulang backend.",
+    "key_terms": [
+      {
+        "term": "Manifest Ekstensi (Extension Manifest)",
+        "definition": "Mendeklarasikan id, nama, versi, kapabilitas (capabilities), dan izin yang diperlukan."
+      },
+      {
+        "term": "Kontrak Indikator (Indicator Contract)",
+        "definition": "compute(candles) → daftar nilai, satu per lilin, tanpa lookahead."
+      },
+      {
+        "term": "Deterministik",
+        "definition": "Input sama → output sama, selalu, tanpa efek samping."
+      }
+    ],
+    "exercise": {
+      "question": "Manakah dari ini yang melanggar kontrak indikator QuantGlass?",
+      "options": [
+        "Menggunakan candle[i] untuk menghitung jumlah bergulir dari candle[0..i].",
+        "Membuat permintaan HTTP untuk mengambil data harga tambahan di dalam compute().",
+        "Mengembalikan None untuk N lilin pertama saat jendela memanas.",
+        "Menerima parameter «period» dalam tanda tangan fungsi compute."
+      ],
+      "explanation": "Panggilan HTTP di dalam `compute()` melanggar aturan **tanpa-jaringan**. Panggilan jaringan memperkenalkan latensi, non-determinisme, dan potensi bias lookahead. Semua data harus disediakan melalui argumen candles. Mengembalikan None saat pemanasan dan menerima parameter keduanya pola yang valid dan diharapkan."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Ekstensi. Tinjau ekstensi community_momentum_pack sebagai implementasi rujukan."
+    }
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "title": "Menulis Ekstensi Strategi Kustom",
+    "summary": "Buat strategi lengkap yang terintegrasi dengan mesin sinyal QuantGlass.",
+    "concept": "Ekstensi strategi mendaftarkan `candidate_factory` — fungsi yang dipanggil oleh mesin sinyal yang mengembalikan penyiapan kandidat dalam format yang sama seperti keluarga bawaan.\n\n**Bidang kandidat yang diperlukan:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Aturan kontrak strategi:**\n1. Gunakan hanya **lilin tertutup (closed candles)** — tanpa mengintip bar parsial\n2. Sertakan **biaya dan slippage** realistis dalam backtest\n3. Laporkan **IS dan OOS secara terpisah** — jangan mencampur jendela\n4. **Tangga take_profit yang ditampilkan ke pengguna harus cocok dengan apa yang disimulasikan backtest**\n\nAturan terakhir inilah yang ditandai audit produksi sebagai mode kegagalan umum — QuantGlass menegakkannya dengan menggunakan `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` dalam simulator backtest dan menampilkan tiga tingkat yang sama dalam keluaran sinyal.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Fungsi yang mengembalikan kandidat penyiapan dari konteks mesin sinyal."
+      },
+      {
+        "term": "Konsistensi Tangga TP",
+        "definition": "Keluar yang ditampilkan ke pengguna harus persis cocok dengan keluar yang disimulasikan backtest."
+      },
+      {
+        "term": "Aturan Lilin Tertutup",
+        "definition": "Strategi hanya boleh menggunakan lilin dengan status='closed' — tanpa data bar parsial."
+      }
+    ],
+    "exercise": {
+      "question": "Strategi Anda menampilkan TP di 3R ke pengguna, tetapi backtest keluar di 2R. Apa masalahnya?",
+      "options": [
+        "Tidak ada masalah — menampilkan TP yang lebih optimis mendorong pengguna.",
+        "Ekspektasi backtest salah — ia meremehkan kinerja sebenarnya.",
+        "Backtest mensimulasikan keluar yang lebih rendah dari yang ditampilkan — ia melebih-lebihkan kelangsungan hidup tetapi meremehkan imbalan. Kontrak strategi dilanggar.",
+        "Tidak ada masalah — TP hanyalah saran, bukan aturan keras."
+      ],
+      "explanation": "Ketika backtest keluar di 2R tetapi tampilan menjanjikan 3R, backtest mensimulasikan perdagangan berbeda dari yang dieksekusi pengguna. Ini membuat hasil backtest tidak andal sebagai prediktor pengalaman pengguna. QuantGlass menegakkan konsistensi melalui `_TP_LADDER_WEIGHTS`."
+    },
+    "live_apply": {
+      "cta": "Tinjau extensions/community_momentum_pack.py untuk contoh ekstensi strategi yang lengkap dan berfungsi."
+    }
+  },
+  {
+    "id": "expert-09-extension-sdk",
+    "title": "SDK Ekstensi: Satu Permukaan Stabil",
+    "summary": "Manifest, izin, pengaturan — memperluas mesin dengan aman.",
+    "concept": "Segala yang dibutuhkan penulis ekstensi diimpor dari satu modul: `app.extensions.sdk`. Ia membawa **SDK_VERSION** eksplisit dan janji kompatibilitas — penambahan menaikkan minor, perubahan yang merusak menaikkan major — sehingga internal dapat direfaktor bebas sementara ekstensi Anda terus berfungsi.\n\nAnatominya: sebuah **ExtensionManifest** mendeklarasikan identitas (id stabil), **capabilities** (jenis hal yang Anda sediakan: indikator, strategi, notifikasi, …) dan **permissions** (apa yang Anda minta untuk disentuh: read_market_data, network_access, …). Entri **ExtensionSetting** mendeklarasikan konfigurasi bertipe, dapat-disunting-pengguna, yang muncul otomatis di Pengaturan → Ekstensi. Sebuah hook register menerima **ExtensionContext** dan menyumbang definisi — sebuah `IndicatorDefinition` yang menghitung dari lilin, sebuah `StrategyDefinition` yang hook kandidatnya menerima dict konteks yang sama yang dilihat keluarga bawaan dan mengembalikan kandidat yang bersaing pada konfluensi seperti penyiapan asli mana pun.\n\nAturan desain yang layak disalin: ekstensi *mendeklarasikan* apa yang mereka butuhkan dan *menyumbang* definisi; mereka tak pernah menjangkau internal mesin. Batas itulah yang memungkinkan komunitas merilis kode yang dapat dipercaya dan diaudit pengguna.",
+    "key_terms": [
+      {
+        "term": "SDK_VERSION",
+        "definition": "Janji kompatibilitas berversi dari app.extensions.sdk."
+      },
+      {
+        "term": "Manifest",
+        "definition": "Identitas + kapabilitas + izin, dideklarasikan di muka."
+      },
+      {
+        "term": "Izin (Permission)",
+        "definition": "Permintaan pemberian eksplisit (jaringan, data pasar, …) yang ditampilkan ke pengguna."
+      },
+      {
+        "term": "Hook kandidat",
+        "definition": "Pintu masuk ekstensi strategi ke kompetisi konfluensi yang sama seperti bawaan."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa ekstensi harus mendeklarasikan izinnya dalam manifest alih-alih sekadar melakukan apa pun yang diinginkan kodenya?",
+      "options": [
+        "Manifest membuat berkas lebih besar.",
+        "Izin yang dideklarasikan membuat ekstensi dapat diaudit dan disetujui — pengguna dan peninjau melihat persis apa yang diminta sebelum kode apa pun berjalan.",
+        "Python mensyaratkannya.",
+        "Izin bersifat dekoratif."
+      ],
+      "explanation": "Manifest adalah kontrak yang ditampilkan ke manusia. Tinjauan keamanan, pemindaian registri, dan persetujuan saat pemasangan semua bergantung pada deklarasi itu — akses yang tak dideklarasikan adalah definisi dari tak dapat dipercaya."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Ekstensi dan baca kapabilitas dan pengaturan yang dideklarasikan dari ekstensi terpasang — manifest yang dirender sebagai UI."
+    }
+  },
+  {
+    "id": "expert-10-publishing-extensions",
+    "title": "Penerbitan: Dari Folder Lokal ke Kepercayaan Komunitas",
+    "summary": "Jalur pemuatan, validasi, dan pipa kepercayaan.",
+    "concept": "Mengirim ekstensi punya tiga tahap kematangan. **Lokal**: letakkan modul ke folder `extensions/` ruang kerja (atau setara di direktori data) dan registri memuatnya saat mulai — lingkar pengembangan. **Terpaket**: distribusikan melalui titik masuk Python di bawah `quantglass.extensions`, dapat dipasang dengan pip dan terkunci di balik bendera ikut-serta eksplisit, karena kode terpasang adalah kode terpercaya. **Komunitas**: model registri — kiriman ditinjau, setiap versi dipindai otomatis, selisih izin ditandai, label penulis-terpercaya diperoleh — sehingga strategi orang asing dapat dipasang dengan persetujuan terinformasi alih-alih kepercayaan buta.\n\nSebelum semua itu: validasi. Repo mengirim perkakas fixture yang menguji kontribusi ekstensi terhadap data yang diketahui, dan indikator/strategi Anda harus berperilaku pada lilin tertutup saja — aturan kejujuran yang sama yang dipatuhi mesin. Ekstensi yang mengintip bar yang sedang terbentuk akan tampak cemerlang dalam pengembangan dan berbohong dalam produksi.\n\nPoin budayanya: di sebagian besar ekosistem perdagangan, kode komunitas yang menyentuh uang tak ditinjau secara desain. Menjadikan tinjauan dan izin sebagai warga kelas satu adalah pembeda yang layak dikontribusikan.",
+    "key_terms": [
+      {
+        "term": "Pemuatan ruang kerja",
+        "definition": "Meletakkan ekstensi ke folder lokal untuk pengembangan."
+      },
+      {
+        "term": "Titik masuk",
+        "definition": "Distribusi yang dapat dipasang-pip di bawah quantglass.extensions, di balik ikut-serta."
+      },
+      {
+        "term": "Selisih izin (Permission diff)",
+        "definition": "Alarm registri saat versi baru meminta lebih banyak akses."
+      },
+      {
+        "term": "Aturan lilin-tertutup",
+        "definition": "Ekstensi harus mematuhi disiplin tanpa-mengintip yang sama seperti mesin."
+      }
+    ],
+    "exercise": {
+      "question": "Pembaruan ekstensi komunitas meminta network_access di mana v1 tak membutuhkannya. Apa yang harus dilakukan pipa kepercayaan?",
+      "options": [
+        "Setujui otomatis — pembaruan adalah peningkatan.",
+        "Tandai selisih izin untuk tinjauan dan persetujuan-ulang: perluasan cakupan persis adalah momen serangan rantai-pasok terjadi.",
+        "Blokir semua pembaruan selamanya.",
+        "Izin tak bisa berubah."
+      ],
+      "explanation": "Versi N memperoleh kepercayaan tak ditransfer ke kekuatan baru versi N+1. Membandingkan izin yang dideklarasikan per rilis adalah pemeriksaan termurah, bernilai tertinggi yang dilakukan registri."
+    },
+    "live_apply": {
+      "cta": "Temukan ikut-serta titik masuk ekstensi dalam konfigurasi Anda — perhatikan bahwa kode terpasang memerlukan bendera eksplisit, tak pernah keheningan."
+    }
+  },
+  {
+    "id": "expert-11-fact-guarded-ai",
+    "title": "Narasi yang Dijaga Fakta",
+    "summary": "Bagaimana aplikasi membiarkan model berbicara tanpa membiarkannya mengarang.",
+    "concept": "Model bahasa fasih dan tak dapat diandalkan — pasangan berbahaya di sekitar uang. Pipa narasi QuantGlass mengasumsikan model akhirnya akan berhalusinasi dan membangun sangkar lebih dahulu.\n\nLapisannya: model menerima **hanya fakta yang dihitung mesin** (angka sinyal sebagai JSON) dengan instruksi untuk menyatakan ulang, bukan mengarang; pembuatan **dibatasi-skema** (keluaran terstruktur memaksa amplop `{summary}` — tanpa cerocosan bebas untuk diurai); teks yang dikembalikan melewati **penjaga fakta numerik** yang mengekstrak setiap angka dan memverifikasi ia melacak ke fakta yang disediakan — satu harga yang dibuat-buat dan seluruh keluaran dibuang; dan pada kegagalan apa pun **templat deterministik** mengambil alih, dilabeli demikian. Sumber narasi selalu ditampilkan, jadi Anda tahu apakah model atau templat yang berbicara.\n\nPrinsip yang dapat dialihkan untuk riset berbantuan-AI apa pun yang Anda lakukan: pembuatan murah, **verifikasi adalah produknya**. Gunakan model untuk menjelaskan angka yang terverifikasi; jangan pernah menggunakannya sebagai sumber angka.",
+    "key_terms": [
+      {
+        "term": "Pelandasan fakta (Fact grounding)",
+        "definition": "Model hanya boleh menyatakan ulang nilai yang dihitung mesin."
+      },
+      {
+        "term": "Keluaran terstruktur",
+        "definition": "Pembuatan yang dibatasi-skema — amplop {summary}."
+      },
+      {
+        "term": "Penjaga fakta numerik",
+        "definition": "Setiap angka dalam keluaran harus melacak ke fakta yang disediakan."
+      },
+      {
+        "term": "Cadangan templat",
+        "definition": "Jalur deterministik, berlabel saat model gagal atau berbohong."
+      }
+    ],
+    "exercise": {
+      "question": "Model narasi mengeluarkan ringkasan fasih yang berisi target harga yang tak muncul di mana pun dalam fakta mesin. Apa yang terjadi?",
+      "options": [
+        "Target dikirim — kefasihan menyiratkan akurasi.",
+        "Penjaga fakta menolak seluruh keluaran dan templat deterministik dirender sebagai gantinya, dengan sumber berlabel.",
+        "Harga dihapus diam-diam.",
+        "Model diminta meminta maaf."
+      ],
+      "explanation": "Satu angka yang tak dapat dilacak meracuni seluruh teks — kepercayaan parsial bukanlah kepercayaan. Buang-dan-cadangkan menjaga setiap kalimat yang ditampilkan dapat dipertahankan."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → AI: penyedia mana pun yang Anda pilih, penjaga dan cadangan templat berada di antara setiap model dan layar Anda."
+    }
+  },
+  {
+    "id": "expert-12-local-models",
+    "title": "Model Lokal dan Gerbang",
+    "summary": "Privasi, latensi, dan abstraksi gerbang.",
+    "concept": "Di mana model narasi berjalan adalah keputusan nyata. **Lokal** (Ollama, LM Studio, vLLM, llama.cpp): sinyal, saldo, dan kebiasaan Anda tak pernah meninggalkan mesin; latensi terikat-perangkat-keras; kapabilitas mentok pada apa yang di-host GPU Anda. **API** (cloud yang kompatibel-OpenAI, Anthropic, Gemini, dan router seperti OpenRouter): model lebih kuat, tetapi konteks riset Anda berkelana ke pihak ketiga di bawah kebijakan retensi mereka.\n\n**Gerbang model** QuantGlass mengabstraksi pilihan itu: satu antarmuka, modul per-penyedia, pemeriksaan kesehatan saat runtime, penemuan model, dan pipa keluaran-terstruktur + penjaga-fakta yang sama terlepas dari backend — mengganti penyedia adalah perubahan pengaturan, bukan perubahan arsitektur. Keberadaan penjaga fakta juga menyeimbangkan ulang pertukaran: karena di sini model hanya *menyatakan ulang* angka mesin, model lokal kecil biasanya sepenuhnya memadai, dan argumen privasi untuk lokal-dulu mendapat kata terakhir untuk riset sensitif.\n\nCocokkan alat dengan taruhan: lokal untuk apa pun yang menyentuh posisi Anda; cloud, jika pun, untuk penjelasan umum di mana konteksnya pengetahuan publik.",
+    "key_terms": [
+      {
+        "term": "Inferensi lokal",
+        "definition": "Model di perangkat keras Anda — pribadi, terikat-latensi, terbatas-kapabilitas."
+      },
+      {
+        "term": "Gerbang model",
+        "definition": "Satu antarmuka di atas penyedia Ollama/kompatibel-OpenAI/asli."
+      },
+      {
+        "term": "Residensi data",
+        "definition": "Ke mana konteks riset Anda secara fisik pergi."
+      },
+      {
+        "term": "Kecukupan kapabilitas",
+        "definition": "Menyatakan ulang fakta yang dijaga membutuhkan model jauh lebih sedikit daripada mengarang analisis."
+      }
+    ],
+    "exercise": {
+      "question": "Untuk menarasikan sinyal yang mencakup posisi kertas Anda, mengapa model lokal kecil sering kali default rasional?",
+      "options": [
+        "Model lokal selalu lebih pintar.",
+        "Tugasnya adalah menyatakan ulang fakta yang diverifikasi mesin di bawah penjaga — kapabilitas sederhana memadai, dan data posisi yang tak pernah meninggalkan mesin memenangkan pemecah-seri.",
+        "API cloud tak bisa menghasilkan teks.",
+        "Latensi tak ada secara lokal."
+      ],
+      "explanation": "Pipa dengan sengaja menyusutkan pekerjaan model menjadi penyataan ulang yang fasih. Saat persyaratan kapabilitas turun, privasi menjadi kriteria penentu."
+    },
+    "live_apply": {
+      "cta": "Di Pengaturan → AI, daftarkan penyedia terkonfigurasi mana yang berjalan lokal versus melalui API — dan mana yang saat ini digunakan narasi Anda."
+    }
+  },
+  {
+    "id": "expert-13-mcp-agents",
+    "title": "MCP: Mesin Anda sebagai Kebenaran Dasar Agen",
+    "summary": "Alat baca-saja yang membiarkan asisten AI menggunakan mesin lokal Anda.",
+    "concept": "**Model Context Protocol** menstandarkan cara asisten AI memanggil alat eksternal. QuantGlass mengirim server MCP di loopback yang mengekspos persis empat alat **baca-saja**: list_signals, list_backtest_presets, get_paper_account, list_watchlist. Hubungkan Claude atau klien MCP apa pun dan «apa kata mesin watchlist saya hari ini?» berhenti menjadi peluang halusinasi — agen *memanggil mesin Anda* dan bernalar atas JSON yang terverifikasi.\n\nPilihan desainnya adalah pelajarannya. **Baca-saja**: tanpa alat order, tanpa alat pengaturan, tanpa rahasia — kompromi agen tak bisa memindahkan uang atau mengubah konfigurasi. **Loopback-saja**: server terikat ke mesin Anda. **Kejujuran swa-deskripsi**: deskripsi setiap alat membawa kerangka edukatif-bukan-nasihat, sehingga bahkan konteks agen mewarisi sikap itu.\n\nIni membalik promosi AI-perdagangan biasa: alih-alih AI mengarang perdagangan untuk Anda percayai, mesin deterministik Anda menyuplai fakta untuk dijelaskan AI. Kecerdasan tetap dapat diaudit; bahasa tetap fasih; otoritas tetap pada matematika.",
+    "key_terms": [
+      {
+        "term": "MCP",
+        "definition": "Model Context Protocol — standar untuk panggilan asisten-ke-alat."
+      },
+      {
+        "term": "Permukaan baca-saja",
+        "definition": "Fakta keluar, tak pernah tindakan masuk — sikap keamanan server."
+      },
+      {
+        "term": "Pengikatan loopback",
+        "definition": "Server hanya menjawab mesin Anda sendiri."
+      },
+      {
+        "term": "Agen terlandaskan",
+        "definition": "Asisten yang klaim pasarnya berasal dari panggilan alat, bukan ingatan."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa server MCP dengan sengaja tak mengekspos alat pengiriman order apa pun?",
+      "options": [
+        "MCP tak bisa menyandikan order.",
+        "Kapabilitas adalah risiko: agen yang hanya bisa membaca fakta tak bisa ditipu, dipancing, atau dibug untuk memindahkan uang — batasnya struktural, bukan perilaku.",
+        "Order terlalu cepat untuk AI.",
+        "Akan ditambahkan untuk pengguna premium."
+      ],
+      "explanation": "Keamanan melalui konstruksi mengalahkan keamanan melalui instruksi. Apa pun yang dikatakan prompt, alat yang tak ada tak bisa disalahgunakan."
+    },
+    "live_apply": {
+      "cta": "Titik akhir MCP berjalan di 127.0.0.1:8000/mcp kapan pun backend aktif — hubungkan asisten berkemampuan-MCP dan minta sinyal Anda."
+    }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "title": "Membangun Rencana Perdagangan Lengkap",
+    "summary": "Sintesiskan semua konsep menjadi rencana perdagangan yang disiplin dan berbasis-aturan.",
+    "concept": "**Rencana perdagangan** adalah seperangkat aturan tertulis yang menghapus emosi dari keputusan perdagangan. Ia menjawab: *kapan masuk, berapa banyak risiko, kapan keluar, dan bagaimana meninjau kinerja*.\n\n**Templat rencana perdagangan asli QuantGlass:**\n\n1. **Semesta**: simbol koridor dan kerangka waktu mana yang diperdagangkan\n2. **Gerbang sinyal**: keyakinan minimum, apakah OOS_validated = True diperlukan?\n3. **Risiko per perdagangan**: mis., 1% akun kertas per sinyal\n4. **Aturan masuk**: masuk hanya di dalam entry_zone, bukan di luarnya\n5. **Aturan stop**: stop = stop_loss sinyal, tanpa penimpaan manual\n6. **Aturan keluar**: keluar bertahap di TP1 (50%), TP2 (30%), tahan sisanya hingga TP3\n7. **Tinjauan harian**: bandingkan ekuitas akun kertas dengan tolok ukur (mis., BTC atau SPY)\n8. **Kalibrasi bulanan**: perbarui ambang min_confidence berdasarkan tingkat keberhasilan yang terwujud\n\nRencana hanya sebaik kepatuhan Anda. QuantGlass menyediakan sinyal; disiplin menyediakan keunggulan.",
+    "key_terms": [
+      {
+        "term": "Rencana perdagangan",
+        "definition": "Seperangkat aturan tertulis untuk masuk, penentuan ukuran, keluar, dan tinjauan — menghapus emosi diskresioner."
+      },
+      {
+        "term": "Gerbang sinyal",
+        "definition": "Kriteria minimum yang harus dipenuhi sinyal sebelum Anda bertindak (mis., keyakinan ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Kalibrasi bulanan",
+        "definition": "Meninjau apakah ambang min_confidence Anda cocok dengan tingkat keberhasilan aktual Anda."
+      }
+    ],
+    "exercise": {
+      "question": "Selama 3 bulan Anda mengambil 40 perdagangan kertas dengan keyakinan ≥ 65. Tingkat kemenangan aktual Anda 48%. Tingkat kemenangan backtest mesin untuk penyiapan ini 56%. Apa yang harus Anda lakukan?",
+      "options": [
+        "Tidak ada — kesenjangan 8% adalah varians normal atas 40 perdagangan.",
+        "Naikkan min_confidence ke ≥ 72 untuk menyaring penyiapan berkualitas lebih tinggi, atau selidiki apakah waktu eksekusi meleset (masuk di luar entry_zone).",
+        "Turunkan min_confidence ke ≥ 55 — ambang lebih rendah akan meningkatkan tingkat kemenangan.",
+        "Berhenti menggunakan QuantGlass — modelnya rusak."
+      ],
+      "explanation": "Kesenjangan yang terus-menerus antara tingkat kemenangan backtest (56%) dan tingkat kemenangan terwujud (48%) atas 40 perdagangan menunjukkan entah slippage eksekusi (masuk terlalu lambat, di luar entry_zone) atau bahwa ambang keyakinan saat ini memilih penyiapan di mana kesenjangan terlebar. Menaikkan ambang ke ≥ 72 menyaring penyiapan berkualitas lebih tinggi dengan bukti OOS lebih kuat. Audit juga eksekusi Anda — apakah Anda masuk di dalam entry_zone setiap kali?"
+    },
+    "live_apply": {
+      "cta": "Susun rencana perdagangan Anda di kertas. Untuk 10 perdagangan kertas berikutnya, catat: harga masuk, mengapa Anda masuk, hasil, dan apakah Anda mengikuti aturan Anda."
+    },
+    "common_mistakes": [
+      "Menulis konstitusi dan tak pernah mengamendemennya. Kebijakan yang tak berevolusi dengan bukti menjadi peninggalan; tinjau sesuai jadwal, bukan dorongan.",
+      "Membuat aturan begitu ketat hingga ditinggalkan di minggu kedua. Konstitusi yang benar-benar Anda ikuti pada 80% ketat mengalahkan yang sempurna yang Anda abaikan."
+    ]
+  },
+  {
+    "id": "expert-14-key-custody",
+    "title": "Penjagaan Kunci dan Batas Rahasia",
+    "summary": "Di mana kredensial tinggal, dan tingkatan kerusakan yang bisa mereka lakukan.",
+    "concept": "Setiap kredensial eksternal adalah pendelegasian kekuasaan, dan tak setara: **kunci data baca-saja** (berita, lilin) paling buruk membocorkan keingintahuan Anda; **kunci berkemampuan-perdagangan** (kunci broker + rahasia) adalah uang berkostum tipis. Penjagaan harus berskala dengan tingkatan itu.\n\nBatas QuantGlass: rahasia tak pernah duduk di baris teks-biasa. Mereka tinggal di **penyimpanan rahasia lokal terenkripsi**, dengan **perutean keychain OS** untuk kunci berkemampuan-perdagangan di mana keychain yang dapat digunakan ada — dan kunci ditandai `tradeEnabled` sehingga aplikasi sendiri tahu kredensial mana yang berbahaya. UI pengaturan menghapus nilai setelah penyimpanan; API mengembalikan metadata, bukan rahasia; permukaan MCP tak mengekspos apa pun yang berbentuk-kredensial sama sekali.\n\nKebersihan operasional Anda menyempurnakan sistem: buat kunci broker dengan **cakupan minimum** yang ditawarkan (data-saja jika data adalah semua yang Anda butuhkan), pilih kunci yang *tak bisa menarik*, putar setelah kecurigaan apa pun, dan perlakukan permintaan «tempel kunci API Anda» di mana pun di luar layar pengaturan sebagai penipuan yang hampir pasti.",
+    "key_terms": [
+      {
+        "term": "Kunci berkemampuan-perdagangan",
+        "definition": "Kredensial yang bisa memindahkan uang — tingkatan penjagaan tertinggi."
+      },
+      {
+        "term": "Penyimpanan rahasia terenkripsi",
+        "definition": "Penyimpanan lokal terenkripsi; tak pernah baris basis data teks-biasa."
+      },
+      {
+        "term": "Perutean keychain",
+        "definition": "Penjagaan tingkat-OS untuk tingkatan berbahaya saat tersedia."
+      },
+      {
+        "term": "Cakupan minimum",
+        "definition": "Kunci yang dibuat dengan kekuatan paling sedikit yang menyelesaikan pekerjaan."
+      }
+    ],
+    "exercise": {
+      "question": "Broker Anda menawarkan cakupan kunci: baca-saja, perdagangan, perdagangan+penarikan. Anda ingin data pasar QuantGlass dan akhirnya pengujian paritas-kertas. Cakupan mana yang benar?",
+      "options": [
+        "perdagangan+penarikan — fleksibilitas maksimum.",
+        "baca-saja sekarang; perdagangan hanya jika dan ketika eksekusi langsung dibuka secara sengaja; penarikan tak pernah — tak ada aplikasi yang membutuhkan hak penarikan Anda.",
+        "Mana pun yang pertama di dropdown.",
+        "Cakupan itu setara."
+      ],
+      "explanation": "Cakupan adalah radius ledakan. Hak penarikan dalam kunci API mengubah kompromi apa pun menjadi pencurian; hak perdagangan sebelum dibutuhkan adalah kewajiban murni."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Kunci API dan identifikasi bidang mana yang ditandai berkemampuan-perdagangan — tingkatan penjagaan aplikasi sendiri yang dibuat terlihat."
+    }
+  },
+  {
+    "id": "expert-15-going-live-gate",
+    "title": "Gerbang Menuju Langsung",
+    "summary": "Paparan bertahap, pembukaan yang diperoleh, dan disiplin tetap di kertas.",
+    "concept": "QuantGlass dikirim dengan **perdagangan langsung mati** — bukan sebagai fitur yang hilang melainkan sebagai prinsip produk: eksekusi nyata harus *dibuka oleh kesiapan yang ditunjukkan*, tak pernah tersandung ke dalamnya. Jalur bertahap mencerminkan rekayasa keamanan yang telah Anda temui sepanjang kursus: perdagangan kertas dengan data langsung (tempat Anda sekarang) → mode langsung *terlihat tetapi terkunci* di balik kredensial broker eksplisit, konfirmasi terpisah, dan pemeriksaan keamanan backend → jika pernah diaktifkan, **mode ukuran-kecil dulu**, di mana kesalahan membayar uang sekolah alih-alih modal.\n\nBilah kesiapan yang layak ditulis sebelum perubahan tahap apa pun (edukasi, bukan nasihat): sampel kertas yang bermakna (pikirkan 100+ perdagangan, bukan 10) dengan ekspektasi positif atau terkendali; disiplin jurnal nyaris-sempurna; tanpa pelanggaran risiko parah dalam catatan terbaru Anda; rencana perdagangan tertulis; lolos tinjauan jujur Anda sendiri atas jalur psikologi; dan aturan pendinginan — keputusan pembukaan apa pun yang dibuat pada *hari berbeda* dari dorongan untuk membuatnya.\n\nDan kebenaran sunyi yang menjadi tumpuan seluruh Akademi ini: **tetap dalam mode kertas tanpa batas adalah hasil yang sah dan lengkap.** Keterampilan, statistik, disiplin — semuanya nyata, terlepas dari apakah uang nyata pernah dilekatkan.",
+    "key_terms": [
+      {
+        "term": "Paparan bertahap",
+        "definition": "Kertas → visibilitas terkunci → ukuran-kecil → langsung terbatas-pengguna."
+      },
+      {
+        "term": "Bilah kesiapan",
+        "definition": "Kriteria tertulis, multidimensi — sampel, disiplin, rencana, psikologi."
+      },
+      {
+        "term": "Aturan pendinginan",
+        "definition": "Keputusan pembukaan ditunda ke hari yang lebih tenang dan kemudian."
+      },
+      {
+        "term": "Kertas sebagai hasil",
+        "definition": "Tetap dalam simulasi adalah keadaan akhir yang sah, bukan kegagalan."
+      }
+    ],
+    "exercise": {
+      "question": "Apa argumen terkuat untuk membuat perdagangan langsung menjadi ikut-serta di balik kesiapan yang ditunjukkan, alih-alih aktif secara default?",
+      "options": [
+        "Ia meningkatkan pendapatan langganan.",
+        "Default adalah takdir: sebagian besar kerugian datang dari pengguna kurang terlatih yang bertemu leverage nyata terlalu dini, dan gerbang kesiapan mengubah jalur default menjadi jalur aman.",
+        "Broker mensyaratkannya.",
+        "Perdagangan kertas menggunakan lebih sedikit listrik."
+      ],
+      "explanation": "Rekayasa keamanan menempatkan pagar pelindung di tempat jurang berada. Gerbang yang harus diperoleh secara sadar dan dapat-ditunjukkan membuat jalur berbahaya menjadi disengaja dan jalur aman menjadi otomatis."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Risiko: temukan gerbang mode-perdagangan dan persyaratannya — pembukaan bertahap yang dirender sebagai UI."
+    },
+    "common_mistakes": [
+      "Beralih ke langsung untuk membuat perdagangan kertas «terasa nyata». Jika disiplin kertas tak ada, uang membuatnya lebih buruk, bukan lebih baik.",
+      "Menskalakan ke ukuran penuh segera setelah gerbang. Eksekusi langsung punya biaya dan emosi yang tak pernah dimodelkan kertas - peroleh ukuran secara bertahap."
+    ]
+  },
+  {
+    "id": "expert-16-rates-liquidity",
+    "title": "Suku Bunga dan Pasang Likuiditas",
+    "summary": "Harga uang menetapkan cuaca bagi setiap aset berisiko.",
+    "concept": "Suku bunga adalah gravitasi keuangan: ia menetapkan imbal hasil yang tersedia untuk *tidak* mengambil risiko, dan karenanya bilah yang harus dilampaui setiap aset berisiko. Ketika bank sentral menaikkan suku bunga, imbal hasil aman bersaing menarik modal dari saham dan kripto; ketika mereka memangkas dan menyuntikkan **likuiditas**, modal itu mengalir kembali ke luar di sepanjang kurva risiko — dan aset paling spekulatif (kapitalisasi kecil, alt) berayun paling keras di kedua ujung.\n\nInilah mengapa kripto, yang dipasarkan sebagai tak berkorelasi, telah diperdagangkan sejak 2020 seperti **aset likuiditas beta-tinggi**: pasang yang sama, diperkuat.\n\nPenggunaan pedagang adalah konteks rezim, bukan prediksi: ketahui apakah pasang likuiditas naik atau turun, dan harapkan mengikuti-tren bekerja *bersama* pasang dan melawannya dengan buruk. Kalender makro (keputusan bank sentral, rilis inflasi) adalah setara laba saham pada skala pasar — volatilitas terjadwal untuk setiap grafik sekaligus.",
+    "key_terms": [
+      {
+        "term": "Suku bunga bebas-risiko",
+        "definition": "Imbal hasil pada aset aman — rintangan yang harus dilampaui semua risiko."
+      },
+      {
+        "term": "Likuiditas",
+        "definition": "Pasokan uang yang dapat diinvestasikan — pasang di bawah valuasi."
+      },
+      {
+        "term": "Beta tinggi",
+        "definition": "Sensitivitas yang diperkuat terhadap pasang bersama — alt pada ekstrem."
+      },
+      {
+        "term": "Kalender makro",
+        "definition": "Keputusan suku bunga dan rilis inflasi — volatilitas terjadwal se-pasar."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa keputusan suku bunga bank sentral menggerakkan kripto, yang tak punya laba atau pembayaran bunga?",
+      "options": [
+        "Tidak — kripto tak berkorelasi.",
+        "Suku bunga menetapkan biaya peluang dari semua pengambilan risiko: pasang likuiditas yang mendanai aset spekulatif naik dan turun bersama kebijakan, dan kripto duduk jauh di luar pada kurva risiko.",
+        "Bank sentral memiliki sebagian besar koin.",
+        "Kripto membayar dividen yang terindeks ke suku bunga."
+      ],
+      "explanation": "Tak ada arus kas yang diperlukan agar saluran bekerja — hanya persaingan untuk modal. Aset paling spekulatif yang terakhir didanai dan pertama dijual saat uang mengetat."
+    },
+    "live_apply": {
+      "cta": "Catat tanggal bank sentral besar berikutnya dan amati bagaimana volatilitas setiap grafik mengelompok di sekitarnya."
+    }
+  },
+  {
+    "id": "expert-17-dollar-correlations",
+    "title": "Dolar dan Korelasi Lintas-Aset",
+    "summary": "Ketika segalanya bergerak bersama, diversifikasi adalah ilusi.",
+    "concept": "Sebagian besar aset yang diperdagangkan global diberi harga dalam dolar, jadi **kekuatan dolar adalah penyebut semua orang**: dolar yang naik tajam menekan secara mekanis aset berharga-dolar (kripto, komoditas, pasar berkembang) dan sering menyertai arus penghindaran-risiko menuju keamanan AS.\n\nPelajaran yang lebih dalam adalah **rezim korelasi**. Di pasar tenang, aset mengikuti cerita mereka sendiri dan korelasi tetap rendah; di tekanan, *korelasi konvergen menuju satu* — semua yang berisiko terjual bersama karena penjualnya sama: portofolio ber-leverage yang mengumpulkan tunai. Anda menemui konsekuensinya di pelajaran panas-portofolio: enam long «berbeda» menjadi satu perdagangan persis ketika paling menyakitkan.\n\nInstrumen praktis: amati beberapa tombol antarpasar (dolar, indeks saham luas, BTC untuk beta kripto). Ketika semuanya tersentak ke arah yang sama sekaligus, baca itu sebagai **peristiwa rezim** — penimpaan rezim-bergejolak mesin di tingkat aset-tunggal punya kembar makro, dan anggaran panas Anda harus menghormati keduanya.",
+    "key_terms": [
+      {
+        "term": "Penyebut dolar",
+        "definition": "Kekuatan dolar yang memberi harga ulang secara mekanis aset berkuotasi-dolar."
+      },
+      {
+        "term": "Rezim korelasi",
+        "definition": "Tenang: korelasi rendah. Tekanan: konvergensi menuju satu."
+      },
+      {
+        "term": "Penghindaran-risiko (Risk-off)",
+        "definition": "Pelarian tersinkron dari risiko menuju keamanan."
+      },
+      {
+        "term": "Tombol antarpasar",
+        "definition": "Beberapa pengukur lintas-aset yang diamati untuk konfirmasi rezim."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam peristiwa penghindaran-risiko yang tajam, mengapa posisi «terdiversifikasi» di saham dan beberapa kripto turun bersama?",
+      "options": [
+        "Kebetulan murni, berulang kali.",
+        "Tekanan mengonvergenkan korelasi menuju satu: penjual marginal adalah arus pengurangan-leverage yang sama di semua aset berisiko, jadi diversifikasi hanyalah properti pasar-tenang.",
+        "Bursa menyinkronkan harga berdasarkan aturan.",
+        "Tak bisa terjadi dengan lebih dari tiga aset."
+      ],
+      "explanation": "Korelasi bergantung-rezim. Panas portofolio harus dianggarkan untuk matriks korelasi tertekan, bukan yang tenang — versi makro dari pelajaran panas."
+    },
+    "live_apply": {
+      "cta": "Di seluruh watchlist Anda, hitung berapa banyak posisi yang sebenarnya taruhan likuiditas yang sama yang mengenakan simbol berbeda."
+    }
+  },
+  {
+    "id": "expert-18-cycles-narratives",
+    "title": "Siklus dan Narasi",
+    "summary": "Pasar bergerak dalam musim psikologis; narasi adalah laporan cuaca mereka.",
+    "concept": "Perbesar cukup jauh dan pasar bernapas dalam **siklus**: akumulasi (sunyi, tak percaya), markup (bertren, makin dipercaya), distribusi (gontai euforia di puncak), markdown (penurunan melalui penyangkalan). Kripto memampatkan musim-musim ini menjadi tahun alih-alih dekade, secara historis berirama dengan gelombang likuiditas yang berlabuh-halving.\n\nSetiap fase membawa **narasi** — kisah yang menjelaskan mengapa «kali ini» tren adalah takdir. Narasi bukan derau: ia mengoordinasikan arus dan dapat mempertahankan tren jauh melewati nilai «wajar» (refleksivitas). Tetapi ia adalah *deskripsi tertinggal yang berkostum prediksi* — paling nyaring persis di titik balik. Puncak «paradigma baru» dan dasar «kelas aset sudah mati» adalah pasangan kanonik.\n\nSikap pakar: perdagangkan rezim di depan Anda (tugas mesin), tempatkan diri Anda dalam siklus untuk selera risiko (tugas Anda), dan perlakukan kesepakatan narasi universal sebagai peringatan volatilitas kontrarian, bukan lampu hijau.",
+    "key_terms": [
+      {
+        "term": "Siklus pasar",
+        "definition": "Akumulasi → markup → distribusi → markdown."
+      },
+      {
+        "term": "Narasi",
+        "definition": "Kisah pengoordinasi di balik suatu arus — terkuat di ekstrem."
+      },
+      {
+        "term": "Refleksivitas (Reflexivity)",
+        "definition": "Harga yang mengubah kisah-fundamental yang membenarkan harga."
+      },
+      {
+        "term": "Penanda euforia/keputusasaan",
+        "definition": "Puncak «paradigma baru» dan dasar «sudah mati»."
+      }
+    ],
+    "exercise": {
+      "question": "Ketika satu narasi bullish disepakati secara universal dan «semua orang sudah masuk», apa yang diimplikasikan logika siklus?",
+      "options": [
+        "Tren kini paling aman — konsensus adalah konfirmasi.",
+        "Bahan bakar habis: jika semua orang yang bisa membeli telah membeli, arus marginal yang mempertahankan markup telah hilang, dan kondisi distribusi sedang terbentuk.",
+        "Narasi tak berhubungan dengan arus.",
+        "Harga harus naik satu siklus penuh lagi."
+      ],
+      "explanation": "Tren disuapi oleh pembeli baru. Kesepakatan universal berarti konversi telah lengkap — momen ternyaring narasi dan momen terlemah arusnya adalah momen yang sama."
+    },
+    "live_apply": {
+      "cta": "Lihat bentangan datar dan curam dari kurva ekuitas panjang — strategi pun bernapas dengan siklus; ekspektasi bukan konstanta alam."
+    }
+  },
+  {
+    "id": "expert-19-macro-scope",
+    "title": "Kerendahan Hati Makro dan Garis Cakupan",
+    "summary": "Konteks, bukan bola kristal — dan keheningan mesin tentang makro disengaja.",
+    "concept": "Tutup jalur dengan kalibrasi. Peramalan makro profesional punya catatan publik yang merendahkan: resesi yang diserukan terlambat, jalur suku bunga yang salah berpoin-poin persentase penuh, setiap tahun. Jika institusi yang mengerahkan pasukan ekonom tak bisa memprediksi masa depan makro secara andal, keunggulan pedagang ritel tak mungkin *meramal melebihi* mereka.\n\nApa yang sebenarnya dibeli melek-makro untuk Anda: **sikap risiko** (pasang naik atau turun → anggaran panas naik atau turun), **kesadaran kalender** (badai terjadwal dihormati, seperti laba), dan **realisme korelasi** (tekanan mengubah portofolio menjadi satu perdagangan). Semuanya defensif, semuanya nyata.\n\nDan garis cakupan, sekali lagi terakhir: QuantGlass menghitung **tidak ada makro**. Tanpa model suku bunga, tanpa seruan siklus — hanya lilin tertutup. Lapisan makro sengaja diserahkan kepada Anda, dengan alat untuk menjadi konsumen terkalibrasi alih-alih peramal percaya-diri. Hukum berulang Akademi: setiap sistem harus tahu, dan mengatakan, apa yang tak diketahuinya. Itu termasuk pedagang.",
+    "key_terms": [
+      {
+        "term": "Kerendahan hati ramalan",
+        "definition": "Ketakandalan terdokumentasi dari prediksi makro."
+      },
+      {
+        "term": "Makro defensif",
+        "definition": "Menggunakan makro untuk sikap, kalender, dan korelasi — bukan seruan."
+      },
+      {
+        "term": "Konsumen terkalibrasi",
+        "definition": "Menimbang komentar makro berdasarkan rekam jejaknya, bukan kepercayaan dirinya."
+      },
+      {
+        "term": "Hukum cakupan",
+        "definition": "Sistem — dan pedagang — yang menyatakan apa yang tak mereka ketahui."
+      }
+    ],
+    "exercise": {
+      "question": "Mengingat rekam jejak peramalan, untuk apa sebenarnya melek-makro dalam Akademi ini?",
+      "options": [
+        "Memprediksi jalur suku bunga tahun depan lebih baik daripada bank.",
+        "Sikap defensif: menentukan ukuran risiko dengan pasang, menghormati kalender makro, dan mengharapkan konvergensi korelasi dalam tekanan — konteks yang tak butuh bola kristal.",
+        "Memilih ramalan mana yang dipercaya sepenuhnya.",
+        "Tidak ada — grafik berisi semua informasi."
+      ],
+      "explanation": "Nilainya ada pada apa yang dilindungi konteks makro dari Anda, bukan apa yang diprediksinya. Standar kejujuran yang sama yang diterapkan mesin pada dirinya berlaku untuk opini makro."
+    },
+    "live_apply": {
+      "cta": "Perhatikan bahwa tak ada di mana pun dalam pengaturan mesin sebuah input makro — kejujuran cakupan yang dirender sebagai ketiadaan."
+    }
+  },
+  {
+    "id": "expert-20-auction-mechanics",
+    "title": "Lelang Berkelanjutan",
+    "summary": "Harga bukan angka — ia adalah keadaan saat ini dari sebuah negosiasi.",
+    "concept": "Di bawah setiap lilin mengalir **lelang ganda berkelanjutan**: order batas yang menunggu membentuk buku (sisi sabar), dan order pasar yang masuk melahapnya (sisi mendesak). Perdagangan hanya terjadi ketika kemendesakan bertemu kesabaran; «harga» hanyalah pertemuan terbaru semacam itu.\n\nHarga *bergerak* ketika kemendesakan satu sisi menghabiskan kesabaran sisi lain di suatu tingkat — tekanan beli memakan seluruh tingkat tawaran-jual, dan tawaran-jual berikutnya menjadi harga. Inilah mengapa **volume memvalidasi pergerakan** (logika rasio-volume yang digunakan mesin): pergerakan pada volume berat berarti kemendesakan nyata membakar pasokan menunggu yang nyata; hanyutan tanpa apa-apa bisa diberi harga ulang oleh satu order.\n\nPasar saham menambahkan **lelang pembukaan dan penutupan** — pencocokan batch yang memusatkan volume besar di ujung sesi dan menetapkan kuotasi tempat lilin harian Anda dibuka dan ditutup. Buku kripto sekadar tak pernah tutup. Mesin yang sama, jadwal berbeda.",
+    "key_terms": [
+      {
+        "term": "Lelang ganda",
+        "definition": "Batas menunggu (kesabaran) dicocokkan dengan order pasar (kemendesakan)."
+      },
+      {
+        "term": "Penghabisan tingkat",
+        "definition": "Harga bergerak ketika satu tingkat buku terpakai sepenuhnya."
+      },
+      {
+        "term": "Lelang batch",
+        "definition": "Pencocokan pembukaan/penutupan yang memusatkan volume saham."
+      },
+      {
+        "term": "Premi kemendesakan",
+        "definition": "Order pasar membayar spread untuk menuntut kesegeraan."
+      }
+    ],
+    "exercise": {
+      "question": "Secara mekanis, apa yang membuat harga naik satu tingkat?",
+      "options": [
+        "Bursa memungut suara tiap jam.",
+        "Kemendesakan beli yang masuk melahap setiap unit menunggu di tawaran-jual terbaik saat ini, jadi tingkat tawaran-jual berikutnya yang lebih tinggi menjadi pasar.",
+        "Penjual menaikkan harga saat senang.",
+        "Lilin yang menutup hijau."
+      ],
+      "explanation": "Harga adalah batas tempat kemendesakan terakhir bertemu kesabaran. Pergerakan adalah peristiwa inventaris — tingkat yang dikosongkan — itulah mengapa partisipasi (volume) memberi tahu Anda apakah suatu pergerakan diperoleh."
+    },
+    "live_apply": {
+      "cta": "Amati lilin volume-tinggi versus yang tenang dan baca keduanya sebagai peristiwa lelang: seberapa banyak kesabaran yang dilahap kemendesakan tiap sisi?"
+    }
+  },
+  {
+    "id": "expert-21-makers-takers",
+    "title": "Maker, Taker, dan Ekonomi Spread",
+    "summary": "Siapa yang mendapatkan spread yang Anda bayar — dan apa yang mereka inginkan dari Anda.",
+    "concept": "Setiap tempat membagi peserta menjadi **maker** (yang order menunggunya menyediakan buku) dan **taker** (yang order pasarnya melahapnya) — jadwal biaya sering kali secara harfiah memberi harga berbeda, membayar rabat ke maker. Bisnis pembuat-pasar profesional: kuotasikan kedua sisi, raih spread berulang kali, dan lepaskan risiko inventaris secepat mungkin.\n\nPahami satu ketakutan mereka dan Anda memahami perilaku harga jangka-pendek: **seleksi merugikan (adverse selection)** — ditabrak arus berinformasi. Ketika tekanan satu-sisi yang berat tiba, maker melebarkan spread dan menarik kuotasi (pelajaran dinamika-slippage Anda, kini dengan *mengapa*), dan mereka memusatkan-ulang kuotasi di sekitar arus alih-alih «nilai wajar».\n\nBagi Anda, dua konsekuensi: order batas menjadikan Anda maker (meraih keunggulan spread tetapi mempertaruhkan seleksi merugikan sendiri — tawaran-beli menunggu Anda paling mungkin terisi persis ketika sesuatu yang bearish baru saja terjadi), dan pasar cepat secara struktural adalah momen termahal untuk menuntut kesegeraan.",
+    "key_terms": [
+      {
+        "term": "Maker/taker",
+        "definition": "Penyedia likuiditas versus konsumen — sering kali tingkatan biaya berbeda."
+      },
+      {
+        "term": "Pembuat-pasar",
+        "definition": "Profesional yang mengkuotasikan kedua sisi untuk meraih spread."
+      },
+      {
+        "term": "Seleksi merugikan",
+        "definition": "Terisi oleh arus yang lebih berinformasi — risiko inti maker."
+      },
+      {
+        "term": "Pemudaran kuotasi",
+        "definition": "Spread melebar dan kedalaman lenyap saat tekanan berinformasi menghantam."
+      }
+    ],
+    "exercise": {
+      "question": "Order beli batas menunggu Anda terisi seketika selama anjlok mendadak. Melalui lensa seleksi-merugikan, apa yang baru saja terjadi?",
+      "options": [
+        "Anda mendapat diskon beruntung tanpa syarat.",
+        "Anda adalah kesabaran yang dilahap penjualan mendesak, mungkin berinformasi — pengisian batas mengelompok persis ketika arus melawan Anda paling kuat.",
+        "Bursa menghadiahi Anda unit.",
+        "Order batas tak bisa terisi dalam anjlokan."
+      ],
+      "explanation": "Kutukan maker berlaku untuk Anda juga: pasar memberikan harga Anda paling mudah ketika informasi baru mengatakan harga itu terlalu murah hati. Bukan alasan menghindari batas — alasan menempatkannya di tempat tesis Anda sudah menerima pengisian."
+    },
+    "live_apply": {
+      "cta": "Pertimbangkan ulang tepi bawah zona masuk: pengisian di sana selama pembuangan adalah seleksi merugikan yang penyiapan Anda sudah harus memperhitungkannya."
+    }
+  },
+  {
+    "id": "expert-22-order-flow",
+    "title": "Arus Order, Ketidakseimbangan, dan Dari Mana Sumbu Berasal",
+    "summary": "Membaca logika pita tanpa berpura-pura membaca pikiran.",
+    "concept": "**Arus order** adalah urutan terwujud dari pembelian agresif versus penjualan — buku besar kemendesakan. Ketidakseimbangannya menjelaskan anatomi grafik yang familiar dari bawah: **kaskade stop** (harga mencapai tingkat tempat stop menunggu berubah menjadi ledakan order pasar — mekanika kaskade-likuidasi dari jalur leverage, digeneralisasi ke semua stop) memahat sumbu kekerasan; **penyerapan** (penjualan agresif berat yang gagal menggerakkan harga karena tawaran-beli sabar terus mengisi-ulang) mendahului banyak pembalikan — kehabisan yang bertemu akumulasi.\n\nDi sinilah pula **manipulasi** hidup di pinggiran: spoofing (ukuran menunggu palsu yang dimaksudkan menakuti, ditarik sebelum terisi) dan wash trading (volume berdagang-sendiri di tempat longgar — pengingat pertahanan-dari-penipuan untuk menilai klaim volume bursa).\n\nBatas jujur: perdagangan arus-order penuh menuntut umpan data dan waktu layar di luar cakupan aplikasi ini. Yang teralihkan ke pembaca lilin: sumbu adalah peristiwa arus, volume adalah kemendesakan, dan tingkat yang jelas bagi semua orang (angka bulat, ekstrem sebelumnya) menarik persis gugus stop yang membuatnya berbahaya untuk memarkir stop.",
+    "key_terms": [
+      {
+        "term": "Ketidakseimbangan arus-order",
+        "definition": "Pembelian agresif neto dikurangi penjualan atas suatu jendela."
+      },
+      {
+        "term": "Kaskade stop",
+        "definition": "Stop berubah menjadi order pasar berantai — sumbu likuidasi yang digeneralisasi."
+      },
+      {
+        "term": "Penyerapan",
+        "definition": "Agresivitas gagal menggerakkan harga melawan kesabaran yang mengisi-ulang — bahan bakar pembalikan."
+      },
+      {
+        "term": "Spoofing",
+        "definition": "Ukuran menunggu palsu yang ditampilkan untuk mengintimidasi, dibatalkan sebelum eksekusi."
+      }
+    ],
+    "exercise": {
+      "question": "Harga melonjak turun melalui support angka-bulat yang jelas, mengisi sumbu dengan volume besar, lalu menutup kembali di atasnya. Pembacaan mikrostruktur?",
+      "options": [
+        "Support kini patah permanen.",
+        "Kaskade stop: stop yang berkelompok di bawah tingkat jelas berubah menjadi penjualan pasar, diserap oleh tawaran-beli sabar, dan akhir arus yang dipaksa membiarkan harga pulih — tingkat itu adalah kantong likuiditas, bukan vonis.",
+        "Data rusak.",
+        "Angka bulat menolak harga."
+      ],
+      "explanation": "Tingkat jelas memusatkan stop; stop adalah kemendesakan yang sudah-dikomitkan; kemendesakan habis ke dalam kesabaran. Sumbu-dan-rebut-kembali adalah seluruh kalimat itu yang digambar pada grafik — dan mengapa stop yang diparkir di harga jelas membayar pajak struktural."
+    },
+    "live_apply": {
+      "cta": "Temukan sumbu panjang melalui tingkat jelas dan periksa volumenya — lalu pertimbangkan ulang di mana stop Anda sendiri cenderung berada."
+    }
+  },
+  {
+    "id": "expert-23-microstructure-scope",
+    "title": "Mikrostruktur untuk Pedagang Lilin",
+    "summary": "Apa yang bertahan dari perbesaran-menjauh — dan ketinggian yang dipilih mesin.",
+    "concept": "Pertanyaan sintesis: berdagang dari lilin tertutup, apa yang harus diubah mikrostruktur tentang perilaku Anda? Empat pengalihan tahan lama. **Stop**: tempatkan melampaui kantong likuiditas jelas, bukan di atasnya — angka bulat adalah rumah kaskade, jarak ber-bantalan-volatilitas melampauinya adalah milik Anda (logika kelipatan ATR, kini dengan justifikasi mikrostrukturnya). **Masuk**: order batas di dalam zona yang tesis Anda sudah terima, tak pernah tawaran-beli menunggu yang akan Anda sesali mengisinya. **Pengaturan waktu**: hindari menuntut kesegeraan di pasar cepat dan jam mati — ekonomi spread melawan Anda di kedua ekstrem. **Volume**: baca sebagai kemendesakan-bertemu-kesabaran, yang persis adalah interpretasi yang disandikan skor konfirmasi-volume mesin.\n\nDan garis ketinggian: QuantGlass sengaja beroperasi pada **ketinggian lilin-tertutup** — tanpa umpan tick, tanpa data buku, tanpa sinyal arus. Lilin adalah kompresi yang memungkinkan analisis deterministik, dapat-diaudit, dapat-diputar-ulang; kekacauan pita itu nyata tetapi hidup di bawah resolusi yang dideklarasikan mesin. Anda kini tahu apa yang dilihat mesin, apa yang tak dilihatnya, dan — seluruh inti Akademi — persis mana yang mana.",
+    "key_terms": [
+      {
+        "term": "Kantong likuiditas",
+        "definition": "Gugus stop/order di tingkat jelas — bahan bakar kaskade."
+      },
+      {
+        "term": "Stop ber-bantalan",
+        "definition": "Pembatalan yang ditempatkan melampaui kantong oleh margin volatilitas."
+      },
+      {
+        "term": "Ketinggian lilin",
+        "definition": "Resolusi yang dideklarasikan mesin: OHLCV tertutup, tak ada di bawahnya."
+      },
+      {
+        "term": "Kompresi dapat-diaudit",
+        "definition": "Mengapa lilin: analisis deterministik, dapat-diputar-ulang, dapat-diverifikasi."
+      }
+    ],
+    "exercise": {
+      "question": "Mengetahui kaskade stop berkelompok di tingkat jelas, di mana jalur ini memberi tahu Anda menempatkan stop long relatif terhadap support yang jelas?",
+      "options": [
+        "Persis di harga support, tempat semua orang bisa melihatnya.",
+        "Jarak ber-bantalan-volatilitas melampaui tingkat jelas, agar penyapuan rutin kantong likuiditas tak mengubah 1R rencana Anda menjadi pengisian kaskade.",
+        "Tanpa stop — kaskade membuat stop tak berguna.",
+        "Di atas masuk, demi keamanan."
+      ],
+      "explanation": "Stop kelipatan-ATR mesin telah melakukan ini untuk Anda selama ini: bantalan ditentukan ukurannya agar serbuan normal kantong lewat di bawahnya. Mikrostruktur adalah mengapa di balik kelipatan itu."
+    },
+    "live_apply": {
+      "cta": "Bandingkan stop sinyal mana pun dengan tingkat jelas terdekat — ukur bantalannya dan kenali asuransi kaskade yang telah Anda bawa."
+    }
+  },
+  {
+    "id": "expert-24-two-hats",
+    "title": "Dua Topi: Pedagang dan Petugas Risiko",
+    "summary": "Perusahaan profesional memisahkan yang mengambil risiko dari yang membatasinya. Anda pun harus.",
+    "concept": "Di setiap perusahaan perdagangan serius, pedagang yang menginginkan posisi dan **petugas risiko** yang bisa memvetonya adalah orang berbeda — karena pikiran yang sama tak bisa secara jujur menginginkan perdagangan dan mengawasinya sekaligus. Pedagang soliter tak bisa mempekerjakan orang kedua, tetapi mereka bisa memasang *peran* kedua: seperangkat aturan yang ditulis oleh Anda-saat-paling-tenang yang **mengungguli** Anda-saat-itu.\n\nPemisahannya bersifat temporal, bukan personal: petugas risiko bekerja **sebelum** (menetapkan batas saat datar) dan **sesudah** (meninjau pelanggaran dalam jurnal); pedagang bekerja **selama**. Aturan apa pun yang dinegosiasikan-ulang di tengah perdagangan tak pernah menjadi aturan — itu adalah saran yang mengenakan seragam.\n\nAnda sudah menemui polanya di mana-mana dalam Akademi ini: stop yang sudah-dikomitkan, gerbang rezim yang menolak perdagangan terlepas dari suasana hati, tangga pembukaan itu sendiri. Jalur ini membuat peran itu eksplisit, memberinya kebijakan, dan — bagian sulitnya — memberinya otoritas untuk mengesampingkan rekannya yang lebih bersemangat.",
+    "key_terms": [
+      {
+        "term": "Petugas risiko",
+        "definition": "Peran yang menetapkan dan menegakkan batas — diperankan oleh Anda, saat tenang."
+      },
+      {
+        "term": "Pemisahan temporal",
+        "definition": "Batas ditetapkan sebelum, ditinjau sesudah; tak pernah dinegosiasikan selama."
+      },
+      {
+        "term": "Otoritas aturan",
+        "definition": "Aturan yang bisa dikesampingkan saat itu adalah saran."
+      },
+      {
+        "term": "Kuasa veto",
+        "definition": "Hak yang mendefinisikan peran risiko: tidak adalah kalimat lengkap."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa pedagang-saat-itu tak bisa sekaligus menjadi petugas risikonya sendiri pada saat keputusan?",
+      "options": [
+        "Regulasi melarangnya.",
+        "Menginginkan posisi dan mengawasinya menggunakan pikiran yang sama dalam arah berlawanan — di bawah gairah, keinginan menang, itulah mengapa batas harus ditetapkan dan ditegakkan dari momen waktu yang berbeda.",
+        "Petugas risiko butuh sertifikasi.",
+        "Itu berfungsi baik; perusahaan memisahkan mereka karena alasan penggajian."
+      ],
+      "explanation": "Konflik kepentingannya internal dan neurologis, bukan prosedural. Pemisahan temporal — Anda-tenang membuat undang-undang untuk Anda-bersemangat — adalah versi pedagang soliter dari dua meja perusahaan."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Risiko dan baca gerbangnya sebagai perintah tetap kantor risiko Anda — ditulis saat tenang, ditegakkan terlepas dari suasana hati."
+    }
+  },
+  {
+    "id": "expert-25-limits-policy",
+    "title": "Batas sebagai Kebijakan Tertulis",
+    "summary": "Batas per-perdagangan, harian, panas, dan drawdown — disusun sekali, ditaati selalu.",
+    "concept": "Kebijakan risiko muat dalam satu halaman dan mencakup empat ketinggian. **Per-perdagangan**: risiko maksimum sebagai fraksi ekuitas (1% yang Anda gunakan sepanjang kursus) dan ukuran posisi maksimum terlepas dari matematika stop (asuransi jari-gemuk). **Per-hari**: batas kerugian dalam R (umumnya 2–3R) setelahnya hari berakhir — bukan karena keunggulan lenyap, melainkan karena jalur psikologi menunjukkan apa yang berlipat setelah kerugian beruntun. **Portofolio**: plafon panas dan plafon paparan-terkorelasi (pelajaran korelasi-tertekan jalur makro, dikodifikasi). **Akun**: aturan jeda drawdown — kedalaman tempat segalanya berhenti untuk tinjauan tertulis lengkap dan mulai-ulang ukuran-berkurang.\n\nSetiap batas butuh tiga bagian tertulis: **ambang**, **tindakan** (kurangi/hentikan/tinjau — otomatis, bukan konsultatif), dan **kondisi mulai-ulang**. Batas tanpa mulai-ulang yang disepakati-sebelumnya menjadi gentar permanen; yang tanpa tindakan otomatis menjadi entri jurnal tentang apa yang seharusnya terjadi.\n\nSusun milik Anda sekarang, saat tak ada yang menyakitkan. Itulah seluruh triknya.",
+    "key_terms": [
+      {
+        "term": "Plafon per-perdagangan",
+        "definition": "Fraksi risiko plus plafon ukuran absolut."
+      },
+      {
+        "term": "Stop harian",
+        "definition": "Tingkat kerugian dalam R yang mengakhiri hari perdagangan."
+      },
+      {
+        "term": "Plafon paparan-terkorelasi",
+        "definition": "Panas yang dianggarkan terhadap matriks korelasi tertekan."
+      },
+      {
+        "term": "Kondisi mulai-ulang",
+        "definition": "Jalur kembali yang disepakati-sebelumnya dari batas mana pun yang terpicu."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa setiap batas dalam kebijakan butuh kondisi MULAI-ULANG yang ditulis-sebelumnya, bukan hanya ambang dan tindakan?",
+      "options": [
+        "Kelengkapan administrasi.",
+        "Tanpa jalur kembali yang terdefinisi, batas yang terpicu meluruh menjadi entah ketakutan permanen (tak pernah mulai-ulang) atau pengecualian dadakan (mulai-ulang berdasar suasana hati) — aturan mulai-ulang yang menjaga batas tetap sistem alih-alih bekas luka.",
+        "Mulai-ulang disyaratkan oleh broker.",
+        "Batas tak boleh dimulai-ulang."
+      ],
+      "explanation": "Pemutus arus yang tak diketahui siapa pun cara meresetnya akan dilewati lain kali. Kondisi mulai-ulang — jurnal yang ditinjau, ukuran berkurang, tanggal spesifik — menutup lingkaran dan menjaga otoritas pada kebijakan."
+    },
+    "live_apply": {
+      "cta": "Kodekan satu batas secara fisik sekarang juga: peringatan di setara stop-harian Anda pada posisi terbuka terbesar Anda."
+    }
+  },
+  {
+    "id": "expert-26-breach-review",
+    "title": "Pemantauan dan Tinjauan Pelanggaran",
+    "summary": "Produk nyata kantor risiko adalah administrasi jujur tentang pelanggaran.",
+    "concept": "Batas dilanggar — oleh pasar (gap menembus stop) dan oleh Anda (perdagangan yang diambil pada risiko 1,4% karena «terlihat luar biasa»). Nilai kantor risiko bukan mencegah setiap pelanggaran; melainkan **mencatat dan mengklasifikasikannya** secara jujur: *pelanggaran pasar* (rencana bertemu kondisi yang tak bisa dikendalikannya — tinjau asumsi rencana) versus *pelanggaran disiplin* (rencana dikesampingkan — tinjau operator).\n\nRitual tinjauan, dipinjam dari setiap meja risiko serius: catat setiap pelanggaran dalam sehari, klasifikasikan, tulis penyebab satu-kalimat, dan — untuk pelanggaran disiplin — identifikasi *momen* pengesampingan terjadi dan dalam keadaan apa Anda (label emosi jurnal menjadi bukti forensik). Tiga pelanggaran disiplin sejenis dalam sebulan bukan tiga insiden; itu adalah satu pola yang mengenakan tiga tanggal.\n\nInstrumentasi Anda sudah ada: panel pelatihan menandai momen risiko saat terjadi, jurnal menyimpan kepatuhan, dan riwayat kertas Anda memberi cap waktu pada segalanya. Tugas petugas risiko adalah membacanya seperti auditor — bulanan, tertulis, tanpa belas kasihan atau melodrama.",
+    "key_terms": [
+      {
+        "term": "Pelanggaran pasar",
+        "definition": "Kondisi melampaui rencana — tinjauan asumsi."
+      },
+      {
+        "term": "Pelanggaran disiplin",
+        "definition": "Rencana dikesampingkan — tinjauan operator."
+      },
+      {
+        "term": "Log pelanggaran",
+        "definition": "Pelanggaran bertanggal, terklasifikasi dengan penyebab satu-kalimat."
+      },
+      {
+        "term": "Ambang pola",
+        "definition": "Pelanggaran sejenis berulang diperlakukan sebagai satu temuan sistemik."
+      }
+    ],
+    "exercise": {
+      "question": "Stop Anda diatur dengan benar tetapi gap semalam mengisi Anda 2,3R turun alih-alih 1R. Bagaimana kantor risiko mengklasifikasikan dan bertindak?",
+      "options": [
+        "Pelanggaran disiplin — hukum operator.",
+        "Pelanggaran pasar: rencana bertemu risiko gap yang dibawanya secara sadar; tinjauan menargetkan asumsi (kalender peristiwa dihormati? paparan semalam ditentukan ukurannya untuk gap?) alih-alih perilaku operator.",
+        "Bukan pelanggaran karena stop ada.",
+        "Hapus perdagangan dari jurnal."
+      ],
+      "explanation": "Klasifikasi memutuskan obatnya. Menghukum operator untuk pelanggaran pasar mengajarkan ketakutan; memaafkan pelanggaran disiplin sebagai nasib buruk tak mengajarkan apa pun. Taksonomi itulah seluruh alatnya."
+    },
+    "live_apply": {
+      "cta": "Audit sepuluh perdagangan kertas terakhir Anda: klasifikasikan setiap penyimpangan rencana sebagai pelanggaran pasar atau disiplin, dan cari jenis yang berulang."
+    }
+  },
+  {
+    "id": "expert-27-capital-preservation",
+    "title": "Doktrin Pelestarian Modal",
+    "summary": "Bertahan hidup adalah strateginya; imbal hasil adalah apa yang diraih kelangsungan hidup dari waktu ke waktu.",
+    "concept": "Setiap pelajaran dalam jalur ini melayani satu doktrin: **Anda tak bisa berlipat dari nol**. Aritmetika yang Anda temui sejak awal — pemulihan asimetris drawdown, garis penghapusan 100/L, risiko kehancuran di bawah deret — semua mengatakan hal yang sama: pedagang yang bertahan tahun-tahun biasa-biasa mengalahkan pedagang brilian yang tak bertahan satu minggu buruk. Keunggulan disewa; modal adalah sewanya.\n\nAturan operasi doktrin: tentukan ukuran setiap perdagangan seolah tujuh berikutnya semua bisa kalah (suatu hari mereka akan kalah); potong ukuran *pertama* ketika ada yang terasa salah — ukuran adalah satu-satunya tuas yang bekerja di tengah badai; perlakukan «mengembalikan» sebagai motif terlarang (penjahat bersama jalur tilt dan leverage); dan ukur diri Anda di pasar turun dengan seberapa sedikit yang Anda hilangkan, bukan seberapa banyak yang Anda raih.\n\nIni juga pembacaan terdalam dari aplikasi yang Anda gunakan: kertas-dulu, spot-saja, kemajuan terkunci, statistik jujur — seluruh arsitektur adalah doktrin pelestarian yang dirender sebagai perangkat lunak. Akademi mengajari Anda berdagang; doktrin inilah yang memungkinkan Anda masih berdagang sepuluh tahun lagi.",
+    "key_terms": [
+      {
+        "term": "Asimetri kehancuran",
+        "definition": "Nol adalah satu-satunya hasil yang tak bisa Anda pulihkan."
+      },
+      {
+        "term": "Respons ukuran-dulu",
+        "definition": "Mengurangi ukuran sebagai tindakan universal di-tengah-badai."
+      },
+      {
+        "term": "Motif terlarang",
+        "definition": "«Mengembalikan» — musuh doktrin yang dinamai."
+      },
+      {
+        "term": "Metrik kelangsungan hidup",
+        "definition": "Kinerja pasar-turun yang dinilai dari kerugian yang dihindari."
+      }
+    ],
+    "exercise": {
+      "question": "Dua pedagang selama lima tahun: A rata-rata +22%/tahun tetapi bangkrut di anjlokan tahun keenam; B rata-rata +9% dan bertahan. Vonis doktrin?",
+      "options": [
+        "A lebih baik — rata-rata lebih tinggi selama berlangsung.",
+        "B memenangkan semua yang penting: perlipatan hanya ada untuk yang bertahan, dan rata-rata superior A disewa terhadap risiko kehancuran yang akhirnya menagihnya.",
+        "Mereka seri pada paritas yang-disesuaikan-risiko.",
+        "Tahun keenam harus dikecualikan sebagai pencilan."
+      ],
+      "explanation": "Imbal hasil bersyarat pada kelangsungan hidup; kelangsungan hidup tak bersyarat pada imbal hasil. Rata-rata geometris dari deret yang berisi nol adalah nol — seluruh doktrin dalam satu perkalian."
+    },
+    "live_apply": {
+      "cta": "Baca ulang drawdown maksimum preset mana pun dan ajukan pertanyaan doktrin lebih dulu: apakah kelangsungan hidup pasti melalui dua kali kedalaman itu?"
+    }
+  },
+  {
+    "id": "expert-28-trading-day",
+    "title": "Hari Operator",
+    "summary": "Siapkan, eksekusi, tinjau — lingkar yang menggantikan suasana hati dengan proses.",
+    "concept": "Hari perdagangan profesional adalah **lingkar**, bukan jaga malam. **Siapkan** (sebelum keputusan pasar apa pun): periksa kalender (peristiwa makro, laba pada kepemilikan), baca kerusakan semalam, tinjau posisi terbuka terhadap rencananya, pindai panel pelatihan, tetapkan anggaran risiko hari itu mengingat keadaan drawdown saat ini. **Eksekusi** (selama): bertindak hanya pada penyiapan terencana di rezim valid, tempatkan peringatan alih-alih menatap (pelajaran sistem-disiplin), catat masuk dengan alasan satu-kalimatnya pada momen terjadi. **Tinjau** (sesudah, selalu): jurnalkan setiap keluar, klasifikasikan pelanggaran apa pun, catat kalender besok, tutup layar.\n\nHukum urutan yang Anda temui di pelajaran daftar-periksa — *kelola sebelum berburu* — meluas ke seluruh hari: persiapan mengungguli eksekusi, dan tinjauan bukan pencuci mulut opsional; ia adalah tempat pembelajaran sebenarnya terjadi (hari itu sendiri hanyalah pengumpulan data).\n\nJebakan yang dicegah struktur ini punya nama: **menatap layar sebagai kerja**. Berjam-jam menatap menghasilkan perdagangan impulsif dan kelelahan, bukan keunggulan. Hari operator pendek, teratur, dan sebagian besar *tak* dihabiskan menonton lilin terbentuk.",
+    "key_terms": [
+      {
+        "term": "Siapkan-eksekusi-tinjau",
+        "definition": "Lingkar harian; pembelajaran hidup di fase ketiga."
+      },
+      {
+        "term": "Pemeriksaan anggaran-risiko",
+        "definition": "Menentukan ukuran hari terhadap keadaan drawdown saat ini, sebelum berdagang."
+      },
+      {
+        "term": "Alasan-saat-masuk",
+        "definition": "Mencatat tesis saat diputuskan, bukan direkonstruksi kemudian."
+      },
+      {
+        "term": "Jebakan menatap-layar",
+        "definition": "Menatap yang dikira kerja — pabrik perdagangan-impulsif."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa lingkar operator menempatkan tinjauan jurnal SESUDAH sesi sebagai fase yang tak dapat dinegosiasikan, alih-alih «saat ada waktu»?",
+      "options": [
+        "Untuk mengisi kalender.",
+        "Eksekusi hanya menghasilkan data; tinjauan mengubahnya menjadi pembelajaran — lewati fase ketiga dan lingkar merosot menjadi mengulang hari yang sama dengan kesalahan baru.",
+        "Jurnal kedaluwarsa secara hukum setiap hari.",
+        "Meninjau sebelum tidur memperbaiki mimpi."
+      ],
+      "explanation": "Jalur statistik menunjukkan keunggulan Anda bersembunyi dalam agregat Anda sendiri. Agregat hanya ada jika fase tinjauan berjalan — setiap tinjauan yang dilewati adalah pembayaran uang sekolah dengan kuitansi dibuang."
+    },
+    "live_apply": {
+      "cta": "Bangun lingkar besok malam ini: peringatan di setiap tingkat keputusan, agar eksekusi bisa digerakkan-peristiwa alih-alih ditatap."
+    }
+  },
+  {
+    "id": "expert-29-research-pipeline",
+    "title": "Pipa Riset",
+    "summary": "Ide → hipotesis → backtest → uji-maju → ukuran — dengan kriteria pematian di setiap tahap.",
+    "concept": "Profesional memisahkan **riset** dari **perdagangan** seketat risiko dari hasrat. Pipanya: sebuah **ide** (dari pelajaran, pola yang diperhatikan, pengamatan rezim) menjadi **hipotesis** — ditulis cukup presisi untuk bisa salah («pullback ke EMA-21 di rezim bertren teratasi ke arah tren dalam N bar»). Hipotesis bertemu **backtester** (mesin jalur kejujuran-statistik: IS/OOS, biaya, ukuran sampel) — sebagian besar ide harus mati di sini, dengan murah. Yang bertahan pergi ke **uji kertas maju**: data langsung, waktu nyata, modal nol — seluruh aparatus kertas mesin ada persis untuk tahap ini. Baru kemudian, dengan bukti historis dan maju sepakat, **ukuran** masuk ke percakapan.\n\nSetiap tahap butuh **kriteria pematian** yang ditulis-sebelumnya — hasil yang mengirim ide ke kuburan tanpa banding. Riset tanpa kriteria pematian bukan riset; itu berbelanja konfirmasi (jalur bias, dalam jas lab).\n\nPerhatikan apa yang ini jadikan QuantGlass: bukan umpan sinyal melainkan **laboratorium riset pribadi** — detektor, backtester, lingkungan uji-maju, dan jurnal, berbagi satu tulang punggung data yang jujur.",
+    "key_terms": [
+      {
+        "term": "Hipotesis",
+        "definition": "Ide yang ditulis cukup presisi untuk dipalsukan."
+      },
+      {
+        "term": "Kematian murah",
+        "definition": "Backtest ada agar ide buruk mati sebelum memakan uang."
+      },
+      {
+        "term": "Uji maju",
+        "definition": "Validasi kertas data-langsung — tahap antara sejarah dan modal."
+      },
+      {
+        "term": "Kriteria pematian",
+        "definition": "Hasil disepakati-sebelumnya yang mengakhiri ide tanpa banding."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah ide ber-backtest indah tetapi berdarah terus selama delapan minggu uji kertas maju. Vonis pipa?",
+      "options": [
+        "Kirim — backtest mengungguli derau terbaru.",
+        "Tahap maju ada persis untuk menangkap ini: perubahan rezim atau sejarah ter-overfit — bagaimanapun kriteria pematian menyala, dan ide kembali ke riset alih-alih maju ke modal.",
+        "Rata-ratakan kedua hasil.",
+        "Perpanjang uji maju sampai sepakat."
+      ],
+      "explanation": "Sejarah bisa dihafal; masa kini tak bisa. Ketidaksepakatan antar tahap adalah informasi, dan «perpanjang uji sampai mengonfirmasi» adalah bias konfirmasi yang pipa dibangun untuk mematikannya."
+    },
+    "live_apply": {
+      "cta": "Pilih satu preset strategi dan tulis kriteria pematiannya untuk uji kertas maju: hasil 30-perdagangan apa yang akan mengakhirinya secara jujur?"
+    }
+  },
+  {
+    "id": "expert-30-pro-reporting",
+    "title": "Melapor seperti Profesional",
+    "summary": "Surat bulanan kepada satu-satunya investor Anda: Anda.",
+    "concept": "Dana menulis surat investor; Anda menulis satu untuk diri sendiri, bulanan, dalam R. Templatnya: **angka utama** (perdagangan, tingkat kemenangan, ekspektasi, total R, drawdown maksimum periode ini); **atribusi** (penyiapan, rezim, dan simbol mana yang menghasilkan dan mengonsumsi R — pengirisan yang Anda pelajari di pelajaran statistik-jurnal); **laporan pelanggaran** (log kantor risiko: pasar versus disiplin, pola yang ditandai); **metrik proses** (tingkat kepatuhan rencana, penyelesaian jurnal — angka yang memprediksi angka lain); dan **satu perubahan** — satu penyesuaian spesifik tunggal untuk bulan depan, karena laporan yang menuntut lima perubahan menghasilkan nol.\n\nDisiplinnya adalah menulisnya saat bulan itu *buruk*: laporan yang paling tak ingin Anda tulis berisi informasi termahal yang Anda miliki. Dan formatnya memaksa kerangka profesional — bulan dinilai sebagai sampel (n perdagangan), bukan cerita («terasa mengerikan»); bulan -3R dengan kepatuhan sempurna adalah *laporan bagus* dengan angka merah.\n\nTulang punggung data Anda sudah ada: riwayat kertas, jurnal, skor kesiapan, log pelanggaran. Suratnya adalah satu jam jujur, dua belas kali setahun.",
+    "key_terms": [
+      {
+        "term": "Surat investor",
+        "definition": "Laporan-diri bulanan — angka dulu, dalam R."
+      },
+      {
+        "term": "Atribusi",
+        "definition": "R yang diiris berdasarkan penyiapan, rezim, dan simbol."
+      },
+      {
+        "term": "Metrik proses",
+        "definition": "Kepatuhan dan penyelesaian — indikator utama."
+      },
+      {
+        "term": "Aturan satu-perubahan",
+        "definition": "Satu penyesuaian spesifik per laporan."
+      }
+    ],
+    "exercise": {
+      "question": "Bulan Anda: total -2,4R, tetapi 96% kepatuhan rencana dan setiap kerugian dalam 1R-nya yang terencana. Bagaimana laporan profesional membacanya?",
+      "options": [
+        "Bulan yang gagal — angkanya merah.",
+        "Bulan yang dijalankan dengan baik dalam sampel yang tak membayar: metrik proses lolos, kerugian berukuran-terencana, dan vonis atas metode menunggu n lebih banyak — persis yang dimaksud «nilai metode berdasarkan agregat».",
+        "Kepatuhan menyebabkan kerugian.",
+        "Laporan dilewati di bulan-bulan merugi."
+      ],
+      "explanation": "Laporan memisahkan operator dari hasil. Bulan merah dengan proses hijau adalah varians; bulan hijau dengan proses merah adalah yang berbahaya — surat ada untuk membedakannya."
+    },
+    "live_apply": {
+      "cta": "Susun surat bulan ini dari riwayat kertas Anda: R utama, penyiapan terbaik/terburuk, perkiraan kepatuhan, dan satu perubahan."
+    }
+  },
+  {
+    "id": "expert-31-complete-operator",
+    "title": "Operator Lengkap",
+    "summary": "Setiap jalur, satu identitas — dan apa arti kelulusan sebenarnya.",
+    "concept": "Rakit apa yang kini Anda bawa. Anda membaca pasar secara struktural (fondasi, melek grafik, rezim) dan tahu apa yang dihitung mesin versus apa yang harus Anda nilai (setiap pelajaran garis-cakupan). Anda menentukan ukuran dari invalidasi, menganggarkan panas terhadap korelasi tertekan, dan memperlakukan leverage sebagai penskalaan-ulang kelangsungan hidup (jalur risiko, margin). Anda menuntut kejujuran statistik — sampel, OOS, kalibrasi, batas konformal — dari klaim apa pun, termasuk milik Anda sendiri (jalur statistik, validasi). Anda mengenali musuh dari dalam (psikologi) dan dari luar (pertahanan penipuan). Anda beroperasi pada lingkar, meneliti pada pipa, melapor dalam R, dan menjawab ke kantor risiko yang Anda bangun sendiri (tingkat ini).\n\nPerhatikan apa yang berubah: tak satu pun dari itu adalah prediksi. Akademi tak pernah mengajari Anda apa yang akan dilakukan pasar — ia mengajari Anda untuk tak membutuhkan pengetahuan semacam itu: keunggulan ditemukan dalam proses, diekspresikan dalam unit risiko, divalidasi secara jujur, dan dilewati-bertahan hingga perlipatan.\n\nKelulusan, kalau begitu, bukan pembukaan perdagangan-langsung (yang tetap pilihan, bukan tujuan — penguasaan kertas adalah hasil lengkap). Kelulusan adalah ini: **Anda kini bisa membela setiap angka yang Anda tindaki**. Standar itu — standar mesin, kini milik Anda — adalah seluruh kurikulum dalam satu kalimat. Bawalah.",
+    "key_terms": [
+      {
+        "term": "Operator lengkap",
+        "definition": "Pembaca-struktur, penentu-ukuran-risiko, statistikawan jujur, yang mengatur-diri."
+      },
+      {
+        "term": "Keunggulan proses",
+        "definition": "Keunggulan yang berada dalam operasi, bukan prediksi."
+      },
+      {
+        "term": "Angka yang dapat dibela",
+        "definition": "Standar kelulusan: setiap angka yang ditindaki dapat diaudit."
+      },
+      {
+        "term": "Penguasaan kertas",
+        "definition": "Keadaan akhir yang lengkap dan sah — bukan ruang tunggu."
+      }
+    ],
+    "exercise": {
+      "question": "Apa kriteria kelulusan Akademi yang sebenarnya, menurut pelajaran puncak ini?",
+      "options": [
+        "Membuka perdagangan langsung.",
+        "Mampu membela setiap angka yang Anda tindaki — sampel, sumber, asumsi, dan risiko — standar yang sama yang dipegang mesin untuk dirinya.",
+        "Menyelesaikan 113 pelajaran.",
+        "Sebuah bulan yang menguntungkan."
+      ],
+      "explanation": "Pelajaran berakhir; standar tidak. Perdagangan langsung adalah satu penerapan opsionalnya; angka yang dapat dibela adalah identitas yang Anda pertahankan bagaimanapun."
+    },
+    "live_apply": {
+      "cta": "Gulir jalur Anda yang selesai dan pilih satu pelajaran yang akan Anda baca-ulang bulanan — setiap operator menyimpan satu batu asah."
+    }
+  }
+]
