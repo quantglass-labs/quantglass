@@ -1,0 +1,932 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "title": "Wastani wa Mwendo — EMA na SMA",
+    "summary": "Elewa kwa nini EMA hujibu haraka zaidi na ni lini hilo ni muhimu.",
+    "concept": "Zote mbili **EMA** (Wastani wa Mwendo wa Kielelezo) na **SMA** (Wastani wa Mwendo Rahisi) hulainisha kelele za bei kuwa mstari mmoja. Tofauti ni *uzito*:\n\n- **SMA**: kila fungo katika dirisha hupata uzito sawa. SMA-50 = wastani wa fungo 50 za mwisho.\n- **EMA**: fungo za hivi karibuni hupata uzito mkubwa zaidi kwa kielelezo. EMA-21 hujibu bei mpya haraka kuliko SMA-50, ikigeuka kabla ya SMA wakati mwelekeo unabadilika.\n\n**Matumizi ya vitendo katika QuantGlass:**\n- EMA-21 hutumika kama *msaada wenye mwendo katika mienendo ya kupanda* na *upinzani katika mienendo ya kushuka*.\n- Ndani ya mpangilio wa kupanda (Close > EMA > SMA), kurudi nyuma hadi EMA-21 ni kichocheo cha kuingia kwa mipangilio ya `ema_reclaim_pullback` na `daily_trend_pullback`.\n- *Mteremko* wa baa 10 za mwisho wa SMA-50 (`htf_slope`) hutumika kama kichujio cha mwelekeo wa muda wa juu — kuingia kunaruhusiwa tu wakati SMA-50 inateremka katika mwelekeo wa biashara.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Wastani rahisi wa bei 50 za mwisho za funga — wa kuchelewa lakini thabiti."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Wastani wenye uzito wa kielelezo wa vipindi 21 — hujibu haraka zaidi kwa mienendo ya hivi karibuni."
+      },
+      {
+        "term": "Msaada/upinzani wenye mwendo",
+        "definition": "Wastani wa mwendo unaobadilika na bei, ukifanya kazi kama S/R."
+      },
+      {
+        "term": "Mteremko wa HTF",
+        "definition": "Mteremko wa muda wa juu: (SMA50[sasa] − SMA50[baa 10 zilizopita]) / SMA50[baa 10 zilizopita]."
+      }
+    ],
+    "exercise": {
+      "question": "Bei ilikuwa katika mwelekeo wa kupanda. SMA-50 iko chini ya zote mbili wakati bei inarudi nyuma ikigusa EMA-21. QuantGlass hutafuta mpangilio gani?",
+      "options": [
+        "Short ya kurudi-wastani katika msururu.",
+        "Kuingia kwa long ya mwelekeo-kurudi (ema_reclaim_pullback au daily_trend_pullback).",
+        "Ufuatiliaji wa mvunjiko wa kushuka.",
+        "Hakuna mpangilio — QuantGlass hupuuza miguso ya wastani wa mwendo."
+      ],
+      "explanation": "Wakati Close > EMA21 > SMA50 na bei inarudi nyuma karibu na EMA-21 katika eneo la RSI 46–72, injini hutoa `ema_reclaim_pullback` (ndani ya siku) au `daily_trend_pullback` (kila siku) — ishara ya BUY_ZONE inayolenga mwendelezo wa mwelekeo wa kupanda."
+    },
+    "live_apply": {
+      "cta": "Chuja ishara hadi BUY_ZONE. Tafuta ishara yenye setup_type = 'ema_reclaim_pullback' na ukague orodha ya sababu."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "title": "RSI — Kupima kasi",
+    "summary": "Tumia RSI kutambua uchovu na uthibitisho wa kasi.",
+    "concept": "**Kielezo cha Nguvu Linganishi (RSI-14)** hupima kasi: jinsi bei ilivyosonga haraka na mbali ikilinganishwa na historia yake ya hivi karibuni. Hubembea kati ya 0 na 100:\n\n- **RSI > 70**: kununuliwa kupita kiasi (kasi imenyooshwa, angalia uchovu)\n- **RSI < 30**: kuuzwa kupita kiasi (kasi imenyooshwa chini)\n- **RSI 46–72**: eneo zuri la mwelekeo wa kupanda — hapa kuingia kwa kurudi nyuma kunapendelewa\n\nQuantGlass pia hutumia **RSI-2** (RSI ya haraka sana ya vipindi 2) kwa mipangilio ya kurudi-wastani:\n- RSI-2 ≤ 8 karibu na bendi ya chini ya Bollinger → kuuzwa kupita kiasi cha muda mfupi sana → BUY_ZONE\n- RSI-2 ≥ 92 karibu na bendi ya juu ya Bollinger → kununuliwa kupita kiasi cha muda mfupi sana → SELL\n\n**Tofautiano**: bei hufanya vilele vya juu zaidi lakini RSI hufanya vilele vya chini zaidi → tofautiano la kushuka, kasi inadhoofika hata bei ikipanda.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "Kielezo cha Nguvu Linganishi cha vipindi 14 — kipima-kasi kikuu."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "RSI ya vipindi 2 — kiashiria cha kurudi-wastani cha muda mfupi sana."
+      },
+      {
+        "term": "Kununuliwa kupita kiasi",
+        "definition": "RSI > 70 — kasi imenyooshwa juu, hatari ya kugeuka inaongezeka."
+      },
+      {
+        "term": "Kuuzwa kupita kiasi",
+        "definition": "RSI < 30 — kasi imenyooshwa chini, eneo linalowezekana la kuruka."
+      },
+      {
+        "term": "Tofautiano la RSI",
+        "definition": "Bei na RSI husonga katika mielekeo tofauti — ishara ya kasi inayodhoofika."
+      }
+    ],
+    "exercise": {
+      "question": "Katika soko la msururu, RSI-2 inashuka hadi 5 na bei inagusa bendi ya chini ya Bollinger. QuantGlass hutoa ishara gani?",
+      "options": [
+        "SELL — bei iko chini, ikithibitisha mvunjiko wa kushuka.",
+        "BUY_ZONE, aina ya mpangilio 'range_meanreversion_long'.",
+        "WAIT — ushahidi hautoshi katika soko la msururu.",
+        "HOLD — hakuna kuingia mpya katika masoko ya msururu."
+      ],
+      "explanation": "Katika utawala wa `ranging`, RSI-2 ≤ 8 *na* bei kwenye bendi ya chini ya Bollinger huchochea mpangilio wa `range_meanreversion_long`. Lengo la kurudi-wastani ni mstari wa katikati wa Bollinger. Ngazi ya TP imetiwa nanga kwa mstari huo wa katikati, si kizidisho cha ATR kisichobadilika."
+    },
+    "common_mistakes": [
+      "Kufanya short kwa 'kununuliwa kupita kiasi' katika mwelekeo wa kupanda. Mielekeo yenye nguvu hushikilia RSI juu ya 70 kwa wiki; usomaji wa kurudi-wastani huhitaji utawala wa msururu.",
+      "Kufanya biashara kwa RSI pekee. Injini huitendea kama pembejeo nyuma ya lango la utawala, kamwe si kichocheo huru."
+    ],
+    "live_apply": {
+      "cta": "Kwenye skrini ya Ishara, tafuta ishara ya BUY_ZONE yenye setup_type = 'range_meanreversion_long'."
+    }
+  },
+  {
+    "id": "intermediate-06-macd",
+    "title": "MACD: kasi ya mwelekeo ikionekana",
+    "summary": "EMA mbili, pengo kati yao, na histogramu inayopanga muda wa mabadiliko ya kasi.",
+    "concept": "**MACD** (Muunganiko Tofautiano wa Wastani wa Mwendo) huanza na wazo rahisi: linganisha lenzi ya haraka na ya polepole. **Mstari wa MACD** ni EMA ya vipindi 12 ukiondoa EMA ya vipindi 26 — chanya wakati bei za hivi karibuni zinakimbia moto zaidi kuliko msingi wa polepole. **Mstari wa ishara** ni EMA ya vipindi 9 *ya mstari wa MACD*. **Histogramu** ni tofauti yao na ndicho QuantGlass hutumia kweli: `macd_hist > 0` huhesabiwa kama makubaliano ya kupanda katika muunganiko wa mpangilio, `< 0` kama ya kushuka.\n\nJinsi ya kusoma: histogramu kuvuka sifuri huashiria mvuko wa EMA za haraka/polepole; histogramu *kupungua* wakati bei bado inasukuma huashiria kasi inafifia kabla bei haijageuka — onyo la mapema la kawaida.\n\nMipaka: MACD imejengwa kutoka EMA, hivyo kwa asili inachelewa na hukata-kata katika misururu tambarare. Ndiyo sababu injini huitumia kama **kura ya makubaliano** miongoni mwa kadhaa, kamwe si kichocheo huru.",
+    "key_terms": [
+      {
+        "term": "Mstari wa MACD",
+        "definition": "EMA-12 ukiondoa EMA-26 ya fungo."
+      },
+      {
+        "term": "Mstari wa ishara",
+        "definition": "EMA-9 ya mstari wa MACD."
+      },
+      {
+        "term": "Histogramu",
+        "definition": "Mstari wa MACD ukiondoa mstari wa ishara — thamani ya macd_hist ya injini."
+      },
+      {
+        "term": "Tofautiano la kasi",
+        "definition": "Histogramu hupungua wakati bei inaendelea kusukuma."
+      },
+      {
+        "term": "Kura ya makubaliano",
+        "definition": "Jinsi injini hutumia MACD: pembejeo ya muunganiko, si kichocheo."
+      }
+    ],
+    "exercise": {
+      "question": "Katika mantiki ya mpangilio ya QuantGlass, histogramu ya MACD ina jukumu gani?",
+      "options": [
+        "Ni kichocheo pekee cha kila ishara.",
+        "Ishara yake hufanya kazi kama kura ya makubaliano katika alama ya muunganiko — mipangilio ya kupanda hupata pointi inapokuwa chanya, ya kushuka inapokuwa hasi.",
+        "Huamua umbali wa stop-loss.",
+        "Hubadilisha uchambuzi wa wingi."
+      ],
+      "explanation": "Injini huongeza bonasi ya muunganiko isiyobadilika wakati macd_hist inakubaliana na mwelekeo wa mpangilio. Ni uthibitisho, kamwe si wazo la biashara lenyewe."
+    },
+    "live_apply": {
+      "cta": "Fungua viashiria vya alama na uangalie ishara ya histogramu ya MACD dhidi ya mwelekeo wa sasa wa mpangilio — makubaliano au kutoafikiana?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "title": "Bendi za Bollinger: tetemeko kama njia ya korido",
+    "summary": "Wastani wa baa 20 uliofunikwa katika mikengeuko miwili ya kawaida.",
+    "concept": "**Bendi za Bollinger** hufunika bei katika korido ya kitakwimu: **bendi ya katikati** ni wastani wa mwendo wa vipindi 20; **bendi za juu na chini** hukaa mikengeuko 2 ya kawaida juu na chini yake, zikihesabiwa kwa baa zile zile 20. Kwa kuwa mkengeuko wa kawaida hukua na tetemeko, korido hupumua — pana katika dhoruba, nyembamba katika utulivu.\n\nUsomaji miwili ni muhimu. **Miguso ya bendi**: bei kwenye bendi *imenyooshwa kitakwimu*, haigeuki kiotomatiki; katika utawala wa msururu wa injini, mguso wa bendi ya chini na RSI ya haraka iliyooshwa ni mpangilio wa long wa kurudi-wastani, ukilenga **bendi ya katikati** badala ya ngazi wazi. **Upana wa bendi**: (juu − chini) ÷ katikati hupima mbano; ufinyu uliokithiri mara nyingi hutangulia upanuzi.\n\nInjini huhesabu mfululizo wote wanne — juu, chini, katikati, upana wa bendi — kutoka mishumaa iliyofungwa na utokaji wa kurudi-wastani hulenga halisi `bb_mid`, hivyo somo hili linaeleza mantiki yako halisi ya kuchukua faida.",
+    "key_terms": [
+      {
+        "term": "Bendi ya katikati",
+        "definition": "Wastani wa vipindi 20 — kitovu cha korido na lengo la kurudi-wastani."
+      },
+      {
+        "term": "Mkengeuko wa kawaida",
+        "definition": "Kipimo cha mtawanyiko wa baa 20 kinachoamua ukubwa wa korido."
+      },
+      {
+        "term": "Upana wa bendi",
+        "definition": "(Juu − chini) ÷ katikati — kiashiria cha mbano."
+      },
+      {
+        "term": "Mguso wa bendi",
+        "definition": "Bei kugusa bendi: imenyooshwa, si lazima igeuke."
+      }
+    ],
+    "exercise": {
+      "question": "Katika mpangilio wa kurudi-wastani wa msururu wa injini, kwa nini kuchukua faida hulenga bendi ya katikati badala ya ngazi ya hatua 3?",
+      "options": [
+        "Bendi za katikati ni rahisi kuchora.",
+        "Kurudi-wastani huweka dau kwa kurudi kwa wastani — sumaku ya kitakwimu ni wastani wenyewe, hivyo mantiki ya utokaji huulenga.",
+        "Ngazi ni halali tu katika mienendo ya kupanda.",
+        "Bendi ya katikati haisogei kamwe."
+      ],
+      "explanation": "Msingi wa mpangilio ni kurudi-wastani. Kulenga bb_mid huweka utokaji ufanane na wazo lililotengeneza kuingia."
+    },
+    "live_apply": {
+      "cta": "Washa safu ya Bollinger: tafuta mguso wa hivi karibuni wa bendi na uangalie kama bei baadaye ilirudi kwenye bendi ya katikati."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "title": "ADX: kupima nguvu ya mwelekeo, si mwelekeo",
+    "summary": "Kiashiria nyuma ya uamuzi wa utawala wa mwelekeo/msururu wa injini.",
+    "concept": "**ADX** hujibu swali moja: *je, soko hili liko katika mwelekeo kabisa?* Imejengwa kutoka mwendo wa mwelekeo — kiasi cha juu cha leo kilivyosukuma juu ya cha jana (+DM) dhidi ya kiasi cha chini cha leo kilivyosukuma chini ya cha jana (−DM) — kilainishwa, kurekebishwa kuwa +DI/−DI kwa kipimo halisi cha mwenendo, na kufupishwa kuwa usomaji wa nguvu 0–100. Mwelekeo hutupwa kwa makusudi: mwelekeo wenye nguvu wa kushuka na wa kupanda wote husoma juu.\n\nLango la utawala la QuantGlass hutumia vizingiti kamili: **ADX ≥ 22 → katika mwelekeo**, **ADX < 16 → katika msururu**, katikati → mpito (na ukaguzi tofauti wa tetemeko unaoweza kushinda hadi *tete*). Nambari hizi huamua familia gani za mipangilio hufanya kazi — mipangilio ya kurudi-nyuma na mvunjiko huhitaji utawala wa mwelekeo; kurudi-wastani huhitaji msururu.\n\nUsomaji wa vitendo: ADX inapanda = mwendo unaimarika (mwelekeo wowote); ADX inashuka baada ya mwelekeo = mwelekeo unapumzika. Oanisha mwelekeo na muundo.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "Usomaji wa nguvu ya mwelekeo 0–100, kipofu kwa mwelekeo."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Vielezo vya mwelekeo kutoka mwendo wa juu na chini, vilivyorekebishwa kwa kipimo halisi cha mwenendo."
+      },
+      {
+        "term": "Lango la utawala",
+        "definition": "QuantGlass: ADX ≥ 22 mwelekeo, < 16 msururu, vinginevyo mpito."
+      },
+      {
+        "term": "Uchovu wa mwelekeo",
+        "definition": "ADX kushuka wakati wa mwelekeo uliokomaa."
+      }
+    ],
+    "exercise": {
+      "question": "Bei hufanya chini za chini wakati ADX inasoma 28. Injini inahitimisha nini?",
+      "options": [
+        "Soko liko katika msururu — 28 ni ndogo.",
+        "Soko liko katika utawala wa mwelekeo (ADX ≥ 22) na mwelekeo wa mwenendo (chini) hutoka kwa muundo wa bei, si kutoka ADX.",
+        "ADX imeharibika — inapaswa kuwa hasi katika mienendo ya kushuka.",
+        "Mienendo ya kupanda pekee yaweza kuwa na ADX juu ya 22."
+      ],
+      "explanation": "ADX hupima nguvu pekee. 28 huvuka kizingiti cha mwelekeo; muundo wa chini za chini hutoa mwelekeo wa kushuka."
+    },
+    "live_apply": {
+      "cta": "Tafuta lebo ya utawala kwenye ishara, kisha linganisha thamani ya ADX nyuma yake na vizingiti 22/16 vilivyotolewa na somo hili."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "title": "Mifereji ya Donchian: kufanya biashara kwenye kingo",
+    "summary": "Mfereji wa juu/chini wa baa 20 nyuma ya ugunduzi wa mvunjiko.",
+    "concept": "**Mfereji wa Donchian** ni kiashiria cha kweli zaidi kilichopo: mstari wa juu ni kwa urahisi **kiwango cha juu zaidi cha baa 20 za mwisho**, mstari wa chini ni **kiwango cha chini zaidi**. Hakuna ulainishaji, hakuna uzito — kingo halisi.\n\nMantiki yake: katika soko la mwelekeo, bei kufanya *kingo mpya ya baa 20* ni mwelekeo ukijitetea. Mipangilio ya mvunjiko-rejea ya QuantGlass hufyatua wakati, katika utawala wa mwelekeo, mshumaa unasukuma kutoka kingo ya mfereji ya **baa iliyotangulia** ukifunga karibu au zaidi (ndani ya 0.3%), na wingi angalau wastani wake wa hivi karibuni. Kutumia mfereji wa baa iliyotangulia huepuka mtego wa kujirejea ambapo kiwango cha juu cha leo *ndicho* mfereji wa kuvunja.\n\nUpana wa mfereji pia hueleza uwanja: mfereji mwembamba ni mbano (nishati inahifadhiwa), mpana ni mwendo uliopanuka. Donchian huoanishwa kwa asili na ADX — katika *utawala wa mwelekeo* mivunjiko ya mfereji ni mwendelezo; mvunjiko ule ule katika msururu uliokufa kwa kawaida ni wa uongo.",
+    "key_terms": [
+      {
+        "term": "Donchian juu/chini",
+        "definition": "Kiwango cha juu zaidi / cha chini zaidi katika kipindi cha kuangalia nyuma (baa 20 katika injini)."
+      },
+      {
+        "term": "Mvunjiko",
+        "definition": "Msukumo kutoka kingo ya mfereji ya baa iliyotangulia."
+      },
+      {
+        "term": "Rejea (retest)",
+        "definition": "Bei kurudi kwenye kiwango kilichovunjwa kabla ya mwendelezo."
+      },
+      {
+        "term": "Mvunjiko wa uongo (fakeout)",
+        "definition": "Mvunjiko wa mfereji bila msaada wa utawala au wingi."
+      }
+    ],
+    "exercise": {
+      "question": "Wakati wa kugundua mivunjiko, kwa nini injini hulinganisha bei na mfereji wa Donchian wa baa ILIYOTANGULIA?",
+      "options": [
+        "Data ya baa zilizotangulia ni ya ubora bora.",
+        "Kiwango cha juu cha baa ya sasa ni sehemu ya mfereji wa sasa — baa daima hugusa kingo yake mwenyewe, hivyo mfereji uliotangulia ni rejea ya kweli.",
+        "Mifereji ya Donchian hujisasisha tu kila wiki.",
+        "Hupunguza kasi ya hesabu lakini huifanya nzuri zaidi."
+      ],
+      "explanation": "Kiwango cha juu cha leo hufafanua dari ya mfereji wa leo, hivyo 'kuivunja' kungekuwa kweli kidogo. Jaribio dhidi ya mfereji wa baa iliyotangulia huuliza swali halisi: je, tumezidi kilichotangulia?"
+    },
+    "live_apply": {
+      "cta": "Tafuta preset ya breakout_retest na usome takwimu za biashara — kila kuingia kilichoiga kilitoka kwa kanuni hii ya mfereji wa baa-iliyotangulia."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "title": "Mifereji ya Keltner: bahasha ya ATR",
+    "summary": "EMA ± 1.5 ATR — bendi za tetemeko zinazopumua kwa kipimo halisi cha mwenendo.",
+    "concept": "**Mifereji ya Keltner** hufunika EMA ya vipindi 21 katika bendi zilizopishana kwa **1.5 × ATR(14)**. Wakati korido ya Bollinger huamua ukubwa kwa *mtawanyiko wa kitakwimu wa fungo*, Keltner huamua ukubwa kwa **kipimo halisi cha mwenendo** — safari halisi ya baa-kwa-baa, ikijumuisha mapengo. Matokeo ni bahasha laini zaidi, thabiti zaidi inayokata-kata kidogo katika maeneo yenye mabonge.\n\nUsomaji: bei kupanda bendi ya juu ya Keltner huashiria mwelekeo wenye nguvu (katika mienendo, 'kununuliwa kupita kiasi' mara nyingi ni nguvu tu); bei kubembea kati ya bendi huashiria usawa. **Mbano (squeeze)** — bendi za Bollinger zikipungua *ndani ya* mfereji wa Keltner — ni bendera ya kawaida ya mbano, kwa kuwa inamaanisha tetemeko la kitakwimu limeshuka chini ya safari ya kawaida ya baa.\n\nKatika injini bendi za Keltner huhesabiwa kutoka mishumaa iliyofungwa pamoja na kila kitu kingine na hutumika kama muktadha wa kiasi mwendo ulivyonyooshwa ikilinganishwa na safari yake ya kawaida — fikra ile ile ya ATR inayoamua ukubwa wa stop zako.",
+    "key_terms": [
+      {
+        "term": "Mfereji wa Keltner",
+        "definition": "EMA-21 ± 1.5 × ATR(14) katika injini."
+      },
+      {
+        "term": "Kipimo halisi cha mwenendo",
+        "definition": "Safari ya baa ikijumuisha mapengo — kubwa zaidi ya juu−chini, |juu−funga ya awali|, |chini−funga ya awali|."
+      },
+      {
+        "term": "Kupanda bendi",
+        "definition": "Fungo zinazoendelea kwenye bendi: nguvu ya mwelekeo, si kugeuka kiotomatiki."
+      },
+      {
+        "term": "Mbano (squeeze)",
+        "definition": "Bollinger ndani ya Keltner — mbano kabla ya upanuzi."
+      }
+    ],
+    "exercise": {
+      "question": "Zote Bollinger na Keltner hufunika wastani wa mwendo. Tofauti ya maamuzi ni ipi?",
+      "options": [
+        "Keltner hutumia mkengeuko wa kawaida; Bollinger ATR.",
+        "Bollinger huamua ukubwa wa bendi kwa mkengeuko wa kawaida wa fungo; Keltner kwa ATR — safari halisi ya baa.",
+        "Bollinger hufanya kazi tu kwenye hisa.",
+        "Hakuna tofauti."
+      ],
+      "explanation": "Mifupa ile ile, rula tofauti ya tetemeko: mtawanyiko wa fungo (Bollinger) dhidi ya kipimo halisi cha mwenendo (Keltner). Chaguo hubadilisha jinsi bendi zinavyotenda kwenye mapengo na mibembeo."
+    },
+    "live_apply": {
+      "cta": "Pangilia bahasha zote mbili: tafuta wakati ambapo Bollinger inabanwa ndani ya Keltner na uone bei inafanya nini baadaye."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "title": "Familia nne za viashiria",
+    "summary": "Mwelekeo, kasi, tetemeko, wingi — na kwa nini kimoja kutoka kila familia hushinda vitano vya familia moja.",
+    "concept": "Kila kiashiria utakachokutana nacho hujibu mojawapo ya maswali manne. **Mwelekeo**: msingi unaelekea upande gani? (EMA, SMA, mifupa ya MACD). **Kasi**: bei inasukuma kwa nguvu kiasi gani ikilinganishwa na misukumo yake ya hivi karibuni? (RSI, histogramu ya MACD). **Tetemeko**: mienendo ni mikubwa kiasi gani? (ATR, upana wa bendi za Bollinger, upana wa Keltner). **Wingi**: nani alikuja? (uwiano wa wingi).\n\nDhambi kubwa ni **urudufu**: kurundika RSI + Stochastic + histogramu ya MACD ni kuuliza swali lile lile la kasi mara tatu na kuita mwangwi 'uthibitisho'. Uthibitisho halisi huvuka familia: mwelekeo unasema juu, kasi inasema nguvu, tetemeko linasema lenye mpangilio, wingi unasema una ushiriki.\n\nAlama ya muunganiko ya injini imeundwa hasa hivi — pembejeo moja kwa kila swali: upatanishi wa mwelekeo (tofauti ya EMA-SMA), uthibitisho wa wingi (uwiano wa wingi), kura ya makubaliano ya kasi (histogramu ya MACD), na ukaguzi wa mteremko wa muda wa juu. Familia nne, kura moja kila moja, hakuna mwangwi.",
+    "key_terms": [
+      {
+        "term": "Familia ya mwelekeo",
+        "definition": "Mwelekeo wa msingi: EMA, SMA."
+      },
+      {
+        "term": "Familia ya kasi",
+        "definition": "Nguvu ya msukumo: RSI, histogramu ya MACD."
+      },
+      {
+        "term": "Familia ya tetemeko",
+        "definition": "Ukubwa wa mwendo: ATR, upana wa bendi."
+      },
+      {
+        "term": "Familia ya wingi",
+        "definition": "Ushiriki: uwiano wa wingi."
+      },
+      {
+        "term": "Urudufu",
+        "definition": "Viashiria vingi hujibu swali lile lile na huhesabiwa kimakosa kama uthibitisho."
+      }
+    ],
+    "exercise": {
+      "question": "Mfanyabiashara anaona RSI, Stochastic na histogramu ya MACD vyote vikipanda 'kuthibitisha' long. Kasoro ni ipi?",
+      "options": [
+        "Viashiria vitatu ni vichache mno.",
+        "Vyote vitatu ni vya familia ya kasi — swali moja lililoulizwa mara tatu, likitoa mwangwi badala ya uthibitisho huru.",
+        "Viashiria vya kasi haviwezi kupanda pamoja.",
+        "Long huhitaji viashiria vitano hasa."
+      ],
+      "explanation": "Ukaguzi wa kuvuka familia (mwelekeo + kasi + tetemeko + wingi) huongeza taarifa; rundo la familia moja huongeza tu faraja iliyohusiana na kelele."
+    },
+    "live_apply": {
+      "cta": "Fungua sababu za ishara: tambua kila sababu iliyoorodheshwa inatoka familia gani kati ya nne."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "title": "Muunganiko: jinsi injini huipima mpangilio",
+    "summary": "Hesabu kamili nyuma ya alama ya muunganiko.",
+    "concept": "Pale uchunguzi kadhaa huru wanapokubaliana, ushahidi hujirundika — huu ndio **muunganiko**. QuantGlass hauiachi ikiwa haijulikani; alama ni hesabu inayoweza kukaguliwa.\n\nKila mpangilio huanza kutoka **msingi** unaoakisi ubora wa awali wa familia (0.55 kwa kurudi-nyuma kwa mwelekeo, 0.60 kwa mvunjiko-rejea, 0.50 kwa kurudi-wastani). Kisha huongeza: **upatanishi wa mwelekeo × 0.15** (kiasi EMA-21 inakaa imara mbali na SMA-50, kilichopimwa), **uthibitisho wa wingi × 0.10** (uwiano wa wingi uliopimwa), **+0.10 ikiwa histogramu ya MACD inakubaliana na mwelekeo**, **+0.10 ikiwa mteremko wa muda wa juu unakubaliana**, na **bonasi ya utawala** (mf. +0.10–0.12 wakati utawala unalingana na familia). Jumla imebanwa hadi [0, 1].\n\nWakati mipangilio kadhaa inashindana kwenye alama, injini huchukua tu **muunganiko wa juu zaidi** — na alama kisha hulisha imani kwa uzito wa pointi 18. Muunganiko wa kila ishara umechapishwa katika sababu, hivyo waweza kuhesabu upya alama yoyote kwa mkono kutoka aya hii.",
+    "key_terms": [
+      {
+        "term": "Muunganiko",
+        "definition": "Uchunguzi huru unaokubaliana — uliopimwa, si uliohisiwa."
+      },
+      {
+        "term": "Alama ya msingi",
+        "definition": "Ubora wa awali wa familia ya mpangilio kabla ya ushahidi."
+      },
+      {
+        "term": "Bonasi ya makubaliano",
+        "definition": "+0.10 kila moja kwa upatanishi wa MACD na muda wa juu."
+      },
+      {
+        "term": "Bonasi ya utawala",
+        "definition": "Pointi za ziada wakati utawala unalingana na familia ya mpangilio."
+      },
+      {
+        "term": "Kubana (clamp)",
+        "definition": "Alama zimepunguzwa hadi [0, 1] — hakuna mrundiko usio na mwisho."
+      }
+    ],
+    "exercise": {
+      "question": "Kurudi-nyuma kwa mwelekeo kuna trend_alignment 0.8, volume_confirmation 0.5, MACD inakubaliana, muda wa juu unakubaliana, bonasi ya utawala-mwelekeo 0.10. Muunganiko wake ni upi?",
+      "options": [
+        "0.55 — ni alama ya msingi.",
+        "0.55 + 0.12 + 0.05 + 0.10 + 0.10 + 0.10 = 1.02, imebanwa hadi 1.00.",
+        "0.92: 0.55 + 0.8×0.15 + 0.5×0.10 + 0.10 + 0.10 + 0.10.",
+        "Muunganiko hauwezi kuhesabiwa kwa mkono."
+      ],
+      "explanation": "0.55 msingi + 0.12 (0.8×0.15) + 0.05 (0.5×0.10) + 0.10 MACD + 0.10 HTF + 0.10 utawala = 0.92. Hesabu inayoweza kukaguliwa — ndio lengo."
+    },
+    "live_apply": {
+      "cta": "Chukua confluence_score ya ishara yoyote kutoka sababu zake na uihesabu upya kutoka fomula ya somo hili."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "title": "ATR — Kupima tetemeko na kuamua ukubwa wa stop",
+    "summary": "Jifunze kuamua ukubwa wa stop na nafasi kwa tetemeko halisi la soko.",
+    "concept": "**Wastani wa Kipimo Halisi cha Mwenendo (ATR-14)** hupima tetemeko: wastani wa 'kipimo halisi cha mwenendo' katika baa 14. Kipimo Halisi cha Mwenendo = kubwa zaidi(Juu − Chini, |Juu − Funga ya awali|, |Chini − Funga ya awali|).\n\n**Kwa nini stop zinazotegemea ATR hushinda stop za dola zisizobadilika:**\nStop tambarare ya $500 kwenye hisa yenye tetemeko kubwa hupigwa na kelele za kawaida. Stop inayotegemea ATR hujirekebisha kwa tetemeko la sasa — hubana katika masoko tulivu, hupanuka katika yenye msukosuko.\n\n**Fomula ya stop ya QuantGlass (kuingia long):**\n`stop_loss = reference_price − (ATR × stop_multiple)`\nambapo stop_multiple = 1.3 (iliyobanwa), 1.45 (kawaida), 1.6 (iliyopanuka).\n\n**ATR kama % ya bei** = ATR ÷ Close × 100. ATR% < 1% → hatari ndogo. ATR% > 2.6% → hatari kubwa.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "Wastani wa Kipimo Halisi cha Mwenendo wa vipindi 14 — hupima tetemeko la bei la hivi karibuni."
+      },
+      {
+        "term": "Kipimo Halisi cha Mwenendo",
+        "definition": "Kubwa zaidi ya: Juu-Chini, |Juu-Funga ya awali|, |Chini-Funga ya awali|."
+      },
+      {
+        "term": "Kizidisho cha stop",
+        "definition": "Kizidisho cha ATR cha kuweka stop: 1.3 (iliyobanwa) hadi 1.6 (iliyopanuka)."
+      },
+      {
+        "term": "ATR kama % ya bei",
+        "definition": "ATR ÷ Close × 100 — tetemeko lililorekebishwa kuwa asilimia."
+      }
+    ],
+    "exercise": {
+      "question": "BTCUSD iko $65,000. ATR-14 = $1,300. Utawala wa tetemeko 'kawaida' (stop_multiple = 1.45). Stop-loss ya kuingia long ni ipi?",
+      "hint": "stop_loss = kuingia − (ATR × stop_multiple)",
+      "explanation": "stop_loss = 65,000 − (1,300 × 1.45) = 65,000 − 1,885 = **63,115**. Stop imewekwa 1.45 ATR chini ya kuingia — mbali vya kutosha kunusurika kelele za kawaida za bei lakini karibu vya kutosha kufanya hatari kwa kila biashara ipimike."
+    },
+    "common_mistakes": [
+      "Kuweka stop za dola zisizobadilika bila kuzingatia tetemeko. Stop ya pointi 2 ni ya ukarimu siku tulivu na ni kelele siku yenye msukosuko.",
+      "Kuhesabu upya ukubwa wa nafasi bila kuhesabu upya stop ya ATR baada ya tetemeko kuongezeka mara mbili — umbali wa zamani wa stop hautmaanishi tena chochote."
+    ],
+    "live_apply": {
+      "cta": "Fungua ishara ya BUY_ZONE ya BTCUSD na uthibitishe umbali kutoka kuingia hadi stop_loss ni takriban 1.3–1.6× ATR."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "title": "Uwiano wa Hatari:Tuzo",
+    "summary": "Elewa kwa nini R:R huamua faida ya muda mrefu bila kujali kiwango cha ushindi.",
+    "concept": "**Hatari:Tuzo (R:R)** = (utokaji wa TP − kuingia) ÷ (kuingia − stop-loss) kwa long.\n\nR:R ya 2.0 inamaanisha kuhatarisha 1 kupata 2 inayowezekana. Hata ukishinda 40% tu ya biashara, R:R ya 2.0 hutoa matarajio chanya:\n`Matarajio = (Ushindi% × Faida_wastani) − (Hasara% × Hasara_wastani) = (0.4 × 2R) − (0.6 × 1R) = +0.2R`\n\n**Malengo ya R:R ya QuantGlass:**\n- Mipangilio ya BUY_ZONE / SELL: reward_multiple = 2.4× risk_distance (hadi TP2)\n- Mipangilio ya HOLD / WATCH / WAIT: reward_multiple = 1.8×\n\nInjini hutumia **ngazi ya hatua 3** kutoka kwa hatua: TP1 (50% ya nafasi), TP2 (30%), TP3 (20%). Hii hulinda faida ya sehemu wakati sehemu ya nafasi inakimbia.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Uwiano wa Hatari:Tuzo — faida inayowezekana ÷ hatari kwa kila biashara."
+      },
+      {
+        "term": "Matarajio",
+        "definition": "Faida ya wastani kwa kila biashara: (Ushindi% × Faida_wastani) − (Hasara% × Hasara_wastani)."
+      },
+      {
+        "term": "Ngazi ya TP",
+        "definition": "Utokaji wa hatua kwa hatua kwa TP1 (50%), TP2 (30%), TP3 (20%) ya ukubwa wa nafasi."
+      },
+      {
+        "term": "Matarajio chanya",
+        "definition": "Matarajio > 0 — faida hunusurika katika biashara nyingi."
+      }
+    ],
+    "exercise": {
+      "question": "Unashinda 35% ya biashara kwa faida ya wastani ya 3R na kupoteza 65% kwa hasara ya wastani ya 1R. Je, faida yako ni chanya?",
+      "options": [
+        "Hapana — kiwango cha ushindi cha 35% ni kidogo mno kuwa na faida.",
+        "Ndiyo — Matarajio = (0.35 × 3) − (0.65 × 1) = +0.4R kwa kila biashara.",
+        "Hapana — kiwango cha hasara cha 65% daima humaanisha matarajio hasi.",
+        "Haijulikani — unahitaji data zaidi."
+      ],
+      "explanation": "Matarajio = (0.35 × 3R) − (0.65 × 1R) = 1.05 − 0.65 = **+0.4R kwa kila biashara**. Inamaanisha unatarajia +40R faida katika biashara 100. R:R kubwa hukufanya uwe na faida hata kwa kiwango cha ushindi chini ya 50% — halisia kwa kufuata mwelekeo."
+    },
+    "common_mistakes": [
+      "Kuhukumu biashara kwa kiwango cha ushindi pekee. Kiwango cha ushindi cha 90% hupoteza pesa kama hiyo 10% ni majanga ya -10R.",
+      "Kuweka malengo kwa matumaini badala ya muundo. Hatari:tuzo huleta maana tu wakati lengo linakaa kwenye kiwango ambacho soko huheshimu kweli.",
+      "Kuhamisha stop baada ya kuingia ili 'kuboresha' uwiano. Uwiano ulikuwa kigezo cha kuingia; kuubadilisha katikati ya biashara hufuta mpango."
+    ],
+    "live_apply": {
+      "cta": "Fungua Backtesting, chagua preset yoyote na ukague vipimo vya Matarajio (avg_R), Kiwango cha Ushindi na Profit Factor pamoja."
+    },
+    "bridge": {
+      "cta": "Tumia: Chukua misheni ya Nidhamu ya Hatari — biashara 20, kila moja na stop, hatari ndani ya sera."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "title": "Kuamua ukubwa wa nafasi — Kuhatarisha kiasi gani",
+    "summary": "Hesabu ukubwa sahihi wa biashara ili hakuna hasara moja iwe ya maangamizi.",
+    "concept": "**Kuamua ukubwa wa nafasi** huamua vipimo vingapi vya kufanya biashara ili stop ikipigwa, usipoteze zaidi ya *hatari yako kwa kila biashara* iliyoamuliwa awali (mf. 1% ya akaunti).\n\n**Fomula ya sehemu isiyobadilika:**\n`Ukubwa wa nafasi = (Akaunti × Hatari%) ÷ (Kuingia − Stop-loss)`\n\nMfano: akaunti ya $10,000, hatari 1% kwa kila biashara, kuingia $100, stop $96:\n`Ukubwa = ($10,000 × 0.01) ÷ ($100 − $96) = $100 ÷ $4 = hisa 25`\n\nKama hisa hizo 25 zote zikipigwa stop kwa $96, unapoteza 25 × $4 = **hasa $100** — 1% ya akaunti.\n\n**Kwa nini ni muhimu**: kuhatarisha asilimia isiyobadilika huweka hasara ndogo wakati wa kushuka na huruhusu ukubwa wa nafasi kukua akaunti inapokua (mchanganyiko).",
+    "key_terms": [
+      {
+        "term": "Hatari kwa kila biashara",
+        "definition": "Hasara ya juu kabisa ya dola inayokubalika stop ikipigwa (mf. 1% ya akaunti)."
+      },
+      {
+        "term": "Kuamua ukubwa kwa sehemu isiyobadilika",
+        "definition": "Ukubwa = (Akaunti × Hatari%) ÷ (Kuingia − Stop) — hujipima na akaunti."
+      },
+      {
+        "term": "Drawdown (kushuka)",
+        "definition": "Kushuka kwa usawa wa akaunti kutoka kilele hadi chini wakati wa msururu wa hasara."
+      }
+    ],
+    "exercise": {
+      "question": "Akaunti = $25,000. Hatari kwa kila biashara = 1%. Kuingia = $200, Stop = $192. Hisa ngapi?",
+      "hint": "Ukubwa wa nafasi = (Akaunti × Hatari%) ÷ (Kuingia − Stop)",
+      "explanation": "Kiasi cha hatari = $25,000 × 1% = $250. Hatari kwa hisa = $200 − $192 = $8. Ukubwa wa nafasi = $250 ÷ $8 = **31.25 → hisa 31**. Stop ikifyatuka: 31 × $8 = $248 hasara — chini kidogo ya 1% ya akaunti."
+    },
+    "common_mistakes": [
+      "Kuchagua ukubwa kwanza, hatari baadaye. Ukubwa ni matokeo: (akaunti x hatari%) / umbali wa stop — kamwe si pembejeo.",
+      "Kuongeza ukubwa mara mbili baada ya hasara ili kurejesha. Hii ni hesabu ya martingale na huishia akaunti.",
+      "Kuhesabu nafasi zilizo wazi kando kando. Biashara tano kila moja ikihatarisha 1% ni joto la 5% la portfolio kama zinahusiana — na katika anguko, kila kitu huhusiana."
+    ],
+    "live_apply": {
+      "cta": "Fungua ishara, andika kuingia na stop_loss yake, kisha hesabu hisa ngapi ungenunua kwa hatari 1% kwenye akaunti ya karatasi ya $10,000."
+    },
+    "bridge": {
+      "cta": "Tumia: Misheni ya Nidhamu ya Hatari hupima kuamua ukubwa wako kwenye kila biashara halisi ya karatasi."
+    }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "title": "Vizidisho vya R: kipimo cha lugha ya mama cha mfanyabiashara",
+    "summary": "Pima kila matokeo kwa vipimo vya hatari iliyopangwa.",
+    "concept": "Fafanua **1R** kama dola unayopanga kupoteza stop ikipigwa. Kisha kila matokeo huwa **kizidisho cha R**: utokaji wa stop = −1R; utokaji kwa mara mbili ya umbali wa stop = +2R. Kipimo husafiri kupitia alama, bei na ukubwa wa akaunti — +1.5R kwenye coin ya $3 na +1.5R kwenye hisa ya $900 ni *mafanikio yale yale*.\n\nKwa nini ni muhimu: dola hudanganya (huchanganya ujuzi na ukubwa), asilimia hudanganya (huchanganya ujuzi na tetemeko), lakini R hutenga **ubora wa uamuzi dhidi ya hatari iliyopangwa**. Historia ya R ya mbinu inalinganishika moja kwa moja kupitia kila kitu unachofanya biashara.\n\nQuantGlass huzungumza R kama lugha ya mama: matarajio ya backtest huripotiwa katika R, ngazi ya kuchukua faida huwekwa kwenye umbali unaotegemea R, gharama hubadilishwa kuwa R kabla ya kutolewa, na kipimo kinachofaa huumba *R ya biashara inayofuata*. Jifunze kufikiri katika R na kila nambari katika programu huwa lugha moja.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "Hasara iliyopangwa stop ikipigwa."
+      },
+      {
+        "term": "Kizidisho cha R",
+        "definition": "Matokeo yaliyogawanywa kwa hatari iliyopangwa: utokaji wa stop = −1R."
+      },
+      {
+        "term": "Matarajio (R)",
+        "definition": "R ya wastani kwa kila biashara katika sampuli."
+      },
+      {
+        "term": "Urekebishaji wa hatari",
+        "definition": "Kulinganisha biashara kupitia alama kwa kupima katika R."
+      }
+    ],
+    "exercise": {
+      "question": "Kuingia 200.00, stop 192.00, unauza nafasi yote kwa 212.00. Matokeo katika R ni yapi?",
+      "hint": "R = (utokaji − kuingia) ÷ (kuingia − stop)",
+      "explanation": "Hatari kwa kipimo = 200 − 192 = 8. Faida kwa kipimo = 212 − 200 = 12. 12 ÷ 8 = **+1.5R** — jibu lile lile kama umefanya biashara hisa 10 au 10,000."
+    },
+    "common_mistakes": [
+      "Kulinganisha matokeo ya dola kati ya biashara za ukubwa tofauti. Vizidisho vya R pekee hufanya biashara zilinganishike.",
+      "Kuita hasara ya -1R kushindwa. Hasara iliyopangwa iliyochukuliwa kwenye stop ni mfumo ukifanya kazi hasa kama ulivyobuniwa."
+    ],
+    "live_apply": {
+      "cta": "Fungua vipimo vya preset yoyote: matarajio na avgR ni kipimo hiki hasa, vikihesabiwa kwenye kila biashara iliyoiga."
+    },
+    "bridge": {
+      "cta": "Tumia: Misheni ya Kubali Hasara Iliyopangwa huhesabu hasara zako za -1R zilizochezwa vizuri."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "title": "Joto la portfolio: hatari katika nafasi zote",
+    "summary": "Hatari kwa kila biashara haitoshi — punguza jumla.",
+    "concept": "Kuamua ukubwa wa biashara kwa 1% humaanisha kidogo kama unafungua nane hivyo. **Joto la portfolio** ni jumla ya hatari iliyo wazi: kama kila stop ikipigwa kwa wakati mmoja, ni sehemu gani ya akaunti huungua? Nafasi nane za 1% = joto 8% — na kama nafasi hizo *zinahusiana* (kama hisa tatu kubwa zinazosonga kama moja katika uuzaji wa crypto), ndoto ya 'stop nane huru' huporomoka kuwa dau moja kubwa.\n\nKanuni za kazi: punguza joto jumla (4–6% ni nidhamu ya kawaida), hesabu nafasi zinazohusiana kama hatari inayoingiliana badala ya madau huru, na uchukulie joto kama bajeti — biashara mpya lazima itoshe katika bajeti iliyobaki vinginevyo isichukuliwe.\n\nAkaunti yako ya karatasi ya QuantGlass hufanya joto liweze kukaguliwa: umbali wa kila nafasi iliyo wazi hadi stop iliyokusudiwa mara ukubwa, jumla. Ufahamu wa nafasi kubwa kupita kiasi wa paneli ya ukocha ni toleo la nafasi-moja la ukaguzi huu; kuendesha toleo la portfolio kabla ya kila kuingia mpya ni juu yako.",
+    "key_terms": [
+      {
+        "term": "Joto la portfolio",
+        "definition": "Hasara jumla kama kila stop iliyo wazi ingepigwa."
+      },
+      {
+        "term": "Uhusiano",
+        "definition": "Nafasi zinazosonga pamoja — hatari inayoingiliana, si huru."
+      },
+      {
+        "term": "Bajeti ya joto",
+        "definition": "Kikomo kigumu kwa hatari jumla iliyo wazi."
+      },
+      {
+        "term": "Mkusanyiko",
+        "definition": "Mfichuo wa kupita kiasi kwa alama moja au mada."
+      }
+    ],
+    "exercise": {
+      "question": "Unahatarisha 1% kwa kila biashara na unashikilia long sita za crypto zilizo wazi katika soko ambapo kubwa husonga pamoja. Mfichuo wako halisia ni upi?",
+      "options": [
+        "1% — hatari kwa kila biashara pekee ndiyo muhimu.",
+        "Takriban 6% ya akaunti inayotenda kama dau moja kubwa, kwa kuwa nafasi zinazohusiana huelekea kupiga stop zao pamoja.",
+        "0% — uanuwai hufuta hatari.",
+        "60% ya akaunti."
+      ],
+      "explanation": "Joto hujumlika hadi takriban 6% na uhusiano humaanisha stop sita zinaweza kufyatuka katika dhoruba moja. Joto linalohusiana ni biashara moja kubwa iliyovaa mavazi sita."
+    },
+    "live_apply": {
+      "cta": "Jumlisha hatari-hadi-stop ya nafasi zako za karatasi zilizo wazi. Joto lako la sasa ni asilimia ngapi ya salio?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "title": "Drawdown: hesabu ya misururu ya hasara",
+    "summary": "Kwa nini hasara huumiza zaidi kuliko faida za ukubwa ule ule zinavyosaidia.",
+    "concept": "**Drawdown** ni kushuka kutoka kilele hadi chini kinachofuata katika usawa wako. Ukatili wake ni hesabu isiyo na usawa: poteza 20% na unahitaji **+25%** kupata tena; poteza 50% na unahitaji **+100%**. Mahitaji ya kupata tena hukua haraka kuliko hasara zinazoyatengeneza.\n\nMisururu ya hasara si hitilafu — ni uhakika. Kwa kiwango cha ushindi cha 50%, msururu wa hasara 7 una nafasi takriban 1 kati ya 128 katika *biashara zozote 7*, jambo linalokaribia kuepukika katika biashara mamia. Ukihatarisha 1% kwa kila biashara, msururu huo huchimba akaunti ~7%; ukihatarisha 5%, huchimba ~30% na hesabu ya kupata tena huwa kali.\n\nQuantGlass huripoti **drawdown ya juu zaidi** na mkondo mzima wa drawdown kwenye kila backtest, ikihesabiwa kutoka njia ya usawa iliyoiga. Isome kabla ya kustaajabia kiwango chochote cha ushindi: mkondo wa drawdown ndio *jinsi inavyohisi* kushikilia mkakati.",
+    "key_terms": [
+      {
+        "term": "Drawdown",
+        "definition": "Kushuka kwa usawa kutoka kilele hadi chini."
+      },
+      {
+        "term": "Drawdown ya juu zaidi",
+        "definition": "Kushuka kwa kina zaidi cha aina hiyo katika rekodi."
+      },
+      {
+        "term": "Kutolingana kwa kupata tena",
+        "definition": "Hasara ya −X% huhitaji zaidi ya +X% kurekebisha."
+      },
+      {
+        "term": "Msururu wa hasara",
+        "definition": "Hasara mfululizo — uhakika wa kitakwimu katika biashara za kutosha."
+      }
+    ],
+    "exercise": {
+      "question": "Akaunti hushuka 20% kutoka kilele. Asilimia gani ya faida inahitajika (kwenye salio lililopungua) kurudi tu kwenye kilele?",
+      "hint": "Kutoka 100 hadi 80; ni % gani ya 80 hurudisha hadi 100?",
+      "explanation": "80 × 1.25 = 100, yaani **25%**. Shimo lina kina zaidi, kupanda kuna mwinuko zaidi — kwa −50%, hitaji huwa +100%."
+    },
+    "common_mistakes": [
+      "Kuongeza ukubwa wakati wa drawdown ili kupata tena haraka. Hesabu ya kupata tena tayari ni kali; madau makubwa huchimba shimo kwa kielelezo.",
+      "Kuacha mfumo wenye matarajio chanya katikati ya drawdown. Somo la Monte Carlo huonyesha mifumo ya kawaida hutumia theluthi ya maisha yao chini ya maji."
+    ],
+    "live_apply": {
+      "cta": "Fungua mkondo wa drawdown wa preset na utafute kina chake zaidi — bonde hilo ndilo jaribio halisi la mfadhaiko la mkakati."
+    },
+    "bridge": {
+      "cta": "Tumia: Cheza tena Kurudi Nyuma Katika Mwelekeo — baki mwaminifu kwa mpango wakati chati inabishana."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "title": "Mpango wa biashara ulioandikwa",
+    "summary": "Sentensi tano zinazotenganisha biashara na kamari.",
+    "concept": "Biashara isiyo na mpango ni hisia iliyoambatishwa na pesa. Mpango kamili hujibu kwa maandishi maswali matano **kabla ya kuingia**: **Mpangilio** — muundo gani, katika muda gani, unauhalalisha? **Kuingia** — kwa bei au eneo gani? **Ubatilishaji** — wapi wazo ni kosa (stop), katika maneno ya bei yaliyoamuliwa *sasa*, kisha yasiyojadilika? **Malengo** — kama uko sahihi, unatoka wapi na vipi? **Ukubwa** — vipimo vingapi ili ubatilishaji ugharimu sehemu iliyopangwa ya akaunti?\n\nGundua kuwa kadi ya ishara ya QuantGlass kihalisi ni toleo lililojazwa awali la kiolezo hiki: aina ya mpangilio, eneo la kuingia, stop, ngazi, na fomula ya somo la kuamua ukubwa. Kazi yako si kuvumbua fomu — ni *kukubaliana au kutokubaliana na kila mstari* kabla ya kutenda.\n\nNguvu ya mpango iko katika muda: kila jibu huandikwa wakati uko mtulivu na pesa ni ya kinadharia. Utekelezaji huwa wa kiurasimu, jambo ambalo ndilo hasa unalopaswa kuwa.",
+    "key_terms": [
+      {
+        "term": "Mpango wa biashara",
+        "definition": "Mpangilio, kuingia, ubatilishaji, malengo na ukubwa ulioandikwa — kabla ya kuingia."
+      },
+      {
+        "term": "Ubatilishaji kwanza",
+        "definition": "Kuamua wapi uko kosa kabla ya kuamua kununua kiasi gani."
+      },
+      {
+        "term": "Kujitolea mapema",
+        "definition": "Kufunga maamuzi ukiwa mtulivu ili kufanya utekelezaji wa kiurasimu."
+      },
+      {
+        "term": "Ufuataji wa mpango",
+        "definition": "Kipimo cha nidhamu ambacho jarida hufanya kionekane."
+      }
+    ],
+    "exercise": {
+      "question": "Ni kipengele gani cha mpango wa biashara kinachopaswa kuamuliwa KWANZA, kwa kuwa kila nambari nyingine inategemea juu yake?",
+      "options": [
+        "Lengo la faida.",
+        "Kiwango cha ubatilishaji (stop) — ukubwa hutoka humo na malengo hupimwa dhidi yake.",
+        "Aina ya oda.",
+        "Jina la utani la biashara."
+      ],
+      "explanation": "Mipango ya hatari-kwanza: ubatilishaji hufafanua 1R; ukubwa hutoka kwa kugawanya bajeti ya hatari ya akaunti kwa umbali huo; malengo huonyeshwa katika R dhidi yake."
+    },
+    "common_mistakes": [
+      "Kuandika mpango baada ya kuingia. Mpango uliopo kuhalalisha nafasi ni taarifa kwa vyombo vya habari, si mpango.",
+      "Kuacha ubatilishaji ukiwa haujulikani ('kata kama linaonekana baya'). Kama stop si nambari, hakuna stop.",
+      "Kupanga kuingia kwa undani na kutopanga utokaji kabisa. Utokaji ndio mahali pesa hutimizwa kweli."
+    ],
+    "live_apply": {
+      "cta": "Fungua ishara na uisome kama mpango wa biashara wa mistari mitano — ni mstari gani, kama upo, hukubaliani nao?"
+    },
+    "bridge": {
+      "cta": "Tumia: Cheza tena Mvunjiko Ulioshindwa Kutokea na ufanye maamuzi ya mipango chini ya shinikizo."
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "title": "Jarida la biashara",
+    "summary": "Kioo chako pekee cha kweli.",
+    "concept": "Kumbukumbu ni mhariri mwenye kujipendekeza: hukumbuka ushindi wako kama ujuzi na hasara kama bahati mbaya. **Jarida** ni rekodi isiyohaririwa. Kwa kila biashara, rekodi: mpango (mistari mitano yote), *kwa nini* katika sentensi moja, utekelezaji (ulifuata mpango?), matokeo katika R, na hali ya kihisia wakati wa kuingia na kutoka.\n\nTuzo ni ugunduzi wa miundo ambayo kumbukumbu yako haitatoa kamwe kwa hiari: 'biashara zangu za mvunjiko hupoteza katika utawala wa msururu', 'huwa nakata washindi mapema baada ya hasara mbili', 'kila biashara ya kulipiza kisasi huja ndani ya saa moja baada ya utokaji wa stop'. Hizi, zikionekana, *zinaweza kusahihishwa* — na bila rekodi hazionekani.\n\nHistoria yako ya karatasi ya QuantGlass tayari hurekodi nusu ya kimakanika kiotomatiki (kuingia, kutoka, ukubwa, matokeo). Nusu iliyoandikwa — kwa nini na hali ya kihisia — ni sehemu ambayo wewe pekee waweza kutoa, na ni nusu ambapo masomo huishi.",
+    "key_terms": [
+      {
+        "term": "Jarida la biashara",
+        "definition": "Rekodi isiyohaririwa ya mipango, utekelezaji, matokeo na hali za kihisia."
+      },
+      {
+        "term": "Ufuataji wa mpango",
+        "definition": "Kama biashara iliyotekelezwa inalingana na mpango ulioandikwa."
+      },
+      {
+        "term": "Ugunduzi wa miundo",
+        "definition": "Tabia zinazojirudia, zinazoweza kusahihishwa ambazo jarida hufichua."
+      },
+      {
+        "term": "Kuandika lebo ya hisia",
+        "definition": "Kurekodi hali yako wakati wa kuingia/kutoka — mfumo wa onyo la mapema kwa tilt."
+      }
+    ],
+    "exercise": {
+      "question": "Ni uga mmoja gani wenye uchunguzi zaidi katika jarida la biashara?",
+      "options": [
+        "Faida ya dola ya biashara.",
+        "Kama utekelezaji ulilingana na mpango ulioandikwa — mikengeuko, si hasara, ndipo makosa yanayoweza kusahihishwa hujificha.",
+        "Saa ya siku.",
+        "Idadi ya viashiria vilivyotumika."
+      ],
+      "explanation": "Hasara katika mipango iliyofuatwa ni ada za kujifunza; faida katika mipango iliyovunjwa ni deni. Ufuataji wa mpango ni uga unaotenganisha hizo mbili."
+    },
+    "common_mistakes": [
+      "Kurekodi matokeo pekee. Thamani ya jarida iko katika rekodi ya uamuzi: kwa nini, hisia na ufuataji wa mpango wakati wa kuingia.",
+      "Kuandika washindi katika jarida na kuruka walioshindwa. Walioshindwa hubeba karibu taarifa zote."
+    ],
+    "live_apply": {
+      "cta": "Angalia biashara zako tatu za mwisho za karatasi: kwa kila moja andika sababu ya sentensi moja uliyoingia nayo — usipoweza, huo ndio ugunduzi."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "title": "Kuingia na kutoka: mahali nidhamu huishi",
+    "summary": "Kuingia kuzuri ni kwa subira; kutoka kuzuri kumeamuliwa awali.",
+    "concept": "**Kuingia**: eneo la kuingia la injini ni mabano, si bunduki ya kuanzia. Kufukuza bei zaidi ya eneo huharibu kimya kila nambari uliyopanga: umbali wako halisi wa stop hukua, R:R yako halisi hubana, na ukubwa wako — uliohesabiwa kwa umbali uliopangwa — huwa mkubwa kupita kiasi kwa halisi. Kama eneo limeenda, biashara imeenda; basi jingine huja daima.\n\n**Kutoka** ni gumu zaidi kwa kuwa kumeamuliwa chini ya hisia — vinginevyo ni jambo lingine. Seti ya kutoka iliyoamuliwa awali: **stop** (kutoka kamili, hakuna mazungumzo), **ngazi** (kuchukua faida kwa hatua 50/30/20 ya injini inayoacha nafasi), na **muda** (mpangilio unaoenda baa nyingi bila kufika popote umeshindwa kimya — backtester yenyewe hutekeleza muda wa juu wa kushikilia kwa kila muda).\n\nKanuni ya kimya chini ya zote mbili: kila mkengeuko wa hiari unaojiruhusu huwa mfano kwa unaofuata, mkubwa zaidi.",
+    "key_terms": [
+      {
+        "term": "Kufukuza (chasing)",
+        "definition": "Kuingia zaidi ya eneo lililopangwa — huharibu kimya stop, R:R na ukubwa."
+      },
+      {
+        "term": "Kutoka kwa hatua",
+        "definition": "Kutoka kwa hatua, kama ngazi ya 50/30/20 ya injini."
+      },
+      {
+        "term": "Stop ya muda",
+        "definition": "Kutoka mpangilio unapokwama — kanuni ya kushikilia-juu ya backtest."
+      },
+      {
+        "term": "Nidhamu ya kutoka",
+        "definition": "Kutekeleza kutoka kulikoamuliwa awali bila kujadiliana tena."
+      }
+    ],
+    "exercise": {
+      "question": "Bei inakimbia 1.5% juu ya eneo la kuingia la ishara na bado unaingia kwa ukubwa uliopangwa. Ni nini kilichobadilika kweli?",
+      "options": [
+        "Hakuna — kuingia ni cha makadirio.",
+        "Umbali wako halisi wa stop ulikua na R:R yako ilibana, wakati ukubwa bado unadhani umbali wa zamani — biashara iliyopangwa haipo tena.",
+        "Stop ilipanda kiotomatiki.",
+        "Ada zako zilishuka."
+      ],
+      "explanation": "Nambari tatu zilizopangwa (umbali wa hatari, uwiano wa tuzo, ukubwa-kwa-hatari) zilihesabiwa kutoka eneo. Kuingia mahali pengine ni kuchukua biashara tofauti, mbaya zaidi, kwa lebo za zamani."
+    },
+    "live_apply": {
+      "cta": "Linganisha eneo la kuingia la ishara na bei ya sasa — je, biashara bado ni ile injini iliyopima, au basi imeondoka?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "title": "Orodha za ukaguzi na taratibu",
+    "summary": "Kuazimwa kutoka usafiri wa anga: nidhamu kama utaratibu, si hisia.",
+    "concept": "Marubani hawaruki orodha ya ukaguzi ya kabla ya ndege siku wanazohisi wazuri — *hasa* si siku hizo. Orodha ya ukaguzi ya biashara hutumikia kusudi lile lile: kufanya kiwango cha chini cha kimakanika.\n\nOrodha ya ukaguzi ya kabla ya biashara inayostahili kuibwa: **(1)** Je, ishara ni mpya (mshumaa uliofungwa, beji ya sasa)? **(2)** Je, utawala unalingana na familia ya mpangilio? **(3)** Je, muunganiko unakubalika na ninaelewa kila sababu? **(4)** Je, ubatilishaji umefafanuliwa na ukubwa unatoshea bajeti yangu ya hatari? **(5)** Je, hii inatoshea joto langu la portfolio? **(6)** Je, niliandika sababu ya sentensi moja?\n\nUtaratibu wa kila siku huifunika: kagua nafasi zilizo wazi dhidi ya mipango yao, pitia paneli ya ukocha kwa ufahamu, andika utokaji wa jana katika jarida, *kisha* tafuta mipangilio mipya — kwa mpangilio huu, ili usimamizi utangulie ununuzi. Taratibu huhisi za kiurasimu hadi siku ile yenye msukosuko, ambapo bado ni sehemu pekee yako inayofikiri kwa uwazi.",
+    "key_terms": [
+      {
+        "term": "Orodha ya ukaguzi ya kabla ya biashara",
+        "definition": "Ukaguzi wa chini wa kimakanika kabla ya kuingia kokote."
+      },
+      {
+        "term": "Utaratibu",
+        "definition": "Mpangilio thabiti wa kila siku: simamia, kagua, kisha winda."
+      },
+      {
+        "term": "Ulinganifu wa utawala",
+        "definition": "Familia ya mpangilio inakubaliana na utawala wa soko wa sasa."
+      },
+      {
+        "term": "Ukaguzi wa joto",
+        "definition": "Kuthibitisha biashara mpya inatoshea bajeti ya hatari iliyobaki."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini utaratibu wa kila siku huweka usimamizi wa nafasi kabla ya kutafuta biashara mpya?",
+      "options": [
+        "Biashara mpya ni za kufurahisha zaidi.",
+        "Hatari iliyo wazi ni hatari hai — kusimamia nafasi na stop zilizopo hulinda akaunti kabla ya kuongeza mfichuo wowote mpya.",
+        "Masoko huzawadia mpangilio wa alfabeti.",
+        "Haijalishi."
+      ],
+      "explanation": "Nafasi zilizopo zinaweza kukuumiza leo; zinazowezekana haziwezi. Kulinda hatari hai kwanza ni upangaji wa kipaumbele, si upendeleo."
+    },
+    "live_apply": {
+      "cta": "Weka tahadhari kwenye kiwango cha ubatilishaji cha nafasi iliyo wazi — geuza kipengele kimoja cha orodha ya ukaguzi kuwa mlinzi wa kiotomatiki."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "title": "Kukagua takwimu zako mwenyewe",
+    "summary": "Geuza historia yako ya karatasi kuwa ushahidi kukuhusu.",
+    "concept": "Baada ya biashara 20–30 zilizoandikwa katika jarida una seti ya data na hujibu maswali ambayo maoni hayawezi. Hesabu **kiwango chako cha ushindi** (ushindi ÷ biashara), **R yako ya wastani**, na **matarajio yako** (R ya wastani kwa kila biashara) — kisha kata: kwa familia ya mpangilio, kwa utawala, kwa siku, kwa mpango kufuatwa au la.\n\nSoma kama mchambuzi: matarajio chanya na kiwango cha ushindi cha 40% ni wasifu wenye afya wa kufuata mwelekeo (hasara ndogo, faida kubwa); matarajio hasi na kiwango cha ushindi cha 70% humaanisha faida ndogo na majanga ya mara kwa mara — wasifu wa kujadili stop. Kipande chenye thamani zaidi ni **mpango-uliofuatwa dhidi ya mpango-uliovunjwa**: kama matarajio yako ya mpango-uliofuatwa hushinda matarajio ya mpango-uliovunjwa (karibu daima hushinda), una ushahidi binafsi, wa kinambari kuwa nidhamu yako — si akili yako — ndiyo faida.\n\nKumbuka somo la ukubwa wa sampuli ambalo injini hufundisha kila wakati: biashara 10 ni hadithi. Hesabu ya kupungua inayonidhamisha imani ya injini hutumika pia kwa takwimu zako.",
+    "key_terms": [
+      {
+        "term": "Kiwango cha ushindi",
+        "definition": "Ushindi ÷ biashara jumla — hakina maana bila R ya wastani pembeni."
+      },
+      {
+        "term": "Matarajio",
+        "definition": "R ya wastani kwa kila biashara — nambari inayoamua kama mbinu hushinda."
+      },
+      {
+        "term": "Kukata",
+        "definition": "Kuhesabu takwimu kwa mpangilio, utawala au ufuataji kupata mahali faida huishi."
+      },
+      {
+        "term": "Kizingiti cha hadithi",
+        "definition": "Sampuli ndogo: tendea takwimu za awali kama mwelekeo, si hukumu."
+      }
+    ],
+    "exercise": {
+      "question": "Jarida lako linaonyesha: biashara za mpango-uliofuatwa wastani +0.31R katika biashara 25; biashara za mpango-uliovunjwa −0.58R katika 11. Ugunduzi ni upi?",
+      "options": [
+        "Unapaswa kufanya biashara mara nyingi zaidi.",
+        "Ushahidi wa kinambari kuwa ufuataji wa mpango ni faida yako: mfanyabiashara yule yule, bila nidhamu, hupoteza kwa jumla.",
+        "Biashara hizo 11 za mpango-uliovunjwa zilikuwa za bahati mbaya.",
+        "Kiwango cha ushindi kinakosekana, hivyo hakuna kinachoweza kuhitimishwa."
+      ],
+      "explanation": "Mtu yule yule, soko lile lile, tabia tofauti, matarajio kinyume. Hii ni takwimu yenye ushawishi zaidi ambayo jarida hutoa — na jarida pekee ndilo linaloweza kuitoa."
+    },
+    "live_apply": {
+      "cta": "Takwimu za injini hukata kwa mpangilio na utawala kwenye kila preset — tumia mbinu ile ile kwa historia yako ya karatasi."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "title": "Kugundua utawala",
+    "summary": "Wa mwelekeo, wa msururu, tete, wa mpito — kanuni kamili za injini.",
+    "concept": "**Utawala** ni tabia kuu ya soko, na QuantGlass huuainisha kwenye kila baa iliyofungwa kwa kanuni zinazoweza kukaguliwa. Kwanza ubora wa tetemeko: kama ATR kama sehemu ya bei ni angalau **1.7×** ya wastani-kati wa baa 50, utawala ni **tete** — dhoruba hushinda kila kitu. Vinginevyo ADX huamua: **≥ 22 → wa mwelekeo**, **< 16 → wa msururu**, na katikati isiyofurahisha (16–22) → **wa mpito**.\n\nKwa nini mfumo huu ni muhimu kwako: utawala si tafsiri, ni **lango**. Familia za kurudi-nyuma na mvunjiko hufyatua tu katika mwelekeo (kurudi-nyuma pia katika mpito); kurudi-wastani hufyatua tu katika msururu. Mpangilio 'mzuri' katika utawala usio sahihi, kwa injini, si mpangilio kabisa.\n\nKila ishara huchapisha utawala wake katika sababu, hivyo ishara inapofyatuka waweza daima kufuatilia lango lipi lilikuwa wazi.",
+    "key_terms": [
+      {
+        "term": "Utawala",
+        "definition": "Tabia kuu ya soko: wa mwelekeo, wa msururu, tete, wa mpito."
+      },
+      {
+        "term": "Ubora wa tetemeko",
+        "definition": "ATR% ≥ 1.7× wastani-kati wa baa 50 → tete, bila kujali ADX."
+      },
+      {
+        "term": "Vizingiti vya ADX",
+        "definition": "≥22 wa mwelekeo, <16 wa msururu, katikati → wa mpito."
+      },
+      {
+        "term": "Ulango wa mpangilio",
+        "definition": "Familia hufyatua tu katika utawala wao unaolingana."
+      }
+    ],
+    "exercise": {
+      "question": "ADX 30, lakini ATR-kama-asilimia-ya-bei ni mara mbili ya wastani-kati wa baa 50. Injini huripoti utawala upi?",
+      "options": [
+        "Wa mwelekeo — ADX 30 ni wa maamuzi.",
+        "Tete — ubora wa tetemeko hushinda usomaji wa ADX.",
+        "Wa msururu.",
+        "Hakuna utawala unaoweza kuhesabiwa."
+      ],
+      "explanation": "Ukaguzi wa tetemeko huendesha kwanza: 2.0× ≥ 1.7× wastani-kati huuchochea. Mwelekeo wenye nguvu ndani ya dhoruba bado ni dhoruba na kanuni za dhoruba hutumika."
+    },
+    "live_apply": {
+      "cta": "Soma uga wa market_regime kwenye ishara tatu na uthibitishe kila familia ya mpangilio ni halali katika utawala wake."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "title": "Kufanya biashara na utawala, si dhidi yake",
+    "summary": "Mpangilio ule ule una matokeo kinyume katika tawala tofauti.",
+    "concept": "Kila familia ya mpangilio hubeba dhana fiche ya utawala. **Kununua kurudi-nyuma** hudhani mwelekeo unaoendelea — katika msururu ni kushika visu vinavyoanguka kwenye mstari wa katikati. **Kufanya biashara ya mvunjiko** hudhani kingo zinazoenea — katika msururu, kingo *ndiyo* kitovu cha kugeuka, hivyo mivunjiko ya utawala-wa-msururu ni mvunjiko wa uongo wa kawaida. **Kurudi-wastani** hudhani wastani wa sumaku — katika mwelekeo, 'iliyonyooshwa' inanyooka zaidi tu unapozidi kupingana nayo.\n\nNdiyo sababu injini hukataa kimuundo biashara za kuvuka utawala na familia ya mvunjiko hudai lango la mwelekeo *pamoja na* wingi kwenye wastani wa hivi karibuni: utawala hujibu 'je, soko hili ni aina ambapo wazo hili hufanya kazi?' na swali hilo huja kabla ya jiometri yoyote ya kuingia.\n\nHitimisho lako la hiari: kabla ya kuhukumu mpangilio wowote — wa injini au wako — taja utawala kwa sauti. Biashara nyingi mbaya ni mipangilio mizuri katika hali ya hewa isiyo sahihi.",
+    "key_terms": [
+      {
+        "term": "Dhana ya utawala",
+        "definition": "Tabia ya soko ambayo familia ya mpangilio huhitaji kwa fiche."
+      },
+      {
+        "term": "Mvunjiko wa uongo (fakeout)",
+        "definition": "'Mvunjiko' uliofungwa kwenye msururu unaogeuka kwenye kingo."
+      },
+      {
+        "term": "Kupingana (fading)",
+        "definition": "Kufanya biashara dhidi ya mwelekeo mkuu — wa kifo katika mienendo."
+      },
+      {
+        "term": "Ukaguzi wa hali ya hewa",
+        "definition": "Kutaja utawala kabla ya kuhukumu mpangilio wowote."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini mivunjiko katika utawala wa msururu haiaminiki kimfumo?",
+      "options": [
+        "Mivunjiko huhitaji upatanishi wa mwezi.",
+        "Katika msururu, kingo iliyotangulia ndipo hasa usambazaji/mahitaji yaligeuka awali — kuisukuma bila nishati ya mwelekeo kwa kawaida hurudi kwa wastani.",
+        "Wingi ni haramu katika misururu.",
+        "Zinaaminika; misururu ni bora kwa mivunjiko."
+      ],
+      "explanation": "Kingo za msururu ni maeneo yaliyothibitishwa ya kugeuka ya msururu huo. Bila utawala wa mwelekeo unaotoa mwendelezo, mvunjiko ni kimtakwimu unyooshaji, si kutoroka."
+    },
+    "live_apply": {
+      "cta": "Linganisha takwimu za preset ya mvunjiko na za preset ya kurudi-wastani — kila moja hujipatia mkate tu katika utawala wake."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "title": "Tawala za tetemeko: iliyobanwa, ya kawaida, iliyopanuka",
+    "summary": "Mhimili wa pili wa utawala — na jinsi unavyoamua ukubwa wa stop yako.",
+    "concept": "Bila kujali mwelekeo, tetemeko lenyewe huzunguka. QuantGlass hupima **ATR ya sasa kama asilimia ya bei** dhidi ya **wastani-kati wake wa baa 30**: kwa **0.8×** au chini → **iliyobanwa**; kwa **1.25×** au juu → **iliyopanuka**; katikati → **ya kawaida**.\n\nUainishaji una meno — huamua **kizidisho cha stop** katika kila mpangilio: iliyobanwa → **1.3×** ATR, ya kawaida → **1.45×**, iliyopanuka → **1.6×**. Mantiki: katika hali iliyopanuka mibembeo ya kelele ya kawaida ni mikubwa, hivyo stop lazima isimame nyuma zaidi kupima *wazo* na si tuli. Na kwa kuwa ukubwa wa nafasi hutoka kwa umbali wa stop, tetemeko lililopanuka humaanisha kiotomatiki ukubwa mdogo kwa hatari ile ile ya akaunti — mfumo hupumua na soko.\n\nMbano una ujumbe wake: tetemeko hurudi kwa wastani, hivyo vipindi virefu vya utulivu huhifadhi nishati. Mbano uliokutana nao katika somo la Keltner ni utawala huu ukivaa mavazi ya chati.",
+    "key_terms": [
+      {
+        "term": "Asilimia ya ATR",
+        "definition": "ATR ÷ bei — tetemeko lililorekebishwa kwa kulinganisha."
+      },
+      {
+        "term": "Mbano",
+        "definition": "ATR% ≤ 0.8× wastani-kati wa baa 30 — kuhifadhi nishati."
+      },
+      {
+        "term": "Upanuzi",
+        "definition": "ATR% ≥ 1.25× wastani-kati — kelele pana, stop pana, ukubwa mdogo."
+      },
+      {
+        "term": "Kizidisho cha stop kinachobadilika",
+        "definition": "1.3 / 1.45 / 1.6 × ATR kwa utawala wa tetemeko."
+      }
+    ],
+    "exercise": {
+      "question": "Tetemeko linahama kutoka kawaida hadi iliyopanuka. Kwa mpangilio ule ule na hatari ile ile ya akaunti, mantiki ya injini inamaanisha nini?",
+      "options": [
+        "Stop ngumu zaidi, ukubwa mkubwa zaidi.",
+        "Stop pana zaidi (1.6× ATR badala ya 1.45×) na hivyo nafasi ndogo zaidi kwa hatari ile ile ya dola.",
+        "Hakuna mabadiliko — tetemeko ni la mapambo.",
+        "Kuruka biashara zote milele."
+      ],
+      "explanation": "Kelele pana hudai stop pana ili isitikiswe na tuli; kisha fomula ya kuamua ukubwa hugawanya bajeti ile ile ya hatari kwa umbali mkubwa zaidi — ukubwa mdogo, hatari ile ile."
+    },
+    "live_apply": {
+      "cta": "Tafuta volatility_regime ya ishara katika sababu zake na ukague umbali wa stop ni kizidisho cha ATR kinacholingana."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "title": "Mipito ya utawala: mahali pesa nyingi hupotea",
+    "summary": "Masoko hubadilisha tabia haraka kuliko mazoea.",
+    "concept": "Tawala huisha. Mienendo huoza kuwa misururu (ADX huvuja kutoka 20 za juu kuelekea 16), misururu hulipuka kuwa mienendo (mara nyingi kupitia mbano wa tetemeko-uliobanwa unaovunjika), na chochote chaweza kulipuka kuwa utawala tete katika baa moja ya habari. Wakati hatari kamwe si utawala — ni **upitishaji**, kwa kuwa wafanyabiashara huendelea kucheza mchezo wa jana: hununua kurudi-nyuma baada ya mwelekeo kufa, hupingana na kingo wakati hasa msururu unavunjika.\n\nUlinzi wa injini huonekana katika kanuni zake: bendi ya **mpito** (ADX 16–22) huweka familia zenye usikivu mkubwa wa utawala kuwa za tahadhari; uainishaji huendesha tena kwenye **kila baa iliyofungwa**, hivyo mabadiliko ya tabia hujitokeza ndani ya baa; na ubora wa tetemeko huondoa mipangilio mezani mara hali za dhoruba zinapowasili.\n\nKioo chako cha kitabia: pale mbinu iliyofanya kazi awali inapotoa hasara tatu mfululizo, kagua utawala *kabla* ya kukagua heshima yako binafsi. Mara nyingi mbinu ni nzuri — hali ya hewa imebadilika.",
+    "key_terms": [
+      {
+        "term": "Mpito wa utawala",
+        "definition": "Upitishaji kati ya tabia za soko — eneo la hasara kubwa."
+      },
+      {
+        "term": "Uozo wa ADX",
+        "definition": "Nguvu ya mwelekeo ikivuja kuelekea kizingiti cha msururu."
+      },
+      {
+        "term": "Mvunjiko wa mbano",
+        "definition": "Mbano unaotatuliwa kuwa mwelekeo mpya."
+      },
+      {
+        "term": "Uainishaji upya kwa kila baa",
+        "definition": "Injini huendesha tena ugunduzi wa utawala kwenye kila baa iliyofungwa."
+      }
+    ],
+    "exercise": {
+      "question": "Kuingia kwako kwa kurudi-nyuma kulifanya kazi kwa wiki, kisha tatu mfululizo zinashindwa. Uchunguzi WA KWANZA wa kuendesha ni upi?",
+      "options": [
+        "Ongeza ukubwa mara mbili ili kupata tena.",
+        "Kagua utawala wa sasa — mipangilio ya kurudi-nyuma hudhani mwelekeo na ADX inaweza kuwa imeoza chini ya lango wakati mazoea yako yaliendelea kufanya biashara.",
+        "Hamia mara moja kwa kiashiria kipya.",
+        "Hitimisha kuwa kufanya biashara haiwezekani."
+      ],
+      "explanation": "Hasara tatu ni hasa kile mwelekeo uliokufa hufanya kwa wanunuzi wa kurudi-nyuma. Ukaguzi wa utawala hutenganisha 'hali ya hewa imebadilika' na 'mbinu imevunjika' — na injini huendesha ukaguzi huo kwenye kila baa."
+    },
+    "live_apply": {
+      "cta": "Andika tawala za leo kwenye orodha yako ya kufuatilia, kisha tena kesho — hesabu upitishaji ambao mwainishaji wa kila-baa umeshika."
+    }
+  }
+]
