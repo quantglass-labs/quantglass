@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "expert-01-oos-validation",
+    "title": "Kiểm định OOS Walk-Forward",
+    "summary": "Hiểu cơ sở thống kê của việc backtest trung thực.",
+    "concept": "**Phân tích walk-forward** liên tục kiểm tra một chiến lược trên các cửa sổ ngoài mẫu (out-of-sample) cuộn thay vì một lần chia cố định duy nhất. Trực giác: nếu một chiến lược vững chắc, nó phải cho thấy kỳ vọng dương trên *nhiều* cửa sổ OOS độc lập, không chỉ một.\n\n**Tiêu chí kiểm định OOS của QuantGlass:**\n1. Số giao dịch OOS ≥ `min_backtest_sample` (mặc định: 50 giao dịch)\n2. Kỳ vọng OOS > 0.0R (thiết lập đã kiếm tiền trong giai đoạn giữ lại)\n\nCả hai phải đúng để `out_of_sample_validated = True`.\n\n**Vì sao kích thước mẫu quan trọng**: tỷ lệ thắng 80% từ 5 giao dịch OOS là vô nghĩa về mặt thống kê. **Co rút Bayes thực nghiệm (Empirical Bayes shrinkage)** trong `_calibrate_win_rate` xử lý điều này bằng cách kéo các tỷ lệ thắng mẫu mỏng về phía 50% theo tỷ lệ với độ mỏng của mẫu.",
+    "key_terms": [
+      {
+        "term": "Walk-Forward",
+        "definition": "Backtest cửa sổ cuộn qua nhiều giai đoạn OOS."
+      },
+      {
+        "term": "min_backtest_sample",
+        "definition": "Số giao dịch OOS tối thiểu cần có trước khi tuyên bố kiểm định OOS."
+      },
+      {
+        "term": "Kỳ vọng OOS",
+        "definition": "R trung bình mỗi giao dịch trong 30% dữ liệu giữ lại."
+      },
+      {
+        "term": "Co rút Bayes thực nghiệm",
+        "definition": "Kéo tỷ lệ thắng thô về 50% khi mẫu mỏng — ngăn quá khớp."
+      }
+    ],
+    "exercise": {
+      "question": "Một thiết lập có 8 giao dịch OOS với tỷ lệ thắng 75% và kỳ vọng +0.9R. min_backtest_sample = 50. OOS có được kiểm định không?",
+      "options": [
+        "Có — tỷ lệ thắng 75% là bằng chứng mạnh.",
+        "Không — số giao dịch OOS (8) < min_backtest_sample (50). Cả hai điều kiện phải được đáp ứng.",
+        "Có — chỉ riêng kỳ vọng dương là đủ.",
+        "Không — tỷ lệ thắng 75% quá cao; nó gợi ý thiên lệch nhìn trước (lookahead)."
+      ],
+      "explanation": "Dù kỳ vọng là dương (+0.9R), số giao dịch OOS (8) dưới mức tối thiểu (50). **Cả hai** điều kiện phải vượt qua: `oos_count ≥ min_sample AND oos_expectancy > 0`. 8 giao dịch là mẫu quá nhỏ — ngay cả tỷ lệ thắng 75% từ 8 giao dịch cũng không có ý nghĩa thống kê. Độ tin cậy sẽ bị giới hạn ở 62 và bị đánh dấu là chưa kiểm định."
+    },
+    "live_apply": {
+      "cta": "Trong Cài đặt → An toàn, thử giảm min_backtest_sample xuống 10 và xem có bao nhiêu tín hiệu hiển thị OOS_validated=True — rồi suy nghĩ liệu điều đó có đáng tin không."
+    }
+  },
+  {
+    "id": "expert-02-empirical-bayes",
+    "title": "Hiệu chỉnh độ tin cậy Bayes thực nghiệm",
+    "summary": "Tìm hiểu cách engine ngăn kết quả backtest mẫu nhỏ thổi phồng độ tin cậy.",
+    "concept": "**Vấn đề**: một chiến lược thắng 3 trên 3 giao dịch có tỷ lệ thắng quan sát 100%. Coi đây là độ tin cậy 100% sẽ gây hiểu lầm một cách nguy hiểm.\n\n**Co rút Bayes thực nghiệm** giải quyết điều này bằng cách kết hợp một *tiên nghiệm (prior)* (niềm tin hoài nghi rằng tỷ lệ thắng thực là 50%) và cập nhật nó bằng bằng chứng:\n\n`calibrated_win_rate = (raw_win_rate × sample_size + 0.5 × prior_strength) / (sample_size + prior_strength)`\n\ntrong đó `prior_strength = min_backtest_sample` (mặc định: 50).\n\n**Hiệu ứng:**\n- 3/3 (thô 100%): hiệu chỉnh = (3 + 25) / (3 + 50) = 52.8% → gần như trung tính\n- 40/50 (thô 80%): hiệu chỉnh = (40 + 25) / (50 + 50) = 65% → độ tin cậy vừa phải\n- 100/120 (thô 83%): hiệu chỉnh = (100 + 25) / (120 + 50) = 73.5% → độ tin cậy cao\n\nCàng nhiều dữ liệu = càng ít co rút = điểm hiệu chỉnh càng tiến gần thực tế thô.",
+    "key_terms": [
+      {
+        "term": "Tiên nghiệm (Prior)",
+        "definition": "Niềm tin khởi đầu (tỷ lệ thắng 50%) trước khi thấy dữ liệu."
+      },
+      {
+        "term": "Độ mạnh tiên nghiệm (Prior Strength)",
+        "definition": "Mức độ tiên nghiệm chi phối — bằng min_backtest_sample (50 giao dịch giả)."
+      },
+      {
+        "term": "Co rút (Shrinkage)",
+        "definition": "Kéo ước lượng về phía tiên nghiệm khi mẫu nhỏ."
+      },
+      {
+        "term": "Tỷ lệ thắng hiệu chỉnh",
+        "definition": "Tỷ lệ thắng điều chỉnh Bayes — đáng tin hơn tỷ lệ thắng thô từ mẫu nhỏ."
+      }
+    ],
+    "exercise": {
+      "question": "raw_win_rate = 0.70, sample_size = 20, prior_strength = 50. calibrated_win_rate là bao nhiêu? (làm tròn 2 chữ số thập phân, ví dụ 0.63)",
+      "hint": "hiệu chỉnh = (raw × n + 0.5 × prior) / (n + prior)",
+      "explanation": "hiệu chỉnh = (0.70 × 20 + 0.5 × 50) / (20 + 50) = (14 + 25) / 70 = 39 / 70 = **0.557 ≈ 0.56**. Tỷ lệ thắng thô 70% từ 20 giao dịch co rút xuống ~56% — gần trung tính. Điều này ngăn sự tự tin thái quá trong các backtest mỏng."
+    },
+    "live_apply": {
+      "cta": "So sánh một thiết lập có 10 giao dịch OOS với một thiết lập có 80 giao dịch OOS. Lưu ý độ tin cậy khác nhau thế nào ngay cả với tỷ lệ thắng thô tương tự."
+    }
+  },
+  {
+    "id": "expert-06-conformal-prediction",
+    "title": "Dự đoán đẳng cấu (Conformal Prediction): Bảo đảm không cần giả định",
+    "summary": "Toán học đằng sau khoảng được bảo đảm độ phủ trong ngăn tín hiệu.",
+    "concept": "Hầu hết các khoảng dự đoán dựa vào các giả định mà thị trường từ chối tôn trọng (tính chuẩn, phương sai ổn định). **Dự đoán đẳng cấu chia tách (Split-conformal prediction)** hầu như không cần gì: lấy một tập hiệu chỉnh các kết quả quá khứ (QuantGlass dùng **kết quả giao dịch ngoài mẫu tính bằng R**), sắp xếp chúng, và đọc ra các phân vị điều chỉnh theo thứ hạng. Khoảng kết quả chứa kết quả *tiếp theo* với xác suất ít nhất bằng mức đã nêu, trong mẫu hữu hạn, chỉ giả định tính khả hoán (không nhìn lén, không sắp xếp lại).\n\nCơ chế chính xác của engine cho độ phủ 90%: với n kết quả hiệu chỉnh, cận dưới là giá trị nhỏ thứ ⌊(n+1)·0.05⌋ và cận trên là giá trị thứ ⌈(n+1)·0.95⌉. Các thứ hạng đó chỉ tồn tại khi **n ≥ 19** — dưới mức đó, ngăn hiển thị *không* khoảng nào thay vì một khoảng không có cơ sở. Sự trung thực bao gồm việc từ chối chế tạo các bảo đảm.\n\nĐọc «khoảng giao dịch tiếp theo −1.0R đến +2.1R (bảo đảm 90% qua 214 giao dịch OOS)» của ngăn: nó đóng khung các kết quả, không phải lợi nhuận — và độ rộng là thông tin: các khoảng rộng là dữ liệu đang thú nhận độ phân tán của chính nó.",
+    "key_terms": [
+      {
+        "term": "Đẳng cấu chia tách (Split-conformal)",
+        "definition": "Khoảng không phụ thuộc phân phối từ thống kê thứ hạng của tập hiệu chỉnh."
+      },
+      {
+        "term": "Tính khả hoán (Exchangeability)",
+        "definition": "Giả định duy nhất: kết quả hiệu chỉnh và tương lai không phụ thuộc thứ tự."
+      },
+      {
+        "term": "Độ phủ (Coverage)",
+        "definition": "Xác suất được bảo đảm rằng kết quả tiếp theo rơi vào trong khoảng."
+      },
+      {
+        "term": "n tối thiểu",
+        "definition": "n ≥ 19 cho độ phủ 90% — dưới mức đó engine không hiển thị gì."
+      },
+      {
+        "term": "Độ rộng khoảng",
+        "definition": "Độ phân tán trung thực: khoảng rộng nghĩa là thiết lập nhiễu."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao ngăn tín hiệu đôi khi KHÔNG hiển thị khoảng giao dịch tiếp theo nào cả?",
+      "options": [
+        "Tính năng này chỉ dành cho trả phí.",
+        "Tập hiệu chỉnh OOS dưới mức tối thiểu (19 giao dịch cho 90%) — toán thứ hạng không thể cung cấp bảo đảm, nên engine từ chối tạo ra một cái giả.",
+        "Khoảng đẳng cấu chỉ tồn tại cho cổ phiếu.",
+        "Khoảng bị ẩn khi nó trông tệ."
+      ],
+      "explanation": "Một bảo đảm không thể tính được thì không được hiển thị. Sự vắng mặt của khoảng tự nó là thông tin trung thực về kích thước mẫu."
+    },
+    "live_apply": {
+      "cta": "Mở một ngăn tín hiệu có mẫu OOS lớn và đọc khoảng được bảo đảm của nó — rồi tìm một cái không có và kiểm tra kích thước mẫu."
+    }
+  },
+  {
+    "id": "expert-07-calibration",
+    "title": "Hiệu chỉnh (Calibration): Độ tin cậy có ý nghĩa gì không?",
+    "summary": "Dự đoán so với thực tế — kỳ thi cuối cùng của điểm số.",
+    "concept": "Một điểm độ tin cậy chỉ giành được lòng tin nếu nó được **hiệu chỉnh**: trong tất cả các tín hiệu được chấm khoảng 70, đại khái tỷ lệ tương ứng phải thành công; các tín hiệu chấm 55 phải thành công ít hơn các tín hiệu chấm 75. Hiệu chỉnh được kiểm tra bằng một bảng đơn giản đến mức tước vũ khí: gom các tín hiệu quá khứ theo độ tin cậy, rồi so sánh mức *dự đoán* của mỗi nhóm với tần suất *thực tế* của nó.\n\nCác kiểu thất bại có tên: **tự tin thái quá (overconfidence)** (thực tế dưới dự đoán — kiểu nguy hiểm) và các mẫu hình biểu đồ độ tin cậy phơi bày điểm số nằm ở đâu trong dải. QuantGlass đã chống tự tin thái quá một cách cấu trúc — co rút, giới hạn 62 điểm cho chưa kiểm định, trần cứng 89 — và bảng theo dõi hiệu chỉnh (đỉnh cao trong lộ trình của engine) khép kín vòng lặp bằng cách chấm điểm người chấm điểm dựa trên lịch sử ứng dụng của chính bạn.\n\nThói quen có thể mang theo: bất kỳ điểm số nào ai đó cho bạn xem — kể cả của chúng tôi — đều đáng nhận câu hỏi *«được hiệu chỉnh so với cái gì?»*. Một con số độ tin cậy không có kiểm tra hiệu chỉnh là một tính từ khoác bộ trang phục.",
+    "key_terms": [
+      {
+        "term": "Hiệu chỉnh (Calibration)",
+        "definition": "Sự khớp giữa độ tin cậy dự đoán và tần suất thực tế."
+      },
+      {
+        "term": "Nhóm độ tin cậy",
+        "definition": "Các tín hiệu gom theo dải điểm, so sánh dự đoán với thực tế."
+      },
+      {
+        "term": "Tự tin thái quá (Overconfidence)",
+        "definition": "Thành công thực tế dưới dự đoán — sự hiệu chỉnh sai tốn kém."
+      },
+      {
+        "term": "Chấm điểm người chấm điểm",
+        "definition": "Kiểm toán chính mô hình độ tin cậy dựa trên kết quả."
+      }
+    ],
+    "exercise": {
+      "question": "Các tín hiệu được chấm 70–79 trong lịch sử của bạn thành công 48% số lần. Phát hiện là gì?",
+      "options": [
+        "Không có gì — điểm số chỉ để trang trí.",
+        "Điểm số tự tin thái quá trong dải đó: dự đoán vượt quá thực tế, nên đầu vào hoặc trọng số cần hiệu chỉnh lại.",
+        "48% làm tròn thành 75%.",
+        "Không thể đo được tỷ lệ thành công."
+      ],
+      "explanation": "Khoảng cách đó chính là điều mà một bảng hiệu chỉnh tồn tại để phơi bày. Một nhóm 70 được hiệu chỉnh tốt phải đạt gần với tuyên bố của nó — thiếu hụt dai dẳng nghĩa là mô hình đang tự tâng bốc."
+    },
+    "live_apply": {
+      "cta": "Ghi lại độ tin cậy của năm tín hiệu tiếp theo bạn hành động và kết quả của chúng — năm dòng trong bảng hiệu chỉnh của riêng bạn."
+    }
+  },
+  {
+    "id": "expert-08-monte-carlo",
+    "title": "Monte Carlo: Một lịch sử là chưa đủ",
+    "summary": "Lấy mẫu lại các kết quả giao dịch để thấy những tương lai bạn đã không có.",
+    "concept": "Đường vốn của một backtest là **một lần rút** từ phân phối của chiến lược — thứ tự cụ thể mà các thắng và thua đã xảy ra. Xáo lại cùng các giao dịch đó và mức sụt giảm tối đa thay đổi, đôi khi mạnh mẽ: thứ tự là vận may, và lịch sử đơn lẻ của bạn thể hiện một thứ tự may hay rủi.\n\n**Lấy mẫu lại Monte Carlo (Monte Carlo resampling)** làm điều đó rõ ràng: lấy mẫu các giao dịch (có hoàn lại) từ danh sách kết quả của bạn, dựng hàng nghìn đường vốn tổng hợp, và đọc *phân phối* thay vì điểm — mức sụt giảm tối đa trung vị, mức sụt giảm phân vị 95, xác suất chạm ngưỡng phá sản trước mục tiêu. Một chiến lược mà backtest cho thấy mức sụt giảm tối đa −12% có thể cho thấy phân vị 95 là −28% dưới lấy mẫu lại; sự khác biệt là rủi ro thứ tự mà đường đơn lẻ đã giấu.\n\nCông dụng thực tế: định cỡ sao cho mức sụt giảm *phân vị 95* vẫn sống sót được (không phải mức lịch sử), và đặt độ sâu quy tắc tạm dừng từ phân phối thay vì từ hy vọng. Các kết quả R mỗi giao dịch của engine — chính danh sách cấp cho hiệu chỉnh đẳng cấu — chính là đầu vào lấy mẫu lại.",
+    "key_terms": [
+      {
+        "term": "Rủi ro thứ tự (Sequence risk)",
+        "definition": "Sự phụ thuộc của mức sụt giảm vào thứ tự các kết quả."
+      },
+      {
+        "term": "Lấy mẫu lại (Resampling)",
+        "definition": "Rút các giao dịch có hoàn lại để tạo ra lịch sử tổng hợp."
+      },
+      {
+        "term": "Phân phối sụt giảm",
+        "definition": "Các phân vị của mức sụt giảm tối đa qua các mô phỏng."
+      },
+      {
+        "term": "Xác suất phá sản",
+        "definition": "Tỷ lệ các đường vi phạm ngưỡng sống sót."
+      }
+    ],
+    "exercise": {
+      "question": "Hai chiến lược chia sẻ các kết quả giao dịch giống hệt nhau nhưng thứ tự khác nhau, cho ra mức sụt giảm tối đa −9% và −22%. Điều gì giải thích sự khác biệt?",
+      "options": [
+        "Một backtest bị hỏng.",
+        "Thứ tự: cùng các kết quả theo thứ tự rủi thì các khoản thua tụ lại — mức sụt giảm phụ thuộc đường đi, đó chính là lý do Monte Carlo lấy mẫu lại các thứ tự.",
+        "Mức sụt giảm là nhiễu ngẫu nhiên không có ý nghĩa.",
+        "Chiến lược −9% có tỷ lệ thắng tốt hơn."
+      ],
+      "explanation": "Cùng các giao dịch, cùng kỳ vọng, vận may sắp xếp khác nhau. Đánh giá độ vững chắc trên một thứ tự là đánh giá một con xúc xắc qua một lần tung."
+    },
+    "live_apply": {
+      "cta": "Lấy thống kê kết quả của một preset và hỏi: nếu cùng các giao dịch này đến theo thứ tự tệ nhất hợp lý, định cỡ của bạn có sống sót không?"
+    },
+    "common_mistakes": [
+      "Đọc đường trung vị như là kỳ vọng. Độ trải của các đường - đặc biệt mức sụt giảm phân vị 95 - là đầu ra liên quan đến quyết định.",
+      "Lấy mẫu lại mà không xét đến sự cụm theo chế độ. Lợi nhuận bị xáo trộn đánh giá thấp các chuỗi; các khoản thua thực đến theo từng cụm."
+    ]
+  },
+  {
+    "id": "expert-03-custom-indicator",
+    "title": "Viết một phần mở rộng chỉ báo tùy chỉnh",
+    "summary": "Đóng góp một chỉ báo tất định cho QuantGlass bằng API phần mở rộng.",
+    "concept": "Các chỉ báo trong QuantGlass phải thỏa mãn các ràng buộc sau:\n1. **Tất định (Deterministic)** — cùng đầu vào luôn tạo ra cùng đầu ra\n2. **Không gọi mạng** — tính toán thuần túy trên dữ liệu nến được cung cấp\n3. **Không nhìn trước** — chỉ số N chỉ được dùng các nến 0…N\n4. **Không trạng thái ẩn** — các hàm không trạng thái hoặc các lớp được đặt lại mỗi lần gọi\n\n**Phần mở rộng chỉ báo tối thiểu:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nĐặt tệp này vào `workspace/extensions/` và khởi động lại backend.",
+    "key_terms": [
+      {
+        "term": "Manifest phần mở rộng (Extension Manifest)",
+        "definition": "Khai báo id, tên, phiên bản, năng lực (capabilities), và các quyền cần thiết."
+      },
+      {
+        "term": "Hợp đồng chỉ báo (Indicator Contract)",
+        "definition": "compute(candles) → danh sách giá trị, một giá trị mỗi nến, không nhìn trước."
+      },
+      {
+        "term": "Tất định (Deterministic)",
+        "definition": "Cùng đầu vào → cùng đầu ra, luôn luôn, không có tác dụng phụ."
+      }
+    ],
+    "exercise": {
+      "question": "Điều nào sau đây vi phạm hợp đồng chỉ báo của QuantGlass?",
+      "options": [
+        "Dùng candle[i] để tính tổng cuộn của candle[0..i].",
+        "Thực hiện một yêu cầu HTTP để lấy thêm dữ liệu giá bên trong compute().",
+        "Trả về None cho N nến đầu tiên trong khi cửa sổ khởi động.",
+        "Nhận tham số «period» trong chữ ký hàm compute."
+      ],
+      "explanation": "Các lệnh gọi HTTP bên trong `compute()` vi phạm quy tắc **không mạng**. Các lệnh gọi mạng đưa vào độ trễ, tính không tất định, và thiên lệch nhìn trước tiềm tàng. Tất cả dữ liệu phải được cung cấp qua đối số candles. Trả về None khi khởi động và nhận tham số đều là các mẫu hợp lệ và được mong đợi."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Phần mở rộng. Xem lại phần mở rộng community_momentum_pack như một triển khai tham chiếu."
+    }
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "title": "Viết một phần mở rộng chiến lược tùy chỉnh",
+    "summary": "Soạn một chiến lược hoàn chỉnh tích hợp với engine tín hiệu của QuantGlass.",
+    "concept": "Một phần mở rộng chiến lược đăng ký một `candidate_factory` — một hàm được engine tín hiệu gọi để trả về các thiết lập ứng viên theo cùng định dạng với các họ tích hợp sẵn.\n\n**Các trường ứng viên bắt buộc:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Quy tắc hợp đồng chiến lược:**\n1. Chỉ dùng **nến đã đóng (closed candles)** — không nhìn lén thanh một phần\n2. Bao gồm **phí và trượt giá** thực tế trong backtest\n3. Báo cáo **IS và OOS riêng biệt** — không trộn các cửa sổ\n4. **Thang take_profit hiển thị cho người dùng phải khớp với những gì backtest mô phỏng**\n\nQuy tắc cuối cùng này là điều mà cuộc kiểm toán sản xuất đã đánh dấu là một kiểu thất bại phổ biến — QuantGlass thực thi nó bằng cách dùng `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` trong trình mô phỏng backtest và hiển thị cùng ba mức trong đầu ra tín hiệu.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Hàm trả về các thiết lập ứng viên từ ngữ cảnh engine tín hiệu."
+      },
+      {
+        "term": "Nhất quán thang TP",
+        "definition": "Các điểm thoát hiển thị cho người dùng phải khớp chính xác với các điểm thoát mà backtest mô phỏng."
+      },
+      {
+        "term": "Quy tắc nến đã đóng",
+        "definition": "Chiến lược chỉ được dùng các nến có status='closed' — không dữ liệu thanh một phần."
+      }
+    ],
+    "exercise": {
+      "question": "Chiến lược của bạn hiển thị TP ở 3R cho người dùng, nhưng backtest thoát ở 2R. Vấn đề là gì?",
+      "options": [
+        "Không vấn đề — hiển thị một TP lạc quan hơn khích lệ người dùng.",
+        "Kỳ vọng backtest sai — nó đánh giá thấp hiệu suất thực.",
+        "Backtest mô phỏng các điểm thoát thấp hơn hiển thị — nó phóng đại khả năng sống sót nhưng đánh giá thấp phần thưởng. Hợp đồng chiến lược bị vi phạm.",
+        "Không vấn đề — TP chỉ là một gợi ý, không phải quy tắc cứng."
+      ],
+      "explanation": "Khi backtest thoát ở 2R nhưng hiển thị hứa hẹn 3R, backtest đang mô phỏng một giao dịch khác với giao dịch người dùng thực hiện. Điều này khiến kết quả backtest không đáng tin cậy như một công cụ dự báo trải nghiệm người dùng. QuantGlass thực thi tính nhất quán qua `_TP_LADDER_WEIGHTS`."
+    },
+    "live_apply": {
+      "cta": "Xem lại extensions/community_momentum_pack.py để có một ví dụ phần mở rộng chiến lược hoạt động hoàn chỉnh."
+    }
+  },
+  {
+    "id": "expert-09-extension-sdk",
+    "title": "SDK Phần mở rộng: Một bề mặt ổn định",
+    "summary": "Manifest, quyền, cài đặt — mở rộng engine một cách an toàn.",
+    "concept": "Mọi thứ một tác giả phần mở rộng cần đều nhập từ một mô-đun: `app.extensions.sdk`. Nó mang một **SDK_VERSION** rõ ràng và một lời hứa tương thích — các bổ sung tăng minor, các phá vỡ tăng major — nên nội bộ có thể tái cấu trúc tự do trong khi phần mở rộng của bạn vẫn hoạt động.\n\nGiải phẫu: một **ExtensionManifest** khai báo danh tính (một id ổn định), **capabilities** (các loại bạn cung cấp: chỉ báo, chiến lược, thông báo, …) và **permissions** (những gì bạn xin chạm vào: read_market_data, network_access, …). Các mục **ExtensionSetting** khai báo cấu hình có kiểu, người dùng chỉnh được, tự động xuất hiện trong Cài đặt → Phần mở rộng. Một hook register nhận **ExtensionContext** và đóng góp các định nghĩa — một `IndicatorDefinition` tính từ các nến, một `StrategyDefinition` mà hook ứng viên nhận cùng dict ngữ cảnh các họ tích hợp sẵn thấy và trả về các ứng viên cạnh tranh theo hợp lưu (confluence) như bất kỳ thiết lập gốc nào.\n\nQuy tắc thiết kế đáng sao chép: các phần mở rộng *khai báo* những gì chúng cần và *đóng góp* các định nghĩa; chúng không bao giờ thò tay vào nội bộ engine. Ranh giới đó là điều cho phép một cộng đồng phát hành mã mà người dùng có thể tin tưởng và kiểm toán.",
+    "key_terms": [
+      {
+        "term": "SDK_VERSION",
+        "definition": "Lời hứa tương thích có phiên bản của app.extensions.sdk."
+      },
+      {
+        "term": "Manifest",
+        "definition": "Danh tính + năng lực + quyền, được khai báo từ trước."
+      },
+      {
+        "term": "Quyền (Permission)",
+        "definition": "Một yêu cầu cấp phép rõ ràng (mạng, dữ liệu thị trường, …) hiển thị cho người dùng."
+      },
+      {
+        "term": "Hook ứng viên",
+        "definition": "Lối vào của phần mở rộng chiến lược vào cùng cuộc cạnh tranh hợp lưu như các họ tích hợp sẵn."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao một phần mở rộng phải khai báo quyền của nó trong manifest thay vì chỉ làm bất cứ điều gì mã của nó muốn?",
+      "options": [
+        "Manifest làm tệp lớn hơn.",
+        "Các quyền được khai báo khiến phần mở rộng có thể kiểm toán và đồng thuận — người dùng và người đánh giá thấy chính xác những gì được yêu cầu trước khi bất kỳ mã nào chạy.",
+        "Python yêu cầu điều đó.",
+        "Các quyền chỉ để trang trí."
+      ],
+      "explanation": "Manifest là một hợp đồng hiển thị cho con người. Đánh giá bảo mật, quét registry, và đồng thuận lúc cài đặt đều phụ thuộc vào khai báo đó — truy cập không khai báo chính là định nghĩa của sự không đáng tin."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Phần mở rộng và đọc năng lực cùng cài đặt được khai báo của một phần mở rộng đã cài — manifest được kết xuất thành UI."
+    }
+  },
+  {
+    "id": "expert-10-publishing-extensions",
+    "title": "Xuất bản: Từ thư mục cục bộ đến lòng tin cộng đồng",
+    "summary": "Các đường tải, kiểm định, và đường ống lòng tin.",
+    "concept": "Phát hành một phần mở rộng có ba giai đoạn trưởng thành. **Cục bộ (Local)**: đặt một mô-đun vào thư mục `extensions/` của workspace (hoặc tương đương trong thư mục dữ liệu) và registry tải nó khi khởi động — vòng lặp phát triển. **Đóng gói (Packaged)**: phân phối qua các entry point Python dưới `quantglass.extensions`, cài được bằng pip và bị chặn sau một cờ chọn-tham-gia rõ ràng, vì mã đã cài là mã được tin cậy. **Cộng đồng (Community)**: mô hình registry — các đệ trình được đánh giá, mọi phiên bản được quét tự động, các khác biệt quyền được đánh dấu, các nhãn tác giả-được-tin-cậy được giành lấy — nên một chiến lược của người lạ có thể được cài với đồng thuận có hiểu biết thay vì niềm tin mù quáng.\n\nTrước bất kỳ điều gì trong số đó: kiểm định. Repo cung cấp công cụ fixture chạy các đóng góp của một phần mở rộng dựa trên dữ liệu đã biết, và chỉ báo/chiến lược của bạn phải hành xử chỉ trên các nến đã đóng — cùng các quy tắc trung thực mà engine tuân theo. Một phần mở rộng nhìn lén thanh đang hình thành sẽ trông xuất sắc trong phát triển và nói dối trong sản xuất.\n\nĐiểm văn hóa: trong hầu hết các hệ sinh thái giao dịch, mã cộng đồng chạm vào tiền không được đánh giá theo thiết kế. Làm cho việc đánh giá và quyền trở thành công dân hạng nhất là điểm khác biệt đáng để đóng góp vào.",
+    "key_terms": [
+      {
+        "term": "Tải workspace",
+        "definition": "Đặt các phần mở rộng vào thư mục cục bộ để phát triển."
+      },
+      {
+        "term": "Entry point",
+        "definition": "Phân phối cài-bằng-pip dưới quantglass.extensions, sau chọn-tham-gia."
+      },
+      {
+        "term": "Khác biệt quyền (Permission diff)",
+        "definition": "Báo động của registry khi một phiên bản mới yêu cầu thêm truy cập."
+      },
+      {
+        "term": "Quy tắc nến đã đóng",
+        "definition": "Các phần mở rộng phải tuân theo cùng kỷ luật không-nhìn-lén như engine."
+      }
+    ],
+    "exercise": {
+      "question": "Bản cập nhật của một phần mở rộng cộng đồng yêu cầu network_access trong khi v1 không cần. Đường ống lòng tin nên làm gì?",
+      "options": [
+        "Tự động phê duyệt — các cập nhật là cải tiến.",
+        "Đánh dấu khác biệt quyền để đánh giá và đồng thuận lại: mở rộng phạm vi chính là khoảnh khắc các cuộc tấn công chuỗi cung ứng xảy ra.",
+        "Chặn mọi cập nhật vĩnh viễn.",
+        "Quyền không thể thay đổi."
+      ],
+      "explanation": "Phiên bản N giành được lòng tin không chuyển sang các quyền lực mới của phiên bản N+1. So sánh các quyền được khai báo theo từng bản phát hành là kiểm tra rẻ nhất, giá trị cao nhất mà một registry thực hiện."
+    },
+    "live_apply": {
+      "cta": "Tìm cờ chọn-tham-gia entry point phần mở rộng trong cấu hình của bạn — lưu ý rằng mã đã cài yêu cầu một cờ rõ ràng, không bao giờ im lặng."
+    }
+  },
+  {
+    "id": "expert-11-fact-guarded-ai",
+    "title": "Thuyết minh được bảo vệ bằng sự thật",
+    "summary": "Cách ứng dụng cho phép một mô hình nói mà không cho phép nó bịa.",
+    "concept": "Các mô hình ngôn ngữ trôi chảy và không đáng tin — một cặp đôi nguy hiểm quanh tiền bạc. Đường ống thuyết minh của QuantGlass giả định mô hình rốt cuộc sẽ ảo giác và dựng cái lồng trước.\n\nCác lớp: mô hình chỉ nhận **các sự thật do engine tính toán** (các con số của tín hiệu dưới dạng JSON) với hướng dẫn phát biểu lại, không bịa; việc sinh bị **ràng buộc bởi schema** (đầu ra có cấu trúc buộc một phong bì `{summary}` — không có lan man tự do để phân tích); văn bản trả về vượt qua một **bộ bảo vệ sự thật số** trích xuất mọi con số và xác minh nó truy về một sự thật được cung cấp — một giá bịa đặt và toàn bộ đầu ra bị loại bỏ; và khi có bất kỳ thất bại nào **mẫu tất định** tiếp quản, được dán nhãn như vậy. Nguồn thuyết minh luôn được hiển thị, nên bạn biết liệu một mô hình hay mẫu đang nói.\n\nNguyên tắc có thể chuyển giao cho bất kỳ nghiên cứu hỗ trợ bởi AI nào bạn làm: việc sinh là rẻ, **xác minh là sản phẩm**. Dùng các mô hình để giải thích các con số đã xác minh; không bao giờ dùng chúng làm nguồn của các con số.",
+    "key_terms": [
+      {
+        "term": "Tiếp đất sự thật (Fact grounding)",
+        "definition": "Mô hình chỉ được phát biểu lại các giá trị do engine tính toán."
+      },
+      {
+        "term": "Đầu ra có cấu trúc",
+        "definition": "Việc sinh bị ràng buộc bởi schema — phong bì {summary}."
+      },
+      {
+        "term": "Bộ bảo vệ sự thật số",
+        "definition": "Mọi con số trong đầu ra phải truy về một sự thật được cung cấp."
+      },
+      {
+        "term": "Dự phòng mẫu",
+        "definition": "Đường tất định, được dán nhãn khi mô hình thất bại hoặc nói dối."
+      }
+    ],
+    "exercise": {
+      "question": "Mô hình thuyết minh xuất ra một tóm tắt trôi chảy chứa một mục tiêu giá không xuất hiện ở đâu trong các sự thật của engine. Điều gì xảy ra?",
+      "options": [
+        "Mục tiêu được phát hành — sự trôi chảy ngụ ý tính chính xác.",
+        "Bộ bảo vệ sự thật từ chối toàn bộ đầu ra và thay vào đó mẫu tất định được kết xuất, với nguồn được dán nhãn.",
+        "Giá đó bị xóa âm thầm.",
+        "Mô hình được yêu cầu xin lỗi."
+      ],
+      "explanation": "Một con số không truy được làm nhiễm độc toàn bộ văn bản — lòng tin một phần không phải là lòng tin. Loại-bỏ-và-dự-phòng giữ mọi câu được hiển thị có thể bảo vệ."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → AI: dù bạn chọn nhà cung cấp nào, bộ bảo vệ và dự phòng mẫu nằm giữa mọi mô hình và màn hình của bạn."
+    }
+  },
+  {
+    "id": "expert-12-local-models",
+    "title": "Các mô hình cục bộ và cổng",
+    "summary": "Quyền riêng tư, độ trễ, và trừu tượng hóa cổng.",
+    "concept": "Nơi mô hình thuyết minh chạy là một quyết định thực sự. **Cục bộ** (Ollama, LM Studio, vLLM, llama.cpp): các tín hiệu, số dư, và thói quen của bạn không bao giờ rời khỏi máy; độ trễ bị ràng buộc bởi phần cứng; năng lực đạt mức tối đa ở những gì GPU của bạn lưu trữ. **API** (các đám mây tương thích OpenAI, Anthropic, Gemini, và các router như OpenRouter): các mô hình mạnh hơn, nhưng ngữ cảnh nghiên cứu của bạn di chuyển tới một bên thứ ba dưới các chính sách lưu giữ của họ.\n\n**Cổng mô hình** của QuantGlass trừu tượng hóa lựa chọn đó: một giao diện, các mô-đun theo nhà cung cấp, kiểm tra sức khỏe lúc chạy, khám phá mô hình, và cùng đường ống đầu-ra-có-cấu-trúc + bộ-bảo-vệ-sự-thật bất kể backend — chuyển nhà cung cấp là một thay đổi cài đặt, không phải thay đổi kiến trúc. Sự hiện diện của bộ bảo vệ sự thật cũng tái cân bằng đánh đổi: vì các mô hình ở đây chỉ *phát biểu lại* các con số của engine, một mô hình cục bộ nhỏ thường hoàn toàn đủ, và lập luận quyền riêng tư cho cục-bộ-trước có tiếng nói cuối cùng cho nghiên cứu nhạy cảm.\n\nKhớp công cụ với mức cược: cục bộ cho bất cứ thứ gì chạm vào vị thế của bạn; đám mây, nếu có, cho giải thích chung chung nơi ngữ cảnh là kiến thức công khai.",
+    "key_terms": [
+      {
+        "term": "Suy luận cục bộ",
+        "definition": "Các mô hình trên phần cứng của bạn — riêng tư, ràng buộc độ trễ, giới hạn năng lực."
+      },
+      {
+        "term": "Cổng mô hình",
+        "definition": "Một giao diện trên các nhà cung cấp Ollama/tương thích OpenAI/bản địa."
+      },
+      {
+        "term": "Nơi cư trú dữ liệu",
+        "definition": "Nơi ngữ cảnh nghiên cứu của bạn thực sự đi tới."
+      },
+      {
+        "term": "Đủ năng lực",
+        "definition": "Phát biểu lại các sự thật được bảo vệ cần ít mô hình hơn nhiều so với bịa ra phân tích."
+      }
+    ],
+    "exercise": {
+      "question": "Để thuyết minh các tín hiệu bao gồm các vị thế giấy của bạn, vì sao một mô hình cục bộ nhỏ thường là mặc định hợp lý?",
+      "options": [
+        "Các mô hình cục bộ luôn thông minh hơn.",
+        "Nhiệm vụ là phát biểu lại các sự thật do engine xác minh dưới một bộ bảo vệ — năng lực khiêm tốn là đủ, và dữ liệu vị thế không bao giờ rời máy thắng thế trong tình huống hòa.",
+        "Các API đám mây không thể tạo văn bản.",
+        "Độ trễ không tồn tại ở cục bộ."
+      ],
+      "explanation": "Đường ống cố ý thu nhỏ công việc của mô hình thành phát biểu lại trôi chảy. Khi yêu cầu năng lực giảm xuống, quyền riêng tư trở thành tiêu chí quyết định."
+    },
+    "live_apply": {
+      "cta": "Trong Cài đặt → AI, liệt kê nhà cung cấp nào được cấu hình chạy cục bộ so với qua API — và cái nào thuyết minh của bạn hiện đang dùng."
+    }
+  },
+  {
+    "id": "expert-13-mcp-agents",
+    "title": "MCP: Engine của bạn như sự thật nền cho một tác nhân",
+    "summary": "Các công cụ chỉ-đọc cho phép các trợ lý AI sử dụng engine cục bộ của bạn.",
+    "concept": "**Model Context Protocol** chuẩn hóa cách các trợ lý AI gọi các công cụ bên ngoài. QuantGlass cung cấp một máy chủ MCP trên loopback phơi bày chính xác bốn công cụ **chỉ-đọc**: list_signals, list_backtest_presets, get_paper_account, list_watchlist. Kết nối Claude hoặc bất kỳ máy khách MCP nào và «hôm nay engine của watchlist của tôi nói gì?» không còn là một cơ hội ảo giác — tác nhân *gọi engine của bạn* và lập luận trên JSON đã xác minh.\n\nCác lựa chọn thiết kế là bài học. **Chỉ-đọc**: không công cụ lệnh, không công cụ cài đặt, không bí mật — một sự xâm phạm tác nhân không thể chuyển tiền hay thay đổi cấu hình. **Chỉ-loopback**: máy chủ gắn vào máy của bạn. **Trung thực tự mô tả**: mô tả của mọi công cụ mang khung giáo-dục-không-phải-lời-khuyên, nên ngay cả ngữ cảnh của tác nhân cũng thừa hưởng tư thế đó.\n\nĐiều này đảo ngược chiêu trò AI giao dịch thông thường: thay vì một AI bịa ra các giao dịch để bạn tin, engine tất định của bạn cung cấp các sự thật để một AI giải thích. Trí tuệ vẫn có thể kiểm toán; ngôn ngữ vẫn trôi chảy; thẩm quyền vẫn ở với toán học.",
+    "key_terms": [
+      {
+        "term": "MCP",
+        "definition": "Model Context Protocol — một chuẩn cho các lệnh gọi trợ-lý-tới-công-cụ."
+      },
+      {
+        "term": "Bề mặt chỉ-đọc",
+        "definition": "Sự thật ra, không bao giờ hành động vào — tư thế bảo mật của máy chủ."
+      },
+      {
+        "term": "Gắn loopback",
+        "definition": "Máy chủ chỉ trả lời máy của chính bạn."
+      },
+      {
+        "term": "Tác nhân tiếp đất",
+        "definition": "Một trợ lý mà các tuyên bố thị trường đến từ lệnh gọi công cụ, không phải bộ nhớ."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao máy chủ MCP cố ý không phơi bày công cụ gửi lệnh nào?",
+      "options": [
+        "MCP không thể mã hóa các lệnh.",
+        "Năng lực là rủi ro: một tác nhân chỉ có thể đọc các sự thật không thể bị lừa, bị nhắc, hay bị lỗi để chuyển tiền — ranh giới là cấu trúc, không phải hành vi.",
+        "Các lệnh quá nhanh cho AI.",
+        "Nó sẽ được thêm cho người dùng cao cấp."
+      ],
+      "explanation": "Bảo mật bằng kết cấu thắng bảo mật bằng chỉ dẫn. Bất kể một lời nhắc nói gì, một công cụ không tồn tại thì không thể bị lạm dụng."
+    },
+    "live_apply": {
+      "cta": "Điểm cuối MCP chạy tại 127.0.0.1:8000/mcp bất cứ khi nào backend đang chạy — kết nối một trợ lý hỗ trợ MCP và hỏi nó về các tín hiệu của bạn."
+    }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "title": "Xây dựng một kế hoạch giao dịch hoàn chỉnh",
+    "summary": "Tổng hợp mọi khái niệm thành một kế hoạch giao dịch kỷ luật, dựa trên quy tắc.",
+    "concept": "Một **kế hoạch giao dịch** là một tập quy tắc được viết ra loại bỏ cảm xúc khỏi các quyết định giao dịch. Nó trả lời: *khi nào vào, rủi ro bao nhiêu, khi nào thoát, và xem xét hiệu suất thế nào*.\n\n**Mẫu kế hoạch giao dịch gốc của QuantGlass:**\n\n1. **Vũ trụ**: những mã hành lang và khung thời gian nào để giao dịch\n2. **Cổng tín hiệu**: độ tin cậy tối thiểu, có yêu cầu OOS_validated = True không?\n3. **Rủi ro mỗi giao dịch**: ví dụ, 1% tài khoản giấy mỗi tín hiệu\n4. **Quy tắc vào**: chỉ vào trong entry_zone, không bên ngoài nó\n5. **Quy tắc dừng**: dừng = stop_loss của tín hiệu, không ghi đè thủ công\n6. **Quy tắc thoát**: thoát từng phần ở TP1 (50%), TP2 (30%), giữ phần còn lại tới TP3\n7. **Xem xét hàng ngày**: so sánh vốn tài khoản giấy với mốc chuẩn (ví dụ, BTC hoặc SPY)\n8. **Hiệu chỉnh hàng tháng**: cập nhật ngưỡng min_confidence dựa trên tỷ lệ trúng thực tế\n\nKế hoạch chỉ tốt bằng sự tuân thủ của bạn. QuantGlass cung cấp các tín hiệu; kỷ luật cung cấp lợi thế.",
+    "key_terms": [
+      {
+        "term": "Kế hoạch giao dịch",
+        "definition": "Một bộ quy tắc viết ra cho vào, định cỡ, thoát, và xem xét — loại bỏ cảm xúc tùy ý."
+      },
+      {
+        "term": "Cổng tín hiệu",
+        "definition": "Tiêu chí tối thiểu một tín hiệu phải đáp ứng trước khi bạn hành động (ví dụ, độ tin cậy ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Hiệu chỉnh hàng tháng",
+        "definition": "Xem xét liệu ngưỡng min_confidence của bạn có khớp với tỷ lệ trúng thực tế không."
+      }
+    ],
+    "exercise": {
+      "question": "Trong 3 tháng bạn thực hiện 40 giao dịch giấy với độ tin cậy ≥ 65. Tỷ lệ thắng thực tế của bạn là 48%. Tỷ lệ thắng backtest của engine cho các thiết lập này là 56%. Bạn nên làm gì?",
+      "options": [
+        "Không gì — khoảng cách 8% là phương sai bình thường qua 40 giao dịch.",
+        "Nâng min_confidence lên ≥ 72 để lọc các thiết lập chất lượng cao hơn, hoặc điều tra xem thời điểm thực thi có lệch không (vào ngoài entry_zone).",
+        "Hạ min_confidence xuống ≥ 55 — ngưỡng thấp hơn sẽ cải thiện tỷ lệ thắng.",
+        "Ngừng dùng QuantGlass — mô hình bị hỏng."
+      ],
+      "explanation": "Một khoảng cách dai dẳng giữa tỷ lệ thắng backtest (56%) và tỷ lệ thắng thực tế (48%) qua 40 giao dịch gợi ý hoặc trượt giá thực thi (vào quá muộn, ngoài entry_zone) hoặc ngưỡng độ tin cậy hiện tại chọn các thiết lập nơi khoảng cách rộng nhất. Nâng ngưỡng lên ≥ 72 lọc các thiết lập chất lượng cao hơn với bằng chứng OOS mạnh hơn. Cũng kiểm toán các lần khớp lệnh của bạn — bạn có vào trong entry_zone mỗi lần không?"
+    },
+    "live_apply": {
+      "cta": "Soạn kế hoạch giao dịch của bạn trên giấy. Cho 10 giao dịch giấy tiếp theo, ghi lại: giá vào, lý do vào, kết quả, và liệu bạn có theo các quy tắc của mình không."
+    },
+    "common_mistakes": [
+      "Viết một hiến pháp và không bao giờ sửa đổi nó. Một chính sách không tiến hóa theo bằng chứng trở thành di tích; xem xét nó theo lịch trình, không theo bốc đồng.",
+      "Làm các quy tắc khắt khe đến mức chúng bị bỏ rơi vào tuần thứ hai. Một hiến pháp bạn thực sự tuân theo ở mức 80% khắt khe thắng một hiến pháp hoàn hảo bạn phớt lờ."
+    ]
+  },
+  {
+    "id": "expert-14-key-custody",
+    "title": "Bảo quản khóa và ranh giới bí mật",
+    "summary": "Nơi các thông tin xác thực cư trú, và các cấp độ thiệt hại chúng có thể gây ra.",
+    "concept": "Mọi thông tin xác thực bên ngoài là một sự ủy thác quyền lực, và không bằng nhau: một **khóa dữ liệu chỉ-đọc** (tin tức, nến) tệ nhất làm lộ sự tò mò của bạn; một **khóa có thể giao dịch** (khóa môi giới + bí mật) là tiền khoác bộ trang phục mỏng manh. Việc bảo quản phải tỷ lệ với cấp độ đó.\n\nRanh giới của QuantGlass: các bí mật không bao giờ nằm trong các hàng văn bản thuần. Chúng cư trú trong một **kho bí mật cục bộ được mã hóa**, với **định tuyến keychain hệ điều hành** cho các khóa có thể giao dịch nơi có một keychain khả dụng — và các khóa được đánh dấu `tradeEnabled` nên chính ứng dụng biết thông tin xác thực nào nguy hiểm. UI cài đặt xóa sạch các giá trị sau khi lưu; API trả về siêu dữ liệu, không phải bí mật; bề mặt MCP không phơi bày bất cứ thứ gì có hình dạng thông tin xác thực cả.\n\nVệ sinh vận hành của bạn hoàn thiện hệ thống: tạo các khóa môi giới với **phạm vi tối thiểu** được cung cấp (chỉ-dữ-liệu nếu dữ liệu là tất cả bạn cần), ưu tiên các khóa *không thể rút tiền*, xoay vòng sau bất kỳ nghi ngờ nào, và coi các yêu cầu «dán khóa API của bạn» ở bất cứ đâu ngoài màn hình cài đặt là trò lừa đảo mà chúng gần như chắc chắn là.",
+    "key_terms": [
+      {
+        "term": "Khóa có thể giao dịch",
+        "definition": "Một thông tin xác thực có thể chuyển tiền — cấp bảo quản cao nhất."
+      },
+      {
+        "term": "Kho bí mật được mã hóa",
+        "definition": "Lưu trữ cục bộ được mã hóa; không bao giờ là các hàng cơ sở dữ liệu văn bản thuần."
+      },
+      {
+        "term": "Định tuyến keychain",
+        "definition": "Bảo quản cấp hệ điều hành cho cấp nguy hiểm khi khả dụng."
+      },
+      {
+        "term": "Phạm vi tối thiểu",
+        "definition": "Các khóa được tạo với quyền lực ít nhất hoàn thành công việc."
+      }
+    ],
+    "exercise": {
+      "question": "Môi giới của bạn cung cấp các phạm vi khóa: chỉ-đọc, giao dịch, giao dịch+rút tiền. Bạn muốn dữ liệu thị trường QuantGlass và cuối cùng là kiểm tra ngang-bằng-giấy. Phạm vi nào đúng?",
+      "options": [
+        "giao dịch+rút tiền — linh hoạt tối đa.",
+        "chỉ-đọc bây giờ; giao dịch chỉ khi và lúc nào thực thi trực tiếp được mở khóa có chủ đích; rút tiền không bao giờ — không ứng dụng nào cần quyền rút tiền của bạn.",
+        "Cái nào đứng đầu trong danh sách thả xuống.",
+        "Các phạm vi là tương đương."
+      ],
+      "explanation": "Phạm vi là bán kính vụ nổ. Quyền rút tiền trong một khóa API biến bất kỳ sự xâm phạm nào thành trộm cắp; quyền giao dịch trước khi cần là gánh nặng thuần túy."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Khóa API và xác định các trường nào được đánh dấu có thể giao dịch — các cấp bảo quản của chính ứng dụng được hiển thị."
+    }
+  },
+  {
+    "id": "expert-15-going-live-gate",
+    "title": "Cổng vào giao dịch trực tiếp",
+    "summary": "Phơi bày theo giai đoạn, các mở khóa giành được, và kỷ luật ở lại với giấy.",
+    "concept": "QuantGlass xuất xưởng với **giao dịch trực tiếp tắt** — không phải như một tính năng thiếu mà như một nguyên tắc sản phẩm: thực thi thật nên được *mở khóa bằng sự sẵn sàng đã chứng minh*, không bao giờ vấp vào. Đường theo giai đoạn phản chiếu công trình an toàn bạn đã gặp suốt khóa học: giao dịch giấy với dữ liệu trực tiếp (nơi bạn đang ở) → chế độ trực tiếp *hiển thị nhưng bị chặn* sau các thông tin xác thực môi giới rõ ràng, một xác nhận riêng, và các kiểm tra an toàn backend → nếu bao giờ được bật, **chế độ cỡ nhỏ trước**, nơi sai lầm trả học phí thay vì vốn.\n\nMột thanh sẵn sàng đáng viết ra trước bất kỳ thay đổi giai đoạn nào (giáo dục, không phải lời khuyên): một mẫu giấy có ý nghĩa (nghĩ 100+ giao dịch, không phải 10) với kỳ vọng dương hoặc được kiểm soát; kỷ luật nhật ký gần như hoàn hảo; không vi phạm rủi ro nghiêm trọng trong hồ sơ gần đây của bạn; một kế hoạch giao dịch viết ra; vượt qua việc tự xem xét trung thực của bạn về track tâm lý; và quy tắc làm-nguội — bất kỳ quyết định mở khóa nào được đưa ra vào một *ngày khác* với thôi thúc làm điều đó.\n\nVà sự thật lặng lẽ mà toàn bộ Học viện này đứng trên: **ở lại chế độ giấy vô thời hạn là một kết quả chính đáng, hoàn chỉnh.** Các kỹ năng, thống kê, kỷ luật — tất cả đều thật, dù tiền thật có bao giờ được gắn vào hay không.",
+    "key_terms": [
+      {
+        "term": "Phơi bày theo giai đoạn",
+        "definition": "Giấy → hiển thị bị chặn → cỡ nhỏ → trực tiếp giới hạn bởi người dùng."
+      },
+      {
+        "term": "Thanh sẵn sàng",
+        "definition": "Tiêu chí viết ra, đa chiều — mẫu, kỷ luật, kế hoạch, tâm lý."
+      },
+      {
+        "term": "Quy tắc làm-nguội",
+        "definition": "Các quyết định mở khóa được hoãn tới một ngày bình tĩnh hơn, muộn hơn."
+      },
+      {
+        "term": "Giấy như kết quả",
+        "definition": "Ở lại mô phỏng là một trạng thái kết thúc hợp lệ, không phải thất bại."
+      }
+    ],
+    "exercise": {
+      "question": "Lập luận mạnh nhất cho việc làm giao dịch trực tiếp thành chọn-tham-gia sau sự sẵn sàng đã chứng minh, thay vì bật mặc định, là gì?",
+      "options": [
+        "Nó tăng doanh thu đăng ký.",
+        "Mặc định là số phận: hầu hết tổn hại đến từ người dùng thiếu huấn luyện gặp đòn bẩy thật quá sớm, và một cổng sẵn sàng biến đường mặc định thành đường an toàn.",
+        "Các môi giới yêu cầu nó.",
+        "Giao dịch giấy dùng ít điện hơn."
+      ],
+      "explanation": "Công trình an toàn đặt rào chắn ở nơi vực thẳm. Một cổng phải được giành lấy một cách có ý thức, có thể chứng minh khiến đường nguy hiểm trở nên có chủ đích và đường an toàn trở nên tự động."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Rủi ro: tìm cổng chế độ giao dịch và các yêu cầu của nó — mở khóa theo giai đoạn được kết xuất thành UI."
+    },
+    "common_mistakes": [
+      "Vào trực tiếp để giao dịch giấy «cảm thấy thật». Nếu thiếu kỷ luật giấy, tiền làm nó tệ hơn, không phải tốt hơn.",
+      "Mở rộng lên cỡ đầy đủ ngay sau cổng. Thực thi trực tiếp có chi phí và cảm xúc mà giấy không bao giờ mô hình hóa - giành cỡ theo giai đoạn."
+    ]
+  },
+  {
+    "id": "expert-16-rates-liquidity",
+    "title": "Lãi suất và thủy triều thanh khoản",
+    "summary": "Giá của tiền định ra thời tiết cho mọi tài sản rủi ro.",
+    "concept": "Lãi suất là trọng lực của tài chính: chúng định ra lợi nhuận có sẵn cho việc *không* chịu rủi ro, và do đó là thanh chắn mà mọi tài sản rủi ro phải vượt qua. Khi các ngân hàng trung ương nâng lãi suất, lợi suất an toàn cạnh tranh kéo vốn ra khỏi cổ phiếu và crypto; khi họ cắt và bơm **thanh khoản**, vốn đó chảy ngược ra theo đường cong rủi ro — và các tài sản đầu cơ nhất (cổ phiếu nhỏ, alt) dao động mạnh nhất ở cả hai đầu.\n\nĐây là lý do crypto, được tiếp thị là không tương quan, đã giao dịch từ 2020 như một **tài sản thanh khoản beta cao**: cùng thủy triều, được khuếch đại.\n\nCông dụng của trader là ngữ cảnh chế độ, không phải dự đoán: biết thủy triều thanh khoản đang dâng hay rút, và mong đợi việc theo xu hướng hoạt động *cùng* thủy triều và chống lại nó kém. Các lịch vĩ mô (quyết định ngân hàng trung ương, công bố lạm phát) là tương đương báo cáo lợi nhuận cổ phiếu ở quy mô thị trường — biến động được lên lịch cho mọi biểu đồ cùng lúc.",
+    "key_terms": [
+      {
+        "term": "Lãi suất phi rủi ro",
+        "definition": "Lợi suất trên các tài sản an toàn — rào cản mà mọi rủi ro phải vượt qua."
+      },
+      {
+        "term": "Thanh khoản",
+        "definition": "Nguồn cung tiền có thể đầu tư — thủy triều dưới các định giá."
+      },
+      {
+        "term": "Beta cao",
+        "definition": "Độ nhạy khuếch đại với thủy triều chung — alt ở cực đoan."
+      },
+      {
+        "term": "Lịch vĩ mô",
+        "definition": "Các quyết định lãi suất và công bố lạm phát — biến động toàn thị trường được lên lịch."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao các quyết định lãi suất ngân hàng trung ương làm crypto chuyển động, dù crypto không có lợi nhuận hay trả lãi?",
+      "options": [
+        "Không — crypto không tương quan.",
+        "Lãi suất định ra chi phí cơ hội của mọi việc chịu rủi ro: thủy triều thanh khoản cấp vốn cho các tài sản đầu cơ dâng lên và rút xuống theo chính sách, và crypto nằm xa ngoài trên đường cong rủi ro.",
+        "Các ngân hàng trung ương sở hữu hầu hết các đồng coin.",
+        "Crypto trả cổ tức gắn với lãi suất."
+      ],
+      "explanation": "Không cần dòng tiền nào để kênh này hoạt động — chỉ cần cạnh tranh giành vốn. Các tài sản đầu cơ nhất được cấp vốn cuối cùng và bán đầu tiên khi tiền thắt chặt."
+    },
+    "live_apply": {
+      "cta": "Ghi lại ngày ngân hàng trung ương quan trọng tiếp theo và xem biến động của mọi biểu đồ cụm lại quanh nó thế nào."
+    }
+  },
+  {
+    "id": "expert-17-dollar-correlations",
+    "title": "Đồng đô la và các tương quan xuyên tài sản",
+    "summary": "Khi mọi thứ chuyển động cùng nhau, đa dạng hóa là một ảo tưởng.",
+    "concept": "Hầu hết các tài sản giao dịch toàn cầu được định giá bằng đô la, nên **sức mạnh của đô la là mẫu số của mọi người**: một đô la tăng mạnh gây áp lực cơ học lên các tài sản định giá bằng đô la (crypto, hàng hóa, thị trường mới nổi) và thường đi kèm các dòng tránh-rủi-ro vào sự an toàn của Mỹ.\n\nBài học sâu hơn là **các chế độ tương quan**. Trong thị trường bình lặng, các tài sản theo câu chuyện riêng và các tương quan giữ ở mức thấp; trong căng thẳng, *các tương quan hội tụ về một* — mọi thứ rủi ro bán cùng nhau vì người bán là cùng một: các danh mục đòn bẩy huy động tiền mặt. Bạn đã gặp hệ quả trong bài học nhiệt-danh-mục: sáu lệnh long «khác nhau» trở thành một giao dịch đúng lúc nó đau nhất.\n\nCông cụ thực tế: theo dõi vài đồng hồ xuyên thị trường (đồng đô la, các chỉ số cổ phiếu rộng, BTC cho beta crypto). Khi tất cả chúng giật cùng một hướng cùng lúc, đọc nó như một **sự kiện chế độ** — sự ghi đè chế-độ-biến-động của engine ở cấp tài sản đơn lẻ có một anh em sinh đôi vĩ mô, và ngân sách nhiệt của bạn nên tôn trọng cả hai.",
+    "key_terms": [
+      {
+        "term": "Mẫu số đô la",
+        "definition": "Sức mạnh đô la định giá lại cơ học các tài sản niêm yết bằng đô la."
+      },
+      {
+        "term": "Chế độ tương quan",
+        "definition": "Bình lặng: tương quan thấp. Căng thẳng: hội tụ về một."
+      },
+      {
+        "term": "Tránh rủi ro (Risk-off)",
+        "definition": "Sự tháo chạy đồng bộ từ rủi ro vào an toàn."
+      },
+      {
+        "term": "Đồng hồ xuyên thị trường",
+        "definition": "Vài thước đo xuyên tài sản được theo dõi để xác nhận chế độ."
+      }
+    ],
+    "exercise": {
+      "question": "Trong một sự kiện tránh-rủi-ro gay gắt, vì sao các vị thế «đa dạng hóa» trên cổ phiếu và vài crypto cùng sụt giảm?",
+      "options": [
+        "Trùng hợp thuần túy, lặp đi lặp lại.",
+        "Căng thẳng hội tụ các tương quan về một: người bán biên là cùng dòng giảm-đòn-bẩy trên mọi tài sản rủi ro, nên đa dạng hóa chỉ từng là một thuộc tính thị-trường-bình-lặng.",
+        "Các sàn đồng bộ giá theo quy tắc.",
+        "Nó không thể xảy ra với hơn ba tài sản."
+      ],
+      "explanation": "Tương quan phụ thuộc chế độ. Nhiệt danh mục phải được lập ngân sách cho ma trận tương quan căng thẳng, không phải cái bình lặng — phiên bản vĩ mô của bài học nhiệt."
+    },
+    "live_apply": {
+      "cta": "Trên toàn watchlist của bạn, đếm xem có bao nhiêu vị thế thực sự là cùng một cược thanh khoản khoác các mã khác nhau."
+    }
+  },
+  {
+    "id": "expert-18-cycles-narratives",
+    "title": "Các chu kỳ và tự sự",
+    "summary": "Thị trường chuyển động theo các mùa tâm lý; các tự sự là các bản tin thời tiết của chúng.",
+    "concept": "Phóng đủ xa và thị trường thở theo các **chu kỳ**: tích lũy (yên tĩnh, ngờ vực), đánh dấu tăng (xu hướng, ngày càng được tin), phân phối (chao đảo hưng phấn ở đỉnh), đánh dấu giảm (suy thoái qua sự chối bỏ). Crypto nén các mùa này thành các năm thay vì các thập kỷ, lịch sử vần với các sóng thanh khoản neo theo halving.\n\nMỗi pha mang một **tự sự** — câu chuyện giải thích vì sao «lần này» xu hướng là định mệnh. Các tự sự không phải nhiễu: chúng điều phối các dòng và có thể duy trì các xu hướng vượt xa giá trị «hợp lý» (tính phản thân). Nhưng chúng là *các mô tả trễ khoác trang phục dự đoán* — to nhất chính xác ở các điểm xoay. Các đỉnh «mô hình mới» và các đáy «loại tài sản đã chết» là cặp kinh điển.\n\nTư thế chuyên gia: giao dịch chế độ trước mặt bạn (việc của engine), định vị mình trong chu kỳ cho khẩu vị rủi ro (việc của bạn), và coi sự đồng thuận tự sự phổ quát như một cảnh báo biến động ngược dòng, không phải đèn xanh.",
+    "key_terms": [
+      {
+        "term": "Chu kỳ thị trường",
+        "definition": "Tích lũy → đánh dấu tăng → phân phối → đánh dấu giảm."
+      },
+      {
+        "term": "Tự sự",
+        "definition": "Câu chuyện điều phối đằng sau một dòng — mạnh nhất ở các cực đoan."
+      },
+      {
+        "term": "Tính phản thân (Reflexivity)",
+        "definition": "Giá thay đổi câu-chuyện-cơ-bản biện minh cho giá."
+      },
+      {
+        "term": "Dấu hiệu hưng phấn/tuyệt vọng",
+        "definition": "Các đỉnh «mô hình mới» và các đáy «nó đã chết»."
+      }
+    ],
+    "exercise": {
+      "question": "Khi một tự sự tăng giá đơn lẻ được đồng thuận phổ quát và «mọi người đều đã vào», logic chu kỳ ngụ ý điều gì?",
+      "options": [
+        "Xu hướng giờ an toàn nhất — đồng thuận là xác nhận.",
+        "Nhiên liệu đã cạn: nếu mọi người có thể mua đã mua, dòng biên duy trì đánh-dấu-tăng đã biến mất, và các điều kiện phân phối đang hình thành.",
+        "Các tự sự không liên quan gì tới các dòng.",
+        "Giá phải tăng thêm một chu kỳ đầy đủ."
+      ],
+      "explanation": "Các xu hướng được nuôi bởi người mua mới. Đồng thuận phổ quát nghĩa là sự chuyển đổi đã hoàn tất — khoảnh khắc to nhất của tự sự và khoảnh khắc yếu nhất của dòng của nó là cùng một khoảnh khắc."
+    },
+    "live_apply": {
+      "cta": "Nhìn các đoạn phẳng và dốc của một đường vốn dài — các chiến lược cũng thở theo chu kỳ; kỳ vọng không phải là một hằng số của tự nhiên."
+    }
+  },
+  {
+    "id": "expert-19-macro-scope",
+    "title": "Khiêm tốn vĩ mô và đường ranh phạm vi",
+    "summary": "Ngữ cảnh, không phải quả cầu pha lê — và sự im lặng của engine về vĩ mô là có chủ đích.",
+    "concept": "Đóng track bằng sự hiệu chỉnh. Dự báo vĩ mô chuyên nghiệp có một hồ sơ công khai, khiến khiêm tốn: các cuộc suy thoái được gọi muộn, các đường lãi suất sai cả điểm phần trăm, mỗi năm. Nếu các tổ chức huy động đội quân kinh tế gia không thể dự đoán đáng tin cậy tương lai vĩ mô, lợi thế của trader bán lẻ không thể là *dự báo vượt* họ.\n\nĐiều mà sự thông thạo vĩ mô thực sự mua cho bạn: **tư thế rủi ro** (thủy triều dâng hay rút → ngân sách nhiệt lên hay xuống), **nhận thức lịch** (các cơn bão được lên lịch được tôn trọng, như với báo cáo lợi nhuận), và **chủ nghĩa hiện thực tương quan** (căng thẳng biến các danh mục thành một giao dịch). Tất cả đều phòng thủ, tất cả đều thật.\n\nVà đường ranh phạm vi, một lần cuối: QuantGlass tính **không gì về vĩ mô**. Không mô hình lãi suất, không gọi chu kỳ — chỉ nến đã đóng. Lớp vĩ mô được cố ý để lại cho bạn, với các công cụ để là một người tiêu thụ được hiệu chỉnh thay vì một người dự báo tự tin. Luật lặp lại của Học viện: mọi hệ thống nên biết, và nói, những gì nó không biết. Điều đó bao gồm cả trader.",
+    "key_terms": [
+      {
+        "term": "Khiêm tốn dự báo",
+        "definition": "Sự không đáng tin được ghi nhận của dự đoán vĩ mô."
+      },
+      {
+        "term": "Vĩ mô phòng thủ",
+        "definition": "Dùng vĩ mô cho tư thế, lịch, và tương quan — không phải các cuộc gọi."
+      },
+      {
+        "term": "Người tiêu thụ được hiệu chỉnh",
+        "definition": "Cân nhắc bình luận vĩ mô theo hồ sơ thành tích của nó, không phải sự tự tin của nó."
+      },
+      {
+        "term": "Luật phạm vi",
+        "definition": "Các hệ thống — và các trader — tuyên bố những gì họ không biết."
+      }
+    ],
+    "exercise": {
+      "question": "Cho hồ sơ thành tích của dự báo, sự thông thạo vĩ mô thực sự DÙNG ĐỂ làm gì trong Học viện này?",
+      "options": [
+        "Dự đoán đường lãi suất năm tới tốt hơn các ngân hàng.",
+        "Tư thế phòng thủ: định cỡ rủi ro theo thủy triều, tôn trọng lịch vĩ mô, và mong đợi sự hội tụ tương quan trong căng thẳng — ngữ cảnh không cần quả cầu pha lê.",
+        "Chọn các dự báo nào để tin hoàn toàn.",
+        "Không gì — các biểu đồ chứa mọi thông tin."
+      ],
+      "explanation": "Giá trị nằm ở những gì ngữ cảnh vĩ mô bảo vệ bạn khỏi, không phải những gì nó dự đoán. Cùng tiêu chuẩn trung thực mà engine áp dụng cho chính nó áp dụng cho các ý kiến vĩ mô."
+    },
+    "live_apply": {
+      "cta": "Lưu ý rằng không ở đâu trong các cài đặt của engine có một đầu vào vĩ mô — sự trung thực phạm vi được kết xuất thành một sự vắng mặt."
+    }
+  },
+  {
+    "id": "expert-20-auction-mechanics",
+    "title": "Phiên đấu giá liên tục",
+    "summary": "Giá không phải là một con số — nó là trạng thái hiện tại của một cuộc thương lượng.",
+    "concept": "Dưới mỗi nến chạy một **phiên đấu giá kép liên tục**: các lệnh giới hạn nằm chờ tạo thành sổ lệnh (phía kiên nhẫn), và các lệnh thị trường đến tiêu thụ nó (phía khẩn cấp). Một giao dịch chỉ xảy ra khi sự khẩn cấp gặp sự kiên nhẫn; «giá» chỉ là cuộc gặp gần đây nhất như vậy.\n\nGiá *chuyển động* khi sự khẩn cấp của một phía làm cạn sự kiên nhẫn của phía kia ở một mức — áp lực mua ăn hết toàn bộ mức chào bán, và mức chào bán tiếp theo trở thành giá. Đây là lý do **khối lượng xác nhận các chuyển động** (logic tỷ-lệ-khối-lượng engine dùng): một chuyển động trên khối lượng nặng nghĩa là sự khẩn cấp thật đã đốt qua nguồn cung nằm chờ thật; một sự trôi dạt trên không gì có thể bị định giá lại bởi một lệnh đơn lẻ.\n\nCác thị trường cổ phiếu thêm các **phiên đấu giá mở và đóng** — các khớp lệnh theo lô tập trung khối lượng khổng lồ ở các đầu phiên và định ra các giá khớp mà nến hàng ngày của bạn mở và đóng. Các sổ lệnh crypto đơn giản không bao giờ đóng. Cùng cỗ máy, lịch trình khác.",
+    "key_terms": [
+      {
+        "term": "Đấu giá kép",
+        "definition": "Các lệnh giới hạn nằm chờ (kiên nhẫn) khớp với các lệnh thị trường (khẩn cấp)."
+      },
+      {
+        "term": "Cạn mức",
+        "definition": "Giá chuyển động khi một mức sổ lệnh bị tiêu thụ hoàn toàn."
+      },
+      {
+        "term": "Đấu giá theo lô",
+        "definition": "Các khớp lệnh mở/đóng tập trung khối lượng cổ phiếu."
+      },
+      {
+        "term": "Phí khẩn cấp",
+        "definition": "Các lệnh thị trường trả spread để đòi sự tức thì."
+      }
+    ],
+    "exercise": {
+      "question": "Về mặt cơ học, điều gì làm giá nhích LÊN một mức?",
+      "options": [
+        "Sàn bỏ phiếu mỗi giờ.",
+        "Sự khẩn cấp mua đến tiêu thụ mọi cổ phần nằm chờ ở mức chào bán tốt nhất hiện tại, nên mức chào bán tiếp theo, cao hơn trở thành thị trường.",
+        "Người bán nâng giá khi vui.",
+        "Các nến đóng màu xanh."
+      ],
+      "explanation": "Giá là biên giới nơi sự khẩn cấp gặp sự kiên nhẫn lần cuối. Các chuyển động là các sự kiện tồn kho — một mức bị làm trống — đó là lý do sự tham gia (khối lượng) cho bạn biết liệu một chuyển động có được giành lấy không."
+    },
+    "live_apply": {
+      "cta": "Xem một nến khối lượng cao so với một nến yên tĩnh và đọc chúng như các sự kiện đấu giá: sự khẩn cấp của mỗi phía đã tiêu thụ bao nhiêu kiên nhẫn?"
+    }
+  },
+  {
+    "id": "expert-21-makers-takers",
+    "title": "Maker, taker, và kinh tế học của spread",
+    "summary": "Ai kiếm được spread bạn trả — và họ muốn gì từ bạn.",
+    "concept": "Mọi sàn chia những người tham gia thành **maker** (lệnh nằm chờ của họ cung cấp sổ lệnh) và **taker** (lệnh thị trường của họ tiêu thụ nó) — các biểu phí thường định giá chúng khác nhau theo nghĩa đen, trả hoàn tiền cho maker. Việc kinh doanh của nhà tạo lập thị trường chuyên nghiệp: báo giá cả hai phía, kiếm spread lặp đi lặp lại, và trút bỏ rủi ro tồn kho nhanh nhất có thể.\n\nHiểu nỗi sợ duy nhất của họ và bạn hiểu hành vi giá ngắn hạn: **lựa chọn bất lợi (adverse selection)** — bị cán bởi một dòng có thông tin. Khi áp lực một phía nặng đến, các maker mở rộng spread và rút báo giá (bài học động-lực-trượt-giá của bạn, giờ với một *vì sao*), và họ tái-căn-giữa các báo giá quanh dòng thay vì «giá trị hợp lý».\n\nVới bạn, hai hệ quả: các lệnh giới hạn biến bạn thành maker (kiếm lợi thế của spread nhưng tự bạn chịu rủi ro lựa chọn bất lợi — lệnh mua nằm chờ của bạn có khả năng khớp cao nhất đúng lúc điều gì đó giảm giá vừa xảy ra), và các thị trường nhanh về mặt cấu trúc là khoảnh khắc đắt nhất để đòi sự tức thì.",
+    "key_terms": [
+      {
+        "term": "Maker/taker",
+        "definition": "Người cung cấp thanh khoản so với người tiêu thụ — thường là các bậc phí riêng biệt."
+      },
+      {
+        "term": "Nhà tạo lập thị trường",
+        "definition": "Một chuyên gia báo giá cả hai phía để kiếm spread."
+      },
+      {
+        "term": "Lựa chọn bất lợi",
+        "definition": "Bị khớp bởi dòng có thông tin tốt hơn — rủi ro cốt lõi của maker."
+      },
+      {
+        "term": "Phai báo giá",
+        "definition": "Spread mở rộng và độ sâu biến mất khi áp lực có thông tin ập tới."
+      }
+    ],
+    "exercise": {
+      "question": "Lệnh mua giới hạn nằm chờ của bạn khớp tức thì trong một cú lao dốc đột ngột. Qua lăng kính lựa-chọn-bất-lợi, điều gì vừa xảy ra?",
+      "options": [
+        "Bạn nhận được một khoản giảm giá may mắn không ràng buộc.",
+        "Bạn là sự kiên nhẫn mà sự bán khẩn cấp, có thể có thông tin đã tiêu thụ — các lệnh giới hạn khớp cụm lại đúng lúc dòng chống lại bạn mạnh nhất.",
+        "Sàn tặng bạn các cổ phần.",
+        "Các lệnh giới hạn không thể khớp trong các cú lao dốc."
+      ],
+      "explanation": "Lời nguyền của maker cũng áp dụng cho bạn: thị trường trao giá của bạn dễ dàng nhất khi thông tin mới nói giá đó quá hào phóng. Không phải lý do để tránh các lệnh giới hạn — một lý do để đặt chúng nơi luận điểm của bạn đã chấp nhận sự khớp."
+    },
+    "live_apply": {
+      "cta": "Xem xét lại cạnh dưới của vùng vào: một sự khớp ở đó trong một cú xả là lựa chọn bất lợi mà thiết lập của bạn phải đã định giá vào."
+    }
+  },
+  {
+    "id": "expert-22-order-flow",
+    "title": "Dòng lệnh, sự mất cân bằng, và râu nến đến từ đâu",
+    "summary": "Đọc logic của bảng điện mà không giả vờ đọc được suy nghĩ.",
+    "concept": "**Dòng lệnh** là trình tự thực hiện của mua chủ động so với bán — sổ cái khẩn cấp. Các sự mất cân bằng của nó giải thích giải phẫu biểu đồ quen thuộc từ bên dưới: **các thác lệnh dừng** (giá đạt một mức nơi các lệnh dừng nằm chờ chuyển thành một loạt các lệnh thị trường — cơ chế thác-thanh-lý từ track đòn bẩy, tổng quát hóa cho mọi lệnh dừng) tạc nên các râu nến dữ dội; **sự hấp thụ** (bán chủ động nặng không làm giá chuyển động vì các lệnh mua kiên nhẫn tiếp tục nạp lại) đi trước nhiều cú đảo chiều — sự cạn kiệt gặp sự tích lũy.\n\nĐây cũng là nơi **thao túng** sống ở các rìa: spoofing (cỡ nằm chờ giả nhằm dọa, rút trước khi khớp) và wash trading (khối lượng tự giao dịch trên các sàn lỏng lẻo — một sự gọi-lại phòng-thủ-lừa-đảo để đánh giá các tuyên bố khối lượng sàn).\n\nRanh giới trung thực: giao dịch dòng lệnh đầy đủ đòi hỏi các nguồn cấp dữ liệu và thời gian màn hình vượt ngoài phạm vi của ứng dụng này. Điều chuyển giao cho người đọc nến: các râu nến là các sự kiện dòng, khối lượng là sự khẩn cấp, và các mức hiển nhiên với mọi người (số tròn, các cực trước đó) thu hút chính xác các cụm lệnh dừng khiến chúng nguy hiểm để đỗ lệnh dừng tại đó.",
+    "key_terms": [
+      {
+        "term": "Mất cân bằng dòng lệnh",
+        "definition": "Mua chủ động ròng trừ bán qua một cửa sổ."
+      },
+      {
+        "term": "Thác lệnh dừng",
+        "definition": "Các lệnh dừng chuyển thành lệnh thị trường theo chuỗi — râu nến thanh lý tổng quát hóa."
+      },
+      {
+        "term": "Sự hấp thụ",
+        "definition": "Sự chủ động không làm giá chuyển động vào sự kiên nhẫn nạp lại — nhiên liệu đảo chiều."
+      },
+      {
+        "term": "Spoofing",
+        "definition": "Cỡ nằm chờ giả được hiển thị để uy hiếp, bị hủy trước khi thực hiện."
+      }
+    ],
+    "exercise": {
+      "question": "Giá tăng vọt xuống qua một hỗ trợ số-tròn hiển nhiên, lấp đầy râu nến với khối lượng khổng lồ, rồi đóng trở lại trên nó. Cách đọc vi cấu trúc?",
+      "options": [
+        "Hỗ trợ giờ bị phá vĩnh viễn.",
+        "Một thác lệnh dừng: các lệnh dừng cụm dưới mức hiển nhiên chuyển thành bán thị trường, bị hấp thụ bởi các lệnh mua kiên nhẫn, và sự kết thúc của dòng bị ép buộc cho phép giá hồi phục — mức đó là một túi thanh khoản, không phải một phán quyết.",
+        "Dữ liệu bị hỏng.",
+        "Các số tròn đẩy lùi các giá."
+      ],
+      "explanation": "Các mức hiển nhiên tập trung các lệnh dừng; các lệnh dừng là sự khẩn cấp cam kết trước; sự khẩn cấp cạn vào sự kiên nhẫn. Cú râu-nến-và-giành-lại là toàn bộ câu đó vẽ trên một biểu đồ — và là lý do các lệnh dừng đỗ ở giá hiển nhiên trả một khoản thuế cấu trúc."
+    },
+    "live_apply": {
+      "cta": "Tìm một râu nến dài qua một mức hiển nhiên và kiểm tra khối lượng của nó — rồi xem xét lại nơi các lệnh dừng của riêng bạn có xu hướng nằm."
+    }
+  },
+  {
+    "id": "expert-23-microstructure-scope",
+    "title": "Vi cấu trúc cho trader nến",
+    "summary": "Điều gì sống sót qua việc phóng ra — và độ cao mà engine đã chọn.",
+    "concept": "Câu hỏi tổng hợp: giao dịch từ các nến đã đóng, vi cấu trúc nên thay đổi điều gì về hành vi của bạn? Bốn sự chuyển giao bền vững. **Lệnh dừng**: đặt chúng vượt ra ngoài các túi thanh khoản hiển nhiên, không phải tại chúng — số tròn là nhà của thác, một khoảng cách được đệm-biến-động vượt qua nó là của bạn (logic bội số ATR, giờ với sự biện minh vi cấu trúc của nó). **Vào lệnh**: các lệnh giới hạn bên trong các vùng mà luận điểm của bạn đã chấp nhận, không bao giờ là các lệnh mua nằm chờ mà bạn sẽ hối tiếc khi khớp. **Thời điểm**: tránh đòi sự tức thì trong các thị trường nhanh và các giờ chết — kinh tế học của spread chống lại bạn ở cả hai cực đoan. **Khối lượng**: đọc nó như sự-khẩn-cấp-gặp-sự-kiên-nhẫn, đó chính xác là cách diễn giải mà điểm xác-nhận-khối-lượng của engine mã hóa.\n\nVà đường ranh độ cao: QuantGlass cố ý vận hành ở **độ cao nến đã đóng** — không nguồn cấp tick, không dữ liệu sổ lệnh, không tín hiệu dòng. Các nến là sự nén làm cho phân tích tất định, có thể kiểm toán, có thể phát lại trở nên khả thi; sự hỗn loạn của bảng điện là thật nhưng sống dưới độ phân giải được tuyên bố của engine. Bạn giờ biết engine thấy gì, không thấy gì, và — toàn bộ điểm của Học viện — chính xác cái nào là cái nào.",
+    "key_terms": [
+      {
+        "term": "Túi thanh khoản",
+        "definition": "Các cụm lệnh dừng/lệnh ở các mức hiển nhiên — nhiên liệu thác."
+      },
+      {
+        "term": "Lệnh dừng được đệm",
+        "definition": "Một điểm vô hiệu được đặt vượt qua túi bằng một biên biến động."
+      },
+      {
+        "term": "Độ cao nến",
+        "definition": "Độ phân giải được tuyên bố của engine: OHLCV đã đóng, không gì bên dưới."
+      },
+      {
+        "term": "Nén có thể kiểm toán",
+        "definition": "Vì sao là nến: phân tích tất định, có thể phát lại, có thể xác minh."
+      }
+    ],
+    "exercise": {
+      "question": "Biết các thác lệnh dừng cụm ở các mức hiển nhiên, track này bảo bạn đặt lệnh dừng của một lệnh long ở đâu so với hỗ trợ rõ ràng?",
+      "options": [
+        "Đúng tại giá hỗ trợ, nơi mọi người có thể thấy nó.",
+        "Một khoảng cách được đệm-biến-động vượt qua mức hiển nhiên, để cú quét thường lệ của túi thanh khoản không biến mục tiêu 1R đã lên kế hoạch của bạn thành một sự khớp thác.",
+        "Không lệnh dừng — các thác khiến lệnh dừng vô nghĩa.",
+        "Trên điểm vào, để an toàn."
+      ],
+      "explanation": "Các lệnh dừng bội-số-ATR của engine đã làm điều này cho bạn suốt thời gian qua: cái đệm được định cỡ để cuộc đột kích bình thường của túi đi qua bên dưới. Vi cấu trúc là cái vì-sao đằng sau bội số."
+    },
+    "live_apply": {
+      "cta": "So sánh lệnh dừng của bất kỳ tín hiệu nào với mức hiển nhiên gần nhất — đo cái đệm và nhận ra bảo hiểm thác bạn đã mang theo."
+    }
+  },
+  {
+    "id": "expert-24-two-hats",
+    "title": "Hai chiếc mũ: Trader và Cán bộ rủi ro",
+    "summary": "Các công ty chuyên nghiệp tách người chịu rủi ro khỏi người giới hạn nó. Bạn cũng nên vậy.",
+    "concept": "Trong mọi công ty giao dịch nghiêm túc, trader muốn vị thế và **cán bộ rủi ro** có thể phủ quyết nó là những người khác nhau — vì cùng một tâm trí không thể trung thực muốn một giao dịch và kiểm soát nó cùng lúc. Các trader đơn lẻ không thể thuê người thứ hai, nhưng họ có thể cài đặt *vai trò* thứ hai: một bộ quy tắc được viết bởi bạn-lúc-bình-tĩnh-nhất **vượt quyền** bạn-trong-khoảnh-khắc.\n\nSự tách biệt là theo thời gian, không phải theo con người: cán bộ rủi ro làm việc **trước** (đặt các giới hạn khi đang phẳng) và **sau** (xem xét các vi phạm trong nhật ký); trader làm việc **trong khi**. Bất kỳ quy tắc nào được tái thương lượng giữa giao dịch chưa từng là một quy tắc — nó là một gợi ý khoác đồng phục.\n\nBạn đã gặp mẫu hình ở khắp nơi trong Học viện này: các lệnh dừng cam kết trước, các cổng chế độ từ chối các giao dịch bất kể tâm trạng, chính cái thang mở khóa. Track này làm cho vai trò trở nên rõ ràng, cho nó các chính sách, và — phần khó — cho nó thẩm quyền lấn át đồng nghiệp phấn khích hơn của nó.",
+    "key_terms": [
+      {
+        "term": "Cán bộ rủi ro",
+        "definition": "Vai trò đặt và thực thi các giới hạn — do bạn đảm nhận, khi bình tĩnh."
+      },
+      {
+        "term": "Tách biệt thời gian",
+        "definition": "Các giới hạn đặt trước, xem xét sau; không bao giờ thương lượng trong khi."
+      },
+      {
+        "term": "Thẩm quyền quy tắc",
+        "definition": "Một quy tắc có thể bị ghi đè trong khoảnh khắc là một gợi ý."
+      },
+      {
+        "term": "Quyền phủ quyết",
+        "definition": "Quyền định nghĩa của vai trò rủi ro: không là một câu hoàn chỉnh."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao trader trong-khoảnh-khắc không thể đồng thời làm cán bộ rủi ro của chính mình tại thời điểm quyết định?",
+      "options": [
+        "Quy định cấm điều đó.",
+        "Muốn một vị thế và kiểm soát nó dùng cùng một tâm trí theo các hướng ngược nhau — dưới kích thích, ham muốn thắng, đó là lý do các giới hạn phải được đặt và thực thi từ một khoảnh khắc khác trong thời gian.",
+        "Cán bộ rủi ro cần chứng chỉ.",
+        "Nó hoạt động tốt; các công ty tách họ vì lý do bảng lương."
+      ],
+      "explanation": "Xung đột lợi ích là nội tại và thần kinh học, không phải thủ tục. Tách biệt thời gian — bạn-bình-tĩnh lập pháp cho bạn-phấn-khích — là phiên bản của trader đơn lẻ về hai bàn của công ty."
+    },
+    "live_apply": {
+      "cta": "Mở Cài đặt → Rủi ro và đọc các cổng của nó như các mệnh lệnh thường trực của văn phòng rủi ro của bạn — viết khi bình tĩnh, thực thi bất kể tâm trạng."
+    }
+  },
+  {
+    "id": "expert-25-limits-policy",
+    "title": "Các giới hạn như chính sách viết ra",
+    "summary": "Các giới hạn mỗi-giao-dịch, hàng ngày, nhiệt, và sụt giảm — soạn một lần, tuân theo luôn.",
+    "concept": "Một chính sách rủi ro vừa một trang và phủ bốn độ cao. **Mỗi-giao-dịch**: rủi ro tối đa như một phần của vốn (1% bạn đã dùng suốt khóa) và một cỡ vị thế tối đa bất kể toán lệnh dừng (bảo hiểm ngón-tay-béo). **Mỗi-ngày**: một giới hạn lỗ tính bằng R (thường 2–3R) sau đó ngày kết thúc — không phải vì lợi thế biến mất, mà vì track tâm lý đã cho thấy điều gì cộng dồn sau các thua liên tiếp. **Danh mục**: trần nhiệt và một trần phơi-bày-tương-quan (bài học tương-quan-căng-thẳng của track vĩ mô, được mã hóa). **Tài khoản**: quy tắc tạm dừng sụt giảm — một độ sâu mà tại đó mọi thứ dừng lại cho một cuộc xem xét viết ra đầy đủ và một sự khởi động lại cỡ giảm.\n\nMỗi giới hạn cần ba phần viết ra: **ngưỡng**, **hành động** (giảm/dừng/xem xét — tự động, không phải tư vấn), và **điều kiện khởi động lại**. Một giới hạn không có khởi động lại được thỏa thuận trước trở thành một sự chùn bước vĩnh viễn; một giới hạn không có hành động tự động trở thành một mục nhật ký về điều lẽ ra đã xảy ra.\n\nSoạn cái của bạn ngay bây giờ, khi không gì đau. Đó là toàn bộ mẹo.",
+    "key_terms": [
+      {
+        "term": "Trần mỗi-giao-dịch",
+        "definition": "Phần rủi ro cộng một trần cỡ tuyệt đối."
+      },
+      {
+        "term": "Dừng hàng ngày",
+        "definition": "Một mức lỗ tính bằng R kết thúc ngày giao dịch."
+      },
+      {
+        "term": "Trần phơi-bày-tương-quan",
+        "definition": "Nhiệt được lập ngân sách dựa trên ma trận tương quan căng thẳng."
+      },
+      {
+        "term": "Điều kiện khởi động lại",
+        "definition": "Đường trở lại được thỏa thuận trước từ bất kỳ giới hạn được kích hoạt nào."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao mọi giới hạn trong chính sách cần một điều kiện KHỞI ĐỘNG LẠI viết-trước, không chỉ một ngưỡng và hành động?",
+      "options": [
+        "Sự đầy đủ giấy tờ.",
+        "Không có một đường trở lại được định nghĩa, các giới hạn được kích hoạt suy thoái thành hoặc sợ hãi vĩnh viễn (không bao giờ khởi động lại) hoặc các ngoại lệ ngẫu hứng (khởi động lại theo tâm trạng) — quy tắc khởi động lại là điều giữ giới hạn là một hệ thống thay vì một vết sẹo.",
+        "Khởi động lại được yêu cầu bởi các môi giới.",
+        "Các giới hạn không bao giờ nên được khởi động lại."
+      ],
+      "explanation": "Một cầu dao mà không ai biết cách đặt lại sẽ bị bỏ qua lần sau. Điều kiện khởi động lại — nhật ký đã xem xét, cỡ giảm, ngày cụ thể — khép kín vòng lặp và giữ thẩm quyền với chính sách."
+    },
+    "live_apply": {
+      "cta": "Mã hóa một giới hạn về mặt vật lý ngay bây giờ: một cảnh báo ở tương đương dừng-hàng-ngày trên vị thế mở lớn nhất của bạn."
+    }
+  },
+  {
+    "id": "expert-26-breach-review",
+    "title": "Giám sát và xem xét vi phạm",
+    "summary": "Sản phẩm thực sự của văn phòng rủi ro là giấy tờ trung thực về các vi phạm.",
+    "concept": "Các giới hạn bị vi phạm — bởi các thị trường (các khoảng nhảy qua các lệnh dừng) và bởi bạn (giao dịch thực hiện ở rủi ro 1.4% vì nó «trông ngoại lệ»). Giá trị của văn phòng rủi ro không phải là ngăn mọi vi phạm; mà là **ghi lại và phân loại** chúng một cách trung thực: *vi phạm thị trường* (kế hoạch gặp các điều kiện nó không kiểm soát được — xem xét các giả định của kế hoạch) so với *vi phạm kỷ luật* (kế hoạch bị ghi đè — xem xét người vận hành).\n\nNghi thức xem xét, vay mượn từ mọi bàn rủi ro nghiêm túc: ghi mỗi vi phạm trong vòng một ngày, phân loại nó, viết nguyên nhân một câu, và — cho các vi phạm kỷ luật — xác định *khoảnh khắc* sự ghi đè xảy ra và bạn ở trạng thái nào (các thẻ cảm xúc của nhật ký trở thành bằng chứng pháp y). Ba vi phạm kỷ luật cùng loại trong một tháng không phải là ba sự cố; nó là một mẫu hình khoác ba ngày tháng.\n\nHệ thống đo lường của bạn đã tồn tại: bảng huấn luyện đánh dấu các khoảnh khắc rủi ro khi chúng xảy ra, nhật ký giữ sự tuân thủ, và lịch sử giấy của bạn đóng dấu thời gian mọi thứ. Việc của cán bộ rủi ro là đọc chúng như một kiểm toán viên — hàng tháng, bằng văn bản, không thương xót hay kịch tính.",
+    "key_terms": [
+      {
+        "term": "Vi phạm thị trường",
+        "definition": "Các điều kiện vượt quá kế hoạch — một sự xem xét giả định."
+      },
+      {
+        "term": "Vi phạm kỷ luật",
+        "definition": "Kế hoạch bị ghi đè — một sự xem xét người vận hành."
+      },
+      {
+        "term": "Sổ vi phạm",
+        "definition": "Các vi phạm có ngày tháng, được phân loại với nguyên nhân một câu."
+      },
+      {
+        "term": "Ngưỡng mẫu hình",
+        "definition": "Các vi phạm cùng loại lặp lại được coi là một phát hiện hệ thống."
+      }
+    ],
+    "exercise": {
+      "question": "Lệnh dừng của bạn được đặt đúng nhưng một khoảng nhảy qua đêm khớp bạn xuống 2.3R thay vì 1R. Văn phòng rủi ro phân loại và hành động thế nào?",
+      "options": [
+        "Vi phạm kỷ luật — trừng phạt người vận hành.",
+        "Vi phạm thị trường: kế hoạch gặp rủi ro khoảng nhảy mà nó cố ý mang; sự xem xét nhắm vào các giả định (lịch sự kiện được tôn trọng? phơi bày qua đêm được định cỡ cho các khoảng nhảy?) thay vì hành vi của người vận hành.",
+        "Không phải vi phạm vì một lệnh dừng đã tồn tại.",
+        "Xóa giao dịch khỏi nhật ký."
+      ],
+      "explanation": "Sự phân loại quyết định biện pháp khắc phục. Trừng phạt người vận hành cho một vi phạm thị trường dạy sự sợ hãi; bào chữa một vi phạm kỷ luật như vận rủi không dạy gì. Phân loại học là toàn bộ công cụ."
+    },
+    "live_apply": {
+      "cta": "Kiểm toán mười giao dịch giấy gần nhất của bạn: phân loại bất kỳ sai lệch kế hoạch nào thành vi phạm thị trường hay kỷ luật, và tìm loại lặp lại."
+    }
+  },
+  {
+    "id": "expert-27-capital-preservation",
+    "title": "Học thuyết bảo toàn vốn",
+    "summary": "Sống sót là chiến lược; lợi nhuận là điều sống sót kiếm được theo thời gian.",
+    "concept": "Mọi bài học trong track này phục vụ một học thuyết: **bạn không thể cộng dồn từ số không**. Số học bạn gặp sớm — sự hồi phục bất đối xứng của sụt giảm, đường xóa-sổ 100/L, rủi ro phá sản dưới các chuỗi — tất cả đều nói cùng một điều: trader sống sót qua các năm tầm thường thắng trader xuất sắc không sống sót một tuần tồi tệ. Lợi thế được thuê; vốn là hợp đồng thuê.\n\nCác quy tắc vận hành của học thuyết: định cỡ mọi giao dịch như thể bảy giao dịch tiếp theo đều có thể thua (một ngày nào đó chúng sẽ thua); cắt cỡ *trước tiên* khi bất cứ điều gì cảm thấy sai — cỡ là đòn bẩy duy nhất hoạt động giữa cơn bão; coi «gỡ lại» là động cơ cấm kỵ (kẻ phản diện chung của các track nghiêng và đòn bẩy); và đo lường bản thân trong các thị trường giảm bằng việc bạn mất ít thế nào, không phải kiếm nhiều thế nào.\n\nĐây cũng là cách đọc sâu nhất về ứng dụng bạn đang dùng: giấy-trước, chỉ-spot, tiến trình bị chặn, thống kê trung thực — toàn bộ kiến trúc là học thuyết bảo toàn được kết xuất thành phần mềm. Học viện dạy bạn giao dịch; học thuyết này là điều cho phép bạn vẫn còn giao dịch sau mười năm.",
+    "key_terms": [
+      {
+        "term": "Bất đối xứng phá sản",
+        "definition": "Số không là kết quả duy nhất bạn không thể hồi phục."
+      },
+      {
+        "term": "Phản ứng cỡ-trước-tiên",
+        "definition": "Giảm cỡ như hành động phổ quát giữa-cơn-bão."
+      },
+      {
+        "term": "Động cơ cấm kỵ",
+        "definition": "«Gỡ lại» — kẻ thù được đặt tên của học thuyết."
+      },
+      {
+        "term": "Thước đo sống sót",
+        "definition": "Hiệu suất thị-trường-giảm được đánh giá bằng các khoản lỗ tránh được."
+      }
+    ],
+    "exercise": {
+      "question": "Hai trader qua năm năm: A trung bình +22%/năm nhưng phá sản trong cú sụp năm thứ sáu; B trung bình +9% và sống sót qua nó. Phán quyết của học thuyết?",
+      "options": [
+        "A tốt hơn — trung bình cao hơn trong khi nó kéo dài.",
+        "B thắng mọi thứ quan trọng: cộng dồn chỉ tồn tại cho người sống sót, và trung bình ưu việt của A được thuê dựa trên một rủi ro phá sản cuối cùng đã tính tiền anh ta.",
+        "Họ hòa ở mức ngang-bằng-điều-chỉnh-rủi-ro.",
+        "Năm thứ sáu nên bị loại là một ngoại lệ."
+      ],
+      "explanation": "Lợi nhuận có điều kiện về sống sót; sống sót không có điều kiện về lợi nhuận. Trung bình nhân của một chuỗi chứa số không là số không — toàn bộ học thuyết trong một phép nhân."
+    },
+    "live_apply": {
+      "cta": "Đọc lại mức sụt giảm tối đa của bất kỳ preset nào và hỏi câu hỏi của học thuyết trước: sống sót có chắc chắn qua gấp đôi độ sâu đó không?"
+    }
+  },
+  {
+    "id": "expert-28-trading-day",
+    "title": "Ngày của người vận hành",
+    "summary": "Chuẩn bị, thực thi, xem xét — vòng lặp thay thế tâm trạng bằng quy trình.",
+    "concept": "Một ngày giao dịch chuyên nghiệp là một **vòng lặp**, không phải một cuộc canh thức. **Chuẩn bị** (trước bất kỳ quyết định thị trường nào): kiểm tra lịch (các sự kiện vĩ mô, báo cáo lợi nhuận trên các nắm giữ), đọc thiệt hại qua đêm, xem xét các vị thế mở so với các kế hoạch của chúng, quét bảng huấn luyện, đặt ngân sách rủi ro của ngày cho trạng thái sụt giảm hiện tại. **Thực thi** (trong khi): chỉ hành động trên các thiết lập đã lên kế hoạch trong các chế độ hợp lệ, đặt các cảnh báo thay vì chằm chằm (bài học hệ-thống-kỷ-luật), ghi các điểm vào với lý do một câu của chúng tại khoảnh khắc chúng xảy ra. **Xem xét** (sau, luôn luôn): ghi nhật ký mọi điểm thoát, phân loại bất kỳ vi phạm nào, ghi lịch ngày mai, đóng các màn hình.\n\nLuật trình tự bạn gặp trong bài học danh-sách-kiểm-tra — *quản lý trước khi săn* — mở rộng cho cả ngày: chuẩn bị vượt quyền thực thi, và xem xét không phải là món tráng miệng tùy chọn; nó là nơi việc học thực sự xảy ra (chính ngày đó chỉ là thu thập dữ liệu).\n\nCái bẫy mà cấu trúc này ngăn chặn có một cái tên: **chằm chằm màn hình như công việc**. Hàng giờ chằm chằm tạo ra các giao dịch bốc đồng và mệt mỏi, không phải lợi thế. Ngày của người vận hành ngắn, có trật tự, và phần lớn *không* dành cho việc xem các nến hình thành.",
+    "key_terms": [
+      {
+        "term": "Chuẩn bị-thực thi-xem xét",
+        "definition": "Vòng lặp hàng ngày; việc học sống ở pha thứ ba."
+      },
+      {
+        "term": "Kiểm tra ngân sách rủi ro",
+        "definition": "Định cỡ ngày dựa trên trạng thái sụt giảm hiện tại, trước khi giao dịch."
+      },
+      {
+        "term": "Lý do-tại-điểm-vào",
+        "definition": "Ghi luận điểm khi nó được quyết định, không phải tái dựng sau."
+      },
+      {
+        "term": "Bẫy chằm chằm màn hình",
+        "definition": "Chằm chằm bị nhầm là công việc — nhà máy giao dịch bốc đồng."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao vòng lặp của người vận hành đặt xem xét nhật ký SAU phiên như một pha không thể thương lượng, thay vì «khi nào có thời gian»?",
+      "options": [
+        "Để lấp đầy lịch.",
+        "Thực thi chỉ tạo ra dữ liệu; xem xét chuyển nó thành việc học — bỏ qua pha thứ ba và vòng lặp suy thoái thành lặp lại cùng một ngày với các sai lầm mới.",
+        "Nhật ký hết hạn hợp pháp hàng ngày.",
+        "Xem xét trước khi ngủ cải thiện các giấc mơ."
+      ],
+      "explanation": "Track thống kê đã cho thấy lợi thế của bạn ẩn trong các tổng hợp của chính bạn. Các tổng hợp chỉ tồn tại nếu pha xem xét chạy — mỗi lần xem xét bị bỏ qua là một khoản học phí trả với biên lai bị vứt đi."
+    },
+    "live_apply": {
+      "cta": "Xây vòng lặp ngày mai tối nay: các cảnh báo trên mọi mức quyết định, để thực thi có thể được điều khiển bởi sự kiện thay vì bị chằm chằm."
+    }
+  },
+  {
+    "id": "expert-29-research-pipeline",
+    "title": "Đường ống nghiên cứu",
+    "summary": "Ý tưởng → giả thuyết → backtest → kiểm tra tiến → định cỡ — với các tiêu chí loại bỏ ở mọi giai đoạn.",
+    "concept": "Các chuyên gia tách **nghiên cứu** khỏi **giao dịch** nghiêm ngặt như tách rủi ro khỏi ham muốn. Đường ống: một **ý tưởng** (từ một bài học, một mẫu hình nhận thấy, một quan sát chế độ) trở thành một **giả thuyết** — viết chính xác đủ để có thể sai («các đợt thoái lui về EMA-21 trong các chế độ xu hướng giải quyết theo hướng xu hướng trong vòng N thanh»). Giả thuyết gặp **trình backtest** (cỗ máy của track trung-thực-thống-kê: IS/OOS, chi phí, kích thước mẫu) — hầu hết các ý tưởng nên chết ở đây, rẻ. Những ý tưởng sống sót đi tới **kiểm tra giấy tiến**: dữ liệu trực tiếp, thời gian thực, vốn bằng không — toàn bộ bộ máy giấy của engine tồn tại chính xác cho giai đoạn này. Chỉ khi đó, với cả bằng chứng lịch sử và tiến đồng ý, **định cỡ** mới bước vào cuộc trò chuyện.\n\nMỗi giai đoạn cần một **tiêu chí loại bỏ** viết-trước — kết quả gửi ý tưởng tới nghĩa địa không kháng cáo. Nghiên cứu không có các tiêu chí loại bỏ không phải là nghiên cứu; nó là đi mua sự xác nhận (track thiên lệch, trong áo blouse phòng thí nghiệm).\n\nLưu ý điều này biến QuantGlass thành gì: không phải một nguồn cấp tín hiệu mà là một **phòng thí nghiệm nghiên cứu cá nhân** — bộ phát hiện, trình backtest, môi trường kiểm tra tiến, và nhật ký, chia sẻ một xương sống dữ liệu trung thực.",
+    "key_terms": [
+      {
+        "term": "Giả thuyết",
+        "definition": "Một ý tưởng viết chính xác đủ để bị bác bỏ."
+      },
+      {
+        "term": "Cái chết rẻ",
+        "definition": "Các backtest tồn tại để các ý tưởng tồi chết trước khi tốn tiền."
+      },
+      {
+        "term": "Kiểm tra tiến",
+        "definition": "Kiểm định giấy dữ-liệu-trực-tiếp — giai đoạn giữa lịch sử và vốn."
+      },
+      {
+        "term": "Tiêu chí loại bỏ",
+        "definition": "Kết quả được thỏa thuận trước kết thúc một ý tưởng không kháng cáo."
+      }
+    ],
+    "exercise": {
+      "question": "Một ý tưởng backtest đẹp đẽ nhưng chảy máu đều đặn qua tám tuần kiểm tra giấy tiến. Phán quyết của đường ống?",
+      "options": [
+        "Phát hành nó — các backtest vượt quyền nhiễu gần đây.",
+        "Giai đoạn tiến tồn tại chính xác để bắt điều này: thay đổi chế độ hoặc lịch sử quá khớp — dù sao tiêu chí loại bỏ kích hoạt, và ý tưởng trở lại nghiên cứu thay vì tiến tới vốn.",
+        "Lấy trung bình hai kết quả.",
+        "Kéo dài kiểm tra tiến cho tới khi nó đồng ý."
+      ],
+      "explanation": "Lịch sử có thể được học thuộc; hiện tại thì không. Sự bất đồng giữa các giai đoạn là thông tin, và «kéo dài kiểm tra cho tới khi nó xác nhận» là thiên lệch xác nhận mà đường ống được xây để tiêu diệt."
+    },
+    "live_apply": {
+      "cta": "Chọn một preset chiến lược và viết tiêu chí loại bỏ của nó cho một kiểm tra giấy tiến: kết quả 30-giao-dịch nào sẽ trung thực kết thúc nó?"
+    }
+  },
+  {
+    "id": "expert-30-pro-reporting",
+    "title": "Báo cáo như một chuyên gia",
+    "summary": "Lá thư hàng tháng gửi nhà đầu tư duy nhất của bạn: bạn.",
+    "concept": "Các quỹ viết thư gửi nhà đầu tư; bạn viết một lá gửi chính mình, hàng tháng, bằng R. Mẫu: **các con số tiêu đề** (giao dịch, tỷ lệ thắng, kỳ vọng, tổng R, mức sụt giảm tối đa kỳ này); **quy gán** (các thiết lập, chế độ, và mã nào tạo ra và tiêu thụ R — sự cắt lát bạn học trong bài học thống-kê-nhật-ký); **báo cáo vi phạm** (sổ của văn phòng rủi ro: thị trường so với kỷ luật, các mẫu hình được đánh dấu); **các chỉ số quy trình** (tỷ lệ tuân thủ kế hoạch, hoàn thành nhật ký — các con số dự đoán các con số khác); và **một thay đổi** — một điều chỉnh cụ thể, đơn lẻ cho tháng tới, vì các báo cáo đòi năm thay đổi tạo ra không thay đổi nào.\n\nKỷ luật là viết nó khi tháng đó *tồi tệ*: báo cáo bạn ít muốn viết nhất chứa thông tin đắt giá nhất bạn sở hữu. Và định dạng buộc khung chuyên nghiệp — các tháng được đánh giá như các mẫu (n giao dịch), không phải các câu chuyện («cảm thấy kinh khủng»); một tháng -3R của sự tuân thủ hoàn hảo là một *báo cáo tốt* với một con số đỏ.\n\nXương sống dữ liệu của bạn đã tồn tại: lịch sử giấy, nhật ký, các điểm sẵn sàng, sổ vi phạm. Lá thư là một giờ trung thực, mười hai lần một năm.",
+    "key_terms": [
+      {
+        "term": "Thư gửi nhà đầu tư",
+        "definition": "Bản tự báo cáo hàng tháng — con số trước, bằng R."
+      },
+      {
+        "term": "Quy gán (Attribution)",
+        "definition": "R được cắt lát theo thiết lập, chế độ, và mã."
+      },
+      {
+        "term": "Chỉ số quy trình",
+        "definition": "Tuân thủ và hoàn thành — các chỉ báo dẫn dắt."
+      },
+      {
+        "term": "Quy tắc một-thay-đổi",
+        "definition": "Một điều chỉnh cụ thể đơn lẻ mỗi báo cáo."
+      }
+    ],
+    "exercise": {
+      "question": "Tháng của bạn: tổng −2.4R, nhưng 96% tuân thủ kế hoạch và mọi khoản lỗ trong 1R đã lên kế hoạch của nó. Báo cáo chuyên nghiệp đọc nó thế nào?",
+      "options": [
+        "Một tháng thất bại — con số đỏ.",
+        "Một tháng được vận hành tốt trong một mẫu không-trả-tiền: các chỉ số quy trình vượt qua, các khoản lỗ ở cỡ đã lên kế hoạch, và phán quyết về phương pháp chờ thêm n — chính xác điều «đánh giá các phương pháp bằng các tổng hợp» nghĩa là.",
+        "Sự tuân thủ gây ra các khoản lỗ.",
+        "Các báo cáo bị bỏ qua trong các tháng thua."
+      ],
+      "explanation": "Báo cáo tách người vận hành khỏi kết quả. Các tháng đỏ với quy trình xanh là phương sai; các tháng xanh với quy trình đỏ là những tháng nguy hiểm — lá thư tồn tại để phân biệt chúng."
+    },
+    "live_apply": {
+      "cta": "Soạn lá thư tháng này từ lịch sử giấy của bạn: R tiêu đề, thiết lập tốt/tệ nhất, ước lượng tuân thủ, và một thay đổi."
+    }
+  },
+  {
+    "id": "expert-31-complete-operator",
+    "title": "Người vận hành hoàn chỉnh",
+    "summary": "Mọi track, một danh tính — và tốt nghiệp thực sự nghĩa là gì.",
+    "concept": "Lắp ráp những gì bạn giờ mang theo. Bạn đọc các thị trường về mặt cấu trúc (nền tảng, sự thông thạo biểu đồ, các chế độ) và biết engine tính gì so với điều bạn phải đánh giá (mọi bài học đường-ranh-phạm-vi). Bạn định cỡ từ sự vô hiệu, lập ngân sách nhiệt dựa trên các tương quan căng thẳng, và coi đòn bẩy như sự tái-định-cỡ của sự sống sót (các track rủi ro, ký quỹ). Bạn đòi sự trung thực thống kê — các mẫu, OOS, hiệu chỉnh, các cận đẳng cấu — từ bất kỳ tuyên bố nào, kể cả của chính bạn (các track thống kê, kiểm định). Bạn nhận ra kẻ thù bên trong (tâm lý) và bên ngoài (phòng thủ lừa đảo). Bạn vận hành theo một vòng lặp, nghiên cứu theo một đường ống, báo cáo bằng R, và chịu trách nhiệm trước một văn phòng rủi ro bạn tự xây (cấp này).\n\nLưu ý điều gì đã thay đổi: không gì trong số đó là dự đoán. Học viện chưa bao giờ dạy bạn thị trường sẽ làm gì — nó dạy bạn không cần kiến thức đó: các lợi thế được tìm thấy trong quy trình, biểu hiện bằng các đơn vị rủi ro, được kiểm định trung thực, và được sống sót vào cộng dồn.\n\nVậy thì, tốt nghiệp không phải là mở khóa giao-dịch-trực-tiếp (vẫn là một lựa chọn, không phải một đích đến — sự thành thạo giấy là một kết quả hoàn chỉnh). Tốt nghiệp là điều này: **bạn giờ có thể bảo vệ mọi con số bạn hành động trên đó**. Tiêu chuẩn đó — tiêu chuẩn của engine, giờ là của bạn — là toàn bộ chương trình học trong một câu. Hãy mang nó theo.",
+    "key_terms": [
+      {
+        "term": "Người vận hành hoàn chỉnh",
+        "definition": "Người đọc cấu trúc, người định cỡ rủi ro, nhà thống kê trung thực, tự quản trị."
+      },
+      {
+        "term": "Lợi thế quy trình",
+        "definition": "Lợi thế nằm ở vận hành, không phải dự đoán."
+      },
+      {
+        "term": "Con số có thể bảo vệ",
+        "definition": "Tiêu chuẩn tốt nghiệp: mọi con số được hành động trên đó có thể kiểm toán."
+      },
+      {
+        "term": "Thành thạo giấy",
+        "definition": "Một trạng thái kết thúc hoàn chỉnh, chính đáng — không phải phòng chờ."
+      }
+    ],
+    "exercise": {
+      "question": "Tiêu chí tốt nghiệp thực sự của Học viện, theo bài học đỉnh cao này, là gì?",
+      "options": [
+        "Mở khóa giao dịch trực tiếp.",
+        "Có thể bảo vệ mọi con số bạn hành động trên đó — mẫu, nguồn, giả định, và rủi ro — cùng tiêu chuẩn mà engine giữ cho chính nó.",
+        "Hoàn thành 113 bài học.",
+        "Một tháng có lợi nhuận."
+      ],
+      "explanation": "Các bài học kết thúc; tiêu chuẩn thì không. Giao dịch trực tiếp là một ứng dụng tùy chọn của nó; con số có thể bảo vệ là danh tính bạn giữ dù thế nào."
+    },
+    "live_apply": {
+      "cta": "Cuộn qua các track đã hoàn thành của bạn và chọn một bài học bạn sẽ đọc lại hàng tháng — mọi người vận hành giữ một viên đá mài."
+    }
+  }
+]
