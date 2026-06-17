@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "novice-06-asset-classes",
+    "title": "Apa yang bisa Anda perdagangkan: kelas aset",
+    "summary": "Saham, ETF, dan kripto — apa yang sebenarnya diwakili setiap instrumen.",
+    "concept": "Sebuah **kelas aset** adalah keluarga instrumen yang berperilaku serupa. **Saham** adalah bagian kepemilikan dalam sebuah perusahaan: nilainya mengikuti bisnis dan diperdagangkan pada jam bursa. **ETF** menggabungkan banyak aset menjadi satu unit yang dapat diperdagangkan. **Mata uang kripto** adalah aset pembawa digital yang diperdagangkan di tempat yang selalu buka — tanpa perusahaan, tanpa laba, hanya pasokan, permintaan, dan aturan protokol.\n\nQuantGlass berfokus pada **saham AS** dan **kripto spot** karena keduanya memiliki data publik gratis dan penetapan harga yang transparan. *Spot* berarti Anda membeli aset itu sendiri; derivatif (futures, opsi) mereferensikan harga sebuah aset dengan leverage dan kedaluwarsa, dan berada di luar cakupan di sini.\n\nMengapa penting: pola grafik yang sama berarti hal berbeda pada saham (digerakkan oleh laporan, sesi, gap) dibandingkan pada kripto (24/7, sensitif terhadap sentimen, volatil). Karena itu mesin memperlakukan `market_type` sebagai bidang kelas satu pada setiap simbol.",
+    "key_terms": [
+      {
+        "term": "Kelas aset",
+        "definition": "Keluarga instrumen dengan perilaku dan aturan serupa — saham, kripto, obligasi, komoditas."
+      },
+      {
+        "term": "Saham",
+        "definition": "Bagian kepemilikan dalam sebuah perusahaan."
+      },
+      {
+        "term": "ETF",
+        "definition": "Dana yang diperdagangkan di bursa: sekeranjang aset yang diperdagangkan sebagai satu unit."
+      },
+      {
+        "term": "Pasar spot",
+        "definition": "Membeli atau menjual aset itu sendiri untuk penyelesaian segera."
+      },
+      {
+        "term": "Derivatif",
+        "definition": "Sebuah kontrak yang nilainya mereferensikan harga aset lain — di luar cakupan QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Pernyataan mana tentang pasar kripto spot yang benar?",
+      "options": [
+        "Mereka tutup pukul 16:00 waktu New York seperti bursa saham.",
+        "Anda memegang aset itu sendiri, dan perdagangan berlanjut 24 jam.",
+        "Setiap perdagangan kripto adalah kontrak futures dengan leverage.",
+        "Harga ditetapkan oleh protokol sekali sehari."
+      ],
+      "explanation": "Kripto spot memperdagangkan aset itu sendiri di tempat yang tidak pernah tutup. Bursa saham memiliki sesi; futures dan leverage adalah fitur derivatif, bukan spot."
+    },
+    "live_apply": {
+      "cta": "Buka daftar pantau dan catat simbol mana yang kripto dan mana yang saham — label jenis pasar menentukan bagaimana mesin menangani masing-masing."
+    }
+  },
+  {
+    "id": "novice-07-exchanges-venues",
+    "title": "Bursa dan tempat perdagangan",
+    "summary": "Di mana perdagangan sebenarnya terjadi, dan mengapa tempat memengaruhi harga Anda.",
+    "concept": "Sebuah **bursa** adalah tempat yang mencocokkan pembeli dan penjual menurut aturan yang dipublikasikan. Saham AS diperdagangkan di bursa yang diatur (NYSE, Nasdaq) ditambah puluhan tempat alternatif, semuanya dijahit oleh regulasi menjadi satu harga terbaik nasional. Kripto berbeda: setiap tempat (Coinbase, Kraken, Binance) adalah **pulaunya sendiri** dengan buku pesanannya sendiri, sehingga koin yang *sama* dapat diperdagangkan pada harga sedikit berbeda di tempat berbeda pada saat yang sama.\n\nItulah sebabnya QuantGlass membiarkan Anda memilih **rute penyedia** — sumber data primer, sekunder, dan cadangan untuk tiap pasar. Saat data Coinbase tidak tersedia, mesin dapat beralih ke Kraken; lilin akan hampir, tetapi tidak persis, identik.\n\nAturan praktis: selalu ketahui *harga tempat mana* yang Anda lihat. Sinyal yang dihitung pada lilin sebuah tempat berlaku untuk harga tempat itu.",
+    "key_terms": [
+      {
+        "term": "Bursa",
+        "definition": "Tempat yang diatur aturan yang mencocokkan pembeli dan penjual."
+      },
+      {
+        "term": "Buku pesanan",
+        "definition": "Daftar langsung pesanan beli dan jual yang menunggu di bursa."
+      },
+      {
+        "term": "Fragmentasi",
+        "definition": "Aset yang sama diperdagangkan di banyak tempat pada harga sedikit berbeda."
+      },
+      {
+        "term": "Rute penyedia",
+        "definition": "Pilihan tempat data primer/sekunder/cadangan QuantGlass per pasar."
+      }
+    ],
+    "exercise": {
+      "question": "BTC menunjukkan 67.950 di satu bursa dan 68.010 di bursa lain pada saat yang sama. Mengapa?",
+      "options": [
+        "Salah satu dari dua harga pasti keliru.",
+        "Setiap bursa kripto memiliki buku pesanannya sendiri, sehingga harga dapat sedikit berbeda antartempat.",
+        "Protokol Bitcoin menetapkan harga berbeda untuk tiap negara.",
+        "Satu bursa menampilkan penutupan kemarin."
+      ],
+      "explanation": "Tempat kripto adalah buku pesanan independen. Selisih harga kecil itu normal dan dijaga selaras oleh para arbitrase."
+    },
+    "live_apply": {
+      "cta": "Buka Pengaturan → Penyedia dan temukan rute kripto: tempat mana yang primer, dan mana cadangannya?"
+    }
+  },
+  {
+    "id": "novice-08-market-sessions",
+    "title": "Sesi dan jam pasar",
+    "summary": "Kapan pasar buka, mengapa penting, dan bagaimana kripto berbeda.",
+    "concept": "Bursa saham AS menjalankan **sesi reguler** (09:30–16:00 waktu New York) diapit oleh sesi pra-pasar dan setelah-jam yang lebih tipis. Volume dan likuiditas memadat dekat **pembukaan** dan **penutupan**; tengah hari biasanya tenang. Kripto tidak pernah tutup — tetapi tetap memiliki ritme: aktivitas berkumpul di sekitar jam bangun Amerika dan Asia, dan akhir pekan lebih tipis.\n\nSesi penting bagi pembaca sinyal karena satu alasan besar: **lilin harus tutup**. Lilin saham 1-hari tutup pukul 16:00 di New York; lilin kripto 1-jam tutup di awal tiap jam. QuantGlass mengevaluasi **hanya lilin yang sudah tutup** — pola yang muncul di tengah lilin bisa menguap sebelum penutupan, jadi bertindak atas lilin yang belum selesai adalah bertindak atas derau.\n\nLencana kesegaran sinyal memberi tahu usia lilin *tutup* terakhir, agar Anda selalu tahu berada di jam mana.",
+    "key_terms": [
+      {
+        "term": "Sesi reguler",
+        "definition": "Jam perdagangan utama bursa — 09:30–16:00 NY untuk saham AS."
+      },
+      {
+        "term": "Pra/setelah-pasar",
+        "definition": "Sesi saham yang lebih tipis di sekitar reguler, dengan spread lebih lebar."
+      },
+      {
+        "term": "Penutupan lilin",
+        "definition": "Momen ketika batang sebuah kerangka waktu difinalkan — satu-satunya harga yang dievaluasi mesin."
+      },
+      {
+        "term": "Kesegaran",
+        "definition": "Usia lilin tutup terakhir, ditampilkan pada setiap sinyal QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa QuantGlass menunggu lilin tutup sebelum mengevaluasi sebuah setup?",
+      "options": [
+        "Lilin tutup diunduh lebih cepat.",
+        "Hingga penutupan, tertinggi, terendah, dan penutupan akhir lilin masih bisa berubah — pola tengah-lilin bisa menguap.",
+        "Bursa menerbitkan data hanya sekali sehari.",
+        "Menganalisis lilin terbuka itu ilegal."
+      ],
+      "explanation": "Sebuah lilin adalah fakta hanya setelah tutup. Aturan lilin-tutup mesin mencegah bertindak atas pola yang mungkin tidak bertahan hingga batang berakhir."
+    },
+    "live_apply": {
+      "cta": "Buka Sinyal dan periksa lencana kesegaran: seberapa tua lilin tutup terakhir di balik sinyal terbaru?"
+    }
+  },
+  {
+    "id": "novice-09-order-book-spread",
+    "title": "Buku pesanan, bid, ask, dan spread",
+    "summary": "Setiap harga yang Anda lihat sebenarnya adalah dua harga.",
+    "concept": "Setiap saat, bursa menyimpan pesanan yang menunggu: harga tertinggi yang akan dibayar pembeli adalah **bid**; terendah yang akan diterima penjual adalah **ask**. Jarak di antaranya adalah **spread**. Kutipan 'harga' biasanya adalah perdagangan terakhir, yang memantul di antara dua dinding ini.\n\nSpread adalah biaya tak terlihat pertama Anda: beli di ask, dan Anda langsung rugi satu spread jika harus menjual di bid. Pasar likuid (saham besar, BTC, ETH) menjaga spread beberapa per seratus persen; pasar tipis bisa memiliki spread 1% atau lebih — cukup besar untuk menghapus seluruh keunggulan kecil.\n\nBacktest QuantGlass membebankan cadangan **slippage** pada setiap eksekusi simulasi justru karena eksekusi nyata terjadi di tepi spread, bukan di titik tengah yang ditampilkan pada grafik.",
+    "key_terms": [
+      {
+        "term": "Bid",
+        "definition": "Harga beli yang menunggu tertinggi."
+      },
+      {
+        "term": "Ask (penawaran)",
+        "definition": "Harga jual yang menunggu terendah."
+      },
+      {
+        "term": "Spread",
+        "definition": "Ask dikurangi bid — biaya pulang-pergi seketika untuk menyeberangi buku."
+      },
+      {
+        "term": "Harga terakhir",
+        "definition": "Perdagangan terbaru — memantul antara bid dan ask."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Selisih antara harga grafik dan harga eksekusi nyata Anda."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah koin menunjukkan bid 99,95 / ask 100,05. Anda beli di pasar dan langsung jual di pasar. Mengabaikan biaya, apa yang terjadi?",
+      "options": [
+        "Anda persis impas.",
+        "Anda rugi sekitar 0,10 — Anda beli di ask dan jual di bid.",
+        "Anda memperoleh spread sebagai rabat.",
+        "Kedua pesanan tereksekusi di 100,00, titik tengah."
+      ],
+      "explanation": "Pesanan pasar menyeberangi spread: beli di 100,05, jual di 99,95 — rugi 0,10. Spread adalah biaya nyata yang disembunyikan garis harga tunggal grafik."
+    },
+    "live_apply": {
+      "cta": "Buka sebuah simbol dan bayangkan penutupan lilin sebagai pasangan bid/ask di sekitarnya — asumsi slippage mesin memodelkan tepat jarak ini."
+    }
+  },
+  {
+    "id": "novice-10-order-types",
+    "title": "Jenis pesanan: pasar dan limit",
+    "summary": "Dua pesanan dasar, dan apa yang dilepaskan masing-masing.",
+    "concept": "Sebuah **pesanan pasar** berkata *eksekusi saya sekarang pada harga terbaik yang tersedia* — eksekusi pasti, harga tidak. Sebuah **pesanan limit** berkata *eksekusi saya hanya pada harga saya atau lebih baik* — harga pasti, eksekusi tidak. Segala yang lebih canggih (stop-loss, stop-limit, take-profit) dibangun dari dua primitif ini ditambah satu pemicu.\n\nSebuah **stop-loss** adalah pemicu yang menunggu: saat harga menyentuh level stop Anda, ia meluncurkan pesanan pasar untuk keluar. Itulah persis geometri yang ditampilkan setiap sinyal QuantGlass — sebuah **zona masuk** (tempat masuk gaya limit masuk akal), level **stop-loss** (pemicu keluar Anda jika salah), dan **tangga take-profit** (keluar limit bertahap jika benar).\n\nPaper trading QuantGlass mengeksekusi niat pada harga berikutnya yang tersedia — memodelkan pesanan pasar sederhana — agar Anda menjalani ketidakpastian eksekusi secara jujur alih-alih eksekusi sempurna ala buku teks.",
+    "key_terms": [
+      {
+        "term": "Pesanan pasar",
+        "definition": "Eksekusi segera pada harga terbaik yang tersedia — eksekusi pasti, harga tidak pasti."
+      },
+      {
+        "term": "Pesanan limit",
+        "definition": "Eksekusi hanya pada harga pilihan atau lebih baik — harga pasti, eksekusi tidak pasti."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Level pemicu yang meluncurkan pesanan keluar saat harga menyentuhnya."
+      },
+      {
+        "term": "Take-profit",
+        "definition": "Keluar yang menunggu pada harga target — QuantGlass menampilkan tangga tiga anak tangga."
+      }
+    ],
+    "exercise": {
+      "question": "Anda perlu keluar segera dari posisi rugi di pasar yang jatuh cepat. Pesanan mana yang menjamin Anda keluar?",
+      "options": [
+        "Pesanan limit pada harga masuk Anda.",
+        "Pesanan pasar — Anda menerima harga yang ditawarkan buku.",
+        "Pesanan take-profit di atas pasar.",
+        "Tidak ada jenis pesanan yang pernah bisa keluar dari posisi."
+      ],
+      "explanation": "Hanya pesanan pasar yang menjamin eksekusi, dengan harga kepastian harga. Limit pada masuk Anda mungkin tidak pernah tereksekusi di pasar yang jatuh."
+    },
+    "common_mistakes": [
+      "Memakai pesanan pasar di buku tipis dan terkejut dengan harga eksekusi. Jaminannya eksekusi, tidak pernah harga.",
+      "Memasang stop-limit dengan mengira ia melindungi seperti stop. Di pasar cepat, kaki limit bisa tak tereksekusi dan posisi berlanjut.",
+      "Memasang stop pada angka bulat jelas tempat stop semua orang berada — justru genangan yang disapu."
+    ],
+    "live_apply": {
+      "cta": "Buka sebuah sinyal dan kenali tiga komponen jenis pesanannya: zona masuk, pemicu stop-loss, dan tangga take-profit."
+    }
+  },
+  {
+    "id": "novice-11-liquidity-volume",
+    "title": "Likuiditas dan volume",
+    "summary": "Mengapa ukuran menggerakkan harga, dan bagaimana volume memvalidasi sebuah gerakan.",
+    "concept": "**Likuiditas** adalah apa yang bisa Anda perdagangkan tanpa menggerakkan harga; **volume** adalah apa yang *telah* diperdagangkan. Keduanya terkait tetapi tidak identik: volume adalah kuitansi, likuiditas adalah kapasitas.\n\nSaat pasar dalam (buku pesanan tebal), bahkan pesanan besar nyaris tak menggerakkan harga. Saat tipis, pesanan pasar sederhana menelan beberapa level harga sekaligus — itu slippage beraksi. Likuiditas juga mengering di malam hari, akhir pekan (kripto), dan di sekitar berita.\n\nBagi pembaca sinyal, volume adalah **alat konfirmasi**: penembusan pada dua kali volume rata-rata terbaru berarti partisipasi nyata; penembusan yang sama pada volume mati itu mencurigakan. QuantGlass mengkodekan ini sebagai **rasio volume** (volume saat ini ÷ rata-rata terbaru) dan memasukkannya ke skor `volume_confirmation` sebuah sinyal — salah satu masukan keyakinan yang bisa Anda periksa pada setiap sinyal.",
+    "key_terms": [
+      {
+        "term": "Likuiditas",
+        "definition": "Apa yang bisa diperdagangkan tanpa menggerakkan harga."
+      },
+      {
+        "term": "Volume",
+        "definition": "Jumlah yang benar-benar diperdagangkan dalam suatu periode."
+      },
+      {
+        "term": "Rasio volume",
+        "definition": "Volume batang saat ini dibagi rata-rata terbaru — pengukur partisipasi QuantGlass."
+      },
+      {
+        "term": "Pasar tipis",
+        "definition": "Likuiditas rendah: pesanan kecil menyebabkan gerakan harga tidak proporsional."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah lilin penembusan tercetak pada volume 2,3× rata-rata terbarunya. Apa yang dikatakan rasio ini kepada Anda?",
+      "options": [
+        "Tidak apa-apa — volume tak terkait dengan gerakan harga.",
+        "Partisipasi luar biasa tinggi, yang memperkuat kredibilitas penembusan.",
+        "Bursa sedang bermasalah.",
+        "Likuiditas telah lenyap dari buku."
+      ],
+      "explanation": "Rasio volume membandingkan batang dengan basis terbarunya sendiri. Penembusan pada partisipasi tinggi secara historis lebih andal daripada gerakan pada volume mati."
+    },
+    "live_apply": {
+      "cta": "Buka detail sebuah simbol dan temukan metrik volume — bandingkan volume batang terakhir dengan basis terbaru."
+    }
+  },
+  {
+    "id": "novice-12-fees-slippage",
+    "title": "Biaya dan slippage: ongkos pulang-pergi",
+    "summary": "Setiap perdagangan membayar dua kali — hitung biaya nyata sebelum menghitung keunggulan apa pun.",
+    "concept": "Dua biaya menghantam setiap perdagangan. **Biaya** itu eksplisit: bursa membebankan persentase per sisi (biaya taker kripto sering dekat 0,10%; komisi saham AS mendekati nol tetapi gesekan lain tetap ada). **Slippage** itu implisit: jarak antara harga grafik dan eksekusi nyata Anda, lahir dari spread dan kedalaman buku.\n\nKeduanya dibayar **dua kali** — sekali masuk, sekali keluar. Model biaya bawaan QuantGlass mengasumsikan, per sisi, **0,10% biaya + 0,05% slippage untuk kripto** dan **0,02% + 0,01% untuk saham**, dan backtester memotong pulang-pergi penuh dari setiap perdagangan simulasi. Strategi yang untung sebelum biaya dan rugi sesudahnya tidak punya keunggulan — ia punya ilusi.\n\nContoh: posisi kripto 10.000 membayar (0,10% + 0,05%) × 2 = **0,30%** pulang-pergi — yaitu 30 sebelum perdagangan ke mana pun.",
+    "key_terms": [
+      {
+        "term": "Biaya",
+        "definition": "Persentase eksplisit yang dibebankan bursa atau broker per sisi."
+      },
+      {
+        "term": "Slippage",
+        "definition": "Biaya implisit antara harga grafik dan eksekusi nyata."
+      },
+      {
+        "term": "Pulang-pergi",
+        "definition": "Masuk plus keluar — biaya dibayar pada keduanya."
+      },
+      {
+        "term": "Backtest sadar biaya",
+        "definition": "Simulasi yang memotong biaya dan slippage dari setiap perdagangan, seperti yang dilakukan QuantGlass secara bawaan."
+      }
+    ],
+    "exercise": {
+      "question": "Menggunakan bawaan kripto QuantGlass (0,10% biaya + 0,05% slippage per sisi), berapa total ongkos pulang-pergi dalam dolar pada posisi 10.000?",
+      "hint": "ongkos = posisi × (biaya% + slippage%) × 2 sisi",
+      "explanation": "(0,0010 + 0,0005) × 2 = 0,0030; 10.000 × 0,0030 = **30**. Mesin memotong tepat ini dari setiap pulang-pergi kripto simulasi."
+    },
+    "live_apply": {
+      "cta": "Buka Backtesting dan temukan asumsi biaya/slippage pada sebuah preset — cocok dengan bawaan yang dipakai pelajaran ini."
+    }
+  },
+  {
+    "id": "novice-13-market-participants",
+    "title": "Siapa di sisi seberang",
+    "summary": "Pembuat pasar, institusi, algoritma, dan Anda.",
+    "concept": "Setiap eksekusi punya lawan transaksi. **Pembuat pasar** mengutip bid dan ask sepanjang hari, memperoleh spread sambil menyediakan likuiditas. **Institusi** (dana, kas) menggerakkan ukuran perlahan untuk menghindari dampak — jejaknya adalah tren volume yang berkelanjutan. **Pedagang algoritmik** mulai dari arbitrase mikrodetik hingga strategi sistematis lambat, dan menyusun sebagian besar volume modern. **Pedagang ritel** — Anda — adalah peserta terkecil dan terlambat.\n\nIni bukan alasan putus asa; ini alasan untuk **disiplin**. Keunggulan ritel tidak pernah kecepatan. Ia adalah selektivitas (hanya perdagangkan setup bersih), kesabaran (biarkan lilin tutup mengonfirmasi), kendali risiko (ukur dari stop, bukan dari keyakinan), dan kejujuran tentang statistik — persis empat hal yang ditegakkan mesin QuantGlass secara mekanis.\n\nMengetahui melawan siapa Anda berdagang memberi tahu permainan mana yang tak boleh dimainkan: Anda tak bisa bereaksi lebih cepat dari algoritma yang dikolokasi, tetapi Anda bisa menunggu lebih lama darinya.",
+    "key_terms": [
+      {
+        "term": "Pembuat pasar",
+        "definition": "Peserta yang mengutip kedua sisi terus-menerus, memperoleh spread."
+      },
+      {
+        "term": "Aliran institusi",
+        "definition": "Pesanan besar lambat yang dieksekusi seiring waktu untuk membatasi dampak pasar."
+      },
+      {
+        "term": "Perdagangan algoritmik",
+        "definition": "Strategi otomatis — mayoritas volume modern."
+      },
+      {
+        "term": "Keunggulan ritel",
+        "definition": "Selektivitas, kesabaran, dan kendali risiko — bukan kecepatan."
+      }
+    ],
+    "exercise": {
+      "question": "Manakah ini yang merupakan keunggulan realistis bagi pedagang ritel?",
+      "options": [
+        "Bereaksi terhadap berita lebih cepat dari algoritma yang dikolokasi.",
+        "Bersikap selektif, menunggu konfirmasi lilin tutup, dan mengukur setiap perdagangan dari stopnya.",
+        "Berdagang lebih sering dari pembuat pasar.",
+        "Mendapat biaya lebih baik dari institusi."
+      ],
+      "explanation": "Permainan kecepatan, frekuensi, dan biaya milik para profesional. Selektivitas, kesabaran, dan kendali risiko mekanis adalah keunggulan yang bertahan pada skala ritel."
+    },
+    "live_apply": {
+      "cta": "Tinjau ulang pelajaran penentuan ukuran posisi di Risiko dan Ukuran — ungkapan paling konkret dari keunggulan ritel."
+    }
+  },
+  {
+    "id": "novice-14-crypto-vs-equities",
+    "title": "Kripto vs saham di QuantGlass",
+    "summary": "Mesin yang sama, dua pasar yang sangat berbeda.",
+    "concept": "QuantGlass menjalankan mesin deterministik pada dua jenis pasar, dan perbedaannya dikodekan alih-alih diabaikan.\n\n**Waktu**: lilin kripto mengalir 24/7; lilin saham hanya ada untuk sesi bursa, jadi lilin saham 1-hari adalah satu sesi, bukan hari kalender. **Volatilitas**: ATR khas kripto sebagai fraksi harga jauh lebih tinggi, karenanya stop adalah kelipatan ATR alih-alih persentase tetap. **Biaya**: model pulang-pergi bawaan membebankan 0,30% pada kripto dan 0,06% pada saham — backtester menerapkan yang cocok dengan `market_type` simbol. **Simbol**: pasangan kripto dikutip sebagai `BTCUSD` (aset/mata uang kutipan), saham adalah tiker bursa seperti `AAPL`.\n\nKonsekuensi praktis: jangan pernah menyalin ukuran posisi atau jarak stop antarjenis pasar. Logika rezim dan volatilitas mesin menyesuaikan otomatis; ekspektasi Anda pun seharusnya.",
+    "key_terms": [
+      {
+        "term": "Jenis pasar",
+        "definition": "Pembedaan kripto/saham kelas satu QuantGlass pada setiap simbol."
+      },
+      {
+        "term": "Stop relatif-ATR",
+        "definition": "Stop yang diukur sebagai kelipatan volatilitas saat ini, bukan persentase tetap."
+      },
+      {
+        "term": "Pasangan perdagangan",
+        "definition": "Simbol kripto yang mengutip satu aset dalam aset lain, mis. BTC dalam USD."
+      },
+      {
+        "term": "Lilin sesi",
+        "definition": "Lilin saham harian yang hanya mencakup jam bursa."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa QuantGlass mengukur stop dalam kelipatan ATR alih-alih persentase tetap untuk semua simbol?",
+      "options": [
+        "Persentase tetap itu ilegal.",
+        "Volatilitas sangat berbeda antarsimbol dan jenis pasar — kelipatan ATR menyesuaikan stop dengan gerakan nyata tiap pasar.",
+        "ATR lebih mudah dihitung daripada persentase.",
+        "Stop itu dekoratif."
+      ],
+      "explanation": "Stop 2% bisa raksasa untuk saham tenang dan mungil untuk koin volatil. Kelipatan ATR menormalkan stop terhadap apa yang benar-benar digerakkan instrumen."
+    },
+    "live_apply": {
+      "cta": "Bandingkan rentang lilin terbaru sebuah simbol kripto dan sebuah saham — perhatikan betapa berbedanya geraknya, lalu temukan perbedaan itu dalam nilai ATR mereka."
+    }
+  },
+  {
+    "id": "novice-15-candles-from-ticks",
+    "title": "Dari tik ke lilin: bagaimana OHLCV dibuat",
+    "summary": "Dari mana bahan mentah mesin berasal.",
+    "concept": "Pasar menghasilkan aliran perdagangan individual — **tik**. Sebuah lilin memampatkan semua tik dalam jendela waktu menjadi lima angka: **O**pen (perdagangan pertama), **H**igh, **L**ow, **C**lose (perdagangan terakhir), dan **V**olume (total diperdagangkan). Ubah jendelanya dan Anda mengubah ceritanya: jam yang sama adalah satu lilin 1h, atau empat lilin 15m, atau seperempat lilin 4h.\n\nQuantGlass mengambil OHLCV pada kerangka waktu tetap (**15m, 1h, 4h, 1d**), menyimpannya secara lokal, dan menstempel setiap deret dengan tempat **sumber** dan waktu pengambilan. Setiap lilin juga membawa `open_time_utc`-nya — perhitungan kesegaran mesin menurunkan dari situ ditambah panjang kerangka waktu untuk waktu penutupan.\n\nDua aturan data menjaga analisis jujur: lilin **tak berubah setelah tutup** (riwayat yang diubah adalah bug penyedia, dan lapisan integritas menandainya), dan **setiap angka yang Anda lihat dapat dilacak ke satu tempat** — tanpa harga tercampur yang tak terlacak.",
+    "key_terms": [
+      {
+        "term": "Tik",
+        "definition": "Satu perdagangan yang dieksekusi."
+      },
+      {
+        "term": "OHLCV",
+        "definition": "Open, High, Low, Close, Volume — lima angka yang merangkum jendela tik."
+      },
+      {
+        "term": "Kerangka waktu",
+        "definition": "Panjang jendela setiap lilin — 15m, 1h, 4h, atau 1d di QuantGlass."
+      },
+      {
+        "term": "Integritas data",
+        "definition": "Pemeriksaan bahwa lilin tutup tak pernah bermutasi dan celah terdeteksi."
+      }
+    ],
+    "exercise": {
+      "question": "Lilin satu jam menunjukkan O=100, H=104, L=99, C=103. Apa satu-satunya hal yang TIDAK bisa Anda simpulkan darinya?",
+      "options": [
+        "Perdagangan pertama jam itu di 100.",
+        "Harga menyentuh 104 pada suatu momen dalam jam itu.",
+        "Jalur persis yang ditempuh harga di antara level-level ini.",
+        "Perdagangan terakhir jam itu di 103."
+      ],
+      "explanation": "Sebuah lilin adalah rangkuman: ia mempertahankan ekstrem dan titik akhir tetapi menghancurkan jalurnya. Harga bisa menyentuh terendah sebelum tertinggi atau sebaliknya — lilin tak bisa memberi tahu."
+    },
+    "live_apply": {
+      "cta": "Alihkan grafik antara 15m dan 1h — lihat empat lilin kecil melebur menjadi satu lilin besar yang membawa informasi OHLCV yang sama."
+    }
+  },
+  {
+    "id": "novice-01-candlestick",
+    "title": "Membaca sebuah lilin",
+    "summary": "Pahami empat nilai harga yang dikodekan setiap lilin.",
+    "concept": "Sebuah **lilin** mengkodekan empat harga dalam satu batang: **Open** (tempat periode dimulai), **High** dan **Low** (harga ekstrem yang dicapai), dan **Close** (tempat periode berakhir). *Badan* persegi panjang membentang dari Open ke Close. Lilin *hijau/naik* berarti Close > Open; lilin *merah/turun* berarti Close < Open. Garis tipis di atas dan bawah badan disebut **sumbu (wicks)** (atau bayangan) dan menunjukkan tertinggi dan terendah.\n\n**Volume** — jumlah unit yang diperdagangkan selama periode — muncul di bawah grafik. Volume tinggi pada penutupan kuat menandakan keyakinan; volume tinggi pada pembalikan menandakan kelelahan.",
+    "key_terms": [
+      {
+        "term": "Open",
+        "definition": "Harga pada perdagangan paling awal periode."
+      },
+      {
+        "term": "High",
+        "definition": "Harga tertinggi yang diperdagangkan selama periode."
+      },
+      {
+        "term": "Low",
+        "definition": "Harga terendah yang diperdagangkan selama periode."
+      },
+      {
+        "term": "Close",
+        "definition": "Harga pada perdagangan paling akhir periode."
+      },
+      {
+        "term": "Badan",
+        "definition": "Persegi panjang antara Open dan Close."
+      },
+      {
+        "term": "Sumbu / bayangan",
+        "definition": "Garis tipis yang membentang melampaui badan hingga tertinggi atau terendah."
+      },
+      {
+        "term": "Volume",
+        "definition": "Jumlah unit yang diperdagangkan selama periode."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah lilin buka di 100, mencapai tertinggi 110, jatuh ke 95, dan tutup di 107. Apa yang diwakili sumbu atas?",
+      "options": [
+        "Harga bergerak dari 107 ke 110 dan ditolak ke bawah.",
+        "Harga rata-rata periode.",
+        "Harga pembukaan lilin berikutnya.",
+        "Total volume yang diperdagangkan."
+      ],
+      "explanation": "**Sumbu atas** mewakili jarak antara Close (107) dan High (110). Harga mencapai 110 tetapi pembeli tak bisa menahannya — penjual mendorongnya kembali ke 107 saat penutupan. Sumbu atas panjang pada lilin naik sering menjadi peringatan pasokan di atas."
+    },
+    "common_mistakes": [
+      "Membaca satu lilin sebagai sinyal. Sebuah lilin adalah lelang; hanya konteksnya (tren, level, volume) yang memberinya makna.",
+      "Menghafal nama pola alih-alih tekanan beli/jual yang dikodekannya. Label adalah anekdot; tekanan adalah informasi.",
+      "Mengabaikan kerangka waktu. 'Palu' yang sama pada grafik satu menit dan grafik mingguan membawa bobot yang sama sekali berbeda."
+    ],
+    "live_apply": {
+      "cta": "Buka Dasbor, arahkan kursor ke lilin mana pun pada grafik, dan periksa nilai O/H/L/C di tooltip."
+    }
+  },
+  {
+    "id": "novice-02-trend",
+    "title": "Apa yang membuat sebuah tren",
+    "summary": "Pelajari bagaimana tertinggi lebih tinggi dan terendah lebih rendah mendefinisikan arah.",
+    "concept": "Sebuah **tren** adalah serangkaian ayunan harga yang bergerak sebagian besar dalam satu arah.\n\n- **Tren naik**: harga membuat **tertinggi lebih tinggi (HH)** dan **terendah lebih tinggi (HL)** berturut-turut. Setiap koreksi menetapkan lantai lebih tinggi dari sebelumnya.\n- **Tren turun**: harga membuat **tertinggi lebih rendah (LH)** dan **terendah lebih rendah (LL)** berturut-turut.\n- **Rentang / mendatar**: tertinggi dan terendah berayun dalam pita tanpa arah berkelanjutan.\n\nQuantGlass mengenali tren melalui hubungan antara **EMA-21** (rata-rata jangka pendek) dan **SMA-50** (rata-rata jangka menengah). Saat `Close > EMA21 > SMA50`, mesin mengklasifikasikan pasar sebagai tren naik. Saat `Close < EMA21 < SMA50`, itu turun.",
+    "key_terms": [
+      {
+        "term": "Tertinggi lebih tinggi (HH)",
+        "definition": "Setiap puncak ayunan berturut berada di atas puncak sebelumnya."
+      },
+      {
+        "term": "Terendah lebih tinggi (HL)",
+        "definition": "Setiap lembah koreksi berturut berada di atas sebelumnya."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Rata-rata bergerak eksponensial 21 periode — memberi bobot lebih pada penutupan terbaru."
+      },
+      {
+        "term": "SMA-50",
+        "definition": "Rata-rata bergerak sederhana 50 periode — bobot sama pada 50 penutupan."
+      }
+    ],
+    "exercise": {
+      "question": "Harga tutup di 250, EMA-21 di 245, SMA-50 di 240. Status tren mana yang ditetapkan QuantGlass?",
+      "options": [
+        "Turun — harga di bawah kedua rata-rata.",
+        "Naik — Close > EMA21 > SMA50.",
+        "Rentang — rata-rata terlalu dekat.",
+        "Volatil — arah tak dapat ditentukan."
+      ],
+      "explanation": "Saat `Close (250) > EMA21 (245) > SMA50 (240)`, penyelarasan sempurna naik. Mesin sinyal memakai penyelarasan ini untuk mengaktifkan setup BUY_ZONE keluarga tren-koreksi."
+    },
+    "live_apply": {
+      "cta": "Buka Sinyal, klik sinyal BUY_ZONE mana pun, dan lihat bagian Alasan — temukan alasan penyelarasan tren."
+    }
+  },
+  {
+    "id": "novice-03-support-resistance",
+    "title": "Dasar support dan resistance",
+    "summary": "Temukan level harga tempat pasokan dan permintaan berbenturan berulang kali.",
+    "concept": "**Support** adalah level harga tempat harga jatuh memantul berulang kali — pembeli menang atas penjual di sana. **Resistance** adalah level tempat harga naik macet berulang kali — penjual menang atas pembeli.\n\nLevel-level ini terbentuk karena pedagang mengingat titik pembalikan masa lalu. Resistance yang ditembus sering menjadi support baru (*pembalikan polaritas*). QuantGlass memakai **kanal Donchian** (tertinggi/terendah 20 periode) untuk mengenali ekstrem ayunan terbaru yang bertindak sebagai S/R alami.",
+    "key_terms": [
+      {
+        "term": "Support",
+        "definition": "Lantai harga — pembeli campur tangan untuk menghentikan jatuh."
+      },
+      {
+        "term": "Resistance",
+        "definition": "Langit-langit harga — penjual campur tangan untuk menghentikan naik."
+      },
+      {
+        "term": "Pembalikan polaritas",
+        "definition": "Resistance yang ditembus menjadi support setelah penembusan terkonfirmasi."
+      },
+      {
+        "term": "Kanal Donchian",
+        "definition": "Tertinggi dan terendah selama N periode."
+      }
+    ],
+    "exercise": {
+      "question": "Harga menembus di atas resistance $500 pada volume kuat, lalu koreksi ke $500. Apa $500 sekarang?",
+      "options": [
+        "Masih resistance — belum membuktikan dirinya.",
+        "Sebuah support — polaritas berbalik setelah penembusan terkonfirmasi.",
+        "Nilai wajar — target kembali ke rata-rata.",
+        "Sebuah level stop-loss."
+      ],
+      "explanation": "Setelah penembusan terkonfirmasi pada volume, resistance $500 sebelumnya menjadi support. Itu *pembalikan polaritas*. Setup penembusan-uji ulang-lanjutan QuantGlass khususnya mencari kembalinya harga ke level penembusan Donchian sebelum masuk lagi."
+    },
+    "common_mistakes": [
+      "Memperlakukan level sebagai harga persis alih-alih zona. Pasar menghormati area; garis presisi disumbu terus-menerus.",
+      "Menggambar level pada setiap sentuhan hingga grafik tak terpakai. Dua-tiga zona bersih yang dihormati luas lebih baik dari dua belas garis berisik.",
+      "Lupa bahwa support yang ditembus cenderung menjadi resistance. Level lama tak lenyap saat ditembus — mereka berganti sisi."
+    ],
+    "live_apply": {
+      "cta": "Temukan sinyal WATCH jenis setup 'breakout_retest_continuation' — zona masuk dekat level yang berbalik."
+    }
+  },
+  {
+    "id": "novice-04-volume",
+    "title": "Volume sebagai konfirmasi",
+    "summary": "Pelajari mengapa volume memberi kredibilitas pada gerakan harga.",
+    "concept": "**Volume** adalah jumlah unit yang diperdagangkan. Gerakan harga *dengan* volume kuat lebih mungkin bertahan daripada gerakan pada volume tipis. Volume mengonfirmasi bahwa cukup peserta setuju dengan arah.\n\nQuantGlass menghitung **rasio volume** — volume batang saat ini dibagi rata-rata 20 periode. Rasio ≥ 1,75 memperoleh kredit `volume_confirmation` penuh dalam rumus keyakinan. Masuk penembusan (penembusan Donchian) menuntut volume_ratio ≥ 1,0 sebagai ambang minimum.\n\n**Divergensi**: harga naik tetapi volume turun → gerakan lemah, kemungkinan kelelahan. Harga turun pada volume tinggi → distribusi institusi, sinyal turun.",
+    "key_terms": [
+      {
+        "term": "Rasio volume",
+        "definition": "Volume batang saat ini ÷ volume rata-rata 20 periode."
+      },
+      {
+        "term": "Konfirmasi volume",
+        "definition": "Skor 0 sampai 1: seberapa volume mendukung gerakan saat ini."
+      },
+      {
+        "term": "Divergensi",
+        "definition": "Harga dan volume bergerak ke arah berlawanan — melemahkan gerakan."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah lilin penembusan naik memiliki volume 3× rata-rata 20 periode. Apa yang dikatakan ini kepada Anda?",
+      "options": [
+        "Itu penembusan palsu — volume tinggi berarti kelelahan.",
+        "Gerakan punya partisipasi institusi kuat dan lebih mungkin bertahan.",
+        "Volume tak relevan untuk penembusan.",
+        "Anda harus menunggu volume turun sebelum masuk."
+      ],
+      "explanation": "Volume tinggi pada penembusan mengonfirmasi banyak peserta setuju. Institusi tak bisa menyembunyikan aktivitasnya — mereka meninggalkan jejak volume. Skor volume_confirmation QuantGlass mencapai 1,0 saat volume_ratio ≥ 1,75."
+    },
+    "live_apply": {
+      "cta": "Buka laci detail sebuah sinyal dan periksa nilai confidence_basis.volume_confirmation."
+    }
+  },
+  {
+    "id": "novice-16-timeframes",
+    "title": "Kerangka waktu: satu pasar, banyak lensa",
+    "summary": "Aksi harga yang sama tampak berbeda pada 15m, 1h, 4h, dan 1d.",
+    "concept": "Sebuah **kerangka waktu** adalah jendela yang dirangkum setiap lilin. Kerangka lebih rendah (15m) menunjukkan detail halus dan lebih banyak derau; yang lebih tinggi (1d) menunjukkan struktur dan lebih sedikit derau. Tak ada yang 'lebih benar' — itu kompresi berbeda dari aliran tik yang sama.\n\nDua aturan praktis. Pertama, **tren relatif terhadap kerangka waktu**: tren turun 15m bisa hidup dalam tren naik 1h dalam rentang 1d. Selalu sebut kerangka waktu saat menyebut tren. Kedua, **sinyal mewarisi kerangka waktunya**: sinyal QuantGlass yang dihasilkan pada lilin 1h memiliki stop, target, dan durasi tahan berskala 1h — menilainya terhadap grafik 1d adalah salah membaca.\n\nSetup mesin bahkan berkonsultasi dengan lensa lebih lambat secara internal: pemeriksaan kemiringan kerangka waktu lebih tinggi membandingkan basis 50 batang sekarang dengan 10 batang sebelumnya, mengganjar setup yang selaras dengan pergeseran lebih luas.",
+    "key_terms": [
+      {
+        "term": "Kerangka waktu",
+        "definition": "Panjang jendela yang dirangkum setiap lilin."
+      },
+      {
+        "term": "Derau",
+        "definition": "Fluktuasi kerangka pendek yang lenyap pada kompresi lebih besar."
+      },
+      {
+        "term": "Penyelarasan kerangka waktu lebih tinggi",
+        "definition": "Kesepakatan antara kerangka waktu setup dan tren lebih lambat — masukan konfluensi di QuantGlass."
+      },
+      {
+        "term": "Durasi tahan",
+        "definition": "Berapa lama posisi harus tetap terbuka — sebanding dengan kerangka waktu."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah simbol jatuh pada grafik 15m tetapi naik pada 1d. Pernyataan mana yang benar?",
+      "options": [
+        "Umpan data rusak.",
+        "Keduanya benar: tren relatif terhadap kerangka waktu tempat Anda mengukurnya.",
+        "Grafik 15m selalu mengalahkan 1d.",
+        "Simbol tak punya tren."
+      ],
+      "explanation": "Tren bersarang. Koreksi lensa pendek dalam tren naik lensa panjang adalah anatomi normal pasar tren — dan dasar setup koreksi."
+    },
+    "live_apply": {
+      "cta": "Telusuri grafik dari 15m → 1h → 4h → 1d dan catat tren yang akan Anda sebut pada setiap lensa."
+    }
+  },
+  {
+    "id": "novice-17-swing-structure",
+    "title": "Ayunan, garis tren, dan struktur",
+    "summary": "Tertinggi lebih tinggi, terendah lebih tinggi, dan kerangka di bawah setiap grafik.",
+    "concept": "Harga bergerak dalam **ayunan** — dorongan dan koreksi. Tandai titik pembalikan dan Anda mendapat kerangka pasar: **tren naik** adalah tangga tertinggi lebih tinggi (HH) dan terendah lebih tinggi (HL); **turun** adalah tertinggi lebih rendah (LH) dan terendah lebih rendah (LL); **rentang** adalah ayunan bertumpang tanpa tangga.\n\nSebuah **garis tren** menghubungkan lembah ayunan berturut (pada naik) atau puncak (pada turun). Itu bukan sihir — itu rangkuman visual ritme tangga. Saat tangga patah (pada naik harga mengambil HL terakhir), struktur rusak, dan kerusakan struktural adalah peringatan pertama pembaca grafik, jauh sebelum indikator mana pun berbalik.\n\nAlasan sinyal QuantGlass sering mengutip ekstrem ayunan terbaru — jangkar invalidasi setup long biasanya lembah ayunan terbaru, karena di sanalah logika tangga itu sendiri gagal.",
+    "key_terms": [
+      {
+        "term": "Puncak/lembah ayunan",
+        "definition": "Titik pembalikan lokal pada harga."
+      },
+      {
+        "term": "HH/HL, LH/LL",
+        "definition": "Pola tangga yang mendefinisikan tren naik dan turun."
+      },
+      {
+        "term": "Garis tren",
+        "definition": "Garis melalui titik ayunan berturut yang merangkum ritme tren."
+      },
+      {
+        "term": "Patahan struktur",
+        "definition": "Harga melanggar ayunan terbaru tangga dominan."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam tren naik yang didefinisikan tertinggi dan terendah lebih tinggi, peristiwa tunggal mana yang merusak struktur paling langsung?",
+      "options": [
+        "Sebuah lilin merah ukuran berapa pun.",
+        "Harga menembus di bawah terendah lebih tinggi terbaru.",
+        "Volume menurun selama satu batang.",
+        "Sebuah gap akhir pekan."
+      ],
+      "explanation": "Tangga bertahan dari lilin merah dan volume tenang. Ia didefinisikan oleh lembah ayunannya — kehilangan terendah lebih tinggi terakhir mematahkan polanya."
+    },
+    "live_apply": {
+      "cta": "Pada grafik sebuah simbol, tandai dalam benak tiga lembah ayunan terakhir — lalu temukan level invalidasi sinyal dan lihat hubungannya dengan mereka."
+    }
+  },
+  {
+    "id": "novice-18-gaps-wicks",
+    "title": "Gap, sumbu, dan apa yang diungkap",
+    "summary": "Tanda baca grafik: penolakan, kejutan, dan ketiadaan.",
+    "concept": "Sebuah **sumbu** (bayangan) adalah bagian lilin di luar badannya: harga pergi ke sana dan didorong kembali dalam batang yang sama. Sumbu atas panjang pada lilin reli berarti penjual menyerap dorongan — **penolakan**. Sumbu bawah panjang setelah penurunan berarti pembeli campur tangan. Sumbu pada level kunci (support, resistance, rata-rata bergerak) adalah cara setup penolakan mengumumkan dirinya.\n\nSebuah **gap** adalah lompatan antara penutupan satu lilin dan pembukaan berikutnya. Grafik saham bergap rutin — berita jatuh saat bursa tutup. Kripto, diperdagangkan 24/7, jarang bergap; 'gap' kripto biasanya berarti gangguan data, yang dideteksi pemeriksaan integritas QuantGlass alih-alih diisi diam-diam.\n\nAturan membaca: sumbu adalah informasi tentang pertempuran *dalam-batang*; gap adalah informasi tentang kejutan *antarbatang*. Tak ada yang menjadi sinyal sendiri — keduanya konteks yang memperkuat atau melemahkan setup.",
+    "key_terms": [
+      {
+        "term": "Sumbu / bayangan",
+        "definition": "Rentang lilin di luar badannya — harga yang dikunjungi tetapi ditolak."
+      },
+      {
+        "term": "Penolakan",
+        "definition": "Dorongan ke suatu level yang tutup menjauh darinya."
+      },
+      {
+        "term": "Gap",
+        "definition": "Pembukaan berbeda dari penutupan sebelumnya — umum di saham, anomali di kripto."
+      },
+      {
+        "term": "Gap data",
+        "definition": "Artefak lilin yang hilang yang dideteksi lapisan integritas."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah deret kripto 1h menunjukkan gap besar antara penutupan satu lilin dan pembukaan berikutnya. Apa penjelasan paling mungkin?",
+      "options": [
+        "Bursa kripto tutup malam hari seperti pasar saham.",
+        "Sebuah gangguan data — pasar kontinu jarang menghasilkan gap harga nyata, jadi QuantGlass menandai lilin yang hilang.",
+        "Protokol mereset harga.",
+        "Gap mustahil direpresentasikan dalam OHLCV."
+      ],
+      "explanation": "Kripto diperdagangkan 24 jam, jadi lilin berurutan biasanya bersentuhan. Sebuah gap biasanya menandai data yang hilang — peristiwa integritas, bukan peristiwa pasar."
+    },
+    "live_apply": {
+      "cta": "Temukan sebuah lilin dengan sumbu menonjol dekat sebuah rata-rata bergerak — geometri ini adalah bahan mentah setup penolakan mesin."
+    }
+  },
+  {
+    "id": "novice-19-support-resistance-2",
+    "title": "Membaca level seperti mesin",
+    "summary": "Dari garis gambar tangan ke level yang dapat direproduksi.",
+    "concept": "Support/resistance klasik digambar dengan mata — berguna, tetapi tak dapat direproduksi: dua pedagang menggambar dua garis berbeda. QuantGlass lebih menyukai **level yang dapat dihitung** agar setiap level yang Anda lihat dapat dihitung ulang dan diaudit.\n\nKosakata level mesin: **ekstrem terbaru** (tertinggi/terendah ~20 batang terakhir — kanal Donchian), **rata-rata bergerak** sebagai support dinamis (zona koreksi 21-EMA dalam setup tren), dan **selubung volatilitas** (Keltner: EMA ± kelipatan ATR; Bollinger: rata-rata ± kelipatan deviasi standar). Masing-masing adalah rumus presisi pada lilin tutup — tanpa kebebasan artistik.\n\nSaat sinyal berkata 'koreksi ke zona EMA' atau menjangkar invalidasi 'dekat lembah ayunan terbaru', frasa-frasa ini memetakan satu-ke-satu ke level yang dihitung ini. Garis gambar tangan tetap alat berpikir yang baik; mesin hanya menolak *memperdagangkan* apa yang tak bisa dihitung ulang.",
+    "key_terms": [
+      {
+        "term": "Level yang dapat dihitung",
+        "definition": "Level support/resistance yang diturunkan dari rumus, bukan gambar tangan."
+      },
+      {
+        "term": "Kanal Donchian",
+        "definition": "Tertinggi dan terendah N batang — level ekstrem-terbaru mesin."
+      },
+      {
+        "term": "Support dinamis",
+        "definition": "Rata-rata bergerak yang bertindak sebagai level naik/turun, mis. 21-EMA."
+      },
+      {
+        "term": "Selubung volatilitas",
+        "definition": "Pita di sekitar garis tengah yang diukur ATR (Keltner) atau deviasi standar (Bollinger)."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa QuantGlass menjangkar level-levelnya pada rumus (Donchian, EMA, pita ATR) alih-alih garis gambar tangan?",
+      "options": [
+        "Rumus selalu memprediksi masa depan dengan benar.",
+        "Level yang dihitung dapat direproduksi dan diaudit — setiap level di layar bisa dihitung ulang dari lilin yang sama.",
+        "Alat menggambar dipatenkan.",
+        "Garis gambar tangan selalu salah."
+      ],
+      "explanation": "Tujuannya kejujuran, bukan ramalan: level yang diturunkan dari rumus dapat diverifikasi siapa pun dengan data yang sama, itulah standar yang dipatuhi seluruh mesin."
+    },
+    "live_apply": {
+      "cta": "Aktifkan hamparan pita pada sebuah grafik dan lihat bagaimana harga berinteraksi dengan tepi selubung yang dihitung."
+    }
+  },
+  {
+    "id": "novice-05-reading-signal",
+    "title": "Membaca sinyal pertama Anda",
+    "summary": "Dekode setiap bidang dalam keluaran sebuah sinyal QuantGlass.",
+    "concept": "Sebuah sinyal QuantGlass berisi:\n\n- **Jenis sinyal**: BUY_ZONE / SELL / HOLD / WAIT / WATCH\n- **Zona masuk**: rentang harga [low, high] untuk masuk\n- **Stop-loss**: harga tempat ide perdagangan terbukti salah\n- **Take-profit [TP1, TP2, TP3]**: tiga anak tangga keluar (50 / 30 / 20% posisi)\n- **Risiko:Imbalan (R:R)**: berapa R yang Anda peroleh jika TP2 tercapai\n- **Keyakinan (0–89)**: skor terkalibrasi — bukan probabilitas menang\n- **Dasar keyakinan**: subskor yang memandu keyakinan keseluruhan\n- **Alasan**: penjelasan jelas mengapa setup ini dikenali\n- **Invalidasi**: kondisi yang membatalkan setup ini\n\n**Penting**: Keyakinan ≠ tingkat keberhasilan. Sinyal keyakinan 70 BUKAN '70% peluang menang'. Itu berarti mesin punya bukti relatif kuat *pada saat pemindaian*. Selalu periksa `out_of_sample_validated` — jika False, backtest tak lolos ujian statistik.",
+    "key_terms": [
+      {
+        "term": "Zona masuk",
+        "definition": "Rentang harga [low, high] yang dinilai layak untuk masuk."
+      },
+      {
+        "term": "Stop-loss",
+        "definition": "Level harga tempat setup diinvalidasi; kerugian maksimum yang dapat diterima."
+      },
+      {
+        "term": "Tangga take-profit",
+        "definition": "Tiga harga keluar bertahap (TP1=50%, TP2=30%, TP3=20% posisi)."
+      },
+      {
+        "term": "R:R (Risiko:Imbalan)",
+        "definition": "Imbalan ÷ Risiko — R:R 2,0 berarti potensi untung 2× risiko."
+      },
+      {
+        "term": "Tervalidasi luar-sampel",
+        "definition": "True saat irisan OOS backtest punya ≥ min_sample perdagangan berekspektasi positif."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah sinyal BUY_ZONE menunjukkan masuk 100–102, stop 96, TP2 = 108. Berapa R:R kira-kira hingga TP2?",
+      "options": [
+        "R:R ≈ 1,0 — imbalan setara risiko.",
+        "R:R ≈ 1,5 — imbalan 50% lebih dari risiko.",
+        "R:R ≈ 2,0 — imbalan dua kali risiko.",
+        "R:R ≈ 0,5 — risiko dua kali imbalan."
+      ],
+      "explanation": "Titik tengah masuk ≈ 101, Stop = 96 → Risiko = 5. TP2 = 108 → Imbalan = 7. R:R = 7/5 = 1,4 ≈ 1,5. QuantGlass menargetkan minimum 1,5–2,4× R:R tergantung jenis setup."
+    },
+    "live_apply": {
+      "cta": "Klik sinyal BUY_ZONE mana pun dan temukan entry_zone, stop_loss, take_profit, dan risk_reward di laci detail."
+    }
+  },
+  {
+    "id": "novice-20-signal-anatomy",
+    "title": "Anatomi sebuah sinyal QuantGlass",
+    "summary": "Setiap bidang pada kartu sinyal dan mengapa ia ada.",
+    "concept": "Sebuah sinyal QuantGlass adalah pernyataan terstruktur, bukan bisikan. Bagian-bagiannya: **status** (BUY_ZONE, SELL, WATCH, HOLD, WAIT) menamai apa yang dilihat mesin; **jenis setup** menamai keluarga pola yang menghasilkannya; **zona masuk** membatasi tempat bertindak masuk akal; **stop-loss** adalah satu harga tempat ide salah; **tangga take-profit** membertahapkan keluar pada tiga level dengan bobot tetap (50% / 30% / 20%); dan **risiko:imbalan** membandingkan jarak target median dengan jarak stop.\n\nDua bidang kejujuran melengkapi kartu: **alasan** mendaftar fakta lilin-tutup di balik status, dan **dasar keyakinan** mengungkap setiap statistik yang memberi makan angka keyakinan — termasuk ukuran sampel.\n\nTak ada di kartu yang merupakan nasihat. Itu mesin menunjukkan kerjanya, agar Anda bisa setuju atau tak setuju dengan *penalaran*, bukan hanya kesimpulan.",
+    "key_terms": [
+      {
+        "term": "Status sinyal",
+        "definition": "Pembacaan mesin: BUY_ZONE, SELL, WATCH, HOLD, atau WAIT."
+      },
+      {
+        "term": "Jenis setup",
+        "definition": "Keluarga pola yang menghasilkan status."
+      },
+      {
+        "term": "Zona masuk",
+        "definition": "Rentang harga tempat setup dapat ditindaklanjuti."
+      },
+      {
+        "term": "Tangga TP",
+        "definition": "Tiga level keluar bertahap dengan bobot 50/30/20."
+      },
+      {
+        "term": "Dasar keyakinan",
+        "definition": "Statistik yang diungkap di balik angka keyakinan."
+      }
+    ],
+    "exercise": {
+      "question": "Apa yang secara fundamental diwakili stop-loss dalam sebuah sinyal QuantGlass?",
+      "options": [
+        "Harga keluar yang dijamin.",
+        "Harga tempat premis setup diinvalidasi — ide salah di sana, jadi posisi tak seharusnya ada.",
+        "Harga terendah tahun ini.",
+        "Sebuah ambang biaya."
+      ],
+      "explanation": "Stop adalah titik pemalsuan ide perdagangan. Eksekusi bisa tergelincir melampauinya, tetapi maknanya 'melampaui sini, penalaran tak berdiri'."
+    },
+    "live_apply": {
+      "cta": "Buka sinyal mana pun dan temukan tujuh bagian: status, setup, zona masuk, stop, tangga, risiko:imbalan, alasan."
+    }
+  },
+  {
+    "id": "novice-21-confidence-meaning",
+    "title": "Apa arti angka keyakinan",
+    "summary": "Skor terkalibrasi dengan masukan yang terlihat — bukan probabilitas laba.",
+    "concept": "Skor keyakinan (20–89) memadukan **penyelarasan tren**, **konfirmasi volume**, **konfluensi**, dan **riwayat backtest** keluarga setup itu — dengan statistik sengaja diciutkan ke arah netral saat sampel tipis. Riwayat keberhasilan 100% atas 3 perdagangan diperlakukan nyaris tanpa makna, persis sebagaimana mestinya.\n\nDua plafon menjaga angka tetap jujur: keyakinan tak bisa melampaui 62 kecuali setup **tervalidasi luar-sampel**, dan tak pernah melampaui 89 — kepastian tak ada di menu. Saat cukup perdagangan luar-sampel ada, sinyal juga menunjukkan **rentang dengan cakupan terjamin** untuk hasil perdagangan berikutnya, batas bebas-distribusi yang berlaku dengan probabilitas yang dinyatakan.\n\nBacalah begini: *seberapa banyak bukti mendukung pola setup ini*, tak pernah *peluang perdagangan ini menang*. Perdagangan individual tetap tak terprediksi; hanya jangka panjang yang punya statistik.",
+    "key_terms": [
+      {
+        "term": "Keyakinan",
+        "definition": "Skor bukti 20–89 dengan semua masukan diungkap."
+      },
+      {
+        "term": "Penciutan (shrinkage)",
+        "definition": "Menarik statistik sampel tipis ke arah netral agar sampel kecil tak berteriak."
+      },
+      {
+        "term": "Tervalidasi OOS",
+        "definition": "Keunggulan setup bertahan pada data yang tak pernah dicocokkan mesin."
+      },
+      {
+        "term": "Jaminan cakupan",
+        "definition": "Rentang bebas-distribusi untuk hasil perdagangan berikutnya pada probabilitas yang dinyatakan."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah sinyal menunjukkan keyakinan 58 dengan ukuran sampel backtest 7. Bagaimana Anda harus membacanya?",
+      "options": [
+        "Peluang 58% perdagangan ini menguntungkan.",
+        "Bukti pola sedang, diciutkan kuat karena tujuh perdagangan secara statistik nyaris bukan apa-apa.",
+        "Jaminan untung 58 tik.",
+        "Mesin menyelesaikan 58% perhitungan."
+      ],
+      "explanation": "Keyakinan adalah kekuatan bukti, bukan probabilitas menang — dan pada n=7 penciutan membuat skor bersandar terutama pada kualitas struktural setup, bukan riwayatnya yang mungil."
+    },
+    "live_apply": {
+      "cta": "Buka dasar keyakinan sebuah sinyal dan temukan ukuran sampel — perhatikan bagaimana skor menangani yang kecil."
+    }
+  },
+  {
+    "id": "novice-22-freshness-invalidation",
+    "title": "Kesegaran dan invalidasi: kapan sebuah sinyal mati",
+    "summary": "Sinyal kedaluwarsa dengan dua cara — oleh waktu dan oleh harga.",
+    "concept": "Sebuah sinyal adalah pernyataan tentang pasar *pada tanggal lilin tutup terakhirnya*. Ia mati dengan dua cara.\n\n**Oleh waktu**: setiap lilin tutup baru menilai ulang dunia; lencana kesegaran menunjukkan usia data di balik apa yang Anda lihat. Segar (dalam ~2 batang) berarti terkini; lencana tertunda dan basi berarti gambar mungkin telah berevolusi — jangan pernah bertindak atas sinyal basi tanpa menyegarkan.\n\n**Oleh harga**: setiap sinyal menyatakan **invalidasi**-nya — biasanya penutupan melampaui level stop. Begitu harga tutup di sana, premis setup dipalsukan, dan status sinyal berbalik menjadi terinvalidasi. Tak ada malu dalam ide yang terinvalidasi; ada kesalahan hanya dalam terus bertindak atasnya.\n\nDisiplin yang diajarkan ini menyamarata: ide perdagangan apa pun yang Anda pegang harus punya kondisi kedaluwarsa tertulis dalam dua dimensi — *kapan* menjadi basi dan *di mana* menjadi salah.",
+    "key_terms": [
+      {
+        "term": "Lencana kesegaran",
+        "definition": "Segar / tertunda / basi, menurut usia lilin tutup terakhir terhadap kerangka waktu."
+      },
+      {
+        "term": "Invalidasi",
+        "definition": "Kondisi yang dinyatakan (biasanya penutupan melampaui stop) yang memalsukan setup."
+      },
+      {
+        "term": "Sinyal basi",
+        "definition": "Sinyal yang lilin dasarnya berjarak banyak batang — segarkan sebelum bertindak."
+      },
+      {
+        "term": "Penilaian ulang",
+        "definition": "Setiap lilin tutup memicu pembacaan segar mesin."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah sinyal 1h menunjukkan lencana kesegaran 7 jam. Apa respons yang benar?",
+      "options": [
+        "Bertindak segera — sinyal lama bagai anggur.",
+        "Segarkan data dulu: tujuh lilin tutup telah berlalu, dan pembacaan mesin saat ini mungkin berbeda.",
+        "Gandakan ukuran posisi untuk mengompensasi.",
+        "Kesegaran hanya penting untuk saham."
+      ],
+      "explanation": "Ada tujuh batang informasi baru yang tak dilihat sinyal yang ditampilkan. Segarkan, biarkan mesin menilai ulang, dan bertindaklah hanya atas pembacaan terkini."
+    },
+    "common_mistakes": [
+      "Bertindak atas sinyal basi. Setup yang dihitung berjam-jam lalu menggambarkan pasar yang tak ada lagi.",
+      "Memperlakukan invalidasi sebagai saran. Saat level patah, ide perdagangan mati — menahannya adalah perdagangan baru yang tak direncanakan."
+    ],
+    "live_apply": {
+      "cta": "Temukan lencana kesegaran pada setiap sinyal — lalu segarkan koridor dan lihat lencana menyetel ulang."
+    }
+  },
+  {
+    "id": "novice-23-first-paper-trade",
+    "title": "Menempatkan paper trade pertama Anda",
+    "summary": "Dari sinyal ke posisi simulasi, dengan nol dolar dipertaruhkan.",
+    "concept": "Paper trading adalah gladi resik dengan data pasar nyata dan uang khayalan. Di QuantGlass: buka sinyal, pilih **Paper trade**, tetapkan kuantitas, dan kirim. Niat diantrekan dan dieksekusi pada harga berikutnya yang tersedia — termasuk ketakberuntungan realistis tak mendapat harga persis grafik. Akun kertas Anda melacak saldo, daya beli, posisi terbuka, dan PnL terealisasi.\n\nGunakan geometri sinyal itu sendiri: ukur posisi agar, jika harga menyentuh stop, Anda kehilangan fraksi kecil tetap dari akun (rute Risiko mengubah ini menjadi rumus). Lalu — ini bagian gladi resik — **kelola perdagangan seolah nyata**: hormati stop, ambil keluar tangga, dan catat mengapa Anda masuk.\n\nSemua yang Anda lakukan di sini memberi makan lingkaran belajar: panel pelatihan mengamati paper trade Anda dan memunculkan pelajaran yang Anda butuhkan saat sebuah kebiasaan tergelincir.",
+    "key_terms": [
+      {
+        "term": "Paper trading",
+        "definition": "Eksekusi simulasi terhadap data pasar nyata."
+      },
+      {
+        "term": "Niat perdagangan",
+        "definition": "Pesanan Anda yang diantrekan, dieksekusi pada harga berikutnya yang tersedia."
+      },
+      {
+        "term": "Daya beli",
+        "definition": "Kapasitas akun tersisa setelah posisi terbuka."
+      },
+      {
+        "term": "PnL terealisasi",
+        "definition": "Untung dan rugi hanya dari posisi yang ditutup."
+      }
+    ],
+    "exercise": {
+      "question": "Apa cara paling berharga memperlakukan sebuah paper trade?",
+      "options": [
+        "Seperti tiket lotere — ukur secara absurd karena khayalan.",
+        "Persis seolah nyata: ukuran terencana, stop dihormati, penalaran dicatat.",
+        "Sebagai sarana menguji tombol pesanan saja.",
+        "Abaikan setelah masuk."
+      ],
+      "explanation": "Paper trading membangun kebiasaan yang akan Anda pegang. Melatih penentuan ukuran nyeleneh atau stop diabaikan justru menggladi perilaku yang menghancurkan akun nyata."
+    },
+    "common_mistakes": [
+      "Melewati rencana karena 'cuma kertas'. Paper trading ada untuk melatih kebiasaan merencanakan — lewati dan Anda melatih improvisasi.",
+      "Mengukur kelewat besar karena uang tak nyata. Kebiasaan yang terbentuk pada risiko khayalan 10% berpindah utuh ke akun nyata."
+    ],
+    "live_apply": {
+      "cta": "Pilih sinyal paling segar, tempatkan paper trade kecil dengan zona masuk dan stopnya, dan catat penalaran Anda dalam satu kalimat."
+    }
+  },
+  {
+    "id": "novice-24-after-the-trade",
+    "title": "Setelah perdagangan: membaca hasil Anda",
+    "summary": "Posisi, PnL, dan perbedaan antara hasil dan keputusan.",
+    "concept": "Begitu dieksekusi, posisi Anda muncul dengan harga rata-rata dan tanda PnL belum-terealisasi langsung; menutupnya mengubahnya menjadi PnL terealisasi. Angkanya sederhana — psikologinya tidak.\n\nPembedaan inti: **keputusan baik bisa kalah dan keputusan buruk bisa menang.** Hasil sebuah perdagangan didominasi derau; hanya melalui banyak perdagangan kualitas keputusan muncul dalam statistik. Jadi nilai setiap perdagangan dari *prosesnya* — apakah setup valid, ukuran terencana, stop dihormati? — dan nilai *metode* Anda dari agregat: tingkat keberhasilan, R rata-rata, ekspektasi.\n\nItulah sebabnya QuantGlass menekankan kelipatan R dan ukuran sampel di mana-mana: keduanya mengubah tumpukan kisah individual menjadi bukti. Riwayat kertas Anda adalah dataset pertama Anda. Rute Risiko dan Statistik mengajari Anda membacanya sebagai analis alih-alih penjudi.",
+    "key_terms": [
+      {
+        "term": "PnL belum-terealisasi",
+        "definition": "Untung/rugi pada nilai pasar untuk posisi terbuka."
+      },
+      {
+        "term": "PnL terealisasi",
+        "definition": "Hasil terkunci dari posisi yang ditutup."
+      },
+      {
+        "term": "Proses vs hasil",
+        "definition": "Keputusan dinilai dari penalarannya; metode dari statistik jangka panjangnya."
+      },
+      {
+        "term": "Kelipatan R",
+        "definition": "Hasil yang dinyatakan dalam unit risiko terencana — unit asli mesin."
+      }
+    ],
+    "exercise": {
+      "question": "Perdagangan Anda yang terencana baik menyentuh stopnya dengan rugi -1R. Apa yang dibuktikan ini tentang keputusan mengambilnya?",
+      "options": [
+        "Keputusannya buruk — kerugian membuktikan kesalahan.",
+        "Nyaris tak ada apa-apa sendiri: hasil individual adalah derau; keputusan dinilai dari prosesnya dan metode dari banyak perdagangan.",
+        "Stop menyebabkan kerugian.",
+        "Anda harus menghapus stop ke depan."
+      ],
+      "explanation": "Sebuah -1R pada setup valid dengan ukuran terencana adalah sistem bekerja sesuai rancangan. Perburuan kesalahan ada di level proses, dan vonis di level sampel."
+    },
+    "live_apply": {
+      "cta": "Buka ringkasan akun kertas Anda: pisahkan dalam benak angka mana yang hasil (PnL) dan mana yang proses (penentuan ukuran dan stop Anda)."
+    }
+  },
+  {
+    "id": "novice-25-scam-anatomy",
+    "title": "Anatomi sebuah penipuan perdagangan",
+    "summary": "Setiap skema bekerja pada tiga janji yang sama.",
+    "concept": "Penipuan perdagangan berbaju baru tanpa henti tetapi identik secara struktural. Mereka menjual campuran tiga janji mustahil: **imbal hasil terjamin** ('1% sehari, tanpa risiko'), **pengetahuan rahasia** ('indikator yang MEREKA tak ingin Anda tahu'), dan **kekayaan tanpa upaya** ('bot berdagang saat Anda tidur'). Setiap janji bertentangan dengan sesuatu yang sudah Anda pelajari di Akademi ini: imbal hasil mengandung risiko menurut definisi (matematika drawdown), keunggulan publik yang bertahan terdegradasi (kejujuran statistik), dan biaya plus persaingan membuat laba tanpa upaya menjadi kontradiksi.\n\nNaskah operasionalnya sama konstannya: **urgensi** ('hanya 5 kursi tersisa'), **bukti sosial tak terverifikasi** (tangkapan layar, testimoni, Lamborghini sewaan), dan **corong isolasi** (memindahkan Anda dari platform publik ke grup pribadi Telegram/WhatsApp tempat moderasi dan saksi lenyap).\n\nKebiasaan paling protektif: saat *imbal hasil yang diiklankan* sebuah tawaran akan membuat penjualnya kaya tanpa perlu uang Anda, tanyakan mengapa ia butuh uang Anda. Keunggulan nyata diperdagangkan diam-diam, tak dijual lantang.",
+    "key_terms": [
+      {
+        "term": "Imbal hasil terjamin",
+        "definition": "Janji yang bertentangan dengan definisi risiko pasar — penanda penipuan universal."
+      },
+      {
+        "term": "Tekanan urgensi",
+        "definition": "Tenggat buatan yang dirancang mencegah verifikasi."
+      },
+      {
+        "term": "Corong isolasi",
+        "definition": "Memindahkan target ke saluran pribadi jauh dari moderasi dan saksi."
+      },
+      {
+        "term": "Paradoks penjual",
+        "definition": "Jika keunggulan nyata, menjualnya tak perlu dan kontraproduktif."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah iklan menjanjikan '2% sehari, terjamin, tarik kapan saja'. Sebelum bendera merah lain apa pun, apa yang membuatnya secara matematis sebuah penipuan?",
+      "options": [
+        "2% terlalu kecil untuk dipedulikan.",
+        "Penggabungan harian terjamin pada laju itu akan melampaui kekayaan dunia dalam beberapa tahun — imbal hasil tanpa risiko tak ada, jadi janji itu sendiri adalah buktinya.",
+        "Penarikan tak pernah diizinkan di mana pun.",
+        "Hanya persentase di atas 5% yang penipuan."
+      ],
+      "explanation": "2% sehari menggabung sekitar 1.377% per tahun. Siapa pun yang benar-benar memilikinya tak akan pernah butuh penyetor. Janji itu menyangkal dirinya bahkan sebelum memeriksa hal lain."
+    },
+    "live_apply": {
+      "cta": "Tinjau ulang pelajaran drawdown: matematika pemulihan yang Anda hitung di sana persis apa yang dipura-purakan diabaikan oleh 'imbal hasil tanpa risiko'."
+    }
+  },
+  {
+    "id": "novice-26-fake-gurus",
+    "title": "Guru palsu dan penjual sinyal",
+    "summary": "Pemasaran gaya hidup, rekam jejak tak terverifikasi, dan corong kursus.",
+    "concept": "Model bisnis guru adalah menjual *citra* sukses perdagangan untuk membiayai gaya hidup yang tak dibiayai perdagangan itu sendiri. Petunjuknya: **konten gaya hidup lebih dulu** (mobil, jam, laptop di pantai — tak pernah laporan teraudit), **tangkapan layar terpilih** (yang menang diunggah, yang kalah dihapus; akun demo disajikan sebagai nyata), **klaim tak terverifikasi** ('mengubah $1.000 jadi $1 juta' tanpa laporan broker), dan pendapatan yang jelas datang dari **kursus, sinyal, dan tautan afiliasi** alih-alih perdagangan.\n\n**Penjual sinyal** layak kewaspadaan khusus: membayar seseorang memberitahu kapan membeli menggabungkan seluruh risiko (Anda) dengan nol pemahaman (juga Anda). Anda tak bisa mengukur, mengelola, atau keluar dari posisi yang penalarannya tak Anda ketahui — itulah mengapa Akademi ini mengajari Anda *membaca alasan mesin* alih-alih memercayai kesimpulannya.\n\nKontras jujur yang kini Anda miliki: QuantGlass menunjukkan ukuran sampel, pembagian luar-sampel, biaya, dan drawdown pada setiap klaim, *karena begitulah pelaporan kinerja yang jujur terlihat*. Tuntut standar sama dari manusia mana pun: teraudit, lengkap, disesuaikan-risiko, kerugian termasuk. Nyaris tak ada yang bertahan atas tuntutan itu.",
+    "key_terms": [
+      {
+        "term": "Pemasaran gaya hidup",
+        "definition": "Menjual citra kekayaan menggantikan kinerja yang dapat diverifikasi."
+      },
+      {
+        "term": "Pemilihan ceri",
+        "definition": "Mengunggah yang menang sambil menghapus yang kalah — bias penyintas sebagai alat jualan."
+      },
+      {
+        "term": "Penjualan sinyal",
+        "definition": "Menarik bayaran untuk panggilan masuk yang penalaran dan risikonya disembunyikan."
+      },
+      {
+        "term": "Rekam jejak teraudit",
+        "definition": "Kinerja lengkap terverifikasi broker, kerugian termasuk — standar yang dihindari guru."
+      }
+    ],
+    "exercise": {
+      "question": "Seorang guru mengunggah 47 tangkapan layar perdagangan menang bulan ini. Sebagai pembaca terlatih statistik, apa pertanyaan pertama?",
+      "options": [
+        "Broker mana yang antarmukanya paling cantik?",
+        "Mana yang kalah? Sampel tanpa kerugian itu dipilih-pilih, bukan diraih — bias penyintas yang sama yang memalsukan backtest memalsukan rekam jejak.",
+        "Bagaimana berlangganan tercepat?",
+        "Jam itu apa?"
+      ],
+      "explanation": "Anda mempelajari ini sebagai bias penyintas di rute backtesting. Tangkapan layar adalah sampel yang tak bisa Anda audit, dipilih oleh orang yang menjual kepada Anda."
+    },
+    "live_apply": {
+      "cta": "Buka preset mana pun: kerugian, drawdown, dan ukuran sampel tercetak di samping keuntungan. Kelengkapan ini adalah seperti apa pelaporan sejati terlihat."
+    }
+  },
+  {
+    "id": "novice-27-platform-scams",
+    "title": "Penipuan platform dan phishing",
+    "summary": "Bursa palsu, jebakan penarikan, dan pencurian kredensial.",
+    "concept": "Keluarga penipuan kedua menyerang *akses* Anda alih-alih penilaian Anda. **Platform palsu**: situs bursa/broker mengkilap yang menerima setoran, menampilkan laba khayalan untuk mendorong lebih banyak setoran, lalu memblokir penarikan ('bayar pajak/biaya dulu' — **jebakan penarikan**, selalu pencurian kedua, tak pernah biaya nyata). **Phishing**: situs dan surel kembar yang memanen kredensial bursa atau frasa pemulihan Anda; satu tempel salah dan kustodi hilang. **Dukungan palsu**: penipu di saluran komunitas mengirim DM 'bantuan' yang berakhir membuat Anda mengungkap kredensial — dukungan asli tak pernah menulis lebih dulu dan tak pernah butuh kata sandi atau frasa pemulihan Anda.\n\nPertahanannya mekanis, bukan cerdik: jangkau bursa **hanya lewat markah** (jangan pernah lewat tautan iklan pencarian), aktifkan **daftar izin penarikan dan 2FA**, beri **kunci API lingkup terkecil** (aturan pelajaran kustodi — kunci hanya-data untuk aplikasi hanya-data, tak pernah hak penarikan), dan perlakukan tuntutan 'bayar untuk membuka penarikan Anda' sebagai pengakuan apa adanya.\n\nPerhatikan sikap QuantGlass yang dapat Anda verifikasi: kunci hidup di brankas lokal terenkripsi, aplikasi tak pernah meminta kata sandi atau frasa pemulihan, dan tak ada di sini yang bisa menarik — sesuai rancangan.",
+    "key_terms": [
+      {
+        "term": "Jebakan penarikan",
+        "definition": "Biaya palsu yang dituntut untuk 'melepas' dana — pencurian kedua, tak pernah sah."
+      },
+      {
+        "term": "Phishing",
+        "definition": "Situs/pesan kembar yang memanen kredensial atau frasa pemulihan."
+      },
+      {
+        "term": "Dukungan palsu",
+        "definition": "'Bantuan' tak diminta yang berakhir pada pengungkapan kredensial."
+      },
+      {
+        "term": "Disiplin markah",
+        "definition": "Menjangkau situs keuangan hanya lewat tautan tersimpan dan terverifikasi."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah 'platform' menunjukkan saldo Anda naik ke $11.400 tetapi menuntut 'biaya pelepasan' $900 untuk menarik. Apa model yang benar dari situasi ini?",
+      "options": [
+        "Biaya regulasi normal — bayar.",
+        "Saldo yang ditampilkan adalah fiksi dan biaya itu upaya pencurian kedua; tak ada tempat sah yang menarik bayaran untuk mengizinkan penarikan dana Anda sendiri.",
+        "Tawar biaya hingga $450.",
+        "Setor lebih banyak agar berhak atas penarikan gratis."
+      ],
+      "explanation": "Angka di layar selalu hanya piksel. Membayar biaya 'pelepasan' hanya menandakan Anda bisa ditagih lagi — pengeluaran yang benar adalah nol dan tindakan yang benar adalah melapor."
+    },
+    "live_apply": {
+      "cta": "Periksa layar kunci API Anda: lingkup, enkripsi, tak ada hak penarikan di mana pun — verifikasi sikap yang digambarkan pelajaran ini."
+    }
+  },
+  {
+    "id": "novice-28-social-engineering",
+    "title": "Rekayasa sosial dan penipuan jangka panjang",
+    "summary": "'Penjagalan babi', corong asmara, dan kepercayaan sebagai permukaan serangan.",
+    "concept": "Penipuan yang paling menghancurkan secara finansial menyerang kepercayaan, perlahan. Naskah **penipuan jangka panjang** (disebut kasar 'penjagalan babi'): orang asing memulai kontak (nomor salah, aplikasi kencan, media sosial), menginvestasikan berminggu-minggu dalam hubungan persahabatan atau asmara, mengungkap santai sukses perdagangannya, dan akhirnya menawarkan 'membantu Anda berinvestasi' — di platform yang ia kendalikan. Penarikan kecil dihormati di awal untuk memfabrikasi kepercayaan; pencurian datang setelah korban naik ke tabungan seumur hidup. Kerugian dalam kategori ini rutin bersifat bencana justru karena hubungannya tampak nyata.\n\nPertahanan struktural, karena penilaian sesaat itulah yang dimatikan penipuan: **aturan saluran** — siapa pun yang memulai kontak DAN akhirnya mengarah ke investasi diasumsikan bermusuhan, betapa pun lama hubungan bertahan; **aturan platform** — jangan pernah gunakan tempat yang diperkenalkan kenalan daring; **aturan verifikasi** — bahas 'peluang' baru apa pun dengan seseorang luring yang mencintai Anda dan tak memperoleh apa-apa darinya; dan **aturan penarikan** — 'penarikan sukses' awal tak membuktikan apa-apa, karena menghormati penarikan kecil adalah modal kerja skema.\n\nJika ini terjadi pada Anda atau orang terkasih: ini kejahatan industri terorganisir, bukan kenaifan — laporkan, dan jangan pernah membayar 'layanan pemulihan' (penipuan lanjutan yang menargetkan korban dua kali).",
+    "key_terms": [
+      {
+        "term": "Penipuan jangka panjang",
+        "definition": "Berminggu-minggu hubungan terfabrikasi sebelum tuntutan finansial."
+      },
+      {
+        "term": "Modal kepercayaan",
+        "definition": "Penarikan kecil yang dihormati dipakai untuk membuka setoran lebih besar."
+      },
+      {
+        "term": "Aturan saluran",
+        "definition": "Kontak yang dimulai + mengarah ke investasi = diasumsikan bermusuhan."
+      },
+      {
+        "term": "Penipuan pemulihan",
+        "definition": "Layanan palsu yang menagih korban untuk 'memulihkan' dana yang dicuri."
+      }
+    ],
+    "exercise": {
+      "question": "Seorang teman daring dua bulan, yang tak pernah meminta apa-apa, menyebut platform perdagangan pamannya dan menawarkan memandu Anda ke sana. Fakta tunggal mana yang mendominasi penilaian risiko?",
+      "options": [
+        "Dua bulan cukup untuk membangun kepercayaan.",
+        "Ia memulai kontak awal dan jalannya kini mengarah ke platform investasi yang ia perkenalkan — tanda tangan lengkap penipuan jangka panjang, betapa pun terasa autentik.",
+        "Paman biasanya tepercaya.",
+        "Situs platform tampak profesional."
+      ],
+      "explanation": "Seluruh rancangan penipuan adalah membuat hubungan tampak nyata dan tak terburu. Pola mengalahkan perasaan: kontak yang dimulai plus investasi yang diarahkan adalah tanda tangannya, dan satu-satunya respons aman adalah aturan saluran."
+    },
+    "live_apply": {
+      "cta": "Bagikan aturan saluran dengan seseorang yang Anda kenal yang baru mulai berinvestasi — pertahanan menyebar saat diucapkan lantang."
+    }
+  },
+  {
+    "id": "novice-29-scam-checklist",
+    "title": "Daftar periksa anti-penipuan",
+    "summary": "Sepuluh pertanyaan yang menyaring nyaris segalanya.",
+    "concept": "Dimampatkan dari rute ini, sebuah daftar untuk dijalankan pada peluang mana pun: setiap 'ya' adalah bendera merah, tiga adalah vonis:\n\n1. Apakah imbal hasil **terjamin** atau 'tanpa risiko'?\n2. Apakah ada **urgensi** (tenggat, kursi terbatas)?\n3. Apakah **mereka menghubungi Anda** lebih dulu?\n4. Apakah Anda dipindahkan ke **saluran pribadi**?\n5. Apakah rekam jejak **tak terverifikasi** (tangkapan layar, tanpa laporan teraudit)?\n6. Apakah penjual memperoleh dari **biaya/kursus/rujukan** alih-alih perdagangan?\n7. Apakah Anda harus memakai **platform mereka** atau membayar untuk menarik?\n8. Apakah mereka mau **kredensial, frasa pemulihan, atau akses jarak jauh**?\n9. Apakah strateginya **rahasia** ('tak bisa mengungkap cara kerjanya')?\n10. Apakah imbal hasil yang diiklankan akan membuat penjualan **tak perlu** jika nyata?\n\nPerhatikan pola apa yang bertahan dari saringan ini: hal-hal membosankan. Pembelajaran swakustodi, data publik teraudit, alat yang menunjukkan kerjanya, imbal hasil yang diiklankan dalam kelipatan R jujur dengan drawdown terlampir. Ironi terakhir Akademi disengaja: segala yang membuat mesin tepercaya — penalaran terlihat, ukuran sampel, kejujuran luar-sampel, biaya termasuk, tanpa janji — adalah kebalikan persis dari setiap bendera merah di atas. Kini Anda tahu seperti apa kejujuran terlihat di bidang ini. Tuntut di mana-mana.",
+    "key_terms": [
+      {
+        "term": "Penumpukan bendera merah",
+        "definition": "Satu bendera adalah kecurigaan; tiga adalah vonis."
+      },
+      {
+        "term": "Keterverifikasian",
+        "definition": "Garis pemisah antara pemasaran dan bukti."
+      },
+      {
+        "term": "Penyintas membosankan",
+        "definition": "Yang lolos saringan: teraudit, transparan, tanpa janji."
+      },
+      {
+        "term": "Kebalikan kejujuran",
+        "definition": "Setiap fitur transparansi mesin mencerminkan satu bendera merah penipuan."
+      }
+    ],
+    "exercise": {
+      "question": "Properti mana yang SECARA fundamental dibagi SEMUA tawaran yang bertahan dari daftar sepuluh pertanyaan?",
+      "options": [
+        "Imbal hasil yang dijanjikan lebih tinggi dari penipuan.",
+        "Transparansi yang dapat diverifikasi: klaim teraudit, penalaran terlihat, kerugian termasuk, dan tanpa ketergantungan pada urgensi atau kerahasiaan.",
+        "Dukungan selebritas.",
+        "Akses Telegram pribadi."
+      ],
+      "explanation": "Saringan ini tak menemukan permata tersembunyi — ia menemukan kejujuran. Alat dan guru yang sah bertahan karena menunjukkan kerjanya; segala yang lain butuh bendera merah untuk berfungsi."
+    },
+    "common_mistakes": [
+      "Mengira kecerdasan adalah perlindungan. Penipuan dirancang untuk orang cerdas dan percaya diri — daftar berfungsi justru karena tak bergantung pada penilaian sesaat.",
+      "Memeriksa daftar hanya untuk orang asing. Teman dan keluarga meneruskan penipuan yang mereka percayai; daftar berlaku pada pesan, bukan pembawa pesan."
+    ],
+    "live_apply": {
+      "cta": "Jalankan daftar pada QuantGlass sendiri, butir demi butir — mesin harus lolos justru karena setiap klaim di layar dapat diaudit."
+    }
+  }
+]
