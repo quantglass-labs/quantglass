@@ -1,0 +1,932 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "title": "Medias móviles — EMA vs SMA",
+    "summary": "Comprende por qué la EMA reacciona más rápido y cuándo eso importa.",
+    "concept": "Tanto la **EMA** (Media Móvil Exponencial) como la **SMA** (Media Móvil Simple) suavizan el ruido del precio en una sola línea. La diferencia es la *ponderación*:\n\n- **SMA**: cada cierre de la ventana recibe el mismo peso. SMA-50 = promedio de los últimos 50 cierres.\n- **EMA**: los cierres recientes reciben un peso exponencialmente mayor. La EMA-21 reacciona al nuevo precio más rápido que la SMA-50, girando antes que la SMA cuando la tendencia cambia.\n\n**Uso práctico en QuantGlass:**\n- La EMA-21 actúa como *soporte dinámico en tendencias alcistas* y *resistencia en tendencias bajistas*.\n- Un retroceso a la EMA-21 dentro de un apilamiento alcista (Close > EMA > SMA) es el gatillo de entrada para las configuraciones `ema_reclaim_pullback` y `daily_trend_pullback`.\n- La *pendiente* de la SMA-50 en las últimas 10 barras (`htf_slope`) se usa como filtro direccional de marco temporal superior — solo se permiten entradas cuando la SMA-50 se inclina en la dirección de la operación.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Promedio simple de los últimos 50 precios de cierre — rezagado pero estable."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Promedio de 21 períodos ponderado exponencialmente — más rápido para reaccionar a movimientos recientes."
+      },
+      {
+        "term": "Soporte/resistencia dinámico",
+        "definition": "Una media móvil que actúa como S/R y se ajusta con el precio."
+      },
+      {
+        "term": "Pendiente HTF",
+        "definition": "Pendiente del marco temporal superior: (SMA50[ahora] − SMA50[hace 10 barras]) / SMA50[hace 10 barras]."
+      }
+    ],
+    "exercise": {
+      "question": "El precio ha estado en tendencia alcista. Retrocede para tocar la EMA-21 mientras la SMA-50 está por debajo de ambas. ¿Qué configuración busca QuantGlass?",
+      "options": [
+        "Un corto de reversión a la media en rango.",
+        "Una entrada larga de retroceso en tendencia (ema_reclaim_pullback o daily_trend_pullback).",
+        "Una vigilancia de ruptura bajista.",
+        "Ninguna configuración — QuantGlass ignora los toques de medias móviles."
+      ],
+      "explanation": "Cuando Close > EMA21 > SMA50 y el precio retrocede cerca de la EMA-21 con el RSI en la zona 46–72, el motor genera `ema_reclaim_pullback` (intradía) o `daily_trend_pullback` (diario) — una señal BUY_ZONE que apunta a la continuación de la tendencia alcista."
+    },
+    "live_apply": {
+      "cta": "Filtra las Señales a BUY_ZONE. Encuentra una señal con setup_type = 'ema_reclaim_pullback' e inspecciona la lista de razones."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "title": "RSI — Medir el impulso",
+    "summary": "Usa el RSI para identificar agotamiento y confirmación de impulso.",
+    "concept": "El **Índice de Fuerza Relativa (RSI-14)** mide el impulso: qué tan rápido y qué tan lejos se ha movido el precio respecto a su historia reciente. Oscila entre 0 y 100:\n\n- **RSI > 70**: sobrecompra (impulso extendido, vigila el agotamiento)\n- **RSI < 30**: sobreventa (impulso extendido a la baja)\n- **RSI 46–72**: zona de tendencia alcista saludable — aquí se prefieren las entradas en retroceso\n\nQuantGlass también usa el **RSI-2** (RSI ultrarrápido de 2 períodos) para configuraciones de reversión a la media:\n- RSI-2 ≤ 8 cerca de la banda de Bollinger inferior → sobreventa extrema de corto plazo → BUY_ZONE\n- RSI-2 ≥ 92 cerca de la banda de Bollinger superior → sobrecompra extrema de corto plazo → SELL\n\n**Divergencia**: el precio hace un máximo más alto pero el RSI hace un máximo más bajo → divergencia bajista, el impulso se debilita aunque el precio suba.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "Índice de Fuerza Relativa de 14 períodos — el oscilador de impulso principal."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "RSI de 2 períodos — indicador de reversión a la media de corto plazo extremo."
+      },
+      {
+        "term": "Sobrecompra",
+        "definition": "RSI > 70 — impulso extendido al alza, aumenta el riesgo de reversión."
+      },
+      {
+        "term": "Sobreventa",
+        "definition": "RSI < 30 — impulso extendido a la baja, posible zona de rebote."
+      },
+      {
+        "term": "Divergencia de RSI",
+        "definition": "Precio y RSI moviéndose en direcciones opuestas — señala impulso debilitándose."
+      }
+    ],
+    "exercise": {
+      "question": "En un mercado en rango, el RSI-2 cae a 5 y el precio toca la banda de Bollinger inferior. ¿Qué señal genera QuantGlass?",
+      "options": [
+        "SELL — el precio está en el fondo, confirmando una ruptura bajista.",
+        "BUY_ZONE con tipo de configuración 'range_meanreversion_long'.",
+        "WAIT — evidencia insuficiente en un mercado en rango.",
+        "HOLD — sin nueva entrada en mercados en rango."
+      ],
+      "explanation": "En un régimen `ranging`, RSI-2 ≤ 8 *y* el precio en la banda de Bollinger inferior activa la configuración `range_meanreversion_long`. El objetivo de reversión a la media es la línea media de Bollinger. La escalera de TP se ancla a esa línea media, no a un múltiplo de ATR abierto."
+    },
+    "common_mistakes": [
+      "Vender en 'sobrecompra' en una tendencia alcista. Las tendencias fuertes fijan el RSI por encima de 70 durante semanas; las lecturas de reversión a la media necesitan un régimen en rango.",
+      "Actuar solo con el RSI. El motor lo trata como una entrada detrás de la puerta del régimen, nunca como gatillo autónomo."
+    ],
+    "live_apply": {
+      "cta": "Busca una señal BUY_ZONE con setup_type = 'range_meanreversion_long' en la pantalla de Señales."
+    }
+  },
+  {
+    "id": "intermediate-06-macd",
+    "title": "MACD: el impulso de tendencia hecho visible",
+    "summary": "Dos EMA, su brecha y el histograma que cronometra los cambios de impulso.",
+    "concept": "El **MACD** (Convergencia/Divergencia de Medias Móviles) parte de una idea simple: comparar una lente rápida con una lenta. La **línea MACD** es la EMA de 12 períodos menos la EMA de 26 períodos — positiva cuando los precios recientes corren calientes respecto a la base más lenta. La **línea de señal** es una EMA de 9 períodos *de la línea MACD*. El **histograma** es su diferencia, y es lo que QuantGlass realmente consume: `macd_hist > 0` cuenta como acuerdo alcista en la confluencia de la configuración, `< 0` como bajista.\n\nLeerlo: el histograma cruzando cero marca el cruce de las EMA rápida/lenta; el histograma *encogiéndose* mientras el precio aún empuja marca el impulso desvaneciéndose antes de que el precio gire — la clásica advertencia temprana.\n\nLímites: el MACD se construye con EMA, así que se rezaga por construcción, y en rangos planos hace zigzag. Por eso el motor lo usa como un **voto de acuerdo** entre varios, nunca como gatillo autónomo.",
+    "key_terms": [
+      {
+        "term": "Línea MACD",
+        "definition": "EMA-12 menos EMA-26 de los cierres."
+      },
+      {
+        "term": "Línea de señal",
+        "definition": "EMA-9 de la línea MACD."
+      },
+      {
+        "term": "Histograma",
+        "definition": "Línea MACD menos línea de señal — el valor macd_hist del motor."
+      },
+      {
+        "term": "Divergencia de impulso",
+        "definition": "El precio sigue empujando mientras el histograma se encoge."
+      },
+      {
+        "term": "Voto de acuerdo",
+        "definition": "Cómo usa el motor el MACD: una entrada de confluencia, no un gatillo."
+      }
+    ],
+    "exercise": {
+      "question": "En la lógica de configuración de QuantGlass, ¿qué papel juega el histograma del MACD?",
+      "options": [
+        "Es el único gatillo de cada señal.",
+        "Su signo actúa como un voto de acuerdo en el puntaje de confluencia — las configuraciones alcistas ganan cuando es positivo, las bajistas cuando es negativo.",
+        "Establece la distancia del stop-loss.",
+        "Reemplaza el análisis de volumen."
+      ],
+      "explanation": "El motor añade una bonificación de confluencia fija cuando macd_hist concuerda con la dirección de la configuración. Es corroboración, nunca la idea de la operación en sí."
+    },
+    "live_apply": {
+      "cta": "Abre los indicadores de un símbolo y observa el signo del histograma del MACD frente a la dirección de la configuración actual — ¿acuerdo o desacuerdo?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "title": "Bandas de Bollinger: la volatilidad como corredor",
+    "summary": "Una media de 20 barras envuelta en dos desviaciones estándar.",
+    "concept": "Las **Bandas de Bollinger** envuelven el precio en un corredor estadístico: la **banda media** es una media móvil de 20 períodos; las **bandas superior e inferior** se sitúan 2 desviaciones estándar por encima y por debajo, calculadas sobre las mismas 20 barras. Como la desviación estándar crece con la volatilidad, el corredor respira — ancho en tormentas, estrecho en calma.\n\nImportan dos lecturas. **Toques de banda**: el precio en una banda está *estadísticamente estirado*, no revirtiendo automáticamente; en el régimen en rango del motor, un toque de la banda inferior con un RSI rápido agotado es la configuración larga de reversión a la media, apuntando a la **banda media** en lugar de a una escalera abierta. **Ancho de banda**: (superior − inferior) ÷ media mide el estrechamiento; una estrechez extrema suele preceder a la expansión.\n\nEl motor calcula las cuatro series — superior, inferior, media, ancho de banda — a partir de velas cerradas, y sus salidas de reversión a la media apuntan literalmente a `bb_mid`, así que esta lección describe tu lógica real de toma de ganancias.",
+    "key_terms": [
+      {
+        "term": "Banda media",
+        "definition": "Media de 20 períodos — el centro del corredor y el objetivo de reversión a la media."
+      },
+      {
+        "term": "Desviación estándar",
+        "definition": "La medida de dispersión de 20 barras que dimensiona el corredor."
+      },
+      {
+        "term": "Ancho de banda",
+        "definition": "(Superior − inferior) ÷ media — el indicador de estrechamiento."
+      },
+      {
+        "term": "Toque de banda",
+        "definition": "El precio tocando una banda: estirado, no necesariamente revirtiendo."
+      }
+    ],
+    "exercise": {
+      "question": "En la configuración de reversión a la media en rango del motor, ¿por qué la toma de ganancias apunta a la banda media en lugar de a una escalera de 3 peldaños?",
+      "options": [
+        "Las bandas medias son más fáciles de dibujar.",
+        "La reversión a la media apuesta por un retorno al promedio — el imán estadístico es la media misma, así que la lógica de salida la apunta.",
+        "Las escaleras solo son legales en tendencias alcistas.",
+        "La banda media nunca se mueve."
+      ],
+      "explanation": "La premisa de la configuración es la reversión a la media. Apuntar a bb_mid mantiene la salida coherente con la idea que generó la entrada."
+    },
+    "live_apply": {
+      "cta": "Activa la superposición de Bollinger: encuentra un toque de banda reciente y comprueba si el precio revirtió a la banda media después."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "title": "ADX: medir la fuerza de la tendencia, no la dirección",
+    "summary": "El indicador detrás de la decisión de régimen en tendencia/en rango del motor.",
+    "concept": "El **ADX** responde una pregunta: *¿está este mercado en tendencia siquiera?* Se construye a partir del movimiento direccional — cuánto empuja el máximo de hoy por encima del de ayer (+DM) frente a cuánto empuja el mínimo de hoy por debajo (−DM) — suavizado, normalizado por el rango verdadero en +DI/−DI, y condensado en una lectura de fuerza de 0–100. La dirección se descarta deliberadamente: una tendencia bajista fuerte y una alcista fuerte ambas leen alto.\n\nLa puerta de régimen de QuantGlass usa umbrales exactos: **ADX ≥ 22 → en tendencia**, **ADX < 16 → en rango**, entre ellos → transicional (con una verificación de volatilidad separada que puede anular a *volátil*). Esos números regulan qué familias de configuración siquiera se ejecutan — las de retroceso y ruptura necesitan el régimen en tendencia; la reversión a la media necesita el régimen en rango.\n\nLectura práctica: ADX subiendo = el movimiento se fortalece (sea cual sea su dirección); ADX bajando tras una tendencia = la tendencia exhala. Combínalo con la estructura para la dirección.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "Lectura de fuerza de tendencia de 0–100, ciega a la dirección."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Índices direccionales de subidas y bajadas, normalizados por el rango verdadero."
+      },
+      {
+        "term": "Puerta de régimen",
+        "definition": "QuantGlass: ADX ≥ 22 en tendencia, < 16 en rango, de lo contrario transicional."
+      },
+      {
+        "term": "Agotamiento de tendencia",
+        "definition": "ADX cayendo durante una tendencia madura."
+      }
+    ],
+    "exercise": {
+      "question": "El ADX lee 28 mientras el precio hace mínimos más bajos. ¿Qué concluye el motor?",
+      "options": [
+        "El mercado está en rango — 28 es bajo.",
+        "El mercado está en un régimen en tendencia (ADX ≥ 22), y la dirección de la tendencia (a la baja) viene de la estructura del precio, no del ADX.",
+        "El ADX se rompió — debería ser negativo en tendencias bajistas.",
+        "Solo las tendencias alcistas pueden tener ADX por encima de 22."
+      ],
+      "explanation": "El ADX mide solo la fuerza. 28 supera el umbral de tendencia; la estructura de mínimos más bajos aporta la dirección bajista."
+    },
+    "live_apply": {
+      "cta": "Encuentra la etiqueta de régimen en una señal, luego compara el valor de ADX detrás de ella con los umbrales 22/16 que te dio esta lección."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "title": "Canales de Donchian: operar los extremos",
+    "summary": "El canal de máximo/mínimo de 20 barras detrás de la detección de rupturas.",
+    "concept": "El **canal de Donchian** es el indicador más honesto que existe: la línea superior es simplemente el **máximo más alto de las últimas 20 barras**, la línea inferior el **mínimo más bajo**. Sin suavizado, sin pesos — extremos puros.\n\nSu lógica: en un mercado en tendencia, el precio haciendo un *nuevo extremo de 20 barras* es la tendencia afirmándose. Las configuraciones de ruptura-reprueba de QuantGlass se disparan cuando, en un régimen en tendencia, una vela atraviesa el borde del canal de la **barra anterior** y cierra cerca o más allá (dentro del 0,3%), con el volumen al menos en su promedio reciente. Usar el canal de la barra anterior evita la trampa de autorreferencia donde el máximo de hoy *es* el canal que debe romper.\n\nEl ancho del canal también describe el terreno de juego: un canal estrecho es compresión (energía almacenándose), uno ancho es un movimiento extendido. Donchian se combina naturalmente con el ADX — las rupturas de canal *en regímenes en tendencia* son continuación; la misma ruptura en un rango muerto suele ser un engaño.",
+    "key_terms": [
+      {
+        "term": "Donchian superior/inferior",
+        "definition": "Máximo más alto / mínimo más bajo en el período de observación (20 barras en el motor)."
+      },
+      {
+        "term": "Ruptura",
+        "definition": "Un empuje a través del extremo del canal de la barra anterior."
+      },
+      {
+        "term": "Reprueba (retest)",
+        "definition": "El precio regresando al nivel roto antes de continuar."
+      },
+      {
+        "term": "Engaño (fakeout)",
+        "definition": "Una ruptura de canal sin apoyo de régimen ni de volumen."
+      }
+    ],
+    "exercise": {
+      "question": "¿Por qué el motor compara el precio con el canal de Donchian de la barra ANTERIOR al detectar rupturas?",
+      "options": [
+        "Las barras anteriores tienen mejor calidad de datos.",
+        "El máximo de la barra actual es parte del canal actual — una barra siempre toca su propio extremo, así que el canal anterior es la referencia honesta.",
+        "Los canales de Donchian se actualizan solo semanalmente.",
+        "Hace la matemática más lenta pero más bonita."
+      ],
+      "explanation": "El máximo de hoy define el techo del canal de hoy, así que 'romperlo' sería trivialmente cierto. Probar contra el canal de la barra anterior hace la pregunta real: ¿superamos lo que vino antes?"
+    },
+    "live_apply": {
+      "cta": "Encuentra un preset breakout_retest y lee sus estadísticas de operaciones — cada entrada simulada vino de esta regla del canal de la barra anterior."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "title": "Canales de Keltner: la envoltura de ATR",
+    "summary": "EMA ± 1,5 ATR — bandas de volatilidad que respiran con el rango verdadero.",
+    "concept": "Los **canales de Keltner** envuelven una EMA de 21 períodos en bandas desplazadas por **1,5 × ATR(14)**. Donde Bollinger dimensiona su corredor por *dispersión estadística de cierres*, Keltner lo dimensiona por **rango verdadero** — el recorrido real de barra a barra incluyendo los gaps. El resultado es una envoltura más suave y estable que hace menos zigzag en mercados entrecortados.\n\nLecturas: el precio cabalgando la banda superior de Keltner marca una tendencia fuerte (en tendencias, 'sobrecompra' a menudo solo significa fuerza); el precio oscilando entre bandas marca equilibrio. El **estrechamiento (squeeze)** — las bandas de Bollinger estrechándose *dentro* del canal de Keltner — es una clásica señal de compresión, ya que significa que la volatilidad estadística cayó por debajo del recorrido típico de la barra.\n\nEn el motor, las bandas de Keltner se calculan junto con todo lo demás a partir de velas cerradas y sirven como contexto de cuán estirado está un movimiento respecto a su propio recorrido normal — el mismo razonamiento de ATR que dimensiona tus stops.",
+    "key_terms": [
+      {
+        "term": "Canal de Keltner",
+        "definition": "EMA-21 ± 1,5 × ATR(14) en el motor."
+      },
+      {
+        "term": "Rango verdadero",
+        "definition": "Recorrido de la barra incluyendo gaps — máximo de máx−mín y movimientos desde el cierre anterior."
+      },
+      {
+        "term": "Cabalgar la banda",
+        "definition": "Cierres sostenidos en una banda: fuerza de tendencia, no reversión automática."
+      },
+      {
+        "term": "Estrechamiento (squeeze)",
+        "definition": "Bollinger dentro de Keltner — compresión que precede a la expansión."
+      }
+    ],
+    "exercise": {
+      "question": "Tanto Bollinger como Keltner envuelven una media móvil. ¿Cuál es la diferencia definitoria?",
+      "options": [
+        "Keltner usa desviación estándar; Bollinger usa ATR.",
+        "Bollinger dimensiona las bandas por la desviación estándar de los cierres; Keltner las dimensiona por ATR — el recorrido real de la barra.",
+        "Bollinger solo funciona con acciones.",
+        "No hay diferencia."
+      ],
+      "explanation": "El mismo esqueleto, distinta regla de volatilidad: dispersión de cierres (Bollinger) frente a rango verdadero (Keltner). La elección cambia cómo se comportan las bandas en gaps y mercados entrecortados."
+    },
+    "live_apply": {
+      "cta": "Superpón ambas envolturas: encuentra un momento en que Bollinger se estrechó dentro de Keltner, y observa qué hizo el precio después."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "title": "Las cuatro familias de indicadores",
+    "summary": "Tendencia, impulso, volatilidad, volumen — y por qué uno de cada uno supera a cinco de uno.",
+    "concept": "Cada indicador que encontrarás responde una de cuatro preguntas. **Tendencia**: ¿hacia dónde deriva la base? (EMA, SMA, el esqueleto del MACD). **Impulso**: ¿con qué fuerza empuja el precio respecto a sus empujes recientes? (RSI, histograma del MACD). **Volatilidad**: ¿qué tan grandes son los movimientos? (ATR, ancho de banda de Bollinger, ancho de Keltner). **Volumen**: ¿quién se presentó? (ratio de volumen).\n\nEl pecado capital es la **redundancia**: apilar RSI + estocástico + histograma del MACD es hacer la misma pregunta de impulso de tres formas y llamar 'confirmación' a los ecos. La confirmación real cruza familias: la tendencia dice arriba, el impulso dice fuerte, la volatilidad dice ordenado, el volumen dice concurrido.\n\nAsí es precisamente como se ensambla el puntaje de confluencia del motor — una entrada por pregunta: alineación de tendencia (brecha EMA vs SMA), confirmación de volumen (ratio de volumen), un voto de acuerdo de impulso (histograma del MACD) y una verificación de deriva de marco temporal superior. Cuatro familias, un voto cada una, sin ecos.",
+    "key_terms": [
+      {
+        "term": "Familia de tendencia",
+        "definition": "Dirección de la base: EMA, SMA."
+      },
+      {
+        "term": "Familia de impulso",
+        "definition": "Fuerza del empuje: RSI, histograma del MACD."
+      },
+      {
+        "term": "Familia de volatilidad",
+        "definition": "Tamaño del movimiento: ATR, anchos de banda."
+      },
+      {
+        "term": "Familia de volumen",
+        "definition": "Participación: ratio de volumen."
+      },
+      {
+        "term": "Redundancia",
+        "definition": "Varios indicadores respondiendo la misma pregunta y mal contados como confirmación."
+      }
+    ],
+    "exercise": {
+      "question": "Un trader 'confirma' un largo con RSI, estocástico e histograma del MACD todos subiendo. ¿Cuál es el defecto?",
+      "options": [
+        "Tres indicadores son muy pocos.",
+        "Los tres son de la familia de impulso — una pregunta hecha tres veces, que aporta ecos en lugar de confirmación independiente.",
+        "Los indicadores de impulso no pueden subir juntos.",
+        "Los largos requieren exactamente cinco indicadores."
+      ],
+      "explanation": "Las verificaciones entre familias (tendencia + impulso + volatilidad + volumen) añaden información; los apilamientos de la misma familia añaden solo un consuelo correlacionado con el ruido."
+    },
+    "live_apply": {
+      "cta": "Abre las razones de una señal: identifica de cuál de las cuatro familias proviene cada razón listada."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "title": "Confluencia: cómo el motor puntúa una configuración",
+    "summary": "La aritmética exacta detrás del puntaje de confluencia.",
+    "concept": "Cuando varias observaciones independientes concuerdan, la evidencia se compone — eso es la **confluencia**. QuantGlass no lo deja en vaguedades; el puntaje es aritmética que puedes auditar.\n\nCada configuración parte de una **base** que refleja la calidad previa de la familia (0,55 para retrocesos en tendencia, 0,60 para rupturas-reprueba, 0,50 para reversión a la media). Luego añade: **alineación de tendencia × 0,15** (cuán decisivamente la EMA-21 se aparta de la SMA-50, escalada), **confirmación de volumen × 0,10** (ratio de volumen escalado), **+0,10 si el histograma del MACD concuerda** con la dirección, **+0,10 si la deriva del marco temporal superior concuerda**, y un **bono de régimen** (p. ej. +0,10–0,12 cuando el régimen coincide con la familia). La suma se acota a [0, 1].\n\nCuando varias configuraciones compiten en un símbolo, el motor simplemente toma la **mayor confluencia** — y el puntaje luego alimenta la confianza con un peso de 18 puntos. La confluencia de cada señal se imprime en su base, así que puedes recalcular cualquier puntaje a mano con este párrafo.",
+    "key_terms": [
+      {
+        "term": "Confluencia",
+        "definition": "Observaciones independientes que concuerdan — puntuada, no intuida."
+      },
+      {
+        "term": "Puntaje base",
+        "definition": "La calidad inicial de la familia de configuración antes de la evidencia."
+      },
+      {
+        "term": "Bono de acuerdo",
+        "definition": "+0,10 cada uno por la alineación del MACD y del marco temporal superior."
+      },
+      {
+        "term": "Bono de régimen",
+        "definition": "Puntaje extra cuando el régimen coincide con la familia de configuración."
+      },
+      {
+        "term": "Acotado (clamp)",
+        "definition": "Puntajes limitados a [0, 1] — sin apilamiento infinito."
+      }
+    ],
+    "exercise": {
+      "question": "Un retroceso en tendencia tiene trend_alignment 0,8, volume_confirmation 0,5, MACD concordando, marco temporal superior concordando, bono de régimen en tendencia 0,10. ¿Cuál es su confluencia?",
+      "options": [
+        "0,55 — la base es el puntaje.",
+        "0,55 + 0,12 + 0,05 + 0,10 + 0,10 + 0,10 = 1,02, acotado a 1,00.",
+        "0,92: 0,55 + 0,8×0,15 + 0,5×0,10 + 0,10 + 0,10 + 0,10.",
+        "La confluencia no puede calcularse a mano."
+      ],
+      "explanation": "0,55 base + 0,12 (0,8×0,15) + 0,05 (0,5×0,10) + 0,10 MACD + 0,10 HTF + 0,10 régimen = 0,92. Aritmética auditable — ese es el punto."
+    },
+    "live_apply": {
+      "cta": "Toma el confluence_score de cualquier señal de su base y recalcúlalo con la fórmula de esta lección."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "title": "ATR — Medir la volatilidad y dimensionar stops",
+    "summary": "Aprende a dimensionar stops y posiciones usando la volatilidad real del mercado.",
+    "concept": "El **Rango Verdadero Promedio (ATR-14)** mide la volatilidad: el promedio del 'rango verdadero' en 14 barras. Rango Verdadero = máx(Máx − Mín, |Máx − CierreAnt|, |Mín − CierreAnt|).\n\n**Por qué los stops basados en ATR superan a los stops de dólar fijo:**\nUn stop plano de $500 en una acción volátil será alcanzado por el ruido normal. Un stop basado en ATR se ajusta a la volatilidad actual — en mercados tranquilos se ajusta más, en mercados volátiles se amplía.\n\n**Fórmula de stop de QuantGlass (entrada larga):**\n`stop_loss = precio_referencia − (ATR × stop_multiple)`\ndonde stop_multiple = 1,3 (comprimido), 1,45 (normal), 1,6 (expandido).\n\n**ATR % del precio** = ATR ÷ Close × 100. Si ATR% < 1% → riesgo bajo. ATR% > 2,6% → riesgo alto.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "Rango Verdadero Promedio de 14 períodos — mide la volatilidad reciente del precio."
+      },
+      {
+        "term": "Rango Verdadero",
+        "definition": "El mayor de: Máx-Mín, |Máx-CierreAnt|, |Mín-CierreAnt|."
+      },
+      {
+        "term": "Múltiplo de stop",
+        "definition": "Multiplicador de ATR para la colocación del stop: 1,3 (comprimido) a 1,6 (expandido)."
+      },
+      {
+        "term": "ATR % del precio",
+        "definition": "ATR ÷ Close × 100 — la volatilidad normalizada como porcentaje."
+      }
+    ],
+    "exercise": {
+      "question": "BTCUSD está en $65.000. ATR-14 = $1.300. El régimen de volatilidad es 'normal' (stop_multiple = 1,45). ¿Cuál es el stop-loss para una entrada larga?",
+      "hint": "stop_loss = entrada − (ATR × stop_multiple)",
+      "explanation": "stop_loss = 65.000 − (1.300 × 1,45) = 65.000 − 1.885 = **63.115**. El stop se coloca 1,45 ATR por debajo de la entrada — lo bastante lejos para sobrevivir al ruido normal del precio pero lo bastante cerca para que el riesgo por operación sea cuantificable."
+    },
+    "common_mistakes": [
+      "Fijar stops de dólar fijo sin importar la volatilidad. Un stop de 2 puntos es generoso en un día tranquilo y dentro del ruido en uno salvaje.",
+      "Recalcular el tamaño de la posición sin recalcular el stop de ATR después de que la volatilidad se duplique: la distancia del stop viejo ya no significa nada."
+    ],
+    "live_apply": {
+      "cta": "Abre una señal BUY_ZONE de BTCUSD y verifica que la distancia del stop_loss desde la entrada equivale aproximadamente a 1,3–1,6× ATR."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "title": "Ratio Riesgo:Recompensa",
+    "summary": "Comprende por qué el R:R determina la ventaja a largo plazo independientemente de la tasa de acierto.",
+    "concept": "**Riesgo:Recompensa (R:R)** = (Salida_TP − Entrada) ÷ (Entrada − Stop_loss) para largos.\n\nUn R:R de 2,0 significa que arriesgas 1 para potencialmente ganar 2. Incluso si solo ganas el 40% de las operaciones, un R:R de 2,0 produce esperanza positiva:\n`Esperanza = (Gana% × Gan_prom) − (Pierde% × Pérd_prom) = (0,4 × 2R) − (0,6 × 1R) = +0,2R`\n\n**Objetivos de R:R de QuantGlass:**\n- Configuraciones BUY_ZONE / SELL: reward_multiple = 2,4× risk_distance (hasta TP2)\n- Configuraciones HOLD / WATCH / WAIT: reward_multiple = 1,8×\n\nEl motor usa una **escalera de 3 peldaños** para salir de forma escalonada: TP1 (50% de la posición), TP2 (30%), TP3 (20%). Esto asegura ganancia parcial mientras deja correr parte de la posición.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Ratio Riesgo:Recompensa — ganancia potencial ÷ riesgo por operación."
+      },
+      {
+        "term": "Esperanza",
+        "definition": "Ganancia promedio por operación: (Gana% × Gan_prom) − (Pierde% × Pérd_prom)."
+      },
+      {
+        "term": "Escalera de TP",
+        "definition": "Salida escalonada en TP1 (50%), TP2 (30%), TP3 (20%) del tamaño de la posición."
+      },
+      {
+        "term": "Esperanza positiva",
+        "definition": "Esperanza > 0 — la ventaja sobrevive a lo largo de muchas operaciones."
+      }
+    ],
+    "exercise": {
+      "question": "Ganas el 35% de las operaciones con una ganancia promedio de 3R y pierdes el 65% con una pérdida promedio de 1R. ¿Es positiva tu ventaja?",
+      "options": [
+        "No — una tasa de acierto del 35% es muy baja para ser rentable.",
+        "Sí — Esperanza = (0,35 × 3) − (0,65 × 1) = +0,4R por operación.",
+        "No — una tasa de pérdida del 65% siempre significa esperanza negativa.",
+        "Desconocido — necesitas más datos."
+      ],
+      "explanation": "Esperanza = (0,35 × 3R) − (0,65 × 1R) = 1,05 − 0,65 = **+0,4R por operación**. Esto significa que en 100 operaciones esperarías +40R de ganancia. Un R:R alto te permite ser rentable incluso con una tasa de acierto inferior al 50% — algo realista en el seguimiento de tendencias."
+    },
+    "common_mistakes": [
+      "Juzgar las operaciones solo por la tasa de acierto. Una tasa de acierto del 90% pierde dinero si el 10% son desastres de -10R.",
+      "Fijar objetivos por esperanza en lugar de por estructura. El riesgo:recompensa solo significa algo cuando el objetivo se sitúa en un nivel que el mercado realmente respeta.",
+      "Mover el stop para 'mejorar' el ratio tras la entrada. El ratio era el criterio de entrada; cambiarlo a mitad de operación borra el plan."
+    ],
+    "live_apply": {
+      "cta": "Abre el Backtesting, elige cualquier preset y examina juntas las métricas de Esperanza (avg_R), Tasa de Acierto y Factor de Ganancia."
+    },
+    "bridge": {
+      "cta": "Aplícalo: toma la misión de Disciplina de Riesgo — 20 operaciones, cada una con un stop y el riesgo dentro de la política."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "title": "Dimensionamiento de posición — Cuánto arriesgar",
+    "summary": "Calcula el tamaño correcto de la operación para que ninguna pérdida individual sea ruinosa.",
+    "concept": "El **dimensionamiento de posición** determina cuántas unidades comprar/vender para que, si se alcanza el stop, no pierdas más que tu *riesgo por operación* predefinido (p. ej., 1% de la cuenta).\n\n**Fórmula de fracción fija:**\n`Tamaño de posición = (Cuenta × Riesgo%) ÷ (Entrada − Stop_loss)`\n\nEjemplo: cuenta de $10.000, 1% de riesgo por operación, entrada en $100, stop en $96:\n`Tamaño = ($10.000 × 0,01) ÷ ($100 − $96) = $100 ÷ $4 = 25 acciones`\n\nSi esas 25 acciones alcanzan todas el stop en $96, pierdes 25 × $4 = **$100 exactos** — el 1% de la cuenta.\n\n**Por qué importa**: arriesgar un porcentaje fijo mantiene las pérdidas pequeñas durante las rachas adversas mientras permite que el tamaño de la posición crezca a medida que la cuenta crece (interés compuesto).",
+    "key_terms": [
+      {
+        "term": "Riesgo por operación",
+        "definition": "La máxima pérdida en dólares aceptable si se alcanza el stop (p. ej., 1% de la cuenta)."
+      },
+      {
+        "term": "Dimensionamiento de fracción fija",
+        "definition": "Tamaño = (Cuenta × Riesgo%) ÷ (Entrada − Stop) — escala con la cuenta."
+      },
+      {
+        "term": "Drawdown",
+        "definition": "Caída de pico a valle en el capital de la cuenta durante una racha perdedora."
+      }
+    ],
+    "exercise": {
+      "question": "Cuenta = $25.000. Riesgo por operación = 1%. Entrada = $200, Stop = $192. ¿Cuántas acciones?",
+      "hint": "Tamaño de posición = (Cuenta × Riesgo%) ÷ (Entrada − Stop)",
+      "explanation": "Monto de riesgo = $25.000 × 1% = $250. Riesgo por acción = $200 − $192 = $8. Tamaño de posición = $250 ÷ $8 = **31,25 → 31 acciones**. Si se dispara el stop: 31 × $8 = $248 perdidos — justo por debajo del 1% de la cuenta."
+    },
+    "common_mistakes": [
+      "Elegir primero el tamaño y luego el riesgo. El tamaño es una salida: (cuenta x riesgo%) / distancia del stop — nunca una entrada.",
+      "Duplicar el tamaño tras las pérdidas para recuperarlas. Eso es aritmética de martingala, y termina con cuentas.",
+      "Contar las posiciones abiertas por separado. Cinco operaciones arriesgando 1% cada una es 5% de calor de cartera si están correlacionadas — y en un desplome, todo se correlaciona."
+    ],
+    "live_apply": {
+      "cta": "Abre una señal, anota su entrada y stop_loss, luego calcula cuántas acciones comprar con 1% de riesgo en una cuenta de papel de $10.000."
+    },
+    "bridge": {
+      "cta": "Aplícalo: la misión de Disciplina de Riesgo califica tu dimensionamiento en cada operación de papel real."
+    }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "title": "Múltiplos de R: la unidad nativa del trader",
+    "summary": "Mide cada resultado en unidades de riesgo planificado.",
+    "concept": "Define **1R** como los dólares que planeabas perder si se alcanza el stop. Cada resultado se convierte entonces en un **múltiplo de R**: stop alcanzado = −1R; una salida al doble de la distancia del stop = +2R. La unidad viaja a través de símbolos, precios y tamaños de cuenta — un +1,5R en una moneda de $3 y un +1,5R en una acción de $900 son el *mismo logro*.\n\nPor qué importa: los dólares engañan (confunden la habilidad con el tamaño), los porcentajes engañan (confunden la habilidad con la volatilidad), pero R aísla la **calidad de decisión frente al riesgo planificado**. El historial de un método en R es directamente comparable a través de todo lo que operas.\n\nQuantGlass habla R nativamente: la esperanza del backtest se reporta en R, la escalera de toma de ganancias se coloca a distancias basadas en R, los costos se convierten en R antes de deducirlos, y el rango conforme acota la *R de la próxima operación*. Aprende a pensar en R y cada número de la app se vuelve un solo idioma.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "La pérdida planificada si se alcanza el stop."
+      },
+      {
+        "term": "Múltiplo de R",
+        "definition": "Un resultado dividido por el riesgo planificado: stop alcanzado = −1R."
+      },
+      {
+        "term": "Esperanza (R)",
+        "definition": "R promedio por operación a través de una muestra."
+      },
+      {
+        "term": "Normalización de riesgo",
+        "definition": "Comparar operaciones entre símbolos midiendo en R."
+      }
+    ],
+    "exercise": {
+      "question": "Entrada 200,00, stop 192,00, vendes la posición completa en 212,00. ¿Cuál es el resultado en R?",
+      "hint": "R = (salida − entrada) ÷ (entrada − stop)",
+      "explanation": "Riesgo por unidad = 200 − 192 = 8. Ganancia por unidad = 212 − 200 = 12. 12 ÷ 8 = **+1,5R** — la misma respuesta tanto si operaste 10 acciones como 10.000."
+    },
+    "common_mistakes": [
+      "Comparar resultados en dólares entre operaciones de distinto tamaño. Solo los múltiplos de R hacen las operaciones comparables.",
+      "Llamar fracaso a una pérdida de -1R. Una pérdida planificada tomada en el stop es el sistema funcionando exactamente como fue diseñado."
+    ],
+    "live_apply": {
+      "cta": "Abre las métricas de cualquier preset: la esperanza y avgR son exactamente esta unidad, calculadas sobre cada operación simulada."
+    },
+    "bridge": {
+      "cta": "Aplícalo: la misión de Aceptar la Pérdida Planificada cuenta tus pérdidas de -1R bien jugadas."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "title": "Calor de cartera: el riesgo a través de todas las posiciones",
+    "summary": "El riesgo por operación no basta — limita el total.",
+    "concept": "Dimensionar una operación al 1% significa poco si abres ocho de ellas. El **calor de cartera** es la suma del riesgo abierto: si cada stop se alcanzara a la vez, ¿qué fracción de la cuenta se quema? Ocho posiciones del 1% = 8% de calor — y si esas posiciones están *correlacionadas* (tres grandes en una venta masiva de cripto se mueven como una), la fantasía de los 'ocho stops independientes' colapsa en una sola apuesta grande.\n\nReglas de trabajo: limita el calor total (4–6% es una disciplina común), cuenta las posiciones correlacionadas como riesgo superpuesto en lugar de apuestas independientes, y trata el calor como un presupuesto — una nueva operación debe caber en el presupuesto restante o no tomarse.\n\nTu cuenta de papel de QuantGlass hace el calor auditable: la distancia de cada posición abierta a su stop previsto por su tamaño, sumada. El momento de posición sobredimensionada del panel de coaching es la versión de una sola posición de esta verificación; la versión de cartera te toca ejecutarla antes de cada nueva entrada.",
+    "key_terms": [
+      {
+        "term": "Calor de cartera",
+        "definition": "Pérdida total si se alcanza cada stop abierto."
+      },
+      {
+        "term": "Correlación",
+        "definition": "Posiciones que se mueven juntas — riesgo superpuesto, no independiente."
+      },
+      {
+        "term": "Presupuesto de calor",
+        "definition": "Un límite duro al riesgo abierto total."
+      },
+      {
+        "term": "Concentración",
+        "definition": "Exposición excesiva a un símbolo o tema."
+      }
+    ],
+    "exercise": {
+      "question": "Arriesgas 1% por operación y mantienes seis largos de cripto abiertos en un mercado donde las grandes se mueven juntas. ¿Cuál es tu exposición realista?",
+      "options": [
+        "1% — el riesgo por operación es todo lo que importa.",
+        "Alrededor del 6% de la cuenta comportándose como una sola apuesta grande, porque las posiciones correlacionadas tienden a alcanzar sus stops juntas.",
+        "0% — la diversificación cancela el riesgo.",
+        "60% de la cuenta."
+      ],
+      "explanation": "El calor suma ~6%, y la correlación significa que es probable que los seis stops se disparen en la misma tormenta. El calor correlacionado es una sola operación grande vestida con seis disfraces."
+    },
+    "live_apply": {
+      "cta": "Suma el riesgo-al-stop de tus posiciones de papel abiertas. ¿Cuál es tu calor actual como porcentaje del balance?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "title": "Drawdown: la aritmética de las rachas perdedoras",
+    "summary": "Por qué las pérdidas duelen más de lo que ayudan las ganancias del mismo tamaño.",
+    "concept": "El **drawdown** es la caída desde un pico hasta un valle posterior en tu capital. Su crueldad es aritmética asimétrica: pierde 20% y necesitas **+25%** para recuperarte; pierde 50% y necesitas **+100%**. Los requisitos de recuperación crecen más rápido que las pérdidas que los crearon.\n\nLas rachas perdedoras no son anomalías — son certezas. Con una tasa de acierto del 50%, una racha de 7 pérdidas tiene aproximadamente 1 entre 128 de probabilidad *por cada 7 operaciones*, lo que a lo largo de cientos de operaciones se acerca a lo inevitable. Arriesgando 1% por operación, esa racha mella la cuenta ~7%; arriesgando 5%, talla ~30% y la matemática de recuperación se vuelve feroz.\n\nQuantGlass reporta el **drawdown máximo** y la curva completa de drawdown en cada backtest, calculada a partir de la trayectoria de capital simulada. Léela antes de admirar cualquier tasa de acierto: la curva de drawdown es lo que mantener la estrategia se habría *sentido*.",
+    "key_terms": [
+      {
+        "term": "Drawdown",
+        "definition": "Declive del capital de pico a valle."
+      },
+      {
+        "term": "Drawdown máximo",
+        "definition": "El declive más profundo de ese tipo en un registro."
+      },
+      {
+        "term": "Asimetría de recuperación",
+        "definition": "Una pérdida de −X% necesita más de +X% para repararse."
+      },
+      {
+        "term": "Racha perdedora",
+        "definition": "Pérdidas consecutivas — una certeza estadística a lo largo de suficientes operaciones."
+      }
+    ],
+    "exercise": {
+      "question": "Una cuenta cae 20% desde su pico. ¿Qué porcentaje de ganancia (sobre el balance reducido) se requiere solo para volver al pico?",
+      "hint": "De 100 a 80; ¿qué % de 80 vuelve a 100?",
+      "explanation": "80 × 1,25 = 100, así que **25%**. Cuanto más profundo el hoyo, más empinada la subida — en −50% el requisito se vuelve +100%."
+    },
+    "common_mistakes": [
+      "Aumentar el tamaño durante un drawdown para recuperarte más rápido. La aritmética de recuperación ya es brutal; apuestas mayores hacen el hoyo exponencialmente más profundo.",
+      "Abandonar un sistema de esperanza positiva a mitad de un drawdown. La lección de Monte Carlo muestra que los sistemas ordinarios pasan un tercio de su vida bajo el agua."
+    ],
+    "live_apply": {
+      "cta": "Abre la curva de drawdown de un preset y encuentra su punto más profundo — ese valle es la verdadera prueba de estrés de la estrategia."
+    },
+    "bridge": {
+      "cta": "Aplícalo: repite Retroceso en una Tendencia — mantén el plan mientras el gráfico discute."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "title": "El plan de operación escrito",
+    "summary": "Cinco frases que separan una operación de una apuesta.",
+    "concept": "Una operación sin plan es un estado de ánimo con dinero adjunto. Un plan completo responde cinco preguntas **antes de la entrada**, por escrito: **Configuración** — ¿qué patrón, en qué marco temporal, justifica esto? **Entrada** — ¿a qué precio o zona? **Invalidación** — ¿dónde está equivocada la idea (el stop), en términos de precio decididos *ahora*, no negociados después? **Objetivos** — ¿dónde y cómo saldrás si tienes razón? **Tamaño** — ¿cuántas unidades para que la invalidación cueste la fracción planificada de la cuenta?\n\nFíjate en que una tarjeta de señal de QuantGlass es literalmente una versión pre-rellenada de esta plantilla: tipo de configuración, zona de entrada, stop, escalera y la fórmula de la lección de dimensionamiento. Tu trabajo no es inventar el formulario — es *coincidir o discrepar con cada línea* antes de actuar.\n\nEl poder del plan es la cronología: cada respuesta se escribe mientras estás tranquilo y el dinero es teórico. La ejecución se vuelve administrativa, que es exactamente lo que debe ser.",
+    "key_terms": [
+      {
+        "term": "Plan de operación",
+        "definition": "Configuración, entrada, invalidación, objetivos y tamaño escritos — antes de la entrada."
+      },
+      {
+        "term": "Invalidación primero",
+        "definition": "Decidir dónde estás equivocado antes de decidir cuánto comprar."
+      },
+      {
+        "term": "Pre-compromiso",
+        "definition": "Fijar las decisiones mientras estás tranquilo para que la ejecución sea administrativa."
+      },
+      {
+        "term": "Adherencia al plan",
+        "definition": "La métrica de disciplina que un diario hace visible."
+      }
+    ],
+    "exercise": {
+      "question": "¿Qué elemento de un plan de operación debe fijarse PRIMERO, porque todos los demás números dependen de él?",
+      "options": [
+        "El objetivo de ganancia.",
+        "El nivel de invalidación (stop) — el tamaño se deriva de él, y los objetivos se miden contra él.",
+        "El tipo de orden.",
+        "El apodo de la operación."
+      ],
+      "explanation": "Planificación con el riesgo primero: la invalidación define 1R; el tamaño viene del presupuesto de riesgo de la cuenta dividido por esa distancia; los objetivos se expresan en R contra ella."
+    },
+    "common_mistakes": [
+      "Escribir el plan después de entrar. Un plan que existe para justificar una posición es un comunicado de prensa, no un plan.",
+      "Dejar la invalidación vaga ('corta si se ve mal'). Si el stop no es un número, no hay stop.",
+      "Planificar la entrada en detalle y la salida nada. La salida es donde el dinero realmente sucede."
+    ],
+    "live_apply": {
+      "cta": "Abre una señal y léela como un plan de operación de cinco líneas — ¿con qué línea, si alguna, discrepas?"
+    },
+    "bridge": {
+      "cta": "Aplícalo: repite La Ruptura Que No Fue y toma las decisiones de planificación bajo presión."
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "title": "El diario de operaciones",
+    "summary": "Tu único espejo honesto.",
+    "concept": "La memoria es una editora aduladora: recuerda tus victorias como habilidad y tus pérdidas como mala suerte. Un **diario** es el registro sin editar. Para cada operación, anota: el plan (las cinco líneas), la *razón* en una frase, la ejecución (¿seguiste el plan?), el resultado en R, y el estado emocional en la entrada y la salida.\n\nLa recompensa es el descubrimiento de patrones que tu memoria nunca ofrecerá voluntariamente: 'mis operaciones de ruptura en regímenes en rango pierden', 'corto los ganadores temprano tras dos pérdidas', 'cada operación de venganza sigue a un stop alcanzado en una hora'. Estos son *corregibles* una vez visibles — e invisibles sin el registro.\n\nTu historial de papel de QuantGlass ya registra la mitad mecánica automáticamente (entradas, salidas, tamaños, resultados). La mitad escrita — razón y estado emocional — es la parte que solo tú puedes aportar, y es la mitad donde viven las lecciones.",
+    "key_terms": [
+      {
+        "term": "Diario de operaciones",
+        "definition": "El registro sin editar de planes, ejecuciones, resultados y estados de ánimo."
+      },
+      {
+        "term": "Adherencia al plan",
+        "definition": "Si la operación ejecutada coincidió con el plan escrito."
+      },
+      {
+        "term": "Descubrimiento de patrones",
+        "definition": "Conductas recurrentes y corregibles que el diario expone."
+      },
+      {
+        "term": "Etiquetado emocional",
+        "definition": "Registrar tu estado en la entrada/salida — el sistema de alerta temprana del descontrol (tilt)."
+      }
+    ],
+    "exercise": {
+      "question": "¿Cuál es el campo más diagnóstico en un diario de operaciones?",
+      "options": [
+        "La ganancia de la operación en dólares.",
+        "Si la ejecución coincidió con el plan escrito — las desviaciones, no las pérdidas, son donde se esconden los errores corregibles.",
+        "La hora del día.",
+        "El número de indicadores usados."
+      ],
+      "explanation": "Las pérdidas en planes seguidos son matrícula; las ganancias en planes rotos son préstamos. La adherencia al plan es el campo que las distingue."
+    },
+    "common_mistakes": [
+      "Registrar solo los resultados. El valor del diario es el registro de decisión: razón, emoción y adherencia al plan en el momento de la entrada.",
+      "Llevar diario de los ganadores y saltarse los perdedores. Los perdedores contienen casi toda la información."
+    ],
+    "live_apply": {
+      "cta": "Mira tus últimas tres operaciones de papel: para cada una, escribe la razón de una frase por la que entraste — si no puedes, ese es el hallazgo."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "title": "Entradas y salidas: donde vive la disciplina",
+    "summary": "Las buenas entradas son pacientes; las buenas salidas están pre-decididas.",
+    "concept": "**Entradas**: la zona de entrada del motor es un corchete, no un pistoletazo de salida. Perseguir el precio más allá de la zona empeora en silencio cada número que planificaste: tu distancia real de stop crece, tu R:R real se encoge, y tu tamaño — calculado para la distancia planificada — se vuelve sobredimensionado para la real. Si la zona se fue, la operación se fue; siempre viene otro autobús.\n\n**Salidas** son más difíciles porque se deciden bajo emoción — a menos que no. El conjunto de salidas pre-decididas: el **stop** (salida completa, sin negociación), la **escalera** (la toma de ganancias escalonada 50/30/20 del motor mientras deja margen) y el **tiempo** (una configuración que no va a ningún lado durante muchas barras ha fallado en silencio — el propio backtester impone un período máximo de retención por marco temporal).\n\nLa regla silenciosa bajo ambas: cada desviación discrecional que te permites se vuelve el precedente para la siguiente, mayor.",
+    "key_terms": [
+      {
+        "term": "Perseguir (chasing)",
+        "definition": "Entrar más allá de la zona planificada — degradando en silencio el stop, el R:R y el tamaño."
+      },
+      {
+        "term": "Salir de forma escalonada",
+        "definition": "Salidas escalonadas, como la escalera 50/30/20 del motor."
+      },
+      {
+        "term": "Stop de tiempo",
+        "definition": "Salir cuando una configuración se estanca — la regla de retención máxima del backtest."
+      },
+      {
+        "term": "Disciplina de salida",
+        "definition": "Ejecutar las salidas pre-decididas sin renegociar."
+      }
+    ],
+    "exercise": {
+      "question": "El precio corre 1,5% por encima de la zona de entrada de la señal y entras de todas formas con el tamaño planificado. ¿Qué cambió realmente?",
+      "options": [
+        "Nada — las entradas son aproximadas.",
+        "Tu distancia real de stop creció y tu R:R se encogió, mientras tu tamaño aún asume la distancia vieja — la operación planificada ya no existe.",
+        "El stop subió automáticamente.",
+        "Tus comisiones bajaron."
+      ],
+      "explanation": "Los tres números planificados (distancia de riesgo, ratio de recompensa, tamaño-por-riesgo) se calcularon a partir de la zona. Entrar en otro lugar es tomar una operación distinta y peor con las etiquetas viejas."
+    },
+    "live_apply": {
+      "cta": "Compara la zona de entrada de una señal con el precio actual — ¿sigue siendo la operación que el motor midió, o el autobús ya se fue?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "title": "Listas de verificación y rutinas",
+    "summary": "Tomado de la aviación: la disciplina como un procedimiento, no un estado de ánimo.",
+    "concept": "Los pilotos no se saltan la lista de verificación previa al vuelo en los días que se sienten agudos — *especialmente* no esos días. Una lista de verificación de trading sirve al mismo propósito: hace mecánico el estándar mínimo.\n\nUna lista de verificación previa a la operación que vale la pena robar: **(1)** ¿La señal es fresca (vela cerrada, insignia actual)? **(2)** ¿El régimen coincide con la familia de configuración? **(3)** ¿La confluencia es aceptable y entiendo cada razón? **(4)** ¿La invalidación está definida y el tamaño coincide con mi presupuesto de riesgo? **(5)** ¿Esto cabe en mi calor de cartera? **(6)** ¿He escrito la razón de una frase?\n\nUna rutina diaria la envuelve: revisa las posiciones abiertas frente a sus planes, escanea el panel de coaching en busca de momentos, registra las salidas de ayer en el diario, *luego* busca nuevas configuraciones — en ese orden, para que la gestión preceda a las compras. Las rutinas se sienten burocráticas precisamente hasta el día volátil en que son la única parte de ti que aún piensa con claridad.",
+    "key_terms": [
+      {
+        "term": "Lista previa a la operación",
+        "definition": "Verificaciones mínimas mecánicas antes de cualquier entrada."
+      },
+      {
+        "term": "Rutina",
+        "definition": "Un orden diario fijo: gestionar, revisar, luego cazar."
+      },
+      {
+        "term": "Coincidencia de régimen",
+        "definition": "La familia de configuración concordando con el régimen de mercado actual."
+      },
+      {
+        "term": "Verificación de calor",
+        "definition": "Confirmar que la nueva operación cabe en el presupuesto de riesgo restante."
+      }
+    ],
+    "exercise": {
+      "question": "¿Por qué la rutina diaria pone la gestión de posiciones ANTES de buscar nuevas operaciones?",
+      "options": [
+        "Las nuevas operaciones son más divertidas.",
+        "El riesgo abierto es riesgo vivo — gestionar las posiciones y stops existentes protege la cuenta antes de añadir cualquier nueva exposición.",
+        "Los mercados premian el orden alfabético.",
+        "No importa."
+      ],
+      "explanation": "Las posiciones existentes pueden hacerte daño hoy; las prospectivas no. Asegurar primero el riesgo vivo es triaje, no preferencia."
+    },
+    "live_apply": {
+      "cta": "Pon una alerta en el nivel de invalidación de una posición abierta — convirtiendo un ítem de la lista en una guardia automatizada."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "title": "Revisar tus propias estadísticas",
+    "summary": "Convierte tu historial de papel en evidencia sobre ti.",
+    "concept": "Tras 20–30 operaciones en el diario posees un conjunto de datos, y responde preguntas que las opiniones no pueden. Calcula tu **tasa de acierto** (ganadas ÷ operaciones), **R promedio** y **esperanza** (R media por operación) — luego segméntalos: por familia de configuración, por régimen, por día, por si el plan se siguió.\n\nLéelo como un analista: una esperanza positiva con una tasa de acierto del 40% es un perfil saludable de seguimiento de tendencias (pérdidas pequeñas, ganancias mayores); una tasa de acierto del 70% con esperanza negativa significa ganancias diminutas y catástrofes ocasionales — el perfil de la negociación de stops. El segmento más valioso es **plan-seguido vs plan-roto**: si tu esperanza con plan-seguido supera a tu esperanza con plan-roto (casi siempre lo hace), tienes prueba personal y numérica de que tu disciplina — no tu inteligencia — es la ventaja.\n\nTen en cuenta la lección de tamaño de muestra que el motor sigue enseñando: 10 operaciones son una anécdota. La matemática de contracción que disciplina la confianza del motor también aplica a tus estadísticas.",
+    "key_terms": [
+      {
+        "term": "Tasa de acierto",
+        "definition": "Ganadas ÷ total de operaciones — sin sentido sin la R promedio al lado."
+      },
+      {
+        "term": "Esperanza",
+        "definition": "R media por operación — el número que decide si un método gana."
+      },
+      {
+        "term": "Segmentar",
+        "definition": "Calcular estadísticas por configuración, régimen o adherencia para hallar dónde vive la ventaja."
+      },
+      {
+        "term": "Umbral de anécdota",
+        "definition": "Muestras pequeñas: trata las estadísticas tempranas como dirección, no como veredictos."
+      }
+    ],
+    "exercise": {
+      "question": "Tu diario muestra: las operaciones con plan-seguido promedian +0,31R en 25 operaciones; las de plan-roto promedian −0,58R en 11. ¿Cuál es el hallazgo?",
+      "options": [
+        "Deberías operar con más frecuencia.",
+        "Prueba cuantificada de que la adherencia al plan es tu ventaja: el mismo trader, menos disciplina, es perdedor neto.",
+        "Las 11 operaciones de plan-roto tuvieron mala suerte.",
+        "Falta la tasa de acierto, así que no se puede concluir nada."
+      ],
+      "explanation": "La misma persona, el mismo mercado, distinta conducta, esperanza opuesta. Esta es la estadística más persuasiva que un diario produce jamás — y solo un diario puede producirla."
+    },
+    "live_apply": {
+      "cta": "El motor segmenta sus estadísticas por configuración y régimen en cada preset — aplica el método idéntico a tu propio historial de papel."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "title": "Detectar el régimen",
+    "summary": "En tendencia, en rango, volátil, transicional — las reglas exactas del motor.",
+    "concept": "Un **régimen** es el carácter predominante del mercado, y QuantGlass lo clasifica con reglas auditables en cada barra cerrada. Primero la anulación por volatilidad: si el ATR como porción del precio es al menos **1,7×** su mediana de 50 barras, el régimen es **volátil** — las tormentas superan a todo. De lo contrario decide el ADX: **≥ 22 → en tendencia**, **< 16 → en rango**, y el incómodo medio (16–22) → **transicional**.\n\nPor qué estos mecanismos te importan: el régimen no es comentario, es una **puerta**. Las familias de retroceso y ruptura solo se disparan en tendencia (los retrocesos también en transicional); la reversión a la media solo se dispara en rango. Una configuración 'hermosa' en el régimen equivocado es, para el motor, ninguna configuración.\n\nCada señal imprime su régimen en la base de confianza, así que siempre puedes rastrear qué puerta estaba abierta cuando se disparó la señal.",
+    "key_terms": [
+      {
+        "term": "Régimen",
+        "definition": "El carácter predominante del mercado: en tendencia, en rango, volátil, transicional."
+      },
+      {
+        "term": "Anulación por volatilidad",
+        "definition": "ATR% ≥ 1,7× su mediana de 50 barras → volátil, sin importar el ADX."
+      },
+      {
+        "term": "Umbrales de ADX",
+        "definition": "≥22 en tendencia, <16 en rango, entre medio → transicional."
+      },
+      {
+        "term": "Regulación de configuraciones",
+        "definition": "Las familias solo se disparan en sus regímenes compatibles."
+      }
+    ],
+    "exercise": {
+      "question": "El ADX es 30, pero el ATR-como-porcentaje-del-precio es el doble de su mediana de 50 barras. ¿Qué régimen reporta el motor?",
+      "options": [
+        "En tendencia — un ADX de 30 es decisivo.",
+        "Volátil — la anulación por volatilidad supera la lectura del ADX.",
+        "En rango.",
+        "No se puede calcular ningún régimen."
+      ],
+      "explanation": "La verificación de volátil se ejecuta primero: 2,0× ≥ 1,7× la mediana la activa. Una tendencia fuerte dentro de una tormenta sigue siendo una tormenta, y aplican las reglas de tormenta."
+    },
+    "live_apply": {
+      "cta": "Lee el campo market_regime en tres señales y verifica que cada familia de configuración era legal en su régimen."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "title": "Operar con el régimen, no contra él",
+    "summary": "La misma configuración tiene resultados opuestos en distintos regímenes.",
+    "concept": "Cada familia de configuración lleva una suposición implícita de régimen. **Comprar retrocesos** supone una tendencia que se reanuda — en un rango es atrapar cuchillos cayendo en la línea media. **Operar rupturas** supone que los extremos se extienden — en un rango, el extremo *es* el punto de reversión, por eso las rupturas en régimen en rango son el engaño canónico. **La reversión a la media** supone un promedio magnético — en una tendencia, 'estirado' solo se estira más mientras lo fades.\n\nPor eso el motor rechaza estructuralmente las operaciones entre regímenes y por eso su familia de ruptura exige la puerta de tendencia *más* volumen en el promedio reciente: el régimen responde '¿es este mercado del tipo donde esta idea funciona?', y esa pregunta precede a cualquier geometría de entrada.\n\nTu corolario discrecional: antes de juzgar cualquier configuración — la del motor o la tuya — nombra el régimen en voz alta. La mayoría de las malas operaciones son buenas configuraciones con el clima equivocado.",
+    "key_terms": [
+      {
+        "term": "Suposición de régimen",
+        "definition": "El carácter de mercado que una familia de configuración requiere implícitamente."
+      },
+      {
+        "term": "Engaño (fakeout)",
+        "definition": "Una 'ruptura' atada al rango que revierte en el extremo."
+      },
+      {
+        "term": "Fade",
+        "definition": "Operar contra la dirección predominante — letal en tendencias."
+      },
+      {
+        "term": "Verificación del clima",
+        "definition": "Nombrar el régimen antes de juzgar cualquier configuración."
+      }
+    ],
+    "exercise": {
+      "question": "¿Por qué las rupturas en un régimen en rango son sistemáticamente poco fiables?",
+      "options": [
+        "Las rupturas requieren alineación lunar.",
+        "En un rango, el extremo previo es exactamente donde la oferta/demanda revirtió antes — atravesarlo sin energía de tendencia suele revertir a la media.",
+        "El volumen es ilegal en los rangos.",
+        "Son fiables; los rangos son ideales para las rupturas."
+      ],
+      "explanation": "Los extremos del rango son las zonas de reversión probadas de ese rango. Sin un régimen en tendencia que aporte continuación, la ruptura es estadísticamente un estiramiento, no un escape."
+    },
+    "live_apply": {
+      "cta": "Compara las estadísticas de un preset de ruptura con las de uno de reversión a la media — cada uno gana su sustento solo en su propio régimen."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "title": "Regímenes de volatilidad: comprimido, normal, expandido",
+    "summary": "El segundo eje de régimen — y cómo dimensiona tu stop.",
+    "concept": "Independiente de la dirección, la volatilidad misma cicla. QuantGlass mide el **ATR como porcentaje del precio** actual contra su **mediana de 30 barras**: en o por debajo de **0,8×** → **comprimido**; en o por encima de **1,25×** → **expandido**; entre medio → **normal**.\n\nLa clasificación tiene dientes — fija el **múltiplo de stop** en cada configuración: comprimido → **1,3×** ATR, normal → **1,45×**, expandido → **1,6×**. La lógica: en condiciones expandidas, los vaivenes de ruido ordinario son mayores, así que un stop debe situarse más atrás para medir la *idea* en lugar de la estática. Y como el tamaño de la posición se deriva de la distancia del stop, la volatilidad expandida significa automáticamente menor tamaño para el mismo riesgo de cuenta — el sistema respira con el mercado.\n\nLa compresión tiene su propio mensaje: la volatilidad revierte a la media, así que los largos períodos de calma almacenan energía. El estrechamiento que conociste en la lección de Keltner es este régimen vistiendo su disfraz de gráfico.",
+    "key_terms": [
+      {
+        "term": "Porcentaje de ATR",
+        "definition": "ATR ÷ precio — volatilidad normalizada para comparación."
+      },
+      {
+        "term": "Compresión",
+        "definition": "ATR% ≤ 0,8× su mediana de 30 barras — energía almacenándose."
+      },
+      {
+        "term": "Expansión",
+        "definition": "ATR% ≥ 1,25× la mediana — ruido más ancho, stops más anchos, menor tamaño."
+      },
+      {
+        "term": "Múltiplo de stop adaptativo",
+        "definition": "1,3 / 1,45 / 1,6 × ATR según el régimen de volatilidad."
+      }
+    ],
+    "exercise": {
+      "question": "La volatilidad pasa de normal a expandida. Para la misma configuración y el mismo riesgo de cuenta, ¿qué implica la lógica del motor?",
+      "options": [
+        "Stop más ajustado, mayor tamaño.",
+        "Un stop más ancho (1,6× ATR en lugar de 1,45×) y por tanto una posición más pequeña para el mismo riesgo en dólares.",
+        "Sin cambios — la volatilidad es cosmética.",
+        "Saltarse todas las operaciones para siempre."
+      ],
+      "explanation": "El ruido más ancho exige un stop más ancho para no ser sacudido por la estática; la fórmula de dimensionamiento luego divide el mismo presupuesto de riesgo por una distancia mayor — menor tamaño, mismo riesgo."
+    },
+    "live_apply": {
+      "cta": "Encuentra el volatility_regime de una señal en su base y comprueba que la distancia del stop es el múltiplo de ATR correspondiente."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "title": "Transiciones de régimen: donde se pierde la mayor parte del dinero",
+    "summary": "Los mercados cambian de carácter más rápido que los hábitos.",
+    "concept": "Los regímenes terminan. Las tendencias decaen en rangos (el ADX sangrando desde los 20 altos hacia 16), los rangos estallan en tendencias (a menudo vía un estrechamiento de volatilidad comprimida rompiendo), y cualquier cosa puede detonar en el régimen volátil en una sola barra de noticias. El momento peligroso nunca es el régimen — es el **traspaso**, porque los traders siguen jugando el juego de ayer: comprando retrocesos después de que la tendencia murió, faded extremos justo cuando el rango se rompe.\n\nLas defensas del motor son visibles en sus reglas: la banda **transicional** (ADX 16–22) mantiene cautelosas a las familias más sensibles al régimen; la clasificación se vuelve a ejecutar en **cada vela cerrada**, así que un cambio de carácter aparece en cuestión de barras; y la anulación por volatilidad arranca las configuraciones de la mesa en el momento en que golpean las condiciones de tormenta.\n\nTu espejo conductual: cuando tu enfoque que antes funcionaba produce tres pérdidas seguidas, revisa el régimen *antes* de revisar tu autoestima. A menudo el método está bien — el clima cambió.",
+    "key_terms": [
+      {
+        "term": "Transición de régimen",
+        "definition": "El traspaso entre caracteres de mercado — la zona de alta pérdida."
+      },
+      {
+        "term": "Decaimiento del ADX",
+        "definition": "La fuerza de la tendencia sangrando hacia el umbral en rango."
+      },
+      {
+        "term": "Ruptura del estrechamiento",
+        "definition": "La compresión resolviéndose en una nueva tendencia."
+      },
+      {
+        "term": "Reclasificación por barra",
+        "definition": "El motor vuelve a ejecutar la detección de régimen en cada vela cerrada."
+      }
+    ],
+    "exercise": {
+      "question": "Tus entradas de retroceso funcionaron durante semanas, luego tres seguidas fallan. ¿Cuál es el PRIMER diagnóstico a ejecutar?",
+      "options": [
+        "Duplicar el tamaño para recuperarlo.",
+        "Revisar el régimen actual — las configuraciones de retroceso suponen una tendencia, y el ADX puede haber decaído por debajo de la puerta mientras tus hábitos seguían operando.",
+        "Cambiar a un nuevo indicador de inmediato.",
+        "Concluir que operar es imposible."
+      ],
+      "explanation": "Tres pérdidas es exactamente lo que una tendencia muerta le hace a los compradores de retrocesos. La verificación de régimen separa 'el clima cambió' de 'el método está roto' — y el motor ejecuta esa verificación en cada barra."
+    },
+    "live_apply": {
+      "cta": "Anota los regímenes de hoy en tu lista de seguimiento, luego de nuevo mañana — cuenta los traspasos que el clasificador por barra detectó."
+    }
+  }
+]
