@@ -1,0 +1,932 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "title": "Đường trung bình động — EMA và SMA",
+    "summary": "Hiểu vì sao EMA phản ứng nhanh hơn và khi nào điều đó quan trọng.",
+    "concept": "Cả **EMA** (Trung bình động hàm mũ) và **SMA** (Trung bình động đơn giản) đều làm mượt nhiễu giá thành một đường. Khác biệt là *trọng số*:\n\n- **SMA**: mỗi giá đóng cửa trong cửa sổ có trọng số bằng nhau. SMA-50 = trung bình của 50 giá đóng cửa gần nhất.\n- **EMA**: giá đóng cửa gần đây có trọng số theo hàm mũ lớn hơn. EMA-21 phản ứng với giá mới nhanh hơn SMA-50, đảo chiều trước SMA khi xu hướng đổi.\n\n**Ứng dụng thực tế trong QuantGlass:**\n- EMA-21 đóng vai trò *hỗ trợ động trong xu hướng tăng* và *kháng cự trong xu hướng giảm*.\n- Trong sắp xếp tăng (Close > EMA > SMA), một nhịp hồi về EMA-21 là tín hiệu vào lệnh cho các thiết lập `ema_reclaim_pullback` và `daily_trend_pullback`.\n- *Độ dốc* 10 nến gần nhất của SMA-50 (`htf_slope`) được dùng làm bộ lọc hướng khung thời gian lớn — chỉ cho phép vào lệnh khi SMA-50 dốc theo hướng giao dịch.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Trung bình đơn giản của 50 giá đóng cửa gần nhất — trễ nhưng ổn định."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Trung bình trọng số hàm mũ 21 kỳ — phản ứng nhanh hơn với chuyển động gần đây."
+      },
+      {
+        "term": "Hỗ trợ/kháng cự động",
+        "definition": "Đường trung bình động điều chỉnh theo giá, đóng vai trò S/R."
+      },
+      {
+        "term": "Độ dốc HTF",
+        "definition": "Độ dốc khung lớn: (SMA50[hiện tại] − SMA50[10 nến trước]) / SMA50[10 nến trước]."
+      }
+    ],
+    "exercise": {
+      "question": "Giá đang trong xu hướng tăng. SMA-50 ở dưới cả hai khi giá hồi về chạm EMA-21. QuantGlass tìm thiết lập nào?",
+      "options": [
+        "Một lệnh short hồi quy trung bình trong vùng đi ngang.",
+        "Một lệnh long theo xu hướng-hồi (ema_reclaim_pullback hoặc daily_trend_pullback).",
+        "Theo dõi phá vỡ giảm.",
+        "Không có thiết lập — QuantGlass bỏ qua việc chạm đường trung bình."
+      ],
+      "explanation": "Khi Close > EMA21 > SMA50 và giá hồi về gần EMA-21 trong vùng RSI 46–72, engine tạo `ema_reclaim_pullback` (trong ngày) hoặc `daily_trend_pullback` (ngày) — một tín hiệu BUY_ZONE nhắm vào sự tiếp diễn của xu hướng tăng."
+    },
+    "live_apply": {
+      "cta": "Lọc tín hiệu thành BUY_ZONE. Tìm một tín hiệu có setup_type = 'ema_reclaim_pullback' và xem danh sách lý do."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "title": "RSI — Đo lường động lượng",
+    "summary": "Dùng RSI để nhận diện sự cạn kiệt và xác nhận động lượng.",
+    "concept": "**Chỉ số sức mạnh tương đối (RSI-14)** đo động lượng: giá đã di chuyển nhanh và xa thế nào so với lịch sử gần đây. Nó dao động giữa 0 và 100:\n\n- **RSI > 70**: quá mua (động lượng kéo dài, coi chừng cạn kiệt)\n- **RSI < 30**: quá bán (động lượng kéo dài về phía dưới)\n- **RSI 46–72**: vùng xu hướng tăng lành mạnh — nơi ưu tiên vào lệnh khi hồi\n\nQuantGlass còn dùng **RSI-2** (RSI 2 kỳ siêu nhanh) cho các thiết lập hồi quy trung bình:\n- RSI-2 ≤ 8 gần dải Bollinger dưới → quá bán siêu ngắn hạn → BUY_ZONE\n- RSI-2 ≥ 92 gần dải Bollinger trên → quá mua siêu ngắn hạn → SELL\n\n**Phân kỳ**: giá tạo đỉnh cao hơn nhưng RSI tạo đỉnh thấp hơn → phân kỳ giảm, dù giá lên động lượng vẫn yếu đi.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "Chỉ số sức mạnh tương đối 14 kỳ — bộ dao động động lượng chính."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "RSI 2 kỳ — chỉ báo hồi quy trung bình siêu ngắn hạn."
+      },
+      {
+        "term": "Quá mua",
+        "definition": "RSI > 70 — động lượng kéo dài lên, tăng rủi ro đảo chiều."
+      },
+      {
+        "term": "Quá bán",
+        "definition": "RSI < 30 — động lượng kéo dài xuống, vùng có thể bật lên."
+      },
+      {
+        "term": "Phân kỳ RSI",
+        "definition": "Giá và RSI di chuyển ngược hướng — tín hiệu động lượng suy yếu."
+      }
+    ],
+    "exercise": {
+      "question": "Trong thị trường đi ngang, RSI-2 rớt xuống 5 và giá chạm dải Bollinger dưới. QuantGlass tạo tín hiệu nào?",
+      "options": [
+        "SELL — giá ở đáy, xác nhận phá vỡ giảm.",
+        "BUY_ZONE, loại thiết lập 'range_meanreversion_long'.",
+        "WAIT — không đủ bằng chứng trong thị trường đi ngang.",
+        "HOLD — không vào lệnh mới trong thị trường đi ngang."
+      ],
+      "explanation": "Trong chế độ `ranging`, RSI-2 ≤ 8 *và* giá ở dải Bollinger dưới sẽ kích hoạt thiết lập `range_meanreversion_long`. Mục tiêu hồi quy trung bình là đường giữa Bollinger. Thang TP neo vào đường giữa đó, không phải bội số ATR cố định."
+    },
+    "common_mistakes": [
+      "Short khi 'quá mua' trong xu hướng tăng. Xu hướng mạnh giữ RSI trên 70 hàng tuần; đọc hồi quy trung bình đòi hỏi chế độ đi ngang.",
+      "Giao dịch chỉ bằng RSI. Engine coi nó là một đầu vào sau cổng chế độ, không bao giờ là trigger độc lập."
+    ],
+    "live_apply": {
+      "cta": "Trên màn hình Tín hiệu, tìm một tín hiệu BUY_ZONE có setup_type = 'range_meanreversion_long'."
+    }
+  },
+  {
+    "id": "intermediate-06-macd",
+    "title": "MACD: Động lượng xu hướng được hiện hình",
+    "summary": "Hai EMA, khoảng cách giữa chúng, và histogram định thời chuyển dịch động lượng.",
+    "concept": "**MACD** (Phân kỳ hội tụ trung bình động) bắt đầu từ một ý tưởng đơn giản: so sánh ống kính nhanh với ống kính chậm. **Đường MACD** là EMA 12 kỳ trừ EMA 26 kỳ — dương khi giá gần đây chạy nóng hơn nền chậm hơn. **Đường tín hiệu** là EMA 9 kỳ của *đường MACD*. **Histogram** là hiệu của chúng và là cái QuantGlass thực sự dùng: `macd_hist > 0` tính là đồng thuận tăng trong hợp lưu thiết lập, `< 0` là giảm.\n\nCách đọc: histogram cắt qua 0 đánh dấu giao cắt EMA nhanh/chậm; histogram *thu hẹp* khi giá vẫn đẩy báo hiệu động lượng phai trước khi giá đảo — cảnh báo sớm kinh điển.\n\nGiới hạn: MACD dựng từ EMA, nên về bản chất bị trễ và cưa trong vùng đi ngang. Vì vậy engine dùng nó như **một phiếu đồng thuận** trong vài cái, không bao giờ là trigger độc lập.",
+    "key_terms": [
+      {
+        "term": "Đường MACD",
+        "definition": "EMA-12 trừ EMA-26 của giá đóng cửa."
+      },
+      {
+        "term": "Đường tín hiệu",
+        "definition": "EMA-9 của đường MACD."
+      },
+      {
+        "term": "Histogram",
+        "definition": "Đường MACD trừ đường tín hiệu — giá trị macd_hist của engine."
+      },
+      {
+        "term": "Phân kỳ động lượng",
+        "definition": "Histogram thu hẹp trong khi giá vẫn tiếp tục đẩy."
+      },
+      {
+        "term": "Phiếu đồng thuận",
+        "definition": "Cách engine dùng MACD: một đầu vào hợp lưu, không phải trigger."
+      }
+    ],
+    "exercise": {
+      "question": "Trong logic thiết lập của QuantGlass, histogram MACD đóng vai trò gì?",
+      "options": [
+        "Là trigger duy nhất của mọi tín hiệu.",
+        "Dấu của nó hoạt động như một phiếu đồng thuận trong điểm hợp lưu — thiết lập tăng được điểm khi dương, giảm khi âm.",
+        "Quyết định khoảng cách dừng lỗ.",
+        "Thay thế phân tích khối lượng."
+      ],
+      "explanation": "Engine cộng một thưởng hợp lưu cố định khi macd_hist đồng thuận với hướng thiết lập. Đó là xác nhận, không bao giờ là chính ý tưởng giao dịch."
+    },
+    "live_apply": {
+      "cta": "Mở chỉ báo của một mã và quan sát dấu histogram MACD so với hướng thiết lập hiện tại — đồng thuận hay bất đồng?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "title": "Dải Bollinger: Biến động như một hành lang",
+    "summary": "Một trung bình 20 nến bọc trong hai độ lệch chuẩn.",
+    "concept": "**Dải Bollinger** bọc giá trong một hành lang thống kê: **dải giữa** là trung bình động 20 kỳ; **dải trên và dưới** nằm cách nó 2 độ lệch chuẩn lên và xuống, tính trên cùng 20 nến. Vì độ lệch chuẩn lớn lên cùng biến động, hành lang thở — rộng trong bão tố, hẹp khi yên ả.\n\nHai cách đọc quan trọng. **Chạm dải**: giá ở một dải đã *bị kéo giãn về mặt thống kê*, không tự động đảo; trong chế độ đi ngang của engine, chạm dải dưới với RSI nhanh đã giặt sạch là thiết lập long hồi quy trung bình, nhắm vào **dải giữa** thay vì một thang rõ ràng. **Độ rộng dải**: (trên − dưới) ÷ giữa đo sự nén; nén cực độ thường đi trước mở rộng.\n\nEngine tính cả bốn chuỗi — trên, dưới, giữa, độ rộng dải — từ nến đã đóng và các lối ra hồi quy trung bình nhắm đúng `bb_mid`, nên bài này mô tả chính logic chốt lời thực của bạn.",
+    "key_terms": [
+      {
+        "term": "Dải giữa",
+        "definition": "Trung bình 20 kỳ — tâm hành lang và mục tiêu hồi quy trung bình."
+      },
+      {
+        "term": "Độ lệch chuẩn",
+        "definition": "Thước đo phân tán 20 nến định kích thước hành lang."
+      },
+      {
+        "term": "Độ rộng dải",
+        "definition": "(Trên − dưới) ÷ giữa — chỉ báo nén."
+      },
+      {
+        "term": "Chạm dải",
+        "definition": "Giá chạm một dải: bị kéo giãn, không nhất thiết đảo."
+      }
+    ],
+    "exercise": {
+      "question": "Trong thiết lập hồi quy trung bình đi ngang của engine, vì sao chốt lời nhắm vào dải giữa thay vì thang 3 bậc?",
+      "options": [
+        "Vẽ dải giữa dễ hơn.",
+        "Hồi quy trung bình cược vào việc trở về giá trị trung bình — nam châm thống kê chính là cái trung bình, nên logic lối ra nhắm vào nó.",
+        "Thang chỉ hợp lệ trong xu hướng tăng.",
+        "Dải giữa không bao giờ di chuyển."
+      ],
+      "explanation": "Tiền đề của thiết lập là hồi quy trung bình. Nhắm vào bb_mid giữ lối ra nhất quán với ý tưởng đã tạo ra điểm vào."
+    },
+    "live_apply": {
+      "cta": "Bật lớp Bollinger: tìm một lần chạm dải gần đây và kiểm tra giá sau đó có quay về dải giữa không."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "title": "ADX: Đo sức mạnh xu hướng, không phải hướng",
+    "summary": "Chỉ báo đằng sau quyết định chế độ xu hướng/đi ngang của engine.",
+    "concept": "**ADX** trả lời một câu hỏi: *thị trường này có đang trong xu hướng không?* Nó dựng từ chuyển động định hướng — hôm nay giá cao đẩy trên giá cao hôm qua bao nhiêu (+DM) so với giá thấp hôm nay đẩy dưới giá thấp hôm qua bao nhiêu (−DM) — được làm mượt, chuẩn hóa thành +DI/−DI bằng biên độ thực, và cô đặc thành giá trị sức mạnh 0–100. Hướng bị bỏ đi có chủ đích: một xu hướng giảm mạnh và một xu hướng tăng mạnh đều đọc cao.\n\nCổng chế độ của QuantGlass dùng ngưỡng chính xác: **ADX ≥ 22 → xu hướng**, **ADX < 16 → đi ngang**, ở giữa → chuyển tiếp (với một kiểm tra biến động riêng có thể ghi đè thành *biến động*). Các con số này quyết định họ thiết lập nào hoạt động — thiết lập hồi và phá vỡ cần chế độ xu hướng; hồi quy trung bình cần đi ngang.\n\nĐọc thực tế: ADX lên = chuyển động mạnh lên (bất kể hướng); ADX xuống sau một xu hướng = xu hướng đang nghỉ. Hãy ghép hướng với cấu trúc.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "Giá trị sức mạnh xu hướng 0–100, mù với hướng."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Chỉ số định hướng từ chuyển động lên và xuống, chuẩn hóa bằng biên độ thực."
+      },
+      {
+        "term": "Cổng chế độ",
+        "definition": "QuantGlass: ADX ≥ 22 xu hướng, < 16 đi ngang, còn lại chuyển tiếp."
+      },
+      {
+        "term": "Cạn kiệt xu hướng",
+        "definition": "ADX giảm trong một xu hướng đã chín."
+      }
+    ],
+    "exercise": {
+      "question": "Giá tạo các đáy thấp hơn trong khi ADX đọc 28. Engine suy ra gì?",
+      "options": [
+        "Thị trường đi ngang — 28 là thấp.",
+        "Thị trường ở chế độ xu hướng (ADX ≥ 22) và hướng xu hướng (xuống) đến từ cấu trúc giá, không phải từ ADX.",
+        "ADX hỏng — phải âm trong xu hướng giảm.",
+        "Chỉ xu hướng tăng mới có ADX trên 22."
+      ],
+      "explanation": "ADX chỉ đo sức mạnh. 28 vượt ngưỡng xu hướng; cấu trúc đáy thấp hơn cung cấp hướng giảm."
+    },
+    "live_apply": {
+      "cta": "Tìm nhãn chế độ trên một tín hiệu, rồi so giá trị ADX đằng sau với ngưỡng 22/16 bài này đã cho."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "title": "Kênh Donchian: Giao dịch các thái cực",
+    "summary": "Kênh giá cao/thấp 20 nến đằng sau việc phát hiện phá vỡ.",
+    "concept": "**Kênh Donchian** là chỉ báo trung thực nhất tồn tại: đường trên đơn giản là **giá cao nhất trong 20 nến gần nhất**, đường dưới là **giá thấp nhất**. Không làm mượt, không trọng số — thái cực thuần túy.\n\nLogic của nó: trong thị trường xu hướng, giá tạo *thái cực 20 nến mới* là xu hướng tự khẳng định. Các thiết lập phá vỡ-kiểm định lại của QuantGlass kích hoạt khi, trong chế độ xu hướng, một nến đẩy từ cạnh kênh của **nến trước** đóng cửa gần hoặc vượt nó (trong 0,3%), với khối lượng ít nhất bằng trung bình gần đây. Dùng kênh của nến trước tránh bẫy tự tham chiếu nơi giá cao hôm nay chính *là* kênh phải phá.\n\nĐộ rộng kênh cũng mô tả sân chơi: kênh hẹp là nén (đang tích năng lượng), kênh rộng là chuyển động kéo dài. Donchian ghép tự nhiên với ADX — trong *chế độ xu hướng*, phá vỡ kênh là tiếp diễn; cùng phá vỡ đó trong vùng đi ngang chết thường là giả.",
+    "key_terms": [
+      {
+        "term": "Donchian trên/dưới",
+        "definition": "Giá cao nhất / thấp nhất trong kỳ nhìn lại (20 nến trong engine)."
+      },
+      {
+        "term": "Phá vỡ",
+        "definition": "Một cú đẩy từ cạnh kênh của nến trước."
+      },
+      {
+        "term": "Kiểm định lại (retest)",
+        "definition": "Giá quay về mức đã phá trước khi tiếp diễn."
+      },
+      {
+        "term": "Phá vỡ giả (fakeout)",
+        "definition": "Một phá vỡ kênh không có hỗ trợ chế độ hay khối lượng."
+      }
+    ],
+    "exercise": {
+      "question": "Khi phát hiện phá vỡ, vì sao engine so giá với kênh Donchian của nến TRƯỚC?",
+      "options": [
+        "Dữ liệu nến trước chất lượng hơn.",
+        "Giá cao của nến hiện tại là một phần của kênh hiện tại — một nến luôn chạm thái cực của chính nó, nên kênh trước là tham chiếu trung thực.",
+        "Kênh Donchian chỉ cập nhật hàng tuần.",
+        "Làm toán chậm lại nhưng đẹp hơn."
+      ],
+      "explanation": "Giá cao hôm nay định nghĩa trần kênh hôm nay, nên 'phá' nó sẽ đúng một cách tầm thường. Kiểm tra so với kênh nến trước đặt đúng câu hỏi: ta đã vượt cái trước chưa?"
+    },
+    "live_apply": {
+      "cta": "Tìm một preset breakout_retest và đọc thống kê giao dịch — mỗi điểm vào mô phỏng đến từ quy tắc kênh nến-trước này."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "title": "Kênh Keltner: Phong bì ATR",
+    "summary": "EMA ± 1,5 ATR — dải biến động thở bằng biên độ thực.",
+    "concept": "**Kênh Keltner** bọc một EMA 21 kỳ trong các dải lệch **1,5 × ATR(14)**. Trong khi hành lang Bollinger định kích thước bằng *phân tán thống kê của giá đóng cửa*, Keltner định kích thước bằng **biên độ thực** — hành trình nến-qua-nến thực, gồm cả khoảng trống (gap). Kết quả là một phong bì mượt hơn, ổn định hơn, ít cưa hơn trong vùng gập ghềnh.\n\nCách đọc: giá cưỡi dải Keltner trên báo hiệu xu hướng mạnh (trong xu hướng, 'quá mua' thường chỉ là sức mạnh); giá dao động giữa các dải báo hiệu cân bằng. **Nén (squeeze)** — dải Bollinger thu hẹp *bên trong* kênh Keltner — là cờ nén kinh điển, vì nó nghĩa là biến động thống kê đã rớt dưới hành trình nến điển hình.\n\nTrong engine, dải Keltner được tính từ nến đã đóng cùng mọi thứ khác và đóng vai trò ngữ cảnh cho việc một chuyển động đã kéo giãn bao nhiêu so với hành trình bình thường của chính nó — cùng tư duy ATR định kích thước dừng lỗ của bạn.",
+    "key_terms": [
+      {
+        "term": "Kênh Keltner",
+        "definition": "EMA-21 ± 1,5 × ATR(14) trong engine."
+      },
+      {
+        "term": "Biên độ thực",
+        "definition": "Hành trình nến gồm khoảng trống — tối đa của cao−thấp, |cao−đóng trước|, |thấp−đóng trước|."
+      },
+      {
+        "term": "Cưỡi dải",
+        "definition": "Đóng cửa liên tục ở một dải: sức mạnh xu hướng, không phải đảo tự động."
+      },
+      {
+        "term": "Nén (squeeze)",
+        "definition": "Bollinger bên trong Keltner — nén trước mở rộng."
+      }
+    ],
+    "exercise": {
+      "question": "Cả Bollinger và Keltner đều bọc một đường trung bình động. Khác biệt quyết định là gì?",
+      "options": [
+        "Keltner dùng độ lệch chuẩn; Bollinger dùng ATR.",
+        "Bollinger định kích thước dải bằng độ lệch chuẩn của giá đóng cửa; Keltner bằng ATR — hành trình nến thực.",
+        "Bollinger chỉ chạy trên cổ phiếu.",
+        "Không khác biệt."
+      ],
+      "explanation": "Cùng bộ khung, khác thước biến động: phân tán giá đóng cửa (Bollinger) so với biên độ thực (Keltner). Lựa chọn thay đổi cách dải hành xử qua khoảng trống và sự gập ghềnh."
+    },
+    "live_apply": {
+      "cta": "Chồng cả hai phong bì: tìm một khoảnh khắc Bollinger nén bên trong Keltner và xem giá làm gì sau đó."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "title": "Bốn họ chỉ báo",
+    "summary": "Xu hướng, động lượng, biến động, khối lượng — và vì sao một từ mỗi họ thắng năm từ một họ.",
+    "concept": "Mọi chỉ báo bạn gặp đều trả lời một trong bốn câu hỏi. **Xu hướng**: nền đang nghiêng hướng nào? (EMA, SMA, bộ khung MACD). **Động lượng**: giá đẩy mạnh thế nào so với các cú đẩy gần đây? (RSI, histogram MACD). **Biến động**: chuyển động lớn cỡ nào? (ATR, độ rộng dải Bollinger, độ rộng Keltner). **Khối lượng**: ai đã đến? (tỷ lệ khối lượng).\n\nTội lớn là **dư thừa**: chồng RSI + Stochastic + histogram MACD là hỏi cùng câu hỏi động lượng ba lần và gọi các tiếng vọng là 'xác nhận'. Xác nhận thực cắt qua các họ: xu hướng nói lên, động lượng nói mạnh, biến động nói trật tự, khối lượng nói có tham gia.\n\nĐiểm hợp lưu của engine được lắp ráp đúng như vậy — một đầu vào mỗi câu hỏi: căn chỉnh xu hướng (hiệu EMA-SMA), xác nhận khối lượng (tỷ lệ khối lượng), một phiếu đồng thuận động lượng (histogram MACD), và một kiểm tra độ dốc khung lớn. Bốn họ, mỗi cái một phiếu, không tiếng vọng.",
+    "key_terms": [
+      {
+        "term": "Họ xu hướng",
+        "definition": "Hướng nền: EMA, SMA."
+      },
+      {
+        "term": "Họ động lượng",
+        "definition": "Sức đẩy: RSI, histogram MACD."
+      },
+      {
+        "term": "Họ biến động",
+        "definition": "Kích thước chuyển động: ATR, độ rộng dải."
+      },
+      {
+        "term": "Họ khối lượng",
+        "definition": "Sự tham gia: tỷ lệ khối lượng."
+      },
+      {
+        "term": "Dư thừa",
+        "definition": "Nhiều chỉ báo trả lời cùng câu hỏi và bị tính nhầm là xác nhận."
+      }
+    ],
+    "exercise": {
+      "question": "Một trader thấy RSI, Stochastic và histogram MACD đều tăng 'xác nhận' một lệnh long. Khiếm khuyết là gì?",
+      "options": [
+        "Ba chỉ báo là quá ít.",
+        "Cả ba thuộc họ động lượng — một câu hỏi hỏi ba lần, cho tiếng vọng thay vì xác nhận độc lập.",
+        "Chỉ báo động lượng không thể cùng tăng.",
+        "Lệnh long cần đúng năm chỉ báo."
+      ],
+      "explanation": "Kiểm tra chéo họ (xu hướng + động lượng + biến động + khối lượng) thêm thông tin; chồng cùng một họ chỉ thêm sự an tâm tương quan với nhiễu."
+    },
+    "live_apply": {
+      "cta": "Mở các lý do của một tín hiệu: xác định mỗi lý do được liệt kê đến từ họ nào trong bốn họ."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "title": "Hợp lưu: Cách engine chấm điểm một thiết lập",
+    "summary": "Số học chính xác đằng sau điểm hợp lưu.",
+    "concept": "Khi nhiều quan sát độc lập đồng thuận, bằng chứng cộng dồn — đó là **hợp lưu**. QuantGlass không để nó mơ hồ; điểm là một phép tính có thể kiểm toán.\n\nMỗi thiết lập bắt đầu từ một **nền** phản ánh chất lượng tiên nghiệm của họ (0,55 cho hồi xu hướng, 0,60 cho phá vỡ-kiểm định lại, 0,50 cho hồi quy trung bình). Rồi cộng: **căn chỉnh xu hướng × 0,15** (EMA-21 nằm cách SMA-50 vững vàng bao nhiêu, đã chia tỷ lệ), **xác nhận khối lượng × 0,10** (tỷ lệ khối lượng đã chia tỷ lệ), **+0,10 nếu histogram MACD đồng thuận với hướng**, **+0,10 nếu độ dốc khung lớn đồng thuận**, và một **thưởng chế độ** (vd +0,10–0,12 khi chế độ khớp họ). Tổng được kẹp về [0, 1].\n\nKhi nhiều thiết lập cạnh tranh trên một mã, engine đơn giản lấy **hợp lưu cao nhất** — và điểm sau đó nuôi độ tin cậy với trọng số 18 điểm. Hợp lưu của mỗi tín hiệu được in trong phần lý do, nên bạn có thể tính lại bất kỳ điểm nào bằng tay từ đoạn này.",
+    "key_terms": [
+      {
+        "term": "Hợp lưu",
+        "definition": "Quan sát độc lập đồng thuận — được chấm điểm, không phải cảm tính."
+      },
+      {
+        "term": "Điểm nền",
+        "definition": "Chất lượng khởi đầu của họ thiết lập trước bằng chứng."
+      },
+      {
+        "term": "Thưởng đồng thuận",
+        "definition": "+0,10 mỗi cái cho căn chỉnh MACD và khung thời gian lớn."
+      },
+      {
+        "term": "Thưởng chế độ",
+        "definition": "Điểm thêm khi chế độ khớp họ thiết lập."
+      },
+      {
+        "term": "Kẹp (clamp)",
+        "definition": "Điểm giới hạn về [0, 1] — không cộng dồn vô hạn."
+      }
+    ],
+    "exercise": {
+      "question": "Một hồi xu hướng có trend_alignment 0,8, volume_confirmation 0,5, MACD đồng thuận, khung lớn đồng thuận, thưởng chế độ-xu hướng 0,10. Hợp lưu là bao nhiêu?",
+      "options": [
+        "0,55 — là điểm nền.",
+        "0,55 + 0,12 + 0,05 + 0,10 + 0,10 + 0,10 = 1,02, kẹp về 1,00.",
+        "0,92: 0,55 + 0,8×0,15 + 0,5×0,10 + 0,10 + 0,10 + 0,10.",
+        "Hợp lưu không thể tính bằng tay."
+      ],
+      "explanation": "0,55 nền + 0,12 (0,8×0,15) + 0,05 (0,5×0,10) + 0,10 MACD + 0,10 HTF + 0,10 chế độ = 0,92. Số học có thể kiểm toán — đó là điểm cốt lõi."
+    },
+    "live_apply": {
+      "cta": "Lấy confluence_score của bất kỳ tín hiệu nào từ phần lý do và tính lại từ công thức của bài này."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "title": "ATR — Đo biến động và định kích thước dừng lỗ",
+    "summary": "Học cách định kích thước dừng lỗ và vị thế bằng biến động thị trường thực.",
+    "concept": "**Biên độ thực trung bình (ATR-14)** đo biến động: trung bình của 'biên độ thực' qua 14 nến. Biên độ thực = max(Cao − Thấp, |Cao − Đóng trước|, |Thấp − Đóng trước|).\n\n**Vì sao dừng lỗ theo ATR thắng dừng lỗ cố định bằng đô:**\nMột dừng lỗ phẳng $500 trên một mã biến động cao bị quét bởi nhiễu bình thường. Dừng lỗ theo ATR điều chỉnh theo biến động hiện tại — thu hẹp trong thị trường yên, nới rộng trong thị trường dữ dội.\n\n**Công thức dừng lỗ của QuantGlass (vào lệnh long):**\n`stop_loss = reference_price − (ATR × stop_multiple)`\nvới stop_multiple = 1,3 (nén), 1,45 (bình thường), 1,6 (mở rộng).\n\n**ATR theo % giá** = ATR ÷ Close × 100. ATR% < 1% → rủi ro thấp. ATR% > 2,6% → rủi ro cao.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "Biên độ thực trung bình 14 kỳ — đo biến động giá gần đây."
+      },
+      {
+        "term": "Biên độ thực",
+        "definition": "Lớn nhất của: Cao-Thấp, |Cao-Đóng trước|, |Thấp-Đóng trước|."
+      },
+      {
+        "term": "Bội số dừng",
+        "definition": "Bội số ATR để đặt dừng: 1,3 (nén) đến 1,6 (mở rộng)."
+      },
+      {
+        "term": "ATR theo % giá",
+        "definition": "ATR ÷ Close × 100 — biến động chuẩn hóa thành phần trăm."
+      }
+    ],
+    "exercise": {
+      "question": "BTCUSD ở $65.000. ATR-14 = $1.300. Chế độ biến động 'bình thường' (stop_multiple = 1,45). Dừng lỗ cho lệnh long là bao nhiêu?",
+      "hint": "stop_loss = vào lệnh − (ATR × stop_multiple)",
+      "explanation": "stop_loss = 65.000 − (1.300 × 1,45) = 65.000 − 1.885 = **63.115**. Dừng đặt cách điểm vào 1,45 ATR xuống dưới — đủ xa để vượt qua nhiễu giá bình thường nhưng đủ gần để rủi ro mỗi lệnh đo được."
+    },
+    "common_mistakes": [
+      "Đặt dừng cố định bằng đô mà không xét biến động. Một dừng 2 điểm là hào phóng vào ngày yên và là nhiễu vào ngày dữ dội.",
+      "Tính lại kích thước vị thế mà không tính lại dừng ATR sau khi biến động tăng gấp đôi — khoảng dừng cũ giờ chẳng còn nghĩa gì."
+    ],
+    "live_apply": {
+      "cta": "Mở một tín hiệu BUY_ZONE BTCUSD và xác nhận khoảng cách từ điểm vào tới stop_loss xấp xỉ 1,3–1,6× ATR."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "title": "Tỷ lệ Rủi ro:Phần thưởng",
+    "summary": "Hiểu vì sao R:R quyết định lợi thế dài hạn độc lập với tỷ lệ thắng.",
+    "concept": "**Rủi ro:Phần thưởng (R:R)** = (lối ra TP − vào lệnh) ÷ (vào lệnh − dừng lỗ) cho lệnh long.\n\nR:R 2,0 nghĩa là bạn liều 1 để có thể được 2. Dù chỉ thắng 40% số lệnh, R:R 2,0 vẫn tạo kỳ vọng dương:\n`Kỳ vọng = (Thắng% × Lãi_TB) − (Thua% × Lỗ_TB) = (0,4 × 2R) − (0,6 × 1R) = +0,2R`\n\n**Mục tiêu R:R của QuantGlass:**\n- Thiết lập BUY_ZONE / SELL: reward_multiple = 2,4× risk_distance (tới TP2)\n- Thiết lập HOLD / WATCH / WAIT: reward_multiple = 1,8×\n\nEngine dùng **thang 3 bậc** để thoát từng phần: TP1 (50% vị thế), TP2 (30%), TP3 (20%). Điều này chốt lời một phần trong khi một phần vị thế chạy tiếp.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Tỷ lệ Rủi ro:Phần thưởng — lãi tiềm năng ÷ rủi ro mỗi lệnh."
+      },
+      {
+        "term": "Kỳ vọng",
+        "definition": "Lãi trung bình mỗi lệnh: (Thắng% × Lãi_TB) − (Thua% × Lỗ_TB)."
+      },
+      {
+        "term": "Thang TP",
+        "definition": "Thoát từng bậc tại TP1 (50%), TP2 (30%), TP3 (20%) kích thước vị thế."
+      },
+      {
+        "term": "Kỳ vọng dương",
+        "definition": "Kỳ vọng > 0 — lợi thế sống sót qua nhiều lệnh."
+      }
+    ],
+    "exercise": {
+      "question": "Bạn thắng 35% số lệnh với lãi trung bình 3R và thua 65% với lỗ trung bình 1R. Lợi thế của bạn có dương không?",
+      "options": [
+        "Không — tỷ lệ thắng 35% là quá thấp để có lãi.",
+        "Có — Kỳ vọng = (0,35 × 3) − (0,65 × 1) = +0,4R mỗi lệnh.",
+        "Không — tỷ lệ thua 65% luôn nghĩa là kỳ vọng âm.",
+        "Chưa rõ — cần thêm dữ liệu."
+      ],
+      "explanation": "Kỳ vọng = (0,35 × 3R) − (0,65 × 1R) = 1,05 − 0,65 = **+0,4R mỗi lệnh**. Nghĩa là bạn kỳ vọng +40R lãi trên 100 lệnh. R:R cao khiến bạn có lãi ngay cả với tỷ lệ thắng dưới 50% — thực tế cho việc theo xu hướng."
+    },
+    "common_mistakes": [
+      "Đánh giá lệnh chỉ bằng tỷ lệ thắng. Tỷ lệ thắng 90% vẫn mất tiền nếu 10% đó là thảm họa -10R.",
+      "Đặt mục tiêu bằng hy vọng thay vì cấu trúc. Rủi ro:phần thưởng chỉ có nghĩa khi mục tiêu nằm ở một mức thị trường thực sự tôn trọng.",
+      "Dời dừng sau khi vào để 'cải thiện' tỷ lệ. Tỷ lệ là tiêu chí vào lệnh; thay đổi giữa lệnh là xóa kế hoạch."
+    ],
+    "live_apply": {
+      "cta": "Mở Backtesting, chọn bất kỳ preset nào và xem các chỉ số Kỳ vọng (avg_R), Tỷ lệ thắng và Hệ số lợi nhuận cùng nhau."
+    },
+    "bridge": {
+      "cta": "Áp dụng: Nhận nhiệm vụ Kỷ luật Rủi ro — 20 lệnh, mỗi lệnh có dừng, rủi ro trong chính sách."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "title": "Định kích thước vị thế — Liều bao nhiêu",
+    "summary": "Tính kích thước lệnh đúng để không một khoản lỗ đơn lẻ nào là thảm họa.",
+    "concept": "**Định kích thước vị thế** quyết định bạn giao dịch bao nhiêu đơn vị để khi dừng bị quét, bạn không mất quá *rủi ro mỗi lệnh* đã định trước (vd 1% tài khoản).\n\n**Công thức tỷ lệ cố định:**\n`Kích thước vị thế = (Tài khoản × Rủi ro%) ÷ (Vào lệnh − Dừng lỗ)`\n\nVí dụ: tài khoản $10.000, rủi ro 1% mỗi lệnh, vào lệnh $100, dừng $96:\n`Kích thước = ($10.000 × 0,01) ÷ ($100 − $96) = $100 ÷ $4 = 25 cổ phiếu`\n\nNếu 25 cổ phiếu đó đều bị dừng ở $96, bạn mất 25 × $4 = **đúng $100** — 1% tài khoản.\n\n**Vì sao quan trọng**: liều một phần trăm cố định giữ lỗ nhỏ trong các đợt sụt giảm và cho phép kích thước vị thế lớn lên khi tài khoản lớn (lãi kép).",
+    "key_terms": [
+      {
+        "term": "Rủi ro mỗi lệnh",
+        "definition": "Khoản lỗ đô tối đa chấp nhận được khi dừng bị quét (vd 1% tài khoản)."
+      },
+      {
+        "term": "Định kích thước tỷ lệ cố định",
+        "definition": "Kích thước = (Tài khoản × Rủi ro%) ÷ (Vào − Dừng) — co giãn theo tài khoản."
+      },
+      {
+        "term": "Sụt giảm (Drawdown)",
+        "definition": "Mức giảm vốn từ đỉnh xuống đáy trong chuỗi thua."
+      }
+    ],
+    "exercise": {
+      "question": "Tài khoản = $25.000. Rủi ro mỗi lệnh = 1%. Vào = $200, Dừng = $192. Bao nhiêu cổ phiếu?",
+      "hint": "Kích thước vị thế = (Tài khoản × Rủi ro%) ÷ (Vào − Dừng)",
+      "explanation": "Số tiền rủi ro = $25.000 × 1% = $250. Rủi ro mỗi cổ phiếu = $200 − $192 = $8. Kích thước vị thế = $250 ÷ $8 = **31,25 → 31 cổ phiếu**. Nếu dừng kích hoạt: 31 × $8 = $248 lỗ — ngay dưới 1% tài khoản."
+    },
+    "common_mistakes": [
+      "Chọn kích thước trước, rủi ro sau. Kích thước là một đầu ra: (tài khoản x rủi ro%) / khoảng dừng — không bao giờ là đầu vào.",
+      "Gấp đôi kích thước sau khi thua để gỡ. Đó là số học martingale và làm cháy tài khoản.",
+      "Đếm các vị thế mở riêng lẻ. Năm lệnh mỗi lệnh rủi ro 1% là 5% nhiệt danh mục nếu chúng tương quan — và trong một đợt sụp, mọi thứ tương quan."
+    ],
+    "live_apply": {
+      "cta": "Mở một tín hiệu, ghi điểm vào và stop_loss của nó, rồi tính bao nhiêu cổ phiếu bạn mua với rủi ro 1% trên tài khoản giấy $10.000."
+    },
+    "bridge": {
+      "cta": "Áp dụng: Nhiệm vụ Kỷ luật Rủi ro chấm điểm việc định kích thước của bạn trên mỗi lệnh giấy thực."
+    }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "title": "Bội số R: Đơn vị bản địa của trader",
+    "summary": "Đo mọi kết quả bằng đơn vị rủi ro đã hoạch định.",
+    "concept": "Định nghĩa **1R** là số đô bạn dự định mất nếu dừng bị quét. Khi đó mọi kết quả thành một **bội số R**: lối ra dừng = −1R; lối ra ở gấp đôi khoảng dừng = +2R. Đơn vị này di chuyển qua các mã, giá và quy mô tài khoản — +1,5R trên một coin $3 và +1,5R trên một cổ phiếu $900 là *cùng một thành tựu*.\n\nVì sao quan trọng: đô làm lệch (lẫn kỹ năng với kích thước), phần trăm cũng lệch (lẫn kỹ năng với biến động), nhưng R cô lập **chất lượng quyết định so với rủi ro đã hoạch định**. Lịch sử R của một phương pháp có thể so sánh trực tiếp qua mọi thứ bạn giao dịch.\n\nQuantGlass nói R như tiếng mẹ đẻ: kỳ vọng backtest báo cáo bằng R, thang chốt lời đặt ở các khoảng theo R, chi phí quy đổi sang R trước khi trừ, và biên độ phù hợp khung *R của lệnh kế tiếp*. Học nghĩ bằng R và mọi con số trong app trở thành một ngôn ngữ.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "Khoản lỗ đã hoạch định nếu dừng bị quét."
+      },
+      {
+        "term": "Bội số R",
+        "definition": "Một kết quả chia cho rủi ro đã hoạch định: lối ra dừng = −1R."
+      },
+      {
+        "term": "Kỳ vọng (R)",
+        "definition": "R trung bình mỗi lệnh trên một mẫu."
+      },
+      {
+        "term": "Chuẩn hóa rủi ro",
+        "definition": "So sánh lệnh qua các mã bằng cách đo theo R."
+      }
+    ],
+    "exercise": {
+      "question": "Vào 200,00, dừng 192,00, bán toàn bộ vị thế ở 212,00. Kết quả theo R là gì?",
+      "hint": "R = (lối ra − vào) ÷ (vào − dừng)",
+      "explanation": "Rủi ro mỗi đơn vị = 200 − 192 = 8. Lãi mỗi đơn vị = 212 − 200 = 12. 12 ÷ 8 = **+1,5R** — cùng đáp số dù bạn giao dịch 10 cổ phiếu hay 10.000."
+    },
+    "common_mistakes": [
+      "So sánh kết quả đô giữa các lệnh kích thước khác nhau. Chỉ bội số R làm các lệnh so sánh được.",
+      "Gọi một khoản lỗ -1R là thất bại. Một khoản lỗ đã hoạch định lấy tại dừng là hệ thống chạy đúng như thiết kế."
+    ],
+    "live_apply": {
+      "cta": "Mở các chỉ số của bất kỳ preset nào: kỳ vọng và avgR chính là đơn vị này, được tính trên mỗi lệnh mô phỏng."
+    },
+    "bridge": {
+      "cta": "Áp dụng: Nhiệm vụ Chấp nhận Khoản lỗ Đã hoạch định đếm các khoản lỗ -1R chơi tốt của bạn."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "title": "Nhiệt danh mục: Rủi ro trên tất cả vị thế",
+    "summary": "Rủi ro mỗi lệnh là chưa đủ — hãy giới hạn tổng.",
+    "concept": "Định kích thước một lệnh ở 1% có nghĩa lý ít nếu bạn mở tám lệnh như vậy. **Nhiệt danh mục** là tổng rủi ro mở: nếu mọi dừng bị quét cùng lúc, phần nào của tài khoản cháy? Tám vị thế 1% = 8% nhiệt — và nếu các vị thế đó *tương quan* (như ba cổ phiếu lớn di chuyển như một trong đợt bán coin), ảo tưởng 'tám dừng độc lập' sụp thành một cược lớn.\n\nQuy tắc làm việc: giới hạn tổng nhiệt (4–6% là kỷ luật phổ biến), tính các vị thế tương quan là rủi ro chồng lấn thay vì cược độc lập, và coi nhiệt như một ngân sách — một lệnh mới phải vừa ngân sách còn lại hoặc đừng nhận.\n\nTài khoản giấy QuantGlass làm nhiệt có thể kiểm toán: khoảng cách tới dừng dự định của mỗi vị thế mở nhân kích thước, cộng lại. Insight vị thế quá lớn của bảng huấn luyện là phiên bản đơn-vị-thế của kiểm tra này; chạy phiên bản danh mục trước mỗi điểm vào mới là việc của bạn.",
+    "key_terms": [
+      {
+        "term": "Nhiệt danh mục",
+        "definition": "Tổng lỗ nếu mọi dừng mở bị quét."
+      },
+      {
+        "term": "Tương quan",
+        "definition": "Các vị thế di chuyển cùng nhau — rủi ro chồng lấn, không độc lập."
+      },
+      {
+        "term": "Ngân sách nhiệt",
+        "definition": "Một trần cứng cho tổng rủi ro mở."
+      },
+      {
+        "term": "Tập trung",
+        "definition": "Phơi nhiễm quá mức vào một mã hoặc chủ đề."
+      }
+    ],
+    "exercise": {
+      "question": "Bạn rủi ro 1% mỗi lệnh và giữ sáu lệnh long coin mở trong một thị trường nơi các mã lớn di chuyển cùng nhau. Phơi nhiễm thực tế của bạn là gì?",
+      "options": [
+        "1% — chỉ rủi ro mỗi lệnh là quan trọng.",
+        "Khoảng 6% tài khoản hành xử như một cược lớn, vì các vị thế tương quan có xu hướng bị quét dừng cùng nhau.",
+        "0% — đa dạng hóa triệt tiêu rủi ro.",
+        "60% tài khoản."
+      ],
+      "explanation": "Nhiệt cộng tới khoảng 6% và tương quan nghĩa là sáu dừng có khả năng kích hoạt trong cùng một cơn bão. Nhiệt tương quan là một lệnh lớn mặc sáu bộ đồ."
+    },
+    "live_apply": {
+      "cta": "Cộng rủi ro-tới-dừng của các vị thế giấy đang mở của bạn. Nhiệt hiện tại là bao nhiêu phần trăm số dư?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "title": "Sụt giảm: Số học của chuỗi thua",
+    "summary": "Vì sao lỗ đau hơn mức lãi cùng kích thước có thể giúp.",
+    "concept": "**Sụt giảm** là mức giảm từ đỉnh xuống đáy trong vốn của bạn. Sự tàn nhẫn của nó là số học bất đối xứng: mất 20% và bạn cần **+25%** để hồi; mất 50% và bạn cần **+100%**. Yêu cầu hồi phục lớn nhanh hơn các khoản lỗ tạo ra chúng.\n\nChuỗi thua không phải dị thường — chúng là điều chắc chắn. Với tỷ lệ thắng 50%, một chuỗi thua 7 lệnh có xác suất khoảng 1/128 trong *bất kỳ 7 lệnh nào*, gần như tất yếu qua hàng trăm lệnh. Rủi ro 1% mỗi lệnh, chuỗi đó khoét tài khoản ~7%; rủi ro 5%, nó khoét ~30% và toán hồi phục trở nên dữ dội.\n\nQuantGlass báo cáo **sụt giảm tối đa** và toàn bộ đường cong sụt giảm trên mỗi backtest, tính từ đường vốn mô phỏng. Hãy đọc nó trước khi ngưỡng mộ bất kỳ tỷ lệ thắng nào: đường cong sụt giảm là cảm giác *thực sự* khi nắm giữ chiến lược.",
+    "key_terms": [
+      {
+        "term": "Sụt giảm",
+        "definition": "Mức giảm vốn từ đỉnh xuống đáy."
+      },
+      {
+        "term": "Sụt giảm tối đa",
+        "definition": "Mức giảm sâu nhất loại đó trong một bản ghi."
+      },
+      {
+        "term": "Bất đối xứng hồi phục",
+        "definition": "Một khoản lỗ −X% cần hơn +X% để sửa."
+      },
+      {
+        "term": "Chuỗi thua",
+        "definition": "Lỗ liên tiếp — một điều chắc chắn thống kê qua đủ số lệnh."
+      }
+    ],
+    "exercise": {
+      "question": "Một tài khoản giảm 20% từ đỉnh. Cần phần trăm lãi nào (trên số dư đã giảm) chỉ để về lại đỉnh?",
+      "hint": "Từ 100 xuống 80; bao nhiêu % của 80 đưa về 100?",
+      "explanation": "80 × 1,25 = 100, tức **25%**. Hố càng sâu, leo càng dốc — ở −50%, yêu cầu thành +100%."
+    },
+    "common_mistakes": [
+      "Tăng kích thước trong sụt giảm để hồi nhanh hơn. Toán hồi phục đã dữ dội; cược lớn hơn khoét hố sâu theo hàm mũ.",
+      "Bỏ một hệ thống kỳ vọng dương giữa một đợt sụt giảm. Bài Monte Carlo cho thấy các hệ thống bình thường dành một phần ba đời mình dưới mặt nước."
+    ],
+    "live_apply": {
+      "cta": "Mở đường cong sụt giảm của một preset và tìm điểm sâu nhất — thung lũng đó là phép thử áp lực thực của chiến lược."
+    },
+    "bridge": {
+      "cta": "Áp dụng: Phát lại Một Nhịp Hồi Trong Xu Hướng — bám kế hoạch khi biểu đồ tranh cãi."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "title": "Kế hoạch giao dịch bằng văn bản",
+    "summary": "Năm câu tách một giao dịch khỏi một canh bạc.",
+    "concept": "Một giao dịch không kế hoạch là một tâm trạng gắn vào tiền. Một kế hoạch đầy đủ trả lời bằng văn bản năm câu hỏi **trước khi vào lệnh**: **Thiết lập** — mẫu hình nào, trên khung nào, biện minh cho nó? **Vào lệnh** — ở giá hay vùng nào? **Vô hiệu hóa** — ý tưởng sai ở đâu (dừng), theo các điều khoản giá quyết định *ngay bây giờ*, sau đó không thương lượng? **Mục tiêu** — nếu đúng, thoát ở đâu và thế nào? **Kích thước** — bao nhiêu đơn vị để vô hiệu hóa tốn đúng phần tài khoản đã hoạch định?\n\nLưu ý rằng một thẻ tín hiệu QuantGlass theo nghĩa đen là một phiên bản điền sẵn của mẫu này: loại thiết lập, vùng vào lệnh, dừng, thang, và công thức của bài định kích thước. Việc của bạn không phải phát minh ra biểu mẫu — mà là *đồng ý hay không đồng ý với từng dòng* trước khi hành động.\n\nSức mạnh của kế hoạch nằm ở thời điểm: mỗi câu trả lời được viết khi bạn bình tĩnh và tiền là lý thuyết. Thực thi trở nên quan liêu, đúng như nó nên thế.",
+    "key_terms": [
+      {
+        "term": "Kế hoạch giao dịch",
+        "definition": "Thiết lập, vào lệnh, vô hiệu hóa, mục tiêu và kích thước bằng văn bản — trước khi vào lệnh."
+      },
+      {
+        "term": "Vô hiệu hóa trước",
+        "definition": "Quyết định nơi bạn sai trước khi quyết định mua bao nhiêu."
+      },
+      {
+        "term": "Cam kết trước",
+        "definition": "Khóa quyết định khi bình tĩnh để thực thi thành quan liêu."
+      },
+      {
+        "term": "Tuân thủ kế hoạch",
+        "definition": "Chỉ số kỷ luật mà một nhật ký làm hiện hình."
+      }
+    ],
+    "exercise": {
+      "question": "Yếu tố nào của kế hoạch giao dịch phải được cố định ĐẦU TIÊN, vì mọi con số khác phụ thuộc vào nó?",
+      "options": [
+        "Mục tiêu lợi nhuận.",
+        "Mức vô hiệu hóa (dừng) — kích thước phái sinh từ nó và mục tiêu đo so với nó.",
+        "Loại lệnh.",
+        "Biệt danh của giao dịch."
+      ],
+      "explanation": "Hoạch định rủi ro trước: vô hiệu hóa định nghĩa 1R; kích thước đến từ việc chia ngân sách rủi ro tài khoản cho khoảng cách đó; mục tiêu biểu thị theo R so với nó."
+    },
+    "common_mistakes": [
+      "Viết kế hoạch sau khi vào lệnh. Một kế hoạch tồn tại để biện minh một vị thế là thông cáo báo chí, không phải kế hoạch.",
+      "Để vô hiệu hóa mơ hồ ('cắt nếu trông tệ'). Nếu dừng không phải là một con số, thì không có dừng.",
+      "Hoạch định vào lệnh chi tiết, không hoạch định lối ra. Lối ra là nơi tiền thực sự được hiện thực hóa."
+    ],
+    "live_apply": {
+      "cta": "Mở một tín hiệu và đọc nó như một kế hoạch giao dịch năm dòng — nếu có, bạn không đồng ý với dòng nào?"
+    },
+    "bridge": {
+      "cta": "Áp dụng: Phát lại Cú Phá Vỡ Đã Không Xảy Ra và ra quyết định hoạch định dưới áp lực."
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "title": "Nhật ký giao dịch",
+    "summary": "Tấm gương trung thực duy nhất của bạn.",
+    "concept": "Trí nhớ là một biên tập viên nịnh nọt: nó nhớ chiến thắng của bạn là kỹ năng, thua lỗ là vận rủi. Một **nhật ký** là bản ghi chưa biên tập. Cho mỗi giao dịch, ghi lại: kế hoạch (cả năm dòng), *lý do* trong một câu, thực thi (bạn có theo kế hoạch không?), kết quả theo R, và trạng thái cảm xúc lúc vào và lúc ra.\n\nPhần thưởng là khám phá mẫu hình mà trí nhớ bạn sẽ không bao giờ tự nguyện cung cấp: 'các lệnh phá vỡ của tôi thua trong chế độ đi ngang', 'tôi cắt người thắng sớm sau hai lần thua', 'mọi lệnh trả thù đến trong vòng một giờ sau một lối ra dừng'. Những điều này, khi hiện hình, *có thể sửa* — và không có bản ghi thì vô hình.\n\nLịch sử giấy QuantGlass đã tự động ghi nửa cơ học (vào lệnh, lối ra, kích thước, kết quả). Nửa văn bản — lý do và trạng thái cảm xúc — là phần chỉ bạn mới cung cấp được, và là nửa nơi các bài học sống.",
+    "key_terms": [
+      {
+        "term": "Nhật ký giao dịch",
+        "definition": "Bản ghi chưa biên tập về kế hoạch, thực thi, kết quả và tâm trạng."
+      },
+      {
+        "term": "Tuân thủ kế hoạch",
+        "definition": "Liệu lệnh đã thực thi có khớp kế hoạch văn bản không."
+      },
+      {
+        "term": "Khám phá mẫu hình",
+        "definition": "Các hành vi lặp lại, có thể sửa mà nhật ký phơi bày."
+      },
+      {
+        "term": "Gán nhãn cảm xúc",
+        "definition": "Ghi trạng thái lúc vào/ra — hệ thống cảnh báo sớm cho tilt."
+      }
+    ],
+    "exercise": {
+      "question": "Trường đơn lẻ chẩn đoán nhất trong một nhật ký giao dịch là gì?",
+      "options": [
+        "Lợi nhuận đô của giao dịch.",
+        "Liệu thực thi có khớp kế hoạch văn bản không — sự lệch chứ không phải lỗ là nơi các sai lầm có thể sửa được ẩn náu.",
+        "Thời điểm trong ngày.",
+        "Số chỉ báo đã dùng."
+      ],
+      "explanation": "Lỗ trong kế hoạch được tuân thủ là học phí; lãi trong kế hoạch bị phá vỡ là nợ. Tuân thủ kế hoạch là trường tách hai cái này."
+    },
+    "common_mistakes": [
+      "Chỉ ghi kết quả. Giá trị của nhật ký nằm ở bản ghi quyết định: lý do, cảm xúc và tuân thủ kế hoạch lúc vào lệnh.",
+      "Ghi nhật ký người thắng và bỏ qua người thua. Người thua chứa gần như toàn bộ thông tin."
+    ],
+    "live_apply": {
+      "cta": "Nhìn ba lệnh giấy gần nhất: cho mỗi lệnh viết lý do một câu bạn đã vào — nếu không viết được, đó chính là phát hiện."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "title": "Vào và ra: nơi kỷ luật sống",
+    "summary": "Vào lệnh tốt thì kiên nhẫn; ra lệnh tốt thì đã quyết trước.",
+    "concept": "**Vào lệnh**: vùng vào của engine là một dấu ngoặc, không phải tiếng súng xuất phát. Đuổi giá vượt qua vùng âm thầm làm xấu mọi con số bạn hoạch định: khoảng dừng thực của bạn lớn lên, R:R thực thu hẹp, và kích thước — tính cho khoảng cách đã hoạch định — trở nên quá lớn cho khoảng thực. Vùng đã qua thì giao dịch đã qua; luôn có chuyến xe khác.\n\n**Lối ra** khó hơn vì được quyết dưới cảm xúc — nếu không thì đó là chuyện khác. Bộ lối ra quyết trước: **dừng** (thoát toàn bộ, không thương lượng), **thang** (chốt lời từng bậc 50/30/20 của engine để chừa chỗ), và **thời gian** (một thiết lập đi nhiều nến mà chẳng tới đâu là đã thầm lặng thất bại — chính backtester áp một thời gian nắm giữ tối đa mỗi khung).\n\nQuy tắc thầm lặng bên dưới cả hai: mỗi lần lệch tùy ý bạn tự cho phép trở thành tiền lệ cho lần kế tiếp, lớn hơn.",
+    "key_terms": [
+      {
+        "term": "Đuổi giá (chasing)",
+        "definition": "Vào lệnh vượt vùng đã hoạch định — âm thầm phá dừng, R:R và kích thước."
+      },
+      {
+        "term": "Thoát từng bậc",
+        "definition": "Lối ra theo bậc, như thang 50/30/20 của engine."
+      },
+      {
+        "term": "Dừng thời gian",
+        "definition": "Thoát khi thiết lập kẹt — quy tắc nắm-giữ-tối-đa của backtest."
+      },
+      {
+        "term": "Kỷ luật lối ra",
+        "definition": "Thực thi lối ra đã quyết trước mà không thương lượng lại."
+      }
+    ],
+    "exercise": {
+      "question": "Giá chạy 1,5% trên vùng vào của tín hiệu và bạn vẫn vào với kích thước đã hoạch định. Thực tế đã thay đổi gì?",
+      "options": [
+        "Không gì — vào lệnh là tương đối.",
+        "Khoảng dừng thực của bạn lớn lên và R:R thu hẹp, trong khi kích thước vẫn giả định khoảng cũ — giao dịch đã hoạch định không còn nữa.",
+        "Dừng tự động đi lên.",
+        "Phí của bạn giảm."
+      ],
+      "explanation": "Ba con số đã hoạch định (khoảng rủi ro, tỷ lệ phần thưởng, kích thước-cho-rủi ro) được tính từ vùng. Vào ở chỗ khác là nhận một giao dịch khác, tệ hơn, với các nhãn cũ."
+    },
+    "live_apply": {
+      "cta": "So vùng vào của một tín hiệu với giá hiện tại — giao dịch vẫn là cái engine đã đo, hay xe đã chạy?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "title": "Danh sách kiểm và thói quen",
+    "summary": "Mượn từ hàng không: kỷ luật như một quy trình, không phải tâm trạng.",
+    "concept": "Phi công không bỏ qua danh sách kiểm trước bay vào ngày họ thấy sắc bén — *đặc biệt* không phải ngày đó. Một danh sách kiểm giao dịch phục vụ cùng mục đích: làm tiêu chuẩn tối thiểu thành cơ học.\n\nMột danh sách kiểm trước giao dịch đáng đánh cắp: **(1)** Tín hiệu có tươi không (nến đã đóng, huy hiệu hiện tại)? **(2)** Chế độ có khớp họ thiết lập không? **(3)** Hợp lưu có chấp nhận được và tôi hiểu mỗi lý do không? **(4)** Vô hiệu hóa đã định và kích thước có vừa ngân sách rủi ro của tôi không? **(5)** Cái này có vừa nhiệt danh mục của tôi không? **(6)** Tôi đã viết lý do một câu chưa?\n\nMột thói quen hằng ngày bọc lấy nó: xem các vị thế mở so với kế hoạch, quét bảng huấn luyện tìm insight, ghi nhật ký các lối ra hôm qua, *rồi* tìm thiết lập mới — theo thứ tự đó, để quản lý đến trước mua sắm. Thói quen thấy quan liêu cho tới đúng ngày dữ dội ấy, ngày đó nó vẫn là phần duy nhất của bạn còn nghĩ rõ ràng.",
+    "key_terms": [
+      {
+        "term": "Danh sách kiểm trước giao dịch",
+        "definition": "Kiểm tra tối thiểu cơ học trước bất kỳ điểm vào nào."
+      },
+      {
+        "term": "Thói quen",
+        "definition": "Một thứ tự hằng ngày cố định: quản lý, xem lại, rồi săn."
+      },
+      {
+        "term": "Khớp chế độ",
+        "definition": "Họ thiết lập đồng thuận với chế độ thị trường hiện tại."
+      },
+      {
+        "term": "Kiểm tra nhiệt",
+        "definition": "Xác nhận giao dịch mới vừa ngân sách rủi ro còn lại."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao thói quen hằng ngày đặt quản lý vị thế trước việc tìm giao dịch mới?",
+      "options": [
+        "Giao dịch mới vui hơn.",
+        "Rủi ro mở là rủi ro sống — quản lý các vị thế và dừng hiện có bảo vệ tài khoản trước khi thêm bất kỳ phơi nhiễm mới nào.",
+        "Thị trường thưởng cho thứ tự bảng chữ cái.",
+        "Không quan trọng."
+      ],
+      "explanation": "Các vị thế hiện có có thể hại bạn hôm nay; các vị thế tiềm năng thì không. Bảo đảm rủi ro sống trước là phân loại, không phải sở thích."
+    },
+    "live_apply": {
+      "cta": "Đặt một cảnh báo ở mức vô hiệu hóa của một vị thế mở — biến một mục danh sách kiểm thành một người gác tự động."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "title": "Xem lại thống kê của chính bạn",
+    "summary": "Biến lịch sử giấy của bạn thành bằng chứng về bạn.",
+    "concept": "Sau 20–30 lệnh đã ghi nhật ký, bạn có một tập dữ liệu và nó trả lời các câu hỏi mà ý kiến không thể. Tính **tỷ lệ thắng** (thắng ÷ lệnh), **R trung bình** và **kỳ vọng** (R trung bình mỗi lệnh) — rồi cắt lát: theo họ thiết lập, theo chế độ, theo ngày, theo việc kế hoạch có được tuân thủ không.\n\nĐọc như một nhà phân tích: kỳ vọng dương với tỷ lệ thắng 40% là một hồ sơ theo xu hướng lành mạnh (lỗ nhỏ, lãi lớn hơn); kỳ vọng âm với tỷ lệ thắng 70% nghĩa là lãi tí hon và thảm họa thỉnh thoảng — hồ sơ thương lượng dừng. Lát giá trị nhất là **tuân-thủ-kế-hoạch so với phá-kế-hoạch**: nếu kỳ vọng tuân-thủ-kế-hoạch của bạn thắng kỳ vọng phá-kế-hoạch (gần như luôn thắng), bạn có bằng chứng cá nhân, định lượng rằng kỷ luật của bạn — không phải sự thông minh — là lợi thế.\n\nNhớ bài học kích thước mẫu mà engine dạy liên tục: 10 lệnh là một câu chuyện. Toán co rút làm kỷ luật độ tin cậy của engine cũng áp dụng cho thống kê của bạn.",
+    "key_terms": [
+      {
+        "term": "Tỷ lệ thắng",
+        "definition": "Thắng ÷ tổng lệnh — vô nghĩa nếu không kèm R trung bình."
+      },
+      {
+        "term": "Kỳ vọng",
+        "definition": "R trung bình mỗi lệnh — con số quyết định một phương pháp có thắng không."
+      },
+      {
+        "term": "Cắt lát",
+        "definition": "Tính thống kê theo thiết lập, chế độ hay tuân thủ để tìm nơi lợi thế sống."
+      },
+      {
+        "term": "Ngưỡng câu chuyện",
+        "definition": "Mẫu nhỏ: coi thống kê sớm là hướng, không phải phán quyết."
+      }
+    ],
+    "exercise": {
+      "question": "Nhật ký của bạn cho thấy: lệnh tuân-thủ-kế-hoạch trung bình +0,31R trên 25 lệnh; lệnh phá-kế-hoạch −0,58R trên 11. Phát hiện là gì?",
+      "options": [
+        "Bạn nên giao dịch thường xuyên hơn.",
+        "Bằng chứng định lượng rằng tuân thủ kế hoạch là lợi thế của bạn: cùng trader, trừ kỷ luật, lỗ ròng.",
+        "11 lệnh phá-kế-hoạch đó chỉ là vận rủi.",
+        "Thiếu tỷ lệ thắng, nên không suy ra được gì."
+      ],
+      "explanation": "Cùng người, cùng thị trường, khác hành vi, kỳ vọng đối nghịch. Đây là thống kê thuyết phục nhất một nhật ký tạo ra — và chỉ một nhật ký mới tạo được."
+    },
+    "live_apply": {
+      "cta": "Thống kê engine cắt lát theo thiết lập và chế độ trên mỗi preset — áp dụng cùng phương pháp lên lịch sử giấy của bạn."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "title": "Phát hiện chế độ",
+    "summary": "Xu hướng, đi ngang, biến động, chuyển tiếp — các quy tắc chính xác của engine.",
+    "concept": "Một **chế độ** là tính cách chủ đạo của thị trường, và QuantGlass phân loại nó trên mỗi nến đã đóng bằng các quy tắc có thể kiểm toán. Trước hết ghi đè biến động: nếu ATR theo phần của giá ít nhất bằng **1,7×** trung vị 50 nến, chế độ là **biến động** — bão tố thắng tất cả. Ngược lại ADX quyết định: **≥ 22 → xu hướng**, **< 16 → đi ngang**, và khoảng giữa khó chịu (16–22) → **chuyển tiếp**.\n\nVì sao cơ học này quan trọng với bạn: chế độ không phải diễn giải, mà là một **cổng**. Họ hồi và phá vỡ chỉ kích hoạt trong xu hướng (hồi cũng kích hoạt ở chuyển tiếp); hồi quy trung bình chỉ kích hoạt khi đi ngang. Một thiết lập 'đẹp' ở sai chế độ thì với engine không phải thiết lập nào cả.\n\nMỗi tín hiệu in chế độ của nó trong phần lý do, nên khi tín hiệu kích hoạt bạn luôn truy được cổng nào đang mở.",
+    "key_terms": [
+      {
+        "term": "Chế độ",
+        "definition": "Tính cách chủ đạo của thị trường: xu hướng, đi ngang, biến động, chuyển tiếp."
+      },
+      {
+        "term": "Ghi đè biến động",
+        "definition": "ATR% ≥ 1,7× trung vị 50 nến → biến động, độc lập với ADX."
+      },
+      {
+        "term": "Ngưỡng ADX",
+        "definition": "≥22 xu hướng, <16 đi ngang, ở giữa → chuyển tiếp."
+      },
+      {
+        "term": "Cổng thiết lập",
+        "definition": "Các họ chỉ kích hoạt trong chế độ tương thích của chúng."
+      }
+    ],
+    "exercise": {
+      "question": "ADX 30, nhưng ATR-theo-phần-trăm-giá gấp đôi trung vị 50 nến. Engine báo cáo chế độ nào?",
+      "options": [
+        "Xu hướng — ADX 30 là quyết định.",
+        "Biến động — ghi đè biến động thắng đọc ADX.",
+        "Đi ngang.",
+        "Không thể tính chế độ nào."
+      ],
+      "explanation": "Kiểm tra biến động chạy trước: 2,0× ≥ 1,7× trung vị kích hoạt nó. Một xu hướng mạnh bên trong cơn bão vẫn là một cơn bão và quy tắc bão tố áp dụng."
+    },
+    "live_apply": {
+      "cta": "Đọc trường market_regime trên ba tín hiệu và xác nhận mỗi họ thiết lập hợp lệ trong chế độ của nó."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "title": "Giao dịch cùng chế độ, không chống lại nó",
+    "summary": "Cùng một thiết lập có kết quả đối nghịch ở các chế độ khác nhau.",
+    "concept": "Mỗi họ thiết lập mang một giả định chế độ ngầm. **Mua khi hồi** giả định một xu hướng đang diễn ra — trong đi ngang đó là bắt dao rơi ở đường giữa. **Giao dịch phá vỡ** giả định các thái cực kéo dài — trong đi ngang, thái cực *chính là* điểm đảo, nên phá vỡ chế-độ-đi-ngang là phá vỡ giả kinh điển. **Hồi quy trung bình** giả định một giá trị trung bình như nam châm — trong xu hướng, cái 'bị kéo giãn' chỉ càng giãn hơn khi bạn chống lại.\n\nVì vậy engine từ chối về cấu trúc các giao dịch chéo chế độ và họ phá vỡ đòi cổng xu hướng *cộng* khối lượng ở mức trung bình gần đây: chế độ trả lời 'thị trường này có thuộc loại mà ý tưởng này hiệu quả không?' và câu hỏi đó đến trước mọi hình học vào lệnh.\n\nKết luận tùy ý của bạn: trước khi đánh giá bất kỳ thiết lập nào — của engine hay của bạn — hãy gọi tên chế độ to lên. Phần lớn giao dịch tệ là thiết lập tốt trong sai thời tiết.",
+    "key_terms": [
+      {
+        "term": "Giả định chế độ",
+        "definition": "Tính cách thị trường mà một họ thiết lập ngầm đòi hỏi."
+      },
+      {
+        "term": "Phá vỡ giả (fakeout)",
+        "definition": "Một 'phá vỡ' bị buộc vào đi ngang đảo ở thái cực."
+      },
+      {
+        "term": "Chống xu hướng (fading)",
+        "definition": "Giao dịch ngược hướng chủ đạo — chết người trong xu hướng."
+      },
+      {
+        "term": "Kiểm tra thời tiết",
+        "definition": "Gọi tên chế độ trước khi đánh giá bất kỳ thiết lập nào."
+      }
+    ],
+    "exercise": {
+      "question": "Vì sao phá vỡ trong chế độ đi ngang về hệ thống là không đáng tin?",
+      "options": [
+        "Phá vỡ cần sự thẳng hàng của mặt trăng.",
+        "Trong đi ngang, thái cực trước chính là nơi cung/cầu đã đảo trước đó — đẩy nó mà không có năng lượng xu hướng thường hồi quy về trung bình.",
+        "Khối lượng là bất hợp pháp trong đi ngang.",
+        "Chúng đáng tin; đi ngang lý tưởng cho phá vỡ."
+      ],
+      "explanation": "Các thái cực đi ngang là vùng đảo đã được chứng minh của đi ngang đó. Không có chế độ xu hướng cung cấp tiếp diễn, phá vỡ về thống kê là một sự kéo giãn, không phải một cuộc đào thoát."
+    },
+    "live_apply": {
+      "cta": "So thống kê của một preset phá vỡ với của một preset hồi quy trung bình — mỗi cái chỉ kiếm cơm trong chế độ của riêng nó."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "title": "Chế độ biến động: nén, bình thường, mở rộng",
+    "summary": "Trục thứ hai của chế độ — và cách nó định kích thước dừng của bạn.",
+    "concept": "Độc lập với hướng, chính biến động cũng chu kỳ. QuantGlass đo **ATR hiện tại theo phần trăm giá** so với **trung vị 30 nến**: tại **0,8×** hoặc thấp hơn → **nén**; tại **1,25×** hoặc cao hơn → **mở rộng**; ở giữa → **bình thường**.\n\nPhân loại có răng — nó định **bội số dừng** trong mọi thiết lập: nén → **1,3×** ATR, bình thường → **1,45×**, mở rộng → **1,6×**. Logic: trong điều kiện mở rộng, các dao động nhiễu thông thường lớn hơn, nên dừng phải lùi xa hơn để đo *ý tưởng* chứ không phải tĩnh. Và vì kích thước vị thế phái sinh từ khoảng dừng, biến động mở rộng tự động nghĩa là kích thước nhỏ hơn cho cùng rủi ro tài khoản — hệ thống thở cùng thị trường.\n\nNén có thông điệp riêng: biến động hồi quy trung bình, nên các đợt yên ả dài tích năng lượng. Cú nén bạn gặp trong bài Keltner là chế độ này mặc bộ đồ biểu đồ.",
+    "key_terms": [
+      {
+        "term": "Phần trăm ATR",
+        "definition": "ATR ÷ giá — biến động chuẩn hóa để so sánh."
+      },
+      {
+        "term": "Nén",
+        "definition": "ATR% ≤ 0,8× trung vị 30 nến — tích năng lượng."
+      },
+      {
+        "term": "Mở rộng",
+        "definition": "ATR% ≥ 1,25× trung vị — nhiễu rộng hơn, dừng rộng hơn, kích thước nhỏ hơn."
+      },
+      {
+        "term": "Bội số dừng thích nghi",
+        "definition": "1,3 / 1,45 / 1,6 × ATR theo chế độ biến động."
+      }
+    ],
+    "exercise": {
+      "question": "Biến động chuyển từ bình thường sang mở rộng. Cho cùng thiết lập và cùng rủi ro tài khoản, logic engine ngụ ý gì?",
+      "options": [
+        "Dừng chặt hơn, kích thước lớn hơn.",
+        "Một dừng rộng hơn (1,6× ATR thay vì 1,45×) và do đó một vị thế nhỏ hơn cho cùng rủi ro đô.",
+        "Không đổi — biến động chỉ là mỹ phẩm.",
+        "Bỏ qua mọi giao dịch mãi mãi."
+      ],
+      "explanation": "Nhiễu rộng hơn đòi một dừng rộng hơn để không bị rũ bởi tĩnh; rồi công thức định kích thước chia cùng ngân sách rủi ro cho một khoảng lớn hơn — kích thước nhỏ hơn, cùng rủi ro."
+    },
+    "live_apply": {
+      "cta": "Tìm volatility_regime của một tín hiệu trong phần lý do và kiểm tra khoảng cách của dừng là bội số ATR khớp."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "title": "Chuyển tiếp chế độ: nơi phần lớn tiền bị mất",
+    "summary": "Thị trường đổi tính cách nhanh hơn thói quen.",
+    "concept": "Các chế độ kết thúc. Xu hướng mục rữa thành đi ngang (ADX rỉ máu từ cuối tuổi 20 về 16), đi ngang bùng thành xu hướng (thường qua một cú nén-biến-động bị phá), và bất cứ thứ gì có thể bùng thành chế độ biến động trong một nến tin tức đơn lẻ. Khoảnh khắc nguy hiểm không bao giờ là chế độ — mà là **sự bàn giao**, vì các trader tiếp tục chơi ván của ngày hôm qua: mua khi hồi sau khi xu hướng đã chết, chống các thái cực ngay khi đi ngang đang phá.\n\nPhòng thủ của engine hiện trong các quy tắc: dải **chuyển tiếp** (ADX 16–22) giữ các họ nhạy chế độ nhất ở mức thận trọng; phân loại chạy lại trên **mỗi nến đã đóng**, nên thay đổi tính cách lộ ra trong vòng các nến; và ghi đè biến động kéo các thiết lập khỏi bàn ngay khi điều kiện bão tố đến.\n\nTấm gương hành vi của bạn: khi cách tiếp cận trước đây hiệu quả tạo ba thua liên tiếp, hãy kiểm tra chế độ *trước khi* kiểm tra lòng tự trọng. Thường thì phương pháp vẫn tốt — thời tiết đã đổi.",
+    "key_terms": [
+      {
+        "term": "Chuyển tiếp chế độ",
+        "definition": "Bàn giao giữa các tính cách thị trường — vùng thua cao."
+      },
+      {
+        "term": "Mục rữa ADX",
+        "definition": "Sức mạnh xu hướng rỉ máu về ngưỡng đi ngang."
+      },
+      {
+        "term": "Phá nén",
+        "definition": "Một cú nén giải thành một xu hướng mới."
+      },
+      {
+        "term": "Phân loại lại mỗi nến",
+        "definition": "Engine chạy lại phát hiện chế độ trên mỗi nến đã đóng."
+      }
+    ],
+    "exercise": {
+      "question": "Các điểm vào khi hồi của bạn hiệu quả hàng tuần, rồi ba lần liên tiếp thất bại. Chẩn đoán ĐẦU TIÊN cần chạy là gì?",
+      "options": [
+        "Gấp đôi kích thước để gỡ.",
+        "Kiểm tra chế độ hiện tại — thiết lập hồi giả định một xu hướng và ADX có thể đã mục rữa xuống dưới cổng trong khi thói quen của bạn vẫn tiếp tục giao dịch.",
+        "Đổi ngay sang một chỉ báo mới.",
+        "Kết luận rằng giao dịch là bất khả."
+      ],
+      "explanation": "Ba thua chính là điều một xu hướng chết làm với người mua khi hồi. Kiểm tra chế độ tách 'thời tiết đổi' khỏi 'phương pháp hỏng' — và engine chạy kiểm tra đó trên mỗi nến."
+    },
+    "live_apply": {
+      "cta": "Ghi các chế độ hôm nay trên danh sách theo dõi của bạn, rồi lại vào ngày mai — đếm số bàn giao mà bộ phân loại mỗi-nến bắt được."
+    }
+  }
+]
