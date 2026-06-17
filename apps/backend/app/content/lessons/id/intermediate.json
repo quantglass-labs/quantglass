@@ -1,0 +1,932 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "title": "Moving Average — EMA dan SMA",
+    "summary": "Pahami mengapa EMA bereaksi lebih cepat dan kapan itu penting.",
+    "concept": "Baik **EMA** (Exponential Moving Average) maupun **SMA** (Simple Moving Average) menghaluskan derau harga menjadi satu garis. Perbedaannya adalah *pembobotan*:\n\n- **SMA**: setiap penutupan dalam jendela mendapat bobot sama. SMA-50 = rata-rata 50 penutupan terakhir.\n- **EMA**: penutupan terbaru mendapat bobot eksponensial lebih besar. EMA-21 bereaksi terhadap harga baru lebih cepat daripada SMA-50, berbalik sebelum SMA saat tren berubah.\n\n**Penggunaan praktis di QuantGlass:**\n- EMA-21 berfungsi sebagai *support dinamis dalam uptrend* dan *resistance dalam downtrend*.\n- Dalam penjajaran bullish (Close > EMA > SMA), pullback ke EMA-21 adalah pemicu masuk untuk setup `ema_reclaim_pullback` dan `daily_trend_pullback`.\n- *Kemiringan* 10 bar terakhir dari SMA-50 (`htf_slope`) dipakai sebagai filter arah time-frame lebih tinggi — masuk hanya diizinkan saat SMA-50 miring ke arah perdagangan.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Rata-rata sederhana 50 harga penutupan terakhir — tertinggal tetapi stabil."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "Rata-rata berbobot eksponensial 21 periode — bereaksi lebih cepat ke pergerakan terbaru."
+      },
+      {
+        "term": "Support/resistance dinamis",
+        "definition": "Moving average yang menyesuaikan dengan harga, berfungsi sebagai S/R."
+      },
+      {
+        "term": "Kemiringan HTF",
+        "definition": "Kemiringan time-frame lebih tinggi: (SMA50[sekarang] − SMA50[10 bar lalu]) / SMA50[10 bar lalu]."
+      }
+    ],
+    "exercise": {
+      "question": "Harga sedang uptrend. SMA-50 berada di bawah keduanya saat harga mundur menyentuh EMA-21. Setup apa yang dicari QuantGlass?",
+      "options": [
+        "Short mean-reversion dalam rentang.",
+        "Masuk long tren-pullback (ema_reclaim_pullback atau daily_trend_pullback).",
+        "Pemantauan breakout bearish.",
+        "Tidak ada setup — QuantGlass mengabaikan sentuhan moving average."
+      ],
+      "explanation": "Saat Close > EMA21 > SMA50 dan harga mundur dekat EMA-21 dalam zona RSI 46–72, mesin menghasilkan `ema_reclaim_pullback` (intraday) atau `daily_trend_pullback` (harian) — sinyal BUY_ZONE yang menargetkan kelanjutan uptrend."
+    },
+    "live_apply": {
+      "cta": "Filter sinyal ke BUY_ZONE. Temukan sinyal dengan setup_type = 'ema_reclaim_pullback' dan periksa daftar alasannya."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "title": "RSI — Mengukur momentum",
+    "summary": "Gunakan RSI untuk mengidentifikasi kelelahan dan konfirmasi momentum.",
+    "concept": "**Relative Strength Index (RSI-14)** mengukur momentum: seberapa cepat dan jauh harga bergerak relatif terhadap riwayat terbarunya. Berosilasi antara 0 dan 100:\n\n- **RSI > 70**: overbought (momentum terentang, waspadai kelelahan)\n- **RSI < 30**: oversold (momentum terentang ke bawah)\n- **RSI 46–72**: zona uptrend sehat — di sini masuk saat pullback lebih disukai\n\nQuantGlass juga memakai **RSI-2** (RSI 2 periode ultra-cepat) untuk setup mean-reversion:\n- RSI-2 ≤ 8 dekat band Bollinger bawah → oversold ekstrem jangka sangat pendek → BUY_ZONE\n- RSI-2 ≥ 92 dekat band Bollinger atas → overbought ekstrem jangka sangat pendek → SELL\n\n**Divergensi**: harga membuat puncak lebih tinggi tetapi RSI membuat puncak lebih rendah → divergensi bearish, momentum melemah meski harga naik.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "Relative Strength Index 14 periode — osilator momentum utama."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "RSI 2 periode — indikator mean-reversion jangka sangat pendek."
+      },
+      {
+        "term": "Overbought",
+        "definition": "RSI > 70 — momentum terentang ke atas, risiko pembalikan meningkat."
+      },
+      {
+        "term": "Oversold",
+        "definition": "RSI < 30 — momentum terentang ke bawah, kemungkinan zona pantulan."
+      },
+      {
+        "term": "Divergensi RSI",
+        "definition": "Harga dan RSI bergerak berlawanan arah — sinyal momentum melemah."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam pasar rentang, RSI-2 turun ke 5 dan harga menyentuh band Bollinger bawah. Sinyal apa yang dihasilkan QuantGlass?",
+      "options": [
+        "SELL — harga di dasar, mengonfirmasi breakout bearish.",
+        "BUY_ZONE, tipe setup 'range_meanreversion_long'.",
+        "WAIT — bukti tidak cukup dalam pasar rentang.",
+        "HOLD — tidak ada masuk baru dalam pasar rentang."
+      ],
+      "explanation": "Dalam rezim `ranging`, RSI-2 ≤ 8 *dan* harga di band Bollinger bawah memicu setup `range_meanreversion_long`. Target mean-reversion adalah garis tengah Bollinger. Tangga TP berlabuh ke garis tengah itu, bukan kelipatan ATR tetap."
+    },
+    "common_mistakes": [
+      "Short saat 'overbought' dalam uptrend. Tren kuat menahan RSI di atas 70 selama berminggu-minggu; pembacaan mean-reversion butuh rezim rentang.",
+      "Berdagang hanya dengan RSI. Mesin memperlakukannya sebagai satu masukan di balik gerbang rezim, tidak pernah sebagai pemicu mandiri."
+    ],
+    "live_apply": {
+      "cta": "Di layar Sinyal, cari sinyal BUY_ZONE dengan setup_type = 'range_meanreversion_long'."
+    }
+  },
+  {
+    "id": "intermediate-06-macd",
+    "title": "MACD: momentum tren dibuat terlihat",
+    "summary": "Dua EMA, jarak di antaranya, dan histogram yang mengatur waktu pergeseran momentum.",
+    "concept": "**MACD** (Moving Average Convergence Divergence) berawal dari ide sederhana: bandingkan lensa cepat dengan lensa lambat. **Garis MACD** adalah EMA 12 periode dikurangi EMA 26 periode — positif saat harga terbaru berlari lebih panas dari basis yang lebih lambat. **Garis sinyal** adalah EMA 9 periode *dari garis MACD*. **Histogram** adalah selisihnya dan itulah yang benar-benar dipakai QuantGlass: `macd_hist > 0` dihitung sebagai konsensus bullish dalam konfluensi setup, `< 0` sebagai bearish.\n\nCara membaca: histogram melintasi nol menandai persilangan EMA cepat/lambat; histogram *menyusut* saat harga masih mendorong menandakan momentum memudar sebelum harga berbalik — peringatan dini klasik.\n\nBatasan: MACD dibangun dari EMA, jadi secara hakiki tertinggal dan menggergaji dalam rentang datar. Karena itu mesin memakainya sebagai **suara konsensus** di antara beberapa, tidak pernah sebagai pemicu mandiri.",
+    "key_terms": [
+      {
+        "term": "Garis MACD",
+        "definition": "EMA-12 dikurangi EMA-26 dari penutupan."
+      },
+      {
+        "term": "Garis sinyal",
+        "definition": "EMA-9 dari garis MACD."
+      },
+      {
+        "term": "Histogram",
+        "definition": "Garis MACD dikurangi garis sinyal — nilai macd_hist mesin."
+      },
+      {
+        "term": "Divergensi momentum",
+        "definition": "Histogram menyusut sementara harga terus mendorong."
+      },
+      {
+        "term": "Suara konsensus",
+        "definition": "Cara mesin memakai MACD: masukan konfluensi, bukan pemicu."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam logika setup QuantGlass, peran apa yang dimainkan histogram MACD?",
+      "options": [
+        "Ia pemicu tunggal dari setiap sinyal.",
+        "Tandanya berfungsi sebagai suara konsensus dalam skor konfluensi — setup bullish mendapat poin saat positif, bearish saat negatif.",
+        "Menentukan jarak stop-loss.",
+        "Menggantikan analisis volume."
+      ],
+      "explanation": "Mesin menambah bonus konfluensi tetap saat macd_hist setuju dengan arah setup. Itu konfirmasi, tidak pernah ide perdagangan itu sendiri."
+    },
+    "live_apply": {
+      "cta": "Buka indikator suatu simbol dan amati tanda histogram MACD terhadap arah setup saat ini — setuju atau tidak setuju?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "title": "Bollinger Band: volatilitas sebagai koridor",
+    "summary": "Rata-rata 20 bar yang dibungkus dalam dua deviasi standar.",
+    "concept": "**Bollinger Band** membungkus harga dalam koridor statistik: **band tengah** adalah moving average 20 periode; **band atas dan bawah** duduk 2 deviasi standar di atas dan di bawahnya, dihitung pada 20 bar yang sama. Karena deviasi standar tumbuh dengan volatilitas, koridor bernapas — lebar dalam badai, sempit dalam ketenangan.\n\nDua pembacaan penting. **Sentuhan band**: harga di suatu band *terentang secara statistik*, tidak otomatis berbalik; dalam rezim rentang mesin, sentuhan band bawah dengan RSI cepat yang tercuci adalah setup long mean-reversion, menargetkan **band tengah** alih-alih tangga eksplisit. **Lebar band**: (atas − bawah) ÷ tengah mengukur kompresi; kesempitan ekstrem sering mendahului ekspansi.\n\nMesin menghitung keempat seri — atas, bawah, tengah, lebar band — dari lilin tertutup dan keluaran mean-reversion secara harfiah menargetkan `bb_mid`, jadi pelajaran ini menjelaskan logika ambil-untung Anda yang sebenarnya.",
+    "key_terms": [
+      {
+        "term": "Band tengah",
+        "definition": "Rata-rata 20 periode — pusat koridor dan target mean-reversion."
+      },
+      {
+        "term": "Deviasi standar",
+        "definition": "Ukuran sebaran 20 bar yang menentukan ukuran koridor."
+      },
+      {
+        "term": "Lebar band",
+        "definition": "(Atas − bawah) ÷ tengah — indikator kompresi."
+      },
+      {
+        "term": "Sentuhan band",
+        "definition": "Harga menyentuh band: terentang, tidak harus berbalik."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam setup mean-reversion rentang mesin, mengapa ambil-untung menargetkan band tengah alih-alih tangga 3 tingkat?",
+      "options": [
+        "Band tengah lebih mudah digambar.",
+        "Mean-reversion bertaruh pada kembali ke rata-rata — magnet statistik adalah rata-rata itu sendiri, jadi logika keluar menargetkannya.",
+        "Tangga hanya legal dalam uptrend.",
+        "Band tengah tidak pernah bergerak."
+      ],
+      "explanation": "Premis setup adalah mean-reversion. Menargetkan bb_mid menjaga keluar konsisten dengan ide yang menghasilkan masuk."
+    },
+    "live_apply": {
+      "cta": "Aktifkan lapisan Bollinger: temukan sentuhan band baru-baru ini dan periksa apakah harga kemudian kembali ke band tengah."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "title": "ADX: mengukur kekuatan tren, bukan arah",
+    "summary": "Indikator di balik keputusan rezim tren/rentang mesin.",
+    "concept": "**ADX** menjawab satu pertanyaan: *apakah pasar ini sedang tren sama sekali?* Ia dibangun dari pergerakan terarah — seberapa jauh tinggi hari ini mendorong di atas tinggi kemarin (+DM) versus seberapa jauh rendah hari ini mendorong di bawah rendah kemarin (−DM) — dihaluskan, dinormalisasi menjadi +DI/−DI dengan true range, dan dipadatkan menjadi pembacaan kekuatan 0–100. Arah sengaja dibuang: downtrend kuat dan uptrend kuat keduanya terbaca tinggi.\n\nGerbang rezim QuantGlass memakai ambang persis: **ADX ≥ 22 → tren**, **ADX < 16 → rentang**, di tengah → transisi (dengan pemeriksaan volatilitas terpisah yang bisa menimpa ke *volatil*). Angka-angka ini menentukan keluarga setup mana yang beroperasi — setup pullback dan breakout butuh rezim tren; mean-reversion butuh rentang.\n\nPembacaan praktis: ADX naik = pergerakan menguat (arah apa pun); ADX turun setelah tren = tren mengambil napas. Pasangkan arah dengan struktur.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "Pembacaan kekuatan tren 0–100, buta terhadap arah."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Indeks terarah dari pergerakan naik dan turun, dinormalisasi dengan true range."
+      },
+      {
+        "term": "Gerbang rezim",
+        "definition": "QuantGlass: ADX ≥ 22 tren, < 16 rentang, selainnya transisi."
+      },
+      {
+        "term": "Kelelahan tren",
+        "definition": "ADX menurun selama tren yang matang."
+      }
+    ],
+    "exercise": {
+      "question": "Harga membuat dasar lebih rendah sementara ADX terbaca 28. Apa yang disimpulkan mesin?",
+      "options": [
+        "Pasar dalam rentang — 28 itu rendah.",
+        "Pasar dalam rezim tren (ADX ≥ 22) dan arah tren (turun) datang dari struktur harga, bukan dari ADX.",
+        "ADX rusak — seharusnya negatif dalam downtrend.",
+        "Hanya uptrend yang bisa punya ADX di atas 22."
+      ],
+      "explanation": "ADX hanya mengukur kekuatan. 28 melewati ambang tren; struktur dasar lebih rendah memasok arah turun."
+    },
+    "live_apply": {
+      "cta": "Temukan label rezim pada sinyal, lalu bandingkan nilai ADX di baliknya dengan ambang 22/16 yang diberikan pelajaran ini."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "title": "Kanal Donchian: memperdagangkan ekstrem",
+    "summary": "Kanal tinggi/rendah 20 bar di balik deteksi breakout.",
+    "concept": "**Kanal Donchian** adalah indikator paling jujur yang ada: garis atas hanyalah **tinggi tertinggi dari 20 bar terakhir**, garis bawah **rendah terendah**. Tanpa penghalusan, tanpa pembobotan — ekstrem murni.\n\nLogikanya: dalam pasar tren, harga membuat *ekstrem 20 bar baru* adalah tren menegaskan dirinya. Setup breakout-retest QuantGlass menyala saat, dalam rezim tren, sebuah lilin mendorong dari tepi kanal **bar sebelumnya** menutup dekat atau melampauinya (dalam 0,3%), dengan volume setidaknya rata-rata terkininya. Memakai kanal bar sebelumnya menghindari jebakan swarujuk di mana tinggi hari ini *adalah* kanal yang harus ditembus.\n\nLebar kanal juga menggambarkan lapangan: kanal sempit adalah kompresi (energi tersimpan), yang lebar adalah pergerakan terentang. Donchian berpasangan alami dengan ADX — dalam *rezim tren* breakout kanal adalah kelanjutan; breakout sama dalam rentang mati biasanya palsu.",
+    "key_terms": [
+      {
+        "term": "Donchian atas/bawah",
+        "definition": "Tinggi tertinggi / rendah terendah dalam periode lihat-balik (20 bar dalam mesin)."
+      },
+      {
+        "term": "Breakout",
+        "definition": "Dorongan dari ekstrem kanal bar sebelumnya."
+      },
+      {
+        "term": "Retest",
+        "definition": "Harga kembali ke level yang ditembus sebelum kelanjutan."
+      },
+      {
+        "term": "Breakout palsu (fakeout)",
+        "definition": "Breakout kanal tanpa dukungan rezim atau volume."
+      }
+    ],
+    "exercise": {
+      "question": "Saat mendeteksi breakout, mengapa mesin membandingkan harga dengan kanal Donchian bar SEBELUMNYA?",
+      "options": [
+        "Data bar sebelumnya kualitasnya lebih baik.",
+        "Tinggi bar saat ini bagian dari kanal saat ini — sebuah bar selalu menyentuh ekstremnya sendiri, jadi kanal sebelumnya adalah referensi jujur.",
+        "Kanal Donchian hanya diperbarui mingguan.",
+        "Memperlambat matematika tapi membuatnya lebih cantik."
+      ],
+      "explanation": "Tinggi hari ini mendefinisikan langit-langit kanal hari ini, jadi 'menembusnya' akan benar secara remeh. Uji terhadap kanal bar sebelumnya menanyakan pertanyaan sebenarnya: sudahkah kita melampaui yang sebelumnya?"
+    },
+    "live_apply": {
+      "cta": "Temukan preset breakout_retest dan baca statistik perdagangan — setiap masuk tersimulasi berasal dari aturan kanal bar-sebelumnya ini."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "title": "Kanal Keltner: amplop ATR",
+    "summary": "EMA ± 1,5 ATR — band volatilitas yang bernapas dengan true range.",
+    "concept": "**Kanal Keltner** membungkus EMA 21 periode dalam band yang digeser **1,5 × ATR(14)**. Sementara koridor Bollinger ditentukan ukurannya oleh *sebaran statistik penutupan*, Keltner ditentukan ukurannya oleh **true range** — perjalanan bar-per-bar sebenarnya, termasuk gap. Hasilnya amplop yang lebih halus, lebih stabil, yang menggergaji lebih sedikit di area berbatu.\n\nPembacaan: harga menunggangi band Keltner atas menandakan tren kuat (dalam tren, 'overbought' sering hanya kekuatan); harga berosilasi di antara band menandakan keseimbangan. **Squeeze** — band Bollinger menyempit *di dalam* kanal Keltner — adalah bendera kompresi klasik, karena berarti volatilitas statistik turun di bawah perjalanan bar tipikal.\n\nDi mesin, band Keltner dihitung dari lilin tertutup bersama semua yang lain dan berfungsi sebagai konteks seberapa terentang suatu pergerakan dibanding perjalanan normalnya sendiri — pemikiran ATR yang sama yang menentukan ukuran stop Anda.",
+    "key_terms": [
+      {
+        "term": "Kanal Keltner",
+        "definition": "EMA-21 ± 1,5 × ATR(14) di mesin."
+      },
+      {
+        "term": "True range",
+        "definition": "Perjalanan bar termasuk gap — maks dari tinggi−rendah, |tinggi−penutupan sebelum|, |rendah−penutupan sebelum|."
+      },
+      {
+        "term": "Menunggangi band",
+        "definition": "Penutupan terus-menerus di suatu band: kekuatan tren, bukan pembalikan otomatis."
+      },
+      {
+        "term": "Squeeze",
+        "definition": "Bollinger di dalam Keltner — kompresi sebelum ekspansi."
+      }
+    ],
+    "exercise": {
+      "question": "Baik Bollinger maupun Keltner membungkus moving average. Apa perbedaan penentunya?",
+      "options": [
+        "Keltner memakai deviasi standar; Bollinger ATR.",
+        "Bollinger menentukan ukuran band dengan deviasi standar penutupan; Keltner dengan ATR — perjalanan bar sebenarnya.",
+        "Bollinger hanya bekerja pada saham.",
+        "Tidak ada perbedaan."
+      ],
+      "explanation": "Kerangka sama, penggaris volatilitas berbeda: sebaran penutupan (Bollinger) versus true range (Keltner). Pilihan mengubah cara band berperilaku pada gap dan goyangan."
+    },
+    "live_apply": {
+      "cta": "Lapisi kedua amplop: temukan momen Bollinger menyempit di dalam Keltner dan lihat apa yang dilakukan harga setelahnya."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "title": "Empat keluarga indikator",
+    "summary": "Tren, momentum, volatilitas, volume — dan mengapa satu dari masing-masing mengalahkan lima dari satu keluarga.",
+    "concept": "Setiap indikator yang akan Anda temui menjawab salah satu dari empat pertanyaan. **Tren**: ke mana basis condong? (EMA, SMA, kerangka MACD). **Momentum**: seberapa keras harga mendorong dibanding dorongan terkininya? (RSI, histogram MACD). **Volatilitas**: seberapa besar pergerakannya? (ATR, lebar band Bollinger, lebar Keltner). **Volume**: siapa yang datang? (rasio volume).\n\nDosa besarnya adalah **redundansi**: menumpuk RSI + Stochastic + histogram MACD adalah menanyakan pertanyaan momentum yang sama tiga kali dan menyebut gemanya 'konfirmasi'. Konfirmasi sejati melintasi keluarga: tren bilang naik, momentum bilang kuat, volatilitas bilang teratur, volume bilang berpartisipasi.\n\nSkor konfluensi mesin dirakit persis begini — satu masukan per pertanyaan: penjajaran tren (selisih EMA-SMA), konfirmasi volume (rasio volume), suara konsensus momentum (histogram MACD), dan pemeriksaan kemiringan time-frame lebih tinggi. Empat keluarga, masing-masing satu suara, tanpa gema.",
+    "key_terms": [
+      {
+        "term": "Keluarga tren",
+        "definition": "Arah basis: EMA, SMA."
+      },
+      {
+        "term": "Keluarga momentum",
+        "definition": "Kekuatan dorongan: RSI, histogram MACD."
+      },
+      {
+        "term": "Keluarga volatilitas",
+        "definition": "Ukuran pergerakan: ATR, lebar band."
+      },
+      {
+        "term": "Keluarga volume",
+        "definition": "Partisipasi: rasio volume."
+      },
+      {
+        "term": "Redundansi",
+        "definition": "Beberapa indikator menjawab pertanyaan sama dan keliru dihitung sebagai konfirmasi."
+      }
+    ],
+    "exercise": {
+      "question": "Seorang trader melihat RSI, Stochastic dan histogram MACD semua naik 'mengonfirmasi' suatu long. Apa cacatnya?",
+      "options": [
+        "Tiga indikator terlalu sedikit.",
+        "Ketiganya milik keluarga momentum — satu pertanyaan ditanyakan tiga kali, memberi gema alih-alih konfirmasi independen.",
+        "Indikator momentum tidak bisa naik bersama.",
+        "Long butuh tepat lima indikator."
+      ],
+      "explanation": "Pemeriksaan lintas keluarga (tren + momentum + volatilitas + volume) menambah informasi; tumpukan keluarga sama hanya menambah kenyamanan yang berkorelasi dengan derau."
+    },
+    "live_apply": {
+      "cta": "Buka alasan suatu sinyal: identifikasi dari keluarga mana di antara empat keluarga setiap alasan yang terdaftar berasal."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "title": "Konfluensi: bagaimana mesin menilai sebuah setup",
+    "summary": "Aritmetika persis di balik skor konfluensi.",
+    "concept": "Saat beberapa pengamatan independen setuju, bukti bermajemuk — inilah **konfluensi**. QuantGlass tidak membiarkannya samar; skornya adalah aritmetika yang dapat diaudit.\n\nSetiap setup mulai dari **basis** yang mencerminkan kualitas a priori keluarga (0,55 untuk pullback tren, 0,60 untuk breakout-retest, 0,50 untuk mean-reversion). Lalu menambahkan: **penjajaran tren × 0,15** (seberapa kokoh EMA-21 duduk jauh dari SMA-50, terskalakan), **konfirmasi volume × 0,10** (rasio volume terskalakan), **+0,10 jika histogram MACD setuju dengan arah**, **+0,10 jika kemiringan time-frame lebih tinggi setuju**, dan **bonus rezim** (mis. +0,10–0,12 saat rezim cocok dengan keluarga). Total dijepit ke [0, 1].\n\nSaat beberapa setup bersaing pada satu simbol, mesin cukup mengambil **konfluensi tertinggi** — dan skor itu lalu memberi makan keyakinan dengan bobot 18 poin. Konfluensi setiap sinyal tercetak dalam alasan, jadi Anda bisa menghitung ulang skor mana pun dengan tangan dari paragraf ini.",
+    "key_terms": [
+      {
+        "term": "Konfluensi",
+        "definition": "Pengamatan independen yang setuju — dinilai, bukan dirasakan."
+      },
+      {
+        "term": "Skor basis",
+        "definition": "Kualitas awal keluarga setup sebelum bukti."
+      },
+      {
+        "term": "Bonus konsensus",
+        "definition": "+0,10 masing-masing untuk penjajaran MACD dan time-frame lebih tinggi."
+      },
+      {
+        "term": "Bonus rezim",
+        "definition": "Poin tambahan saat rezim cocok dengan keluarga setup."
+      },
+      {
+        "term": "Penjepitan (clamp)",
+        "definition": "Skor dibatasi ke [0, 1] — tanpa penumpukan tak terhingga."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah pullback tren punya trend_alignment 0,8, volume_confirmation 0,5, MACD setuju, time-frame lebih tinggi setuju, bonus rezim-tren 0,10. Berapa konfluensinya?",
+      "options": [
+        "0,55 — itu skor basis.",
+        "0,55 + 0,12 + 0,05 + 0,10 + 0,10 + 0,10 = 1,02, dijepit ke 1,00.",
+        "0,92: 0,55 + 0,8×0,15 + 0,5×0,10 + 0,10 + 0,10 + 0,10.",
+        "Konfluensi tidak bisa dihitung dengan tangan."
+      ],
+      "explanation": "0,55 basis + 0,12 (0,8×0,15) + 0,05 (0,5×0,10) + 0,10 MACD + 0,10 HTF + 0,10 rezim = 0,92. Aritmetika yang dapat diaudit — itulah intinya."
+    },
+    "live_apply": {
+      "cta": "Ambil confluence_score sinyal mana pun dari alasannya dan hitung ulang dari rumus pelajaran ini."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "title": "ATR — Mengukur volatilitas dan menentukan ukuran stop",
+    "summary": "Pelajari cara menentukan ukuran stop dan posisi dengan volatilitas pasar sebenarnya.",
+    "concept": "**Average True Range (ATR-14)** mengukur volatilitas: rata-rata 'true range' selama 14 bar. True Range = maks(Tinggi − Rendah, |Tinggi − Penutupan sebelum|, |Rendah − Penutupan sebelum|).\n\n**Mengapa stop berbasis ATR mengalahkan stop dolar tetap:**\nStop datar $500 pada saham sangat volatil terkena derau normal. Stop berbasis ATR menyesuaikan dengan volatilitas saat ini — menyempit di pasar tenang, melebar di pasar bergejolak.\n\n**Rumus stop QuantGlass (masuk long):**\n`stop_loss = reference_price − (ATR × stop_multiple)`\ndi mana stop_multiple = 1,3 (terkompresi), 1,45 (normal), 1,6 (terekspansi).\n\n**ATR sebagai % harga** = ATR ÷ Close × 100. ATR% < 1% → risiko rendah. ATR% > 2,6% → risiko tinggi.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "Average True Range 14 periode — mengukur volatilitas harga terkini."
+      },
+      {
+        "term": "True Range",
+        "definition": "Terbesar dari: Tinggi-Rendah, |Tinggi-Penutupan sebelum|, |Rendah-Penutupan sebelum|."
+      },
+      {
+        "term": "Kelipatan stop",
+        "definition": "Kelipatan ATR untuk penempatan stop: 1,3 (terkompresi) hingga 1,6 (terekspansi)."
+      },
+      {
+        "term": "ATR sebagai % harga",
+        "definition": "ATR ÷ Close × 100 — volatilitas dinormalisasi menjadi persentase."
+      }
+    ],
+    "exercise": {
+      "question": "BTCUSD di $65.000. ATR-14 = $1.300. Rezim volatilitas 'normal' (stop_multiple = 1,45). Berapa stop-loss untuk masuk long?",
+      "hint": "stop_loss = masuk − (ATR × stop_multiple)",
+      "explanation": "stop_loss = 65.000 − (1.300 × 1,45) = 65.000 − 1.885 = **63.115**. Stop ditempatkan 1,45 ATR di bawah masuk — cukup jauh untuk bertahan dari derau harga normal tapi cukup dekat agar risiko per perdagangan terukur."
+    },
+    "common_mistakes": [
+      "Menaruh stop dolar tetap tanpa mempertimbangkan volatilitas. Stop 2 poin itu murah hati di hari tenang dan derau di hari bergejolak.",
+      "Menghitung ulang ukuran posisi tanpa menghitung ulang stop ATR setelah volatilitas menjadi dua kali lipat — jarak stop lama tidak lagi berarti apa-apa."
+    ],
+    "live_apply": {
+      "cta": "Buka sinyal BUY_ZONE BTCUSD dan verifikasi jarak dari masuk ke stop_loss kira-kira 1,3–1,6× ATR."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "title": "Rasio Risiko:Imbalan",
+    "summary": "Pahami mengapa R:R menentukan keunggulan jangka panjang terlepas dari tingkat kemenangan.",
+    "concept": "**Risiko:Imbalan (R:R)** = (keluar TP − masuk) ÷ (masuk − stop-loss) untuk long.\n\nR:R 2,0 berarti mempertaruhkan 1 untuk berpotensi memenangkan 2. Bahkan jika hanya memenangkan 40% perdagangan, R:R 2,0 menghasilkan ekspektasi positif:\n`Ekspektasi = (Menang% × Untung_rata) − (Kalah% × Rugi_rata) = (0,4 × 2R) − (0,6 × 1R) = +0,2R`\n\n**Target R:R QuantGlass:**\n- Setup BUY_ZONE / SELL: reward_multiple = 2,4× risk_distance (sampai TP2)\n- Setup HOLD / WATCH / WAIT: reward_multiple = 1,8×\n\nMesin memakai **tangga 3 tingkat** untuk keluar bertahap: TP1 (50% posisi), TP2 (30%), TP3 (20%). Ini mengamankan untung parsial sementara sebagian posisi berlari.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Rasio Risiko:Imbalan — untung potensial ÷ risiko per perdagangan."
+      },
+      {
+        "term": "Ekspektasi",
+        "definition": "Untung rata-rata per perdagangan: (Menang% × Untung_rata) − (Kalah% × Rugi_rata)."
+      },
+      {
+        "term": "Tangga TP",
+        "definition": "Keluar bertahap di TP1 (50%), TP2 (30%), TP3 (20%) dari ukuran posisi."
+      },
+      {
+        "term": "Ekspektasi positif",
+        "definition": "Ekspektasi > 0 — keunggulan bertahan sepanjang banyak perdagangan."
+      }
+    ],
+    "exercise": {
+      "question": "Anda memenangkan 35% perdagangan dengan untung rata-rata 3R dan kalah 65% dengan rugi rata-rata 1R. Apakah keunggulan Anda positif?",
+      "options": [
+        "Tidak — tingkat kemenangan 35% terlalu rendah untuk menguntungkan.",
+        "Ya — Ekspektasi = (0,35 × 3) − (0,65 × 1) = +0,4R per perdagangan.",
+        "Tidak — tingkat kekalahan 65% selalu berarti ekspektasi negatif.",
+        "Tidak diketahui — butuh lebih banyak data."
+      ],
+      "explanation": "Ekspektasi = (0,35 × 3R) − (0,65 × 1R) = 1,05 − 0,65 = **+0,4R per perdagangan**. Artinya Anda mengharap +40R untung dalam 100 perdagangan. R:R tinggi membuat Anda menguntungkan bahkan dengan tingkat kemenangan di bawah 50% — realistis untuk mengikuti tren."
+    },
+    "common_mistakes": [
+      "Menilai perdagangan hanya dari tingkat kemenangan. Tingkat kemenangan 90% kehilangan uang jika 10% itu bencana -10R.",
+      "Menetapkan target dengan harapan alih-alih struktur. Risiko:imbalan baru bermakna saat target duduk di level yang benar-benar dihormati pasar.",
+      "Menggeser stop setelah masuk untuk 'memperbaiki' rasio. Rasio adalah kriteria masuk; mengubahnya di tengah perdagangan menghapus rencana."
+    ],
+    "live_apply": {
+      "cta": "Buka Backtesting, pilih preset mana pun dan periksa metrik Ekspektasi (avg_R), Tingkat Kemenangan dan Profit Factor bersama."
+    },
+    "bridge": {
+      "cta": "Terapkan: ambil misi Disiplin Risiko — 20 perdagangan, masing-masing dengan stop, risiko dalam kebijakan."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "title": "Penentuan ukuran posisi — Berapa yang dipertaruhkan",
+    "summary": "Hitung ukuran perdagangan yang tepat agar tidak ada satu kerugian pun yang menghancurkan.",
+    "concept": "**Penentuan ukuran posisi** menentukan berapa unit yang diperdagangkan agar saat stop terkena, Anda tidak kehilangan lebih dari *risiko per perdagangan* yang telah ditentukan (mis. 1% akun).\n\n**Rumus fraksi tetap:**\n`Ukuran posisi = (Akun × Risiko%) ÷ (Masuk − Stop-loss)`\n\nContoh: akun $10.000, risiko 1% per perdagangan, masuk $100, stop $96:\n`Ukuran = ($10.000 × 0,01) ÷ ($100 − $96) = $100 ÷ $4 = 25 saham`\n\nJika 25 saham itu semua terkena stop di $96, Anda kehilangan 25 × $4 = **tepat $100** — 1% akun.\n\n**Mengapa penting**: mempertaruhkan persentase tetap menjaga kerugian kecil selama penurunan dan membiarkan ukuran posisi tumbuh saat akun tumbuh (majemuk).",
+    "key_terms": [
+      {
+        "term": "Risiko per perdagangan",
+        "definition": "Kerugian dolar maksimum yang dapat diterima jika stop terkena (mis. 1% akun)."
+      },
+      {
+        "term": "Penentuan ukuran fraksi tetap",
+        "definition": "Ukuran = (Akun × Risiko%) ÷ (Masuk − Stop) — berskala dengan akun."
+      },
+      {
+        "term": "Drawdown",
+        "definition": "Penurunan ekuitas akun dari puncak ke dasar selama rentetan kalah."
+      }
+    ],
+    "exercise": {
+      "question": "Akun = $25.000. Risiko per perdagangan = 1%. Masuk = $200, Stop = $192. Berapa saham?",
+      "hint": "Ukuran posisi = (Akun × Risiko%) ÷ (Masuk − Stop)",
+      "explanation": "Jumlah risiko = $25.000 × 1% = $250. Risiko per saham = $200 − $192 = $8. Ukuran posisi = $250 ÷ $8 = **31,25 → 31 saham**. Jika stop menyala: 31 × $8 = $248 kerugian — tepat di bawah 1% akun."
+    },
+    "common_mistakes": [
+      "Memilih ukuran dulu, risiko kemudian. Ukuran adalah keluaran: (akun x risiko%) / jarak stop — tidak pernah masukan.",
+      "Menggandakan ukuran setelah kerugian untuk balik modal. Itu aritmetika martingale dan menghabiskan akun.",
+      "Menghitung posisi terbuka secara terpisah. Lima perdagangan masing-masing berisiko 1% adalah 5% panas portofolio jika berkorelasi — dan dalam keruntuhan, semuanya berkorelasi."
+    ],
+    "live_apply": {
+      "cta": "Buka sinyal, catat masuk dan stop_loss-nya, lalu hitung berapa saham yang akan Anda beli dengan risiko 1% pada akun kertas $10.000."
+    },
+    "bridge": {
+      "cta": "Terapkan: misi Disiplin Risiko menilai penentuan ukuran Anda pada setiap perdagangan kertas nyata."
+    }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "title": "Kelipatan R: satuan bahasa ibu trader",
+    "summary": "Ukur setiap hasil dalam satuan risiko yang direncanakan.",
+    "concept": "Definisikan **1R** sebagai dolar yang Anda rencanakan untuk hilang jika stop terkena. Maka setiap hasil menjadi **kelipatan R**: keluar stop = −1R; keluar pada dua kali jarak stop = +2R. Satuan ini berkelana melintasi simbol, harga, dan ukuran akun — +1,5R pada koin $3 dan +1,5R pada saham $900 adalah *pencapaian yang sama*.\n\nMengapa penting: dolar menyesatkan (mengacaukan keterampilan dengan ukuran), persentase menyesatkan (mengacaukan keterampilan dengan volatilitas), tetapi R mengisolasi **kualitas keputusan terhadap risiko yang direncanakan**. Riwayat R suatu metode dapat dibandingkan langsung di seluruh hal yang Anda perdagangkan.\n\nQuantGlass berbicara R sebagai bahasa ibu: ekspektasi backtest dilaporkan dalam R, tangga ambil-untung ditempatkan pada jarak berbasis R, biaya dikonversi ke R sebelum dipotong, dan rentang sesuai membingkai *R perdagangan berikutnya*. Pelajari berpikir dalam R dan setiap angka di aplikasi menjadi satu bahasa.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "Kerugian yang direncanakan jika stop terkena."
+      },
+      {
+        "term": "Kelipatan R",
+        "definition": "Suatu hasil dibagi risiko yang direncanakan: keluar stop = −1R."
+      },
+      {
+        "term": "Ekspektasi (R)",
+        "definition": "R rata-rata per perdagangan sepanjang sampel."
+      },
+      {
+        "term": "Normalisasi risiko",
+        "definition": "Membandingkan perdagangan lintas simbol dengan mengukur dalam R."
+      }
+    ],
+    "exercise": {
+      "question": "Masuk 200,00, stop 192,00, Anda menjual seluruh posisi di 212,00. Berapa hasilnya dalam R?",
+      "hint": "R = (keluar − masuk) ÷ (masuk − stop)",
+      "explanation": "Risiko per unit = 200 − 192 = 8. Untung per unit = 212 − 200 = 12. 12 ÷ 8 = **+1,5R** — jawaban sama baik Anda memperdagangkan 10 saham atau 10.000."
+    },
+    "common_mistakes": [
+      "Membandingkan hasil dolar antara perdagangan berukuran berbeda. Hanya kelipatan R yang membuat perdagangan dapat dibandingkan.",
+      "Menyebut kerugian -1R sebagai kegagalan. Kerugian terencana yang diambil di stop adalah sistem bekerja persis seperti dirancang."
+    ],
+    "live_apply": {
+      "cta": "Buka metrik preset mana pun: ekspektasi dan avgR adalah persis satuan ini, dihitung pada setiap perdagangan tersimulasi."
+    },
+    "bridge": {
+      "cta": "Terapkan: misi Terima Kerugian Terencana menghitung kerugian -1R Anda yang dimainkan dengan baik."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "title": "Panas portofolio: risiko di seluruh posisi",
+    "summary": "Risiko per perdagangan tidak cukup — batasi totalnya.",
+    "concept": "Menentukan ukuran satu perdagangan pada 1% berarti sedikit jika Anda membuka delapan seperti itu. **Panas portofolio** adalah jumlah risiko terbuka: jika setiap stop terkena sekaligus, fraksi mana dari akun yang terbakar? Delapan posisi 1% = panas 8% — dan jika posisi itu *berkorelasi* (seperti tiga saham besar bergerak sebagai satu dalam aksi jual kripto), khayalan 'delapan stop independen' runtuh menjadi satu taruhan besar.\n\nAturan kerja: batasi panas total (4–6% adalah disiplin umum), hitung posisi berkorelasi sebagai risiko tumpang tindih alih-alih taruhan independen, dan perlakukan panas sebagai anggaran — perdagangan baru harus muat dalam anggaran tersisa atau jangan diambil.\n\nAkun kertas QuantGlass Anda membuat panas dapat diaudit: jarak setiap posisi terbuka ke stop yang dimaksud dikali ukuran, dijumlahkan. Wawasan posisi terlalu besar dari panel pelatihan adalah versi posisi-tunggal dari pemeriksaan ini; menjalankan versi portofolio sebelum setiap masuk baru terserah Anda.",
+    "key_terms": [
+      {
+        "term": "Panas portofolio",
+        "definition": "Kerugian total jika setiap stop terbuka terkena."
+      },
+      {
+        "term": "Korelasi",
+        "definition": "Posisi yang bergerak bersama — risiko tumpang tindih, bukan independen."
+      },
+      {
+        "term": "Anggaran panas",
+        "definition": "Batas keras pada risiko terbuka total."
+      },
+      {
+        "term": "Konsentrasi",
+        "definition": "Paparan berlebihan ke satu simbol atau tema."
+      }
+    ],
+    "exercise": {
+      "question": "Anda berisiko 1% per perdagangan dan memegang enam long kripto terbuka di pasar di mana yang besar bergerak bersama. Berapa paparan realistis Anda?",
+      "options": [
+        "1% — hanya risiko per perdagangan yang penting.",
+        "Sekitar 6% akun yang berperilaku seperti satu taruhan besar, karena posisi berkorelasi cenderung terkena stop bersama.",
+        "0% — diversifikasi membatalkan risiko.",
+        "60% akun."
+      ],
+      "explanation": "Panas berjumlah sekitar 6% dan korelasi berarti enam stop kemungkinan menyala dalam badai yang sama. Panas berkorelasi adalah satu perdagangan besar yang mengenakan enam kostum."
+    },
+    "live_apply": {
+      "cta": "Jumlahkan risiko-sampai-stop dari posisi kertas terbuka Anda. Berapa persen saldo panas Anda saat ini?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "title": "Drawdown: aritmetika rentetan kalah",
+    "summary": "Mengapa kerugian lebih menyakitkan daripada untung seukuran membantu.",
+    "concept": "**Drawdown** adalah penurunan dari puncak ke dasar berikutnya dalam ekuitas Anda. Kekejamannya adalah aritmetika asimetris: kehilangan 20% dan Anda butuh **+25%** untuk pulih; kehilangan 50% dan Anda butuh **+100%**. Persyaratan pemulihan tumbuh lebih cepat daripada kerugian yang menciptakannya.\n\nRentetan kalah bukan anomali — itu kepastian. Dengan tingkat kemenangan 50%, rentetan kalah 7 punya peluang sekitar 1 dari 128 dalam *7 perdagangan mana pun*, yang mendekati keniscayaan sepanjang ratusan perdagangan. Berisiko 1% per perdagangan, rentetan itu menggali akun ~7%; berisiko 5%, menggali ~30% dan matematika pemulihan menjadi ganas.\n\nQuantGlass melaporkan **drawdown maksimum** dan seluruh kurva drawdown pada setiap backtest, dihitung dari jalur ekuitas tersimulasi. Bacalah sebelum mengagumi tingkat kemenangan apa pun: kurva drawdown adalah *bagaimana rasanya* memegang strategi.",
+    "key_terms": [
+      {
+        "term": "Drawdown",
+        "definition": "Penurunan ekuitas dari puncak ke dasar."
+      },
+      {
+        "term": "Drawdown maksimum",
+        "definition": "Penurunan terdalam jenis itu dalam suatu catatan."
+      },
+      {
+        "term": "Asimetri pemulihan",
+        "definition": "Kerugian −X% butuh lebih dari +X% untuk diperbaiki."
+      },
+      {
+        "term": "Rentetan kalah",
+        "definition": "Kerugian berturut-turut — kepastian statistik sepanjang cukup perdagangan."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah akun turun 20% dari puncak. Berapa persen untung yang dibutuhkan (pada saldo yang berkurang) hanya untuk kembali ke puncak?",
+      "hint": "Dari 100 ke 80; berapa % dari 80 mengembalikan ke 100?",
+      "explanation": "80 × 1,25 = 100, yaitu **25%**. Semakin dalam lubang, semakin curam pendakian — pada −50%, persyaratan menjadi +100%."
+    },
+    "common_mistakes": [
+      "Memperbesar ukuran selama drawdown untuk pulih lebih cepat. Aritmetika pemulihan sudah ganas; taruhan lebih besar memperdalam lubang secara eksponensial.",
+      "Meninggalkan sistem ekspektasi-positif di tengah drawdown. Pelajaran Monte Carlo menunjukkan sistem biasa menghabiskan sepertiga hidupnya di bawah air."
+    ],
+    "live_apply": {
+      "cta": "Buka kurva drawdown sebuah preset dan temukan titik terdalamnya — lembah itu adalah uji tekanan sebenarnya dari strategi."
+    },
+    "bridge": {
+      "cta": "Terapkan: mainkan ulang Sebuah Pullback dalam Tren — tetap setia pada rencana saat grafik berdebat."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "title": "Rencana perdagangan tertulis",
+    "summary": "Lima kalimat yang memisahkan perdagangan dari judi.",
+    "concept": "Perdagangan tanpa rencana adalah suasana hati yang ditempelkan pada uang. Rencana lengkap menjawab secara tertulis lima pertanyaan **sebelum masuk**: **Setup** — pola apa, pada time-frame apa, membenarkannya? **Masuk** — pada harga atau zona apa? **Invalidasi** — di mana ide itu salah (stop), dalam istilah harga yang diputuskan *sekarang*, lalu tidak dapat dinegosiasikan? **Target** — jika benar, di mana dan bagaimana Anda keluar? **Ukuran** — berapa unit agar invalidasi memakan fraksi akun yang direncanakan?\n\nPerhatikan bahwa kartu sinyal QuantGlass secara harfiah adalah versi terisi-awal dari templat ini: tipe setup, zona masuk, stop, tangga, dan rumus pelajaran penentuan ukuran. Tugas Anda bukan menciptakan formulir — tapi *setuju atau tidak dengan setiap baris* sebelum bertindak.\n\nKekuatan rencana ada pada pengaturan waktu: setiap jawaban ditulis saat Anda tenang dan uang bersifat teoretis. Eksekusi menjadi birokratis, yang justru sebagaimana mestinya.",
+    "key_terms": [
+      {
+        "term": "Rencana perdagangan",
+        "definition": "Setup, masuk, invalidasi, target, dan ukuran tertulis — sebelum masuk."
+      },
+      {
+        "term": "Invalidasi dulu",
+        "definition": "Memutuskan di mana Anda salah sebelum memutuskan berapa yang dibeli."
+      },
+      {
+        "term": "Pra-komitmen",
+        "definition": "Mengunci keputusan saat tenang untuk membuat eksekusi birokratis."
+      },
+      {
+        "term": "Kepatuhan rencana",
+        "definition": "Metrik disiplin yang dibuat terlihat oleh jurnal."
+      }
+    ],
+    "exercise": {
+      "question": "Elemen rencana perdagangan mana yang harus ditetapkan PERTAMA, karena setiap angka lain bergantung padanya?",
+      "options": [
+        "Target untung.",
+        "Level invalidasi (stop) — ukuran diturunkan darinya dan target diukur terhadapnya.",
+        "Tipe order.",
+        "Nama panggilan perdagangan."
+      ],
+      "explanation": "Perencanaan risiko-dulu: invalidasi mendefinisikan 1R; ukuran datang dari membagi anggaran risiko akun dengan jarak itu; target dinyatakan dalam R terhadapnya."
+    },
+    "common_mistakes": [
+      "Menulis rencana setelah masuk. Rencana yang ada untuk membenarkan posisi adalah siaran pers, bukan rencana.",
+      "Membiarkan invalidasi samar ('potong jika terlihat buruk'). Jika stop bukan angka, tidak ada stop.",
+      "Merencanakan masuk dengan detail dan tidak merencanakan keluar sama sekali. Keluar adalah tempat uang benar-benar terwujud."
+    ],
+    "live_apply": {
+      "cta": "Buka sinyal dan baca sebagai rencana perdagangan lima baris — dengan baris mana, jika ada, Anda tidak setuju?"
+    },
+    "bridge": {
+      "cta": "Terapkan: mainkan ulang Breakout yang Tidak Terjadi dan buat keputusan perencanaan di bawah tekanan."
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "title": "Jurnal perdagangan",
+    "summary": "Satu-satunya cermin jujur Anda.",
+    "concept": "Ingatan adalah editor yang menyanjung: ia mengingat kemenangan Anda sebagai keterampilan dan kekalahan sebagai nasib buruk. Sebuah **jurnal** adalah catatan tanpa suntingan. Untuk setiap perdagangan, catat: rencana (kelima baris), *mengapa* dalam satu kalimat, eksekusi (apakah Anda mengikuti rencana?), hasil dalam R, dan keadaan emosional saat masuk dan keluar.\n\nImbalannya adalah penemuan pola yang ingatan Anda tidak akan pernah tawarkan secara sukarela: 'perdagangan breakout saya kalah dalam rezim rentang', 'saya memotong pemenang lebih awal setelah dua kekalahan', 'setiap perdagangan balas dendam datang dalam satu jam setelah keluar stop'. Ini, begitu terlihat, *dapat diperbaiki* — dan tanpa catatan, tidak terlihat.\n\nRiwayat kertas QuantGlass Anda sudah secara otomatis mencatat separuh mekanis (masuk, keluar, ukuran, hasil). Separuh tertulis — mengapa dan keadaan emosional — adalah bagian yang hanya Anda bisa berikan, dan itu separuh tempat pelajaran hidup.",
+    "key_terms": [
+      {
+        "term": "Jurnal perdagangan",
+        "definition": "Catatan tanpa suntingan tentang rencana, eksekusi, hasil, dan suasana hati."
+      },
+      {
+        "term": "Kepatuhan rencana",
+        "definition": "Apakah perdagangan yang dieksekusi cocok dengan rencana tertulis."
+      },
+      {
+        "term": "Penemuan pola",
+        "definition": "Perilaku berulang yang dapat diperbaiki yang diungkap jurnal."
+      },
+      {
+        "term": "Pelabelan emosi",
+        "definition": "Mencatat keadaan Anda saat masuk/keluar — sistem peringatan dini untuk tilt."
+      }
+    ],
+    "exercise": {
+      "question": "Apa satu bidang paling diagnostik dalam jurnal perdagangan?",
+      "options": [
+        "Untung dolar perdagangan.",
+        "Apakah eksekusi cocok dengan rencana tertulis — penyimpangan, bukan kerugian, adalah tempat kesalahan yang dapat diperbaiki bersembunyi.",
+        "Waktu dalam sehari.",
+        "Jumlah indikator yang dipakai."
+      ],
+      "explanation": "Kerugian dalam rencana yang dipatuhi adalah biaya belajar; untung dalam rencana yang dilanggar adalah utang. Kepatuhan rencana adalah bidang yang memisahkan keduanya."
+    },
+    "common_mistakes": [
+      "Mencatat hasil saja. Nilai jurnal ada pada catatan keputusan: mengapa, emosi, dan kepatuhan rencana pada saat masuk.",
+      "Menjurnal pemenang dan melewati yang kalah. Yang kalah berisi hampir semua informasi."
+    ],
+    "live_apply": {
+      "cta": "Lihat tiga perdagangan kertas terakhir Anda: untuk masing-masing tulis alasan satu kalimat Anda masuk — jika tidak bisa, itulah penemuannya."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "title": "Masuk dan keluar: tempat disiplin hidup",
+    "summary": "Masuk yang baik itu sabar; keluar yang baik sudah diputuskan sebelumnya.",
+    "concept": "**Masuk**: zona masuk mesin adalah kurung, bukan pistol start. Mengejar harga melampaui zona diam-diam memperburuk setiap angka yang Anda rencanakan: jarak stop Anda yang sebenarnya tumbuh, R:R Anda yang sebenarnya menyempit, dan ukuran Anda — dihitung untuk jarak yang direncanakan — menjadi terlalu besar untuk yang sebenarnya. Jika zona sudah lewat, perdagangan sudah lewat; selalu ada bus lain.\n\n**Keluar** lebih sulit karena diputuskan di bawah emosi — jika tidak, itu hal lain. Set keluar yang diputuskan sebelumnya: **stop** (keluar penuh, tanpa negosiasi), **tangga** (ambil-untung bertahap 50/30/20 mesin yang memberi ruang), dan **waktu** (setup yang berjalan banyak bar ke mana-mana telah gagal diam-diam — backtester sendiri menerapkan waktu tahan maksimum per time-frame).\n\nAturan senyap di bawah keduanya: setiap penyimpangan diskresioner yang Anda izinkan menjadi preseden untuk yang berikutnya, yang lebih besar.",
+    "key_terms": [
+      {
+        "term": "Mengejar (chasing)",
+        "definition": "Masuk melampaui zona terencana — diam-diam merusak stop, R:R, dan ukuran."
+      },
+      {
+        "term": "Keluar bertahap",
+        "definition": "Keluar berjenjang, seperti tangga 50/30/20 mesin."
+      },
+      {
+        "term": "Stop waktu",
+        "definition": "Keluar saat setup macet — aturan tahan-maksimum backtest."
+      },
+      {
+        "term": "Disiplin keluar",
+        "definition": "Mengeksekusi keluar yang diputuskan sebelumnya tanpa menegosiasikan ulang."
+      }
+    ],
+    "exercise": {
+      "question": "Harga berlari 1,5% di atas zona masuk sinyal dan Anda tetap masuk dengan ukuran terencana. Apa yang sebenarnya berubah?",
+      "options": [
+        "Tidak ada — masuk bersifat perkiraan.",
+        "Jarak stop Anda yang sebenarnya tumbuh dan R:R Anda menyempit, sementara ukuran masih mengasumsikan jarak lama — perdagangan terencana tidak ada lagi.",
+        "Stop naik otomatis.",
+        "Biaya Anda turun."
+      ],
+      "explanation": "Tiga angka terencana (jarak risiko, rasio imbalan, ukuran-untuk-risiko) dihitung dari zona. Masuk di tempat lain adalah mengambil perdagangan berbeda, lebih buruk, dengan label lama."
+    },
+    "live_apply": {
+      "cta": "Bandingkan zona masuk sinyal dengan harga saat ini — apakah perdagangan masih yang diukur mesin, atau bus sudah berangkat?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "title": "Daftar periksa dan rutinitas",
+    "summary": "Dipinjam dari penerbangan: disiplin sebagai prosedur, bukan suasana hati.",
+    "concept": "Pilot tidak melewati daftar periksa pra-terbang pada hari mereka merasa tajam — *terutama* bukan hari-hari itu. Daftar periksa perdagangan melayani tujuan yang sama: membuat standar minimum bersifat mekanis.\n\nDaftar periksa pra-perdagangan yang layak dicuri: **(1)** Apakah sinyal segar (lilin tertutup, lencana saat ini)? **(2)** Apakah rezim cocok dengan keluarga setup? **(3)** Apakah konfluensi dapat diterima dan saya paham setiap alasan? **(4)** Apakah invalidasi terdefinisi dan ukuran muat dalam anggaran risiko saya? **(5)** Apakah ini muat dalam panas portofolio saya? **(6)** Apakah saya menulis alasan satu kalimat?\n\nRutinitas harian membungkusnya: tinjau posisi terbuka terhadap rencananya, pindai panel pelatihan untuk wawasan, jurnal keluar kemarin, *lalu* cari setup baru — dalam urutan ini, agar pengelolaan mendahului belanja. Rutinitas terasa birokratis sampai hari bergejolak itu, saat ia masih satu-satunya bagian Anda yang berpikir jernih.",
+    "key_terms": [
+      {
+        "term": "Daftar periksa pra-perdagangan",
+        "definition": "Pemeriksaan minimum mekanis sebelum masuk apa pun."
+      },
+      {
+        "term": "Rutinitas",
+        "definition": "Urutan harian tetap: kelola, tinjau, lalu berburu."
+      },
+      {
+        "term": "Kecocokan rezim",
+        "definition": "Keluarga setup setuju dengan rezim pasar saat ini."
+      },
+      {
+        "term": "Pemeriksaan panas",
+        "definition": "Mengonfirmasi perdagangan baru muat dalam anggaran risiko tersisa."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa rutinitas harian menempatkan pengelolaan posisi sebelum mencari perdagangan baru?",
+      "options": [
+        "Perdagangan baru lebih menyenangkan.",
+        "Risiko terbuka adalah risiko hidup — mengelola posisi dan stop yang ada melindungi akun sebelum menambah paparan baru apa pun.",
+        "Pasar memberi imbalan urutan alfabet.",
+        "Tidak masalah."
+      ],
+      "explanation": "Posisi yang ada bisa menyakiti Anda hari ini; yang potensial tidak. Mengamankan risiko hidup dulu adalah triase, bukan preferensi."
+    },
+    "live_apply": {
+      "cta": "Pasang peringatan di level invalidasi sebuah posisi terbuka — ubah satu item daftar periksa menjadi penjaga otomatis."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "title": "Meninjau statistik Anda sendiri",
+    "summary": "Ubah riwayat kertas Anda menjadi bukti tentang diri Anda.",
+    "concept": "Setelah 20–30 perdagangan terjurnal Anda punya dataset dan ia menjawab pertanyaan yang tak bisa dijawab opini. Hitung **tingkat kemenangan** Anda (menang ÷ perdagangan), **R rata-rata** Anda, dan **ekspektasi** Anda (R rata-rata per perdagangan) — lalu iris: per keluarga setup, per rezim, per hari, per rencana dipatuhi atau tidak.\n\nBaca seperti analis: ekspektasi positif dengan tingkat kemenangan 40% adalah profil mengikuti tren yang sehat (kerugian kecil, untung lebih besar); ekspektasi negatif dengan tingkat kemenangan 70% berarti untung mungil dan bencana sesekali — profil negosiasi stop. Irisan paling berharga adalah **rencana-dipatuhi versus rencana-dilanggar**: jika ekspektasi rencana-dipatuhi Anda mengalahkan ekspektasi rencana-dilanggar (hampir selalu), Anda punya bukti pribadi, numerik bahwa disiplin Anda — bukan kecerdasan Anda — adalah keunggulan.\n\nIngat pelajaran ukuran sampel yang terus diajarkan mesin: 10 perdagangan adalah anekdot. Matematika penyusutan yang mendisiplinkan keyakinan mesin berlaku juga untuk statistik Anda.",
+    "key_terms": [
+      {
+        "term": "Tingkat kemenangan",
+        "definition": "Menang ÷ total perdagangan — tak bermakna tanpa R rata-rata di sampingnya."
+      },
+      {
+        "term": "Ekspektasi",
+        "definition": "R rata-rata per perdagangan — angka yang memutuskan apakah suatu metode menang."
+      },
+      {
+        "term": "Mengiris",
+        "definition": "Menghitung statistik per setup, rezim, atau kepatuhan untuk menemukan di mana keunggulan hidup."
+      },
+      {
+        "term": "Ambang anekdot",
+        "definition": "Sampel kecil: perlakukan statistik awal sebagai arah, bukan vonis."
+      }
+    ],
+    "exercise": {
+      "question": "Jurnal Anda menunjukkan: perdagangan rencana-dipatuhi rata-rata +0,31R pada 25 perdagangan; perdagangan rencana-dilanggar −0,58R pada 11. Apa penemuannya?",
+      "options": [
+        "Anda harus berdagang lebih sering.",
+        "Bukti kuantitatif bahwa kepatuhan rencana adalah keunggulan Anda: trader sama, dikurangi disiplin, rugi bersih.",
+        "11 perdagangan rencana-dilanggar itu sial.",
+        "Tingkat kemenangan hilang, jadi tidak ada yang bisa disimpulkan."
+      ],
+      "explanation": "Orang sama, pasar sama, perilaku berbeda, ekspektasi berlawanan. Ini statistik paling meyakinkan yang dihasilkan jurnal — dan hanya jurnal yang bisa menghasilkannya."
+    },
+    "live_apply": {
+      "cta": "Statistik mesin mengiris per setup dan rezim pada setiap preset — terapkan metode yang sama pada riwayat kertas Anda."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "title": "Mendeteksi rezim",
+    "summary": "Tren, rentang, volatil, transisi — aturan persis mesin.",
+    "concept": "Sebuah **rezim** adalah karakter dominan pasar, dan QuantGlass mengklasifikasikannya pada setiap bar tertutup dengan aturan yang dapat diaudit. Pertama penimpaan volatilitas: jika ATR sebagai bagian harga setidaknya **1,7×** median 50 bar, rezim adalah **volatil** — badai mengalahkan segalanya. Selainnya ADX memutuskan: **≥ 22 → tren**, **< 16 → rentang**, dan tengah yang tidak nyaman (16–22) → **transisi**.\n\nMengapa mekanika ini penting bagi Anda: rezim bukan interpretasi, ia **gerbang**. Keluarga pullback dan breakout hanya menyala dalam tren (pullback juga dalam transisi); mean-reversion hanya menyala dalam rentang. Setup 'cantik' di rezim salah, bagi mesin, bukan setup sama sekali.\n\nSetiap sinyal mencetak rezimnya dalam alasan, jadi saat sinyal menyala Anda selalu bisa melacak gerbang mana yang terbuka.",
+    "key_terms": [
+      {
+        "term": "Rezim",
+        "definition": "Karakter dominan pasar: tren, rentang, volatil, transisi."
+      },
+      {
+        "term": "Penimpaan volatilitas",
+        "definition": "ATR% ≥ 1,7× median 50 bar → volatil, terlepas dari ADX."
+      },
+      {
+        "term": "Ambang ADX",
+        "definition": "≥22 tren, <16 rentang, di tengah → transisi."
+      },
+      {
+        "term": "Penggerbangan setup",
+        "definition": "Keluarga hanya menyala dalam rezim yang kompatibel."
+      }
+    ],
+    "exercise": {
+      "question": "ADX 30, tetapi ATR-sebagai-persentase-harga dua kali median 50 bar. Rezim apa yang dilaporkan mesin?",
+      "options": [
+        "Tren — ADX 30 menentukan.",
+        "Volatil — penimpaan volatilitas mengalahkan pembacaan ADX.",
+        "Rentang.",
+        "Tidak ada rezim yang dapat dihitung."
+      ],
+      "explanation": "Pemeriksaan volatilitas berjalan pertama: 2,0× ≥ 1,7× median memicunya. Tren kuat di dalam badai tetaplah badai dan aturan badai berlaku."
+    },
+    "live_apply": {
+      "cta": "Baca bidang market_regime pada tiga sinyal dan verifikasi setiap keluarga setup legal dalam rezimnya."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "title": "Berdagang dengan rezim, bukan melawannya",
+    "summary": "Setup yang sama punya hasil berlawanan di rezim berbeda.",
+    "concept": "Setiap keluarga setup membawa asumsi rezim tersirat. **Membeli pullback** mengasumsikan tren berlangsung — dalam rentang itu menangkap pisau jatuh di garis tengah. **Memperdagangkan breakout** mengasumsikan ekstrem yang meluas — dalam rentang, ekstrem *adalah* titik pembalikan, jadi breakout rezim-rentang adalah breakout palsu kanonik. **Mean-reversion** mengasumsikan rata-rata magnetik — dalam tren, yang 'terentang' hanya semakin terentang saat Anda melawannya.\n\nKarena itu mesin secara struktural menolak perdagangan lintas-rezim dan keluarga breakout menuntut gerbang tren *plus* volume di rata-rata terkini: rezim menjawab 'apakah pasar ini jenis di mana ide ini bekerja?' dan pertanyaan itu datang sebelum geometri masuk apa pun.\n\nKesimpulan diskresioner Anda: sebelum menilai setup apa pun — mesin atau Anda — sebut rezim dengan lantang. Sebagian besar perdagangan buruk adalah setup baik dalam cuaca salah.",
+    "key_terms": [
+      {
+        "term": "Asumsi rezim",
+        "definition": "Karakter pasar yang secara tersirat dituntut keluarga setup."
+      },
+      {
+        "term": "Breakout palsu (fakeout)",
+        "definition": "Sebuah 'breakout' yang terikat pada rentang yang berbalik di ekstrem."
+      },
+      {
+        "term": "Melawan (fading)",
+        "definition": "Berdagang melawan arah dominan — mematikan dalam tren."
+      },
+      {
+        "term": "Pemeriksaan cuaca",
+        "definition": "Menyebut rezim sebelum menilai setup apa pun."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa breakout dalam rezim rentang secara sistematis tidak dapat diandalkan?",
+      "options": [
+        "Breakout butuh penjajaran bulan.",
+        "Dalam rentang, ekstrem sebelumnya persis tempat penawaran/permintaan berbalik sebelumnya — mendorongnya tanpa energi tren biasanya kembali ke rata-rata.",
+        "Volume ilegal dalam rentang.",
+        "Mereka andal; rentang ideal untuk breakout."
+      ],
+      "explanation": "Ekstrem rentang adalah zona pembalikan terbukti dari rentang itu. Tanpa rezim tren yang memasok kelanjutan, breakout secara statistik adalah peregangan, bukan pelarian."
+    },
+    "live_apply": {
+      "cta": "Bandingkan statistik preset breakout dengan preset mean-reversion — masing-masing mencari nafkah hanya dalam rezimnya sendiri."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "title": "Rezim volatilitas: terkompresi, normal, terekspansi",
+    "summary": "Sumbu kedua rezim — dan bagaimana ia menentukan ukuran stop Anda.",
+    "concept": "Terlepas dari arah, volatilitas itu sendiri bersiklus. QuantGlass mengukur **ATR saat ini sebagai persentase harga** terhadap **median 30 barnya**: pada **0,8×** atau kurang → **terkompresi**; pada **1,25×** atau lebih → **terekspansi**; di tengah → **normal**.\n\nKlasifikasi punya gigi — ia menentukan **kelipatan stop** di setiap setup: terkompresi → **1,3×** ATR, normal → **1,45×**, terekspansi → **1,6×**. Logikanya: dalam kondisi terekspansi ayunan derau biasa lebih besar, jadi stop harus berdiri lebih jauh untuk mengukur *ide* dan bukan statik. Dan karena ukuran posisi diturunkan dari jarak stop, volatilitas terekspansi otomatis berarti ukuran lebih kecil untuk risiko akun yang sama — sistem bernapas dengan pasar.\n\nKompresi punya pesannya sendiri: volatilitas kembali ke rata-rata, jadi periode tenang panjang menyimpan energi. Squeeze yang Anda temui di pelajaran Keltner adalah rezim ini dalam kostum grafik.",
+    "key_terms": [
+      {
+        "term": "Persentase ATR",
+        "definition": "ATR ÷ harga — volatilitas dinormalisasi untuk perbandingan."
+      },
+      {
+        "term": "Kompresi",
+        "definition": "ATR% ≤ 0,8× median 30 bar — penyimpanan energi."
+      },
+      {
+        "term": "Ekspansi",
+        "definition": "ATR% ≥ 1,25× median — derau lebih lebar, stop lebih lebar, ukuran lebih kecil."
+      },
+      {
+        "term": "Kelipatan stop adaptif",
+        "definition": "1,3 / 1,45 / 1,6 × ATR per rezim volatilitas."
+      }
+    ],
+    "exercise": {
+      "question": "Volatilitas beralih dari normal ke terekspansi. Untuk setup yang sama dan risiko akun yang sama, apa yang tersirat dari logika mesin?",
+      "options": [
+        "Stop lebih ketat, ukuran lebih besar.",
+        "Stop lebih lebar (1,6× ATR alih-alih 1,45×) dan karenanya posisi lebih kecil untuk risiko dolar yang sama.",
+        "Tidak ada perubahan — volatilitas bersifat kosmetik.",
+        "Melewati semua perdagangan selamanya."
+      ],
+      "explanation": "Derau lebih lebar menuntut stop lebih lebar agar tidak terguncang oleh statik; lalu rumus penentuan ukuran membagi anggaran risiko yang sama dengan jarak lebih besar — ukuran lebih kecil, risiko sama."
+    },
+    "live_apply": {
+      "cta": "Temukan volatility_regime suatu sinyal dalam alasannya dan periksa jarak stop adalah kelipatan ATR yang cocok."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "title": "Transisi rezim: tempat sebagian besar uang hilang",
+    "summary": "Pasar mengubah karakter lebih cepat daripada kebiasaan.",
+    "concept": "Rezim berakhir. Tren membusuk menjadi rentang (ADX berdarah dari akhir 20-an menuju 16), rentang meledak menjadi tren (sering lewat squeeze volatilitas-terkompresi yang pecah), dan apa pun bisa meledak menjadi rezim volatil dalam satu bar berita. Momen berbahaya bukan rezim — itu **serah terima**, karena trader terus memainkan permainan kemarin: membeli pullback setelah tren mati, melawan ekstrem tepat saat rentang pecah.\n\nPertahanan mesin tampak dalam aturannya: pita **transisi** (ADX 16–22) menjaga keluarga paling sensitif-rezim tetap waspada; klasifikasi berjalan lagi pada **setiap bar tertutup**, jadi perubahan karakter muncul dalam hitungan bar; dan penimpaan volatilitas menarik setup dari meja begitu kondisi badai tiba.\n\nCermin perilaku Anda: saat pendekatan yang dulu berhasil menghasilkan tiga kekalahan berturut-turut, periksa rezim *sebelum* memeriksa harga diri Anda. Sering kali metode baik-baik saja — cuaca telah berubah.",
+    "key_terms": [
+      {
+        "term": "Transisi rezim",
+        "definition": "Serah terima antara karakter pasar — zona kerugian tinggi."
+      },
+      {
+        "term": "Pembusukan ADX",
+        "definition": "Kekuatan tren berdarah menuju ambang rentang."
+      },
+      {
+        "term": "Pecahnya squeeze",
+        "definition": "Sebuah kompresi yang terurai menjadi tren baru."
+      },
+      {
+        "term": "Reklasifikasi per bar",
+        "definition": "Mesin menjalankan ulang deteksi rezim pada setiap bar tertutup."
+      }
+    ],
+    "exercise": {
+      "question": "Masuk pullback Anda berhasil selama berminggu-minggu, lalu tiga berturut-turut gagal. Apa diagnosis PERTAMA yang dijalankan?",
+      "options": [
+        "Gandakan ukuran untuk balik modal.",
+        "Periksa rezim saat ini — setup pullback mengasumsikan tren dan ADX mungkin telah membusuk di bawah gerbang sementara kebiasaan Anda terus berdagang.",
+        "Beralih segera ke indikator baru.",
+        "Simpulkan bahwa berdagang itu mustahil."
+      ],
+      "explanation": "Tiga kekalahan persis yang dilakukan tren mati pada pembeli pullback. Pemeriksaan rezim memisahkan 'cuaca berubah' dari 'metode rusak' — dan mesin menjalankan pemeriksaan itu pada setiap bar."
+    },
+    "live_apply": {
+      "cta": "Catat rezim hari ini pada watchlist Anda, lalu lagi besok — hitung serah terima yang ditangkap pengklasifikasi per-bar."
+    }
+  }
+]
