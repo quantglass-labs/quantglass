@@ -1,0 +1,1412 @@
+[
+  {
+    "id": "advanced-16-cost-stack",
+    "title": "Tumpukan Biaya Lengkap",
+    "summary": "Spread, fee, slippage, dan edge yang harus mereka lampaui.",
+    "concept": "Setiap strategi bersaing melawan tumpukan biayanya sendiri. Lapisan satu: **spread** — menyeberangi order book menelan setengah spread tiap arah bahkan sebelum ada yang menagih apa pun. Lapisan dua: **fee** — persentase eksplisit per sisi. Lapisan tiga: **slippage** — eksekusi yang menyimpang dari harga yang diniatkan dalam kondisi cepat atau tipis.\n\nModel default QuantGlass mengenakan, per sisi, fee 0,10% + slippage 0,05% pada kripto dan 0,02% + 0,01% pada saham; backtester mengonversi perjalanan pulang-pergi menjadi R dan menguranginya dari setiap trade tersimulasi. Konsekuensi strategisnya adalah **gravitasi biaya**: edge kotor strategi per trade harus jelas melampaui biaya pulang-perginya, atau biaya itu *adalah* hasilnya. Strategi timeframe pendek paling menderita — pergerakan rata-rata yang lebih kecil melawan pungutan persentase tetap berarti trader 15m membayar proporsi edge-nya jauh lebih besar untuk gesekan dibanding trader 1d.\n\nAturan membaca: saat membandingkan preset lintas timeframe, bagi expectancy dengan beban biaya dalam pikiran — strategi lebih lambat dengan expectancy sama adalah yang lebih tangguh.",
+    "key_terms": [
+      {
+        "term": "Tumpukan biaya",
+        "definition": "Spread + fee + slippage, dibayar dua arah."
+      },
+      {
+        "term": "Gravitasi biaya",
+        "definition": "Pungutan tetap yang harus dilampaui setiap edge kotor."
+      },
+      {
+        "term": "Rasio biaya-terhadap-edge",
+        "definition": "Biaya pulang-pergi sebagai bagian dari laba rata-rata trade."
+      },
+      {
+        "term": "Penalti timeframe",
+        "definition": "Timeframe lebih pendek membayar gesekan secara proporsional lebih banyak."
+      }
+    ],
+    "exercise": {
+      "question": "Dua preset menunjukkan expectancy +0,20R: satu trading candle 15m, satu 1d. Mengapa hasil 1d lebih dapat dipercaya?",
+      "options": [
+        "Candle harian lebih indah.",
+        "Pergerakan rata-rata yang lebih kecil pada strategi 15m berarti biaya melahap bagian lebih besar dari edge kotornya — +0,20R-nya duduk lebih dekat ke lantai kebisingan gesekan.",
+        "Data 15m selalu salah.",
+        "Tidak — expectancy adalah expectancy."
+      ],
+      "explanation": "Angka bersih sama, rasio kotor-ke-biaya berbeda. Strategi yang melampaui rintangan gesekan lebih tinggi dengan margin cadangan akan menurun lebih anggun saat kondisi live memburuk."
+    },
+    "live_apply": {
+      "cta": "Bandingkan feesPercent/slippagePercent pada preset kripto versus preset saham — lalu temukan keduanya dikurangkan dalam expectancy."
+    }
+  },
+  {
+    "id": "advanced-17-slippage-dynamics",
+    "title": "Slippage: Kapan dan Mengapa Eksekusi Menyimpang",
+    "summary": "Tiga kondisi yang melebarkan jurang antara chart dan eksekusi.",
+    "concept": "Slippage bukan konstanta — ia fungsi dari tiga variabel. **Volatilitas**: di pasar cepat, harga bergerak antara keputusanmu dan eksekusimu; stop terpicu ke kantong udara dan tereksekusi jauh melampaui levelnya. **Ukuran relatif terhadap kedalaman**: order pasar memakan order book level demi level; jika ukuranmu melebihi puncak book, *kamu* menggerakkan harga yang kamu bayar. **Jam likuiditas**: order yang sama di jam mati (akhir pekan kripto, jam makan siang saham) menyeberangi book yang lebih tipis.\n\nPerhatikan apa yang ini siratkan tentang stop: stop-loss menjamin *pemicu*, tidak pernah *harga* — dalam gap atau kaskade, eksekusi terjadi di mana pun likuiditas berikutnya ada. Inilah mengapa rezim volatilitas-mengembang dari mesin melebarkan stop dan menyusutkan ukuran sekaligus: kedua penyesuaian mengurangi peluang tereksekusi jauh melampaui rencana.\n\nPaper trading QuantGlass mengeksekusi niat pada harga tersedia berikutnya alih-alih cetak chart — model rendah hati yang disengaja yang menjaga latihan tetap jujur.",
+    "key_terms": [
+      {
+        "term": "Kantong udara",
+        "definition": "Zona harga tanpa likuiditas yang menunggu — tempat eksekusi stop mendarat jauh dari levelnya."
+      },
+      {
+        "term": "Kedalaman book",
+        "definition": "Ukuran menunggu di tiap level; ukuranmu relatif terhadapnya menentukan dampak-diri."
+      },
+      {
+        "term": "Jaminan stop",
+        "definition": "Stop menjamin pemicu, tidak pernah harga eksekusi."
+      },
+      {
+        "term": "Jam likuiditas",
+        "definition": "Variasi kedalaman menurut waktu hari/minggu."
+      }
+    ],
+    "exercise": {
+      "question": "Stop-mu di 95,00; berita semalam menggap pembukaan ke 91,40. Di mana stop-loss-mu tereksekusi?",
+      "options": [
+        "Di 95,00 — stop mengunci harganya.",
+        "Sekitar 91,40 — pemicu terpicu pada kesempatan pertama, dan eksekusi terjadi di mana pun likuiditas sebenarnya ada.",
+        "Ia membatalkan diri karena malu.",
+        "Di titik tengah, 93,20."
+      ],
+      "explanation": "Stop adalah pemicu plus order pasar. Saat harga melompati level, order tereksekusi dalam realitas baru — selisih 3,6 poin adalah risiko gap yang menjadi nyata."
+    },
+    "live_apply": {
+      "cta": "Bandingkan harga tereksekusi dari eksekusi paper dengan harga chart saat pengiriman — jurang itu adalah pelajaran ini dalam satu angka."
+    }
+  },
+  {
+    "id": "advanced-18-liquidity-traps",
+    "title": "Jebakan Likuiditas: Trade untuk Ditolak",
+    "summary": "Sebagian setup sempurna kecuali bagian di mana kamu tak bisa keluar.",
+    "concept": "Masuk itu opsional; keluar itu wajib. **Jebakan likuiditas** adalah posisi apa pun yang keluarnya bergantung pada kedalaman yang mungkin tak ada saat dibutuhkan: alt-coin tipis di mana ukuranmu adalah bagian signifikan dari volume per jam, instrumen spread lebar di mana pulang-pergi mulai dari −1%, pasar jam mati di mana book hanya kerangka, dan jendela peristiwa (rilis besar) di mana maker menarik kuotasi tepat saat kamu membutuhkannya.\n\nPemeriksaan likuiditas pra-trade yang layak dimekanisasi: apakah spread adalah fraksi kecil dari pergerakan yang kamu harapkan? Apakah ukuran yang kamu niatkan sepele kecilnya dibanding volume bar terbaru? Bisakah kamu keluar *di stop, saat panik*, tanpa menggerakkan pasar melawan dirimu sendiri? Jika ada jawaban tidak, ukuran yang benar lebih kecil — atau nol.\n\nWawasan asimetris: ketidaklikuidan menelan sedikit saat masuk (kamu bisa menunggu) dan segalanya saat keluar (kamu tak bisa). Rencanakan keluar untuk jam terburuk yang mungkin kamu hadapi, bukan yang rata-rata.",
+    "key_terms": [
+      {
+        "term": "Jebakan likuiditas",
+        "definition": "Posisi yang keluarnya mengasumsikan kedalaman yang bisa lenyap."
+      },
+      {
+        "term": "Likuiditas keluar",
+        "definition": "Kedalaman tersedia saat kamu harus pergi — satu-satunya jenis yang penting."
+      },
+      {
+        "term": "Jendela peristiwa",
+        "definition": "Periode berita terjadwal saat kuotasi menipis."
+      },
+      {
+        "term": "Ukuran-terhadap-volume",
+        "definition": "Order-mu sebagai bagian dari volume yang biasa diperdagangkan — jaga tetap sepele."
+      }
+    ],
+    "exercise": {
+      "question": "Setup alt-coin tipis tampak sempurna seperti buku teks, tapi posisi yang kamu niatkan setara 20% dari volume rata-rata per jamnya. Apa keputusan yang disiplin?",
+      "options": [
+        "Ambil — pola mengalahkan perpipaan.",
+        "Susutkan ukuran drastis atau lewati: keluar mendesak apa pun pada skala itu akan menggerakkan pasar melawanmu, menjadikan stop fiksi.",
+        "Gandakan ukuran demi keyakinan.",
+        "Hapus stop agar tak bisa slip."
+      ],
+      "explanation": "Stop yang tak bisa kamu eksekusi pada ukuran berarti adalah hiasan. Likuiditas adalah input penentuan ukuran posisi sama seperti ATR — dan kadang ukuran yang benar adalah nol."
+    },
+    "live_apply": {
+      "cta": "Peringkat watchlist-mu menurut volume biasa: simbol mana yang bisa menyerap ukuran paper-mu di jam terburuk, dan mana yang tak bisa?"
+    }
+  },
+  {
+    "id": "advanced-19-paper-vs-live",
+    "title": "Paper vs Live: Jurang yang Jujur",
+    "summary": "Apa yang diajarkan latihan, apa yang tak bisa, dan cara menjembatani.",
+    "concept": "Paper trading adalah latihan, dan latihan berbeda dari pertunjukan dengan cara-cara yang diketahui. **Eksekusi**: paper tereksekusi pada harga tersedia berikutnya dengan biaya termodelkan; live menghadapi antrean (order limit butuh penjual mencapaimu), eksekusi parsial, dan mikrostruktur yang berlawanan. **Dampak**: paper mengasumsikan pasar mengabaikanmu — benar untuk ukuran live kecil, salah di luarnya. **Psikologi**: ini jurangnya. Kerugian palsu tak bisa menghasilkan ketakutan nyata, dan ketakutan, bukan aritmetika, yang mematahkan aturan.\n\nApa yang paper sungguh sertifikasi: mekanika, disiplin rencana, kebiasaan menjurnal, dan garis dasar statistik dari *keputusanmu* lintas rezim. Apa yang hanya paparan live sertifikasi: perilakumu saat uangnya nyata.\n\nJembatan disiplin, saat seseorang akhirnya memilihnya (tak pernah nasihat finansial): naik level hanya setelah kriteria tertulis terpenuhi di paper — mis. 30+ trade dengan expectancy positif *dan* kepatuhan rencana tinggi — lalu mulai pada ukuran berarti terkecil, di mana uang sekolah murah. Keterampilan berpindah; ketenangan harus diperoleh kembali.",
+    "key_terms": [
+      {
+        "term": "Posisi antrean",
+        "definition": "Order limit menunggu giliran — paper melompati barisan."
+      },
+      {
+        "term": "Eksekusi parsial",
+        "definition": "Order live bisa tereksekusi sepotong-sepotong atau tidak sama sekali."
+      },
+      {
+        "term": "Jurang psikologis",
+        "definition": "Kerugian palsu tak bisa melatih ketakutan nyata."
+      },
+      {
+        "term": "Kriteria kelulusan",
+        "definition": "Ambang rekam paper tertulis sebelum perubahan ukuran apa pun."
+      }
+    ],
+    "exercise": {
+      "question": "Elemen trading mana yang secara fundamental TIDAK disertifikasi oleh latihan paper?",
+      "options": [
+        "Mekanika order dan eksekusi rencana.",
+        "Perilaku emosionalmu saat kerugian nyata — ketakutan tak punya padanan paper.",
+        "Kebiasaan menjurnal.",
+        "Membaca sinyal dan rezim."
+      ],
+      "explanation": "Segala yang prosedural berpindah dari latihan. Beban psikologis kerugian nyata adalah satu-satunya variabel yang paper tak bisa simulasikan — itulah mengapa kelulusan, jika pernah, mulai amat kecil."
+    },
+    "live_apply": {
+      "cta": "Tinjau statistik paper-mu: apakah mereka lolos kriteria kelulusan tertulis 30+ trade, expectancy positif, dan kepatuhan tinggi?"
+    }
+  },
+  {
+    "id": "advanced-34-price-vs-value",
+    "title": "Harga, Nilai, dan Penggunaan Fundamental oleh Trader",
+    "summary": "Investor memperkirakan nilai; trader memetakan katalis.",
+    "concept": "**Fundamental** adalah fakta di balik aset: laba dan neraca perusahaan, mekanika pasokan dan penggunaan token. Seorang *investor* memakainya untuk memperkirakan nilai dan menunggu harga setuju — taruhan bertahun-tahun. Seorang *trader* memakainya berbeda: sebagai **peta volatilitas terjadwal dan aliran persisten**.\n\nTiga pertanyaan trader tentang fakta fundamental apa pun: **Kapan katalis berikutnya?** (tanggal laba, peristiwa unlock — ini adalah *perubahan rezim terjadwal*); **Apa yang sudah masuk harga?** (pasar bergerak atas kejutan versus ekspektasi, bukan baik-versus-buruk — laporan 'hebat' di bawah ekspektasi tetap jatuh); dan **Ke arah mana aliran persisten condong?** (buyback, penerbitan, emisi — tekanan lambat yang memiringkan lapangan permainan yang ditunggangi tren).\n\nKerendahan hati yang membuatnya bisa dipakai: dalam jangka pendek, *harga adalah satu-satunya fundamental yang bisa kamu tradingkan*. Fundamental menjelaskan mengapa rezim terbentuk dan kapan mereka mungkin pecah; chart, biaya, dan matematika risiko tetap menguasai setiap masuk. Melawan tren karena 'fundamental tak setuju' punya pekuburannya sendiri.",
+    "key_terms": [
+      {
+        "term": "Fundamental",
+        "definition": "Lapisan faktual: laba, pasokan, penggunaan, arus kas."
+      },
+      {
+        "term": "Katalis",
+        "definition": "Peristiwa terjadwal yang mungkin memberi harga ulang aset — laba, unlock."
+      },
+      {
+        "term": "Sudah masuk harga",
+        "definition": "Pasar bergerak atas kejutan relatif terhadap ekspektasi, bukan kualitas berita mentah."
+      },
+      {
+        "term": "Aliran persisten",
+        "definition": "Tekanan beli/jual struktural lambat: buyback, emisi."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah perusahaan melaporkan laba rekor, namun sahamnya turun 8%. Penjelasan yang sadar-fundamental?",
+      "options": [
+        "Laba menyebabkan penjualan.",
+        "Ekspektasi bahkan lebih tinggi: harga sudah menyerap angka yang lebih besar, dan kejutannya negatif meski hasil absolutnya rekor.",
+        "Laporannya palsu.",
+        "Saham bergerak acak pada semua berita."
+      ],
+      "explanation": "Pasar memperdagangkan jurang antara hasil dan ekspektasi. 'Rekor' adalah absolut; harga telah ditetapkan oleh ramalan di atasnya — pelajaran sudah-masuk-harga dalam satu candle."
+    },
+    "live_apply": {
+      "cta": "Periksa panel berita di samping chart-mu: untuk tiap judul, tanyakan tiga pertanyaan trader — waktu katalis, sudah-masuk-harga, aliran persisten."
+    }
+  },
+  {
+    "id": "advanced-35-equity-fundamentals",
+    "title": "Fundamental Ekuitas: Laba sebagai Badai Terjadwal",
+    "summary": "Siklus kuartalan yang harus dihormati setiap trader saham.",
+    "concept": "Saham berjalan pada kalender publik. Tiap kuartal, **laba (earnings)**: hasil versus ekspektasi analis, plus **panduan (guidance)** — ramalan manajemen, yang sering menggerakkan harga lebih dari hasilnya sendiri (pasar adalah mesin yang menatap depan). Di sekitar tanggal-tanggal ini, volatilitas terealisasi melonjak, gap menjadi rutin, dan spread melebar — ingat pelajaran gap: chart saham menggap justru karena berita mendarat saat bursa tidur.\n\nBagi trader teknikal lapisan yang bisa ditindaklanjuti kebanyakan adalah **kebersihan risiko**: ketahui tanggal laba apa pun yang kamu pegang; sadari bahwa stop tak bisa melindungi melalui gap (contoh semalam dari pelajaran slippage persis ini); dan perlakukan hari sebelum laba sebagai rezim tersendiri — banyak trader disiplin sekadar meratakan atau menyusutkan menjelang peristiwa alih-alih bertaruh pada lempar-koin dengan ekor melebar.\n\nKelipatan valuasi (P/E dan kerabatnya) penting di horizon trader terutama sebagai **konteks kepadatan**: ekstrem menandai tempat reaksi terhadap kejutan menjadi keras. Kursus valuasi mendalam milik investasi; trader butuh kalender, ekspektasi, dan kerendahan hati.",
+    "key_terms": [
+      {
+        "term": "Laporan laba",
+        "definition": "Hasil kuartalan versus ekspektasi — badai terjadwal."
+      },
+      {
+        "term": "Panduan",
+        "definition": "Ramalan ke depan manajemen; sering penggerak harga sebenarnya."
+      },
+      {
+        "term": "Risiko gap",
+        "definition": "Pemberian harga ulang semalam yang melompati stop — puncak di sekitar laba."
+      },
+      {
+        "term": "Perataan peristiwa",
+        "definition": "Mengurangi atau menutup paparan menjelang peristiwa biner terjadwal."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa banyak trader disiplin mengurangi atau menutup posisi saham tepat sebelum laba?",
+      "options": [
+        "Tanggal laba rahasia.",
+        "Peristiwa itu rezim risiko-gap biner di mana stop tak bisa melindungi melalui lompatan semalam — posisi menjadi lempar-koin dengan ekor melebar, bukan setup.",
+        "Trading tutup di hari laba.",
+        "Laba selalu menyebabkan penurunan."
+      ],
+      "explanation": "Edge datang dari setup yang risikonya bisa kamu definisikan. Gap melalui stop-mu adalah risiko tak terdefinisi secara konstruksi — minggir adalah manajemen risiko, bukan pengecut."
+    },
+    "live_apply": {
+      "cta": "Untuk tiap saham di watchlist-mu, temukan tanggal laba berikutnya dan catat di samping level invalidasimu."
+    }
+  },
+  {
+    "id": "advanced-36-crypto-fundamentals",
+    "title": "Fundamental Kripto: Tokenomics dan Realitas On-Chain",
+    "summary": "Jadwal pasokan, unlock, dan penggunaan — fakta di balik koin.",
+    "concept": "Kripto tak punya laba, tapi punya fundamental bertepi lebih tajam: **mekanika pasokan** yang didefinisikan kode. Pertanyaan yang penting: Apa **jadwal emisi** (berapa banyak token baru menghantam pasar tiap hari — aliran sisi-jual persisten)? Adakah **tebing unlock** (token insider/investor rilis pada tanggal — badai pasokan terjadwal, padanan kripto dari laba)? Apakah pasokan terbatas (halving Bitcoin — *pengurangan* aliran yang terjadwal)? Dan apakah **penggunaan on-chain** (alamat aktif, fee dibayar, nilai diselesaikan) mendukung narasi, atau harga adalah refleksivitas murni?\n\nPola yang menyadarkan: tanggal unlock bersifat publik, namun harga tetap rutin meluncur menjelang dan setelahnya — fundamental di sini berfungsi kurang sebagai edge rahasia dan lebih sebagai **penghindaran bahaya**: jangan jadi pembeli yang dijuali oleh unlock.\n\nPanggilan-balik pertahanan-penipuan yang bergigi: token yang 'fundamental'-nya hanya emisi, pemasaran, dan pasokan insider terkunci adalah versi berbentuk-aset dari corong guru. Daftar periksa yang sama berlaku — siapa butuh uangmu, dan apa yang mereka pegang yang tak bisa kamu lihat?",
+    "key_terms": [
+      {
+        "term": "Jadwal emisi",
+        "definition": "Pasokan baru per periode yang didefinisikan kode — aliran jual struktural."
+      },
+      {
+        "term": "Tebing unlock",
+        "definition": "Rilis bertanggal token insider/investor — kejutan pasokan terjadwal."
+      },
+      {
+        "term": "Halving",
+        "definition": "Pemotongan emisi periodik Bitcoin — pengurangan aliran terjadwal."
+      },
+      {
+        "term": "Penggunaan on-chain",
+        "definition": "Alamat, fee, penyelesaian — pemeriksaan realitas sisi-permintaan."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah token punya 80% pasokan terkunci dengan insider, unlock bulanan selama dua tahun. Apa bacaan strukturalnya?",
+      "options": [
+        "Kelangkaan — hanya 20% yang ada, jadi harga harus naik.",
+        "Kelebihan pasokan terjadwal dua tahun: tiap bulan menambah token insider yang menelan ~tidak ada bagi pemegangnya, menciptakan tekanan jual persisten yang akan diserap belianmu.",
+        "Penguncian itu bullish menurut definisi.",
+        "Jadwal unlock tak pernah memengaruhi harga."
+      ],
+      "explanation": "Float kecil hari ini, tapi jadwal itulah fundamentalnya: pasokan basis-murah yang tiba bulanan adalah angin lawan yang dilawan setiap long. Publik, bertanggal, dan rutin diremehkan."
+    },
+    "live_apply": {
+      "cta": "Pilih simbol kripto dan tanyakan empat pertanyaan pasokan — emisi, unlock, batas, penggunaan — sebelum membaca chart-nya."
+    }
+  },
+  {
+    "id": "advanced-37-fundamentals-scope",
+    "title": "Katalis Bertemu Chart: Garis Cakupan",
+    "summary": "Fundamental membingkai rezim; teknikal mengatur waktu trade; mesin tetap teknikal.",
+    "concept": "Sintesis. Fundamental dan teknikal menjawab pertanyaan berbeda di jam berbeda: fundamental menjelaskan **mengapa** rezim ada dan **kapan** ia mungkin pecah (katalis); teknikal — struktur, rezim, volume, volatilitas — mengatakan **apakah dan di mana** setup yang bisa ditradingkan ada sekarang. Pola profesional bukan memilih sisi melainkan menugaskan peran: *fundamental sebagai konteks dan kalender, teknikal sebagai pemicu dan geometri risiko*.\n\nDi mana QuantGlass berdiri? Mesinnya **sengaja hanya-teknikal**: setiap sinyal berasal dari candle tertutup — harga, volume, dan matematikanya. Ia tak mengurai laba, tak meramalkan panduan, tak menimbang tokenomics, dan karenanya — menurut aturan kejujuran-cakupan yang kini telah kamu lihat tiga kali — ia tak pernah mengklaimnya. Panel berita di samping chart-mu adalah input fundamental *milikmu*, dijaga terpisah dari fakta terhitung mesin justru agar kamu selalu tahu jenis klaim apa yang kamu baca.\n\nAlur kerjamu, dirakit: kalender dulu (badai apa yang terjadwal?), rezim kedua (permainan apa yang sedang berlangsung?), setup ketiga (apakah mesin melihat struktur?), risiko selalu (ukur dari stop, hormati peristiwa). Urutan itu adalah seluruh track dalam satu kalimat.",
+    "key_terms": [
+      {
+        "term": "Konteks vs pemicu",
+        "definition": "Fundamental membingkai; teknikal mengatur waktu."
+      },
+      {
+        "term": "Mesin hanya-teknikal",
+        "definition": "Sinyal QuantGlass berasal dari candle saja — cakupan yang dideklarasikan."
+      },
+      {
+        "term": "Pemisahan klaim",
+        "definition": "Fakta terhitung dan konteks berita dijaga jelas terpisah."
+      },
+      {
+        "term": "Alur kalender-dulu",
+        "definition": "Katalis terjadwal diperiksa sebelum mengambil setup apa pun."
+      }
+    ],
+    "exercise": {
+      "question": "Mesin menunjukkan setup pullback seperti buku teks pada saham yang melaporkan laba besok. Apa kata alur kerja track?",
+      "options": [
+        "Ambil — setup mengalahkan kalender.",
+        "Kalender dulu: rezim gap biner besok merusak perlindungan stop, jadi lewati atau tunda — geometri setup mengasumsikan pasar yang bisa keluar.",
+        "Gandakan ukuran untuk memonetisasi peristiwa.",
+        "Setup tak valid di bulan laba."
+      ],
+      "explanation": "Setiap angka risiko Academy mengandaikan keluar yang bisa dieksekusi. Peristiwa gap terjadwal menangguhkan premis itu — bacaan disiplin adalah bahwa risiko trade tak terdefinisi, apa pun kata chart."
+    },
+    "live_apply": {
+      "cta": "Untuk tiap sinyal saat ini, jalankan kalender-dulu: adakah katalis terjadwal dalam periode tahan yang diharapkan dari trade?"
+    }
+  },
+  {
+    "id": "advanced-24-margin-basics",
+    "title": "Margin: Trading dengan Pinjaman",
+    "summary": "Daya beli yang dipinjam adalah pinjaman nyata dengan syarat nyata.",
+    "concept": "**Margin** adalah pinjaman dari broker-mu yang dijamin oleh akunmu. Setor 10.000 dengan margin 2:1 dan kamu bisa menahan posisi 20.000 — tapi 10.000 yang dipinjam mengakru **bunga**, dan klaim broker atasnya melebihi klaimmu. Taruhan sejatimu adalah **ekuitas**: nilai posisi dikurangi pinjaman.\n\nSyarat pinjaman menggigit melalui **persyaratan pemeliharaan (maintenance requirement)**: ekuitas harus tetap di atas fraksi tetap dari nilai posisi. Karena pinjaman tetap sementara posisi berfluktuasi, *kerugian keluar sepenuhnya dari ekuitasmu* — penurunan posisi 10% pada 2:1 adalah penurunan ekuitas 20%. Margin tak mengubah pasar; ia mengubah seberapa banyak pergerakan pasar mendarat padamu.\n\nTak ada dalam mekanika ini yang tersembunyi — ini aritmetika — namun margin tetap pengonversi utama kesalahan yang bisa-disurvivasi menjadi yang mengakhiri-akun, karena setiap angka risiko yang kamu pelajari (risiko 1%, batas panas, matematika drawdown) diam-diam mengasumsikan ekuitas *tanpa leverage*. Pada margin, hitung ulang segalanya terhadap ekuitas, bukan ukuran posisi.",
+    "key_terms": [
+      {
+        "term": "Pinjaman margin",
+        "definition": "Kredit broker dijamin oleh akunmu, dengan bunga."
+      },
+      {
+        "term": "Ekuitas",
+        "definition": "Nilai posisi dikurangi pinjaman — taruhan aktualmu."
+      },
+      {
+        "term": "Persyaratan pemeliharaan",
+        "definition": "Fraksi ekuitas minimum sebelum tindakan paksa."
+      },
+      {
+        "term": "PnL teramplifikasi",
+        "definition": "Pergerakan posisi mendarat pada basis ekuitas yang lebih kecil."
+      }
+    ],
+    "exercise": {
+      "question": "Kamu menahan posisi 20.000 pada ekuitas 10.000 (2:1). Posisi turun 10%. Apa yang terjadi pada ekuitasmu?",
+      "options": [
+        "Turun 10% — kerugian sesuai pergerakan posisi.",
+        "Turun 20% — kerugian 2.000 mendarat sepenuhnya pada ekuitas 10.000-mu, karena pinjaman tak menyerap kerugian.",
+        "Turun 5% — broker berbagi kerugian.",
+        "Tak berubah sampai kamu jual."
+      ],
+      "explanation": "Pemberi pinjaman dipenuhi lebih dulu. Leverage L mengalikan setiap pergerakan posisi dengan L pada ekuitasmu: persamaan inti margin."
+    },
+    "live_apply": {
+      "cta": "Baca ulang drawdown maksimum preset dan gandakan dalam pikiran — itulah drawdown ekuitas dari strategi yang sama pada 2:1."
+    }
+  },
+  {
+    "id": "advanced-25-leverage-arithmetic",
+    "title": "Aritmetika Leverage dan Jarak Likuidasi",
+    "summary": "Pergerakan yang menghapusmu adalah 100% dibagi leverage-mu.",
+    "concept": "Leverage punya satu persamaan utama: pada **L×**, pergerakan harga **100%/L melawanmu menghapus ekuitasmu sepenuhnya**. 2× → pergerakan merugikan 50% ke nol. 5× → 20%. 10× → 10%. 100× (ditawarkan terbuka oleh sebagian venue kripto) → goyangan 1% — *kebisingan per jam biasa* — adalah kerugian total.\n\nDalam praktik kamu dilikuidasi **sebelum** nol: venue menutupmu saat ekuitas mencapai level pemeliharaan, jadi jarak sebenarnya bahkan lebih pendek, dikurangi fee. Bandingkan jarak itu dengan ATR yang telah kamu pelajari: jika ATR harian aset 3% dan likuidasimu duduk 2% jauhnya, harapan hidup posisimu diukur dalam kebisingan, bukan dalam tesis.\n\nInilah mengapa 'leverage lebih = laba lebih' adalah salah-baca pemula. Leverage tak menambah edge; ia **menskalakan ulang papan permainan** sampai volatilitas normal menjadi mematikan. Profesional yang memakai leverage memakai kelipatan *kecil* pada struktur *volatilitas-rendah* — tak pernah kelipatan maksimum pada kripto besar.",
+    "key_terms": [
+      {
+        "term": "Jarak likuidasi",
+        "definition": "Pergerakan merugikan ≈100%/L (dikurangi pemeliharaan dan fee) hingga penutupan paksa."
+      },
+      {
+        "term": "Kemematian kebisingan",
+        "definition": "Jarak likuidasi lebih kecil dari pergerakan ATR rutin."
+      },
+      {
+        "term": "Risiko terskala-ulang",
+        "definition": "Leverage menyusutkan pergerakan yang bisa-disurvivasi; tak pernah menambah edge."
+      },
+      {
+        "term": "Penyangga pemeliharaan",
+        "definition": "Likuidasi terpicu sebelum ekuitas mencapai nol."
+      }
+    ],
+    "exercise": {
+      "question": "Pada leverage 5x (mengabaikan fee dan penyangga pemeliharaan), pergerakan harga merugikan berapa persen yang menghapus 100% ekuitasmu?",
+      "hint": "persen-hapus = 100 ÷ leverage",
+      "explanation": "100 ÷ 5 = **20%**. Setiap pergerakan posisi adalah ×5 pada ekuitas, jadi pergerakan merugikan 20% adalah −100%. Likuidasi sebenarnya terpicu lebih awal lagi, pada level pemeliharaan."
+    },
+    "live_apply": {
+      "cta": "Periksa ATR simbol kripto sebagai persen harga, lalu hitung leverage mana yang akan menempatkan likuidasi di dalam rentang satu hari biasa."
+    },
+    "common_mistakes": [
+      "Membaca leverage 10x sebagai laba 10x. Itu paparan 10x: pergerakan merugikan 10% adalah seluruh akun.",
+      "Melupakan biaya funding dan pinjam. Posisi leverage berdarah carry tiap hari, bahkan saat harga tak ke mana-mana."
+    ]
+  },
+  {
+    "id": "advanced-26-liquidation",
+    "title": "Margin Call dan Kaskade Likuidasi",
+    "summary": "Keluar paksa terjadi pada harga terburuk, secara desain.",
+    "concept": "Saat ekuitas melanggar pemeliharaan, dua hal bisa terjadi. **Margin call** meminta kamu menambah dana atau mengurangi posisi — di bawah tekanan waktu, pada momen kerugian, yang akan dikenali track psikologi sebagai kondisi keputusan terburuk yang mungkin. Atau, di sebagian besar venue kripto, tak ada panggilan sama sekali: mesin **melikuidasi otomatis**, menjual-pasar posisimu ke likuiditas apa pun yang ada.\n\nPenjualan paksa punya konsekuensi struktur-pasar: likuidasi mengelompok pada level harga serupa (orang memakai leverage pada titik serupa), jadi satu gelombang penjualan paksa mendorong harga ke gelombang *berikutnya* — **kaskade likuidasi**. Ini menghasilkan sumbu kejam yang memburu setiap stop dan level likuidasi di jalurnya, lalu sering kembali. Jika kamu pernah melihat sumbu kripto 10% di hari tenang: itu leverage, bukan berita.\n\nDua pertahanan jika margin pernah dipakai: **margin terisolasi** (pinjaman tiap posisi dipagari, jadi satu likuidasi tak bisa melahap seluruh akun — versus margin silang, di mana ia bisa), dan penyangga prabiaya agar sumbu rutin tak bisa mencapai garis. Pertahanan terbaik tetap alternatif tanpa-leverage: stop *yang kamu* pilih mengalahkan keluar yang venue pilih.",
+    "key_terms": [
+      {
+        "term": "Margin call",
+        "definition": "Tuntutan menambah dana atau memotong posisi dalam tenggat."
+      },
+      {
+        "term": "Auto-likuidasi",
+        "definition": "Venue menutupmu paksa di pasar — tanpa negosiasi."
+      },
+      {
+        "term": "Kaskade likuidasi",
+        "definition": "Penjualan paksa memicu penjualan paksa lebih lanjut berantai."
+      },
+      {
+        "term": "Terisolasi vs silang",
+        "definition": "Pinjaman dipagari per-posisi versus seluruh akun sebagai jaminan."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa kaskade likuidasi menciptakan sumbu panjang yang lalu kembali sebagian?",
+      "options": [
+        "Bursa menggambar sumbu untuk hiasan.",
+        "Penjualan-pasar paksa berkelompok menghabiskan likuiditas tiap level dan memicu klaster berikutnya; begitu aliran paksa berakhir, tekanan buatan lenyap dan harga memantul.",
+        "Berita selalu membalik diri.",
+        "Sumbu adalah kesalahan data."
+      ],
+      "explanation": "Penjualannya mekanis, tak peka-harga, dan terbatas. Saat bahan bakar kaskade (posisi leverage) habis terbakar, diskon yang ia ciptakan menarik pembeli nyata — tanda tangan sumbu-dan-pulih."
+    },
+    "live_apply": {
+      "cta": "Temukan sumbu bawah kejam pada chart kripto dan periksa lonjakan volume di bawahnya — jejak kaki kaskade."
+    },
+    "common_mistakes": [
+      "Memperlakukan harga likuidasi sebagai stop. Likuidasi merampas posisi pada harga terburuk plus denda; stop adalah pilihanmu pada levelmu.",
+      "Menambah margin untuk membela posisi leverage yang merugi - mengubah kerugian terbatas menjadi tak terbatas."
+    ]
+  },
+  {
+    "id": "advanced-27-short-selling",
+    "title": "Mekanika Short Selling",
+    "summary": "Jual dulu, beli kemudian — dengan saham pinjaman dan risiko tak terbatas.",
+    "concept": "**Short sale** membalik trade: pinjam aset, jual sekarang, beli kembali ('cover') kemudian, kembalikan, simpan selisih. Untung saat harga turun. Mekanikanya menambah biaya dan risiko yang tak pernah ditemui long: **fee pinjam** (nama sulit-dipinjam mengenakan tarif tahunan dua digit), **dividen/funding** yang terutang saat short, kemungkinan **recall** (pemberi pinjaman ingin saham kembali pada waktu terburuk), dan asimetri yang kamu temui di pelajaran short-penolakan — kerugian secara teoretis **tak terbatas** karena harga tak punya langit-langit.\n\nAsimetri itu melahirkan pemangsa: **short squeeze**. Saat aset yang banyak-di-short naik, short harus *membeli* untuk membatasi kerugian — dan beli mereka memicu kenaikan yang menjepit short berikutnya. Short yang padat adalah bahan bakar roket yang sudah-dimuat, itulah mengapa short interest itu sendiri adalah metrik risiko.\n\nPerhatikan pembingkaian QuantGlass: sinyal SELL/penolakan mesin mendeskripsikan *struktur* bearish; akun paper mensimulasikan posisi secara simetris. Realitas fee-pinjam, recall, dan squeeze hidup satu lapis di bawah — dan harus dimasukkan harga sebelum short dunia-nyata apa pun pernah dipertimbangkan.",
+    "key_terms": [
+      {
+        "term": "Fee pinjam",
+        "definition": "Biaya sewa saham yang di-short — menghukum pada nama padat."
+      },
+      {
+        "term": "Cover",
+        "definition": "Membeli kembali untuk menutup short."
+      },
+      {
+        "term": "Short squeeze",
+        "definition": "Harga naik memaksa short membeli, memicu kenaikan lebih lanjut."
+      },
+      {
+        "term": "Risiko recall",
+        "definition": "Pemberi pinjaman menuntut saham kembali, memaksa cover yang tak tepat waktu."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa short interest yang besar membuat aset LEBIH rentan terhadap pergerakan naik yang kejam?",
+      "options": [
+        "Short secara hukum membatasi seberapa tinggi harga bisa naik.",
+        "Setiap short adalah pembeli masa depan terjamin di bawah tekanan: reli memaksa cover, dan cover adalah beli, yang memperpanjang reli ke penderitaan short berikutnya.",
+        "Penjual short menyebarkan optimisme.",
+        "Tidak — short hanya memengaruhi sisi turun."
+      ],
+      "explanation": "Short yang padat adalah permintaan laten dengan pemicu stres. Squeeze itu refleksif: pergerakan yang menyakiti short diamplifikasi oleh keluar paksa mereka sendiri."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal keadaan SELL dan catat stop-nya di atas struktur penolakan — dalam short nyata, stop itu juga asuransi terhadap squeeze."
+    }
+  },
+  {
+    "id": "advanced-28-leverage-discipline",
+    "title": "Disiplin Leverage (dan Argumen untuk Tidak)",
+    "summary": "Jika pernah dipakai: kecil, terisolasi, berukuran-risiko — dan tak pernah untuk 'memulihkan'.",
+    "concept": "Setelah empat pelajaran mekanika, sintesis. Leverage adalah alat dengan tepat satu penggunaan jujur: **efisiensi modal pada strategi yang sudah bekerja tanpa leverage** — dan bahkan itu pada kelipatan kecil dengan margin terisolasi dan jarak likuidasi beberapa ATR jauhnya. Setiap penggunaan lain adalah salah satu pola kegagalan: memakai leverage untuk membuat akun kecil 'berarti' (menskalakan ulang kebisingan menjadi kemematian), memakai leverage untuk memulihkan drawdown (spiral tilt dengan pengali), atau memakai leverage karena penggeser venue naik hingga 100× (ia ke sana karena likuidasi adalah pendapatan).\n\nDaftar periksa disiplin jika margin pernah disentuh: risiko posisi tetap dihitung dari **jarak stop terhadap ekuitas** (rumus penentuan ukuran bertahan; hanya matematika jaminan berubah); jarak likuidasi ≥ 3–4× ATR aset; hanya margin terisolasi; paparan pinjam total dibatasi; dan aturan tetap bahwa **tak ada keputusan leverage yang dibuat di dalam drawdown**.\n\nDan fakta desain yang disengaja untuk menutup track: mesin dan akun paper QuantGlass adalah **spot-saja, tanpa leverage, secara konstruksi**. Setiap statistik yang Academy ini ajarkan — expectancy, drawdown, rentang konformal — diukur pada permainan tanpa leverage. Kuasai permainan itu dulu. Kebanyakan tak pernah butuh yang satunya.",
+    "key_terms": [
+      {
+        "term": "Efisiensi modal",
+        "definition": "Satu tujuan jujur leverage — tak pernah edge tambahan."
+      },
+      {
+        "term": "Aturan drawdown",
+        "definition": "Tak ada keputusan leverage yang dibuat saat merugi."
+      },
+      {
+        "term": "Penyangga ATR",
+        "definition": "Jarak likuidasi dipertahankan pada kelipatan volatilitas normal."
+      },
+      {
+        "term": "Desain spot-saja",
+        "definition": "Konstruksi tanpa-leverage yang disengaja QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Motivasi mana untuk menambah leverage yang merupakan prediktor tunggal paling dapat diandalkan untuk kehancuran?",
+      "options": [
+        "Efisiensi modal pada strategi terbukti, volatilitas-rendah.",
+        "Memulihkan drawdown lebih cepat — ia menggabungkan spiral tilt dengan pengali kerugian tepat pada momen penilaian terburuk.",
+        "Venue yang menawarkan margin terisolasi.",
+        "Keingintahuan dalam akun paper."
+      ],
+      "explanation": "Revenge trading yang kamu temui di track psikologi; leverage menyerahkannya senjata lebih besar di tengah tilt. Motif pemulihan gagal pada matematika dan pikiran sekaligus."
+    },
+    "live_apply": {
+      "cta": "Konfirmasi konstruksi akun paper-mu: spot, tanpa leverage, risiko terdefinisi-stop — garis dasar yang diasumsikan setiap statistik Academy."
+    }
+  },
+  {
+    "id": "advanced-29-options-basics",
+    "title": "Call dan Put: Hak, Bukan Kewajiban",
+    "summary": "Anatomi kontrak: strike, kedaluwarsa, premium.",
+    "concept": "**Opsi** adalah kontrak yang memberikan *hak tanpa kewajiban*. **Call** adalah hak untuk **membeli** aset pada **harga strike** tetap hingga **kedaluwarsa (expiry)**; **put** adalah hak untuk **menjual** pada strike. Untuk hak itu, pembeli membayar **premium** — dibayar sekali, disimpan penjual apa pun yang terjadi.\n\nContoh: call pada saham XYZ, strike 100, satu bulan ke depan, premium 3. Jika XYZ naik ke 112, hak membeli pada 100 bernilai 12 — dikurangi 3 yang dibayar, laba 9 atas 3 yang dirisikokan. Jika XYZ tak pernah melampaui 100, opsi kedaluwarsa tanpa nilai: kerugian adalah premium, seluruh premium, dan tak lain selain premium.\n\nItulah kebaruan struktural versus segalanya di Academy ini sejauh ini: **payoff asimetris menurut kontrak**, bukan menurut disiplin stop. Trader spot membangun asimetri dengan stop dan tangga; pembeli opsi membelinya langsung — dan premium adalah harga pembelian itu, setiap kali.",
+    "key_terms": [
+      {
+        "term": "Call",
+        "definition": "Hak membeli pada strike hingga kedaluwarsa."
+      },
+      {
+        "term": "Put",
+        "definition": "Hak menjual pada strike hingga kedaluwarsa."
+      },
+      {
+        "term": "Strike",
+        "definition": "Harga transaksi tetap kontrak."
+      },
+      {
+        "term": "Premium",
+        "definition": "Harga tak-dapat-dikembalikan dari hak."
+      },
+      {
+        "term": "Kedaluwarsa",
+        "definition": "Saat hak berhenti ada."
+      }
+    ],
+    "exercise": {
+      "question": "Kamu membeli call strike 100 seharga premium 3. Saham berakhir di kedaluwarsa pada 97. Apa hasilmu?",
+      "options": [
+        "Kerugian 3 — premium, kerugian maksimum yang mungkin pada trade ini.",
+        "Kerugian 6 — premium plus kekurangan hingga strike.",
+        "Kamu dipaksa membeli saham pada 100.",
+        "Impas."
+      ],
+      "explanation": "Di bawah strike hak membeli pada 100 tak bernilai, jadi ia kedaluwarsa tak dieksekusi. Hak, tak seperti kewajiban, membatasi sisi turun tepat pada premium yang dibayar."
+    },
+    "live_apply": {
+      "cta": "Bandingkan dengan versi spot: long terdefinisi-stop merisikokan 1R menurut disiplin; 1R pembeli call adalah premium, dibatasi oleh kontrak."
+    }
+  },
+  {
+    "id": "advanced-30-intrinsic-time-value",
+    "title": "Nilai Intrinsik, Nilai Waktu, dan Peluruhan",
+    "summary": "Premium terbuat dari apa — dan bagaimana ia menguap.",
+    "concept": "Setiap premium opsi terbagi menjadi dua bagian. **Nilai intrinsik** adalah berapa nilainya jika dieksekusi sekarang: call strike 100 dengan saham pada 108 punya 8 intrinsik (ia **in the money**); dengan saham pada 95 punya nol (out of the money — intrinsik tak pernah negatif). **Nilai waktu** adalah segala sisanya: harga pasar dari *kemungkinan*, dari waktu tersisa bagi saham untuk bergerak.\n\nNilai waktu mematuhi aturan kejam: ia meluruh hingga tepat **nol pada kedaluwarsa** — pada kedaluwarsa opsi bernilai nilai intrinsiknya dan tak sesen pun lebih. Lebih buruk, peluruhan (**theta**) mempercepat saat kedaluwarsa mendekat: minggu-minggu terakhir terbakar jauh lebih cepat dari yang awal.\n\nKonsekuensi yang harus diinternalisasi setiap pembeli opsi: **kamu bisa benar tentang arah dan tetap rugi**. Saham yang melayang naik terlalu lambat bisa gagal melampaui peluruhan; opsi berdarah saat tesis bekerja. Membeli opsi adalah menyewa waktu, dan sewanya naik saat masa sewa habis.",
+    "key_terms": [
+      {
+        "term": "Nilai intrinsik",
+        "definition": "Nilai eksekusi segera — max(0, jarak ke dalam uang)."
+      },
+      {
+        "term": "Nilai waktu",
+        "definition": "Premium dikurangi intrinsik: kemungkinan pergerakan yang diberi harga."
+      },
+      {
+        "term": "Moneyness",
+        "definition": "In/at/out of the money — di mana harga duduk versus strike."
+      },
+      {
+        "term": "Peluruhan theta",
+        "definition": "Erosi mempercepat nilai waktu menuju nol pada kedaluwarsa."
+      }
+    ],
+    "exercise": {
+      "question": "Call strike 100 ditradingkan pada 5,50 dengan saham pada 103. Bagaimana premium terurai?",
+      "options": [
+        "5,50 intrinsik, 0 nilai waktu.",
+        "3 intrinsik (103 − 100), 2,50 nilai waktu — sisanya adalah kemungkinan yang diberi harga.",
+        "0 intrinsik, 5,50 nilai waktu.",
+        "Premium tak terurai."
+      ],
+      "explanation": "Intrinsik = max(0, 103 − 100) = 3. Sisa 2,50 adalah nilai waktu — bagian yang dijamin mencapai nol pada kedaluwarsa, cepat atau lambat."
+    },
+    "live_apply": {
+      "cta": "Lihat ATR simbol: nilai waktu, secara longgar, adalah pasar mengenakan biaya untuk volatilitas itu sepanjang sisa hidup opsi."
+    }
+  },
+  {
+    "id": "advanced-31-greeks-intuition",
+    "title": "The Greeks, Secara Intuitif",
+    "summary": "Delta, theta, vega — tiga tombol yang menggerakkan premium.",
+    "concept": "Harga opsi merespons lebih dari arah, dan **Greeks** menamai sensitivitasnya. **Delta**: seberapa banyak premium bergerak per pergerakan 1 poin pada aset — call yang dalam-in-the-money mendekati +1 (mereka berperilaku seperti saham), yang jauh-out-of-the-money mendekati 0 (tiket lotre). **Theta**: pendarahan harian nilai waktu yang kamu temui pelajaran lalu. **Vega**: sensitivitas terhadap **volatilitas tersirat (implied volatility)** — ekspektasi pasar yang diberi harga atas pergerakan masa depan.\n\nVega adalah jebakan terkenal. Volatilitas tersirat *menggembung sebelum peristiwa yang diketahui* (laba, pengumuman besar) dan runtuh setelahnya — **volatility crush**. Trader yang membeli call sebelum laba, menonton saham menggap naik, dan tetap kehilangan uang baru saja menemui vega: pergerakan terjadi, tapi *kemungkinan* yang diberi harga mengempis lebih cepat dari yang arah bayar.\n\nRingkasan disiplin: posisi opsi sekaligus taruhan pada arah (delta), pada waktu (theta), dan pada ekspektasi volatilitas (vega). Trading spot meminta kamu benar sekali; opsi meminta kamu benar dengan tiga cara sekaligus.",
+    "key_terms": [
+      {
+        "term": "Delta",
+        "definition": "Sensitivitas premium terhadap pergerakan harga underlying."
+      },
+      {
+        "term": "Theta",
+        "definition": "Peluruhan nilai-waktu harian — sewanya."
+      },
+      {
+        "term": "Vega",
+        "definition": "Sensitivitas premium terhadap perubahan volatilitas tersirat."
+      },
+      {
+        "term": "Volatility crush",
+        "definition": "IV runtuh setelah peristiwa, mengempiskan premium meski ada pergerakan."
+      }
+    ],
+    "exercise": {
+      "question": "Saham menggap naik 4% pada laba, namun call yang dibeli kemarin MEMBUKA LEBIH RENDAH. Apa yang terjadi?",
+      "options": [
+        "Bursa salah memberi harga pembukaan.",
+        "Volatility crush: ketidakpastian peristiwa telah diberi harga ke dalam premium, dan runtuhnya volatilitas tersirat (vega) mengalahkan pergerakan menguntungkan (delta).",
+        "Laba selalu mengurangi harga opsi.",
+        "Theta hanya bertindak di akhir pekan."
+      ],
+      "explanation": "Premium memuat *kemungkinan* pergerakan besar. Begitu peristiwa selesai, kemungkinan itu mengempis — benar tentang arah kalah dari salah tentang volatilitas."
+    },
+    "live_apply": {
+      "cta": "Ingat pelajaran rezim: volatilitas tersirat adalah sepupu menatap-depan dari rezim berbasis-ATR yang sudah kamu baca."
+    }
+  },
+  {
+    "id": "advanced-32-buyer-seller-asymmetry",
+    "title": "Pembeli dan Penjual: Alam Semesta Risiko Berlawanan",
+    "summary": "Risiko terdefinisi di satu sisi; kewajiban di sisi lain.",
+    "concept": "Setiap opsi punya dua pihak yang hidup di alam semesta risiko berlawanan. **Pembeli** membayar premium untuk hak: kerugian maksimum = premium, terdefinisi saat masuk, titik. **Penjual (writer)** mengumpulkan premium dan menanggung **kewajiban**: menyerahkan (call) atau membeli (put) pada strike jika ditugaskan. Penjual 'tercakup' menahan aset penyeimbang; penjual **telanjang (naked)** tak menahan apa pun selain harapan.\n\nTawar-menawar penjual menggoda secara statistik dan berbahaya secara struktural: kebanyakan opsi kedaluwarsa tanpa nilai, jadi penjual menang *sering* — premium kecil, win rate tinggi. Kamu menemui profil persis ini di track statistik: **win rate tinggi, skew negatif** — banyak kemenangan kecil dibiayai kerugian katastrofik langka. Kasus terburuk penjual call telanjang tak terbatas (harga tak punya langit-langit); seluruh dana telah menguap dalam satu squeeze.\n\nVonis Academy sadar-simetri: membeli opsi adalah *risiko-terdefinisi tapi bayar-sewa*; menjualnya adalah *kumpul-pendapatan tapi terpapar-ekor*. Tak satu pun uang gratis. Keduanya menuntut aritmetika expectancy yang sama seperti segala hal lain — dengan risiko ekor penjual diberi harga jujur, yang justru disembunyikan win rate-nya.",
+    "key_terms": [
+      {
+        "term": "Writer",
+        "definition": "Penjual opsi — pengumpul premium, pemegang kewajiban."
+      },
+      {
+        "term": "Penugasan",
+        "definition": "Kewajiban terpicu: pembeli mengeksekusi melawan penjual."
+      },
+      {
+        "term": "Tercakup vs telanjang",
+        "definition": "Kewajiban didukung aset versus didukung apa-apa."
+      },
+      {
+        "term": "Skew negatif",
+        "definition": "Kemenangan kecil sering, kerugian besar langka — profil penjual."
+      }
+    ],
+    "exercise": {
+      "question": "Menjual call telanjang menang 90% dari waktu dalam backtest. Dari track statistik, apa pertanyaan pertama sebelum memercayai strategi ini?",
+      "options": [
+        "Cara menskalakannya ke ukuran maksimum segera.",
+        "Berapa biaya 10% yang kalah? Win rate tinggi dengan kerugian ekor tak terbatas adalah jebakan skew-negatif klasik — expectancy bisa sangat negatif.",
+        "Apakah 90% bisa mencapai 95%.",
+        "Broker mana yang fee-nya terendah."
+      ],
+      "explanation": "Win rate tanpa distribusi payoff adalah metrik kesombongan yang diperingatkan pelajaran metrics-suite. Ekor tak terbatas mengubah '90% pemenang' menjadi hitung-mundur."
+    },
+    "live_apply": {
+      "cta": "Baca ulang contoh pelajaran metrik dari strategi merugi ber-win-rate 84% — menjual opsi adalah inkarnasi dunia-nyata-nya yang paling murni."
+    }
+  },
+  {
+    "id": "advanced-33-options-as-insurance",
+    "title": "Opsi sebagai Asuransi — dan Garis Cakupan",
+    "summary": "Kasus penggunaan sah, dan mengapa mesin tetap spot.",
+    "concept": "Kupas spekulasinya dan opsi adalah **asuransi**. Put pada kepemilikan adalah lantai harga: kamu membayar premium, dan di bawah strike kerugianmu berhenti — persis struktur deductible-dan-polis. Call bisa mengasuransikan terhadap melewatkan sisi naik saat modal menunggu di tempat lain. Diberi harga adil, opsi *memindahkan risiko*; itulah pekerjaan ekonomi jujurnya.\n\nMengapa, kalau begitu, QuantGlass tetap **spot-saja**? Tiga alasan konsisten-Academy. **Leverage tertanam**: payoff opsi inheren ber-leverage, dan track sebelumnya menunjukkan apa yang leverage lakukan pada matematika kesintasan. **Dimensionalitas**: setiap statistik yang mesin ini laporkan — expectancy dalam R, rentang konformal, stop ATR — mengasumsikan posisi yang nilainya melacak satu variabel (harga); opsi menambah waktu dan volatilitas sebagai sumbu risiko hidup, membatalkan alat-alat itu tanpa pembangunan-ulang penuh. **Kejujuran**: mesin yang tak bisa memodelkan theta dan vega dengan benar tak boleh menarasikan trade opsi — dan yang ini menolak berpura-pura.\n\nJadi garis cakupan: pahami opsi (sekarang kamu paham, di tingkat fondasi), pakai penguasaan spot sebagai prasyarat, dan perlakukan pendidikan derivatif masa depan apa pun seperti Academy ini memperlakukan trading live — sebagai sesuatu yang *dibuka oleh kesiapan yang ditunjukkan*, tak pernah tersandung masuk.",
+    "key_terms": [
+      {
+        "term": "Put pelindung",
+        "definition": "Put yang ditahan melawan posisi — lantai harga berbayar."
+      },
+      {
+        "term": "Pemindahan risiko",
+        "definition": "Fungsi jujur opsi: memindahkan risiko ke penjual yang bersedia dengan harga."
+      },
+      {
+        "term": "Leverage tertanam",
+        "definition": "Payoff opsi ber-leverage secara konstruksi."
+      },
+      {
+        "term": "Kejujuran cakupan",
+        "definition": "Mesin menolak menarasikan apa yang tak bisa ia modelkan."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa QuantGlass sengaja mengecualikan opsi dari mesin dan akun paper-nya?",
+      "options": [
+        "Opsi ilegal di kebanyakan negara.",
+        "Nilai opsi bergerak atas waktu dan volatilitas selain harga — statistik berbasis-R dan geometri ATR mesin akan diam-diam salah, dan aturan desain adalah tak pernah menampilkan angka yang tak bisa ia bela.",
+        "Opsi tak pernah cocok untuk investor mana pun.",
+        "Biaya lisensi untuk data opsi."
+      ],
+      "explanation": "Prinsip yang sama dengan narasi yang dijaga-fakta: cakupan adalah fitur kejujuran. Alat seharusnya menolak wilayah di mana angka mereka berhenti benar."
+    },
+    "live_apply": {
+      "cta": "Baca basis keyakinan sinyal apa pun dan catat setiap statistik mengasumsikan spot — garis cakupan yang baru saja dijelaskan track ini."
+    }
+  },
+  {
+    "id": "advanced-04-backtest-reading",
+    "title": "Membaca Backtest — IS vs OOS",
+    "summary": "Tafsirkan metrik in-sample dan out-of-sample untuk menilai kualitas setup.",
+    "concept": "QuantGlass membagi candle historis 70/30 menurut waktu:\n\n- **In-Sample (IS, 70%)**: jendela pelatihan. Mesin bisa 'melihat' periode ini saat menghasilkan sinyal saat ini. Metrik IS memberi tahu seberapa baik setup berkinerja dalam sejarah.\n- **Out-of-Sample (OOS, 30%)**: jendela yang ditahan yang tak dilatih mesin. Metrik OOS memperkirakan kinerja masa depan lebih jujur dari IS.\n\n**Metrik kunci untuk dibaca:**\n| Metrik | Artinya |\n|---|---|\n| Win Rate | % trade yang mengembalikan > 0R |\n| Expectancy | R rata-rata per trade |\n| Profit Factor | Laba kotor ÷ Rugi kotor |\n| Max Drawdown | Kerugian puncak-ke-lembah terburuk |\n| Sharpe / Sortino | Imbal hasil disesuaikan-risiko |\n| OOS Validated | True saat OOS punya ≥ min_sample trade DAN expectancy OOS positif |\n\nSinyal dengan metrik IS tinggi tapi OOS_Validated = False harus diperlakukan dengan hati-hati.",
+    "key_terms": [
+      {
+        "term": "In-Sample (IS)",
+        "definition": "Jendela historis tempat model dilatih — 70% menurut waktu."
+      },
+      {
+        "term": "Out-of-Sample (OOS)",
+        "definition": "Jendela ditahan — 30% sejarah, mensimulasikan kinerja masa depan."
+      },
+      {
+        "term": "Profit Factor",
+        "definition": "Kemenangan kotor ÷ Kerugian kotor. > 1,3 umumnya positif."
+      },
+      {
+        "term": "Max Drawdown",
+        "definition": "Penurunan terburuk dari puncak ekuitas dalam backtest — menunjukkan rasa sakit kasus terburuk."
+      },
+      {
+        "term": "OOS Validated",
+        "definition": "True saat OOS punya cukup trade (≥ min_sample) dengan expectancy positif."
+      }
+    ],
+    "exercise": {
+      "question": "Backtest menunjukkan win rate IS 65%, win rate OOS 41%, expectancy OOS −0,12R. Apakah setup ini dapat diandalkan?",
+      "options": [
+        "Ya — win rate IS 65% kuat.",
+        "Tidak — jurang IS/OOS menunjukkan overfitting; expectancy OOS negatif.",
+        "Mungkin — tunggu lebih banyak trade di periode OOS.",
+        "Ya — expectancy OOS negatif normal untuk mean-reversion."
+      ],
+      "explanation": "Jurang IS/OOS besar (65% vs 41%) dan expectancy OOS negatif (−0,12R) sangat menunjukkan setup ter-**overfit** ke periode IS — ia menangkap kebisingan, bukan sinyal. QuantGlass menetapkan `out_of_sample_validated = False` dan membatasi keyakinan pada 62 dalam kasus ini."
+    },
+    "live_apply": {
+      "cta": "Buka Backtesting, pilih preset mana saja, dan bandingkan Win Rate IS vs Win Rate OOS. Temukan satu di mana OOS dekat dengan IS."
+    }
+  },
+  {
+    "id": "advanced-05-confidence-basis",
+    "title": "Basis Keyakinan — Apa yang Menggerakkan Skor",
+    "summary": "Rekayasa-balik skor keyakinan dengan membaca tiap sub-komponen.",
+    "concept": "Angka `confidence` (0–100) diturunkan dari sub-skor berbobot ini:\n\n| Komponen | Bobot | Sumber |\n|---|---|---|\n| base | Tetap (42–58) | Tipe sinyal (WAIT=42, HOLD/WATCH=52, BUY/SELL=58) |\n| trend_alignment | × 14 | |jurang EMA-SMA| / close |\n| volume_confirmation | × 8 | volume_ratio / 1.75 |\n| confluence_score − 0.5 | × 18 | Skor multi-faktor dari famili sinyal |\n| calibrated_win_rate − 0.5 | × 32 | Win rate yang dikerutkan-Bayesian dari expectancy terkumpul |\n| expectancy | × 10 | Expectancy terkumpul R (dibatasi ±1) |\n| penalti sampel-tipis | −8 | Diterapkan saat pooled_sample < min_sample |\n| batas OOS | maks 62 | Diterapkan saat out_of_sample_validated = False |\n\nKeyakinan akhir dijepit ke [20, 89] — mesin tak pernah mengklaim kepastian.",
+    "key_terms": [
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Pengerutan Bayesian: win rate mentah → 0,5 sebanding dengan ketipisan sampel."
+      },
+      {
+        "term": "Pooled Expectancy",
+        "definition": "Expectancy agregat lintas-simbol untuk tipe setup ini sepanjang koridor."
+      },
+      {
+        "term": "Confluence Score",
+        "definition": "Skor gabungan multi-faktor: tren, volume, MACD, kemiringan HTF, bonus rezim."
+      },
+      {
+        "term": "OOS Cap",
+        "definition": "Keyakinan dibatasi keras pada 62 saat out_of_sample_validated adalah False."
+      }
+    ],
+    "exercise": {
+      "question": "Sinyal BUY_ZONE punya keselarasan tren sempurna (1.0) tapi OOS_validated = False dan pooled_sample = 12 (< min_sample=50). Berapa keyakinan maksimum perkiraannya?",
+      "options": [
+        "89 — keselarasan tren sempurna meraih keyakinan maksimum.",
+        "≈ 62 — batas OOS berlaku; penalti sampel-tipis mengurangi lebih jauh.",
+        "20 — lantai minimum menendang.",
+        "50 — default netral."
+      ],
+      "explanation": "Batas OOS menetapkan plafon keras pada 62. Penalti sampel-tipis (−8) juga diterapkan karena pooled_sample (12) < min_sample (50). Mulai dari base BUY 58 + keselarasan sempurna (14) = 72, dikurangi 8 (sampel tipis) = 64, lalu dibatasi pada 62. Mesin tak akan mengklaim keyakinan tinggi tanpa bukti."
+    },
+    "live_apply": {
+      "cta": "Buka laci sinyal mana saja dan perluas bagian Basis Keyakinan. Temukan sinyal di mana OOS_validated = True dan satu di mana False."
+    }
+  },
+  {
+    "id": "advanced-11-why-backtests-lie",
+    "title": "Mengapa Backtest Berbohong",
+    "summary": "Empat penipuan klasik dan pertahanan mesin.",
+    "concept": "Kebanyakan backtest yang diterbitkan menyanjung penulisnya melalui empat mekanisme. **Overfitting**: menyetel parameter sampai sejarah dihafal — kurva pas ke kebisingan, bukan sinyal. **Look-ahead bias**: membiarkan simulasi mengintip data yang tak tersedia saat keputusan (memakai penutupan bar untuk memutuskan masuk bar itu). **Survivorship bias**: menguji pada instrumen yang masih ada, diam-diam mengecualikan yang delisted dan mati. **Amnesia biaya**: mensimulasikan eksekusi pada harga tanpa gesekan.\n\nPertahanan struktural QuantGlass, tak satu pun opsional: keputusan memakai **candle tertutup saja** dan backtester menjalankan ulang detector *identik* yang dipakai sinyal live, bar demi bar; setiap trade tersimulasi membayar **model biaya pulang-pergi penuh**; hasil dibagi **secara kronologis** menjadi in-sample dan out-of-sample tanpa pencampuran; dan parameter ditetapkan seluruh-mesin alih-alih disesuaikan per simbol — kebalikan dari pijatan per-instrumen curve-fitting.\n\nSikap jujur: perlakukan backtest apa pun, termasuk milik kami, sebagai *batas atas* kinerja live, bukan janji.",
+    "key_terms": [
+      {
+        "term": "Overfitting",
+        "definition": "Menghafal kebisingan sejarah lewat penyetelan parameter."
+      },
+      {
+        "term": "Look-ahead bias",
+        "definition": "Memakai informasi yang tak tersedia saat keputusan."
+      },
+      {
+        "term": "Survivorship bias",
+        "definition": "Menguji hanya pada aset yang bertahan."
+      },
+      {
+        "term": "Amnesia biaya",
+        "definition": "Mengabaikan fee dan slippage dalam simulasi."
+      },
+      {
+        "term": "Batas atas",
+        "definition": "Bacaan jujur dari hasil backtest apa pun."
+      }
+    ],
+    "exercise": {
+      "question": "Strategi seorang vendor menunjukkan win rate 94% setelah mengoptimalkan 12 parameter per simbol pada data 3 tahun. Apa penjelasan paling mungkin?",
+      "options": [
+        "Ketidakefisienan pasar asli yang mengabaikan semua biaya.",
+        "Overfitting: 12 tombol per-simbol bisa menghafal 3 tahun kebisingan; hasilnya mendeskripsikan masa lalu, bukan masa depan.",
+        "Keterampilan yang otomatis berpindah ke trading live.",
+        "Salah ketik — win rate dibatasi pada 60%."
+      ],
+      "explanation": "Cukup parameter bisa mencocokkan apa saja, termasuk keacakan. Peluruhan out-of-sample adalah tanda tangannya: kebisingan yang dihafal tak berulang."
+    },
+    "live_apply": {
+      "cta": "Catat bahwa setiap preset QuantGlass memakai parameter seluruh-mesin yang sama — ketiadaan tombol per-simbol adalah pertahanan anti-overfitting."
+    },
+    "common_mistakes": [
+      "Menyetel parameter sampai kurva tampak sempurna. Kurva itu mendeskripsikan masa lalu yang kamu optimalkan, bukan masa depan.",
+      "Menguji pada data yang sama yang menyarankan ide. Penemuan in-sample menuntut bukti out-of-sample - tanpa pengecualian.",
+      "Mengabaikan biaya. Strategi dengan edge rata-rata 0,2R mati sepenuhnya oleh spread dan slippage."
+    ]
+  },
+  {
+    "id": "advanced-12-is-oos",
+    "title": "In-Sample, Out-of-Sample: Pembagian yang Jujur",
+    "summary": "Pembagian kronologis 70/30 mesin dan ambang validasinya.",
+    "concept": "Satu-satunya uji meyakinkan dari sebuah aturan adalah data yang tak pernah disentuhnya. QuantGlass membagi trade tersimulasi tiap simbol **secara kronologis** — 70% trade pertama adalah **in-sample (IS)**, 30% sisanya **out-of-sample (OOS)** — dan melaporkan dua blok **terpisah, tak pernah dicampur**. Pembagian kronologis (bukan acak) penting di pasar: ia menjaga urutan rezim dan memastikan blok OOS sungguh informasi *kemudian*.\n\nAmbang validasi eksplisit: setup meraih `out_of_sample_validated` hanya saat blok OOS punya **setidaknya sampel minimum** (setelan keamananmu, default 50) *dan* **expectancy OOS positif**. Gagal salah satu dan setiap skor keyakinan dibatasi keras pada 62 — mesin secara struktural menolak bergairah atas pola tak tervalidasi.\n\nSaat kamu membaca preset, kembangkan refleks analis: lewati judul, bandingkan IS dengan OOS. Stabil melintasi pembagian → tangguh; runtuh di OOS → dihafal.",
+    "key_terms": [
+      {
+        "term": "Pembagian kronologis",
+        "definition": "70% trade pertama IS, 30% terakhir OOS — terurut-waktu, tak pernah diacak."
+      },
+      {
+        "term": "Validasi OOS",
+        "definition": "Sampel OOS minimum DAN expectancy OOS positif."
+      },
+      {
+        "term": "Batas keyakinan",
+        "definition": "Setup tak tervalidasi tak bisa skor di atas 62."
+      },
+      {
+        "term": "Peluruhan IS/OOS",
+        "definition": "Kinerja runtuh out-of-sample — sidik jari overfitting."
+      }
+    ],
+    "exercise": {
+      "question": "Preset menunjukkan expectancy IS +0,42R dan expectancy OOS −0,05R atas sampel sehat. Kesimpulan jujurnya?",
+      "options": [
+        "Rata-ratakan: edge +0,18R.",
+        "Pola kemungkinan menghafal jendela pelatihannya — runtuhnya OOS adalah pertanda, dan mesin akan menolak validasi.",
+        "Data OOS sekadar salah.",
+        "Gandakan ukuran posisi."
+      ],
+      "explanation": "Mencampur akan mencuci kegagalan. Inti seluruh blok tak-tersentuh adalah ia tak bisa dinegosiasikan — dan ia baru saja berkata tidak."
+    },
+    "live_apply": {
+      "cta": "Pilih preset mana saja dan baca IS vs OOS berdampingan sebelum melihat judul yang dicampur."
+    }
+  },
+  {
+    "id": "advanced-13-metrics-suite",
+    "title": "Membaca Suite Metrik Lengkap",
+    "summary": "Win rate, expectancy, profit factor, Sharpe, Sortino, drawdown — satu kisah, enam sudut.",
+    "concept": "Tak ada metrik tunggal yang bertahan sendiri. **Win rate** tanpa ukuran payoff adalah angka kesombongan — 90% kemenangan +0,1R dengan kerugian −2R adalah kehancuran. **Expectancy** (R rata-rata per trade) adalah garis bawah tapi menyembunyikan volatilitasnya. **Profit factor** (kemenangan kotor ÷ kerugian kotor) membaca ketangguhan: di bawah ~1,2 rapuh setelah biaya. **Sharpe** menskalakan rata-rata dengan volatilitas total; **Sortino** membagi dengan volatilitas *sisi-turun* saja — lebih lembut terhadap strategi yang volatilitasnya kebanyakan sisi-naik, itulah mengapa trend-following sering tampak lebih baik di Sortino. **Max drawdown** adalah harga psikologis untuk masuk.\n\nMesin menghitung keenamnya dari daftar trade yang sama pada tiap preset, plus kurva ekuitas dan drawdown yang mereka rangkum. Profil untuk dikenali: trend-following (win rate 40–50%, kemenangan rata-rata tinggi, Sortino baik, drawdown datar panjang), mean reversion (win rate tinggi, kemenangan kecil, drawdown risiko-ekor).\n\nKebiasaan analis: baca metrik sebagai *pemeriksaan konsistensi* — jika dua di antaranya tak setuju dengan kisah yang kamu bentuk, kisahmu salah.",
+    "key_terms": [
+      {
+        "term": "Profit factor",
+        "definition": "Laba kotor ÷ rugi kotor — ketangguhan setelah biaya."
+      },
+      {
+        "term": "Rasio Sharpe",
+        "definition": "Imbal hasil rata-rata diskalakan dengan volatilitas total."
+      },
+      {
+        "term": "Rasio Sortino",
+        "definition": "Rata-rata diskalakan dengan volatilitas sisi-turun saja."
+      },
+      {
+        "term": "Profil metrik",
+        "definition": "Pola metrik khas dari sebuah famili strategi."
+      }
+    ],
+    "exercise": {
+      "question": "Strategi A: win rate 84%, expectancy −0,07R. Strategi B: win rate 43%, expectancy +0,31R. Mana yang menghasilkan uang seiring waktu?",
+      "options": [
+        "A — win rate adalah garis bawah.",
+        "B — expectancy adalah garis bawah; kemenangan kecil A yang sering dibiayai oleh kerugian katastrofik sesekali.",
+        "Keduanya sama.",
+        "Tak satu pun, karena win rate harus melampaui 90%."
+      ],
+      "explanation": "Expectancy sudah menjaringkan kemenangan terhadap kerugian. Profil A (win rate tinggi, expectancy negatif) adalah tanda tangan klasik perilaku potong-pemenang-biarkan-pecundang."
+    },
+    "live_apply": {
+      "cta": "Ambil satu preset dan baca keenam metrik berurutan: apakah mereka mengisahkan satu kisah konsisten?"
+    }
+  },
+  {
+    "id": "advanced-14-shrinkage",
+    "title": "Ukuran Sampel dan Pengerutan",
+    "summary": "Mengapa mesin menolak memercayai sampel kecil — dengan rumusnya.",
+    "concept": "Tiga kemenangan dari tiga trade adalah win rate 100% dan secara statistik nyaris tak ada. Mesin mengkodekan skeptisisme itu sebagai **pengerutan empirical-Bayes**: setiap win rate ditarik menuju 50% sebanding dengan seberapa tipis sampelnya.\n\nRumus persisnya: `calibrated = (raw × n + 0.5 × k) ÷ (n + k)`, di mana **n** adalah ukuran sampel dan **k** adalah kekuatan prior — disetel ke setelan sampel-minimum-backtest-mu (default 50). Contoh terkerjakan: rekam sempurna 10-dari-10 memberi (1.0×10 + 0.5×50) ÷ 60 = **58,3%** — bukti mengesankan tereduksi jadi kemiringan ringan. Win rate 60% atas 400 trade nyaris tak bergerak: (240 + 25) ÷ 450 = 58,9%. Keyakinan terkalibrasi sama, bukti sangat berbeda — persis sebagaimana mestinya.\n\nPengumpulan menyempurnakan pertahanan: sampel per-simbol tipis, jadi mesin mengagregasi hasil per famili setup dan timeframe lintas simbol, dan lebih memilih statistik terkumpul kapan pun sampel terkumpul melampaui ambang. Percaya perlahan; perbarui dengan bukti.",
+    "key_terms": [
+      {
+        "term": "Pengerutan",
+        "definition": "Menarik estimasi menuju netral sebanding dengan ketipisan sampel."
+      },
+      {
+        "term": "Kekuatan prior",
+        "definition": "k dalam rumus — mesin memakai setelan sampel-minimum-mu."
+      },
+      {
+        "term": "Pooled expectancy",
+        "definition": "Agregasi lintas-simbol per famili setup dan timeframe."
+      },
+      {
+        "term": "Bobot bukti",
+        "definition": "n ÷ (n + k): seberapa banyak data mengalahkan suara prior."
+      }
+    ],
+    "exercise": {
+      "question": "Memakai rumus mesin dengan kekuatan prior k = 50: sebuah setup 10-dari-10 (win rate mentah 100%). Berapa win rate terkalibrasi, dalam persen?",
+      "hint": "(1.0 × 10 + 0.5 × 50) ÷ (10 + 50), lalu ×100",
+      "explanation": "(10 + 25) ÷ 60 = 0,5833 → **58,3%**. Sepuluh trade sempurna menggerakkan jarum dari 50% ke 58% — bukti dihormati, tapi sampel kecil tak bisa berteriak."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal dengan sampel backtest kecil dan perhatikan betapa sederhana keyakinannya tetap — kamu baru saja menghitung mengapa."
+    }
+  },
+  {
+    "id": "advanced-15-honest-simulation",
+    "title": "Di Dalam Simulator yang Jujur",
+    "summary": "Eksekusi sentuhan-pertama, tangga nyata, biaya, dan stop waktu.",
+    "concept": "Apa persisnya yang terjadi saat QuantGlass mem-backtest sebuah setup? Untuk tiap bar historis di mana *detector live identik* terpicu, simulator berjalan maju bar demi bar dan memainkan trade yang ditampilkan tanpa pandangan-belakang: jika rentang bar menyentuh **stop**, posisi tersisa keluar di sana — stop dulu, secara konservatif, saat stop dan target keduanya di dalam rentang satu bar. Jika tidak, tiap **anak tangga (ladder rung)** yang dicapai rentang bar mengeksekusi bobot persisnya (50/30/20). Jika posisi bertahan hingga **tahan maksimum (max hold)** timeframe (24 bar pada 1h, 12 pada 1d), ia keluar pada penutupan bar itu — stop waktu.\n\nHasilnya dijaringkan dari **biaya pulang-pergi penuh** yang dikonversi jadi R, lalu bergabung ke daftar trade kronologis yang memberi makan tiap metrik, pembagian IS/OOS, dan set kalibrasi konformal.\n\nPrinsip di baliknya: backtest mensimulasikan **trade yang sebenarnya akan kamu lihat di kartu** — logika masuk sama, stop sama, anak tangga sama, biaya sama. Tak ada keluar yang diidealkan, tak ada trade yang dispesifikasi-ulang. Saat angka bisa diperiksa terhadap simulasi yang menghasilkannya, kepercayaan menjadi dapat-diaudit.",
+    "key_terms": [
+      {
+        "term": "Eksekusi sentuhan-pertama",
+        "definition": "Level tereksekusi saat rentang bar pertama mencapainya; stop diprioritaskan dalam bar."
+      },
+      {
+        "term": "Kesetiaan tangga",
+        "definition": "Keluar tersimulasi memakai anak tangga 50/30/20 yang ditampilkan persis."
+      },
+      {
+        "term": "Max hold",
+        "definition": "Stop waktu per-timeframe — setup macet keluar pada penutupan."
+      },
+      {
+        "term": "Prinsip trade-ditampilkan",
+        "definition": "Backtest dan kartu sinyal berbagi satu geometri."
+      }
+    ],
+    "exercise": {
+      "question": "Dalam satu bar tersimulasi, harga merentang melintasi stop dan anak tangga pertama keduanya. Bagaimana mesin menyelesaikannya?",
+      "options": [
+        "Mengeksekusi anak tangga menguntungkan dulu — simulasi pantas optimisme.",
+        "Mengambil stop pada posisi tersisa — penyelesaian konservatif, karena bar tak bisa mengungkap level mana yang tersentuh dulu.",
+        "Membagi selisih di titik tengah.",
+        "Melewati bar sepenuhnya."
+      ],
+      "explanation": "OHLCV menghancurkan jalur dalam-bar, jadi simulator mengenakan kasus terburuk pada dirinya. Backtest jujur menyelesaikan ambiguitas melawan dirinya sendiri."
+    },
+    "live_apply": {
+      "cta": "Baca jumlah trade dan expectancy preset dengan mengetahui kini persis bagaimana tiap trade tersimulasi dieksekusi, dibiayai, dan ditutup."
+    }
+  },
+  {
+    "id": "advanced-01-market-regimes",
+    "title": "Rezim Pasar",
+    "summary": "Pahami mengapa indikator yang sama bekerja berbeda di tiap rezim.",
+    "concept": "QuantGlass mengklasifikasikan pasar saat ini ke salah satu dari empat **rezim** sebelum menghasilkan sinyal. Rezim menggerbang famili strategi mana yang memenuhi syarat:\n\n| Rezim | Kondisi | Strategi aktif |\n|---|---|---|\n| **Trending** | ADX ≥ 22 | Pullback, Breakout-retest |\n| **Ranging** | ADX < 16 | Mean-reversion (RSI-2 + BB) |\n| **Volatile** | ATR% ≥ 1,7× ATR% median | Semua masuk ditekan / keyakinan dikurangi |\n| **Transitional** | ADX 16–22 | Pullback saja, confluence dikurangi |\n\n**ADX (Average Directional Index)** mengukur *kekuatan* tren, bukan arah. ADX tinggi = tren kuat (naik atau turun); ADX rendah = pasar lemah/ranging.",
+    "key_terms": [
+      {
+        "term": "ADX-14",
+        "definition": "Average Directional Index 14-periode — mengukur kekuatan tren (0–100)."
+      },
+      {
+        "term": "Trending",
+        "definition": "ADX ≥ 22 — tren terarah sedang berlangsung."
+      },
+      {
+        "term": "Ranging",
+        "definition": "ADX < 16 — tak ada tren berarti; strategi mean-reversion disukai."
+      },
+      {
+        "term": "Volatile",
+        "definition": "ATR% ≥ 1,7× median 50-bar-nya — volatilitas abnormal, keyakinan dibatasi."
+      },
+      {
+        "term": "Transitional",
+        "definition": "ADX 16–22 — pasar bergeser antara trending dan ranging."
+      }
+    ],
+    "exercise": {
+      "question": "ADX = 12, ATR% dekat median historisnya. Famili setup mana yang dievaluasi QuantGlass?",
+      "options": [
+        "Breakout-retest saja.",
+        "Mean-reversion (range_meanreversion_long/short) memakai RSI-2 dan Bollinger Bands.",
+        "Trend-pullback saja.",
+        "Semua famili sekaligus."
+      ],
+      "explanation": "ADX = 12 < 16 → rezim **ranging**. Mesin melewati famili trend-pullback dan breakout dan hanya mengevaluasi famili mean-reversion: RSI-2 pada ekstrem dekat Bollinger Bands. Strategi salah di rezim salah adalah sumber utama kegagalan sinyal."
+    },
+    "live_apply": {
+      "cta": "Buka sinyal mana saja dan lihat market_regime di confidence_basis. Temukan satu sinyal 'ranging' dan satu 'trending'."
+    }
+  },
+  {
+    "id": "advanced-02-macd",
+    "title": "MACD Histogram — Konfirmasi Momentum",
+    "summary": "Gunakan histogram MACD sebagai filter konfirmasi momentum sekunder.",
+    "concept": "**MACD** (Moving Average Convergence/Divergence) mengukur jurang antara dua EMA:\n`MACD Line = EMA(12) − EMA(26)`\n`Signal Line = EMA(9) dari MACD Line`\n`Histogram = MACD Line − Signal Line`\n\n**Tafsir histogram:**\n- Histogram > 0 dan tumbuh → momentum bullish mempercepat\n- Histogram < 0 dan menyusut → momentum bearish memudar (kemungkinan pembalikan)\n- **Divergensi**: harga membuat tinggi baru, histogram tidak → kelemahan tersembunyi\n\n**Peran dalam QuantGlass:** tanda histogram MACD adalah boolean `macd_agree` dalam rumus confluence. Jika histogram setuju dengan arah trade, skor confluence meraih 0,10. Ia adalah filter konfirmasi, bukan pemicu primer.",
+    "key_terms": [
+      {
+        "term": "MACD Line",
+        "definition": "EMA(12) − EMA(26) — garis momentum inti."
+      },
+      {
+        "term": "Signal Line",
+        "definition": "EMA(9) dari garis MACD — versi dihaluskan."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD Line − Signal Line — menunjukkan laju perubahan momentum."
+      },
+      {
+        "term": "Divergensi MACD",
+        "definition": "Harga dan MACD bergerak ke arah berlawanan — pergerakan melemah."
+      }
+    ],
+    "exercise": {
+      "question": "Harga di atas EMA-21 > SMA-50. Histogram MACD pada −0,02. Apakah mesin menambah bonus 'macd_agree'?",
+      "options": [
+        "Ya — histogram dekat nol, yang dihitung sebagai persetujuan netral.",
+        "Tidak — macd_agree menuntut histogram > 0 untuk setup BUY_ZONE.",
+        "Ya — berada dalam tumpukan bullish selalu meraih bonus.",
+        "MACD tak dipakai sama sekali di QuantGlass."
+      ],
+      "explanation": "Untuk setup long/bullish, `macd_agree = macd_histogram > 0`. Histogram negatif (−0,02) berarti momentum bearish meski tumpukan harga bullish — bonus confluence +0,10 ditahan. Sinyal masih bisa terpicu, tapi dengan keyakinan lebih rendah."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal HOLD atau WATCH — ini sering punya MACD yang tak setuju dengan arah, menurunkan keyakinan."
+    }
+  },
+  {
+    "id": "advanced-03-bollinger-bands",
+    "title": "Bollinger Bands — Selubung Volatilitas",
+    "summary": "Gunakan BB squeeze dan ekspansi untuk mengatur waktu masuk dengan volatilitas.",
+    "concept": "**Bollinger Bands** terdiri dari:\n- `BB Mid` = SMA(20)\n- `BB Upper` = SMA(20) + 2 × StdDev(20)\n- `BB Lower` = SMA(20) − 2 × StdDev(20)\n- `BB Bandwidth` = (Upper − Lower) / Mid × 100\n\n**Squeeze**: band menyempit → volatilitas rendah → energi termampatkan → breakout segera.\n**Ekspansi**: band melebar → lonjakan volatilitas → tren berlangsung.\n\n**Dalam QuantGlass (rezim ranging):**\n- Harga di BB Lower + RSI-2 ≤ 8 → `range_meanreversion_long` (BUY_ZONE)\n- Harga di BB Upper + RSI-2 ≥ 92 → `range_meanreversion_short` (SELL)\n- Target mean-reversion: BB Mid (SMA 20-periode)\n\nBandwidth juga dipakai untuk menetapkan pengali stop `volatility_regime`.",
+    "key_terms": [
+      {
+        "term": "BB Upper",
+        "definition": "SMA(20) + 2 deviasi standar — selubung atas."
+      },
+      {
+        "term": "BB Lower",
+        "definition": "SMA(20) − 2 deviasi standar — selubung bawah."
+      },
+      {
+        "term": "BB Bandwidth",
+        "definition": "(Upper − Lower) / Mid × 100 — lebar band, proksi volatilitas."
+      },
+      {
+        "term": "BB Squeeze",
+        "definition": "Band menyempit — volatilitas termampatkan sebelum pergerakan terarah."
+      }
+    ],
+    "exercise": {
+      "question": "BB Bandwidth telah berkontraksi selama 10 bar dan baru mencapai minimum 6-bulannya. Apa yang harus kamu siapkan?",
+      "options": [
+        "Periode berkepanjangan volatilitas rendah — tak akan terjadi apa-apa.",
+        "Ekspansi volatilitas / breakout — squeeze melepaskan energi.",
+        "Pembalikan segera ke garis tengah BB.",
+        "Mesin sinyal akan menekan semua sinyal."
+      ],
+      "explanation": "BB squeeze ke level terendah multi-bulan adalah setup klasik untuk ekspansi volatilitas yang segera. Arah tak diprediksi oleh band saja — kamu butuh tumpukan tren dan pemicu volume untuk memilih long vs short. Itulah mengapa QuantGlass menggabungkan BB dengan ADX dan RSI-2."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal range_meanreversion. Zona masuk akan dekat BB Lower (long) atau BB Upper (short)."
+    }
+  },
+  {
+    "id": "advanced-06-trend-pullback",
+    "title": "Trend Pullback: Membeli Kekuatan saat Diskon",
+    "summary": "Setup long andalan mesin, kondisi demi kondisi.",
+    "concept": "Trend pullback membeli tren sehat saat diskon. Kondisi long persis mesin: **struktur** — close > EMA-21 > SMA-50 (tumpukan bullish); **lokasi** — harga berinteraksi dengan EMA-21 (bar mengangkanginya, atau close duduk dalam 0,8% darinya); **kewarasan momentum** — RSI-14 antara 46 dan 72: cukup hangat untuk mengonfirmasi tren, tak begitu panas hingga pergerakan sudah habis; **rezim** — trending atau transitional saja.\n\nGeometri trade lalu mengikuti secara mekanis: harga referensi dekat EMA, zona masuk −0,45 hingga +0,15 ATR di sekitarnya, stop pada kelipatan ATR rezim-volatilitas di bawah, dan tangga berskala-2,4R di atas. Premis yang dibeli: *dalam tren, pullback ke rata-rata yang naik cenderung terselesaikan ke arah tren.* Stop duduk di mana premis itu mati — di bawah fondasi pullback.\n\nCerminnya, rejection short, membalik tiap kondisi (close < EMA < SMA, RSI 28–54).",
+    "key_terms": [
+      {
+        "term": "Tumpukan bullish",
+        "definition": "Close di atas EMA-21 di atas SMA-50 — struktur tren utuh."
+      },
+      {
+        "term": "Zona pullback",
+        "definition": "Harga berinteraksi dengan EMA-21 yang naik."
+      },
+      {
+        "term": "Jendela RSI",
+        "definition": "46–72 untuk long: kehangatan mengonfirmasi tanpa kelelahan."
+      },
+      {
+        "term": "Premis",
+        "definition": "Klaim statistik yang dibeli setup — di sini, lanjutan tren dari rata-rata."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa setup pullback menolak long saat RSI-14 di atas 72?",
+      "options": [
+        "RSI tinggi ilegal.",
+        "Di atas ~72 dorongan sudah meregang — setup ingin membeli sisanya setelah penurunan, bukan mengejar puncak pergerakan.",
+        "RSI tak bisa melampaui 72 secara matematis.",
+        "EMA lenyap pada RSI tinggi."
+      ],
+      "explanation": "Edge setup adalah masuk saat diskon, bukan pada puncak panas. Plafon RSI menyaring pengejaran yang menyamar sebagai membeli-pullback."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal ema_reclaim_pullback atau daily_trend_pullback dan verifikasi tiap dari keempat kondisi dalam alasannya."
+    }
+  },
+  {
+    "id": "advanced-07-trend-rejection",
+    "title": "Rejection Short: Tren Mati dari Bawah",
+    "summary": "Cermin bearish — menjual reli yang gagal dalam downtrend.",
+    "concept": "Downtrend menawarkan trade cermin: harga naik ke EMA-21 yang turun, **ditolak**, dan lanjut lebih rendah. Kondisi mesin: tumpukan bearish (close < EMA-21 < SMA-50), bar berinteraksi dengan EMA dari bawah, RSI-14 antara 28 dan 54 (pantulan nyata, bukan pasar mati), rezim trending/transitional, dengan confluence dikreditkan saat histogram MACD negatif dan hanyutan timeframe-lebih-tinggi menunjuk turun.\n\nShort layak dua catatan jujur asimetri. **Bentuk risiko**: kasus terburuk long −100%; kasus terburuk teoretis short tak terbatas — itulah mengapa stop di atas tinggi penolakan bahkan kurang dapat-dinegosiasikan dari biasa. **Bentuk perilaku**: penurunan cenderung lebih cepat dan tajam dari reli (ketakutan melikuidasi lebih cepat dari keserakahan mengakumulasi), jadi rejection short sering terselesaikan lebih cepat dari cermin long-nya.\n\nDalam paper trading QuantGlass kamu bisa melatih mekanika penuh secara simetris — mesin memperlakukan arah sebagai parameter kelas-satu, bukan pemikiran-belakangan.",
+    "key_terms": [
+      {
+        "term": "Penolakan",
+        "definition": "Reli ke resistance (di sini EMA yang turun) yang gagal dan menutup menjauh."
+      },
+      {
+        "term": "Tumpukan bearish",
+        "definition": "Close di bawah EMA-21 di bawah SMA-50."
+      },
+      {
+        "term": "Asimetri short",
+        "definition": "Kerugian teoretis tak terbatas — stop wajib secara struktural."
+      },
+      {
+        "term": "Kecepatan sisi-turun",
+        "definition": "Penurunan biasanya bergerak lebih cepat dari reli setara."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa disiplin stop pada short bahkan lebih ketat dari pada long?",
+      "options": [
+        "Short dikenai pajak berbeda.",
+        "Long bisa kehilangan paling banyak nilainya; pergerakan merugikan short secara teoretis tak terbatas, jadi short tanpa stop tak punya kasus terburuk.",
+        "Stop tereksekusi lebih cepat pada short.",
+        "Tidak — risikonya simetris."
+      ],
+      "explanation": "Harga punya lantai di nol dan tak ada langit-langit. Tinggi penolakan bukan sekadar referensi — di atasnya, posisi tak punya risiko terdefinisi sama sekali."
+    },
+    "live_apply": {
+      "cta": "Temukan sinyal trend_rejection_breakdown dan telusuri stop-nya ke struktur penolakan di atas masuk."
+    }
+  },
+  {
+    "id": "advanced-08-breakout-retest",
+    "title": "Breakout-Retest: Trading Kecepatan Lepas",
+    "summary": "Ekstrem baru, kehadiran volume, dan konfirmasi tren.",
+    "concept": "Famili breakout bertaruh bahwa **ekstrem baru memperpanjang**. Kondisi mesin untuk versi long: rezim trending (wajib — famili ini paling rapuh-rezim), tumpukan bullish utuh, bar mendorong melalui **tinggi 20-Donchian bar sebelumnya** dengan close menahan dalam 0,3% dari level, dan **volume setidaknya pada rata-rata terbarunya** — upaya lepas tanpa kehadiran dianggap palsu.\n\nIa masuk sebagai keadaan **WATCH** dengan basis confluence lebih tinggi (0,60) dari pullback: saat breakout nyata ia adalah tren mengumumkan dirinya, tapi famili membayar kualitas itu dengan kerapuhan — dalam range, bar identik adalah fakeout buku teks, itulah mengapa gerbang rezim ada.\n\n'Retest' dalam nama adalah uji kematangan: breakout kuat sering kembali mencium level yang dipatahkan sebelum melanjutkan. Level yang membatasi harga menjadi level yang membelanya — resistance berubah jadi support, pembalikan struktur terbersih dalam trading.",
+    "key_terms": [
+      {
+        "term": "Kecepatan lepas",
+        "definition": "Dorongan melalui ekstrem sebelumnya cukup kuat untuk menahan."
+      },
+      {
+        "term": "Kehadiran volume",
+        "definition": "Rasio volume ≥ 1,0 — partisipasi memvalidasi terobosan."
+      },
+      {
+        "term": "Pembalikan struktur",
+        "definition": "Resistance yang dipatahkan bertindak sebagai support baru pada retest."
+      },
+      {
+        "term": "Kerapuhan rezim",
+        "definition": "Ketergantungan total famili pada gerbang trending."
+      }
+    ],
+    "exercise": {
+      "question": "Sebuah bar menembus tinggi Donchian sebelumnya secara intraday tapi menutup 1,2% kembali di bawahnya pada volume rata-rata. Apakah breakout mesin terpicu?",
+      "options": [
+        "Ya — menyentuh level sudah cukup.",
+        "Tidak — close gagal uji tahan (dalam 0,3% dari level), menjadikannya sumbu penolakan, bukan lepas.",
+        "Ya, tapi hanya pada Selasa.",
+        "Tidak, karena volume harus nol."
+      ],
+      "explanation": "Uji close memisahkan lepas dari pelancongan: tembusan yang menutup jauh di bawah level adalah bukti pasokan di tinggi — premis sebaliknya."
+    },
+    "live_apply": {
+      "cta": "Buka preset breakout_retest_continuation: jumlah trade-nya persis seberapa sering kondisi ketat ini bersamaan terjadi secara historis."
+    }
+  },
+  {
+    "id": "advanced-09-mean-reversion",
+    "title": "Range Mean Reversion: Trading Karet Gelang",
+    "summary": "Ekstrem yang terkuras kembali memantul ke tengah.",
+    "concept": "Dalam rezim ranging gaya yang berlaku adalah **tarikan rata-rata**. Kondisi long mesin: rezim ranging (ADX < 16), **RSI 2-periode ≤ 8** — osilator sengaja gugup dekat kuras total — dan bar menyentuh **band Bollinger bawah** (rendah dalam 0,5% darinya). Short mencerminkan pada RSI-2 ≥ 92 dan band atas.\n\nSegalanya tentang famili ini dibangun berbeda karena premisnya berbeda. Targetnya bukan tangga terbuka melainkan **band tengah** — rata-rata yang menarik — dengan tangga termampatkan di sekitarnya (60% dari rentang, rata-rata itu sendiri, 130% di luar). Confluence mulai lebih rendah (base 0,50) karena memudarkan pergerakan secara struktural taruhan lebih rapuh: bacaan kuras yang sama dalam rezim *trending* bukan karet gelang, ia kereta barang, itulah mengapa gerbang rezim tak dapat-dinegosiasikan di sini.\n\nFamili ini mengajarkan pelajaran terdalam di track: geometri chart identik berarti hal berlawanan di rezim berbeda.",
+    "key_terms": [
+      {
+        "term": "RSI-2",
+        "definition": "RSI 2-periode — detektor kuras yang sengaja sangat-peka."
+      },
+      {
+        "term": "Kuras",
+        "definition": "RSI-2 ≤ 8 (atau ≥ 92): kelelahan sepihak dalam range."
+      },
+      {
+        "term": "Target rata-rata",
+        "definition": "Keluar membidik band Bollinger tengah, bukan terbuka."
+      },
+      {
+        "term": "Risiko kereta-barang",
+        "definition": "Memudarkan harga 'meregang' dalam rezim trending."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa famili mean-reversion membidik band Bollinger tengah alih-alih memakai tangga standar 2,4R?",
+      "options": [
+        "Band tengah membayar rabat.",
+        "Premisnya adalah pantulan kembali ke rata-rata — begitu harga mencapai rata-rata, alasan mesin untuk trade habis.",
+        "Tangga menuntut ADX di atas 22.",
+        "Band tengah selalu 2,4R jauhnya."
+      ],
+      "explanation": "Keluar harus cocok dengan premis. Trade reversion yang menahan melewati rata-rata telah menjadi trade tren yang tak direncanakan siapa pun — target menjaga trade jujur pada idenya."
+    },
+    "live_apply": {
+      "cta": "Jika sinyal range_meanreversion ada, bandingkan level take-profit-nya dengan band tengah simbol."
+    }
+  },
+  {
+    "id": "advanced-10-choosing-families",
+    "title": "Satu Simbol, Banyak Setup: Bagaimana Mesin Memilih",
+    "summary": "Kompetisi oleh confluence, dan keadaan cadangan.",
+    "concept": "Pada tiap bar tertutup mesin mengevaluasi **semua famili plus strategi ekstensi apa pun**, mengumpulkan tiap kandidat yang gerbangnya lolos, dan memilih **skor confluence tertinggi**. Tanpa hierarki, tanpa pilih-kasih — setup dengan persetujuan independen terbanyak memenangkan kartu.\n\nSaat *tak ada* famili terpicu, mesin tetap melaporkan jujur melalui **keadaan cadangan (fallback)**: tumpukan bullish tanpa setup yang bisa-ditindaklanjuti → **HOLD** (tren utuh, tak ada yang dilakukan); tumpukan bearish → **WATCH** keruntuhan; tak satu pun → **WAIT**, ditandai invalid. Keadaan basis-rendah (0,30) ini ada karena *'tak ada yang dilakukan'* adalah jawaban sah, sering, dan berharga — mesin menolak membuat-buat tindakan.\n\nPelajaran-meta untuk trading-mu: strategi bukan setup tunggal, ia adalah **portofolio premis** dengan aturan kapan masing-masing berlaku dan kerendahan hati untuk berkata 'tak ada yang berlaku'. Kebanyakan kerugian ritel adalah penolakan menerima opsi ketiga itu.",
+    "key_terms": [
+      {
+        "term": "Kompetisi kandidat",
+        "definition": "Semua setup yang lolos diberi skor; confluence tertinggi ditampilkan."
+      },
+      {
+        "term": "Keadaan cadangan",
+        "definition": "HOLD/WATCH/WAIT — jawaban jujur 'tak ada setup'."
+      },
+      {
+        "term": "Portofolio premis",
+        "definition": "Strategi sebagai set ide bergerbang-rezim, bukan satu pola."
+      },
+      {
+        "term": "Tindakan dibuat-buat",
+        "definition": "Trading karena kamu ingin trade — musuh keadaan cadangan."
+      }
+    ],
+    "exercise": {
+      "question": "Keempat famili gagal gerbang mereka pada simbol dengan tumpukan bullish utuh. Apa yang dipancarkan mesin?",
+      "options": [
+        "Tak ada — simbol lenyap.",
+        "Keadaan HOLD: struktur tren utuh, tak ada setup yang bisa-ditindaklanjuti, basis confluence rendah, tak ada masuk yang dibuat-buat.",
+        "BUY_ZONE paksa pada setengah keyakinan.",
+        "Pesan kesalahan."
+      ],
+      "explanation": "HOLD adalah informasi, bukan kegagalan: tetap dengan yang berfungsi, jangan tambah apa pun. Mesin lebih suka diam dengan jujur daripada sibuk secara buatan."
+    },
+    "live_apply": {
+      "cta": "Hitung keadaan HOLD/WATCH/WAIT hari ini versus yang bisa-ditindaklanjuti — rasionya adalah kejujuran mesin yang memperlihatkan diri."
+    }
+  },
+  {
+    "id": "advanced-20-biases",
+    "title": "Bias yang Memberi Harga Kesalahanmu",
+    "summary": "Keengganan rugi, biaya hangus, kebaruan, konfirmasi — dan kostum trading mereka.",
+    "concept": "Empat bias kognitif melakukan kebanyakan kerusakan. **Keengganan rugi (loss aversion)**: kerugian menyakitkan kira-kira dua kali lipat dari kesenangan keuntungan setara — jadi trader menahan pecundang (menghindari rasa sakit realisasi) dan memotong pemenang (membukukan kelegaan). Pembalikan persis dari edge. **Biaya hangus (sunk cost)**: 'saya sudah turun 8%, tak bisa keluar sekarang' — tapi pasar tak tahu masukmu; satu-satunya pertanyaan adalah apakah posisi layak ada pada harga *hari ini*. **Kebaruan (recency)**: tiga kemenangan terasa seperti penguasaan, tiga kerugian seperti kiamat; keduanya kebisingan berkostum tren. **Konfirmasi**: begitu berposisi, kamu menilai bukti menurut persetujuan — tweet bullish ditandai, struktur bearish dimaafkan.\n\nBingkai jujur: ini bukan cacat karakter, ini firmware — semua orang menjalankannya. Perbedaan profesional bukan merasa berbeda; ia adalah **memutuskan pada waktu berbeda**: setiap pra-komitmen gaya QuantGlass (stop ditetapkan sebelum masuk, rencana ditulis saat datar) memindahkan keputusan ke momen saat bias tak termuat.",
+    "key_terms": [
+      {
+        "term": "Keengganan rugi",
+        "definition": "Kerugian berbobot ~2× keuntungan setara — mesin tahan-pecundang/potong-pemenang."
+      },
+      {
+        "term": "Biaya hangus",
+        "definition": "Membiarkan harga masukmu berdebat tentang keputusan hari ini."
+      },
+      {
+        "term": "Bias kebaruan",
+        "definition": "Mengekstrapolasi beberapa hasil terakhir menjadi rezim."
+      },
+      {
+        "term": "Bias konfirmasi",
+        "definition": "Menilai bukti menurut apakah ia setuju dengan posisimu."
+      },
+      {
+        "term": "Pra-komitmen",
+        "definition": "Memutuskan sebelum bias termuat — penawar struktural."
+      }
+    ],
+    "exercise": {
+      "question": "Seorang trader menolak keluar dari posisi merugi 'karena saya akan menjual di dasar masuk SAYA'. Bias mana yang berbicara, dan apa pertanyaan yang benar?",
+      "options": [
+        "Bias kebaruan; pertanyaannya bagaimana tiga trade terakhir berjalan.",
+        "Biaya hangus; satu-satunya pertanyaan valid adalah apakah posisi ini layak ada pada harga dan struktur hari ini.",
+        "Bias konfirmasi; pertanyaannya apa yang Twitter pikirkan.",
+        "Tak ada bias; masuk itu suci."
+      ],
+      "explanation": "Pasar tak membawa ingatan masuk siapa pun. Tanggung-ulang posisi seolah datar: dengan hanya tahu chart hari ini, apakah kamu akan membukanya sekarang? Jika tidak, harga masuk adalah satu-satunya yang menahannya."
+    },
+    "live_apply": {
+      "cta": "Pilih satu posisi paper terbuka dan tanggung-ulang: dengan hanya tahu chart hari ini, apakah kamu akan membukanya sekarang?"
+    },
+    "common_mistakes": [
+      "Percaya bahwa mengetahui bias mengalahkannya. Bias beroperasi pra-sadar; hanya proses (daftar periksa, rencana, otomasi) yang membela terhadapnya.",
+      "Memetik-ceri kemenangan yang diingat sebagai bukti keterampilan. Jurnal ada karena ingatan adalah dataset paling bias yang kamu miliki."
+    ]
+  },
+  {
+    "id": "advanced-21-tilt",
+    "title": "Tilt dan Revenge Trading",
+    "summary": "Mekanisme spiral-kerugian — dan detektor yang mengawasinya.",
+    "concept": "**Tilt** adalah pengambilan keputusan yang dibajak oleh gairah emosional setelah kerugian. Tanda tangan tradingnya adalah **revenge trade**: masuk-ulang simbol yang sama dengan cepat, berukuran-berlebih, dengan tesis 'merebutnya kembali' alih-alih setup. Spiralnya mekanis: kerugian → gairah mempersempit perhatian → standar turun (setup 'cukup baik') → ukuran naik ('untuk pulih lebih cepat') → kerugian lebih buruk → ulangi. Kasino membangun bisnis di atas lingkaran ini.\n\nPemutus sirkuit yang berfungsi bersifat *fisik dan pra-komitmen*, bukan aspirasional: jeda tetap setelah stop-out apa pun (bahkan 30 menit memutus siklus gairah), stop harian (dua kerugian terencana → selesai untuk hari itu), dan aturan masuk-ulang (simbol sama hanya pada setup candle-tertutup *baru*, tak pernah pada kedekatan ke keluar terakhirmu).\n\nPanel coaching QuantGlass menjalankan detektor tembak-cepat atas niat paper-mu sendiri — order berulang pada satu simbol dalam jendela pendek — dan memunculkan pelajaran persis ini saat pola muncul. Mesin bisa mengenali jejak kaki spiral; hanya pra-komitmenmu yang bisa menyelanya.",
+    "key_terms": [
+      {
+        "term": "Tilt",
+        "definition": "Gairah pasca-kerugian yang menurunkan kualitas keputusan."
+      },
+      {
+        "term": "Revenge trade",
+        "definition": "Masuk-ulang didorong dorongan pemulihan alih-alih setup."
+      },
+      {
+        "term": "Pemutus sirkuit",
+        "definition": "Jeda fisik pra-komitmen atau stop harian."
+      },
+      {
+        "term": "Pola tembak-cepat",
+        "definition": "Jejak kaki masuk-berulang yang dideteksi panel coaching."
+      }
+    ],
+    "exercise": {
+      "question": "Setelah stop-out, kamu merasakan dorongan kuat untuk masuk-ulang simbol sama segera pada ukuran lebih besar. Apa fitur penentu yang menjadikannya revenge trade?",
+      "options": [
+        "Simbolnya sama.",
+        "Motivasinya memulihkan kerugian alih-alih setup candle-tertutup baru — trade ada untuk memperbaiki perasaan, bukan mengekspresikan edge.",
+        "Ukurannya lebih besar.",
+        "Ia terjadi setelah kerugian."
+      ],
+      "explanation": "Simbol, ukuran, dan waktu adalah gejala; penyakitnya motivasi. Setup valid baru lima menit kemudian itu sah — 'merebutnya kembali' tak pernah sah."
+    },
+    "live_apply": {
+      "cta": "Periksa panel coaching-mu setelah sesi paper aktif — momen tembak-cepat yang muncul adalah tilt-mu sendiri yang dibuat terlihat."
+    },
+    "common_mistakes": [
+      "Trading untuk memenangkan kembali kerugian. Revenge trade diberi-ukuran oleh amarah dan diatur-waktu oleh ketidaksabaran - dua manajer portofolio terburuk.",
+      "Percaya tilt hanya mengikuti kerugian. Rentetan kemenangan memiringkan trader ke ukuran-berlebih sama andalnya ('kesuksesan berbahaya').",
+      "Mencoba meng-out-disiplin tilt saat itu juga. Perbaikannya struktural: batas harian dan pendinginan yang diputuskan di muka."
+    ],
+    "bridge": {
+      "cta": "Terapkan: misi The Operator menuntut sepuluh trade disiplin berturut-turut - tilt mereset rentetan."
+    }
+  },
+  {
+    "id": "advanced-22-discipline-systems",
+    "title": "Sistem Mengalahkan Tekad",
+    "summary": "Merekayasa disiplin alih-alih memanggilnya.",
+    "concept": "Tekad adalah sumber daya yang menipis yang gagal tepat saat paling dibutuhkan — pada puncak stres, larut hari, di tengah drawdown. Disiplin yang tahan lama **direkayasa**: ubah lingkungan agar tindakan benar adalah default dan yang salah menuntut usaha.\n\nKotak alat rekayasa, dipetakan ke setup-mu: **pra-komitmen** (stop dan ukuran diputuskan saat datar — seluruh desain kartu sinyal); **asimetri gesekan** (peringatan memberitahumu alih-alih kamu menatap chart; menatap membuat-buat trade); **gerbang mekanis** (gerbang rezim/confluence mesin menolak trade apa pun suasana hatimu — pinjam polanya untuk aturanmu sendiri); **ingatan tereksternalisasi** (jurnal dan daftar periksa, karena di bawah gairah kamu tak akan ingat standarmu); dan **tinjauan terotomasi** (panel coaching sebagai mitra akuntabilitas yang tak kenal lelah, tak tersinggung).\n\nPergeseran identitas yang ini siratkan: pekerjaanmu kurang 'membuat keputusan hebat saat itu juga' dan lebih **merancang sistem yang default-nya keputusan hebat** — lalu mematuhi desainmu sendiri.",
+    "key_terms": [
+      {
+        "term": "Penipisan tekad",
+        "definition": "Pengendalian-diri sebagai sumber daya terbatas yang gagal di bawah beban."
+      },
+      {
+        "term": "Desain default",
+        "definition": "Menjadikan tindakan benar jalur resistensi terkecil."
+      },
+      {
+        "term": "Asimetri gesekan",
+        "definition": "Kepatuhan mudah, penyimpangan butuh-usaha."
+      },
+      {
+        "term": "Disiplin tereksternalisasi",
+        "definition": "Aturan yang hidup dalam sistem (gerbang, peringatan, daftar periksa) alih-alih suasana hati."
+      }
+    ],
+    "exercise": {
+      "question": "Mengapa peringatan harga adalah alat disiplin dan bukan sekadar kenyamanan?",
+      "options": [
+        "Mereka membuat suara menyenangkan.",
+        "Mereka menggantikan menatap-chart terus-menerus — dan menatap membuat-buat trade impulsif; peringatan mengubah pemantauan menjadi tindakan aman-default, digerakkan-peristiwa.",
+        "Mereka memperbaiki harga eksekusi.",
+        "Mereka diwajibkan bursa."
+      ],
+      "explanation": "Setiap jam di depan layar adalah jam godaan yang menarik dari tekad terbatas. Peringatan memindahkanmu dari polling (godaan aktif) ke interupsi (keamanan yang dirancang)."
+    },
+    "live_apply": {
+      "cta": "Ganti satu kebiasaan menatap-chart sekarang: setel peringatan pada level keputusan posisi terbukamu dan tutup chart."
+    },
+    "bridge": {
+      "cta": "Terapkan: adopsi Konstitusi Trading-mu di Tinjauan - tiket akan menahanmu padanya."
+    }
+  },
+  {
+    "id": "advanced-23-drawdown-psychology",
+    "title": "Bertahan dari Drawdown",
+    "summary": "Rasa sakit yang diharapkan, disiplin diagnostik, dan kapan jeda.",
+    "concept": "Kamu mempelajari aritmetika drawdown di track Risiko; pelajaran ini adalah psikologi hidup di dalam satu. Langkah pertama adalah **menetapkan ekspektasi**: drawdown maksimum historis metodemu (tercetak di tiap preset) bukan kasus terburuknya — secara live, harapkan lebih dalam. Jika kurva strategi menunjukkan −14%, seseorang yang men-trading-kannya suatu hari akan duduk pada −14% *tanpa tahu apakah ia pernah berbalik* — ketidaktahuan itulah pengalaman sebenarnya.\n\nLangkah kedua adalah **tangga diagnostik**, dijalankan berurutan selama rasa sakit: (1) Apakah saya mengikuti rencana? (pemeriksaan kepatuhan jurnal). (2) Apakah rezim berubah? (mesin mengklasifikasi-ulang tiap bar — lihat). (3) Apakah edge itu sendiri meluruh? (bandingkan expectancy terbaru dengan blok OOS backtest). Hanya 'ya' di level 3 yang membenarkan mengubah metode; level 1–2 membenarkan mengubah *perilaku* atau *menunggu*.\n\nLangkah ketiga adalah **aturan jeda**: pra-komitmen pada kedalaman drawdown (dalam R atau persen) di mana kamu berhenti, meninjau seluruh jurnal, dan memulai-ulang hanya pada ukuran dikurangi. Jeda bukan kekalahan — ia adalah sistem yang melindungi operatornya.",
+    "key_terms": [
+      {
+        "term": "Drawdown yang diharapkan",
+        "definition": "Drawdown maksimum backtest sebagai lantai, bukan plafon, untuk rasa sakit live."
+      },
+      {
+        "term": "Tangga diagnostik",
+        "definition": "Kepatuhan rencana → perubahan rezim → peluruhan edge, diperiksa berurutan."
+      },
+      {
+        "term": "Peluruhan edge",
+        "definition": "Hasil terbaru jauh di bawah garis dasar OOS pada sampel berarti."
+      },
+      {
+        "term": "Aturan jeda",
+        "definition": "Kedalaman pra-komitmen yang memicu berhenti, tinjauan, mulai-ulang-kecil."
+      }
+    ],
+    "exercise": {
+      "question": "Di tengah drawdown, jurnalmu menunjukkan kepatuhan rencana penuh dan rezim telah berbalik dari trending ke ranging. Apa yang disimpulkan tangga diagnostik?",
+      "options": [
+        "Metodenya rusak — bangun ulang semuanya.",
+        "Perilaku baik-baik saja dan cuaca berubah: setup tren dalam rezim ranging berkinerja-buruk secara desain — tunggu atau trading famili yang sesuai-rezim.",
+        "Gandakan ukuran untuk keluar dari drawdown lebih cepat.",
+        "Hapus jurnal."
+      ],
+      "explanation": "Level 1 lolos, level 2 menjelaskan rasa sakit, level 3 tak pernah tercapai. Langkah yang benar adalah kesabaran-rezim, bukan operasi-metode — kesalahan termahal adalah memperbaiki yang tak rusak."
+    },
+    "live_apply": {
+      "cta": "Baca drawdown maksimum preset utamamu dan tulis, di muka, kedalaman jeda pribadimu dan aturan mulai-ulang."
+    },
+    "bridge": {
+      "cta": "Terapkan: mainkan ulang The Gap Down dan kelola guncangan likuiditas dengan proses, bukan adrenalin."
+    }
+  }
+]
