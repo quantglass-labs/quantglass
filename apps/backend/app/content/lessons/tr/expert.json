@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "expert-01-oos-validation",
+    "title": "Walk-Forward OOS Doğrulaması",
+    "summary": "Dürüst backtest'in istatistiksel temelini anlayın.",
+    "concept": "**Walk-forward analizi**, bir stratejiyi tek bir sabit bölme yerine yuvarlanan örneklem-dışı pencerelerde tekrar tekrar test eder. Sezgi: bir strateji sağlamsa, yalnızca birinde değil *birden çok* bağımsız OOS penceresinde pozitif beklenti göstermelidir.\n\n**QuantGlass OOS doğrulama ölçütleri:**\n1. OOS işlem sayısı ≥ `min_backtest_sample` (varsayılan: 50 işlem)\n2. OOS beklentisi > 0.0R (kurulum, tutulan dönemde para kazandı)\n\nİkisi de doğru olmalı ki `out_of_sample_validated = True` olsun.\n\n**Örneklem boyutu neden önemli**: 5 işlemde %80 OOS kazanma oranı istatistiksel olarak anlamsızdır. `_calibrate_win_rate` içindeki **Ampirik Bayes büzülmesi (Empirical Bayes shrinkage)** bunu, ince örneklemli kazanma oranlarını örneklemin inceliğiyle orantılı olarak %50'ye doğru çekerek ele alır.",
+    "key_terms": [
+      {
+        "term": "Walk-Forward",
+        "definition": "Birden çok OOS dönemi boyunca yuvarlanan pencere backtest'i."
+      },
+      {
+        "term": "min_backtest_sample",
+        "definition": "OOS doğrulaması iddia edilmeden önce gereken asgari OOS işlem sayısı."
+      },
+      {
+        "term": "OOS beklentisi",
+        "definition": "Verinin tutulan %30'unda işlem başına ortalama R."
+      },
+      {
+        "term": "Ampirik Bayes büzülmesi",
+        "definition": "Örneklem inceyken ham kazanma oranlarını %50'ye çekme — aşırı uyumu önler."
+      }
+    ],
+    "exercise": {
+      "question": "Bir kurulumun 8 OOS işlemi var, %75 kazanma oranı ve +0.9R beklenti. min_backtest_sample = 50. OOS doğrulandı mı?",
+      "options": [
+        "Evet — %75 kazanma oranı güçlü kanıttır.",
+        "Hayır — OOS işlem sayısı (8) < min_backtest_sample (50). İki koşul da karşılanmalı.",
+        "Evet — tek başına pozitif beklenti yeterlidir.",
+        "Hayır — %75 kazanma oranı fazla yüksek; ileriye-bakma yanlılığını düşündürür."
+      ],
+      "explanation": "Beklenti pozitif olsa da (+0.9R), OOS işlem sayısı (8) asgarinin (50) altında. **İki** koşul da geçmeli: `oos_count ≥ min_sample AND oos_expectancy > 0`. 8 işlem çok küçük bir örneklem — 8 işlemden %75 kazanma oranı bile istatistiksel olarak önemsizdir. Güven 62'de sınırlanır ve doğrulanmadı olarak işaretlenir."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Güvenlik'te min_backtest_sample'ı 10'a düşürmeyi deneyin ve daha çok sinyalin OOS_validated=True gösterdiğini görün — sonra bunun güvenilir olup olmadığını düşünün."
+    }
+  },
+  {
+    "id": "expert-02-empirical-bayes",
+    "title": "Ampirik Bayes Güven Kalibrasyonu",
+    "summary": "Motorun, küçük örneklemli backtest sonuçlarının güveni şişirmesini nasıl önlediğini öğrenin.",
+    "concept": "**Sorun**: 3'te 3 kazanan bir stratejinin gözlemlenen kazanma oranı %100'dür. Bunu %100 güven saymak tehlikeli biçimde yanıltıcı olur.\n\n**Ampirik Bayes büzülmesi (Empirical Bayes shrinkage)** bunu bir *önsel (prior)* (gerçek kazanma oranının %50 olduğu kuşkucu inancı) ekleyip kanıtla güncelleyerek çözer:\n\n`calibrated_win_rate = (raw_win_rate × sample_size + 0.5 × prior_strength) / (sample_size + prior_strength)`\n\nburada `prior_strength = min_backtest_sample` (varsayılan: 50).\n\n**Etki:**\n- 3'te 3 (ham %100): kalibre = (3 + 25) / (3 + 50) = %52.8 → neredeyse nötr\n- 50'de 40 (ham %80): kalibre = (40 + 25) / (50 + 50) = %65 → orta güven\n- 120'de 100 (ham %83): kalibre = (100 + 25) / (120 + 50) = %73.5 → yüksek güven\n\nDaha çok veri = daha az büzülme = kalibre puan ham gerçeğe yaklaşır.",
+    "key_terms": [
+      {
+        "term": "Önsel (Prior)",
+        "definition": "Herhangi bir veri görülmeden önceki başlangıç inancı (%50 kazanma oranı)."
+      },
+      {
+        "term": "Önsel gücü",
+        "definition": "Önselin ne kadar baskın olduğu — min_backtest_sample'a eşit (50 sözde-işlem)."
+      },
+      {
+        "term": "Büzülme",
+        "definition": "Örneklem küçükken tahmini önsele doğru çekme."
+      },
+      {
+        "term": "Kalibre kazanma oranı",
+        "definition": "Bayes ayarlı kazanma oranı — küçük örneklemlerde ham orandan daha güvenilir."
+      }
+    ],
+    "exercise": {
+      "question": "raw_win_rate = 0.70, sample_size = 20, prior_strength = 50. calibrated_win_rate nedir? (2 ondalığa yuvarlayın, örn. 0.63)",
+      "hint": "kalibre = (raw × n + 0.5 × prior) / (n + prior)",
+      "explanation": "kalibre = (0.70 × 20 + 0.5 × 50) / (20 + 50) = (14 + 25) / 70 = 39 / 70 = **0.557 ≈ 0.56**. 20 işlemden ham %70 kazanma oranı ~%56'ya büzülür — nötre yakın. Bu, ince backtest'lerde aşırı güveni önler."
+    },
+    "live_apply": {
+      "cta": "10 OOS işlemli bir kurulumu 80 işlemli biriyle karşılaştırın. Benzer ham kazanma oranlarında bile güvenin nasıl farklılaştığına dikkat edin."
+    }
+  },
+  {
+    "id": "expert-06-conformal-prediction",
+    "title": "Uyumlu Tahmin: Varsayımsız Garantiler",
+    "summary": "Sinyal çekmecesindeki kapsam-garantili aralığın ardındaki matematik.",
+    "concept": "Çoğu tahmin aralığı, piyasaların uymayı reddettiği varsayımlara (normallik, kararlı varyans) yaslanır. **Bölünmüş-uyumlu tahmin (split-conformal)** neredeyse hiçbir şeye gerek duymaz: geçmiş sonuçlardan bir kalibrasyon kümesi alın — QuantGlass **örneklem-dışı işlem sonuçlarını R cinsinden** kullanır — sıralayın ve sıra-ayarlı nicelikleri okuyun. Ortaya çıkan aralık, sonlu örneklemlerde, yalnızca değiştirilebilirlik (gözetlemeden, yeniden sıralamadan) varsayılarak, *sonraki* sonucu en az belirtilen olasılıkla içerir.\n\nMotorun %90 kapsam için tam mekaniği: n kalibrasyon sonucuyla, alt sınır ⌊(n+1)·0.05⌋'inci en küçük, üst sınır ⌈(n+1)·0.95⌉'inci. Bu sıralar yalnızca **n ≥ 19** olduğunda var olur — bunun altında çekmece, desteksiz bir aralık yerine *hiçbir* aralık göstermez. Dürüstlük, garanti uydurmayı reddetmeyi içerir.\n\nÇekmecenin 'sonraki-işlem aralığı −1.0R ila +2.1R (214 OOS işlem üzerinde %90 garanti)' okuması: sonuçları sınırlar, kârları değil — ve genişlik bilgidir: geniş aralıklar, kendi dağılımını itiraf eden veridir.",
+    "key_terms": [
+      {
+        "term": "Bölünmüş-uyumlu",
+        "definition": "Bir kalibrasyon kümesinin sıra istatistiğinden dağılımsız aralıklar."
+      },
+      {
+        "term": "Değiştirilebilirlik",
+        "definition": "Tek varsayım: kalibrasyon ve gelecek sonuçlar sıraya kayıtsız."
+      },
+      {
+        "term": "Kapsam",
+        "definition": "Sonraki sonucun aralığa düşmesinin garantili olasılığı."
+      },
+      {
+        "term": "Asgari n",
+        "definition": "%90 kapsam için n ≥ 19 — altında motor hiçbir şey göstermez."
+      },
+      {
+        "term": "Aralık genişliği",
+        "definition": "Dürüst dağılım: geniş aralıklar gürültülü kurulumlar demektir."
+      }
+    ],
+    "exercise": {
+      "question": "Sinyal çekmecesi neden bazen hiç sonraki-işlem aralığı göstermez?",
+      "options": [
+        "Özellik yalnızca ücretli.",
+        "OOS kalibrasyon kümesi asgarinin altında (%90 için 19 işlem) — sıra matematiği garantiyi veremez, bu yüzden motor uydurmayı reddeder.",
+        "Uyumlu aralıklar yalnızca hisseler için var.",
+        "Kötü göründüğünde aralık gizlenir."
+      ],
+      "explanation": "Hesaplanamayan bir garanti gösterilmemeli. Aralığın yokluğu, örneklem boyutu hakkında bizzat dürüst bir bilgidir."
+    },
+    "live_apply": {
+      "cta": "Büyük OOS örneklemli bir sinyal çekmecesi açın ve garantili aralığını okuyun — sonra onu olmayan birini bulun ve örneklem boyutunu kontrol edin."
+    }
+  },
+  {
+    "id": "expert-07-calibration",
+    "title": "Kalibrasyon: Güven Bir Şey İfade Eder mi?",
+    "summary": "Öngörülen ile gerçekleşen — puanın final sınavı.",
+    "concept": "Bir güven puanı, ancak **kalibre** olduğunda güven kazanır: 70 civarı puanlanan tüm sinyaller arasında, kabaca karşılık gelen oran işe yaramalı; 55 puanlı sinyaller 75 puanlılardan daha seyrek başarılı olmalı. Kalibrasyon aldatıcı kadar basit bir tabloyla kontrol edilir: geçmiş sinyalleri güvene göre kovalara ayırın, sonra her kovanın *öngörülen* düzeyini *gerçekleşen* sıklığıyla karşılaştırın.\n\nBaşarısızlık türlerinin adı vardır: **aşırı güven (overconfidence)** (gerçekleşen, öngörülenin altında — tehlikeli olan) ve puanın aralıkta nerede yattığını açığa çıkaran güvenilirlik-diyagramı desenleri. QuantGlass aşırı güvenle zaten yapısal olarak savaşır — büzülme, doğrulanmayanlar için 62 puan tavanı, sert 89 tavanı — ve kalibrasyon izleme tablosu (motorun yol haritasının zirvesi), puanlayanı kendi uygulamanızın geçmişine karşı puanlayarak döngüyü kapatır.\n\nTaşınabilir alışkanlık: birinin size gösterdiği herhangi bir puan — bizimki dahil — *'neye karşı kalibre?'* sorusunu hak eder. Kalibrasyon kontrolü olmayan bir güven sayısı, kostüm giymiş bir sıfattır.",
+    "key_terms": [
+      {
+        "term": "Kalibrasyon",
+        "definition": "Öngörülen güven ile gerçekleşen sıklık arasındaki uyum."
+      },
+      {
+        "term": "Güvenilirlik kovası",
+        "definition": "Puan bandına göre gruplanan sinyaller, öngörülen-vs-gerçekleşen karşılaştırılır."
+      },
+      {
+        "term": "Aşırı güven",
+        "definition": "Gerçekleşen başarı öngörülenin altında — pahalı yanlış-kalibrasyon."
+      },
+      {
+        "term": "Puanlayanı puanlama",
+        "definition": "Güven modelinin kendisini sonuçlara karşı denetleme."
+      }
+    ],
+    "exercise": {
+      "question": "Geçmişinizde 70–79 puanlı sinyaller %48 oranında başarılı oldu. Bulgu nedir?",
+      "options": [
+        "Hiçbir şey — puanlar süstür.",
+        "Puan o bantta aşırı güvenli: öngörüler gerçeği geçti, yani ya girdiler ya da ağırlıklandırma yeniden kalibrasyon gerektiriyor.",
+        "%48, %75'e yuvarlanır.",
+        "Başarı oranları ölçülemez."
+      ],
+      "explanation": "O boşluk, tam olarak bir kalibrasyon tablosunun açığa çıkarmak için var olduğu şeydir. İyi kalibre bir 70'ler kovası, iddiasına yakın gerçekleşmeli — sürekli eksiklik, modelin kendine iltifat ettiği anlamına gelir."
+    },
+    "live_apply": {
+      "cta": "Üzerinde işlem yaptığınız sonraki beş sinyalin güvenini ve sonuçlarını not edin — kendi kalibrasyon tablonuzun beş satırı."
+    }
+  },
+  {
+    "id": "expert-08-monte-carlo",
+    "title": "Monte Carlo: Tek Bir Geçmiş Yetmez",
+    "summary": "İşlem sonuçlarını yeniden örnekleyerek almadığınız gelecekleri görmek.",
+    "concept": "Bir backtest'in sermaye eğrisi, stratejinin dağılımından **tek bir çekiliştir** — kazançların ve kayıpların gerçekleştiği belirli sıra. Aynı işlemleri yeniden karın, azami düşüş değişir, bazen çarpıcı biçimde: sıra şanstır ve tek geçmişiniz, tek bir şanslı ya da şanssız sırayı cisimleştirir.\n\n**Monte Carlo yeniden örnekleme (Monte Carlo resampling)** bunu açık kılar: sonuç listenizden (yerine koyarak) işlemler örnekleyin, binlerce sentetik sermaye eğrisi kurun ve noktalar yerine *dağılımlar* okuyun — medyan azami düşüş, 95. yüzdelik düşüş, bir hedeften önce yıkım eşiğine ulaşma olasılığı. Backtest'i −%12 azami düşüş gösteren bir strateji, yeniden örneklemede −%28'lik 95. yüzdelik gösterebilir; fark, tek eğrinin gizlediği sıra riskidir.\n\nPratik kullanım: *95. yüzdelik* düşüş hayatta kalınabilir kalacak şekilde boyutlandırın (tarihsel olanı değil) ve duraklatma kuralı derinliğini umuttan değil dağılımdan ayarlayın. Motorun işlem-başına R sonuçları — uyumlu kalibrasyonu besleyen aynı liste — tam olarak yeniden örnekleme girdisidir.",
+    "key_terms": [
+      {
+        "term": "Sıra riski",
+        "definition": "Düşüşün sonuçların sırasına bağımlılığı."
+      },
+      {
+        "term": "Yeniden örnekleme",
+        "definition": "Sentetik geçmişler üretmek için işlemleri yerine koyarak çekme."
+      },
+      {
+        "term": "Düşüş dağılımı",
+        "definition": "Simülasyonlar genelinde azami düşüşün yüzdelikleri."
+      },
+      {
+        "term": "Yıkım olasılığı",
+        "definition": "Bir hayatta kalma eşiğini delen yolların oranı."
+      }
+    ],
+    "exercise": {
+      "question": "İki strateji aynı işlem sonuçlarını ama farklı sıraları paylaşır, −%9 ve −%22 azami düşüş verir. Farkı ne açıklar?",
+      "options": [
+        "Bir backtest bozuk.",
+        "Sıra: aynı sonuçlar şanssız sırada kayıpları kümeler — düşüş yola bağımlıdır, ki bu tam olarak Monte Carlo'nun sıraları yeniden örnekleme nedenidir.",
+        "Düşüş anlamsız rastgele gürültüdür.",
+        "−%9'luk stratejinin kazanma oranı daha iyidir."
+      ],
+      "explanation": "Aynı işlemler, aynı beklenti, farklı dizilim şansı. Sağlamlığı tek bir sıraya göre yargılamak, bir zarı tek bir atışa göre yargılamaktır."
+    },
+    "live_apply": {
+      "cta": "Bir önayarın sonuç istatistiğini alın ve sorun: aynı işlemler en kötü makul sıralarında gelseydi, boyutlandırmanız hayatta kalır mıydı?"
+    },
+    "common_mistakes": [
+      "Medyan yolu beklenti olarak okumak. Yolların dağılımı - özellikle 95. yüzdelik düşüş - karara ilişkin çıktıdır.",
+      "Rejim kümelenmesini hesaba katmadan yeniden örneklemek. Karılmış getiriler serileri olduğundan az gösterir; gerçek kayıplar küme halinde gelir."
+    ]
+  },
+  {
+    "id": "expert-03-custom-indicator",
+    "title": "Özel Gösterge Eklentisi Yazmak",
+    "summary": "Eklenti API'siyle QuantGlass'a deterministik bir gösterge katkıla.",
+    "concept": "QuantGlass'taki göstergeler şu kısıtları sağlamalı:\n1. **Deterministik (Deterministic)** — aynı girdiler her zaman aynı çıktıları üretir\n2. **Ağ çağrısı yok** — sağlanan mum verisi üzerinde saf hesaplama\n3. **İleriye bakma yok** — N indeksi yalnızca 0…N mumlarını kullanabilir\n4. **Gizli durum yok** — durumsuz fonksiyonlar veya her çağrıda sıfırlanan sınıflar\n\n**Asgari gösterge eklentisi:**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nBu dosyayı `workspace/extensions/` içine koy ve arka ucu yeniden başlat.",
+    "key_terms": [
+      {
+        "term": "Eklenti bildirimi",
+        "definition": "id, ad, sürüm, yetenekler ve gerekli izinleri bildirir."
+      },
+      {
+        "term": "Gösterge sözleşmesi",
+        "definition": "compute(candles) → değer listesi, mum başına bir, ileriye bakma yok."
+      },
+      {
+        "term": "Deterministik",
+        "definition": "Aynı girdi → aynı çıktı, her zaman, yan etki yok."
+      }
+    ],
+    "exercise": {
+      "question": "Bunlardan hangisi QuantGlass gösterge sözleşmesini ihlal eder?",
+      "options": [
+        "candle[0..i]'nin kayan toplamını hesaplamak için candle[i] kullanmak.",
+        "compute() içinde ek fiyat verisi getirmek için bir HTTP isteği yapmak.",
+        "Pencere ısınırken ilk N mum için None döndürmek.",
+        "compute fonksiyon imzasında bir 'period' parametresi kabul etmek."
+      ],
+      "explanation": "`compute()` içindeki HTTP çağrıları **ağ-yok** kuralını ihlal eder. Ağ çağrıları gecikme, determinizm-dışılık ve olası ileriye-bakma yanlılığı getirir. Tüm veri candles argümanı üzerinden sağlanmalı. Isınma sırasında None döndürmek ve parametre kabul etmek geçerli ve beklenen desenlerdir."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Eklentiler'i aç. Referans uygulama olarak community_momentum_pack eklentisini incele."
+    }
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "title": "Özel Strateji Eklentisi Yazmak",
+    "summary": "QuantGlass sinyal motoruyla bütünleşen tam bir strateji oluştur.",
+    "concept": "Bir strateji eklentisi bir `candidate_factory` kaydeder — sinyal motorunun çağırdığı, yerleşik ailelerle aynı biçimde aday kurulumlar döndüren bir fonksiyon.\n\n**Gerekli aday alanları:**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Strateji sözleşmesi kuralları:**\n1. Yalnızca **kapalı mumlar** kullan — kısmi bara gözetlemeden\n2. Backtest'lere gerçekçi **ücret ve kayma** dahil et\n3. **IS ve OOS'u ayrı** raporla — pencereleri karıştırma\n4. **Kullanıcılara gösterilen take_profit merdiveni, backtest'in simüle ettiğiyle eşleşmeli**\n\nBu son kural, üretim denetiminin yaygın başarısızlık türü olarak işaretlediği şeydir — QuantGlass bunu backtest simülatöründe `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` kullanarak ve sinyal çıktısında aynı üç düzeyi göstererek zorlar.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Sinyal motoru bağlamından kurulum adayları döndüren fonksiyon."
+      },
+      {
+        "term": "TP merdiveni tutarlılığı",
+        "definition": "Kullanıcılara gösterilen çıkışlar, backtest'in simüle ettiği çıkışlarla tam eşleşmeli."
+      },
+      {
+        "term": "Kapalı mum kuralı",
+        "definition": "Stratejiler yalnızca status='closed' mumları kullanabilir — kısmi bar verisi yok."
+      }
+    ],
+    "exercise": {
+      "question": "Stratejin kullanıcılara 3R'de TP gösteriyor ama backtest 2R'de çıkıyor. Sorun nedir?",
+      "options": [
+        "Sorun yok — daha iyimser bir TP göstermek kullanıcıları yüreklendirir.",
+        "Backtest beklentisi yanlış — gerçek performansı olduğundan az gösterir.",
+        "Backtest gösterilenden daha düşük çıkışlar simüle eder — hayatta kalmayı olduğundan çok, ödülü olduğundan az gösterir. Strateji sözleşmesi ihlal edilir.",
+        "Sorun yok — TP yalnızca bir öneridir, katı bir kural değil."
+      ],
+      "explanation": "Backtest 2R'de çıkarken ekran 3R vaat ettiğinde, backtest kullanıcının gerçekte yürüttüğünden farklı bir işlem simüle eder. Bu, backtest sonuçlarını kullanıcı deneyiminin öngörücüsü olarak güvenilmez kılar. QuantGlass tutarlılığı `_TP_LADDER_WEIGHTS` ile zorlar."
+    },
+    "live_apply": {
+      "cta": "Tam çalışan bir strateji eklentisi örneği için extensions/community_momentum_pack.py'yi incele."
+    }
+  },
+  {
+    "id": "expert-09-extension-sdk",
+    "title": "Eklenti SDK'sı: Tek Bir Kararlı Yüzey",
+    "summary": "Bildirim, izinler, ayarlar — motoru güvenle genişletmek.",
+    "concept": "Bir eklenti yazarının ihtiyaç duyduğu her şey tek bir modülden alınır: `app.extensions.sdk`. Açık bir **SDK_VERSION** ve bir uyumluluk sözü taşır — eklemeler minör sürümü, kırılmalar majör sürümü yükseltir — böylece içler özgürce yeniden yapılandırılabilir, eklentin çalışmaya devam ederken.\n\nAnatomi: bir **ExtensionManifest** kimliği (kararlı bir id), **yetenekleri (capabilities)** (sağladığın türler: gösterge, strateji, bildirim, …) ve **izinleri (permissions)** (dokunmak istediklerin: read_market_data, network_access, …) bildirir. **ExtensionSetting** girdileri, Ayarlar → Eklentiler'de otomatik beliren, tipli ve kullanıcı-düzenlenebilir yapılandırma bildirir. Bir kayıt kancası **ExtensionContext** alır ve tanımlar katkılar — mumlardan hesaplayan bir `IndicatorDefinition`, aday kancası yerleşik ailelerin gördüğü aynı bağlam sözlüğünü alan ve herhangi bir yerel kurulum gibi konflüans için yarışan adaylar döndüren bir `StrategyDefinition`.\n\nKopyalamaya değer tasarım kuralı: eklentiler ihtiyaçlarını *bildirir* ve tanımları *katkılar*; asla motor içlerine uzanmaz. O sınır, bir topluluğun kullanıcıların güvenip denetleyebileceği kod yayımlamasını sağlayan şeydir.",
+    "key_terms": [
+      {
+        "term": "SDK_VERSION",
+        "definition": "app.extensions.sdk'nın sürümlü uyumluluk sözü."
+      },
+      {
+        "term": "Bildirim",
+        "definition": "Kimlik + yetenekler + izinler, önceden bildirilir."
+      },
+      {
+        "term": "İzin",
+        "definition": "Açık bir verme isteği (ağ, piyasa verisi, …), kullanıcıya gösterilir."
+      },
+      {
+        "term": "Aday kancası",
+        "definition": "Bir strateji eklentisinin, yerleşiklerle aynı konflüans yarışına girişi."
+      }
+    ],
+    "exercise": {
+      "question": "Bir eklenti, yalnızca kodunun istediğini yapmak yerine, neden izinlerini bildirimde bildirmeli?",
+      "options": [
+        "Bildirimler dosyaları büyütür.",
+        "Bildirilen izinler eklentiyi denetlenebilir ve onaylanabilir kılar — kullanıcılar ve denetçiler, herhangi bir kod çalışmadan önce tam olarak neyin istendiğini görür.",
+        "Python bunu gerektirir.",
+        "İzinler süstür."
+      ],
+      "explanation": "Bildirim, insanlara gösterilen bir sözleşmedir. Güvenlik incelemeleri, kayıt taraması ve kurulum-zamanı onayı hepsi o bildirime asılır — bildirilmemiş erişim, güvenilmezliğin tanımıdır."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Eklentiler'i aç ve kurulu bir eklentinin bildirilen yeteneklerini ve ayarlarını oku — arayüz olarak işlenen bildirim."
+    }
+  },
+  {
+    "id": "expert-10-publishing-extensions",
+    "title": "Yayımlama: Yerel Klasörden Topluluk Güvenine",
+    "summary": "Yükleme yolları, doğrulama ve güven hattı.",
+    "concept": "Bir eklenti göndermenin üç olgunluk aşaması vardır. **Yerel**: çalışma alanının `extensions/` klasörüne (veya veri-dizini eşdeğeri) bir modül koy, kayıt onu başlangıçta yükler — geliştirme döngüsü. **Paketli**: `quantglass.extensions` altında Python giriş noktaları aracılığıyla dağıt, pip ile kurulabilir ve açık bir katılım bayrağının arkasında korunur, çünkü kurulu kod güvenilen koddur. **Topluluk**: kayıt modeli — gönderimler incelenir, her sürüm otomatik taranır, izin farkları işaretlenir, güvenilir-yazar etiketleri kazanılır — böylece bir yabancının stratejisi kör inançla değil bilgilendirilmiş onayla kurulabilir.\n\nBunların hepsinden önce: doğrula. Depo, bir eklentinin katkılarını bilinen veriye karşı çalıştıran fikstür araçları gönderir ve göstergen/stratejin yalnızca kapalı mumlarda davranmalı — motorun uyduğu aynı dürüstlük kuralları. Oluşan bara gözetleyen bir eklenti geliştirmede parlak görünür ve üretimde yalan söyler.\n\nKültürel nokta: çoğu ticaret ekosisteminde, paraya dokunan topluluk kodu tasarım gereği incelenmez. İncelemeyi ve izinleri birinci sınıf yapmak, katkı sunmaya değer farktır.",
+    "key_terms": [
+      {
+        "term": "Çalışma alanı yükleme",
+        "definition": "Geliştirme için eklentileri yerel klasöre koymak."
+      },
+      {
+        "term": "Giriş noktası",
+        "definition": "quantglass.extensions altında pip-kurulabilir dağıtım, katılımın arkasında."
+      },
+      {
+        "term": "İzin farkı",
+        "definition": "Yeni bir sürüm daha çok erişim istediğinde kayıt alarmı."
+      },
+      {
+        "term": "Kapalı mum kuralı",
+        "definition": "Eklentiler motorla aynı gözetleme-yok disiplinine uymalı."
+      }
+    ],
+    "exercise": {
+      "question": "Bir topluluk eklentisinin güncellemesi, v1 hiçbirine ihtiyaç duymazken network_access istiyor. Güven hattı ne yapmalı?",
+      "options": [
+        "Otomatik onayla — güncellemeler iyileştirmedir.",
+        "İzin farkını inceleme ve yeniden onay için işaretle: kapsam genişlemesi, tam olarak tedarik zinciri saldırılarının olduğu andır.",
+        "Tüm güncellemeleri sonsuza dek engelle.",
+        "İzinler değişemez."
+      ],
+      "explanation": "N sürümünün güven kazanması, N+1 sürümünün yeni yetkilerine aktarılmaz. Bildirilen izinleri sürüm başına farklamak, bir kaydın yaptığı en ucuz, en değerli kontroldür."
+    },
+    "live_apply": {
+      "cta": "Yapılandırmanda eklenti giriş-noktası katılımını bul — kurulu kodun açık bir bayrak istediğini, asla sessizlik istemediğini fark et."
+    }
+  },
+  {
+    "id": "expert-11-fact-guarded-ai",
+    "title": "Olgu-Korumalı Anlatım",
+    "summary": "Uygulamanın bir modeli, uydurmasına izin vermeden konuşturması.",
+    "concept": "Dil modelleri akıcı ve güvenilmezdir — para çevresinde tehlikeli bir ikili. QuantGlass'ın anlatım hattı, modelin eninde sonunda halüsinasyon göreceğini varsayar ve önce kafesi kurar.\n\nKatmanlar: model **yalnızca motorun hesapladığı olguları** (sinyalin sayıları JSON olarak), uydurmama değil yeniden ifade etme talimatıyla alır; üretim **şema-kısıtlıdır** (yapılandırılmış çıktılar bir `{summary}` zarfını dayatır — ayrıştırılacak serbest gevezelik yok); dönen metin bir **sayısal olgu bekçisinden** geçer; o her sayıyı çıkarır ve sağlanan bir olguya izlendiğini doğrular — bir uydurulmuş fiyat ve tüm çıktı atılır; ve herhangi bir başarısızlıkta **deterministik şablon** devralır, öyle etiketlenmiş. Anlatım kaynağı hep gösterilir, böylece modelin mi şablonun mu konuştuğunu bilirsin.\n\nYaptığın herhangi bir YZ-destekli araştırma için taşınabilir ilke: üretim ucuzdur, **doğrulama üründür**. Modelleri doğrulanmış sayıları açıklamak için kullan; onları asla sayıların kaynağı olarak kullanma.",
+    "key_terms": [
+      {
+        "term": "Olguya dayama",
+        "definition": "Model yalnızca motorun hesapladığı değerleri yeniden ifade edebilir."
+      },
+      {
+        "term": "Yapılandırılmış çıktı",
+        "definition": "Şema-kısıtlı üretim — {summary} zarfı."
+      },
+      {
+        "term": "Sayısal olgu bekçisi",
+        "definition": "Çıktıdaki her sayı sağlanan bir olguya izlenmeli."
+      },
+      {
+        "term": "Şablona geri çekilme",
+        "definition": "Model başarısız olduğunda ya da yalan söylediğinde deterministik, etiketli yol."
+      }
+    ],
+    "exercise": {
+      "question": "Anlatım modeli, motorun olgularında hiçbir yerde görünmeyen bir fiyat hedefi içeren akıcı bir özet üretir. Ne olur?",
+      "options": [
+        "Hedef gönderilir — akıcılık doğruluğu ima eder.",
+        "Olgu bekçisi tüm çıktıyı reddeder ve onun yerine deterministik şablon işlenir, kaynak etiketli.",
+        "Fiyat sessizce silinir.",
+        "Modelden özür dilemesi istenir."
+      ],
+      "explanation": "İzlenemeyen tek bir sayı tüm metni zehirler — kısmi güven, güvensizliktir. At-ve-geri-çekil, gösterilen her cümleyi savunulabilir tutar."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → YZ'yi aç: hangi sağlayıcıyı seçersen seç, bekçi ve şablona geri çekilme her modelle ekranın arasında oturur."
+    }
+  },
+  {
+    "id": "expert-12-local-models",
+    "title": "Yerel Modeller ve Ağ Geçitleri",
+    "summary": "Gizlilik, gecikme ve ağ geçidi soyutlaması.",
+    "concept": "Anlatım modelinin nerede çalıştığı gerçek bir karardır. **Yerel** (Ollama, LM Studio, vLLM, llama.cpp): sinyallerin, bakiyelerin ve alışkanlıkların asla makineyi terk etmez; gecikme donanıma bağlıdır; yetenek GPU'nun barındırdığıyla tavanlanır. **API** (OpenAI-uyumlu bulutlar, Anthropic, Gemini ve OpenRouter gibi yönlendiriciler): daha güçlü modeller, ama araştırma bağlamın saklama politikaları altında üçüncü tarafa yolculuk eder.\n\nQuantGlass'ın **model ağ geçidi (model gateway)** seçimi soyutlar: tek bir arayüz, sağlayıcı başına modüller, çalışma-zamanı sağlık kontrolleri, model keşfi ve arka uçtan bağımsız aynı yapılandırılmış-çıktı + olgu-bekçisi hattı — sağlayıcı değiştirmek bir ayar değişikliğidir, mimari değişiklik değil. Olgu bekçisinin varlığı ödünleşimi de yeniden dengeler: burada modeller motorun sayılarını yalnızca *yeniden ifade ettiği* için, küçük bir yerel model genellikle tümüyle yeterlidir ve duyarlı araştırmada yerel-önce gizlilik savı son sözü söyler.\n\nAracı tehlikeye uydur: pozisyonlarına dokunan her şey için yerel; bulut, varsa, bağlamın kamu bilgisi olduğu genel açıklama için.",
+    "key_terms": [
+      {
+        "term": "Yerel çıkarım",
+        "definition": "Donanımındaki modeller — özel, gecikme-bağlı, yetenek-tavanlı."
+      },
+      {
+        "term": "Model ağ geçidi",
+        "definition": "Ollama/OpenAI-uyumlu/yerel sağlayıcılar üzerinde tek arayüz."
+      },
+      {
+        "term": "Veri ikametgâhı",
+        "definition": "Araştırma bağlamının fiziksel olarak nereye gittiği."
+      },
+      {
+        "term": "Yetenek yeterliliği",
+        "definition": "Korunan olguları yeniden ifade etmek, analiz uydurmaktan çok daha az model gerektirir."
+      }
+    ],
+    "exercise": {
+      "question": "Kâğıt pozisyonlarını içeren sinyalleri anlatmak için, küçük bir yerel model neden sıkça akılcı varsayılandır?",
+      "options": [
+        "Yerel modeller her zaman daha zekidir.",
+        "Görev, bir bekçi altında motorun-doğruladığı olguları yeniden ifade etmektir — mütevazı yetenek yeter ve pozisyon verisinin makineyi asla terk etmemesi beraberliği kazanır.",
+        "Bulut API'leri metin üretemez.",
+        "Yerel olarak gecikme yoktur."
+      ],
+      "explanation": "Hat, modelin işini kasten akıcı yeniden ifadeye küçültür. Yetenek gereksinimleri düştüğünde gizlilik belirleyici ölçüt olur."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → YZ'de, yapılandırılmış sağlayıcılardan hangilerinin yerel, hangilerinin API üzerinden çalıştığını listele — ve anlatımının şu an hangisini kullandığını."
+    }
+  },
+  {
+    "id": "expert-13-mcp-agents",
+    "title": "MCP: Bir Aracının Temel Gerçeği Olarak Motorun",
+    "summary": "YZ asistanlarının yerel motorunu kullanmasını sağlayan salt-okunur araçlar.",
+    "concept": "**Model Bağlam Protokolü (Model Context Protocol)**, YZ asistanlarının dış araçları nasıl çağırdığını standartlaştırır. QuantGlass loopback üzerinde, tam dört **salt-okunur** araç açan bir MCP sunucusu gönderir: list_signals, list_backtest_presets, get_paper_account, list_watchlist. Claude'u ya da herhangi bir MCP istemcisini bağla ve 'izleme listemin motoru bugün ne diyor?' artık bir halüsinasyon fırsatı olmaktan çıkar — aracı *motorunu çağırır* ve doğrulanmış JSON üzerinde akıl yürütür.\n\nTasarım seçimleri derstir. **Salt-okunur**: emir aracı yok, ayar aracı yok, sır yok — bir aracı ele geçirilmesi para hareket ettiremez ya da yapılandırmayı değiştiremez. **Yalnızca loopback**: sunucu makinene bağlanır. **Kendini-betimleyen dürüstlük**: her aracın açıklaması eğitsel-tavsiye-değil çerçevesini taşır, böylece aracının bağlamı bile duruşu miras alır.\n\nBu, olağan YZ-ticaret söylemini tersine çevirir: güvenmen için işlem uyduran bir YZ yerine, deterministik motorun bir YZ'nin açıklayacağı olgular sağlar. Zekâ denetlenebilir kalır; dil akıcı kalır; otorite matematikte kalır.",
+    "key_terms": [
+      {
+        "term": "MCP",
+        "definition": "Model Bağlam Protokolü — asistandan-araca çağrılar için bir standart."
+      },
+      {
+        "term": "Salt-okunur yüzey",
+        "definition": "Olgular dışarı, asla eylem içeri — sunucunun güvenlik duruşu."
+      },
+      {
+        "term": "loopback bağlama",
+        "definition": "Sunucu yalnızca kendi makinene yanıt verir."
+      },
+      {
+        "term": "Dayalı aracı",
+        "definition": "Piyasa iddiaları bellekten değil araç çağrılarından gelen bir asistan."
+      }
+    ],
+    "exercise": {
+      "question": "MCP sunucusu neden kasten hiçbir emir-gönderme aracı açmaz?",
+      "options": [
+        "MCP emirleri kodlayamaz.",
+        "Yetenek risktir: yalnızca olgu okuyabilen bir aracı, para hareket ettirmek için kandırılamaz, kışkırtılamaz ya da hatalanamaz — sınır yapısaldır, davranışsal değil.",
+        "Emirler YZ için fazla hızlıdır.",
+        "Premium kullanıcılar için eklenecek."
+      ],
+      "explanation": "Yapı yoluyla güvenlik, talimat yoluyla güvenliği yener. Bir istem ne derse desin, var olmayan bir araç kötüye kullanılamaz."
+    },
+    "live_apply": {
+      "cta": "Arka uç çalıştığı sürece MCP uç noktası 127.0.0.1:8000/mcp'de çalışır — MCP-yetenekli bir asistan bağla ve ondan sinyallerini iste."
+    }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "title": "Tam Bir İşlem Planı Kurmak",
+    "summary": "Tüm kavramları disiplinli, kural-tabanlı bir işlem planında sentezle.",
+    "concept": "Bir **işlem planı**, işlem kararlarından duyguyu çıkaran yazılı bir kural kümesidir. Şunları yanıtlar: *ne zaman gir, ne kadar riske et, ne zaman çık ve performansı nasıl gözden geçir*.\n\n**QuantGlass-yerel işlem planı şablonu:**\n\n1. **Evren (Universe)**: hangi koridor sembolleri ve zaman dilimleriyle işlem yapılır\n2. **Sinyal kapısı**: asgari güven, OOS_validated = True gerekli mi?\n3. **İşlem başına risk**: örn. sinyal başına kâğıt hesabın %1'i\n4. **Giriş kuralı**: yalnızca entry_zone içinde gir, dışında değil\n5. **Stop kuralı**: stop = sinyalin stop_loss'u, elle geçersiz kılma yok\n6. **Çıkış kuralı**: TP1 (%50), TP2 (%30)'da kademeli çık, kalanı TP3'e kadar tut\n7. **Günlük gözden geçirme**: kâğıt hesabın özsermayesini bir ölçütle (örn. BTC veya SPY) karşılaştır\n8. **Aylık kalibrasyon**: gerçekleşen isabet oranlarına göre min_confidence eşiğini güncelle\n\nPlan, ancak bağlılığın kadar iyidir. QuantGlass sinyalleri sağlar; disiplin avantajı sağlar.",
+    "key_terms": [
+      {
+        "term": "İşlem planı",
+        "definition": "Girişler, boyutlandırma, çıkışlar ve gözden geçirme için yazılı kural kümesi — takdire dayalı duyguyu çıkarır."
+      },
+      {
+        "term": "Sinyal kapısı",
+        "definition": "Bir sinyalin sen harekete geçmeden karşılaması gereken asgari ölçütler (örn. güven ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Aylık kalibrasyon",
+        "definition": "min_confidence eşiğinin gerçek isabet oranınla eşleşip eşleşmediğini gözden geçirmek."
+      }
+    ],
+    "exercise": {
+      "question": "3 ayda güven ≥ 65 ile 40 kâğıt işlemi yaptın. Gerçek kazanma oranın %48'di. Motorun bu kurulumlar için backtest kazanma oranı %56'ydı. Ne yapmalısın?",
+      "options": [
+        "Hiçbir şey — 40 işlemde %8 boşluk normal varyanstır.",
+        "Daha yüksek kaliteli kurulumları süzmek için min_confidence'ı ≥ 72'ye yükselt ya da yürütme zamanlamasının kaymış olup olmadığını araştır (entry_zone dışında girdin).",
+        "min_confidence'ı ≥ 55'e düşür — daha düşük eşik kazanma oranını iyileştirir.",
+        "QuantGlass'ı kullanmayı bırak — model bozuk."
+      ],
+      "explanation": "Backtest kazanma oranı (%56) ile gerçekleşen (%48) arasındaki 40 işlemlik sürekli boşluk, ya yürütme kayması (çok geç, entry_zone dışında girmek) ya da mevcut güven eşiğinin boşluğun en geniş olduğu kurulumları seçtiğini düşündürür. Eşiği ≥ 72'ye yükseltmek, daha güçlü OOS kanıtlı daha yüksek kaliteli kurulumları süzer. Dolumlarını da denetle — her seferinde entry_zone içinde mi girdin?"
+    },
+    "live_apply": {
+      "cta": "İşlem planını kâğıda taslakla. Sonraki 10 kâğıt işlemin için kaydet: giriş fiyatı, neden girdin, sonuç ve kurallarına uyup uymadığın."
+    },
+    "common_mistakes": [
+      "Bir anayasa yazıp onu hiç değiştirmemek. Kanıtla evrilmeyen bir politika kalıntıya dönüşür; onu dürtüyle değil takvimle gözden geçir.",
+      "Kuralları ikinci haftada terk edilecek kadar katı yapmak. %80 katılıkla gerçekten uyduğun bir anayasa, yok saydığın kusursuz bir anayasayı yener."
+    ]
+  },
+  {
+    "id": "expert-14-key-custody",
+    "title": "Anahtar Saklama ve Sır Sınırı",
+    "summary": "Kimlik bilgileri nerede yaşar ve verebilecekleri zarar düzeyleri.",
+    "concept": "Her dış kimlik bilgisi bir güç devridir ve eşit değil: bir **salt-okunur veri anahtarı** (haberler, mumlar) en kötü merakını sızdırır; bir **işlem-yapabilir anahtar** (aracı anahtarı + sır) iplik kostümü giymiş paradır. Saklama o düzeyle ölçeklenmeli.\n\nQuantGlass'ın sınırı: sırlar asla düz-metin satırlarında oturmaz. Bir **şifreli yerel sır deposunda** yaşar, kullanılabilir bir anahtarlık olan yerlerde işlem-yapabilir anahtarlar için **OS anahtarlık yönlendirmesiyle** — ve anahtarlar `tradeEnabled` işaretlenir, böylece uygulama hangi kimlik bilgilerinin tehlikeli olduğunu bizzat bilir. Ayar arayüzü kaydetmeden sonra değerleri siler; API meta veri döndürür, sır değil; MCP yüzeyi kimlik-bilgisi-biçimli hiçbir şey açmaz.\n\nİşletimsel hijyenin sistemi tamamlar: aracı anahtarlarını sunulan **asgari kapsamlarla** oluştur (veri yeterse yalnızca veri), *çekemeyen* anahtarları tercih et, herhangi bir şüpheden sonra döndür ve ayar ekranı dışında herhangi bir yerdeki 'API anahtarını yapıştır' isteklerini, neredeyse kesin oldukları dolandırıcılık olarak gör.",
+    "key_terms": [
+      {
+        "term": "İşlem-yapabilir anahtar",
+        "definition": "Para hareket ettirebilen bir kimlik bilgisi — en yüksek saklama düzeyi."
+      },
+      {
+        "term": "Şifreli sır deposu",
+        "definition": "Yerel şifreli depolama; asla düz-metin veritabanı satırları."
+      },
+      {
+        "term": "Anahtarlık yönlendirmesi",
+        "definition": "Mevcut olduğunda tehlikeli düzey için OS-düzeyi saklama."
+      },
+      {
+        "term": "Asgari kapsam",
+        "definition": "İşi yapan en az güçle oluşturulan anahtarlar."
+      }
+    ],
+    "exercise": {
+      "question": "Aracın anahtar kapsamları sunuyor: salt-okunur, işlem, işlem+çekim. QuantGlass piyasa verisi ve nihai kâğıt-eşitlik testi istiyorsun. Hangi kapsam doğru?",
+      "options": [
+        "işlem+çekim — azami esneklik.",
+        "şimdi salt-okunur; işlem yalnızca canlı yürütme kasten kilidi açılırsa ve açıldığında; çekim asla — hiçbir uygulamanın çekim haklarına ihtiyacı yok.",
+        "Açılır listede ilk olan hangisiyse.",
+        "Kapsamlar eşdeğerdir."
+      ],
+      "explanation": "Kapsam patlama yarıçapıdır. Bir API anahtarındaki çekim hakları, herhangi bir ele geçirmeyi hırsızlığa çevirir; ihtiyaç duyulmadan önce işlem hakları saf sorumluluktur."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → API Anahtarları'nı aç ve hangi alanların işlem-yapabilir işaretlendiğini belirle — uygulamanın kendi saklama düzeyleri görünür kılınmış."
+    }
+  },
+  {
+    "id": "expert-15-going-live-gate",
+    "title": "Canlıya-Geçiş Kapısı",
+    "summary": "Aşamalı maruziyet, kazanılmış kilit açmaları ve kâğıtta kalma disiplini.",
+    "concept": "QuantGlass **canlı işlem kapalı** gelir — eksik bir özellik olarak değil, bir ürün ilkesi olarak: gerçek yürütme *gösterilen hazırlıkla kilidi açılmalı*, asla içine tökezlenmemeli. Aşamalı yol, tüm ders boyunca gördüğün güvenlik mühendisliğini yansıtır: canlı veriyle kâğıt işlemi (şu an olduğun yer) → canlı mod *görünür ama kapılı*, açık aracı kimlik bilgileri, ayrı bir onay ve arka uç güvenlik kontrollerinin arkasında → eğer hiç etkinleştirilirse, **önce minik-boyut modu**, hataların sermaye yerine harç aldığı yer.\n\nHerhangi bir aşama değişikliğinden önce yazmaya değer bir hazırlık çıtası (eğitim, tavsiye değil): anlamlı bir kâğıt örneklemi (10 değil 100+ işlem düşün), pozitif ya da denetlenen beklentiyle; neredeyse kusursuz günlük disiplini; son kaydında ciddi risk ihlali olmaması; yazılı bir işlem planı; psikoloji izinin kendi dürüst gözden geçirmenden geçmek; ve soğuma kuralı — herhangi bir kilit-açma kararı, onu yapma dürtüsünden *farklı bir günde* verilir.\n\nVe bütün bu Akademinin üstünde durduğu sessiz gerçek: **süresiz olarak kâğıt modunda kalmak meşru, eksiksiz bir sonuçtur.** Beceriler, istatistik, disiplin — hepsi gerçektir, gerçek para hiç bağlansa da bağlanmasa da.",
+    "key_terms": [
+      {
+        "term": "Aşamalı maruziyet",
+        "definition": "Kâğıt → kapılı görünürlük → minik-boyut → kullanıcı-sınırlı canlı."
+      },
+      {
+        "term": "Hazırlık çıtası",
+        "definition": "Yazılı, çok boyutlu ölçütler — örneklem, disiplin, plan, psikoloji."
+      },
+      {
+        "term": "Soğuma kuralı",
+        "definition": "Kilit-açma kararları daha sakin, sonraki bir güne ertelenir."
+      },
+      {
+        "term": "Sonuç olarak kâğıt",
+        "definition": "Simülasyonda kalmak geçerli bir son durumdur, başarısızlık değil."
+      }
+    ],
+    "exercise": {
+      "question": "Canlı işlemi varsayılan açık yerine gösterilen hazırlığın arkasında katılım-gerektirir yapmanın en güçlü gerekçesi nedir?",
+      "options": [
+        "Abonelik gelirini artırır.",
+        "Varsayılanlar kaderdir: zararın çoğu, yetersiz eğitimli kullanıcıların erkenden gerçek kaldıraçla karşılaşmasından gelir ve bir hazırlık kapısı varsayılan yolu güvenli yola çevirir.",
+        "Aracılar bunu gerektirir.",
+        "Kâğıt işlem daha az elektrik kullanır."
+      ],
+      "explanation": "Güvenlik mühendisliği korkuluğu uçurumun olduğu yere koyar. Bilinçli, kanıtlanabilir biçimde kazanılması gereken bir kapı, tehlikeli yolu kasıtlı, güvenli yolu otomatik kılar."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Risk'i aç: işlem-modu kapısını ve gereksinimlerini bul — arayüz olarak işlenen aşamalı kilit açma."
+    },
+    "common_mistakes": [
+      "Kâğıt işlemini 'gerçek hissettirmek' için canlıya geçmek. Kâğıt disiplini yoksa, para onu daha kötü yapar, daha iyi değil.",
+      "Kapıdan hemen sonra tam boyuta ölçeklenmek. Canlı yürütmenin, kâğıdın asla modellemediği maliyetleri ve duyguları vardır - boyutu aşamalarla kazan."
+    ]
+  },
+  {
+    "id": "expert-16-rates-liquidity",
+    "title": "Faiz Oranları ve Likidite Gelgiti",
+    "summary": "Paranın fiyatı her risk varlığı için havayı belirler.",
+    "concept": "Faiz oranları finansın yerçekimidir: *hiç* risk almamak için mevcut getiriyi belirler ve böylece her riskli varlığın aşması gereken çıtayı. Merkez bankaları faizi artırdığında, güvenli getiri sermayeyi hisse ve kriptodan rekabetle uzaklaştırır; düşürüp **likidite** enjekte ettiklerinde, o sermaye risk eğrisi boyunca dışarı geri akar — ve en spekülatif varlıklar (küçük sermaye, alt'lar) her iki uçta en şiddetli salınır.\n\nİşte bu yüzden ilişkisiz diye pazarlanan kripto, 2020'den beri bir **yüksek-beta likidite varlığı** gibi işlem görüyor: aynı gelgit, büyütülmüş.\n\nİşlemcinin kullanımı rejim bağlamıdır, öngörü değil: likidite gelgitinin yükseldiğini mi alçaldığını mı bil ve trend takibinin gelgitle *birlikte* çalışıp ona kötü direndiğini bekle. Makro takvimler (merkez bankası kararları, enflasyon yayımları) piyasa ölçeğinde hisse kazancı eşdeğeridir — her grafiğe aynı anda planlı oynaklık.",
+    "key_terms": [
+      {
+        "term": "Risksiz oran",
+        "definition": "Güvenli varlıkların getirisi — her riskin aşması gereken engel."
+      },
+      {
+        "term": "Likidite",
+        "definition": "Yatırılabilir paranın arzı — değerlemelerin altındaki gelgit."
+      },
+      {
+        "term": "Yüksek beta",
+        "definition": "Ortak gelgite büyütülmüş duyarlılık — uçta alt'lar."
+      },
+      {
+        "term": "Makro takvim",
+        "definition": "Faiz kararları ve enflasyon yayımları — piyasa geneli planlı oynaklık."
+      }
+    ],
+    "exercise": {
+      "question": "Merkez bankası faiz kararları, ne kazancı ne faiz ödemesi olan kriptoyu neden hareket ettirir?",
+      "options": [
+        "Etmez — kripto ilişkisizdir.",
+        "Faizler her risk almanın fırsat maliyetini belirler: spekülatif varlıkları fonlayan likidite gelgiti politikayla yükselip alçalır ve kripto risk eğrisinde uzakta oturur.",
+        "Merkez bankaları çoğu coin'in sahibidir.",
+        "Kripto faize endeksli temettü öder."
+      ],
+      "explanation": "Kanalın çalışması için nakit akışı gerekmez — yalnızca sermaye için rekabet. En spekülatif varlıklar, para sıkılaşırken en son fonlanan ve en önce satılandır."
+    },
+    "live_apply": {
+      "cta": "Sonraki büyük merkez bankası tarihini not et ve her grafiğin oynaklığının onun çevresinde nasıl kümelendiğini izle."
+    }
+  },
+  {
+    "id": "expert-17-dollar-correlations",
+    "title": "Dolar ve Varlıklar-Arası Korelasyonlar",
+    "summary": "Her şey birlikte hareket ettiğinde, çeşitlendirme bir yanılsamadır.",
+    "concept": "Küresel işlem gören varlıkların çoğu dolarla fiyatlanır, yani **doların gücü herkesin paydasıdır**: keskin yükselen bir dolar, dolarla-fiyatlanan varlıklara (kripto, emtia, gelişen piyasalar) mekanik baskı yapar ve sıkça ABD güvenliğine riskten-kaçış akışlarına eşlik eder.\n\nDaha derin ders **korelasyon rejimleridir**. Sakin piyasalarda varlıklar kendi hikâyelerini izler ve korelasyonlar düşük kalır; streste *korelasyonlar bire yakınsar* — riskli her şey birlikte satılır, çünkü satıcı aynıdır: nakit toplayan kaldıraçlı portföyler. Sonucu portföy-ısısı dersinde gördün: altı 'farklı' long, tam en çok acıttığında tek bir işlem olur.\n\nPratik araç: birkaç piyasalar-arası gösterge izle (dolar, geniş hisse endeksleri, kripto betası için BTC). Hepsi aynı anda aynı yöne sendelediğinde, bunu bir **rejim olayı** olarak oku — motorun tek-varlık düzeyindeki oynak-rejim geçersiz kılması bir makro ikize sahiptir ve ısı bütçen ikisine de saygı duymalı.",
+    "key_terms": [
+      {
+        "term": "Dolar paydası",
+        "definition": "Dolarla-kote varlıkları mekanik yeniden fiyatlayan dolar gücü."
+      },
+      {
+        "term": "Korelasyon rejimi",
+        "definition": "Sakin: düşük korelasyonlar. Stres: bire yakınsama."
+      },
+      {
+        "term": "Riskten kaçış",
+        "definition": "Riskten güvenliğe eşzamanlı kaçış."
+      },
+      {
+        "term": "Piyasalar-arası göstergeler",
+        "definition": "Rejim teyidi için izlenen birkaç varlıklar-arası ölçer."
+      }
+    ],
+    "exercise": {
+      "question": "Keskin bir riskten-kaçış olayında, hisse ve birkaç kripto genelindeki 'çeşitlendirilmiş' pozisyonlar neden birlikte düşer?",
+      "options": [
+        "Saf tesadüf, tekrar tekrar.",
+        "Stres korelasyonları bire yakınsar: marjinal satıcı tüm risk varlıkları genelinde aynı kaldıraç-azaltma akışıdır, yani çeşitlendirme her zaman yalnızca bir sakin-piyasa özelliğiydi.",
+        "Borsalar fiyatları kuralla eşzamanlar.",
+        "Üçten fazla varlıkla olamaz."
+      ],
+      "explanation": "Korelasyon rejime bağlıdır. Portföy ısısı sakin değil stresli korelasyon matrisi için bütçelenmeli — ısı dersinin makro sürümü."
+    },
+    "live_apply": {
+      "cta": "İzleme listende, kaç pozisyonun aslında farklı semboller giymiş aynı likidite bahsi olduğunu say."
+    }
+  },
+  {
+    "id": "expert-18-cycles-narratives",
+    "title": "Döngüler ve Anlatılar",
+    "summary": "Piyasalar psikolojik mevsimlerde hareket eder; anlatılar onların hava raporlarıdır.",
+    "concept": "Yeterince uzaklaş ve piyasalar **döngülerde** nefes alır: birikim (sessiz, inanmayan), yükseliş-işaretleme (trendde, gittikçe inanılan), dağıtım (zirvelerde coşkulu gidip-gelme), düşüş-işaretleme (inkâr içinden gerileme). Kripto bu mevsimleri on yıllar yerine yıllara sıkıştırır, tarihsel olarak halving'e demirlenmiş likidite dalgalarıyla kafiyeleşir.\n\nHer evre bir **anlatı** taşır — 'bu sefer' trendin neden kader olduğunu açıklayan hikâye. Anlatılar gürültü değildir: akışları koordine eder ve trendleri 'adil' değerin çok ötesinde sürdürebilir (refleksivite). Ama bunlar *öngörü kostümü giymiş gecikmeli betimlemelerdir* — tam dönüşlerde en gürültülü. 'Yeni paradigma' tepeleri ve 'varlık sınıfı öldü' dipleri kanonik çifttir.\n\nUzman duruşu: önündeki rejimi işle (motorun işi), risk iştahın için kendini döngüde konumla (senin işin) ve evrensel anlatı mutabakatını yeşil ışık değil, ters yönlü bir oynaklık uyarısı olarak gör.",
+    "key_terms": [
+      {
+        "term": "Piyasa döngüsü",
+        "definition": "Birikim → yükseliş-işaretleme → dağıtım → düşüş-işaretleme."
+      },
+      {
+        "term": "Anlatı",
+        "definition": "Bir akışın ardındaki koordine edici hikâye — uçlarda en güçlü."
+      },
+      {
+        "term": "Refleksivite",
+        "definition": "Fiyatları haklı çıkaran temel-hikâyeyi fiyatların değiştirmesi."
+      },
+      {
+        "term": "Coşku/umutsuzluk işaretleri",
+        "definition": "'Yeni paradigma' tepeleri ve 'öldü' dipleri."
+      }
+    ],
+    "exercise": {
+      "question": "Tek bir yükseliş anlatısı evrensel mutabıkken ve 'herkes içerideyken', döngü mantığı neyi ima eder?",
+      "options": [
+        "Trend artık en güvenlidir — mutabakat teyittir.",
+        "Yakıt tükendi: alabilecek herkes aldıysa, yükseliş-işaretlemeyi sürdüren marjinal akış gitti ve dağıtım koşulları oluşuyor.",
+        "Anlatıların akışlarla ilgisi yoktur.",
+        "Fiyatlar bir tam döngü daha yükselmeli."
+      ],
+      "explanation": "Trendler yeni alıcılarla beslenir. Evrensel mutabakat dönüşümün tamamlandığı anlamına gelir — anlatının en gürültülü anı ile akışının en zayıf anı aynı andır."
+    },
+    "live_apply": {
+      "cta": "Uzun bir sermaye eğrisinin düz ve dik kesitlerine bak — stratejiler de döngüyle nefes alır; beklenti doğanın sabiti değildir."
+    }
+  },
+  {
+    "id": "expert-19-macro-scope",
+    "title": "Makro Alçakgönüllülük ve Kapsam Çizgisi",
+    "summary": "Bağlam, kristal küre değil — ve motorun makroya sessizliği kasıtlıdır.",
+    "concept": "İzi kalibrasyonla kapat. Profesyonel makro öngörünün kamusal, alçaltıcı bir sicili var: resesyonlar geç ilan edilir, faiz patikaları her yıl tam yüzde puanlarıyla yanlıştır. Ekonomist orduları seferber eden kurumlar makro geleceği güvenilir biçimde öngöremiyorsa, perakende işlemcinin avantajı onlardan *daha iyi öngörmek* olamaz.\n\nMakro okuryazarlığın sana gerçekten aldığı: **risk duruşu** (gelgit yükseliyor mu alçalıyor mu → ısı bütçesi yukarı mı aşağı mı), **takvim farkındalığı** (kazançtaki gibi planlı fırtınalara saygı) ve **korelasyon gerçekçiliği** (stres portföyleri tek işleme çevirir). Hepsi savunmacı, hepsi gerçek.\n\nVe kapsam çizgisi, son bir kez: QuantGlass **hiçbir makro** hesaplamaz. Faiz modeli yok, döngü çağrısı yok — yalnızca kapalı mumlar. Makro katman kasten sana bırakılır, kendinden emin bir öngörücü değil kalibre bir tüketici olmanın araçlarıyla. Akademinin tekrarlayan yasası: her sistem ne bilmediğini bilmeli ve söylemeli. Buna işlemci de dahil.",
+    "key_terms": [
+      {
+        "term": "Öngörü alçakgönüllülüğü",
+        "definition": "Makro öngörünün belgelenmiş güvenilmezliği."
+      },
+      {
+        "term": "Savunmacı makro",
+        "definition": "Makroyu duruş, takvim ve korelasyon için kullanmak — çağrılar için değil."
+      },
+      {
+        "term": "Kalibre tüketici",
+        "definition": "Makro yorumu güveniyle değil siciliyle tartmak."
+      },
+      {
+        "term": "Kapsam yasası",
+        "definition": "Sistemler — ve işlemciler — ne bilmediklerini bildirir."
+      }
+    ],
+    "exercise": {
+      "question": "Öngörünün sicili göz önüne alındığında, bu Akademide makro okuryazarlık gerçekte ne içindir?",
+      "options": [
+        "Gelecek yılın faiz patikasını bankalardan iyi öngörmek.",
+        "Savunmacı duruş: riski gelgitle boyutlandırmak, makro takvime saygı ve streste korelasyon yakınsaması beklemek — kristal küre gerektirmeyen bağlam.",
+        "Hangi öngörülere tümüyle inanılacağını seçmek.",
+        "Hiçbir şey — grafikler tüm bilgiyi içerir."
+      ],
+      "explanation": "Değer, makro bağlamın seni neden koruduğundadır, ne öngördüğünde değil. Motorun kendine uyguladığı aynı dürüstlük standardı makro görüşlere de uygulanır."
+    },
+    "live_apply": {
+      "cta": "Motorun ayarlarının hiçbir yerinde bir makro girdi olmadığını fark et — yokluk olarak işlenen kapsam dürüstlüğü."
+    }
+  },
+  {
+    "id": "expert-20-auction-mechanics",
+    "title": "Sürekli Açık Artırma",
+    "summary": "Fiyat bir sayı değil — bir pazarlığın mevcut durumudur.",
+    "concept": "Her mumun altında **sürekli bir çift açık artırma** koşar: dinlenen limit emirleri defteri oluşturur (sabırlı taraf) ve gelen piyasa emirleri onu tüketir (acil taraf). Bir işlem yalnızca acillik sabırla buluştuğunda olur; 'fiyat' yalnızca böyle en son buluşmadır.\n\nFiyat *hareket eder*, bir tarafın acilliği diğer tarafın sabrını bir düzeyde tükettiğinde — alım baskısı tüm satış düzeyini yer ve sonraki satış fiyat olur. İşte bu yüzden **hacim hareketleri doğrular** (motorun kullandığı hacim-oranı mantığı): ağır hacimde bir hareket, gerçek acilliğin gerçek dinlenen arzı yaktığı anlamına gelir; hiçlik üzerinde bir sürüklenme tek bir emirle yeniden fiyatlanabilir.\n\nHisse piyasaları **açılış ve kapanış açık artırmaları** ekler — seansın uçlarında devasa hacmi yoğunlaştıran ve günlük mumlarının açılıp kapandığı baskıları belirleyen toplu eşleştirmeler. Kripto defterleri yalnızca asla kapanmaz. Aynı makine, farklı çizelge.",
+    "key_terms": [
+      {
+        "term": "Çift açık artırma",
+        "definition": "Dinlenen limitler (sabır) piyasa emirleriyle (acillik) eşleştirilir."
+      },
+      {
+        "term": "Düzey tükenmesi",
+        "definition": "Bir defter düzeyi tümüyle tüketildiğinde fiyat hareket eder."
+      },
+      {
+        "term": "Toplu açık artırma",
+        "definition": "Hisse hacmini yoğunlaştıran açılış/kapanış eşleştirmeleri."
+      },
+      {
+        "term": "Acillik primi",
+        "definition": "Piyasa emirleri anındalık talep etmek için spread öder."
+      }
+    ],
+    "exercise": {
+      "question": "Mekanik olarak fiyatı bir düzey YUKARI tıklatan nedir?",
+      "options": [
+        "Borsa her saat oy verir.",
+        "Gelen alım acilliği mevcut en iyi satışta dinlenen her payı tüketir, böylece sonraki, daha yüksek satış düzeyi piyasa olur.",
+        "Satıcılar mutluyken fiyat yükseltir.",
+        "Mumların yeşil kapanması."
+      ],
+      "explanation": "Fiyat, acilliğin sabırla en son buluştuğu sınırdır. Hareketler stok olaylarıdır — bir düzey boşaltılmış — bu yüzden katılım (hacim) sana bir hareketin kazanılıp kazanılmadığını söyler."
+    },
+    "live_apply": {
+      "cta": "Yüksek-hacimli bir mumu sakin bir mumla karşılaştır ve onları açık artırma olayları olarak oku: her tarafın acilliği ne kadar sabır tüketti?"
+    }
+  },
+  {
+    "id": "expert-21-makers-takers",
+    "title": "Maker'lar, Taker'lar ve Spread'in Ekonomisi",
+    "summary": "Ödediğin spread'i kim kazanır — ve senden ne ister.",
+    "concept": "Her platform katılımcıları **maker'lar (makers)** (dinlenen emirleri defteri sağlar) ve **taker'lar (takers)** (piyasa emirleri onu tüketir) olarak ayırır — ücret tabloları onları sıkça gerçekten farklı fiyatlar, maker'lara iade öder. Profesyonel piyasa yapıcının işi: iki tarafı da kote et, spread'i tekrar tekrar kazan ve stok riskini olabildiğince hızlı at.\n\nTek korkularını anla ve kısa vadeli fiyat davranışını anlarsın: **ters seçim (adverse selection)** — bilgili bir akışça ezilmek. Ağır tek-taraflı baskı geldiğinde, maker'lar spread'leri genişletir ve kotaları çeker (kayma-dinamiği dersin, artık bir *neden* ile) ve kotaları 'adil değer' yerine akışın çevresinde yeniden merkezler.\n\nSenin için iki sonuç: limit emirleri seni maker yapar (spread avantajını kazanırsın ama kendin ters seçimi riske atarsın — dinlenen alış emrin tam bir şey düşüş yönlü olduğunda dolma olasılığı en yüksektir) ve hızlı piyasalar yapısal olarak anındalık talep etmenin en pahalı anıdır.",
+    "key_terms": [
+      {
+        "term": "Maker/taker",
+        "definition": "Likidite sağlayıcı ile tüketici — sıkça farklı ücret kademeleri."
+      },
+      {
+        "term": "Piyasa yapıcı",
+        "definition": "Spread kazanmak için iki tarafı da kote eden profesyonel."
+      },
+      {
+        "term": "Ters seçim",
+        "definition": "Daha iyi bilgili bir akışça doldurulmak — maker'ın çekirdek riski."
+      },
+      {
+        "term": "Kota solması",
+        "definition": "Bilgili baskı çarptığında spread'lerin genişlemesi ve derinliğin kaybolması."
+      }
+    ],
+    "exercise": {
+      "question": "Dinlenen limit alışın ani bir çöküşte anında dolar. Ters seçim merceğinden, az önce ne oldu?",
+      "options": [
+        "Koşulsuz şanslı bir indirim aldın.",
+        "Acil, muhtemelen bilgili satışın tükettiği sabırdın — limit dolumları tam sana karşı akış en güçlüyken kümelenir.",
+        "Borsa sana pay hediye etti.",
+        "Limit emirleri çöküşlerde dolamaz."
+      ],
+      "explanation": "Maker'ın laneti sana da uygulanır: piyasa fiyatını en istekle, tam yeni bilginin o fiyatın fazla cömert olduğunu söylediğinde verir. Limitlerden kaçınmak için neden değil — onları tezinin dolumu zaten kabul ettiği yere koymak için neden."
+    },
+    "live_apply": {
+      "cta": "Giriş bölgesinin alt kenarını yeniden düşün: bir boşaltma sırasında oradaki bir dolum, kurulumunun zaten fiyatlamış olması gereken ters seçimdir."
+    }
+  },
+  {
+    "id": "expert-22-order-flow",
+    "title": "Emir Akışı, Dengesizlik ve Fitiller Nereden Gelir",
+    "summary": "Zihin okuyormuş gibi yapmadan bandın mantığını okumak.",
+    "concept": "**Emir akışı (order flow)**, agresif alımın satıma karşı gerçekleşen dizisidir — acillik defteri. Dengesizlikleri tanıdık grafik anatomisini alttan açıklar: **stop çağlayanları (stop cascades)** (fiyat, dinlenen stop'ların bir piyasa emri patlamasına dönüştüğü bir düzeye ulaşır — kaldıraç izindeki tasfiye-çağlayanı mekaniği, tüm stop'lara genellenmiş) şiddetli fitilleri oyar; **emilim (absorption)** (sabırlı alış emirleri sürekli yeniden doldurduğu için fiyatı hareket ettiremeyen ağır agresif satış) birçok dönüşten önce gelir — tükeniş birikimle buluşur.\n\nManipülasyon da kenarlarda burada yaşar: spoofing (korkutmak için sahte dinlenen boyut, dolmadan önce çekilir) ve wash trading (gevşek platformlarda öz-işlem hacmi — borsa hacim iddialarını yargılamak için dolandırıcılık-savunması anımsatması).\n\nDürüst sınır: tam emir-akışı işlemi bu uygulamanın kapsamı ötesinde veri akışları ve ekran zamanı gerektirir. Mum okurlarına aktarılan: fitiller akış olaylarıdır, hacim acilliktir ve herkese aşikâr düzeyler (yuvarlak sayılar, önceki uçlar) tam onları stop koymak için tehlikeli kılan stop kümelerini çeker.",
+    "key_terms": [
+      {
+        "term": "Emir-akışı dengesizliği",
+        "definition": "Bir pencere boyunca net agresif alım eksi satım."
+      },
+      {
+        "term": "Stop çağlayanı",
+        "definition": "Zincirlerde piyasa emrine dönüşen stop'lar — genellenmiş tasfiye fitili."
+      },
+      {
+        "term": "Emilim",
+        "definition": "Agresyonun yeniden-dolan sabra fiyatı hareket ettirememesi — dönüş yakıtı."
+      },
+      {
+        "term": "Spoofing",
+        "definition": "Yıldırmak için gösterilen, yürütmeden önce iptal edilen sahte dinlenen boyut."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat aşikâr bir yuvarlak-sayı desteğinin altına dalar, fitili devasa hacimle doldurur, sonra üstüne geri kapanır. Mikro yapı okuması?",
+      "options": [
+        "Destek artık kalıcı olarak kırıldı.",
+        "Bir stop çağlayanı: aşikâr düzeyin altında kümelenen stop'lar piyasa satışlarına döndü, sabırlı alışlarca emildi ve zorlanmış akışın sonu fiyatın toparlanmasına izin verdi — düzey bir likidite cebiydi, bir hüküm değil.",
+        "Veri bozuk.",
+        "Yuvarlak sayılar fiyatları iter."
+      ],
+      "explanation": "Aşikâr düzeyler stop'ları yoğunlaştırır; stop'lar önceden-taahhüt edilmiş acilliktir; acillik sabra tükenir. Fitil-ve-geri-alış, bir grafiğe çizilmiş o tüm cümledir — ve aşikâr fiyata park edilen stop'ların yapısal bir vergi ödeme nedeni."
+    },
+    "live_apply": {
+      "cta": "Aşikâr bir düzeyi delen uzun bir fitil bul ve hacmini kontrol et — sonra kendi stop'larının nerede oturma eğiliminde olduğunu yeniden düşün."
+    }
+  },
+  {
+    "id": "expert-23-microstructure-scope",
+    "title": "Mum İşlemcisi İçin Mikro Yapı",
+    "summary": "Uzaklaşmadan sağ çıkan — ve motorun seçtiği irtifa.",
+    "concept": "Sentez sorusu: kapalı mumlardan işlem yaparak, mikro yapı davranışını ne değiştirmeli? Dört kalıcı aktarım. **Stop'lar**: onları aşikâr likidite ceplerinin *ötesine* koy, üstüne değil — yuvarlak sayı çağlayanın evidir, ötesinde oynaklık-tamponlu bir mesafe senin (ATR çarpanı mantığı, artık mikro yapı gerekçesiyle). **Girişler**: tezinin zaten kabul ettiği bölgeler içinde limit emirleri, asla dolumundan pişman olacağın dinlenen alışlar değil. **Zamanlama**: hızlı piyasalarda ve ölü saatlerde anındalık talep etmekten kaçın — spread'in ekonomisi her iki uçta sana karşı. **Hacim**: onu acillik-sabırla-buluşuyor olarak oku, ki bu tam olarak motorun hacim-teyit puanının kodladığı yorumdur.\n\nVe irtifa çizgisi: QuantGlass kasten **kapalı mum irtifasında** çalışır — tick akışı yok, defter verisi yok, akış sinyali yok. Mumlar, deterministik, denetlenebilir, yeniden-oynatılabilir analizi mümkün kılan sıkıştırmadır; bandın kaosu gerçektir ama motorun bildirilen çözünürlüğünün altında yaşar. Artık motorun ne gördüğünü, ne görmediğini ve — Akademinin tüm noktası — tam olarak hangisinin hangisi olduğunu biliyorsun.",
+    "key_terms": [
+      {
+        "term": "Likidite cebi",
+        "definition": "Aşikâr düzeylerde stop/emir kümeleri — çağlayan yakıtı."
+      },
+      {
+        "term": "Tamponlu stop",
+        "definition": "Cebin ötesine bir oynaklık marjıyla konan bir geçersizleme."
+      },
+      {
+        "term": "Mum irtifası",
+        "definition": "Motorun bildirilen çözünürlüğü: kapalı OHLCV, altında hiçbir şey."
+      },
+      {
+        "term": "Denetlenebilir sıkıştırma",
+        "definition": "Neden mumlar: deterministik, yeniden-oynatılabilir, doğrulanabilir analiz."
+      }
+    ],
+    "exercise": {
+      "question": "Stop çağlayanlarının aşikâr düzeylerde kümelendiğini bilerek, bu iz sana bir long'un stop'unu net bir desteğe göre nereye koymanı söyler?",
+      "options": [
+        "Tam destek fiyatına, herkesin görebileceği yere.",
+        "Aşikâr düzeyin ötesine oynaklık-tamponlu bir mesafeye, böylece likidite cebinin rutin süpürmesi planlanan 1R'ini bir çağlayan dolumuna çevirmesin.",
+        "Stop yok — çağlayanlar stop'ları yararsız kılar.",
+        "Girişin üstünde, güvenlik için."
+      ],
+      "explanation": "Motorun ATR-çarpanı stop'ları bunu senin için hep yapıyordu: tampon, cebin normal baskının altından geçecek şekilde boyutlandırılır. Mikro yapı, çarpanın ardındaki nedendir."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir sinyalin stop'unu en yakın aşikâr düzeyle karşılaştır — tamponu ölç ve taşıdığın çağlayan sigortasını fark et."
+    }
+  },
+  {
+    "id": "expert-24-two-hats",
+    "title": "İki Şapka: İşlemci ve Risk Görevlisi",
+    "summary": "Ciddi firmalar riski alanı, onu sınırlayandan ayırır. Sen de ayırmalısın.",
+    "concept": "Her ciddi işlem firmasında, pozisyonu isteyen işlemci ile onu veto edebilen **risk görevlisi (risk officer)** farklı kişilerdir — çünkü aynı zihin dürüstçe bir işlemi isteyip aynı anda onu denetleyemez. Yalnız işlemciler ikinci kişiyi işe alamaz ama ikinci *rolü* kurabilirler: sen-en-sakin-halinde yazdığın, sen-o-andaki halinden **rütbece üstün** bir kurallar kümesi.\n\nAyrım zamansaldır, kişisel değil: risk görevlisi **önce** çalışır (düzken limitler koyar) ve **sonra** (günlükte ihlalleri gözden geçirir); işlemci **sırasında** çalışır. İşlem ortasında yeniden müzakere edilen herhangi bir kural asla kural değildi — üniformalı bir öneriydi.\n\nDeseni bu Akademinin her yerinde zaten gördün: önceden-taahhüt edilmiş stop'lar, ruh halinden bağımsız işlemleri reddeden rejim kapıları, kilit-açma merdiveninin kendisi. Bu iz rolü açık kılar, ona politikalar verir ve — zor kısım — daha heyecanlı meslektaşını geçersiz kılma yetkisini verir.",
+    "key_terms": [
+      {
+        "term": "Risk görevlisi",
+        "definition": "Limitleri koyan ve uygulayan rol — sen sakinken sence doldurulur."
+      },
+      {
+        "term": "Zamansal ayrım",
+        "definition": "Limitler önce konur, sonra gözden geçirilir; sırasında asla müzakere edilmez."
+      },
+      {
+        "term": "Kural yetkisi",
+        "definition": "O anda geçersiz kılınabilen bir kural bir öneridir."
+      },
+      {
+        "term": "Veto gücü",
+        "definition": "Risk rolünün tanımlayıcı hakkı: 'hayır' tam bir cümledir."
+      }
+    ],
+    "exercise": {
+      "question": "O andaki işlemci neden karar anında kendi risk görevlisi olarak da hizmet edemez?",
+      "options": [
+        "Düzenlemeler yasaklar.",
+        "Bir pozisyonu istemek ve onu denetlemek aynı zihni karşıt yönlerde kullanır — uyarılma altında istek kazanır, bu yüzden limitler zamanda farklı bir andan konup uygulanmalı.",
+        "Risk görevlilerinin sertifikalara ihtiyacı var.",
+        "İyi işler; firmalar onları bordro nedeniyle ayırır."
+      ],
+      "explanation": "Çıkar çatışması içsel ve nörolojiktir, prosedürel değil. Zamansal ayrım — sakin-sen, heyecanlı-sen için yasa koyar — yalnız işlemcinin, firmanın iki masasının sürümüdür."
+    },
+    "live_apply": {
+      "cta": "Ayarlar → Risk'i aç ve kapılarını risk ofisinin sürekli emirleri olarak oku — sakinken yazılmış, ruh halinden bağımsız uygulanır."
+    }
+  },
+  {
+    "id": "expert-25-limits-policy",
+    "title": "Yazılı Politika Olarak Limitler",
+    "summary": "İşlem-başına, günlük, ısı ve düşüş limitleri — bir kez taslaklanır, hep uyulur.",
+    "concept": "Bir risk politikası bir sayfaya sığar ve dört irtifayı kapsar. **İşlem başına**: sermayenin bir kesri olarak azami risk (tüm ders kullandığın %1) ve stop matematiğinden bağımsız azami pozisyon boyutu (kalın-parmak sigortası). **Gün başına**: R cinsinden bir kayıp limiti (genellikle 2–3R), sonrasında günün biter — avantaj kaybolduğu için değil, psikoloji izinin ardışık kayıplardan sonra neyin biriktiğini göstermesi için. **Portföy**: ısı tavanı ve bir korele-maruziyet tavanı (makro izinin stresli-korelasyon dersi, kodlanmış). **Hesap**: düşüş duraklatma kuralı — tam yazılı bir gözden geçirme ve azaltılmış-boyut yeniden başlatma için her şeyin durduğu bir derinlik.\n\nHer limit üç yazılı parçaya ihtiyaç duyar: **eşik**, **eylem** (azalt/durdur/gözden geçir — otomatik, danışmanlık değil) ve **yeniden başlatma koşulu**. Önceden anlaşılmış yeniden başlatması olmayan bir limit kalıcı bir irkilme olur; otomatik eylemi olmayan biri, ne olması gerektiği üzerine bir günlük girdisi olur.\n\nSeninkini şimdi taslakla, hiçbir şey acımazken. Tüm hile budur.",
+    "key_terms": [
+      {
+        "term": "İşlem-başına tavan",
+        "definition": "Risk kesri artı mutlak bir boyut tavanı."
+      },
+      {
+        "term": "Günlük stop",
+        "definition": "İşlem gününü bitiren R cinsinden bir kayıp düzeyi."
+      },
+      {
+        "term": "Korele-maruziyet tavanı",
+        "definition": "Stresli korelasyon matrisine karşı bütçelenmiş ısı."
+      },
+      {
+        "term": "Yeniden başlatma koşulu",
+        "definition": "Tetiklenmiş herhangi bir limitten geri dönmenin önceden anlaşılmış yolu."
+      }
+    ],
+    "exercise": {
+      "question": "Politikadaki her limit neden yalnızca bir eşik ve eylem değil, önceden yazılmış bir YENİDEN BAŞLATMA koşulu gerektirir?",
+      "options": [
+        "Evrak tamlığı.",
+        "Tanımlı bir geri dönüş yolu olmadan, tetiklenmiş limitler ya kalıcı korkuya (asla yeniden başlatma) ya da doğaçlama istisnalara (ruh haliyle yeniden başlatma) çürür — yeniden başlatma kuralı, limiti yara değil sistem tutan şeydir.",
+        "Yeniden başlatmalar aracılarca istenir.",
+        "Limitler asla yeniden başlatılmamalı."
+      ],
+      "explanation": "Kimsenin nasıl sıfırlayacağını bilmediği bir devre kesici sonraki sefer atlatılır. Yeniden başlatma koşulu — gözden geçirilmiş günlük, azaltılmış boyut, belirli tarih — döngüyü kapatır ve yetkiyi politikada tutar."
+    },
+    "live_apply": {
+      "cta": "Şimdi bir limiti fiziksel olarak kodla: en büyük açık pozisyonunda günlük-stop eşdeğerinde bir uyarı."
+    }
+  },
+  {
+    "id": "expert-26-breach-review",
+    "title": "İzleme ve İhlal Gözden Geçirmesi",
+    "summary": "Risk ofisinin gerçek ürünü ihlaller hakkında dürüst evraktır.",
+    "concept": "Limitler ihlal edilir — piyasalarca (stop'ları delen boşluklar) ve seninle (%1.4 riskte alınan, 'olağanüstü göründüğü' için işlem). Risk ofisinin değeri her ihlali önlemek değil; onları dürüstçe **kaydetmek ve sınıflandırmaktır**: *piyasa ihlali* (plan kontrol edemediği koşullarla karşılaştı — planın varsayımlarını gözden geçir) ya da *disiplin ihlali* (plan geçersiz kılındı — işletmeni gözden geçir).\n\nGözden geçirme ritüeli, her ciddi risk masasından ödünç: her ihlali bir gün içinde kaydet, sınıflandır, nedeni bir cümlede yaz ve — disiplin ihlalleri için — geçersiz kılmanın olduğu *anı* ve hangi durumda olduğunu belirle (günlüğün duygusal etiketleri adli kanıt olur). Bir ayda aynı tür üç disiplin ihlali üç olay değildir; üç tarih giymiş bir desendir.\n\nEnstrümanın zaten var: koçluk paneli risk anlarını olurken işaretler, günlük bağlılığı tutar ve kâğıt geçmişin her şeye zaman damgası vurur. Risk görevlisinin işi onları bir denetçi gibi okumaktır — aylık, yazılı, merhamet ya da melodram olmadan.",
+    "key_terms": [
+      {
+        "term": "Piyasa ihlali",
+        "definition": "Koşullar planı geçti — bir varsayım gözden geçirmesi."
+      },
+      {
+        "term": "Disiplin ihlali",
+        "definition": "Plan geçersiz kılındı — bir işletmen gözden geçirmesi."
+      },
+      {
+        "term": "İhlal kaydı",
+        "definition": "Tarihli, sınıflandırılmış ihlaller bir-cümle nedenlerle."
+      },
+      {
+        "term": "Desen eşiği",
+        "definition": "Tekrar eden aynı tür ihlaller bir sistemik bulgu olarak ele alınır."
+      }
+    ],
+    "exercise": {
+      "question": "Stop'un doğru konmuştu ama gece bir boşluk seni 1R yerine 2.3R aşağıda doldurdu. Risk ofisi nasıl sınıflandırır ve davranır?",
+      "options": [
+        "Disiplin ihlali — işletmeni cezalandır.",
+        "Piyasa ihlali: plan bilerek taşıdığı boşluk riskiyle karşılaştı; gözden geçirme varsayımları hedefler (olay takvimine saygı gösterildi mi? gece maruziyeti boşluklar için boyutlandı mı?), işletmenin davranışını değil.",
+        "Stop var olduğundan ihlal değil.",
+        "İşlemi günlükten sil."
+      ],
+      "explanation": "Sınıflandırma çareyi belirler. Bir piyasa ihlali için işletmeni cezalandırmak korku öğretir; bir disiplin ihlalini kötü şans diye mazur görmek hiçbir şey öğretmez. Taksonomi tüm araçtır."
+    },
+    "live_apply": {
+      "cta": "Son on kâğıt işlemini denetle: herhangi bir plan sapmasını piyasa ya da disiplin ihlali olarak sınıflandır ve tekrar eden türü ara."
+    }
+  },
+  {
+    "id": "expert-27-capital-preservation",
+    "title": "Sermaye-Koruma Öğretisi",
+    "summary": "Hayatta kalmak stratejidir; getiriler hayatta kalmanın zamanla kazandığıdır.",
+    "concept": "Bu izdeki her ders bir öğretiye hizmet eder: **sıfırdan birikim yapamazsın**. Erkenden karşılaştığın aritmetik — düşüşün asimetrik toparlanması, 100/L yok-olma çizgisi, seriler altında yıkım riski — hepsi aynı şeyi söyler: vasat yılları atlatan işlemci, kötü bir haftayı atlatamayan parlak işlemciyi yener. Avantaj kiralıktır; sermaye kiradır.\n\nÖğretinin işletim kuralları: her işlemi sonraki yedisi de kaybedebilirmiş gibi boyutlandır (bir gün kaybedecekler); bir şey yanlış hissettiğinde boyutu *önce* kes — boyut fırtına ortasında işe yarayan tek koldur; 'geri kazanmayı' yasak güdü olarak gör (tilt ve kaldıraç izlerinin ortak kötü adamı); ve düşen piyasalarda kendini ne kadar çok kazandığınla değil, ne kadar az kaybettiğinle ölç.\n\nBu kullandığın uygulamanın en derin okumasıdır da: kâğıt-önce, yalnız-spot, kapılı ilerleme, dürüst istatistik — tüm mimari yazılım olarak işlenmiş koruma öğretisidir. Akademi sana işlem yapmayı öğretti; bu öğreti, on yıl sonra hâlâ işlem yapmanı sağlayan şeydir.",
+    "key_terms": [
+      {
+        "term": "Yıkım asimetrisi",
+        "definition": "Sıfır, toparlanamadığın tek sonuçtur."
+      },
+      {
+        "term": "Boyut-önce tepkisi",
+        "definition": "Boyutu azaltmayı evrensel fırtına-ortası eylemi olarak."
+      },
+      {
+        "term": "Yasak güdü",
+        "definition": "'Geri kazanmak' — öğretinin adlandırılmış düşmanı."
+      },
+      {
+        "term": "Hayatta kalma ölçütü",
+        "definition": "Düşen-piyasa performansı kaçınılan kayıplarla yargılanır."
+      }
+    ],
+    "exercise": {
+      "question": "Beş yılda iki işlemci: A yılda ortalama +%22 yapar ama altıncı yılın çöküşünde iflas eder; B ortalama +%9 yapar ve onu atlatır. Öğretinin hükmü?",
+      "options": [
+        "A daha iyiydi — sürdüğü sürece daha yüksek ortalama.",
+        "B önemli olan her şeyi kazanır: birikim yalnızca hayatta kalan için vardır ve A'nın üstün ortalaması, sonunda ona fatura kesen bir yıkım riskine karşı kiralanmıştı.",
+        "Risk-ayarlı paritede berabere kalırlar.",
+        "Altıncı yıl aykırı değer olarak dışlanmalı."
+      ],
+      "explanation": "Getiriler hayatta kalmaya koşulludur; hayatta kalmak getirilere koşullu değildir. Sıfır içeren bir dizinin geometrik ortalaması sıfırdır — tüm öğreti tek bir çarpmada."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir önayarın azami düşüşünü yeniden oku ve önce öğretinin sorusunu sor: o derinliğin iki katı boyunca hayatta kalmak kesin mi?"
+    }
+  },
+  {
+    "id": "expert-28-trading-day",
+    "title": "İşletmenin Günü",
+    "summary": "Hazırla, yürüt, gözden geçir — ruh halini süreçle değiştiren döngü.",
+    "concept": "Profesyonel bir işlem günü bir **döngüdür**, bir nöbet değil. **Hazırla** (herhangi bir piyasa kararından önce): takvimi kontrol et (makro olaylar, varlıklardaki kazanç), gece hasarını oku, açık pozisyonları planlarına göre gözden geçir, koçluk panelini tara, mevcut düşüş durumuna göre günün risk bütçesini koy. **Yürüt** (sırasında): yalnızca geçerli rejimlerde planlanan kurulumlara davran, dikip bakmak yerine uyarılar koy (disiplin-sistemleri dersi), girişleri olurken bir-cümle nedenleriyle kaydet. **Gözden geçir** (sonra, her zaman): her çıkışı günlüğe işle, herhangi bir ihlali sınıflandır, yarının takvimini not et, ekranları kapat.\n\nKontrol-listesi dersinde karşılaştığın dizi yasası — *avlanmadan önce yönet* — tüm güne uzanır: hazırlık yürütmenin üstündedir ve gözden geçirme isteğe bağlı bir tatlı değildir; öğrenmenin gerçekten olduğu yerdir (günün kendisi yalnızca veri toplamadır).\n\nBu yapının önlediği tuzağın bir adı var: **ekran-izlemeyi iş sanmak**. Saatlerce dikip bakmak dürtüsel işlemler ve yorgunluk üretir, avantaj değil. İşletmenin günü kısa, düzenli ve çoğunlukla mumların oluşmasını izlemekle *geçmeyen* bir gündür.",
+    "key_terms": [
+      {
+        "term": "Hazırla-yürüt-gözden geçir",
+        "definition": "Günlük döngü; öğrenme üçüncü evrede yaşar."
+      },
+      {
+        "term": "Risk-bütçesi kontrolü",
+        "definition": "Günü, işlemden önce mevcut düşüş durumuna göre boyutlandırmak."
+      },
+      {
+        "term": "Girişte-neden",
+        "definition": "Tezi karar verildiğinde kaydetmek, sonradan yeniden kurmak değil."
+      },
+      {
+        "term": "Ekran-izleme tuzağı",
+        "definition": "Dikip bakmayı işle karıştırmak — dürtüsel-işlem fabrikası."
+      }
+    ],
+    "exercise": {
+      "question": "İşletmenin döngüsü neden günlük gözden geçirmesini 'zaman olunca' değil, seanstan SONRA müzakere-edilemez bir evre olarak koyar?",
+      "options": [
+        "Takvimi doldurmak için.",
+        "Yürütme yalnızca veri üretir; gözden geçirme onu öğrenmeye çevirir — üçüncü evreyi atla ve döngü aynı günü taze hatalarla tekrar etmeye çürür.",
+        "Günlükler yasal olarak günlük sona erer.",
+        "Uykudan önce gözden geçirme düşleri iyileştirir."
+      ],
+      "explanation": "İstatistik izi avantajının kendi toplamlarında saklandığını gösterdi. Toplamlar yalnızca gözden geçirme evresi çalışırsa var olur — atlanan her gözden geçirme, makbuzu atılmış bir harç ödemesidir."
+    },
+    "live_apply": {
+      "cta": "Yarının döngüsünü bu gece kur: her karar düzeyine uyarılar koy, böylece yürütme dikip bakılan değil olay-güdümlü olabilsin."
+    }
+  },
+  {
+    "id": "expert-29-research-pipeline",
+    "title": "Araştırma Hattı",
+    "summary": "Fikir → hipotez → backtest → ileri test → boyut — her aşamada öldürme ölçütüyle.",
+    "concept": "Profesyoneller **araştırmayı** **işlemden**, riski arzudan ayırdığı kadar katı ayırır. Hat: bir **fikir** (bir dersten, fark edilen bir desenden, bir rejim gözleminden) bir **hipotez** olur — yanlış olabilecek kadar kesin yazılmış ('trend rejimlerinde EMA-21'e geri çekilmeler N mum içinde trend yönüne çözülür'). Hipotez **backtest'çiyle** karşılaşır (istatistiksel-dürüstlük izinin makinesi: IS/OOS, maliyetler, örneklem boyutu) — fikirlerin çoğu burada, ucuza, ölmeli. Hayatta kalanlar **ileri kâğıt testine** gider: canlı veri, gerçek zaman, sıfır sermaye — motorun tüm kâğıt aygıtı tam bu aşama için var. Ancak o zaman, hem tarihsel hem ileri kanıt mutabık olunca, **boyut** sohbete girer.\n\nHer aşama önceden-yazılmış bir **öldürme ölçütü** gerektirir — fikri temyizsiz mezarlığa gönderen sonuç. Öldürme ölçütleri olmayan araştırma araştırma değildir; teyit alışverişidir (önyargı izi, beyaz önlükle).\n\nBunun QuantGlass'ı ne yaptığına dikkat et: bir sinyal akışı değil, bir **kişisel araştırma laboratuvarı** — algılayıcı, backtest'çi, ileri-test ortamı ve günlük, tek bir dürüst veri omurgasını paylaşır.",
+    "key_terms": [
+      {
+        "term": "Hipotez",
+        "definition": "Yanlışlanabilecek kadar kesin yazılmış bir fikir."
+      },
+      {
+        "term": "Ucuz ölüm",
+        "definition": "Backtest'ler, kötü fikirler para harcamadan ölsün diye vardır."
+      },
+      {
+        "term": "İleri test",
+        "definition": "Canlı-veri kâğıt doğrulaması — tarih ile sermaye arasındaki aşama."
+      },
+      {
+        "term": "Öldürme ölçütü",
+        "definition": "Bir fikri temyizsiz bitiren önceden anlaşılmış sonuç."
+      }
+    ],
+    "exercise": {
+      "question": "Bir fikir güzel backtest yapar ama sekiz hafta ileri kâğıt testi boyunca istikrarla kanar. Hattın hükmü?",
+      "options": [
+        "Gönder — backtest'ler son gürültünün üstündedir.",
+        "İleri aşama tam olarak bunu yakalamak için var: rejim değişimi ya da aşırı-uyumlu tarih — her iki durumda öldürme ölçütü ateşlenir ve fikir sermayeye ilerlemek yerine araştırmaya döner.",
+        "İki sonucu ortala.",
+        "İleri testi mutabık olana kadar uzat."
+      ],
+      "explanation": "Tarih ezberlenebilir; şimdi ezberlenemez. Aşamalar arasındaki anlaşmazlık bilgidir ve 'teyit edene kadar testi uzat', hattın öldürmek için kurulduğu teyit önyargısının ta kendisidir."
+    },
+    "live_apply": {
+      "cta": "Bir strateji önayarı seç ve bir ileri kâğıt testi için öldürme ölçütünü yaz: hangi 30-işlem sonucu onu dürüstçe bitirir?"
+    }
+  },
+  {
+    "id": "expert-30-pro-reporting",
+    "title": "Profesyonel Gibi Raporlamak",
+    "summary": "Tek yatırımcına aylık mektup: sen.",
+    "concept": "Fonlar yatırımcı mektupları yazar; sen kendine bir tane yazarsın, aylık, R cinsinden. Şablon: **başlık sayıları** (işlemler, kazanma oranı, beklenti, toplam R, bu dönemin azami düşüşü); **atıf (attribution)** (hangi kurulumlar, rejimler ve semboller R üretti ve tüketti — günlük-istatistik dersinde öğrendiğin dilimleme); **ihlal raporu** (risk ofisinin kaydı: piyasa vs disiplin, işaretli desenler); **süreç ölçütleri** (plan bağlılık oranı, günlük tamlığı — diğer sayıları öngören sayılar); ve **bir değişiklik** — gelecek ay için tek, somut bir ayar, çünkü beş değişiklik isteyen raporlar sıfır üretir.\n\nDisiplin, onu ay *kötüyken* yazmaktır: en az yazmak istediğin rapor, sahip olduğun en pahalı bilgiyi içerir. Ve biçim profesyonel çerçeveyi dayatır — aylar örneklem olarak (işlem n'i) değerlendirilir, hikâye olarak değil ('berbat hissettirdi'); kusursuz bağlılıkla -3R'lik bir ay, kırmızı sayılı *iyi bir rapordur*.\n\nVeri omurgan zaten var: kâğıt geçmişi, günlük, hazırlık puanları, ihlal kaydı. Mektup bir dürüst saattir, yılda on iki kez.",
+    "key_terms": [
+      {
+        "term": "Yatırımcı mektubu",
+        "definition": "Aylık öz-rapor — önce sayılar, R cinsinden."
+      },
+      {
+        "term": "Atıf",
+        "definition": "Kurulum, rejim ve sembole göre dilimlenmiş R."
+      },
+      {
+        "term": "Süreç ölçütleri",
+        "definition": "Bağlılık ve tamlık — öncü göstergeler."
+      },
+      {
+        "term": "Bir-değişiklik kuralı",
+        "definition": "Rapor başına tek somut ayar."
+      }
+    ],
+    "exercise": {
+      "question": "Ayın: toplam −2.4R, ama plan bağlılığı %96 ve her kayıp planlanan 1R'i içinde. Profesyonel rapor onu nasıl okur?",
+      "options": [
+        "Başarısız bir ay — sayı kırmızı.",
+        "Ödemeyen bir örneklemde iyi işletilmiş bir ay: süreç ölçütleri geçti, kayıplar planlanan boyuttaydı ve yöntem üzerine hüküm daha çok n bekler — tam olarak 'yöntemleri toplamlarla yargıla'nın anlamı.",
+        "Bağlılık kayıplara yol açtı.",
+        "Kaybeden aylarda raporlar atlanır."
+      ],
+      "explanation": "Rapor işletmeni sonuçtan ayırır. Yeşil süreçli kırmızı aylar varyanstır; kırmızı süreçli yeşil aylar tehlikeli olanlardır — mektup onları ayırt etmek için var."
+    },
+    "live_apply": {
+      "cta": "Bu ayın mektubunu kâğıt geçmişinden taslakla: başlık R, en iyi/en kötü kurulum, bağlılık tahmini ve o tek değişiklik."
+    }
+  },
+  {
+    "id": "expert-31-complete-operator",
+    "title": "Tam İşletmen",
+    "summary": "Her iz, tek bir kimlik — ve mezuniyet gerçekte ne demektir.",
+    "concept": "Şimdi taşıdığını birleştir. Piyasaları yapısal okursun (temeller, grafik okuryazarlığı, rejimler) ve motorun ne hesapladığını, neyi yargılaman gerektiğine karşı bilirsin (her kapsam-çizgisi dersi). Geçersizlemeden boyutlandırırsın, ısıyı stresli korelasyonlara karşı bütçelersin ve kaldıracı hayatta kalmanın yeniden-ölçeklenmesi olarak görürsün (risk, marj izleri). Herhangi bir iddiadan — kendininki dahil — istatistiksel dürüstlük istersin: örneklem, OOS, kalibrasyon, uyumlu sınırlar (istatistik, doğrulama izleri). İçerdeki düşmanı (psikoloji) ve dışarıdakini (dolandırıcılık savunması) tanırsın. Bir döngüde işletirsin, bir hatta araştırırsın, R'de raporlarsın ve kendin kurduğun bir risk ofisine yanıt verirsin (bu düzey).\n\nNeyin değiştiğine dikkat et: hiçbiri öngörü değil. Akademi sana piyasanın ne yapacağını asla öğretmedi — sana böyle bir bilgiye ihtiyaç duymamayı öğretti: avantajlar süreçte bulunur, risk birimlerinde ifade edilir, dürüstçe doğrulanır ve birikime atlatılır.\n\nÖyleyse mezuniyet, canlı-işlem kilidinin açılması değildir (o bir seçim kalır, bir varış değil — kâğıt ustalığı eksiksiz bir sonuçtur). Mezuniyet şudur: **artık üzerinde davrandığın her sayıyı savunabilirsin**. O standart — motorun standardı, artık seninki — tek bir cümlede tüm müfredattır. Onu taşı.",
+    "key_terms": [
+      {
+        "term": "Tam işletmen",
+        "definition": "Yapı-okuru, risk-boyutlandırıcı, dürüst istatistikçi, kendini-yöneten."
+      },
+      {
+        "term": "Süreç avantajı",
+        "definition": "Öngörüde değil işletimde konumlanmış üstünlük."
+      },
+      {
+        "term": "Savunulabilir sayı",
+        "definition": "Mezuniyet standardı: üzerinde davranılan her rakam denetlenebilir."
+      },
+      {
+        "term": "Kâğıt ustalığı",
+        "definition": "Eksiksiz, meşru bir son durum — bekleme odası değil."
+      }
+    ],
+    "exercise": {
+      "question": "Bu zirveye göre, Akademinin gerçek mezuniyet ölçütü nedir?",
+      "options": [
+        "Canlı işlemin kilidini açmak.",
+        "Üzerinde davrandığın her sayıyı savunabilmek — örneklem, kaynak, varsayım ve risk — motorun kendine uyguladığı aynı standart.",
+        "113 dersi tamamlamak.",
+        "Kârlı bir ay."
+      ],
+      "explanation": "Dersler biter; standart bitmez. Canlı işlem onun isteğe bağlı bir uygulamasıdır; savunulabilir sayı, her hâlükârda koruduğun kimliktir."
+    },
+    "live_apply": {
+      "cta": "Tamamladığın izleri kaydır ve aylık yeniden okuyacağın o tek dersi seç — her işletmen bir bileme taşı saklar."
+    }
+  }
+]
