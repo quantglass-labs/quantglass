@@ -79,7 +79,7 @@ jobs:
             shasum -a 256 * > "SHA256SUMS-${{ runner.os }}.txt"
           fi
           ls -la
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: bundles-${{ matrix.os }}
           path: release-artifacts/

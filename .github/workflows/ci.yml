@@ -127,7 +127,7 @@ jobs:
         run: npm --prefix apps/desktop ci
       - name: Generate reports
         run: python scripts/generate_license_reports.py
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: license-reports
           path: license-reports/
