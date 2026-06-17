@@ -1,0 +1,932 @@
+[
+  {
+    "id": "intermediate-01-moving-averages",
+    "title": "Hareketli Ortalamalar — EMA ve SMA",
+    "summary": "EMA'nın neden daha hızlı tepki verdiğini ve bunun ne zaman önemli olduğunu anlayın.",
+    "concept": "Hem **EMA** (Üstel Hareketli Ortalama) hem de **SMA** (Basit Hareketli Ortalama) fiyat gürültüsünü tek bir çizgiye düzleştirir. Fark *ağırlıklandırmadır*:\n\n- **SMA**: penceredeki her kapanış eşit ağırlık alır. SMA-50 = son 50 kapanışın ortalaması.\n- **EMA**: yeni kapanışlar üstel olarak daha fazla ağırlık alır. EMA-21 yeni fiyata SMA-50'den daha hızlı tepki verir, trend değişiminde SMA'dan önce döner.\n\n**QuantGlass'ta pratik kullanım:**\n- EMA-21 *yükseliş trendlerinde dinamik destek* ve *düşüşlerde direnç* olarak işlev görür.\n- Yükseliş istiflenmesi (Close > EMA > SMA) içinde EMA-21'e bir geri çekilme, `ema_reclaim_pullback` ve `daily_trend_pullback` kurulumları için giriş tetikleyicisidir.\n- SMA-50'nin son 10 bardaki *eğimi* (`htf_slope`) üst zaman dilimi yön filtresi olarak kullanılır — girişler yalnızca SMA-50 işlem yönünde eğildiğinde izinli.",
+    "key_terms": [
+      {
+        "term": "SMA-50",
+        "definition": "Son 50 kapanış fiyatının basit ortalaması — gecikmeli ama istikrarlı."
+      },
+      {
+        "term": "EMA-21",
+        "definition": "21 dönemlik üstel ağırlıklı ortalama — son hareketlere daha hızlı tepki."
+      },
+      {
+        "term": "Dinamik destek/direnç",
+        "definition": "Fiyatla ayarlanan S/D işlevi gören hareketli ortalama."
+      },
+      {
+        "term": "HTF eğimi",
+        "definition": "Üst zaman dilimi eğimi: (SMA50[şimdi] − SMA50[10 bar önce]) / SMA50[10 bar önce]."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat yükseliş trendindeydi. SMA-50 ikisinin de altındayken geri çekilip EMA-21'e dokunuyor. QuantGlass hangi kurulumu arar?",
+      "options": [
+        "Bir aralık ortalamaya dönüş short'u.",
+        "Bir trend-geri çekilme long girişi (ema_reclaim_pullback veya daily_trend_pullback).",
+        "Bir düşüş kırılması izlemesi.",
+        "Kurulum yok — QuantGlass hareketli ortalama dokunuşlarını yok sayar."
+      ],
+      "explanation": "Close > EMA21 > SMA50 olduğunda ve fiyat RSI 46–72 bölgesindeyken EMA-21 yakınında geri çekildiğinde, motor `ema_reclaim_pullback` (gün içi) veya `daily_trend_pullback` (günlük) üretir — yükseliş trendinin devamını hedefleyen bir BUY_ZONE sinyali."
+    },
+    "live_apply": {
+      "cta": "Sinyalleri BUY_ZONE'a filtreleyin. setup_type = 'ema_reclaim_pullback' olan bir sinyal bulun ve nedenler listesini inceleyin."
+    }
+  },
+  {
+    "id": "intermediate-02-rsi",
+    "title": "RSI — Momentumu ölçmek",
+    "summary": "Tükenmeyi ve momentum onayını belirlemek için RSI kullanın.",
+    "concept": "**Göreli Güç Endeksi (RSI-14)** momentumu ölçer: fiyatın son geçmişine göre ne kadar hızlı ve ne kadar uzağa hareket ettiği. 0 ile 100 arasında salınır:\n\n- **RSI > 70**: aşırı alım (momentum uzamış, tükenmeye dikkat)\n- **RSI < 30**: aşırı satım (momentum aşağı uzamış)\n- **RSI 46–72**: sağlıklı yükseliş trendi bölgesi — burada geri çekilme girişleri tercih edilir\n\nQuantGlass ortalamaya dönüş kurulumları için **RSI-2** (ultra hızlı 2 dönemlik RSI) de kullanır:\n- Alt Bollinger bandı yakınında RSI-2 ≤ 8 → aşırı kısa vadeli aşırı satım → BUY_ZONE\n- Üst Bollinger bandı yakınında RSI-2 ≥ 92 → aşırı kısa vadeli aşırı alım → SELL\n\n**Iraksama**: fiyat daha yüksek tepe yapar ama RSI daha düşük tepe → düşüş ıraksaması, fiyat yükselse de momentum zayıflıyor.",
+    "key_terms": [
+      {
+        "term": "RSI-14",
+        "definition": "14 dönemlik Göreli Güç Endeksi — birincil momentum osilatörü."
+      },
+      {
+        "term": "RSI-2",
+        "definition": "2 dönemlik RSI — aşırı kısa vadeli ortalamaya dönüş göstergesi."
+      },
+      {
+        "term": "Aşırı alım",
+        "definition": "RSI > 70 — momentum yukarı uzamış, dönüş riski artar."
+      },
+      {
+        "term": "Aşırı satım",
+        "definition": "RSI < 30 — momentum aşağı uzamış, olası sıçrama bölgesi."
+      },
+      {
+        "term": "RSI ıraksaması",
+        "definition": "Fiyat ve RSI zıt yönlerde hareket eder — zayıflayan momentum sinyali."
+      }
+    ],
+    "exercise": {
+      "question": "Bir aralık piyasasında RSI-2 5'e düşer ve fiyat alt Bollinger bandına dokunur. QuantGlass hangi sinyali üretir?",
+      "options": [
+        "SELL — fiyat dipte, bir düşüş kırılmasını onaylıyor.",
+        "BUY_ZONE, kurulum türü 'range_meanreversion_long'.",
+        "WAIT — aralık piyasasında yetersiz kanıt.",
+        "HOLD — aralık piyasalarında yeni giriş yok."
+      ],
+      "explanation": "`ranging` rejiminde, RSI-2 ≤ 8 *ve* fiyat alt Bollinger bandında `range_meanreversion_long` kurulumunu tetikler. Ortalamaya dönüş hedefi Bollinger orta çizgisidir. TP merdiveni o orta çizgiye demirlenir, açık bir ATR katına değil."
+    },
+    "common_mistakes": [
+      "Yükseliş trendinde 'aşırı alım'da short açmak. Güçlü trendler RSI'yi haftalarca 70 üzerinde tutturur; ortalamaya dönüş okumaları aralık rejimi gerektirir.",
+      "Yalnızca RSI ile hareket etmek. Motor onu rejim kapısının arkasında bir girdi sayar, asla bağımsız tetik olarak değil."
+    ],
+    "live_apply": {
+      "cta": "Sinyaller ekranında setup_type = 'range_meanreversion_long' olan bir BUY_ZONE sinyali arayın."
+    }
+  },
+  {
+    "id": "intermediate-06-macd",
+    "title": "MACD: Trend momentumu görünür kılındı",
+    "summary": "İki EMA, aralıkları ve momentum kaymalarını zamanlayan histogram.",
+    "concept": "**MACD** (Hareketli Ortalama Yakınsama Iraksaması) basit bir fikirle başlar: hızlı bir merceği yavaş bir mercekle karşılaştır. **MACD çizgisi** 12 dönemlik EMA eksi 26 dönemlik EMA'dır — son fiyatlar daha yavaş tabana göre sıcak koştuğunda pozitiftir. **Sinyal çizgisi** *MACD çizgisinin* 9 dönemlik EMA'sıdır. **Histogram** bunların farkıdır ve QuantGlass'ın gerçekten tükettiği şeydir: `macd_hist > 0` kurulum birleşmesinde yükseliş mutabakatı sayılır, `< 0` düşüş olarak.\n\nOkumak: histogramın sıfırı geçmesi hızlı/yavaş EMA kesişimini işaretler; fiyat hâlâ iterken histogramın *küçülmesi* fiyat dönmeden önce momentumun solmasını işaretler — klasik erken uyarı.\n\nSınırlar: MACD EMA'lardan inşa edilir, yani yapısı gereği gecikir ve düz aralıklarda testere yapar. Bu yüzden motor onu birkaçı arasında bir **mutabakat oyu** olarak kullanır, asla bağımsız tetik değil.",
+    "key_terms": [
+      {
+        "term": "MACD çizgisi",
+        "definition": "Kapanışların EMA-12 eksi EMA-26'sı."
+      },
+      {
+        "term": "Sinyal çizgisi",
+        "definition": "MACD çizgisinin EMA-9'u."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD çizgisi eksi sinyal çizgisi — motorun macd_hist değeri."
+      },
+      {
+        "term": "Momentum ıraksaması",
+        "definition": "Histogram küçülürken fiyat itmeye devam eder."
+      },
+      {
+        "term": "Mutabakat oyu",
+        "definition": "Motorun MACD'yi kullanma şekli: bir birleşme girdisi, tetik değil."
+      }
+    ],
+    "exercise": {
+      "question": "QuantGlass'ın kurulum mantığında MACD histogramı hangi rolü oynar?",
+      "options": [
+        "Her sinyalin tek tetiğidir.",
+        "İşareti birleşme puanında bir mutabakat oyu olarak işlev görür — yükseliş kurulumları pozitifken, düşüş negatifken puan kazanır.",
+        "Stop-loss mesafesini belirler.",
+        "Hacim analizinin yerini alır."
+      ],
+      "explanation": "Motor, macd_hist kurulum yönüyle mutabık olduğunda sabit bir birleşme bonusu ekler. Bu bir teyittir, asla işlem fikrinin kendisi değil."
+    },
+    "live_apply": {
+      "cta": "Bir sembolün göstergelerini açın ve MACD histogramının işaretini mevcut kurulum yönüne karşı izleyin — mutabakat mı uyuşmazlık mı?"
+    }
+  },
+  {
+    "id": "intermediate-07-bollinger",
+    "title": "Bollinger Bantları: Bir koridor olarak oynaklık",
+    "summary": "İki standart sapmaya sarılı 20 barlık bir ortalama.",
+    "concept": "**Bollinger Bantları** fiyatı istatistiksel bir koridora sarar: **orta bant** 20 dönemlik bir hareketli ortalamadır; **üst ve alt bantlar** ondan 2 standart sapma yukarıda ve aşağıda oturur, aynı 20 barda hesaplanır. Standart sapma oynaklıkla büyüdüğü için koridor nefes alır — fırtınalarda geniş, sakinlikte dar.\n\nİki okuma önemlidir. **Bant dokunuşları**: bir banttaki fiyat *istatistiksel olarak gerilmiştir*, otomatik olarak dönmez; motorun aralık rejiminde, yıkanmış hızlı bir RSI ile alt bant dokunuşu long ortalamaya dönüş kurulumudur, açık bir merdiven yerine **orta bandı** hedefler. **Bant genişliği**: (üst − alt) ÷ orta sıkışmayı ölçer; aşırı darlık çoğu zaman genişlemeden önce gelir.\n\nMotor dört serinin tümünü — üst, alt, orta, bant genişliği — kapanmış mumlardan hesaplar ve ortalamaya dönüş çıkışları kelimenin tam anlamıyla `bb_mid`'i hedefler, bu yüzden bu ders gerçek kâr alma mantığınızı tarif ediyor.",
+    "key_terms": [
+      {
+        "term": "Orta bant",
+        "definition": "20 dönemlik ortalama — koridorun merkezi ve ortalamaya dönüş hedefi."
+      },
+      {
+        "term": "Standart sapma",
+        "definition": "Koridoru boyutlandıran 20 barlık dağılım ölçüsü."
+      },
+      {
+        "term": "Bant genişliği",
+        "definition": "(Üst − alt) ÷ orta — sıkışma göstergesi."
+      },
+      {
+        "term": "Bant dokunuşu",
+        "definition": "Fiyatın bir banta dokunması: gerilmiş, zorunlu olarak dönmez."
+      }
+    ],
+    "exercise": {
+      "question": "Motorun aralık ortalamaya dönüş kurulumunda, kâr alma neden 3 basamaklı merdiven yerine orta bandı hedefler?",
+      "options": [
+        "Orta bantları çizmek daha kolay.",
+        "Ortalamaya dönüş ortalamaya geri dönüşe bahse girer — istatistiksel mıknatıs ortalamanın kendisidir, bu yüzden çıkış mantığı onu hedefler.",
+        "Merdivenler yalnızca yükseliş trendlerinde yasaldır.",
+        "Orta bant asla hareket etmez."
+      ],
+      "explanation": "Kurulumun öncülü ortalamaya dönüştür. bb_mid'i hedeflemek çıkışı, girişi üreten fikirle tutarlı tutar."
+    },
+    "live_apply": {
+      "cta": "Bollinger katmanını açın: yakın bir bant dokunuşu bulun ve fiyatın sonradan orta banda dönüp dönmediğini kontrol edin."
+    }
+  },
+  {
+    "id": "intermediate-08-adx",
+    "title": "ADX: Trend gücünü ölçmek, yönü değil",
+    "summary": "Motorun trend/aralık rejim kararının arkasındaki gösterge.",
+    "concept": "**ADX** tek bir soruya cevap verir: *bu piyasa hiç trendde mi?* Yönsel hareketten inşa edilir — bugünün yükseğinin dününkinin ne kadar üstüne ittiği (+DM) karşısında bugünün düşüğünün ne kadar altına ittiği (−DM) — düzleştirilmiş, gerçek aralıkla +DI/−DI'ye normalize edilmiş ve 0–100 güç okumasına yoğunlaştırılmış. Yön kasıtlı olarak atılır: güçlü bir düşüş trendi ve güçlü bir yükseliş ikisi de yüksek okur.\n\nQuantGlass'ın rejim kapısı tam eşikler kullanır: **ADX ≥ 22 → trendde**, **ADX < 16 → aralıkta**, aralarında → geçişli (ayrı bir oynaklık kontrolüyle ki *oynak*a geçersiz kılabilir). Bu sayılar hangi kurulum ailelerinin çalışacağını belirler — geri çekilme ve kırılma kurulumları trend rejimi gerektirir; ortalamaya dönüş aralık gerektirir.\n\nPratik okuma: yükselen ADX = hareket güçleniyor (yönü ne olursa olsun); bir trendden sonra düşen ADX = trend nefes veriyor. Yön için onu yapıyla eşleştirin.",
+    "key_terms": [
+      {
+        "term": "ADX",
+        "definition": "0–100 trend gücü okuması, yöne kör."
+      },
+      {
+        "term": "+DI / −DI",
+        "definition": "Yukarı ve aşağı hareketlerden, gerçek aralıkla normalize edilmiş yönsel endeksler."
+      },
+      {
+        "term": "Rejim kapısı",
+        "definition": "QuantGlass: ADX ≥ 22 trendde, < 16 aralıkta, aksi geçişli."
+      },
+      {
+        "term": "Trend tükenmesi",
+        "definition": "Olgun bir trend sırasında düşen ADX."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat daha düşük dipler yaparken ADX 28 okur. Motor ne sonuç çıkarır?",
+      "options": [
+        "Piyasa aralıkta — 28 düşük.",
+        "Piyasa trend rejiminde (ADX ≥ 22) ve trendin yönü (aşağı) fiyat yapısından gelir, ADX'ten değil.",
+        "ADX bozuldu — düşüş trendlerinde negatif olmalı.",
+        "Yalnızca yükseliş trendleri 22 üzerinde ADX'e sahip olabilir."
+      ],
+      "explanation": "ADX yalnızca gücü ölçer. 28 trend eşiğini aşar; daha düşük diplerin yapısı düşüş yönünü tedarik eder."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalde rejim etiketini bulun, sonra arkasındaki ADX değerini bu dersin verdiği 22/16 eşikleriyle karşılaştırın."
+    }
+  },
+  {
+    "id": "intermediate-09-donchian",
+    "title": "Donchian Kanalları: Uçları işlemek",
+    "summary": "Kırılma tespitinin arkasındaki 20 barlık yüksek/düşük kanalı.",
+    "concept": "**Donchian kanalı** var olan en dürüst göstergedir: üst çizgi basitçe **son 20 barın en yüksek yükseği**, alt çizgi **en düşük düşüğü**. Düzleştirme yok, ağırlık yok — saf uçlar.\n\nMantığı: trendli bir piyasada, fiyatın *yeni bir 20 barlık uç* yapması trendin kendini ileri sürmesidir. QuantGlass'ın kırılma-yeniden test kurulumları, bir trend rejiminde bir mum **önceki barın** kanal kenarından iterek ona yakın ya da ötesinde (%0,3 içinde) kapandığında, hacim en azından son ortalamasındayken ateşlenir. Önceki barın kanalını kullanmak, bugünün yükseğinin kırması gereken kanalın *ta kendisi* olduğu öz-referans tuzağından kaçınır.\n\nKanalın genişliği oyun alanını da tarif eder: dar kanal sıkışmadır (enerji depolanıyor), geniş olan uzamış bir harekettir. Donchian doğal olarak ADX ile eşleşir — *trend rejimlerinde* kanal kırılmaları devamdır; aynı kırılma ölü bir aralıkta genellikle bir sahtekârlıktır.",
+    "key_terms": [
+      {
+        "term": "Donchian üst/alt",
+        "definition": "Geriye bakış döneminde en yüksek yüksek / en düşük düşük (motorda 20 bar)."
+      },
+      {
+        "term": "Kırılma",
+        "definition": "Önceki barın kanal ucundan bir itiş."
+      },
+      {
+        "term": "Yeniden test (retest)",
+        "definition": "Fiyatın devam etmeden önce kırılan seviyeye geri dönmesi."
+      },
+      {
+        "term": "Sahtekârlık (fakeout)",
+        "definition": "Rejim veya hacim desteği olmadan bir kanal kırılması."
+      }
+    ],
+    "exercise": {
+      "question": "Motor kırılmaları tespit ederken fiyatı neden ÖNCEKİ barın Donchian kanalıyla karşılaştırır?",
+      "options": [
+        "Önceki barların veri kalitesi daha iyi.",
+        "Mevcut barın yükseği mevcut kanalın parçası — bir bar her zaman kendi ucuna dokunur, bu yüzden önceki kanal dürüst referanstır.",
+        "Donchian kanalları yalnızca haftalık güncellenir.",
+        "Matematiği yavaşlatır ama daha güzel yapar."
+      ],
+      "explanation": "Bugünün yükseği bugünün kanal tavanını tanımlar, bu yüzden onu 'kırmak' önemsizce doğru olurdu. Önceki barın kanalına karşı test gerçek soruyu sorar: öncekini aştık mı?"
+    },
+    "live_apply": {
+      "cta": "Bir breakout_retest ön ayarı bulun ve işlem istatistiklerini okuyun — her simüle giriş bu önceki-bar kanal kuralından geldi."
+    }
+  },
+  {
+    "id": "intermediate-10-keltner",
+    "title": "Keltner Kanalları: ATR zarfı",
+    "summary": "EMA ± 1,5 ATR — gerçek aralıkla nefes alan oynaklık bantları.",
+    "concept": "**Keltner kanalları** bir 21 dönemlik EMA'yı **1,5 × ATR(14)** ile ötelenmiş bantlara sarar. Bollinger koridorunu *kapanışların istatistiksel dağılımıyla* boyutlandırırken, Keltner onu **gerçek aralıkla** boyutlandırır — boşluklar dahil gerçek bardan bara yolculuk. Sonuç daha pürüzsüz, daha kararlı bir zarftır ve dalgalı şeritte daha az testere yapar.\n\nOkumalar: fiyatın üst Keltner bandında ata binmesi güçlü bir trendi işaretler (trendlerde 'aşırı alım' çoğu zaman sadece güç demektir); fiyatın bantlar arasında salınması dengeyi işaretler. **Sıkışma (squeeze)** — Bollinger bantlarının Keltner kanalının *içinde* daralması — klasik bir sıkışma bayrağıdır, çünkü istatistiksel oynaklığın tipik bar yolculuğunun altına düştüğü anlamına gelir.\n\nMotorda Keltner bantları her şeyle birlikte kapanmış mumlardan hesaplanır ve bir hareketin kendi normal yolculuğuna göre ne kadar gerildiğinin bağlamı olarak hizmet eder — stoplarınızı boyutlandıran aynı ATR düşüncesi.",
+    "key_terms": [
+      {
+        "term": "Keltner kanalı",
+        "definition": "Motorda EMA-21 ± 1,5 × ATR(14)."
+      },
+      {
+        "term": "Gerçek aralık",
+        "definition": "Boşluklar dahil bar yolculuğu — yüksek−düşük ve önceki kapanıştan hareketlerin maksimumu."
+      },
+      {
+        "term": "Banda binmek",
+        "definition": "Bir bantta sürekli kapanışlar: trend gücü, otomatik dönüş değil."
+      },
+      {
+        "term": "Sıkışma (squeeze)",
+        "definition": "Keltner içinde Bollinger — genişlemeden önce sıkışma."
+      }
+    ],
+    "exercise": {
+      "question": "Hem Bollinger hem Keltner bir hareketli ortalamayı sarar. Belirleyici fark nedir?",
+      "options": [
+        "Keltner standart sapma kullanır; Bollinger ATR.",
+        "Bollinger bantları kapanışların standart sapmasıyla; Keltner onları ATR ile — gerçek bar yolculuğuyla — boyutlandırır.",
+        "Bollinger yalnızca hisselerde çalışır.",
+        "Fark yok."
+      ],
+      "explanation": "Aynı iskelet, farklı oynaklık cetveli: kapanışların dağılımı (Bollinger) karşısında gerçek aralık (Keltner). Seçim, bantların boşluklarda ve dalgalanmada nasıl davrandığını değiştirir."
+    },
+    "live_apply": {
+      "cta": "Her iki zarfı katmanlayın: Bollinger'ın Keltner içinde sıkıştığı bir an bulun ve fiyatın sonra ne yaptığını görün."
+    }
+  },
+  {
+    "id": "intermediate-11-indicator-families",
+    "title": "Dört gösterge ailesi",
+    "summary": "Trend, momentum, oynaklık, hacim — ve her birinden neden biri, birinden beşi yener.",
+    "concept": "Karşılaşacağınız her gösterge dört sorudan birine cevap verir. **Trend**: taban hangi yöne kayıyor? (EMA, SMA, MACD'nin iskeleti). **Momentum**: fiyat son itişlerine göre ne kadar sert itiyor? (RSI, MACD histogramı). **Oynaklık**: hareketler ne kadar büyük? (ATR, Bollinger bant genişliği, Keltner genişliği). **Hacim**: kim geldi? (hacim oranı).\n\nBüyük günah **gereksizliktir**: RSI + stokastik + MACD histogramını üst üste yığmak aynı momentum sorusunu üç şekilde sormak ve yankıları 'onay' olarak adlandırmaktır. Gerçek onay aileleri keser: trend yukarı der, momentum güçlü der, oynaklık düzenli der, hacim katılımlı der.\n\nMotorun birleşme puanı tam da böyle bir araya getirilir — soru başına bir girdi: trend hizalaması (EMA-SMA farkı), hacim onayı (hacim oranı), bir momentum mutabakat oyu (MACD histogramı) ve bir üst zaman dilimi kayma kontrolü. Dört aile, her biri bir oy, yankı yok.",
+    "key_terms": [
+      {
+        "term": "Trend ailesi",
+        "definition": "Taban yönü: EMA, SMA."
+      },
+      {
+        "term": "Momentum ailesi",
+        "definition": "İtiş gücü: RSI, MACD histogramı."
+      },
+      {
+        "term": "Oynaklık ailesi",
+        "definition": "Hareket boyutu: ATR, bant genişlikleri."
+      },
+      {
+        "term": "Hacim ailesi",
+        "definition": "Katılım: hacim oranı."
+      },
+      {
+        "term": "Gereksizlik",
+        "definition": "Birden çok gösterge aynı soruya cevap verir ve yanlışlıkla onay sayılır."
+      }
+    ],
+    "exercise": {
+      "question": "Bir tüccar RSI, stokastik ve MACD histogramının hepsi yükselerek bir long'u 'onaylar'. Kusur nedir?",
+      "options": [
+        "Üç gösterge çok az.",
+        "Üçü de momentum ailesinden — bir soru üç kez sorulmuş, bağımsız onay yerine yankı sağlıyor.",
+        "Momentum göstergeleri birlikte yükselemez.",
+        "Long'lar tam beş gösterge gerektirir."
+      ],
+      "explanation": "Aileler arası kontroller (trend + momentum + oynaklık + hacim) bilgi ekler; aynı aile yığınları yalnızca gürültüyle ilişkili rahatlık ekler."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalin nedenlerini açın: listelenen her nedenin dört aileden hangisinden geldiğini belirleyin."
+    }
+  },
+  {
+    "id": "intermediate-12-confluence",
+    "title": "Birleşme: Motor bir kurulumu nasıl puanlar",
+    "summary": "Birleşme puanının arkasındaki tam aritmetik.",
+    "concept": "Birkaç bağımsız gözlem mutabık olduğunda, kanıt bileşiklenir — bu **birleşmedir**. QuantGlass bunu muğlak bırakmaz; puan denetleyebileceğiniz bir aritmetiktir.\n\nHer kurulum ailenin önceki kalitesini yansıtan bir **tabandan** başlar (trend geri çekilmeleri için 0,55, kırılma yeniden testleri için 0,60, ortalamaya dönüş için 0,50). Sonra ekler: **trend hizalaması × 0,15** (EMA-21'in SMA-50'den ne kadar kararlıca uzakta oturduğu, ölçeklenmiş), **hacim onayı × 0,10** (hacim oranı ölçeklenmiş), **MACD histogramı yönle mutabıksa +0,10**, **üst zaman dilimi kayması mutabıksa +0,10** ve bir **rejim bonusu** (ör. rejim aileyle eşleştiğinde +0,10–0,12). Toplam [0, 1]'e sınırlanır.\n\nBir sembolde birden çok kurulum yarıştığında, motor basitçe **en yüksek birleşmeyi** alır — ve puan sonra güveni 18 puan ağırlıkla besler. Her sinyalin birleşmesi temelinde basılıdır, böylece herhangi bir puanı bu paragraftan elle yeniden hesaplayabilirsiniz.",
+    "key_terms": [
+      {
+        "term": "Birleşme",
+        "definition": "Bağımsız gözlemler mutabık — puanlanmış, hissedilmemiş."
+      },
+      {
+        "term": "Taban puanı",
+        "definition": "Kanıttan önce kurulum ailesinin başlangıç kalitesi."
+      },
+      {
+        "term": "Mutabakat bonusu",
+        "definition": "MACD ve üst zaman dilimi hizalaması için her biri +0,10."
+      },
+      {
+        "term": "Rejim bonusu",
+        "definition": "Rejim kurulum ailesiyle eşleştiğinde ek puan."
+      },
+      {
+        "term": "Sınırlama (clamp)",
+        "definition": "Puanlar [0, 1]'e sınırlı — sonsuz yığılma yok."
+      }
+    ],
+    "exercise": {
+      "question": "Bir trend geri çekilmesinin trend_alignment'ı 0,8, volume_confirmation'ı 0,5, MACD mutabık, üst zaman dilimi mutabık, trend-rejim bonusu 0,10. Birleşmesi nedir?",
+      "options": [
+        "0,55 — taban puandır.",
+        "0,55 + 0,12 + 0,05 + 0,10 + 0,10 + 0,10 = 1,02, 1,00'e sınırlanır.",
+        "0,92: 0,55 + 0,8×0,15 + 0,5×0,10 + 0,10 + 0,10 + 0,10.",
+        "Birleşme elle hesaplanamaz."
+      ],
+      "explanation": "0,55 taban + 0,12 (0,8×0,15) + 0,05 (0,5×0,10) + 0,10 MACD + 0,10 HTF + 0,10 rejim = 0,92. Denetlenebilir aritmetik — mesele bu."
+    },
+    "live_apply": {
+      "cta": "Herhangi bir sinyalin confluence_score'unu temelinden alın ve bu dersin formülünden yeniden hesaplayın."
+    }
+  },
+  {
+    "id": "intermediate-03-atr",
+    "title": "ATR — Oynaklığı ölçmek ve stopları boyutlandırmak",
+    "summary": "Gerçek piyasa oynaklığıyla stopları ve pozisyonları boyutlandırmayı öğrenin.",
+    "concept": "**Ortalama Gerçek Aralık (ATR-14)** oynaklığı ölçer: 14 barda 'gerçek aralığın' ortalaması. Gerçek Aralık = maks(Yüksek − Düşük, |Yüksek − ÖncekiKapanış|, |Düşük − ÖncekiKapanış|).\n\n**Neden ATR tabanlı stoplar sabit-dolar stopları yener:**\nOynak bir hissedeki düz bir $500 stop normal gürültüyle vurulur. ATR tabanlı stop mevcut oynaklığa ayarlanır — sakin piyasalarda daralır, oynaklarda genişler.\n\n**QuantGlass stop formülü (long giriş):**\n`stop_loss = reference_price − (ATR × stop_multiple)`\nburada stop_multiple = 1,3 (sıkışmış), 1,45 (normal), 1,6 (genişlemiş).\n\n**ATR fiyatın %'si** = ATR ÷ Close × 100. ATR% < 1% ise → düşük risk. ATR% > 2,6% → yüksek risk.",
+    "key_terms": [
+      {
+        "term": "ATR-14",
+        "definition": "14 dönemlik Ortalama Gerçek Aralık — son fiyat oynaklığını ölçer."
+      },
+      {
+        "term": "Gerçek Aralık",
+        "definition": "Şunların en büyüğü: Yüksek-Düşük, |Yüksek-ÖncekiKapanış|, |Düşük-ÖncekiKapanış|."
+      },
+      {
+        "term": "Stop katı",
+        "definition": "Stop yerleşimi için ATR çarpanı: 1,3 (sıkışmış) ile 1,6 (genişlemiş)."
+      },
+      {
+        "term": "ATR fiyatın %'si",
+        "definition": "ATR ÷ Close × 100 — yüzde olarak normalize edilmiş oynaklık."
+      }
+    ],
+    "exercise": {
+      "question": "BTCUSD $65.000'de. ATR-14 = $1.300. Oynaklık rejimi 'normal' (stop_multiple = 1,45). Long giriş için stop-loss nedir?",
+      "hint": "stop_loss = giriş − (ATR × stop_multiple)",
+      "explanation": "stop_loss = 65.000 − (1.300 × 1,45) = 65.000 − 1.885 = **63.115**. Stop girişin 1,45 ATR altına yerleştirilir — normal fiyat gürültüsünden kurtulacak kadar uzak ama işlem başına riskin ölçülebilir olacağı kadar yakın."
+    },
+    "common_mistakes": [
+      "Oynaklığı dikkate almadan sabit-dolar stopları koymak. 2 puanlık bir stop sakin bir günde cömert ve vahşi bir günde gürültü içinde.",
+      "Oynaklık ikiye katlandıktan sonra ATR stopunu yeniden hesaplamadan pozisyon boyutunu yeniden hesaplamak — eski stop mesafesi artık hiçbir şey ifade etmiyor."
+    ],
+    "live_apply": {
+      "cta": "Bir BTCUSD BUY_ZONE sinyali açın ve girişten stop_loss mesafesinin kabaca 1,3–1,6× ATR'ye eşit olduğunu doğrulayın."
+    }
+  },
+  {
+    "id": "intermediate-04-risk-reward",
+    "title": "Risk:Ödül Oranı",
+    "summary": "R:R'nin kazanma oranından bağımsız olarak uzun vadeli üstünlüğü neden belirlediğini anlayın.",
+    "concept": "**Risk:Ödül (R:R)** = (TP çıkış − giriş) ÷ (giriş − stop-loss) long'lar için.\n\n2,0 R:R, potansiyel 2 kazanmak için 1 riske attığınız anlamına gelir. İşlemlerin yalnızca %40'ını kazansanız bile, 2,0 R:R pozitif beklenti üretir:\n`Beklenti = (Kazanç% × Ort_kazanç) − (Kayıp% × Ort_kayıp) = (0,4 × 2R) − (0,6 × 1R) = +0,2R`\n\n**QuantGlass R:R hedefleri:**\n- BUY_ZONE / SELL kurulumları: reward_multiple = 2,4× risk_distance (TP2'ye kadar)\n- HOLD / WATCH / WAIT kurulumları: reward_multiple = 1,8×\n\nMotor kademeli çıkmak için bir **3 basamaklı merdiven** kullanır: TP1 (pozisyonun %50'si), TP2 (%30), TP3 (%20). Bu, pozisyonun bir kısmı koşarken kısmi kârı güvenceye alır.",
+    "key_terms": [
+      {
+        "term": "R:R",
+        "definition": "Risk:Ödül oranı — potansiyel kâr ÷ işlem başına risk."
+      },
+      {
+        "term": "Beklenti",
+        "definition": "İşlem başına ortalama kâr: (Kazanç% × Ort_kazanç) − (Kayıp% × Ort_kayıp)."
+      },
+      {
+        "term": "TP merdiveni",
+        "definition": "Pozisyon boyutunun TP1 (%50), TP2 (%30), TP3 (%20)'sinde kademeli çıkış."
+      },
+      {
+        "term": "Pozitif beklenti",
+        "definition": "Beklenti > 0 — üstünlük birçok işlem boyunca hayatta kalır."
+      }
+    ],
+    "exercise": {
+      "question": "İşlemlerin %35'ini ortalama kazanç 3R ile kazanıyor ve %65'ini ortalama kayıp 1R ile kaybediyorsunuz. Üstünlüğünüz pozitif mi?",
+      "options": [
+        "Hayır — %35 kazanma oranı kârlı olmak için çok düşük.",
+        "Evet — Beklenti = (0,35 × 3) − (0,65 × 1) = işlem başına +0,4R.",
+        "Hayır — %65 kayıp oranı her zaman negatif beklenti demektir.",
+        "Bilinmiyor — daha fazla veriye ihtiyacınız var."
+      ],
+      "explanation": "Beklenti = (0,35 × 3R) − (0,65 × 1R) = 1,05 − 0,65 = **işlem başına +0,4R**. Bu, 100 işlemde +40R kâr beklediğiniz anlamına gelir. Yüksek R:R, %50'nin altında kazanma oranıyla bile kârlı olmanızı sağlar — trend takibi için gerçekçi."
+    },
+    "common_mistakes": [
+      "İşlemleri yalnızca kazanma oranıyla yargılamak. %90 kazanma oranı, o %10 -10R felaketlerse para kaybeder.",
+      "Yapı yerine umutla hedef koymak. Risk:ödül yalnızca hedef piyasanın gerçekten saygı duyduğu bir seviyeye oturduğunda bir anlam ifade eder.",
+      "Girişten sonra oranı 'iyileştirmek' için stopu kaydırmak. Oran giriş kriteriydi; işlem ortasında değiştirmek planı siler."
+    ],
+    "live_apply": {
+      "cta": "Backtesting'i açın, herhangi bir ön ayar seçin ve Beklenti (avg_R), Kazanma Oranı ve Kâr Faktörü metriklerini birlikte inceleyin."
+    },
+    "bridge": {
+      "cta": "Uygulayın: Risk Disiplini görevini alın — 20 işlem, her biri stoplu ve risk politika içinde."
+    }
+  },
+  {
+    "id": "intermediate-05-position-sizing",
+    "title": "Pozisyon boyutlandırma — Ne kadar riske atılır",
+    "summary": "Hiçbir tek kaybın yıkıcı olmaması için doğru işlem boyutunu hesaplayın.",
+    "concept": "**Pozisyon boyutlandırma**, stop vurulursa önceden tanımlanmış *işlem başına riskinizden* (ör. hesabın %1'i) fazla kaybetmemeniz için kaç birim alıp satacağınızı belirler.\n\n**Sabit-kesir formülü:**\n`Pozisyon boyutu = (Hesap × Risk%) ÷ (Giriş − Stop-loss)`\n\nÖrnek: $10.000 hesap, işlem başına %1 risk, giriş $100, stop $96:\n`Boyut = ($10.000 × 0,01) ÷ ($100 − $96) = $100 ÷ $4 = 25 hisse`\n\nO 25 hisse $96'da hepsi stop vurursa, 25 × $4 = **tam olarak $100** kaybedersiniz — hesabın %1'i.\n\n**Neden önemli**: sabit bir yüzdeyi riske atmak düşüşler sırasında kayıpları küçük tutar ve hesap büyüdükçe pozisyon boyutunun büyümesine izin verir (bileşik).",
+    "key_terms": [
+      {
+        "term": "İşlem başına risk",
+        "definition": "Stop vurulursa kabul edilebilir maksimum dolar kaybı (ör. hesabın %1'i)."
+      },
+      {
+        "term": "Sabit-kesir boyutlandırma",
+        "definition": "Boyut = (Hesap × Risk%) ÷ (Giriş − Stop) — hesapla ölçeklenir."
+      },
+      {
+        "term": "Düşüş (Drawdown)",
+        "definition": "Kaybeden seri sırasında hesap özkaynağında tepeden dibe düşüş."
+      }
+    ],
+    "exercise": {
+      "question": "Hesap = $25.000. İşlem başına risk = %1. Giriş = $200, Stop = $192. Kaç hisse?",
+      "hint": "Pozisyon boyutu = (Hesap × Risk%) ÷ (Giriş − Stop)",
+      "explanation": "Risk miktarı = $25.000 × %1 = $250. Hisse başına risk = $200 − $192 = $8. Pozisyon boyutu = $250 ÷ $8 = **31,25 → 31 hisse**. Stop ateşlenirse: 31 × $8 = $248 kayıp — hesabın %1'inin hemen altında."
+    },
+    "common_mistakes": [
+      "Önce boyutu, sonra riski seçmek. Boyut bir çıktıdır: (hesap x risk%) / stop mesafesi — asla bir girdi.",
+      "Geri kazanmak için kayıplardan sonra boyutu ikiye katlamak. Bu martingale aritmetiğidir ve hesapları bitirir.",
+      "Açık pozisyonları ayrı saymak. Her biri %1 risk taşıyan beş işlem, ilişkilenirlerse %5 portföy ısısıdır — ve bir çöküşte her şey ilişkilenir."
+    ],
+    "live_apply": {
+      "cta": "Bir sinyal açın, girişini ve stop_loss'unu not edin, sonra $10.000 kağıt hesapta %1 riskle kaç hisse alacağınızı hesaplayın."
+    },
+    "bridge": {
+      "cta": "Uygulayın: Risk Disiplini görevi boyutlandırmanızı her gerçek kağıt işleminde notlandırır."
+    }
+  },
+  {
+    "id": "intermediate-13-r-multiples",
+    "title": "R-katları: Tüccarın yerel birimi",
+    "summary": "Her sonucu planlanan riskin birimleriyle ölçün.",
+    "concept": "**1R**'yi stop vurulursa kaybetmeyi planladığınız dolar olarak tanımlayın. Sonra her sonuç bir **R-katı** olur: stop çıkışı = −1R; stop mesafesinin iki katında bir çıkış = +2R. Birim semboller, fiyatlar ve hesap boyutları boyunca yolculuk eder — $3'lük bir coinde +1,5R ve $900'lük bir hissede +1,5R *aynı başarıdır*.\n\nNeden önemli: dolarlar yanıltır (beceriyi boyutla karıştırır), yüzdeler yanıltır (beceriyi oynaklıkla karıştırır), ama R **planlanan riske karşı karar kalitesini** izole eder. Bir yöntemin R cinsinden geçmişi işlediğiniz her şey boyunca doğrudan karşılaştırılabilir.\n\nQuantGlass R'yi yerel olarak konuşur: backtest beklentisi R'de raporlanır, kâr alma merdiveni R tabanlı mesafelere yerleştirilir, maliyetler düşülmeden önce R'ye çevrilir ve uygun aralık *bir sonraki işlemin R'sini* çerçeveler. R'de düşünmeyi öğrenin, uygulamadaki her sayı tek bir dil olur.",
+    "key_terms": [
+      {
+        "term": "1R",
+        "definition": "Stop vurulursa planlanan kayıp."
+      },
+      {
+        "term": "R-katı",
+        "definition": "Planlanan riske bölünmüş bir sonuç: stop çıkışı = −1R."
+      },
+      {
+        "term": "Beklenti (R)",
+        "definition": "Bir örneklem boyunca işlem başına ortalama R."
+      },
+      {
+        "term": "Risk normalizasyonu",
+        "definition": "R'de ölçerek semboller boyunca işlemleri karşılaştırmak."
+      }
+    ],
+    "exercise": {
+      "question": "Giriş 200,00, stop 192,00, tüm pozisyonu 212,00'de satıyorsunuz. R cinsinden sonuç nedir?",
+      "hint": "R = (çıkış − giriş) ÷ (giriş − stop)",
+      "explanation": "Birim başına risk = 200 − 192 = 8. Birim başına kazanç = 212 − 200 = 12. 12 ÷ 8 = **+1,5R** — ister 10 hisse ister 10.000 işlem yapmış olun aynı cevap."
+    },
+    "common_mistakes": [
+      "Farklı boyutlu işlemler arasında dolar sonuçlarını karşılaştırmak. Yalnızca R-katları işlemleri karşılaştırılabilir kılar.",
+      "Bir -1R kaybını başarısızlık olarak adlandırmak. Stopta alınan planlı bir kayıp, sistemin tam olarak tasarlandığı gibi çalışmasıdır."
+    ],
+    "live_apply": {
+      "cta": "Herhangi bir ön ayarın metriklerini açın: beklenti ve avgR tam olarak bu birimdir, her simüle işlem üzerinde hesaplanmış."
+    },
+    "bridge": {
+      "cta": "Uygulayın: Planlı Kaybı Kabul Et görevi iyi oynanmış -1R kayıplarınızı sayar."
+    }
+  },
+  {
+    "id": "intermediate-14-portfolio-heat",
+    "title": "Portföy ısısı: Tüm pozisyonlarda risk",
+    "summary": "İşlem başına risk yeterli değil — toplamı sınırlayın.",
+    "concept": "Bir işlemi %1'de boyutlandırmak, onlardan sekiz açarsanız az şey ifade eder. **Portföy ısısı** açık riskin toplamıdır: her stop bir kerede vurulursa, hesabın hangi kesri yanar? Sekiz %1 pozisyon = %8 ısı — ve o pozisyonlar *ilişkiliyse* (bir kripto satışında üç büyük tek gibi hareket eder), 'sekiz bağımsız stop' fantezisi bir büyük bahse çöker.\n\nÇalışma kuralları: toplam ısıyı sınırlayın (%4–6 yaygın bir disiplindir), ilişkili pozisyonları bağımsız bahisler yerine örtüşen risk sayın ve ısıyı bir bütçe olarak ele alın — yeni bir işlem kalan bütçeye sığmalı yoksa alınmamalı.\n\nQuantGlass kağıt hesabınız ısıyı denetlenebilir kılar: her açık pozisyonun amaçlanan stopuna mesafesi çarpı boyutu, toplanmış. Koçluk panelinin aşırı boyutlu pozisyon anı bu kontrolün tek pozisyon versiyonudur; portföy versiyonunu her yeni girişten önce çalıştırmak size kalmış.",
+    "key_terms": [
+      {
+        "term": "Portföy ısısı",
+        "definition": "Her açık stop vurulursa toplam kayıp."
+      },
+      {
+        "term": "İlişki",
+        "definition": "Birlikte hareket eden pozisyonlar — örtüşen, bağımsız olmayan risk."
+      },
+      {
+        "term": "Isı bütçesi",
+        "definition": "Toplam açık riske sert bir üst sınır."
+      },
+      {
+        "term": "Yoğunlaşma",
+        "definition": "Bir sembol veya temaya aşırı maruziyet."
+      }
+    ],
+    "exercise": {
+      "question": "İşlem başına %1 risk taşıyor ve büyüklerin birlikte hareket ettiği bir piyasada altı açık kripto long tutuyorsunuz. Gerçekçi maruziyetiniz nedir?",
+      "options": [
+        "%1 — yalnızca işlem başına risk önemli.",
+        "Hesabın yaklaşık %6'sı bir büyük bahis gibi davranıyor, çünkü ilişkili pozisyonlar stoplarını birlikte vurma eğilimindedir.",
+        "%0 — çeşitlendirme riski iptal eder.",
+        "Hesabın %60'ı."
+      ],
+      "explanation": "Isı yaklaşık %6'ya toplanır ve ilişki, altı stopun aynı fırtınada ateşlenmesinin muhtemel olduğu anlamına gelir. İlişkili ısı altı kostüm giymiş bir büyük işlemdir."
+    },
+    "live_apply": {
+      "cta": "Açık kağıt pozisyonlarınızın riskini-stopa-kadar toplayın. Bakiyenin yüzdesi olarak mevcut ısınız nedir?"
+    }
+  },
+  {
+    "id": "intermediate-15-drawdown",
+    "title": "Düşüş: Kaybeden serilerin aritmetiği",
+    "summary": "Kayıpların aynı boyuttaki kazançların yardım etmesinden neden daha çok acıttığı.",
+    "concept": "**Düşüş** özkaynağınızda bir tepeden sonraki bir dibe düşüştür. Zalimliği asimetrik aritmetiktir: %20 kaybedin ve toparlanmak için **+%25**'e ihtiyacınız var; %50 kaybedin ve **+%100**'e ihtiyacınız var. Toparlanma gereksinimleri onları yaratan kayıplardan daha hızlı büyür.\n\nKaybeden seriler anomali değil — kesinliklerdir. %50 kazanma oranıyla, 7 kayıplı bir seri *herhangi 7 işlemde* kabaca 128'de 1 şansa sahiptir, ki yüzlerce işlem boyunca kaçınılmazlığa yaklaşır. İşlem başına %1 riske atarak, o seri hesabı ~%7 çukurlaştırır; %5 riske atarak, ~%30 oyar ve toparlanma matematiği vahşileşir.\n\nQuantGlass her backtest'te **maksimum düşüşü** ve tam düşüş eğrisini raporlar, simüle özkaynak yolundan hesaplanmış. Herhangi bir kazanma oranını takdir etmeden önce onu okuyun: düşüş eğrisi stratejiyi tutmanın nasıl *hissettireceğidir*.",
+    "key_terms": [
+      {
+        "term": "Düşüş",
+        "definition": "Tepeden dibe özkaynak düşüşü."
+      },
+      {
+        "term": "Maksimum düşüş",
+        "definition": "Bir kayıttaki en derin bu tür düşüş."
+      },
+      {
+        "term": "Toparlanma asimetrisi",
+        "definition": "Bir −X% kayıp onarım için +X%'den fazlasını gerektirir."
+      },
+      {
+        "term": "Kaybeden seri",
+        "definition": "Ardışık kayıplar — yeterli işlem boyunca istatistiksel bir kesinlik."
+      }
+    ],
+    "exercise": {
+      "question": "Bir hesap tepesinden %20 düşer. Sadece tepeye dönmek için (azalmış bakiye üzerinde) hangi yüzde kazanç gerekir?",
+      "hint": "100'den 80'e; 80'in hangi %'si 100'e geri döndürür?",
+      "explanation": "80 × 1,25 = 100, yani **%25**. Çukur ne kadar derinse, tırmanış o kadar dik — −%50'de gereksinim +%100 olur."
+    },
+    "common_mistakes": [
+      "Daha hızlı toparlanmak için düşüş sırasında boyutu büyütmek. Toparlanma aritmetiği zaten vahşi; daha büyük bahisler çukuru üstel olarak derinleştirir.",
+      "Bir düşüşün ortasında pozitif-beklenti sistemini terk etmek. Monte Carlo dersi sıradan sistemlerin ömrünün üçte birini su altında geçirdiğini gösterir."
+    ],
+    "live_apply": {
+      "cta": "Bir ön ayarın düşüş eğrisini açın ve en derin noktasını bulun — o vadi stratejinin gerçek stres testidir."
+    },
+    "bridge": {
+      "cta": "Uygulayın: Bir Trendde Geri Çekilme'yi yeniden oynayın — grafik tartışırken plana sadık kalın."
+    }
+  },
+  {
+    "id": "intermediate-16-trade-plan",
+    "title": "Yazılı işlem planı",
+    "summary": "Bir işlemi bir kumardan ayıran beş cümle.",
+    "concept": "Plansız bir işlem paraya iliştirilmiş bir ruh halidir. Eksiksiz bir plan **girişten önce** beş soruya yazılı cevap verir: **Kurulum** — hangi desen, hangi zaman diliminde, bunu haklı çıkarır? **Giriş** — hangi fiyat veya bölgede? **Geçersizleştirme** — fikir nerede yanlış (stop), *şimdi* karar verilen fiyat terimleriyle, sonra pazarlık edilmeyen? **Hedefler** — haklıysanız nerede ve nasıl çıkacaksınız? **Boyut** — geçersizleştirmenin hesabın planlanan kesrine mal olması için kaç birim?\n\nBir QuantGlass sinyal kartının kelimenin tam anlamıyla bu şablonun önceden doldurulmuş bir versiyonu olduğuna dikkat edin: kurulum türü, giriş bölgesi, stop, merdiven ve boyutlandırma dersinin formülü. İşiniz formu icat etmek değil — harekete geçmeden önce *her satırla mutabık kalmak veya kalmamaktır*.\n\nPlanın gücü zamanlamada: her cevap siz sakinken ve para teorikken yazılır. Yürütme bürokratik olur, ki tam da olması gereken budur.",
+    "key_terms": [
+      {
+        "term": "İşlem planı",
+        "definition": "Yazılı kurulum, giriş, geçersizleştirme, hedefler ve boyut — girişten önce."
+      },
+      {
+        "term": "Geçersizleştirme önce",
+        "definition": "Ne kadar alacağına karar vermeden önce nerede yanlış olduğuna karar vermek."
+      },
+      {
+        "term": "Ön-bağlanma",
+        "definition": "Sakinken kararları kilitleyerek yürütmeyi bürokratik kılmak."
+      },
+      {
+        "term": "Plana bağlılık",
+        "definition": "Bir günlüğün görünür kıldığı disiplin metriği."
+      }
+    ],
+    "exercise": {
+      "question": "Bir işlem planının hangi öğesi İLK önce sabitlenmeli, çünkü her diğer sayı ona bağlı?",
+      "options": [
+        "Kâr hedefi.",
+        "Geçersizleştirme (stop) seviyesi — boyut ondan türetilir ve hedefler ona karşı ölçülür.",
+        "Emir türü.",
+        "İşlemin takma adı."
+      ],
+      "explanation": "Risk-önce planlama: geçersizleştirme 1R'yi tanımlar; boyut hesabın risk bütçesinin o mesafeye bölünmesinden gelir; hedefler ona karşı R'de ifade edilir."
+    },
+    "common_mistakes": [
+      "Girişten sonra planı yazmak. Bir pozisyonu haklı çıkarmak için var olan bir plan basın bülteni, plan değil.",
+      "Geçersizleştirmeyi belirsiz bırakmak ('kötü görünürse kes'). Stop bir sayı değilse, stop yok.",
+      "Girişi ayrıntılı, çıkışı hiç planlamamak. Çıkış paranın gerçekten gerçekleştiği yer."
+    ],
+    "live_apply": {
+      "cta": "Bir sinyal açın ve onu beş satırlık bir işlem planı olarak okuyun — varsa hangi satırla mutabık değilsiniz?"
+    },
+    "bridge": {
+      "cta": "Uygulayın: Olmayan Kırılma'yı yeniden oynayın ve planlama kararlarını baskı altında verin."
+    }
+  },
+  {
+    "id": "intermediate-17-journaling",
+    "title": "İşlem günlüğü",
+    "summary": "Tek dürüst aynanız.",
+    "concept": "Hafıza pohpohlayan bir editördür: zaferlerinizi beceri, kayıplarınızı şanssızlık olarak hatırlar. Bir **günlük** düzenlenmemiş kayıttır. Her işlem için kaydedin: plan (beş satırın hepsi), bir cümlede *neden*, yürütme (plana uydunuz mu?), R'de sonuç ve girişte ve çıkışta duygusal durum.\n\nKarşılık, hafızanızın asla gönüllü olarak sunmayacağı desen keşfidir: 'aralık rejimlerinde kırılma işlemlerim kaybeder', 'iki kayıptan sonra kazananları erken keserim', 'her intikam işlemi bir stop çıkışından bir saat içinde gelir'. Bunlar görünür olduklarında *düzeltilebilir* — ve kayıt olmadan görünmez.\n\nQuantGlass kağıt geçmişiniz mekanik yarıyı zaten otomatik kaydeder (girişler, çıkışlar, boyutlar, sonuçlar). Yazılı yarı — neden ve duygusal durum — yalnızca sizin sağlayabileceğiniz kısımdır ve derslerin yaşadığı yarıdır.",
+    "key_terms": [
+      {
+        "term": "İşlem günlüğü",
+        "definition": "Planların, yürütmelerin, sonuçların ve ruh hallerinin düzenlenmemiş kaydı."
+      },
+      {
+        "term": "Plana bağlılık",
+        "definition": "Yürütülen işlemin yazılı planla eşleşip eşleşmediği."
+      },
+      {
+        "term": "Desen keşfi",
+        "definition": "Günlüğün açığa çıkardığı yinelenen, düzeltilebilir davranışlar."
+      },
+      {
+        "term": "Duygusal etiketleme",
+        "definition": "Girişte/çıkışta durumunuzu kaydetmek — tilt'in erken uyarı sistemi."
+      }
+    ],
+    "exercise": {
+      "question": "Bir işlem günlüğündeki en tanısal tek alan nedir?",
+      "options": [
+        "İşlemin dolar cinsinden kârı.",
+        "Yürütmenin yazılı planla eşleşip eşleşmediği — kayıplar değil sapmalar düzeltilebilir hataların saklandığı yer.",
+        "Günün saati.",
+        "Kullanılan gösterge sayısı."
+      ],
+      "explanation": "Uyulan planlardaki kayıplar öğrenim ücretidir; bozulan planlardaki kârlar borçtur. Plana bağlılık bunları ayıran alandır."
+    },
+    "common_mistakes": [
+      "Yalnızca sonuçları kaydetmek. Günlüğün değeri karar kaydındadır: giriş anında neden, duygu ve plana bağlılık.",
+      "Kazananları günlüğe almak ve kaybedenleri atlamak. Kaybedenler neredeyse tüm bilgiyi içerir."
+    ],
+    "live_apply": {
+      "cta": "Son üç kağıt işleminize bakın: her biri için girdiğiniz tek cümlelik nedeni yazın — yazamıyorsanız, bulgu budur."
+    }
+  },
+  {
+    "id": "intermediate-18-entries-exits",
+    "title": "Girişler ve çıkışlar: disiplinin yaşadığı yer",
+    "summary": "İyi girişler sabırlıdır; iyi çıkışlar önceden kararlaştırılmıştır.",
+    "concept": "**Girişler**: motorun giriş bölgesi bir köşeli ayraçtır, başlangıç tabancası değil. Fiyatı bölgenin ötesine kovalamak planladığınız her sayıyı sessizce kötüleştirir: gerçek stop mesafeniz büyür, gerçek R:R'niz daralır ve boyutunuz — planlanan mesafe için hesaplanmış — gerçek için aşırı boyutlanır. Bölge gittiyse, işlem gitti; her zaman başka bir otobüs gelir.\n\n**Çıkışlar** daha zordur çünkü duygu altında karar verilir — değilse o ayrı. Önceden kararlaştırılmış çıkış kümesi: **stop** (tam çıkış, pazarlık yok), **merdiven** (motorun yer bırakan kademeli 50/30/20 kâr alması) ve **zaman** (birçok bar hiçbir yere gitmeyen bir kurulum sessizce başarısız olmuştur — backtester'ın kendisi zaman dilimi başına maksimum tutma süresi uygular).\n\nİkisinin altındaki sessiz kural: kendinize izin verdiğiniz her ihtiyari sapma bir sonrakinin, daha büyüğünün emsali olur.",
+    "key_terms": [
+      {
+        "term": "Kovalamak (chasing)",
+        "definition": "Planlanan bölgenin ötesinde giriş — stopu, R:R'yi ve boyutu sessizce bozar."
+      },
+      {
+        "term": "Kademeli çıkmak",
+        "definition": "Kademeli çıkışlar, motorun 50/30/20 merdiveni gibi."
+      },
+      {
+        "term": "Zaman stopu",
+        "definition": "Bir kurulum takılınca çıkmak — backtest'in maksimum-tutma kuralı."
+      },
+      {
+        "term": "Çıkış disiplini",
+        "definition": "Önceden kararlaştırılmış çıkışları yeniden pazarlık etmeden yürütmek."
+      }
+    ],
+    "exercise": {
+      "question": "Fiyat sinyalin giriş bölgesinin %1,5 üstüne koşar ve yine de planlanan boyutla girersiniz. Gerçekte ne değişti?",
+      "options": [
+        "Hiçbir şey — girişler yaklaşıktır.",
+        "Gerçek stop mesafeniz büyüdü ve R:R'niz daraldı, boyutunuz hâlâ eski mesafeyi varsayarken — planlanan işlem artık yok.",
+        "Stop otomatik yukarı çıktı.",
+        "Ücretleriniz düştü."
+      ],
+      "explanation": "Üç planlanan sayı (risk mesafesi, ödül oranı, risk-için-boyut) bölgeden hesaplandı. Başka yerde girmek eski etiketlerle farklı, daha kötü bir işlem almaktır."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalin giriş bölgesini mevcut fiyatla karşılaştırın — işlem hâlâ motorun ölçtüğü mü, yoksa otobüs gitti mi?"
+    }
+  },
+  {
+    "id": "intermediate-19-checklists",
+    "title": "Kontrol listeleri ve rutinler",
+    "summary": "Havacılıktan ödünç: bir ruh hali değil, bir prosedür olarak disiplin.",
+    "concept": "Pilotlar keskin hissettikleri günlerde uçuş öncesi kontrol listesini atlamaz — *özellikle* o günlerde değil. Bir işlem kontrol listesi aynı amaca hizmet eder: minimum standardı mekanik kılar.\n\nÇalınmaya değer bir işlem öncesi kontrol listesi: **(1)** Sinyal taze mi (kapanmış mum, mevcut rozet)? **(2)** Rejim kurulum ailesiyle eşleşiyor mu? **(3)** Birleşme kabul edilebilir mi ve her nedeni anlıyor muyum? **(4)** Geçersizleştirme tanımlı mı ve boyut risk bütçeme uyuyor mu? **(5)** Bu portföy ısıma sığıyor mu? **(6)** Tek cümlelik nedeni yazdım mı?\n\nGünlük bir rutin onu sarar: açık pozisyonları planlarına karşı gözden geçirin, koçluk panelini anlar için tarayın, dünün çıkışlarını günlüğe kaydedin, *sonra* yeni kurulumlar arayın — bu sırayla, böylece yönetim alışverişten önce gelir. Rutinler tam da o oynak güne kadar bürokratik hissettirir, o gün hâlâ açıkça düşünen tek parçanızdır.",
+    "key_terms": [
+      {
+        "term": "İşlem öncesi kontrol listesi",
+        "definition": "Herhangi bir girişten önce mekanik minimum kontroller."
+      },
+      {
+        "term": "Rutin",
+        "definition": "Sabit bir günlük sıra: yönet, gözden geçir, sonra avlan."
+      },
+      {
+        "term": "Rejim eşleşmesi",
+        "definition": "Kurulum ailesinin mevcut piyasa rejimiyle mutabık olması."
+      },
+      {
+        "term": "Isı kontrolü",
+        "definition": "Yeni işlemin kalan risk bütçesine sığdığını teyit etmek."
+      }
+    ],
+    "exercise": {
+      "question": "Günlük rutin neden pozisyon yönetimini yeni işlemler aramadan önce koyar?",
+      "options": [
+        "Yeni işlemler daha eğlenceli.",
+        "Açık risk canlı risktir — mevcut pozisyonları ve stopları yönetmek herhangi bir yeni maruziyet eklenmeden önce hesabı korur.",
+        "Piyasalar alfabetik sırayı ödüllendirir.",
+        "Önemi yok."
+      ],
+      "explanation": "Mevcut pozisyonlar bugün size zarar verebilir; muhtemel olanlar veremez. Önce canlı riski güvenceye almak triyajdır, tercih değil."
+    },
+    "live_apply": {
+      "cta": "Bir açık pozisyonun geçersizleştirme seviyesine bir uyarı koyun — bir kontrol listesi öğesini otomatik bir bekçiye dönüştürün."
+    }
+  },
+  {
+    "id": "intermediate-20-review-stats",
+    "title": "Kendi istatistiklerinizi gözden geçirmek",
+    "summary": "Kağıt geçmişinizi hakkınızda kanıta dönüştürün.",
+    "concept": "20–30 günlüğe alınmış işlemden sonra bir veri kümesine sahipsiniz ve görüşlerin yapamayacağı sorulara cevap verir. **Kazanma oranınızı** (kazanç ÷ işlem), **ortalama R**'nizi ve **beklentinizi** (işlem başına ortalama R) hesaplayın — sonra dilimleyin: kurulum ailesine göre, rejime göre, güne göre, planın uyulup uyulmadığına göre.\n\nBir analist gibi okuyun: %40 kazanma oranıyla pozitif beklenti sağlıklı bir trend takip profilidir (küçük kayıplar, daha büyük kazançlar); %70 kazanma oranıyla negatif beklenti minik kazançlar ve ara sıra felaketler demektir — stop pazarlığı profili. En değerli tek dilim **plan-uyuldu vs plan-bozuldu**: plan-uyuldu beklentiniz plan-bozuldu beklentinizi yenerse (neredeyse her zaman yener), disiplininizin — zekanızın değil — üstünlük olduğuna dair kişisel, sayısal kanıta sahipsiniz.\n\nMotorun sürekli öğrettiği örneklem boyutu dersini aklınızda tutun: 10 işlem bir hikayedir. Motorun güvenini disipline eden büzülme matematiği istatistiklerinize de uygulanır.",
+    "key_terms": [
+      {
+        "term": "Kazanma oranı",
+        "definition": "Kazanç ÷ toplam işlem — yanında ortalama R olmadan anlamsız."
+      },
+      {
+        "term": "Beklenti",
+        "definition": "İşlem başına ortalama R — bir yöntemin kazanıp kazanmadığına karar veren sayı."
+      },
+      {
+        "term": "Dilimlemek",
+        "definition": "Üstünlüğün nerede yaşadığını bulmak için kurulum, rejim veya bağlılığa göre istatistik hesaplamak."
+      },
+      {
+        "term": "Hikaye eşiği",
+        "definition": "Küçük örneklemler: erken istatistikleri yön olarak ele alın, hüküm olarak değil."
+      }
+    ],
+    "exercise": {
+      "question": "Günlüğünüz gösteriyor: plan-uyuldu işlemler 25 işlemde +0,31R ortalama; plan-bozuldu işlemler 11'de −0,58R. Bulgu nedir?",
+      "options": [
+        "Daha sık işlem yapmalısınız.",
+        "Plana bağlılığın üstünlüğünüz olduğunun nicel kanıtı: aynı tüccar, eksi disiplin, net kaybeder.",
+        "O 11 plan-bozuldu işlem şanssızdı.",
+        "Kazanma oranı eksik, bu yüzden hiçbir şey çıkarılamaz."
+      ],
+      "explanation": "Aynı kişi, aynı piyasa, farklı davranış, zıt beklenti. Bu bir günlüğün ürettiği en ikna edici istatistiktir — ve onu yalnızca bir günlük üretebilir."
+    },
+    "live_apply": {
+      "cta": "Motor istatistiklerini her ön ayarda kuruluma ve rejime göre dilimler — aynı yöntemi kendi kağıt geçmişinize uygulayın."
+    }
+  },
+  {
+    "id": "intermediate-21-regime-detection",
+    "title": "Rejimi tespit etmek",
+    "summary": "Trendde, aralıkta, oynak, geçişli — motorun tam kuralları.",
+    "concept": "Bir **rejim** piyasanın hâkim karakteridir ve QuantGlass onu her kapanmış barda denetlenebilir kurallarla sınıflandırır. Önce oynaklık geçersiz kılması: ATR fiyatın bir payı olarak 50 barlık ortancasının en az **1,7×**'iyse, rejim **oynaktır** — fırtınalar her şeyi yener. Aksi halde ADX karar verir: **≥ 22 → trendde**, **< 16 → aralıkta** ve rahatsız orta (16–22) → **geçişli**.\n\nBu mekaniklerin size neden önemli olduğu: rejim yorum değil, bir **kapıdır**. Geri çekilme ve kırılma aileleri yalnızca trendde ateşlenir (geri çekilmeler geçişlide de); ortalamaya dönüş yalnızca aralıkta ateşlenir. Yanlış rejimde 'güzel' bir kurulum, motor için hiç kurulum değildir.\n\nHer sinyal rejimini güven temelinde basar, böylece sinyal ateşlendiğinde hangi kapının açık olduğunu her zaman izleyebilirsiniz.",
+    "key_terms": [
+      {
+        "term": "Rejim",
+        "definition": "Piyasanın hâkim karakteri: trendde, aralıkta, oynak, geçişli."
+      },
+      {
+        "term": "Oynaklık geçersiz kılması",
+        "definition": "ATR% ≥ 50 barlık ortancasının 1,7×'i → oynak, ADX'ten bağımsız."
+      },
+      {
+        "term": "ADX eşikleri",
+        "definition": "≥22 trendde, <16 aralıkta, arasında → geçişli."
+      },
+      {
+        "term": "Kurulum kapılama",
+        "definition": "Aileler yalnızca uyumlu rejimlerinde ateşlenir."
+      }
+    ],
+    "exercise": {
+      "question": "ADX 30, ama ATR-fiyatın-yüzdesi-olarak 50 barlık ortancasının iki katı. Motor hangi rejimi raporlar?",
+      "options": [
+        "Trendde — ADX 30 belirleyici.",
+        "Oynak — oynaklık geçersiz kılması ADX okumasını yener.",
+        "Aralıkta.",
+        "Hiçbir rejim hesaplanamaz."
+      ],
+      "explanation": "Oynak kontrolü önce çalışır: 2,0× ≥ 1,7× ortanca onu tetikler. Bir fırtına içindeki güçlü bir trend hâlâ bir fırtınadır ve fırtına kuralları geçerlidir."
+    },
+    "live_apply": {
+      "cta": "Üç sinyalde market_regime alanını okuyun ve her kurulum ailesinin rejiminde yasal olduğunu doğrulayın."
+    }
+  },
+  {
+    "id": "intermediate-22-trading-with-regime",
+    "title": "Rejime karşı değil, rejimle işlem yapmak",
+    "summary": "Aynı kurulum farklı rejimlerde zıt sonuçlara sahip.",
+    "concept": "Her kurulum ailesi örtük bir rejim varsayımı taşır. **Geri çekilme alımı** devam eden bir trend varsayar — bir aralıkta orta çizgide düşen bıçakları yakalamaktır. **Kırılma işlemi** uçların uzadığını varsayar — bir aralıkta uç *ta kendisi* dönüş noktasıdır, bu yüzden aralık-rejim kırılmaları kanonik sahtekârlıktır. **Ortalamaya dönüş** manyetik bir ortalama varsayar — bir trendde, 'gerilmiş' siz karşısına geçtikçe sadece daha da gerilir.\n\nBu yüzden motor rejimler arası işlemleri yapısal olarak reddeder ve kırılma ailesi trend kapısını *artı* son ortalamada hacmi talep eder: rejim 'bu piyasa bu fikrin işe yaradığı türden mi?' sorusuna cevap verir ve o soru herhangi bir giriş geometrisinden önce gelir.\n\nİhtiyari sonucunuz: herhangi bir kurulumu yargılamadan önce — motorunki ya da sizinki — rejimi yüksek sesle adlandırın. Çoğu kötü işlem yanlış havadaki iyi kurulumlardır.",
+    "key_terms": [
+      {
+        "term": "Rejim varsayımı",
+        "definition": "Bir kurulum ailesinin örtük olarak gerektirdiği piyasa karakteri."
+      },
+      {
+        "term": "Sahtekârlık (fakeout)",
+        "definition": "Uçta dönen aralığa bağlı bir 'kırılma'."
+      },
+      {
+        "term": "Karşıya geçmek (fading)",
+        "definition": "Hâkim yöne karşı işlem — trendlerde ölümcül."
+      },
+      {
+        "term": "Hava kontrolü",
+        "definition": "Herhangi bir kurulumu yargılamadan önce rejimi adlandırmak."
+      }
+    ],
+    "exercise": {
+      "question": "Aralık rejimindeki kırılmalar neden sistematik olarak güvenilmezdir?",
+      "options": [
+        "Kırılmalar ay hizalanması gerektirir.",
+        "Bir aralıkta önceki uç tam olarak arz/talebin daha önce döndüğü yerdir — trend enerjisi olmadan onu itmek genellikle ortalamaya döner.",
+        "Hacim aralıklarda yasadışıdır.",
+        "Güvenilirdirler; aralıklar kırılmalar için idealdir."
+      ],
+      "explanation": "Aralık uçları o aralığın kanıtlanmış dönüş bölgeleridir. Devamı sağlayan bir trend rejimi olmadan, kırılma istatistiksel olarak bir gerilmedir, bir kaçış değil."
+    },
+    "live_apply": {
+      "cta": "Bir kırılma ön ayarının istatistiklerini bir ortalamaya dönüş ön ayarınınkilerle karşılaştırın — her biri ekmeğini yalnızca kendi rejiminde kazanır."
+    }
+  },
+  {
+    "id": "intermediate-23-volatility-regimes",
+    "title": "Oynaklık rejimleri: sıkışmış, normal, genişlemiş",
+    "summary": "Rejimin ikinci ekseni — ve stopunuzu nasıl boyutlandırdığı.",
+    "concept": "Yönden bağımsız, oynaklığın kendisi döngü yapar. QuantGlass mevcut **ATR'yi fiyatın yüzdesi olarak** **30 barlık ortancasına** karşı ölçer: **0,8×**'te veya altında → **sıkışmış**; **1,25×**'te veya üstünde → **genişlemiş**; arasında → **normal**.\n\nSınıflandırmanın dişleri var — her kurulumda **stop katını** belirler: sıkışmış → **1,3×** ATR, normal → **1,45×**, genişlemiş → **1,6×**. Mantık: genişlemiş koşullarda sıradan gürültü salınımları daha büyüktür, bu yüzden stop statiği değil *fikri* ölçmek için daha geride durmalı. Ve pozisyon boyutu stop mesafesinden türetildiği için, genişlemiş oynaklık aynı hesap riski için otomatik olarak daha küçük boyut demektir — sistem piyasayla nefes alır.\n\nSıkışmanın kendi mesajı var: oynaklık ortalamaya döner, bu yüzden uzun sakin dönemler enerji depolar. Keltner dersinde tanıştığınız sıkışma grafik kostümünü giymiş bu rejimdir.",
+    "key_terms": [
+      {
+        "term": "ATR yüzdesi",
+        "definition": "ATR ÷ fiyat — karşılaştırma için normalize edilmiş oynaklık."
+      },
+      {
+        "term": "Sıkışma",
+        "definition": "ATR% ≤ 30 barlık ortancasının 0,8×'i — enerji depolama."
+      },
+      {
+        "term": "Genişleme",
+        "definition": "ATR% ≥ ortancanın 1,25×'i — daha geniş gürültü, daha geniş stoplar, daha küçük boyut."
+      },
+      {
+        "term": "Uyarlanır stop katı",
+        "definition": "Oynaklık rejimine göre 1,3 / 1,45 / 1,6 × ATR."
+      }
+    ],
+    "exercise": {
+      "question": "Oynaklık normalden genişlemişe geçer. Aynı kurulum ve aynı hesap riski için motorun mantığı neyi ima eder?",
+      "options": [
+        "Daha sıkı stop, daha büyük boyut.",
+        "Daha geniş bir stop (1,45× yerine 1,6× ATR) ve dolayısıyla aynı dolar riski için daha küçük bir pozisyon.",
+        "Değişiklik yok — oynaklık kozmetiktir.",
+        "Tüm işlemleri sonsuza dek atlamak."
+      ],
+      "explanation": "Daha geniş gürültü, statikten silkelenmemek için daha geniş bir stop talep eder; boyutlandırma formülü sonra aynı risk bütçesini daha büyük bir mesafeye böler — daha küçük boyut, aynı risk."
+    },
+    "live_apply": {
+      "cta": "Bir sinyalin volatility_regime'ini temelinde bulun ve stopun mesafesinin eşleşen ATR katı olduğunu kontrol edin."
+    }
+  },
+  {
+    "id": "intermediate-24-regime-transitions",
+    "title": "Rejim geçişleri: çoğu paranın kaybedildiği yer",
+    "summary": "Piyasalar alışkanlıklardan daha hızlı karakter değiştirir.",
+    "concept": "Rejimler sona erer. Trendler aralıklara çürür (ADX yüksek 20'lerden 16'ya doğru kanar), aralıklar trendlere patlar (çoğu zaman kırılan bir sıkışmış-oynaklık sıkışması yoluyla) ve herhangi bir şey tek bir haber barında oynak rejime patlayabilir. Tehlikeli an asla rejim değil — **devir teslimdir**, çünkü tüccarlar dünün oyununu oynamaya devam eder: trend öldükten sonra geri çekilme alırlar, aralık tam kırılırken uçların karşısına geçerler.\n\nMotorun savunmaları kurallarında görünür: **geçişli** bant (ADX 16–22) rejime en duyarlı aileleri ihtiyatlı tutar; sınıflandırma **her kapanmış mumda** yeniden çalışır, böylece karakter değişimi barlar içinde ortaya çıkar; ve oynaklık geçersiz kılması fırtına koşulları geldiği anda kurulumları masadan çeker.\n\nDavranışsal aynanız: önceden işe yarayan yaklaşımınız arka arkaya üç kayıp ürettiğinde, öz değerinizi kontrol etmeden *önce* rejimi kontrol edin. Çoğu zaman yöntem iyidir — hava değişti.",
+    "key_terms": [
+      {
+        "term": "Rejim geçişi",
+        "definition": "Piyasa karakterleri arasında devir teslim — yüksek kayıp bölgesi."
+      },
+      {
+        "term": "ADX çürümesi",
+        "definition": "Trend gücünün aralık eşiğine doğru kanaması."
+      },
+      {
+        "term": "Sıkışma kırılması",
+        "definition": "Sıkışmanın yeni bir trende çözülmesi."
+      },
+      {
+        "term": "Bar başına yeniden sınıflandırma",
+        "definition": "Motor rejim tespitini her kapanmış mumda yeniden çalıştırır."
+      }
+    ],
+    "exercise": {
+      "question": "Geri çekilme girişleriniz haftalarca işe yaradı, sonra arka arkaya üçü başarısız oluyor. Çalıştırılacak İLK tanı nedir?",
+      "options": [
+        "Geri kazanmak için boyutu ikiye katla.",
+        "Mevcut rejimi kontrol et — geri çekilme kurulumları bir trend varsayar ve alışkanlıklarınız işlem yapmaya devam ederken ADX kapının altına çürümüş olabilir.",
+        "Hemen yeni bir göstergeye geç.",
+        "İşlem yapmanın imkânsız olduğu sonucuna var."
+      ],
+      "explanation": "Üç kayıp tam olarak ölü bir trendin geri çekilme alıcılarına yaptığı şeydir. Rejim kontrolü 'hava değişti'yi 'yöntem bozuldu'dan ayırır — ve motor o kontrolü her tek barda çalıştırır."
+    },
+    "live_apply": {
+      "cta": "İzleme listenizdeki bugünün rejimlerini not edin, sonra yarın tekrar — bar başına sınıflandırıcının yakaladığı devir teslimleri sayın."
+    }
+  }
+]
