@@ -1,0 +1,1412 @@
+[
+  {
+    "id": "advanced-16-cost-stack",
+    "title": "Rundi Kamili la Gharama",
+    "summary": "Spredi, ada, slippage, na faida wanayopaswa kushinda.",
+    "concept": "Kila mkakati unashindana dhidi ya rundi lake la gharama. Tabaka la kwanza: **spredi** — kuvuka kitabu hugharimu nusu ya spredi kila upande hata kabla mtu kukutoza chochote. Tabaka la pili: **ada** — asilimia wazi kwa kila upande. Tabaka la tatu: **slippage** — utimizaji ukijiondoa kutoka bei zilizokusudiwa katika hali za haraka au nyembamba.\n\nModeli ya msingi ya QuantGlass hutoza, kwa kila upande, ada 0.10% + slippage 0.05% kwa crypto na 0.02% + 0.01% kwa hisa; mfanya-backtest hubadilisha safari ya kwenda-na-kurudi kuwa R na kuiondoa kutoka kila biashara iliyoiga. Matokeo ya kimkakati ni **mvuto wa gharama**: faida ghafi ya mkakati kwa kila biashara lazima izidi wazi gharama yake ya kwenda-na-kurudi, vinginevyo gharama *ndiyo* matokeo. Mikakati ya muda mfupi inateseka zaidi — miendo midogo ya wastani dhidi ya tozo la asilimia thabiti maana yake mfanyabiashara wa 15m hulipa sehemu kubwa zaidi ya faida yake kwa msuguano kuliko mfanyabiashara wa 1d.\n\nKanuni ya kusoma: unapolinganisha preseti katika muda tofauti, gawanya expectancy kwa mzigo wa gharama akilini — mkakati wa polepole wenye expectancy sawa ndio thabiti zaidi.",
+    "key_terms": [
+      {
+        "term": "Rundi la gharama",
+        "definition": "Spredi + ada + slippage, zinalipwa pande zote mbili."
+      },
+      {
+        "term": "Mvuto wa gharama",
+        "definition": "Tozo thabiti ambalo kila faida ghafi lazima ishinde."
+      },
+      {
+        "term": "Uwiano wa gharama-kwa-faida",
+        "definition": "Gharama ya kwenda-na-kurudi kama sehemu ya faida ya wastani ya biashara."
+      },
+      {
+        "term": "Adhabu ya muda",
+        "definition": "Muda mfupi hulipa msuguano zaidi kwa uwiano."
+      }
+    ],
+    "exercise": {
+      "question": "Preseti mbili zinaonyesha expectancy ya +0.20R: moja inafanya biashara mishumaa ya 15m, nyingine 1d. Kwa nini matokeo ya 1d yanaaminika zaidi?",
+      "options": [
+        "Mishumaa ya kila siku ni mizuri zaidi.",
+        "Miendo midogo ya wastani ya mkakati wa 15m maana yake gharama zilila sehemu kubwa ya faida yake ghafi — +0.20R yake iko karibu na sakafu ya kelele ya msuguano.",
+        "Data ya 15m daima ni mbaya.",
+        "Sivyo — expectancy ni expectancy."
+      ],
+      "explanation": "Nambari sawa ya halisi, uwiano tofauti wa ghafi-kwa-gharama. Mkakati uliopita kizuizi cha juu cha msuguano kwa nafasi ya ziada huzorota kwa neema zaidi hali halisi zinapozidi kuwa mbaya."
+    },
+    "live_apply": {
+      "cta": "Linganisha feesPercent/slippagePercent kwenye preseti ya crypto dhidi ya preseti ya hisa — kisha zitafute zikiondolewa katika expectancy."
+    }
+  },
+  {
+    "id": "advanced-17-slippage-dynamics",
+    "title": "Slippage: Lini na Kwa Nini Utimizaji Hujiondoa",
+    "summary": "Hali tatu zinazopanua pengo kati ya chati na utimizaji.",
+    "concept": "Slippage si thabiti — ni kazi ya viambajengo vitatu. **Tete (Volatility)**: katika masoko ya haraka, bei husogea kati ya uamuzi wako na utimizaji wako; stop hupiga ndani ya mifuko ya hewa na kutimizwa mbali zaidi ya kiwango chao. **Ukubwa dhidi ya kina**: agizo la soko hula kitabu kiwango kwa kiwango; ukubwa wako ukizidi kilele cha kitabu, *wewe* husogeza bei unayolipa. **Saa ya ukwasi**: agizo lilelile katika saa iliyokufa (mwisho-juma wa crypto, mapumziko ya mchana wa hisa) huvuka kitabu chembamba zaidi.\n\nZingatia hili linamaanisha nini kuhusu stop: stop-loss huhakikisha *kichocheo*, kamwe si *bei* — katika pengo au mporomoko, utimizaji huwa popote ukwasi unaofuata upo. Ndiyo maana hali ya tete-iliyopanuka ya injini hupanua stop na kupunguza ukubwa kwa wakati mmoja: marekebisho yote mawili hupunguza uwezekano wa kutimizwa kwa kina zaidi ya mpango.\n\nBiashara ya karatasi ya QuantGlass hutimiza nia kwa bei inayopatikana inayofuata badala ya chapa ya chati — modeli ya unyenyekevu wa makusudi inayoweka mazoezi ya kweli.",
+    "key_terms": [
+      {
+        "term": "Mfuko wa hewa",
+        "definition": "Eneo la bei lisilo na ukwasi unaopumzika — ambapo utimizaji wa stop hutua mbali na kiwango chao."
+      },
+      {
+        "term": "Kina cha kitabu",
+        "definition": "Ukubwa unaopumzika kila kiwango; ukubwa wako dhidi yake huamua athari-binafsi."
+      },
+      {
+        "term": "Uhakikisho wa stop",
+        "definition": "Stop huhakikisha kichocheo, kamwe si bei ya utimizaji."
+      },
+      {
+        "term": "Saa ya ukwasi",
+        "definition": "Tofauti ya kina kulingana na saa ya siku/juma."
+      }
+    ],
+    "exercise": {
+      "question": "Stop yako iko 95.00; habari za usiku zinapiga pengo ufunguzi hadi 91.40. Stop-loss yako hutimizwa wapi?",
+      "options": [
+        "95.00 — stop hufunga bei yao.",
+        "Karibu 91.40 — kichocheo kilipiga katika fursa ya kwanza, na utimizaji huwa popote ukwasi upo kweli.",
+        "Hujifuta kwa aibu.",
+        "Katikati, 93.20."
+      ],
+      "explanation": "Stop ni kichocheo pamoja na agizo la soko. Bei inaporuka kiwango, agizo hutekelezwa katika hali halisi mpya — tofauti ya pointi 3.6 ni hatari ya pengo iliyofanywa dhahiri."
+    },
+    "live_apply": {
+      "cta": "Linganisha bei iliyotekelezwa ya utimizaji wa karatasi na bei ya chati wakati wa kuwasilisha — pengo hilo ni somo hili katika nambari moja."
+    }
+  },
+  {
+    "id": "advanced-18-liquidity-traps",
+    "title": "Mitego ya Ukwasi: Biashara za Kukataa",
+    "summary": "Baadhi ya seti ni kamili isipokuwa sehemu ile ya kwamba huwezi kutoka.",
+    "concept": "Kuingia ni hiari; kutoka ni lazima. **Mtego wa ukwasi** ni nafasi yoyote ambayo kutoka kwake kunategemea kina ambacho huenda kisiwepo kinapohitajika: alt-coin nyembamba ambapo ukubwa wako ni sehemu kubwa ya kiasi cha saa, vyombo vyenye spredi pana ambapo safari ya kwenda-na-kurudi huanza −1%, masoko ya saa iliyokufa ambapo vitabu ni mifupa, na madirisha ya tukio (matangazo makubwa) ambapo watengeneza-soko huondoa nukuu pale unapozihitaji.\n\nUkaguzi wa ukwasi kabla ya biashara unaostahili kufanywa kimakanika: je, spredi ni sehemu ndogo ya mwendo wako unaotarajiwa? Je, ukubwa wako uliokusudiwa ni mdogo bila maana dhidi ya kiasi cha pau za hivi karibuni? Je, ungeweza kutoka *kwenye stop, wakati wa hofu*, bila kusogeza soko dhidi yako mwenyewe? Ikiwa jibu lolote ni hapana, ukubwa sahihi ni mdogo zaidi — au sifuri.\n\nUfahamu usio sawa: ukosefu wa ukwasi hugharimu kidogo wakati wa kuingia (unaweza kungoja) na kila kitu wakati wa kutoka (huwezi). Panga kutoka kwa saa mbaya zaidi unayoweza kukabili, si ile ya wastani.",
+    "key_terms": [
+      {
+        "term": "Mtego wa ukwasi",
+        "definition": "Nafasi ambayo kutoka kwake hudhania kina kinachoweza kutoweka."
+      },
+      {
+        "term": "Ukwasi wa kutoka",
+        "definition": "Kina kinachopatikana lazima unapoondoka — aina pekee inayojali."
+      },
+      {
+        "term": "Dirisha la tukio",
+        "definition": "Vipindi vya habari vilivyopangwa ambapo nukuu hukonda."
+      },
+      {
+        "term": "Ukubwa-kwa-kiasi",
+        "definition": "Agizo lako kama sehemu ya kiasi cha kawaida cha biashara — kiweke kidogo."
+      }
+    ],
+    "exercise": {
+      "question": "Seti ya alt-coin nyembamba inaonekana kamili kitabu, lakini nafasi yako uliyokusudia ni sawa na 20% ya kiasi chake cha wastani cha saa. Uamuzi wa nidhamu ni upi?",
+      "options": [
+        "Ichukue — mifumo huzidi mabomba.",
+        "Punguza ukubwa kwa kiasi kikubwa au ruka: kutoka kwa dharura yoyote katika kiwango hicho kungesogeza soko dhidi yako, kufanya stop kuwa hadithi ya kubuni.",
+        "Maradufisha ukubwa kwa imani.",
+        "Ondoa stop ili isiweze kuteleza."
+      ],
+      "explanation": "Stop usioweza kuutekeleza kwa ukubwa wenye maana ni pambo. Ukwasi ni kiingilizi cha kupanga ukubwa kama ATR — na wakati mwingine ukubwa sahihi ni sifuri."
+    },
+    "live_apply": {
+      "cta": "Panga orodha yako ya kufuatilia kwa kiasi cha kawaida: ni alama zipi zinazoweza kunyonya ukubwa wako wa karatasi katika saa mbaya zaidi, na zipi haziwezi?"
+    }
+  },
+  {
+    "id": "advanced-19-paper-vs-live",
+    "title": "Karatasi dhidi ya Halisi: Pengo la Ukweli",
+    "summary": "Mazoezi yanafundisha nini, hayawezi nini, na jinsi ya kuunganisha.",
+    "concept": "Biashara ya karatasi ni mazoezi, na mazoezi yanatofautiana na maonyesho kwa njia zinazojulikana. **Utimizaji**: karatasi hutimiza kwa bei inayopatikana inayofuata na gharama zilizoiga; halisi hukabili foleni (maagizo ya kikomo yanahitaji wauzaji kukufikia), utekelezaji wa sehemu, na muundo-mdogo wa upinzani. **Athari**: karatasi hudhania soko linakupuuza — kweli kwa ukubwa mdogo wa halisi, uongo zaidi ya hapo. **Saikolojia**: hapa ndipo shimo. Hasara za bandia haziwezi kuzaa hofu halisi, na hofu, si hesabu, ndiyo inayovunja kanuni.\n\nKile karatasi hukithibitisha kweli: ufundi, nidhamu ya mpango, mazoea ya kuandika diari, na msingi wa kitakwimu wa *maamuzi yako* katika hali zote. Kile mfichuo wa halisi pekee hukithibitisha: tabia yako pesa zikiwa halisi.\n\nDaraja la nidhamu, mtu anapoichagua hatimaye (kamwe si ushauri wa kifedha): hitimu tu baada ya kigezo kilichoandikwa kufikiwa kwenye karatasi — k.m. biashara 30+ zenye expectancy chanya *na* ufuasi wa juu wa mpango — kisha anza kwa ukubwa mdogo zaidi wenye maana, ambapo karo ni rahisi. Ujuzi huhamishwa; utulivu lazima upatikane upya.",
+    "key_terms": [
+      {
+        "term": "Nafasi ya foleni",
+        "definition": "Maagizo ya kikomo husubiri zamu yao — karatasi huruka mstari."
+      },
+      {
+        "term": "Utimizaji wa sehemu",
+        "definition": "Maagizo halisi yanaweza kutekelezwa kwa vipande au kabisa."
+      },
+      {
+        "term": "Pengo la kisaikolojia",
+        "definition": "Hasara za bandia haziwezi kufanya mazoezi ya hofu halisi."
+      },
+      {
+        "term": "Kigezo cha kuhitimu",
+        "definition": "Kizingiti cha rekodi ya karatasi kilichoandikwa kabla ya mabadiliko yoyote ya ukubwa."
+      }
+    ],
+    "exercise": {
+      "question": "Ni kipengele kipi cha biashara ambacho mazoezi ya karatasi kimsingi HAIkithibitishi?",
+      "options": [
+        "Ufundi wa agizo na utekelezaji wa mpango.",
+        "Tabia yako ya kihisia hasara zikiwa halisi — hofu haina mlinganifu wa karatasi.",
+        "Mazoea ya kuandika diari.",
+        "Kusoma ishara na hali."
+      ],
+      "explanation": "Kila kitu cha kiutaratibu huhamishwa kutoka mazoezi. Mzigo wa kisaikolojia wa hasara halisi ni kiambajengo pekee ambacho karatasi haiwezi kuiga — ndiyo maana kuhitimu, ikiwa wakati wowote, huanza kidogo sana."
+    },
+    "live_apply": {
+      "cta": "Kagua takwimu zako za karatasi: je, zingepita kigezo kilichoandikwa cha kuhitimu cha biashara 30+, expectancy chanya, na ufuasi wa juu?"
+    }
+  },
+  {
+    "id": "advanced-34-price-vs-value",
+    "title": "Bei, Thamani, na Matumizi ya Misingi na Mfanyabiashara",
+    "summary": "Wawekezaji hukadiria thamani; wafanyabiashara huchora vichocheo.",
+    "concept": "**Misingi (Fundamentals)** ni ukweli ulio chini ya mali: mapato na karatasi ya mizania ya kampuni, mfumo wa usambazaji na matumizi ya tokeni. *Mwekezaji* huitumia kukadiria thamani na kusubiri bei ikubaliane — dau la miaka mingi. *Mfanyabiashara* huitumia tofauti: kama **ramani ya tete iliyopangwa na mtiririko endelevu**.\n\nMaswali matatu ya mfanyabiashara kuhusu ukweli wowote wa msingi: **Kichocheo kifuatacho ni lini?** (tarehe za mapato, matukio ya kufungua — haya ni *mabadiliko ya hali yaliyopangwa*); **Nini tayari kimeingia kwenye bei?** (masoko husogea kwa mshtuko dhidi ya matarajio, si kwa nzuri-dhidi-ya-mbaya — ripoti 'nzuri' chini ya matarajio huanguka); na **Mtiririko endelevu unaelekea upande gani?** (ununuzi-tena, utoaji, uzalishaji — shinikizo la polepole linaloinamisha uwanja ambao mwelekeo hupanda juu yake).\n\nUnyenyekevu unaoifanya itumike: kwa muda mfupi, *bei ndiyo msingi pekee unaoweza kufanya biashara*. Misingi hueleza kwa nini hali huundwa na lini zinaweza kuvunjika; chati, gharama, na hesabu ya hatari bado hutawala kila kuingia. Kupigana na mwelekeo kwa sababu 'misingi haikubaliani' kuna makaburi yake.",
+    "key_terms": [
+      {
+        "term": "Misingi",
+        "definition": "Tabaka la ukweli: mapato, usambazaji, matumizi, mtiririko wa pesa."
+      },
+      {
+        "term": "Kichocheo",
+        "definition": "Tukio lililopangwa linalowezekana kupanga upya bei ya mali — mapato, kufungua."
+      },
+      {
+        "term": "Kimeingia kwenye bei",
+        "definition": "Masoko husogea kwa mshtuko dhidi ya matarajio, si ubora ghafi wa habari."
+      },
+      {
+        "term": "Mtiririko endelevu",
+        "definition": "Shinikizo la polepole la kimuundo la kununua/kuuza: ununuzi-tena, uzalishaji."
+      }
+    ],
+    "exercise": {
+      "question": "Kampuni inaripoti faida za rekodi, lakini hisa inashuka 8%. Maelezo yanayozingatia misingi?",
+      "options": [
+        "Faida husababisha mauzo.",
+        "Matarajio yalikuwa juu zaidi: bei ilikuwa tayari imenyonya nambari kubwa zaidi, na mshtuko ulikuwa hasi ingawa matokeo kamili yalikuwa rekodi.",
+        "Ripoti ilikuwa ya bandia.",
+        "Hisa husogea ovyo kwa habari zote."
+      ],
+      "explanation": "Soko hufanya biashara pengo kati ya matokeo na matarajio. 'Rekodi' ni kamili; bei ilikuwa imewekwa na utabiri juu yake — somo la kimeingia-kwenye-bei katika mshumaa mmoja."
+    },
+    "live_apply": {
+      "cta": "Kagua paneli ya habari kando ya chati zako: kwa kila kichwa cha habari, uliza maswali matatu ya mfanyabiashara — wakati wa kichocheo, kimeingia-kwenye-bei, mtiririko endelevu."
+    }
+  },
+  {
+    "id": "advanced-35-equity-fundamentals",
+    "title": "Misingi ya Hisa: Mapato kama Dhoruba Zilizopangwa",
+    "summary": "Mzunguko wa robo mwaka ambao kila mfanyabiashara wa hisa lazima auheshimu.",
+    "concept": "Hisa huendeshwa kwa kalenda ya umma. Kila robo, **mapato (earnings)**: matokeo dhidi ya matarajio ya wachambuzi, pamoja na **mwongozo (guidance)** — utabiri wa menejimenti, ambao mara nyingi husogeza bei zaidi ya matokeo yenyewe (masoko ni mashine za kuangalia mbele). Karibu na tarehe hizi, tete halisi hupanda kasi, mapengo huwa ya kawaida, na spredi hupanuka — kumbuka somo la mapengo: chati za hisa hupiga pengo hasa kwa sababu habari hutua wakati masoko yamelala.\n\nKwa mfanyabiashara wa kiufundi tabaka la kutekelezeka ni zaidi **usafi wa hatari**: jua tarehe ya mapato ya chochote unachoshikilia; tambua kwamba stop haiwezi kulinda kupitia pengo (mfano wa usiku wa somo la slippage ulikuwa hasa huu); na chukulia siku kabla ya mapato kama hali yake yenyewe — wafanyabiashara wengi wenye nidhamu hutuliza tu au kupunguza kabla ya tukio badala ya kucheza kamari kwenye kurusha-sarafu lenye mikia iliyopanuka.\n\nVizidisha vya tathmini (P/E na ndugu zao) hujali katika upeo wa mfanyabiashara hasa kama **muktadha wa msongamano**: kileleo hualamisha mahali ambapo athari za mshtuko huwa kali. Kozi ya kina ya tathmini ni ya uwekezaji; mfanyabiashara anahitaji kalenda, matarajio, na unyenyekevu.",
+    "key_terms": [
+      {
+        "term": "Ripoti ya mapato",
+        "definition": "Matokeo ya robo mwaka dhidi ya matarajio — dhoruba iliyopangwa."
+      },
+      {
+        "term": "Mwongozo",
+        "definition": "Utabiri wa mbele wa menejimenti; mara nyingi ndio msogezaji halisi wa bei."
+      },
+      {
+        "term": "Hatari ya pengo",
+        "definition": "Upangaji-upya wa usiku unaoruka stop — kileleo karibu na mapato."
+      },
+      {
+        "term": "Kutuliza kwa tukio",
+        "definition": "Kupunguza au kufunga mfichuo kabla ya matukio ya kibainari yaliyopangwa."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini wafanyabiashara wengi wenye nidhamu hupunguza au kufunga nafasi za hisa kabla tu ya mapato?",
+      "options": [
+        "Tarehe za mapato ni siri.",
+        "Tukio ni hali ya kibainari ya hatari-ya-pengo ambapo stop haziwezi kulinda kupitia ruka la usiku — nafasi inakuwa kurusha-sarafu lenye mikia iliyopanuka, si seti.",
+        "Biashara imefungwa siku ya mapato.",
+        "Mapato daima husababisha kushuka."
+      ],
+      "explanation": "Faida hutoka kwa seti ambazo hatari yake unaweza kuifafanua. Pengo kupitia stop yako ni hatari isiyofafanuliwa kwa muundo — kujiondoa ni usimamizi wa hatari, si woga."
+    },
+    "live_apply": {
+      "cta": "Kwa kila hisa kwenye orodha yako ya kufuatilia, tafuta tarehe yake ya mapato inayofuata na uiandike kando ya viwango vyako vya ubatilishaji."
+    }
+  },
+  {
+    "id": "advanced-36-crypto-fundamentals",
+    "title": "Misingi ya Crypto: Tokenomics na Uhalisia wa On-Chain",
+    "summary": "Ratiba za usambazaji, kufungua, na matumizi — ukweli ulio chini ya sarafu.",
+    "concept": "Crypto haina mapato, lakini ina misingi yenye ukingo mkali zaidi: **mifumo ya usambazaji** iliyofafanuliwa na kodi. Maswali yanayojali: **Ratiba ya utoaji (emission)** ni ipi (tokeni mpya ngapi hugonga soko kila siku — mtiririko endelevu wa upande wa mauzo)? Kuna **vilima vya kufungua** (tokeni za wahusika-ndani/wawekezaji zinazotolewa kwa tarehe — dhoruba za usambazaji zilizopangwa, sawa na mapato ya crypto)? Je, usambazaji una kikomo (halving za Bitcoin — *kupunguza* kwa mtiririko kulikopangwa)? Na je, **matumizi ya on-chain** (anwani hai, ada zilizolipwa, thamani iliyosuluhishwa) huunga mkono simulizi, au bei ni urejeleaji safi?\n\nMfumo wa kushtua: tarehe za kufungua ni za umma, lakini bei bado huteleza kawaida kuelekea na baada yao — misingi hapa hufanya kazi kidogo kama faida ya siri na zaidi kama **kuepuka hatari**: usiwe mnunuzi ambaye kufungua humuuzia.\n\nUkumbusho wa ulinzi-dhidi-ya-ulaghai wenye meno: tokeni ambazo 'misingi' yao ni utoaji tu, masoko, na usambazaji wa wahusika-ndani uliofungwa ni toleo lenye umbo la mali la faneli ya guru. Orodha hiyohiyo inatumika — nani anahitaji pesa zako, na wanashika nini ambacho huwezi kuona?",
+    "key_terms": [
+      {
+        "term": "Ratiba ya utoaji",
+        "definition": "Usambazaji mpya kwa kipindi uliofafanuliwa na kodi — mtiririko wa mauzo wa kimuundo."
+      },
+      {
+        "term": "Kilima cha kufungua",
+        "definition": "Utoaji wa tokeni za wahusika-ndani/wawekezaji wenye tarehe — mshtuko wa usambazaji uliopangwa."
+      },
+      {
+        "term": "Halving",
+        "definition": "Ukataji wa mara kwa mara wa utoaji wa Bitcoin — kupunguza kwa mtiririko kulikopangwa."
+      },
+      {
+        "term": "Matumizi ya on-chain",
+        "definition": "Anwani, ada, usuluhishi — ukaguzi wa uhalisia wa upande wa mahitaji."
+      }
+    ],
+    "exercise": {
+      "question": "Tokeni ina 80% ya usambazaji imefungwa na wahusika-ndani, ikifunguliwa kila mwezi kwa miaka miwili. Usomaji wa kimuundo ni upi?",
+      "options": [
+        "Uhaba — 20% pekee ipo, hivyo bei lazima ipande.",
+        "Ziada ya usambazaji iliyopangwa ya miaka miwili: kila mwezi huongeza tokeni za wahusika-ndani zilizowagharimu wamiliki ~chochote, kuunda shinikizo endelevu la mauzo ambalo ununuzi wako ungenyonya.",
+        "Kufunga ni kupanda kwa ufafanuzi.",
+        "Ratiba za kufungua kamwe haziadhiri bei."
+      ],
+      "explanation": "Mzunguko ni mdogo leo, lakini ratiba ndio msingi: usambazaji wa msingi-rahisi unaowasili kila mwezi ni upepo-kinzani ambao kila long hupambana nao. Wa umma, wenye tarehe, na kawaida hukadiriwa chini."
+    },
+    "live_apply": {
+      "cta": "Chagua alama ya crypto na uliza maswali manne ya usambazaji — utoaji, kufungua, kikomo, matumizi — kabla ya kusoma chati yake."
+    }
+  },
+  {
+    "id": "advanced-37-fundamentals-scope",
+    "title": "Vichocheo Vinakutana na Chati: Mstari wa Upeo",
+    "summary": "Misingi huunda fremu ya hali; ufundi hupanga wakati wa biashara; injini hubaki ya kiufundi.",
+    "concept": "Muunganisho. Misingi na ufundi hujibu maswali tofauti kwenye saa tofauti: misingi hueleza **kwa nini** hali ipo na **lini** inaweza kuvunjika (vichocheo); ufundi — muundo, hali, kiasi, tete — husema **kama na wapi** seti inayoweza kufanyiwa biashara ipo sasa hivi. Mfumo wa kitaalamu si kuchagua upande bali kugawa majukumu: *misingi kama muktadha na kalenda, ufundi kama kichocheo na jiometri ya hatari*.\n\nQuantGlass inasimama wapi? Injini ni **ya kiufundi-pekee kwa makusudi**: kila ishara hutoka kwa mishumaa iliyofungwa — bei, kiasi, na hesabu yao. Haichambui mapato, haitabiri mwongozo, wala haipimi tokenomics, na hivyo — kwa kanuni ya uaminifu-wa-upeo ambao sasa umeona mara tatu — kamwe haidai hivyo. Paneli ya habari kando ya chati zako ni kiingilizi *chako* cha msingi, kinachowekwa tofauti na ukweli uliokokotolewa wa injini hasa ili daima ujue ni aina gani ya madai unasoma.\n\nMtiririko wako wa kazi, uliokusanywa: kalenda kwanza (dhoruba zipi zimepangwa?), hali pili (mchezo gani upo?), seti tatu (je, injini huona muundo?), hatari daima (panga ukubwa kutoka stop, heshimu matukio). Mpangilio huo ni track nzima katika sentensi moja.",
+    "key_terms": [
+      {
+        "term": "Muktadha dhidi ya kichocheo",
+        "definition": "Misingi huunda fremu; ufundi hupanga wakati."
+      },
+      {
+        "term": "Injini ya kiufundi-pekee",
+        "definition": "Ishara za QuantGlass hutoka kwa mishumaa pekee — upeo uliotangazwa."
+      },
+      {
+        "term": "Kutenganisha madai",
+        "definition": "Ukweli uliokokotolewa na muktadha wa habari huwekwa tofauti waziwazi."
+      },
+      {
+        "term": "Mtiririko wa kalenda-kwanza",
+        "definition": "Vichocheo vilivyopangwa hukaguliwa kabla ya kuchukua seti yoyote."
+      }
+    ],
+    "exercise": {
+      "question": "Injini inaonyesha seti ya pullback ya kitabu kwenye hisa inayoripoti mapato kesho. Mtiririko wa track unasema nini?",
+      "options": [
+        "Ichukue — seti huzidi kalenda.",
+        "Kalenda kwanza: hali ya kibainari ya pengo ya kesho hudhoofisha ulinzi wa stop, hivyo ruka au ahirisha — jiometri ya seti hudhania soko ambalo linaweza kutokewa.",
+        "Maradufisha ukubwa kupata pesa kutoka tukio.",
+        "Seti ni batili katika miezi ya mapato."
+      ],
+      "explanation": "Kila nambari ya hatari ya Academy hudhania kutoka kunakotekelezeka. Tukio la pengo lililopangwa husitisha dhana hiyo — usomaji wa nidhamu ni kwamba hatari ya biashara haijafafanuliwa, chati iseme nini."
+    },
+    "live_apply": {
+      "cta": "Kwa kila ishara ya sasa, endesha kalenda-kwanza: kuna kichocheo chochote kilichopangwa ndani ya kipindi cha kushikilia kinachotarajiwa cha biashara?"
+    }
+  },
+  {
+    "id": "advanced-24-margin-basics",
+    "title": "Margin: Kufanya Biashara kwa Mkopo",
+    "summary": "Uwezo wa kununua uliokopwa ni mkopo halisi wenye masharti halisi.",
+    "concept": "**Margin** ni mkopo kutoka kwa broker wako uliodhaminiwa na akaunti yako. Weka 10,000 kwa margin 2:1 na unaweza kushikilia nafasi za 20,000 — lakini 10,000 iliyokopwa hujilimbikiza **riba**, na dai la broker juu yake huzidi lako. Dau lako halisi ni **equity**: thamani ya nafasi ukiondoa mkopo.\n\nMasharti ya mkopo huuma kupitia **mahitaji ya matengenezo (maintenance requirement)**: equity lazima ibaki juu ya sehemu iliyowekwa ya thamani ya nafasi. Kwa sababu mkopo ni thabiti wakati nafasi inayumba, *hasara hutoka kabisa kutoka equity yako* — kushuka kwa 10% kwa nafasi kwa 2:1 ni kushuka kwa 20% kwa equity. Margin haikubadilisha soko; ilibadilisha ni kiasi gani cha mwendo wa soko hutua juu yako.\n\nHakuna kitu katika ufundi huu kilichofichwa — ni hesabu — lakini margin hubaki kibadilishaji kikuu cha makosa yanayoweza kuvumilika kuwa yale yanayomaliza akaunti, kwa sababu kila nambari ya hatari uliyojifunza (hatari 1%, vikomo vya joto, hesabu ya drawdown) ilidhania kimya equity *isiyo na leverage*. Kwenye margin, kokotoa upya kila kitu dhidi ya equity, si ukubwa wa nafasi.",
+    "key_terms": [
+      {
+        "term": "Mkopo wa margin",
+        "definition": "Mkopo wa broker uliodhaminiwa na akaunti yako, wenye riba."
+      },
+      {
+        "term": "Equity",
+        "definition": "Thamani ya nafasi ukiondoa mkopo — dau lako halisi."
+      },
+      {
+        "term": "Mahitaji ya matengenezo",
+        "definition": "Sehemu ya chini ya equity kabla ya hatua ya kulazimishwa."
+      },
+      {
+        "term": "PnL iliyokuzwa",
+        "definition": "Miendo ya nafasi hutua kwenye msingi mdogo wa equity."
+      }
+    ],
+    "exercise": {
+      "question": "Unashikilia nafasi ya 20,000 kwenye equity ya 10,000 (2:1). Nafasi inaanguka 10%. Nini kilitokea kwa equity yako?",
+      "options": [
+        "Chini 10% — hasara inalingana na mwendo wa nafasi.",
+        "Chini 20% — hasara ya 2,000 hutua kabisa kwenye equity yako ya 10,000, kwa sababu mkopo haunyonyi hasara.",
+        "Chini 5% — broker hugawana hasara.",
+        "Haibadiliki hadi uuze."
+      ],
+      "explanation": "Mkopeshaji hufanywa kamili kwanza. Leverage L huzidisha kila mwendo wa nafasi kwa L kwenye equity yako: mlinganyo wa msingi wa margin."
+    },
+    "live_apply": {
+      "cta": "Soma tena drawdown ya juu ya preseti na uimaradufishe akilini — hiyo ni drawdown ya equity ya mkakati uleule kwa 2:1."
+    }
+  },
+  {
+    "id": "advanced-25-leverage-arithmetic",
+    "title": "Hesabu ya Leverage na Umbali wa Liquidation",
+    "summary": "Mwendo unaokufuta ni 100% gawanya kwa leverage yako.",
+    "concept": "Leverage ina mlinganyo mmoja mkuu: kwa **L×**, mwendo wa bei wa **100%/L dhidi yako hufuta equity yako kabisa**. 2× → mwendo hasi wa 50% hadi sifuri. 5× → 20%. 10× → 10%. 100× (inayotolewa wazi na baadhi ya majukwaa ya crypto) → mtikisiko wa 1% — *kelele ya kawaida ya saa* — ni hasara kamili.\n\nKivitendo unaliquidatiwa **kabla** ya sifuri: jukwaa hukufunga equity inapogonga kiwango cha matengenezo, hivyo umbali halisi ni mfupi zaidi, ukiondoa ada. Linganisha umbali huo na ATR uliyoisoma: ikiwa ATR ya kila siku ya mali ni 3% na liquidation yako iko 2% mbali, matarajio ya maisha ya nafasi yako hupimwa kwa kelele, si kwa nadharia.\n\nNdiyo maana 'leverage zaidi = faida zaidi' ni usomaji mbaya wa mwanafunzi. Leverage haiongezi faida; **hupanga upya ubao wa mchezo** hadi tete ya kawaida iwe ya kuua. Wataalamu wanaotumia leverage hutumia vizidisho *vidogo* kwenye miundo ya *tete-chini* — kamwe vizidisho vya juu kwenye crypto kuu.",
+    "key_terms": [
+      {
+        "term": "Umbali wa liquidation",
+        "definition": "Mwendo hasi ≈100%/L (ukiondoa matengenezo na ada) hadi kufungwa kwa kulazimishwa."
+      },
+      {
+        "term": "Uuaji wa kelele",
+        "definition": "Umbali wa liquidation mdogo kuliko miendo ya kawaida ya ATR."
+      },
+      {
+        "term": "Hatari iliyopangwa-upya",
+        "definition": "Leverage hupunguza mwendo unaoweza kuvumilika; kamwe haiongezi faida."
+      },
+      {
+        "term": "Buffer ya matengenezo",
+        "definition": "Liquidation hupiga kabla equity haijafikia sifuri."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa leverage 5x (ukipuuza ada na buffer ya matengenezo), mwendo wa bei hasi wa asilimia ngapi hufuta 100% ya equity yako?",
+      "hint": "futo% = 100 ÷ leverage",
+      "explanation": "100 ÷ 5 = **20%**. Kila mwendo wa nafasi ni ×5 kwenye equity, hivyo mwendo hasi wa 20% ni −100%. Liquidation halisi hupiga mapema zaidi, kwenye kiwango cha matengenezo."
+    },
+    "live_apply": {
+      "cta": "Kagua ATR ya alama ya crypto kama asilimia ya bei, kisha kokotoa ni leverage gani ingeweka liquidation ndani ya safu ya siku moja ya kawaida."
+    },
+    "common_mistakes": [
+      "Kusoma leverage 10x kama faida 10x. Ni mfichuo 10x: mwendo hasi wa 10% ni akaunti nzima.",
+      "Kusahau gharama za funding na kukopa. Nafasi za leverage huvuja mzigo kila siku, hata bei isipoenda popote."
+    ]
+  },
+  {
+    "id": "advanced-26-liquidation",
+    "title": "Margin Call na Mporomoko wa Liquidation",
+    "summary": "Kutoka kwa kulazimishwa hutokea kwa bei mbaya zaidi, kwa muundo.",
+    "concept": "Equity inapovunja matengenezo, mambo mawili yanaweza kutokea. **Margin call** hukuomba kuongeza fedha au kupunguza nafasi — chini ya shinikizo la wakati, katika wakati wa hasara, ambao track ya saikolojia itautambua kama hali mbaya zaidi za uamuzi zinazowezekana. Au, kwenye majukwaa mengi ya crypto, hakuna wito kabisa: injini **huliquidate moja kwa moja**, ikiuza-sokoni nafasi yako katika ukwasi wowote uliopo.\n\nUuzaji wa kulazimishwa una matokeo ya muundo-wa-soko: liquidation hujikusanya kwenye viwango sawa vya bei (watu hutumia leverage kwenye pointi sawa), hivyo wimbi moja la mauzo ya kulazimishwa husukuma bei katika wimbi *linalofuata* — **mporomoko wa liquidation**. Hizi huzalisha vitambaa vikali vinavyowinda kila stop na kiwango cha liquidation katika njia yao, kisha mara nyingi hurudi nyuma. Ikiwa umewahi kuona kitambaa cha crypto cha 10% katika siku tulivu: hiyo ilikuwa leverage, si habari.\n\nUlinzi mbili ikiwa margin itatumika: **margin iliyotengwa (isolated)** (mkopo wa kila nafasi umezungushwa, hivyo liquidation moja haiwezi kula akaunti nzima — dhidi ya margin ya cross, ambapo inaweza), na buffer zilizolipwa-kabla ili kitambaa cha kawaida kisifikie mstari. Ulinzi bora hubaki mbadala usio na leverage: stop *unayoichagua wewe* hushinda kutoka ambako jukwaa huchagua.",
+    "key_terms": [
+      {
+        "term": "Margin call",
+        "definition": "Dai la kuongeza fedha au kukata nafasi ndani ya muda."
+      },
+      {
+        "term": "Auto-liquidation",
+        "definition": "Jukwaa likikufunga kwa kulazimishwa sokoni — hakuna majadiliano."
+      },
+      {
+        "term": "Mporomoko wa liquidation",
+        "definition": "Mauzo ya kulazimishwa yanayochochea mauzo zaidi ya kulazimishwa kwa minyororo."
+      },
+      {
+        "term": "Iliyotengwa dhidi ya cross",
+        "definition": "Mikopo iliyozungushwa kwa kila nafasi dhidi ya akaunti nzima kama dhamana."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini miporomoko ya liquidation huunda vitambaa virefu vinavyorudi nyuma kwa sehemu?",
+      "options": [
+        "Masoko huchora vitambaa kwa pambo.",
+        "Mauzo ya soko ya kulazimishwa yaliyokusanyika humaliza ukwasi wa kila kiwango na kuchochea kundi linalofuata; mtiririko wa kulazimishwa ukiisha, shinikizo bandia hutoweka na bei hurudi.",
+        "Habari daima hujibadilisha.",
+        "Vitambaa ni makosa ya data."
+      ],
+      "explanation": "Uuzaji ni wa kimakanika, usiojali bei, na wenye kikomo. Mafuta ya mporomoko (nafasi za leverage) yakiungua, punguzo lililoundwa huvutia wanunuzi halisi — saini ya kitambaa-na-kupona."
+    },
+    "live_apply": {
+      "cta": "Tafuta kitambaa kikali cha chini kwenye chati ya crypto na ukague mwinuko wa kiasi chini yake — alama ya mporomoko."
+    },
+    "common_mistakes": [
+      "Kuchukulia bei ya liquidation kama stop. Liquidation hunyakua nafasi kwa bei mbaya zaidi pamoja na adhabu; stop ni chaguo lako kwenye kiwango chako.",
+      "Kuongeza margin kulinda nafasi ya leverage inayopoteza - kubadilisha hasara yenye mipaka kuwa isiyo na mipaka."
+    ]
+  },
+  {
+    "id": "advanced-27-short-selling",
+    "title": "Ufundi wa Short Selling",
+    "summary": "Uza kwanza, nunua baadaye — kwa hisa zilizokopwa na hatari isiyo na mipaka.",
+    "concept": "**Short sale** hupindua biashara: kopa mali, iuze sasa, inunue tena ('cover') baadaye, irudishe, shika tofauti. Faida bei inaposhuka. Ufundi huongeza gharama na hatari ambazo long kamwe hazikutani: **ada za kukopa** (majina magumu-kukopa hutoza viwango vya kila mwaka vya tarakimu mbili), **gawio/funding** unayodaiwa ukiwa short, uwezekano wa **recall** (mkopeshaji anataka hisa zirudi katika wakati mbaya zaidi), na ukosefu wa usawa uliokutana katika somo la short-ya-kukataa — hasara kinadharia ni **isiyo na mipaka** kwa sababu bei haina dari.\n\nUkosefu huo wa usawa huzaa mwindaji: **short squeeze**. Mali iliyo-short sana inapopanda, short lazima *wanunue* kuweka kikomo hasara zao — na ununuzi wao huchochea kupanda kunakobana short anayefuata. Short zilizosongamana ni mafuta ya roketi yaliyojazwa-mapema, ndiyo maana short interest yenyewe ni kipimo cha hatari.\n\nZingatia uundaji wa QuantGlass: ishara za SELL/kukataa za injini huelezea *muundo* wa kushuka; akaunti ya karatasi huiga nafasi kwa usawa. Uhalisia wa ada-ya-kukopa, recall, na squeeze huishi tabaka moja chini — na lazima viingie kwenye bei kabla ya short yoyote ya ulimwengu-halisi kufikiriwa.",
+    "key_terms": [
+      {
+        "term": "Ada ya kukopa",
+        "definition": "Gharama ya kukodi hisa zilizoshortwa — adhabu kwenye majina yaliyosongamana."
+      },
+      {
+        "term": "Cover",
+        "definition": "Kununua tena kufunga short."
+      },
+      {
+        "term": "Short squeeze",
+        "definition": "Bei zinazopanda kulazimisha short kununua, kuchochea kupanda zaidi."
+      },
+      {
+        "term": "Hatari ya recall",
+        "definition": "Mkopeshaji akidai hisa zirudi, kulazimisha cover isiyo na wakati."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini short interest kubwa hufanya mali kuwa NA mwelekeo zaidi wa miendo mikali ya juu?",
+      "options": [
+        "Short huweka kikomo kisheria bei zinaweza kwenda juu kiasi gani.",
+        "Kila short ni mnunuzi wa baadaye uliohakikishwa chini ya shinikizo: kupanda hulazimisha cover, na cover ni kununua, ambako huongeza kupanda hadi maumivu ya short anayefuata.",
+        "Wauzaji-short hueneza matumaini.",
+        "Haifanyi hivyo — short huathiri upande wa chini tu."
+      ],
+      "explanation": "Short zilizosongamana ni mahitaji yaliyofichika yenye kichocheo cha mkazo. Squeeze ni ya kurejea: mwendo unaowaumiza short hukuzwa na kutoka kwao wenyewe kwa kulazimishwa."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara ya hali ya SELL na uandike stop yake juu ya muundo wa kukataa — katika short halisi, stop hiyo pia ni bima dhidi ya squeeze."
+    }
+  },
+  {
+    "id": "advanced-28-leverage-discipline",
+    "title": "Nidhamu ya Leverage (na Hoja ya Kutotumia)",
+    "summary": "Ikiwa wakati wowote itatumika: ndogo, iliyotengwa, ukubwa-wa-hatari — na kamwe 'kupona'.",
+    "concept": "Baada ya masomo manne ya ufundi, muunganisho. Leverage ni chombo chenye matumizi moja tu ya uaminifu: **ufanisi wa mtaji kwenye mkakati ambao tayari unafanya kazi bila leverage** — na hata hivyo kwa vizidisho vidogo vyenye margin iliyotengwa na umbali wa liquidation wa ATR kadhaa mbali. Kila matumizi mengine ni mojawapo ya mifumo ya kushindwa: kutumia leverage kufanya akaunti ndogo 'yenye maana' (kupanga upya kelele kuwa uuaji), kutumia leverage kupona drawdown (mzunguko wa tilt na kizidishi), au kutumia leverage kwa sababu slaida ya jukwaa huenda hadi 100× (huenda pale kwa sababu liquidation ni mapato).\n\nOrodha ya nidhamu ikiwa margin itaguswa wakati wowote: hatari ya nafasi bado ikokotwa kutoka **umbali wa stop dhidi ya equity** (fomula ya kupanga ukubwa hudumu; hesabu ya dhamana tu hubadilika); umbali wa liquidation ≥ 3–4× ATR ya mali; margin iliyotengwa tu; mfichuo jumla wa kukopa wenye kikomo; na kanuni ya kudumu kwamba **hakuna uamuzi wa leverage unaofanywa ndani ya drawdown**.\n\nNa ukweli wa muundo wa makusudi kufunga track: injini na akaunti ya karatasi ya QuantGlass ni **spot-pekee, bila leverage, kwa muundo**. Kila takwimu ambayo Academy hii ilikufundisha — expectancy, drawdown, safu za conformal — ilipimwa kwenye mchezo usio na leverage. Bobea mchezo huo kwanza. Wengi kamwe hawahitaji ule mwingine.",
+    "key_terms": [
+      {
+        "term": "Ufanisi wa mtaji",
+        "definition": "Lengo moja la uaminifu la leverage — kamwe si faida iliyoongezwa."
+      },
+      {
+        "term": "Kanuni ya drawdown",
+        "definition": "Hakuna maamuzi ya leverage yanayofanywa wakati wa kupoteza."
+      },
+      {
+        "term": "Buffer ya ATR",
+        "definition": "Umbali wa liquidation uliowekwa kwa vizidisho vya tete ya kawaida."
+      },
+      {
+        "term": "Muundo wa spot-pekee",
+        "definition": "Ujenzi wa makusudi usio na leverage wa QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Ni motisha gani ya kuongeza leverage ndiyo kitabiri kimoja cha kuaminika zaidi cha uharibifu?",
+      "options": [
+        "Ufanisi wa mtaji kwenye mkakati uliothibitishwa, wenye tete-chini.",
+        "Kupona drawdown haraka — huunganisha mzunguko wa tilt na kizidishi cha hasara katika wakati hasa ambapo uamuzi ni mbaya zaidi.",
+        "Jukwaa linalotoa margin iliyotengwa.",
+        "Udadisi katika akaunti ya karatasi."
+      ],
+      "explanation": "Biashara ya kulipiza kisasi uliyokutana katika track ya saikolojia; leverage huipa silaha kubwa zaidi katikati ya tilt. Lengo la kupona hushindwa kwa hesabu na akili zote mbili."
+    },
+    "live_apply": {
+      "cta": "Thibitisha muundo wa akaunti yako ya karatasi: spot, bila leverage, hatari iliyofafanuliwa-na-stop — msingi ambao kila takwimu ya Academy hudhania."
+    }
+  },
+  {
+    "id": "advanced-29-options-basics",
+    "title": "Call na Put: Haki, Si Wajibu",
+    "summary": "Anatomia ya mkataba: strike, mwisho, premium.",
+    "concept": "**Option** ni mkataba unaotoa *haki bila wajibu*. **Call** ni haki ya **kununua** mali kwa **bei ya strike** thabiti hadi **mwisho (expiry)**; **put** ni haki ya **kuuza** kwa strike. Kwa haki hiyo, mnunuzi hulipa **premium** — inalipwa mara moja, mwuzaji huishika hata iweje.\n\nMfano: call kwenye hisa XYZ, strike 100, mwezi mmoja mbele, premium 3. XYZ ikipanda hadi 112, haki ya kununua kwa 100 ina thamani ya 12 — ukiondoa 3 zilizolipwa, faida ya 9 kwa 3 zilizohatarishwa. XYZ isipozidi 100 kamwe, option huisha bila thamani: hasara ni premium, premium nzima, na si kitu zaidi ya premium.\n\nHiyo ndiyo riwaya ya kimuundo dhidi ya kila kitu katika Academy hii hadi sasa: **malipo ni yasiyo sawa kwa mkataba**, si kwa nidhamu ya stop. Mfanyabiashara wa spot huunda ukosefu wa usawa kwa stop na ngazi; mnunuzi wa option huununua moja kwa moja — na premium ni bei ya ununuzi huo, kila wakati.",
+    "key_terms": [
+      {
+        "term": "Call",
+        "definition": "Haki ya kununua kwa strike hadi mwisho."
+      },
+      {
+        "term": "Put",
+        "definition": "Haki ya kuuza kwa strike hadi mwisho."
+      },
+      {
+        "term": "Strike",
+        "definition": "Bei thabiti ya muamala wa mkataba."
+      },
+      {
+        "term": "Premium",
+        "definition": "Bei isiyorudishwa ya haki."
+      },
+      {
+        "term": "Mwisho",
+        "definition": "Wakati haki inakoma kuwepo."
+      }
+    ],
+    "exercise": {
+      "question": "Unanunua call ya strike 100 kwa premium ya 3. Hisa inamaliza mwisho kwa 97. Matokeo yako ni yapi?",
+      "options": [
+        "Hasara ya 3 — premium, hasara yako ya juu inayowezekana kwenye biashara hii.",
+        "Hasara ya 6 — premium pamoja na upungufu hadi strike.",
+        "Unalazimishwa kununua hisa kwa 100.",
+        "Sawa-na-sawa."
+      ],
+      "explanation": "Chini ya strike haki ya kununua kwa 100 haina thamani, hivyo huisha bila kutumika. Haki, tofauti na wajibu, huweka kikomo upande wa chini hasa kwenye premium iliyolipwa."
+    },
+    "live_apply": {
+      "cta": "Linganisha na toleo la spot: long iliyofafanuliwa-na-stop huhatarisha 1R kwa nidhamu; 1R ya mnunuzi wa call ni premium, yenye kikomo kwa mkataba."
+    }
+  },
+  {
+    "id": "advanced-30-intrinsic-time-value",
+    "title": "Thamani ya Ndani, Thamani ya Wakati, na Uozo",
+    "summary": "Premium imetengenezwa kwa nini — na jinsi inavyoyeyuka.",
+    "concept": "Kila premium ya option hugawanyika sehemu mbili. **Thamani ya ndani (intrinsic)** ni kile kutumia sasa hivi kungekuwa na thamani: call ya strike 100 yenye hisa kwa 108 ina 8 ya ndani (iko **in the money**); yenye hisa kwa 95 ina sifuri (out of the money — ya ndani kamwe si hasi). **Thamani ya wakati (time value)** ni kila kingine: bei ya soko ya *uwezekano*, ya wakati uliobaki kwa hisa kusogea.\n\nThamani ya wakati hutii kanuni katili: huozea hadi **sifuri kabisa kwenye mwisho** — kwenye mwisho option ina thamani ya thamani yake ya ndani na si senti zaidi. Mbaya zaidi, uozo (**theta**) hukasiriana mwisho ukikaribia: wiki za mwisho huungua haraka zaidi kuliko za mwanzo.\n\nMatokeo ambayo kila mnunuzi wa option lazima ayachukue ndani: **unaweza kuwa sahihi kuhusu mwelekeo na bado kupoteza**. Hisa inayopaa juu polepole sana inaweza kushindwa kupita uozo; option huvuja wakati nadharia inafanya kazi. Kununua option ni kukodi wakati, na kodi hupanda wakati lease inavyoisha.",
+    "key_terms": [
+      {
+        "term": "Thamani ya ndani",
+        "definition": "Thamani ya matumizi ya papo hapo — max(0, umbali ndani ya pesa)."
+      },
+      {
+        "term": "Thamani ya wakati",
+        "definition": "Premium ukiondoa ya ndani: uwezekano wa mwendo uliopangiwa bei."
+      },
+      {
+        "term": "Moneyness",
+        "definition": "In/at/out of the money — bei iko wapi dhidi ya strike."
+      },
+      {
+        "term": "Uozo wa theta",
+        "definition": "Mmomonyoko unaokasiriana wa thamani ya wakati kuelekea sifuri kwenye mwisho."
+      }
+    ],
+    "exercise": {
+      "question": "Call ya strike 100 inafanya biashara kwa 5.50 yenye hisa kwa 103. Premium hugawanyikaje?",
+      "options": [
+        "5.50 ya ndani, 0 thamani ya wakati.",
+        "3 ya ndani (103 − 100), 2.50 thamani ya wakati — kilichobaki ni uwezekano uliopangiwa bei.",
+        "0 ya ndani, 5.50 thamani ya wakati.",
+        "Premium hazigawanyiki."
+      ],
+      "explanation": "Ya ndani = max(0, 103 − 100) = 3. 2.50 iliyobaki ni thamani ya wakati — sehemu iliyohakikishiwa kufikia sifuri kufikia mwisho, haraka au polepole."
+    },
+    "live_apply": {
+      "cta": "Angalia ATR ya alama: thamani ya wakati ni, kwa ujumla, soko likitoza kwa tete hiyo katika maisha yaliyobaki ya option."
+    }
+  },
+  {
+    "id": "advanced-31-greeks-intuition",
+    "title": "Greeks, Kwa Ufahamu",
+    "summary": "Delta, theta, vega — vidude vitatu vinavyosogeza premium.",
+    "concept": "Bei za option hujibu zaidi ya mwelekeo, na **Greeks** hutaja usikivu. **Delta**: premium husogea kiasi gani kwa mwendo wa pointi 1 katika mali — call za ndani-sana-ya-pesa hukaribia +1 (zinatenda kama hisa), za nje-sana hukaribia 0 (tikiti za bahati nasibu). **Theta**: kuvuja kwa kila siku kwa thamani ya wakati uliokutana somo lililopita. **Vega**: usikivu kwa **implied volatility** — matarajio yaliyopangiwa bei ya soko ya mwendo wa baadaye.\n\nVega ni mtego maarufu. Implied volatility *huvimba kabla ya matukio yanayojulikana* (mapato, matangazo makubwa) na huporomoka baadaye — **volatility crush**. Mfanyabiashara anayenunua call kabla ya mapato, anaona hisa ikipiga pengo juu, na bado anapoteza pesa amekutana tu na vega: mwendo ulitokea, lakini *uwezekano* uliopangiwa bei ulipungua haraka kuliko mwelekeo ulivyolipa.\n\nMuhtasari wa nidhamu: nafasi ya option ni dau kwa wakati mmoja la mwelekeo (delta), la wakati (theta), na la matarajio ya tete (vega). Biashara ya spot hukutaka uwe sahihi mara moja; option hukutaka uwe sahihi kwa njia tatu kwa wakati mmoja.",
+    "key_terms": [
+      {
+        "term": "Delta",
+        "definition": "Usikivu wa premium kwa mwendo wa bei wa msingi."
+      },
+      {
+        "term": "Theta",
+        "definition": "Uozo wa kila siku wa thamani ya wakati — kodi."
+      },
+      {
+        "term": "Vega",
+        "definition": "Usikivu wa premium kwa mabadiliko ya implied volatility."
+      },
+      {
+        "term": "Volatility crush",
+        "definition": "IV ikiporomoka baada ya tukio, kupunguza premium licha ya mwendo."
+      }
+    ],
+    "exercise": {
+      "question": "Hisa inapiga pengo juu 4% kwa mapato, lakini call zilizonunuliwa jana ZINAFUNGUKA CHINI. Nini kilitokea?",
+      "options": [
+        "Soko lilipanga vibaya ufunguzi.",
+        "Volatility crush: kutokuwa na uhakika kwa tukio kulikuwa kumepangiwa bei kwenye premium, na kuporomoka kwa implied volatility (vega) kulizidi mwendo mzuri (delta).",
+        "Mapato daima hupunguza bei za option.",
+        "Theta hutenda tu wikendi."
+      ],
+      "explanation": "Premium ilikuwa na *uwezekano* wa mwendo mkubwa. Tukio lilipotatuliwa, uwezekano huo ulipungua — kuwa sahihi kwa mwelekeo kulishindwa na kuwa kosa kwa tete."
+    },
+    "live_apply": {
+      "cta": "Kumbuka masomo ya hali: implied volatility ni binamu wa kuangalia-mbele wa hali zenye msingi wa ATR ambazo tayari umesoma."
+    }
+  },
+  {
+    "id": "advanced-32-buyer-seller-asymmetry",
+    "title": "Wanunuzi na Wauzaji: Ulimwengu Pinzani wa Hatari",
+    "summary": "Hatari iliyofafanuliwa upande mmoja; wajibu upande mwingine.",
+    "concept": "Kila option ina pande mbili zinazoishi katika ulimwengu pinzani wa hatari. **Mnunuzi** hulipa premium kwa haki: hasara ya juu = premium, iliyofafanuliwa wakati wa kuingia, basi. **Mwuzaji (writer)** hukusanya premium na huchukua **wajibu**: kuwasilisha (call) au kununua (put) kwa strike akipangiwa. Mwuzaji 'aliyefunikwa' hushikilia mali za kukabili; mwuzaji **uchi (naked)** hashikilii kitu ila tumaini.\n\nMakubaliano ya mwuzaji ni ya kuvutia kitakwimu na hatari kimuundo: option nyingi huisha bila thamani, hivyo wauzaji hushinda *mara kwa mara* — premium ndogo, win rate ya juu. Umekutana na wasifu huu hasa katika track ya takwimu: **win rate ya juu, skew hasi** — ushindi mwingi mdogo unaofadhiliwa na hasara nadra za maafa. Hali mbaya zaidi ya mwuzaji wa call uchi ni isiyo na mipaka (bei haina dari); fedha nzima zimeyeyuka katika squeeze moja.\n\nUamuzi wa Academy unajua usawa: kununua option ni *hatari-iliyofafanuliwa lakini kulipa-kodi*; kuziuza ni *kukusanya-mapato lakini kufichuliwa-mkia*. Hakuna kati yao ni pesa za bure. Zote zinahitaji hesabu sawa ya expectancy kama kila kingine — kwa hatari ya mkia ya mwuzaji ikipangiwa bei kwa uaminifu, ambayo ndiyo hasa win rate yake huficha.",
+    "key_terms": [
+      {
+        "term": "Writer",
+        "definition": "Mwuzaji wa option — mkusanyaji wa premium, mbeba wajibu."
+      },
+      {
+        "term": "Assignment",
+        "definition": "Wajibu ukichocheka: mnunuzi hutumia dhidi ya mwuzaji."
+      },
+      {
+        "term": "Iliyofunikwa dhidi ya uchi",
+        "definition": "Wajibu uliosaidiwa na mali dhidi ya uliosaidiwa na kitu."
+      },
+      {
+        "term": "Skew hasi",
+        "definition": "Ushindi mdogo wa mara kwa mara, hasara kubwa nadra — wasifu wa mwuzaji."
+      }
+    ],
+    "exercise": {
+      "question": "Kuuza call uchi hushinda 90% ya wakati katika backtest. Kutoka track ya takwimu, ni swali gani la kwanza kabla ya kuamini mkakati huu?",
+      "options": [
+        "Jinsi ya kuukuza hadi ukubwa wa juu mara moja.",
+        "10% inayopoteza inagharimu nini? Win rate ya juu yenye hasara za mkia zisizo na mipaka ni mtego wa kawaida wa skew-hasi — expectancy inaweza kuwa hasi sana.",
+        "Kama 90% inaweza kufikia 95%.",
+        "Ni broker gani mwenye ada za chini zaidi."
+      ],
+      "explanation": "Win rate bila mgawanyo wa malipo ni kipimo cha majivuno ambacho somo la metrics-suite kilionya. Mikia isiyo na mipaka hubadilisha 'washindi 90%' kuwa hesabu-rudi."
+    },
+    "live_apply": {
+      "cta": "Soma tena mfano wa somo la metrics wa mkakati unaopoteza wenye win rate 84% — kuuza option ndio mwili wake safi zaidi wa ulimwengu-halisi."
+    }
+  },
+  {
+    "id": "advanced-33-options-as-insurance",
+    "title": "Option kama Bima — na Mstari wa Upeo",
+    "summary": "Kesi halali ya matumizi, na kwa nini injini hubaki spot.",
+    "concept": "Ondoa uvumi na option ni **bima**. Put kwenye umiliki ni sakafu ya bei: unalipa premium, na chini ya strike hasara zako husimama — hasa muundo wa kupunguzwa-na-sera. Call zinaweza kubima dhidi ya kukosa upande wa juu wakati mtaji unasubiri kwingine. Zikipangiwa bei kwa haki, option *huhamisha hatari*; hilo ndilo jukumu lao la kiuchumi la uaminifu.\n\nKwa nini, basi, QuantGlass hubaki **spot-pekee**? Sababu tatu zinazoendana na Academy. **Leverage iliyojengwa-ndani**: malipo ya option ni ya leverage kiasili, na track iliyopita ilionyesha leverage hufanya nini kwa hesabu ya kuendelea-kuishi. **Vipimo**: kila takwimu ambayo injini hii huripoti — expectancy katika R, safu za conformal, stop za ATR — hudhania nafasi ambayo thamani yake hufuata kiambajengo kimoja (bei); option huongeza wakati na tete kama mhimili wa hatari hai, kubatilisha vyombo hivyo bila ujenzi-upya kamili. **Uaminifu**: injini isiyoweza kuiga theta na vega kwa usahihi haipaswi kusimulia biashara za option — na hii inakataa kujifanya.\n\nHivyo mstari wa upeo: elewa option (sasa unaelewa, kwa kiwango cha msingi), tumia ubobeaji wa spot kama sharti la awali, na chukulia elimu yoyote ya baadaye ya derivatives jinsi Academy hii inavyochukulia biashara halisi — kama kitu cha *kufunguliwa na utayari ulioonyeshwa*, kamwe si kujikwaa ndani.",
+    "key_terms": [
+      {
+        "term": "Put ya kinga",
+        "definition": "Put inayoshikiliwa dhidi ya nafasi — sakafu ya bei iliyolipwa."
+      },
+      {
+        "term": "Uhamishaji wa hatari",
+        "definition": "Jukumu la uaminifu la option: kusogeza hatari kwa mwuzaji aliye tayari kwa bei."
+      },
+      {
+        "term": "Leverage iliyojengwa-ndani",
+        "definition": "Malipo ya option ni ya leverage kwa muundo."
+      },
+      {
+        "term": "Uaminifu wa upeo",
+        "definition": "Injini hukataa kusimulia kile isichoweza kuiga."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini QuantGlass huondoa option kwa makusudi kutoka injini yake na akaunti ya karatasi?",
+      "options": [
+        "Option ni haramu katika nchi nyingi.",
+        "Thamani za option husogea kwa wakati na tete pamoja na bei — takwimu zenye msingi wa R na jiometri ya ATR ya injini zingekuwa kimya makosa, na kanuni ya muundo ni kamwe kutoonyesha nambari isiyoweza kuitetea.",
+        "Option kamwe hazifai mwekezaji yeyote.",
+        "Ada za leseni za data ya option."
+      ],
+      "explanation": "Kanuni sawa na usimulizi unaolindwa-na-ukweli: upeo ni kipengele cha uaminifu. Vyombo vinapaswa kukataa eneo ambapo nambari zao huacha kuwa kweli."
+    },
+    "live_apply": {
+      "cta": "Soma msingi wa imani wa ishara yoyote na uzingatie kila takwimu hudhania spot — mstari wa upeo ambao track hii imeueleza tu."
+    }
+  },
+  {
+    "id": "advanced-04-backtest-reading",
+    "title": "Kusoma Backtest — IS dhidi ya OOS",
+    "summary": "Tafsiri metriki za in-sample na out-of-sample kuhukumu ubora wa seti.",
+    "concept": "QuantGlass hugawanya mishumaa ya kihistoria 70/30 kwa wakati:\n\n- **In-Sample (IS, 70%)**: dirisha la mafunzo. Injini inaweza 'kuona' kipindi hiki inapozalisha ishara ya sasa. Metriki za IS hukuambia jinsi seti ilivyofanya kazi katika historia.\n- **Out-of-Sample (OOS, 30%)**: dirisha lililotengwa ambalo injini haikufunzwa juu yake. Metriki za OOS hukadiria utendaji wa baadaye kwa uaminifu zaidi kuliko IS.\n\n**Metriki muhimu za kusoma:**\n| Metriki | Maana yake |\n|---|---|\n| Win Rate | % ya biashara zilizorudisha > 0R |\n| Expectancy | R wastani kwa kila biashara |\n| Profit Factor | Faida ghafi ÷ Hasara ghafi |\n| Max Drawdown | Hasara mbaya zaidi ya kilele-hadi-bonde |\n| Sharpe / Sortino | Rejea iliyorekebishwa kwa hatari |\n| OOS Validated | True wakati OOS ina biashara ≥ min_sample NA expectancy chanya ya OOS |\n\nIshara yenye metriki za juu za IS lakini OOS_Validated = False inapaswa kuchukuliwa kwa tahadhari.",
+    "key_terms": [
+      {
+        "term": "In-Sample (IS)",
+        "definition": "Dirisha la kihistoria ambalo modeli ilifunzwa juu yake — 70% kwa wakati."
+      },
+      {
+        "term": "Out-of-Sample (OOS)",
+        "definition": "Dirisha lililotengwa — 30% ya historia, huiga utendaji wa baadaye."
+      },
+      {
+        "term": "Profit Factor",
+        "definition": "Ushindi ghafi ÷ Hasara ghafi. > 1.3 kwa ujumla ni chanya."
+      },
+      {
+        "term": "Max Drawdown",
+        "definition": "Kushuka mbaya zaidi kutoka kilele cha equity katika backtest — huonyesha maumivu ya hali mbaya zaidi."
+      },
+      {
+        "term": "OOS Validated",
+        "definition": "True wakati OOS ina biashara za kutosha (≥ min_sample) zenye expectancy chanya."
+      }
+    ],
+    "exercise": {
+      "question": "Backtest inaonyesha win rate ya IS 65%, win rate ya OOS 41%, expectancy ya OOS −0.12R. Je, seti hii inaaminika?",
+      "options": [
+        "Ndio — win rate ya IS 65% ni kali.",
+        "Hapana — pengo la IS/OOS linaonyesha overfitting; expectancy ya OOS ni hasi.",
+        "Labda — subiri biashara zaidi katika kipindi cha OOS.",
+        "Ndio — expectancy hasi ya OOS ni ya kawaida kwa mean-reversion."
+      ],
+      "explanation": "Pengo kubwa la IS/OOS (65% dhidi ya 41%) na expectancy hasi ya OOS (−0.12R) huonyesha kwa nguvu kwamba seti ime**overfit** kwa kipindi cha IS — ilikamata kelele, si ishara. QuantGlass huweka `out_of_sample_validated = False` na kuweka kikomo imani kwa 62 katika kesi hii."
+    },
+    "live_apply": {
+      "cta": "Fungua Backtesting, chagua preseti yoyote, na linganisha Win Rate ya IS dhidi ya Win Rate ya OOS. Tafuta moja ambapo OOS iko karibu na IS."
+    }
+  },
+  {
+    "id": "advanced-05-confidence-basis",
+    "title": "Msingi wa Imani — Nini Husukuma Alama",
+    "summary": "Pindua-kihandisi alama za imani kwa kusoma kila sehemu-ndogo.",
+    "concept": "Nambari ya `confidence` (0–100) hutokana na alama-ndogo hizi zenye uzito:\n\n| Sehemu | Uzito | Chanzo |\n|---|---|---|\n| base | Thabiti (42–58) | Aina ya ishara (WAIT=42, HOLD/WATCH=52, BUY/SELL=58) |\n| trend_alignment | × 14 | |pengo la EMA-SMA| / close |\n| volume_confirmation | × 8 | volume_ratio / 1.75 |\n| confluence_score − 0.5 | × 18 | Alama ya mambo-mengi kutoka familia ya ishara |\n| calibrated_win_rate − 0.5 | × 32 | Win rate iliyopunguzwa-Bayesian kutoka expectancy iliyokusanywa |\n| expectancy | × 10 | Expectancy iliyokusanywa R (yenye kikomo ±1) |\n| adhabu ya sampuli-nyembamba | −8 | Inatumika wakati pooled_sample < min_sample |\n| kikomo cha OOS | upeo 62 | Inatumika wakati out_of_sample_validated = False |\n\nImani ya mwisho hubanwa hadi [20, 89] — injini kamwe haidai uhakika.",
+    "key_terms": [
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Upungufu wa Bayesian: win rate ghafi → 0.5 kwa uwiano wa unyembamba wa sampuli."
+      },
+      {
+        "term": "Pooled Expectancy",
+        "definition": "Expectancy iliyokusanywa-mtambuka kwa aina hii ya seti katika ukanda mzima."
+      },
+      {
+        "term": "Confluence Score",
+        "definition": "Alama iliyounganishwa ya mambo-mengi: mwelekeo, kiasi, MACD, mteremko wa HTF, bonasi ya hali."
+      },
+      {
+        "term": "OOS Cap",
+        "definition": "Imani yenye kikomo kigumu cha 62 wakati out_of_sample_validated ni False."
+      }
+    ],
+    "exercise": {
+      "question": "Ishara ya BUY_ZONE ina mpangilio kamili wa mwelekeo (1.0) lakini OOS_validated = False na pooled_sample = 12 (< min_sample=50). Imani ya juu inayokadiriwa ni ipi?",
+      "options": [
+        "89 — mpangilio kamili wa mwelekeo hupata imani ya juu.",
+        "≈ 62 — kikomo cha OOS kinatumika; adhabu ya sampuli-nyembamba hupunguza zaidi.",
+        "20 — sakafu ya chini kabisa inaanza.",
+        "50 — msingi wa kati."
+      ],
+      "explanation": "Kikomo cha OOS huweka dari kigumu kwa 62. Adhabu ya sampuli-nyembamba (−8) pia inatumika kwa kuwa pooled_sample (12) < min_sample (50). Kuanzia base ya BUY 58 + mpangilio kamili (14) = 72, ukiondoa 8 (sampuli nyembamba) = 64, kisha kikomo 62. Injini haitadai imani ya juu bila ushahidi."
+    },
+    "live_apply": {
+      "cta": "Fungua droo yoyote ya ishara na upanue sehemu ya Msingi wa Imani. Tafuta ishara ambapo OOS_validated = True na moja ambapo ni False."
+    }
+  },
+  {
+    "id": "advanced-11-why-backtests-lie",
+    "title": "Kwa Nini Backtest Hudanganya",
+    "summary": "Udanganyifu nne wa kawaida na ulinzi wa injini.",
+    "concept": "Backtest nyingi zilizochapishwa huwasifu waandishi wao kupitia mifumo minne. **Overfitting**: kupanga vigezo hadi historia ikariri — mkunjo hukaa kwenye kelele, si ishara. **Look-ahead bias**: kuruhusu uigaji kuchungulia data isiyopatikana wakati wa uamuzi (kutumia kufunga kwa pau kuamua kuingia kwa pau hiyo). **Survivorship bias**: kupima kwenye vyombo bado vilivyopo, kuwaondoa kimya walioondolewa na waliokufa. **Amnesia ya gharama**: kuiga utimizaji kwa bei zisizo na msuguano.\n\nUlinzi wa kimuundo wa QuantGlass, hakuna wa hiari: maamuzi hutumia **mishumaa iliyofungwa pekee** na backtester huendesha tena detector *uleule* ambao ishara hai hutumia, pau kwa pau; kila biashara iliyoiga hulipa **modeli kamili ya gharama ya kwenda-na-kurudi**; matokeo hugawanywa **kwa mpangilio wa wakati** kuwa in-sample na out-of-sample bila kuchanganya; na vigezo huwekwa thabiti kwa injini-nzima badala ya kupangwa kwa kila alama — kinyume cha ukandaji wa kila-chombo wa curve-fitting.\n\nMsimamo wa uaminifu: chukulia backtest yoyote, ikiwa ni pamoja na yetu, kama *kikomo cha juu* cha utendaji hai, si ahadi.",
+    "key_terms": [
+      {
+        "term": "Overfitting",
+        "definition": "Kukariri kelele ya historia kupitia upangaji wa vigezo."
+      },
+      {
+        "term": "Look-ahead bias",
+        "definition": "Kutumia taarifa isiyopatikana wakati wa uamuzi."
+      },
+      {
+        "term": "Survivorship bias",
+        "definition": "Kupima kwenye mali zilizonusurika tu."
+      },
+      {
+        "term": "Amnesia ya gharama",
+        "definition": "Kupuuza ada na slippage katika uigaji."
+      },
+      {
+        "term": "Kikomo cha juu",
+        "definition": "Usomaji wa uaminifu wa matokeo yoyote ya backtest."
+      }
+    ],
+    "exercise": {
+      "question": "Mkakati wa muuzaji unaonyesha win rate 94% baada ya kuboresha vigezo 12 kwa kila alama kwenye miaka 3 ya data. Maelezo yanayowezekana zaidi ni yapi?",
+      "options": [
+        "Ukosefu halisi wa ufanisi wa soko unaopuuza gharama zote.",
+        "Overfitting: vidude 12 vya kila-alama vinaweza kukariri kelele ya miaka 3; matokeo yanaelezea zamani, si baadaye.",
+        "Ujuzi unaohamia moja kwa moja kwa biashara hai.",
+        "Kosa la uchapaji — win rate huwekwa kikomo 60%."
+      ],
+      "explanation": "Vigezo vya kutosha vinaweza kukaa chochote, ikiwemo nasibu. Uozo wa out-of-sample ndiyo saini: kelele iliyokariwa hairudii."
+    },
+    "live_apply": {
+      "cta": "Zingatia kwamba kila preseti ya QuantGlass hutumia vigezo sawa vya injini-nzima — kutokuwepo kwa vidude vya kila-alama ni ulinzi-dhidi-ya-overfitting."
+    },
+    "common_mistakes": [
+      "Kupanga vigezo hadi mkunjo uonekane kamili. Mkunjo huo huelezea zamani uliyoboresha kwa ajili yake, si baadaye.",
+      "Kupima kwenye data ileile iliyopendekeza wazo. Ugunduzi wa in-sample hudai ushahidi wa out-of-sample - hakuna ubaguzi.",
+      "Kupuuza gharama. Mkakati wenye faida wastani ya 0.2R hufa kabisa kwa spredi na slippage."
+    ]
+  },
+  {
+    "id": "advanced-12-is-oos",
+    "title": "In-Sample, Out-of-Sample: Mgawanyo wa Uaminifu",
+    "summary": "Mgawanyo wa 70/30 wa mpangilio-wa-wakati wa injini na kizingiti chake cha uthibitisho.",
+    "concept": "Jaribio pekee la kushawishi la kanuni ni data ambayo haikuwahi kuigusa. QuantGlass hugawanya biashara zilizoiga za kila alama **kwa mpangilio wa wakati** — biashara 70% za kwanza ni **in-sample (IS)**, 30% zilizobaki ni **out-of-sample (OOS)** — na huripoti vipande viwili **kivyao, kamwe vimechanganywa**. Mgawanyo wa wakati (si nasibu) hujali katika masoko: huhifadhi mpangilio wa hali na kuhakikisha kipande cha OOS ni taarifa *ya baadaye* kweli.\n\nKizingiti cha uthibitisho ni wazi: seti hupata `out_of_sample_validated` tu wakati kipande cha OOS kina **angalau sampuli ya chini** (mpangilio wako wa usalama, msingi 50) *na* **expectancy chanya ya OOS**. Shindwa lolote na kila alama ya imani huwekwa kikomo kigumu cha 62 — injini kimuundo hukataa kufurahia mifumo isiyothibitishwa.\n\nUnaposoma preseti, jenga tafakari ya mchambuzi: ruka kichwa cha habari, linganisha IS na OOS. Thabiti katika mgawanyo → imara; ikiporomoka katika OOS → imekaririwa.",
+    "key_terms": [
+      {
+        "term": "Mgawanyo wa mpangilio-wakati",
+        "definition": "Biashara 70% za kwanza IS, 30% za mwisho OOS — kwa mpangilio wa wakati, kamwe si nasibu."
+      },
+      {
+        "term": "Uthibitisho wa OOS",
+        "definition": "Sampuli ya chini ya OOS NA expectancy chanya ya OOS."
+      },
+      {
+        "term": "Kikomo cha imani",
+        "definition": "Seti zisizothibitishwa haziwezi kufunga alama juu ya 62."
+      },
+      {
+        "term": "Uozo wa IS/OOS",
+        "definition": "Utendaji ukiporomoka out-of-sample — alama ya kidole ya overfitting."
+      }
+    ],
+    "exercise": {
+      "question": "Preseti inaonyesha expectancy ya IS +0.42R na expectancy ya OOS −0.05R kwenye sampuli yenye afya. Hitimisho la uaminifu?",
+      "options": [
+        "Wapatishe wastani: faida ya +0.18R.",
+        "Mfumo huenda umekariri dirisha lake la mafunzo — kuporomoka kwa OOS ndiyo ishara, na injini itakataa uthibitisho.",
+        "Data ya OOS ni mbaya tu.",
+        "Maradufisha ukubwa wa nafasi."
+      ],
+      "explanation": "Kuchanganya kungesafisha kushindwa. Lengo lote la kipande kisichoguswa ni kwamba hakiwezi kujadiliwa nacho — na kimesema hapana tu."
+    },
+    "live_apply": {
+      "cta": "Chagua preseti yoyote na usome IS dhidi ya OOS bega kwa bega kabla ya kuangalia kichwa cha habari kilichochanganywa."
+    }
+  },
+  {
+    "id": "advanced-13-metrics-suite",
+    "title": "Kusoma Seti Kamili ya Metriki",
+    "summary": "Win rate, expectancy, profit factor, Sharpe, Sortino, drawdown — hadithi moja, pembe sita.",
+    "concept": "Hakuna metriki moja inayonusurika peke yake. **Win rate** bila ukubwa wa malipo ni nambari ya majivuno — 90% ya ushindi wa +0.1R na hasara za −2R ni uharibifu. **Expectancy** (R wastani kwa biashara) ni mstari wa chini lakini huficha tete yake. **Profit factor** (ushindi ghafi ÷ hasara ghafi) husoma uimara: chini ya ~1.2 ni dhaifu baada ya gharama. **Sharpe** hupanga wastani kwa tete jumla; **Sortino** hugawanya kwa tete ya *upande wa chini* pekee — kwa upole zaidi kwa mikakati ambayo tete yao ni zaidi ya upande wa juu, ndiyo maana trend-following mara nyingi huonekana bora katika Sortino. **Max drawdown** ni bei ya kisaikolojia ya kuingia.\n\nInjini hukokotoa zote sita kutoka orodha ileile ya biashara kwenye kila preseti, pamoja na mikunjo ya equity na drawdown wanayoifupisha. Wasifu wa kutambua: trend-following (win rate 40–50%, ushindi wa juu wa wastani, Sortino nzuri, drawdown ndefu tambarare), mean reversion (win rate ya juu, ushindi mdogo, drawdown za hatari-ya-mkia).\n\nMazoea ya mchambuzi: soma metriki kama *ukaguzi wa uthabiti* — ikiwa mbili kati yao hazikubaliani na hadithi uliyounda, hadithi yako ni mbaya.",
+    "key_terms": [
+      {
+        "term": "Profit factor",
+        "definition": "Faida ghafi ÷ hasara ghafi — uimara baada ya gharama."
+      },
+      {
+        "term": "Uwiano wa Sharpe",
+        "definition": "Rejea wastani iliyopangwa kwa tete jumla."
+      },
+      {
+        "term": "Uwiano wa Sortino",
+        "definition": "Wastani uliopangwa kwa tete ya upande wa chini pekee."
+      },
+      {
+        "term": "Wasifu wa metriki",
+        "definition": "Mfumo bainifu wa metriki wa familia ya mkakati."
+      }
+    ],
+    "exercise": {
+      "question": "Mkakati A: win rate 84%, expectancy −0.07R. Mkakati B: win rate 43%, expectancy +0.31R. Ni upi unaopata pesa kwa wakati?",
+      "options": [
+        "A — win rate ni mstari wa chini.",
+        "B — expectancy ni mstari wa chini; ushindi mdogo wa mara kwa mara wa A hufadhiliwa na hasara za maafa za mara kwa mara.",
+        "Wote sawasawa.",
+        "Hakuna, kwa sababu win rate lazima izidi 90%."
+      ],
+      "explanation": "Expectancy tayari hujumlisha ushindi dhidi ya hasara. Wasifu wa A (win rate ya juu, expectancy hasi) ni saini ya kawaida ya tabia ya kata-washindi-acha-wapotezaji-waende."
+    },
+    "live_apply": {
+      "cta": "Chukua preseti moja na usome metriki zote sita kwa mpangilio: je, zinasimulia hadithi moja thabiti?"
+    }
+  },
+  {
+    "id": "advanced-14-shrinkage",
+    "title": "Ukubwa wa Sampuli na Upungufu",
+    "summary": "Kwa nini injini hukataa kuamini sampuli ndogo — pamoja na fomula.",
+    "concept": "Ushindi tatu kutoka biashara tatu ni win rate 100% na kitakwimu karibu chochote. Injini huandika mashaka hayo kama **upungufu wa empirical-Bayes**: kila win rate huvutwa kuelekea 50% kwa uwiano wa jinsi sampuli yake ilivyo nyembamba.\n\nFomula kamili: `calibrated = (raw × n + 0.5 × k) ÷ (n + k)`, ambapo **n** ni ukubwa wa sampuli na **k** ni nguvu ya prior — imewekwa kwenye mpangilio wako wa sampuli-ya-chini-ya-backtest (msingi 50). Mfano uliofanyiwa kazi: rekodi kamili ya 10-kwa-10 hutoa (1.0×10 + 0.5×50) ÷ 60 = **58.3%** — ushahidi wa kuvutia uliopunguzwa hadi mwelekeo mpole. Win rate ya 60% kwa biashara 400 husogea kidogo tu: (240 + 25) ÷ 450 = 58.9%. Imani sawa iliyorekebishwa, ushahidi tofauti sana — hasa jinsi inavyopaswa kuwa.\n\nKukusanya hukamilisha ulinzi: sampuli za kila-alama ni nyembamba, hivyo injini hukusanya matokeo kwa familia ya seti na muda katika alama, na hupendelea takwimu zilizokusanywa wakati wowote sampuli iliyokusanywa inapopita kizingiti. Amini polepole; sasisha kwa ushahidi.",
+    "key_terms": [
+      {
+        "term": "Upungufu",
+        "definition": "Kuvuta makadirio kuelekea upande wa kati kwa uwiano wa unyembamba wa sampuli."
+      },
+      {
+        "term": "Nguvu ya prior",
+        "definition": "k katika fomula — injini hutumia mpangilio wako wa sampuli-ya-chini."
+      },
+      {
+        "term": "Pooled expectancy",
+        "definition": "Ukusanyaji-mtambuka kwa familia ya seti na muda."
+      },
+      {
+        "term": "Uzito wa ushahidi",
+        "definition": "n ÷ (n + k): kiasi gani data huzidi kura kwa prior."
+      }
+    ],
+    "exercise": {
+      "question": "Ukitumia fomula ya injini na nguvu ya prior k = 50: seti ni 10-kwa-10 (win rate ghafi 100%). Win rate iliyorekebishwa ni ipi, kwa asilimia?",
+      "hint": "(1.0 × 10 + 0.5 × 50) ÷ (10 + 50), kisha ×100",
+      "explanation": "(10 + 25) ÷ 60 = 0.5833 → **58.3%**. Biashara kumi kamili husogeza sindano kutoka 50% hadi 58% — ushahidi unaheshimiwa, lakini sampuli ndogo haziwezi kupiga kelele."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara yenye sampuli ndogo ya backtest na uzingatie jinsi imani yake inavyobaki ya wastani — umekokotoa tu kwa nini."
+    }
+  },
+  {
+    "id": "advanced-15-honest-simulation",
+    "title": "Ndani ya Mwigaji wa Uaminifu",
+    "summary": "Utimizaji wa mguso-wa-kwanza, ngazi halisi, gharama, na stop ya wakati.",
+    "concept": "Ni nini hasa hutokea QuantGlass inapofanya backtest ya seti? Kwa kila pau ya kihistoria ambapo *detector hai uleule* hupiga, mwigaji hutembea mbele pau kwa pau na kucheza biashara iliyoonyeshwa bila kuona-nyuma: ikiwa safu ya pau hugusa **stop**, nafasi iliyobaki hutoka pale — stop kwanza, kwa tahadhari, wakati stop na lengo zote ziko ndani ya safu ya pau moja. Vinginevyo kila **ngazi (ladder rung)** ambayo safu ya pau hufikia hutimiza uzito wake hasa (50/30/20). Ikiwa nafasi inanusurika hadi **kushikilia kwa kiwango cha juu (max hold)** cha muda (pau 24 kwa 1h, 12 kwa 1d), hutoka kwenye kufunga kwa pau hiyo — stop ya wakati.\n\nMatokeo hujumlishwa-halisi **gharama kamili ya kwenda-na-kurudi** iliyobadilishwa kuwa R, kisha hujiunga na orodha ya mpangilio-wakati ya biashara inayolisha kila metriki, mgawanyo wa IS/OOS, na seti ya urekebishaji wa conformal.\n\nKanuni ya chini: backtest huiga **biashara ambayo ungeona kweli kwenye kadi** — mantiki ileile ya kuingia, stop ileile, ngazi zilezile, gharama zilezile. Hakuna kutoka kulikoboreshwa, hakuna biashara zilizoelezwa-upya. Wakati nambari inaweza kukaguliwa dhidi ya uigaji uliouizalisha, imani huwa ya kukaguliwa.",
+    "key_terms": [
+      {
+        "term": "Utimizaji wa mguso-wa-kwanza",
+        "definition": "Viwango hutimizwa wakati safu ya pau inazifikia kwanza; stop hupewa kipaumbele ndani ya pau."
+      },
+      {
+        "term": "Uaminifu wa ngazi",
+        "definition": "Kutoka kulikoigwa hutumia ngazi 50/30/20 zilizoonyeshwa hasa."
+      },
+      {
+        "term": "Max hold",
+        "definition": "Stop ya wakati kwa kila muda — seti zilizokwama hutoka kwenye kufunga."
+      },
+      {
+        "term": "Kanuni ya biashara-iliyoonyeshwa",
+        "definition": "Backtest na kadi ya ishara hushiriki jiometri moja."
+      }
+    ],
+    "exercise": {
+      "question": "Ndani ya pau moja iliyoiga, bei husafiri katika stop na ngazi ya kwanza zote mbili. Injini huitatuaje?",
+      "options": [
+        "Hutimiza ngazi yenye faida kwanza — uigaji unastahili matumaini.",
+        "Huchukua stop kwenye nafasi iliyobaki — utatuzi wa tahadhari, kwa kuwa pau haiwezi kufichua kiwango kipi kiligusiwa kwanza.",
+        "Hugawanya tofauti katikati.",
+        "Huruka pau kabisa."
+      ],
+      "explanation": "OHLCV huharibu njia ya ndani-ya-pau, hivyo mwigaji hujitoza hali mbaya zaidi. Backtest za uaminifu hutatua utata dhidi yao wenyewe."
+    },
+    "live_apply": {
+      "cta": "Soma idadi ya biashara na expectancy ya preseti ukijua sasa hasa jinsi kila biashara iliyoiga ilivyotimizwa, kugharimiwa, na kufungwa."
+    }
+  },
+  {
+    "id": "advanced-01-market-regimes",
+    "title": "Hali za Soko",
+    "summary": "Elewa kwa nini kiashiria kilekile hufanya kazi tofauti katika kila hali.",
+    "concept": "QuantGlass huainisha soko la sasa katika mojawapo ya **hali (regimes)** nne kabla ya kuzalisha ishara. Hali huamua ni familia zipi za mkakati zinazostahili:\n\n| Hali | Sharti | Mikakati hai |\n|---|---|---|\n| **Trending** | ADX ≥ 22 | Pullback, Breakout-retest |\n| **Ranging** | ADX < 16 | Mean-reversion (RSI-2 + BB) |\n| **Volatile** | ATR% ≥ 1.7× ATR% wastani | Kuingia kote kumezuiwa / imani imepunguzwa |\n| **Transitional** | ADX 16–22 | Pullback pekee, confluence iliyopunguzwa |\n\n**ADX (Average Directional Index)** hupima *nguvu* ya mwelekeo, si mwelekeo wenyewe. ADX juu = mwelekeo imara (juu au chini); ADX chini = soko dhaifu/la kuteleza.",
+    "key_terms": [
+      {
+        "term": "ADX-14",
+        "definition": "Average Directional Index ya vipindi 14 — hupima nguvu ya mwelekeo (0–100)."
+      },
+      {
+        "term": "Trending",
+        "definition": "ADX ≥ 22 — mwelekeo wa kimwelekeo upo."
+      },
+      {
+        "term": "Ranging",
+        "definition": "ADX < 16 — hakuna mwelekeo wenye maana; mikakati ya mean-reversion hupendelewa."
+      },
+      {
+        "term": "Volatile",
+        "definition": "ATR% ≥ 1.7× wastani wake wa pau-50 — tete isiyo ya kawaida, imani imewekewa kikomo."
+      },
+      {
+        "term": "Transitional",
+        "definition": "ADX 16–22 — soko likihama kati ya trending na ranging."
+      }
+    ],
+    "exercise": {
+      "question": "ADX = 12, ATR% iko karibu na wastani wake wa kihistoria. QuantGlass hutathmini familia gani ya seti?",
+      "options": [
+        "Breakout-retest pekee.",
+        "Mean-reversion (range_meanreversion_long/short) kutumia RSI-2 na Bollinger Bands.",
+        "Trend-pullback pekee.",
+        "Familia zote kwa wakati mmoja."
+      ],
+      "explanation": "ADX = 12 < 16 → hali ya **ranging**. Injini huruka familia za trend-pullback na breakout na hutathmini familia ya mean-reversion pekee: RSI-2 kwenye kileleo karibu na Bollinger Bands. Mkakati mbaya katika hali mbaya ni chanzo kikuu cha kushindwa kwa ishara."
+    },
+    "live_apply": {
+      "cta": "Fungua ishara yoyote na uangalie market_regime katika confidence_basis. Tafuta ishara moja ya 'ranging' na moja ya 'trending'."
+    }
+  },
+  {
+    "id": "advanced-02-macd",
+    "title": "MACD Histogram — Uthibitisho wa Kasi",
+    "summary": "Tumia histogram ya MACD kama kichujio cha pili cha uthibitisho wa kasi.",
+    "concept": "**MACD** (Moving Average Convergence/Divergence) hupima pengo kati ya EMA mbili:\n`MACD Line = EMA(12) − EMA(26)`\n`Signal Line = EMA(9) ya MACD Line`\n`Histogram = MACD Line − Signal Line`\n\n**Tafsiri ya histogram:**\n- Histogram > 0 na inakua → kasi ya kupanda inayokasiriana\n- Histogram < 0 na inapungua → kasi ya kushuka ikififia (uwezekano wa kugeuka)\n- **Divergence**: bei hufanya kilele kipya, histogram haifanyi → udhaifu uliofichika\n\n**Jukumu katika QuantGlass:** ishara ya histogram ya MACD ni boolean ya `macd_agree` katika fomula ya confluence. Ikiwa histogram inakubaliana na mwelekeo wa biashara, alama ya confluence hupata 0.10. Ni kichujio cha uthibitisho, si kichocheo cha msingi.",
+    "key_terms": [
+      {
+        "term": "MACD Line",
+        "definition": "EMA(12) − EMA(26) — mstari mkuu wa kasi."
+      },
+      {
+        "term": "Signal Line",
+        "definition": "EMA(9) ya mstari wa MACD — toleo lililolainishwa."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD Line − Signal Line — huonyesha kasi ya mabadiliko ya kasi."
+      },
+      {
+        "term": "MACD Divergence",
+        "definition": "Bei na MACD vikisogea pande pinzani — mwendo unaodhoofika."
+      }
+    ],
+    "exercise": {
+      "question": "Bei iko juu ya EMA-21 > SMA-50. Histogram ya MACD iko −0.02. Je, injini huongeza bonasi ya 'macd_agree'?",
+      "options": [
+        "Ndio — histogram iko karibu na sifuri, ambayo huhesabika kama makubaliano ya kati.",
+        "Hapana — macd_agree huhitaji histogram > 0 kwa seti ya BUY_ZONE.",
+        "Ndio — kuwa katika rundi la kupanda daima hupata bonasi.",
+        "MACD haitumiki kabisa katika QuantGlass."
+      ],
+      "explanation": "Kwa seti ya long/kupanda, `macd_agree = macd_histogram > 0`. Histogram hasi (−0.02) maana yake kasi ya kushuka licha ya rundi la bei la kupanda — bonasi ya confluence +0.10 huzuiliwa. Ishara bado zinaweza kupiga, lakini kwa imani ya chini."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara ya HOLD au WATCH — hizi mara nyingi zina MACD isiyokubaliana na mwelekeo, kupunguza imani."
+    }
+  },
+  {
+    "id": "advanced-03-bollinger-bands",
+    "title": "Bollinger Bands — Bahasha ya Tete",
+    "summary": "Tumia BB squeeze na upanuzi kupanga wakati wa kuingia na tete.",
+    "concept": "**Bollinger Bands** zinajumuisha:\n- `BB Mid` = SMA(20)\n- `BB Upper` = SMA(20) + 2 × StdDev(20)\n- `BB Lower` = SMA(20) − 2 × StdDev(20)\n- `BB Bandwidth` = (Upper − Lower) / Mid × 100\n\n**Squeeze**: mistari hubana → tete chini → nishati hubanwa → breakout inakaribia.\n**Upanuzi**: mistari hupanuka → mwinuko wa tete → mwelekeo unaendelea.\n\n**Katika QuantGlass (hali ya ranging):**\n- Bei kwenye BB Lower + RSI-2 ≤ 8 → `range_meanreversion_long` (BUY_ZONE)\n- Bei kwenye BB Upper + RSI-2 ≥ 92 → `range_meanreversion_short` (SELL)\n- Lengo la mean-reversion: BB Mid (SMA ya vipindi 20)\n\nBandwidth pia hutumika kuweka kizidishi cha stop cha `volatility_regime`.",
+    "key_terms": [
+      {
+        "term": "BB Upper",
+        "definition": "SMA(20) + mikengeuko 2 ya kawaida — bahasha ya juu."
+      },
+      {
+        "term": "BB Lower",
+        "definition": "SMA(20) − mikengeuko 2 ya kawaida — bahasha ya chini."
+      },
+      {
+        "term": "BB Bandwidth",
+        "definition": "(Upper − Lower) / Mid × 100 — upana wa mistari, kiwakilishi cha tete."
+      },
+      {
+        "term": "BB Squeeze",
+        "definition": "Mistari ikibana — tete inabanwa kabla ya mwendo wa kimwelekeo."
+      }
+    ],
+    "exercise": {
+      "question": "BB Bandwidth imekuwa ikibana kwa pau 10 na imefika tu kiwango chake cha chini cha miezi 6. Unapaswa kujiandaa kwa nini?",
+      "options": [
+        "Kipindi kirefu cha tete chini — hakuna kitu kitatokea.",
+        "Upanuzi wa tete / breakout — squeeze hutoa nishati.",
+        "Kugeuka mara moja hadi mstari wa kati wa BB.",
+        "Injini ya ishara itazuia ishara zote."
+      ],
+      "explanation": "BB squeeze hadi kiwango cha chini cha miezi-mingi ni seti ya kawaida kwa upanuzi wa tete unaokaribia. Mwelekeo hautabiriwa na mistari pekee — unahitaji rundi la mwelekeo na kichocheo cha kiasi kuchagua long dhidi ya short. Ndiyo maana QuantGlass huunganisha BB na ADX na RSI-2."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara ya range_meanreversion. Eneo la kuingia litakuwa karibu na BB Lower (long) au BB Upper (short)."
+    }
+  },
+  {
+    "id": "advanced-06-trend-pullback",
+    "title": "Trend Pullback: Kununua Nguvu kwa Punguzo",
+    "summary": "Seti kuu ya long ya injini, sharti kwa sharti.",
+    "concept": "Trend pullback hununua mwelekeo wenye afya kwa punguzo. Masharti kamili ya long ya injini: **muundo** — close > EMA-21 > SMA-50 (rundi la kupanda); **mahali** — bei ikiingiliana na EMA-21 (pau huipanda, au close hukaa ndani ya 0.8% yake); **busara ya kasi** — RSI-14 kati ya 46 na 72: yenye joto la kutosha kuthibitisha mwelekeo, si moto sana kiasi mwendo umekwisha; **hali** — trending au transitional pekee.\n\nJiometri ya biashara kisha hufuata kimakanika: bei ya marejeo karibu na EMA, eneo la kuingia la −0.45 hadi +0.15 ATR kuizunguka, stop kwenye kizidishi cha ATR cha hali-ya-tete chini, na ngazi ya kupimwa-2.4R juu. Dhana inayonunuliwa: *katika mwelekeo, pullback kuelekea wastani unaopanda huwa hutatuliwa katika mwelekeo wa mwelekeo.* Stop hukaa pale dhana hiyo hufa — chini ya msingi wa pullback.\n\nKioo chake, rejection short, hupindua kila sharti (close < EMA < SMA, RSI 28–54).",
+    "key_terms": [
+      {
+        "term": "Rundi la kupanda",
+        "definition": "Close juu ya EMA-21 juu ya SMA-50 — muundo wa mwelekeo salama."
+      },
+      {
+        "term": "Eneo la pullback",
+        "definition": "Bei ikiingiliana na EMA-21 inayopanda."
+      },
+      {
+        "term": "Dirisha la RSI",
+        "definition": "46–72 kwa long: joto la kuthibitisha bila uchovu."
+      },
+      {
+        "term": "Dhana",
+        "definition": "Dai la kitakwimu ambalo seti hununua — hapa, kuendelea kwa mwelekeo kutoka wastani."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini seti ya pullback hukataa long wakati RSI-14 iko juu ya 72?",
+      "options": [
+        "RSI ya juu ni haramu.",
+        "Juu ya ~72 msukumo tayari umepanuka — seti hutaka kununua kilichobaki baada ya kushuka, si kufukuza kilele cha mwendo.",
+        "RSI haiwezi kuzidi 72 kihesabu.",
+        "EMA hutoweka kwa RSI ya juu."
+      ],
+      "explanation": "Faida ya seti ni kuingia wakati wa punguzo, si kwenye joto la kilele. Dari ya RSI huchuja kufukuza kunakojificha kama kununua-pullback."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara ya ema_reclaim_pullback au daily_trend_pullback na uthibitishe kila moja ya masharti manne katika sababu zake."
+    }
+  },
+  {
+    "id": "advanced-07-trend-rejection",
+    "title": "Rejection Short: Mwelekeo Hufa Kutoka Chini",
+    "summary": "Kioo cha kushuka — kuuza rallies zilizoshindwa katika downtrends.",
+    "concept": "Downtrends hutoa biashara ya kioo: bei hupanda hadi EMA-21 inayoshuka, **inakataliwa**, na huendelea chini. Masharti ya injini: rundi la kushuka (close < EMA-21 < SMA-50), pau ikiingiliana na EMA kutoka chini, RSI-14 kati ya 28 na 54 (bounce halisi, si soko lililokufa), hali ya trending/transitional, na confluence ikipewa wakati histogram ya MACD ni hasi na uteleaji wa muda-wa-juu unaelekea chini.\n\nShort inastahili maelezo mawili ya uaminifu ya ukosefu wa usawa. **Umbo la hatari**: hali mbaya zaidi ya long ni −100%; hali mbaya zaidi ya kinadharia ya short ni isiyo na mipaka — ndiyo maana stop juu ya kilele cha kukataa hata haijadiliki zaidi ya kawaida. **Umbo la tabia**: kushuka huwa haraka na kali zaidi kuliko rallies (hofu huliquidate haraka kuliko tamaa hukusanya), hivyo rejection shorts mara nyingi hutatuliwa haraka kuliko vioo vyao vya long.\n\nKatika biashara ya karatasi ya QuantGlass unaweza kufanya mazoezi ya ufundi kamili kwa usawa — injini huchukulia mwelekeo kama kigezo cha daraja-la-kwanza, si fikira-ya-baadaye.",
+    "key_terms": [
+      {
+        "term": "Kukataa",
+        "definition": "Rally hadi upinzani (hapa EMA inayoshuka) inayoshindwa na kufunga mbali."
+      },
+      {
+        "term": "Rundi la kushuka",
+        "definition": "Close chini ya EMA-21 chini ya SMA-50."
+      },
+      {
+        "term": "Ukosefu wa usawa wa short",
+        "definition": "Hasara ya kinadharia isiyo na mipaka — stop ni za lazima kimuundo."
+      },
+      {
+        "term": "Kasi ya upande wa chini",
+        "definition": "Kushuka kwa kawaida husafiri haraka kuliko rallies sawa."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini nidhamu ya stop kwenye short ni kali zaidi hata kuliko kwenye long?",
+      "options": [
+        "Short hutozwa kodi tofauti.",
+        "Long inaweza kupoteza zaidi thamani yake; mwendo hasi wa short ni kinadharia usio na mipaka, hivyo short isiyo na stop haina hali mbaya zaidi.",
+        "Stop hutekelezwa haraka kwenye short.",
+        "Sivyo — hatari ni ya usawa."
+      ],
+      "explanation": "Bei ina sakafu kwenye sifuri na hakuna dari. Kilele cha kukataa si marejeo tu — juu yake, nafasi haina hatari iliyofafanuliwa kabisa."
+    },
+    "live_apply": {
+      "cta": "Tafuta ishara ya trend_rejection_breakdown na ufuatilie stop yake hadi muundo wa kukataa juu ya kuingia."
+    }
+  },
+  {
+    "id": "advanced-08-breakout-retest",
+    "title": "Breakout-Retest: Kufanya Biashara Kasi ya Kutoroka",
+    "summary": "Kileleo kipya, uwepo wa kiasi, na uthibitisho wa mwelekeo.",
+    "concept": "Familia ya breakout huweka dau kwamba **kileleo kipya hupanuka**. Masharti ya injini kwa toleo la long: hali ya trending (ya lazima — familia hii ni dhaifu zaidi kwa hali), rundi la kupanda salama, pau ikisukuma kupitia **kilele cha 20-Donchian cha pau iliyotangulia** huku close ikishika ndani ya 0.3% ya kiwango, na **kiasi angalau kwenye wastani wake wa hivi karibuni** — majaribio ya kutoroka bila uwepo hudhaniwa kuwa bandia.\n\nHuingia kama hali ya **WATCH** yenye msingi wa juu wa confluence (0.60) kuliko pullback: breakout inapokuwa halisi ni mwelekeo ukijitangaza, lakini familia hulipa kwa ubora huo kwa udhaifu — katika ranges, pau ileile ni fakeout ya kitabu, ndiyo maana lango la hali lipo.\n\n'Retest' katika jina ni jaribio la ukomavu: breakout imara mara nyingi hurudi kubusu kiwango kilichovunjwa kabla ya kuendelea. Kiwango kilichoweka kikomo bei huwa kiwango kinachoilinda — upinzani uliogeuka kuwa msaada, ugeuzaji safi zaidi wa muundo katika biashara.",
+    "key_terms": [
+      {
+        "term": "Kasi ya kutoroka",
+        "definition": "Msukumo kupitia kileleo kilichotangulia imara wa kutosha kushika."
+      },
+      {
+        "term": "Uwepo wa kiasi",
+        "definition": "Uwiano wa kiasi ≥ 1.0 — ushiriki unaothibitisha kuvunja."
+      },
+      {
+        "term": "Ugeuzaji wa muundo",
+        "definition": "Upinzani uliovunjwa ukitenda kama msaada mpya kwenye retest."
+      },
+      {
+        "term": "Udhaifu wa hali",
+        "definition": "Utegemezi kamili wa familia kwa lango la trending."
+      }
+    ],
+    "exercise": {
+      "question": "Pau hutoboa kilele cha Donchian kilichotangulia ndani ya siku lakini hufunga 1.2% nyuma chini yake kwa kiasi wastani. Je, breakout ya injini hupiga?",
+      "options": [
+        "Ndio — kugusa kiwango ni kutosha.",
+        "Hapana — close ilishindwa jaribio la kushika (ndani ya 0.3% ya kiwango), kuifanya kuwa kitambaa cha kukataa, si kutoroka.",
+        "Ndio, lakini Jumanne tu.",
+        "Hapana, kwa sababu kiasi lazima kiwe sifuri."
+      ],
+      "explanation": "Jaribio la close hutenganisha kutoroka na safari: utoboaji unaofunga vyema chini ya kiwango ni ushahidi wa ugavi kwenye kileleo — dhana pinzani."
+    },
+    "live_apply": {
+      "cta": "Fungua preseti ya breakout_retest_continuation: idadi yake ya biashara ni hasa mara ngapi masharti haya makali yalitokea pamoja kihistoria."
+    }
+  },
+  {
+    "id": "advanced-09-mean-reversion",
+    "title": "Range Mean Reversion: Kufanya Biashara Mpira wa Mpira",
+    "summary": "Kileleo kilichooshwa kikirudi katikati.",
+    "concept": "Katika hali ya ranging nguvu inayofanya kazi ni **mvuto wa wastani**. Masharti ya long ya injini: hali ya ranging (ADX < 16), **RSI ya vipindi 2 ≤ 8** — oscillator wa makusudi nyeti karibu na kuoshwa kabisa — na pau ikigusa **bendi ya chini ya Bollinger** (chini ndani ya 0.5% yake). Short hupiga kioo kwa RSI-2 ≥ 92 na bendi ya juu.\n\nKila kitu kuhusu familia hii kimejengwa tofauti kwa sababu dhana ni tofauti. Lengo si ngazi wazi bali ni **bendi ya kati** — wastani unaovuta — na ngazi imebanwa kuizunguka (60% ya muda, wastani wenyewe, 130% zaidi). Confluence huanza chini (base 0.50) kwa sababu kufifisha miendo ni kimuundo dau dhaifu zaidi: usomaji uleule wa kuoshwa katika hali ya *trending* si mpira wa mpira, ni treni ya mizigo, ndiyo maana lango la hali halijadiliki hapa.\n\nFamilia hii hufundisha somo la kina zaidi katika track: jiometri ileile ya chati humaanisha vitu pinzani katika hali tofauti.",
+    "key_terms": [
+      {
+        "term": "RSI-2",
+        "definition": "RSI ya vipindi 2 — kigunduzi cha makusudi nyeti-sana cha kuoshwa."
+      },
+      {
+        "term": "Kuoshwa",
+        "definition": "RSI-2 ≤ 8 (au ≥ 92): uchovu wa upande mmoja ndani ya range."
+      },
+      {
+        "term": "Lengo la wastani",
+        "definition": "Kutoka kunakolenga bendi ya kati ya Bollinger, si wazi."
+      },
+      {
+        "term": "Hatari ya treni ya mizigo",
+        "definition": "Kufifisha bei 'zilizonyooshwa' katika hali ya trending."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini familia ya mean-reversion hulenga bendi ya kati ya Bollinger badala ya kutumia ngazi ya kawaida ya 2.4R?",
+      "options": [
+        "Bendi za kati hulipa rebates.",
+        "Dhana yake ni kurudi kwa kasi kwa wastani — bei ikifika wastani, sababu ya injini ya biashara imekwisha.",
+        "Ngazi huhitaji ADX juu ya 22.",
+        "Bendi ya kati daima iko 2.4R mbali."
+      ],
+      "explanation": "Kutoka lazima kulingane na dhana. Biashara ya reversion inayoshika zaidi ya wastani imekuwa biashara ya mwelekeo ambayo hakuna aliyepanga — lengo huweka biashara ikiwa ya uaminifu kwa wazo lake."
+    },
+    "live_apply": {
+      "cta": "Ikiwa ishara ya range_meanreversion ipo, linganisha viwango vyake vya take-profit na bendi ya kati ya alama."
+    }
+  },
+  {
+    "id": "advanced-10-choosing-families",
+    "title": "Alama Moja, Seti Nyingi: Jinsi Injini Huchagua",
+    "summary": "Ushindani kwa confluence, na hali za kurudi nyuma.",
+    "concept": "Kwa kila pau iliyofungwa injini hutathmini **familia zote pamoja na mikakati yoyote ya nyongeza**, hukusanya kila mgombea ambaye malango yake hupita, na huchagua **alama ya juu zaidi ya confluence**. Hakuna daraja, hakuna upendeleo — seti yenye makubaliano huru zaidi hushinda kadi.\n\nWakati *hakuna* familia inayopiga, injini bado huripoti kwa uaminifu kupitia **hali za kurudi nyuma (fallback)**: rundi la kupanda bila seti ya kutekelezeka → **HOLD** (mwelekeo salama, hakuna cha kufanya); rundi la kushuka → **WATCH** kuvunjika; hakuna → **WAIT**, lililoalamishwa batili. Hali hizi za msingi-chini (0.30) zipo kwa sababu *'hakuna cha kufanya'* ni jibu halali, la mara kwa mara, na lenye thamani — injini hukataa kutengeneza hatua.\n\nSomo-kuu kwa biashara yako: mkakati si seti moja, ni **kabrasha la dhana** lenye kanuni za lini kila moja inatumika na unyenyekevu wa kusema 'hakuna inayotumika'. Hasara nyingi za reja huwa ni kukataa kukubali chaguo hilo la tatu.",
+    "key_terms": [
+      {
+        "term": "Ushindani wa wagombea",
+        "definition": "Seti zote zinazopita hufungwa alama; confluence ya juu huonyeshwa."
+      },
+      {
+        "term": "Hali ya kurudi nyuma",
+        "definition": "HOLD/WATCH/WAIT — majibu ya uaminifu ya 'hakuna seti'."
+      },
+      {
+        "term": "Kabrasha la dhana",
+        "definition": "Mkakati kama seti ya mawazo yaliyowekewa-hali, si mfumo mmoja."
+      },
+      {
+        "term": "Hatua iliyotengenezwa",
+        "definition": "Kufanya biashara kwa sababu unataka biashara — adui wa hali za kurudi nyuma."
+      }
+    ],
+    "exercise": {
+      "question": "Familia zote nne hushindwa malango yao kwenye alama yenye rundi salama la kupanda. Injini hutoa nini?",
+      "options": [
+        "Hakuna — alama hutoweka.",
+        "Hali ya HOLD: muundo wa mwelekeo salama, hakuna seti ya kutekelezeka, msingi wa chini wa confluence, hakuna kuingia kuliotengenezwa.",
+        "BUY_ZONE ya kulazimishwa kwa nusu ya imani.",
+        "Ujumbe wa kosa."
+      ],
+      "explanation": "HOLD ni taarifa, si kushindwa: baki na kinachofanya kazi, usiongeze chochote. Injini hupendelea kuwa bure kwa uaminifu kuliko kuwa na shughuli kwa bandia."
+    },
+    "live_apply": {
+      "cta": "Hesabu hali za HOLD/WATCH/WAIT za leo dhidi ya zile za kutekelezeka — uwiano ndio uaminifu wa injini ukijionyesha."
+    }
+  },
+  {
+    "id": "advanced-20-biases",
+    "title": "Upendeleo Unaopangia Bei Makosa Yako",
+    "summary": "Uchukivu wa hasara, gharama iliyozama, ufanano, uthibitisho — na mavazi yao ya biashara.",
+    "concept": "Upendeleo nne wa utambuzi hufanya uharibifu mwingi. **Uchukivu wa hasara**: hasara huumiza takriban mara mbili ya jinsi faida sawa zinavyofurahisha — hivyo wafanyabiashara hushikilia wapotezaji (kuepuka maumivu ya kutimiza) na kukata washindi (kuweka faraja). Ubadilishaji kamili wa faida. **Gharama iliyozama**: 'tayari niko chini 8%, siwezi kutoka sasa' — lakini soko halijui kuingia kwako; swali pekee ni je, nafasi inastahili kuwepo kwa bei ya *leo*. **Ufanano**: ushindi tatu huhisi kama umahiri, hasara tatu kama maangamizi; zote ni kelele zikiwa zimevaa vazi la mwelekeo. **Uthibitisho**: ukishachukua nafasi, hupanga ushahidi kwa makubaliano — tweets za kupanda hubookmarkwa, muundo wa kushuka huombwa udhuru.\n\nFremu ya uaminifu: hizi si dosari za tabia, ni firmware — kila mtu huziendesha. Tofauti ya kitaalamu si kuhisi tofauti; ni **kuamua katika wakati tofauti**: kila ahadi-kabla ya mtindo wa QuantGlass (stop iliyowekwa kabla ya kuingia, mpango ulioandikwa ukiwa tambarare) husogeza uamuzi hadi wakati ambapo upendeleo haujajazwa.",
+    "key_terms": [
+      {
+        "term": "Uchukivu wa hasara",
+        "definition": "Hasara huzito ~2× faida sawa — injini ya shikilia-wapotezaji/kata-washindi."
+      },
+      {
+        "term": "Gharama iliyozama",
+        "definition": "Kuruhusu bei yako ya kuingia ijadili kuhusu uamuzi wa leo."
+      },
+      {
+        "term": "Upendeleo wa ufanano",
+        "definition": "Kupanua matokeo machache ya mwisho kuwa hali."
+      },
+      {
+        "term": "Upendeleo wa uthibitisho",
+        "definition": "Kupanga ushahidi kwa kama unakubaliana na nafasi yako."
+      },
+      {
+        "term": "Ahadi-kabla",
+        "definition": "Kuamua kabla upendeleo haujajazwa — dawa ya kimuundo."
+      }
+    ],
+    "exercise": {
+      "question": "Mfanyabiashara anakataa kutoka nafasi inayopoteza 'kwa sababu ningekuwa nikiuza kwenye chini ya kuingia KWANGU'. Ni upendeleo upi unaongea, na swali sahihi ni lipi?",
+      "options": [
+        "Upendeleo wa ufanano; swali ni biashara tatu za mwisho zilivyokwenda.",
+        "Gharama iliyozama; swali halali pekee ni je, nafasi hii inastahili kuwepo kwa bei na muundo wa leo.",
+        "Upendeleo wa uthibitisho; swali ni Twitter inafikiri nini.",
+        "Hakuna upendeleo; kuingia ni takatifu."
+      ],
+      "explanation": "Soko halibebi kumbukumbu ya kuingia kwa mtu yeyote. Andika-tena nafasi kana kwamba uko tambarare: ukijua chati ya leo tu, ungeifungua sasa? Ikiwa hapana, bei ya kuingia ndiyo kitu pekee kinachoishikilia."
+    },
+    "live_apply": {
+      "cta": "Chagua nafasi moja ya karatasi iliyofunguliwa na uiandike-tena: ukijua chati ya leo tu, ungeifungua sasa?"
+    },
+    "common_mistakes": [
+      "Kuamini kwamba kujua upendeleo huushinda. Upendeleo hufanya kazi kabla-ya-ufahamu; ni mchakato pekee (orodha, mipango, otomatiki) unaolinda dhidi yao.",
+      "Kuchagua-chagua ushindi uliokumbukwa kama ushahidi wa ujuzi. Diari ipo kwa sababu kumbukumbu ni seti ya data yenye upendeleo zaidi unayomiliki."
+    ]
+  },
+  {
+    "id": "advanced-21-tilt",
+    "title": "Tilt na Biashara ya Kulipiza Kisasi",
+    "summary": "Mfumo wa mzunguko-wa-hasara — na kigunduzi kinachoutazama.",
+    "concept": "**Tilt** ni kufanya maamuzi kulikotekwa nyara na msisimko wa kihisia baada ya hasara. Saini yake ya biashara ni **biashara ya kulipiza kisasi**: kuingia tena alama ileile haraka, kwa ukubwa kupita kiasi, kwa nadharia ya 'kuirejesha' badala ya seti. Mzunguko ni wa kimakanika: hasara → msisimko hupunguza umakini → viwango hushuka (seti 'nzuri-kiasi') → ukubwa hupanda ('kupona haraka') → hasara mbaya zaidi → rudia. Kasino hujenga biashara kwenye kitanzi hiki.\n\nVivunja-mzunguko vinavyofanya kazi ni *vya kimwili na vilivyoahidiwa-kabla*, si vya matamanio: kusimama thabiti baada ya stop-out yoyote (hata dakika 30 huvunja mzunguko wa msisimko), stop ya kila siku (hasara mbili zilizopangwa → imeisha kwa siku hiyo), na kanuni ya kuingia-tena (alama ileile tu kwenye seti *mpya* ya mshumaa-uliofungwa, kamwe kwa ukaribu wa kutoka kwako kwa mwisho).\n\nPaneli ya kufundisha ya QuantGlass huendesha kigunduzi cha kupiga-haraka juu ya nia zako mwenyewe za karatasi — maagizo yaliyorudiwa kwenye alama moja ndani ya dirisha fupi — na huonyesha somo hili hasa pale mfumo unapojitokeza. Mashine inaweza kuona alama ya mguu ya mzunguko; ni ahadi zako za kabla pekee zinazoweza kuuvunja.",
+    "key_terms": [
+      {
+        "term": "Tilt",
+        "definition": "Msisimko wa baada-ya-hasara unaodhoofisha ubora wa uamuzi."
+      },
+      {
+        "term": "Biashara ya kulipiza kisasi",
+        "definition": "Kuingia tena kunakoendeshwa na hamu ya kupona badala ya seti."
+      },
+      {
+        "term": "Kivunja-mzunguko",
+        "definition": "Kusimama kwa kimwili kulikoahidiwa-kabla au stop ya kila siku."
+      },
+      {
+        "term": "Mfumo wa kupiga-haraka",
+        "definition": "Alama ya mguu ya kuingia-mara-kwa-mara ambayo paneli ya kufundisha hugundua."
+      }
+    ],
+    "exercise": {
+      "question": "Baada ya stop-out, unahisi hamu kali ya kuingia tena alama ileile mara moja kwa ukubwa mkubwa zaidi. Ni kipengele kipi cha kufafanua kinachofanya hii kuwa biashara ya kulipiza kisasi?",
+      "options": [
+        "Alama ni ileile.",
+        "Motisha ni kupona hasara badala ya seti mpya ya mshumaa-uliofungwa — biashara ipo kurekebisha hisia, si kueleza faida.",
+        "Ukubwa ni mkubwa zaidi.",
+        "Hutokea baada ya hasara."
+      ],
+      "explanation": "Alama, ukubwa, na wakati ni dalili; ugonjwa ni motisha. Seti mpya halali dakika tano baadaye ni halali — 'kuirejesha' kamwe si halali."
+    },
+    "live_apply": {
+      "cta": "Kagua paneli yako ya kufundisha baada ya vipindi hai vya karatasi — wakati wa kupiga-haraka unaojitokeza ni tilt yako mwenyewe ikifanywa kuonekana."
+    },
+    "common_mistakes": [
+      "Kufanya biashara kushinda tena hasara. Biashara za kulipiza kisasi hupangiwa ukubwa kwa hasira na wakati kwa kukosa subira - mameneja wawili wabaya zaidi wa kabrasha.",
+      "Kuamini tilt hufuata hasara tu. Mfululizo wa ushindi huweka wafanyabiashara katika tilt ya ukubwa-kupita-kiasi kwa kuaminika sawa ('mafanikio hatari').",
+      "Kujaribu kushinda tilt kwa nidhamu wakati huo. Suluhu ni ya kimuundo: vikomo vya kila siku na vipindi vya kupoa vilivyoamuliwa mapema."
+    ],
+    "bridge": {
+      "cta": "Itumie: Misheni ya The Operator huhitaji biashara kumi za nidhamu mfululizo - tilt hurudisha mfululizo."
+    }
+  },
+  {
+    "id": "advanced-22-discipline-systems",
+    "title": "Mifumo Hushinda Utashi",
+    "summary": "Kubuni nidhamu badala ya kuiita.",
+    "concept": "Utashi ni rasilimali inayopungua inayoshindwa hasa pale inapohitajika zaidi — kwenye kilele cha mkazo, mwishoni mwa siku, katikati ya drawdown. Nidhamu ya kudumu **hubuniwa**: badilisha mazingira ili hatua sahihi iwe ya msingi na ile mbaya idai juhudi.\n\nKisanduku cha vifaa vya ubunifu, kilichoramishwa kwa seti yako: **ahadi-kabla** (stop na ukubwa vilivyoamuliwa ukiwa tambarare — muundo mzima wa kadi ya ishara); **ukosefu wa usawa wa msuguano** (tahadhari zikuarifu badala ya wewe kutazama chati; kutazama hutengeneza biashara); **malango ya kimakanika** (malango ya hali/confluence ya injini hukataa biashara hali yako iwe nini — kopa mfumo kwa kanuni zako); **kumbukumbu iliyotolewa-nje** (diari na orodha, kwa sababu chini ya msisimko hutakumbuka viwango vyako); na **ukaguzi wa kiotomatiki** (paneli ya kufundisha kama mshirika wa uwajibikaji asiyechoka, asiyechukizwa).\n\nMabadiliko ya utambulisho hii inamaanisha: kazi yako ni kidogo 'kufanya maamuzi makubwa wakati huo' na zaidi **kubuni mfumo ambao misingi yake ni maamuzi makubwa** — kisha kufuata muundo wako mwenyewe.",
+    "key_terms": [
+      {
+        "term": "Kupungua kwa utashi",
+        "definition": "Kujidhibiti kama rasilimali yenye kikomo inayoshindwa chini ya mzigo."
+      },
+      {
+        "term": "Ubunifu wa msingi",
+        "definition": "Kufanya hatua sahihi kuwa njia ya upinzani mdogo zaidi."
+      },
+      {
+        "term": "Ukosefu wa usawa wa msuguano",
+        "definition": "Ufuasi rahisi, ukengeufu wa juhudi."
+      },
+      {
+        "term": "Nidhamu iliyotolewa-nje",
+        "definition": "Kanuni zinazoishi katika mifumo (malango, tahadhari, orodha) badala ya hali."
+      }
+    ],
+    "exercise": {
+      "question": "Kwa nini tahadhari za bei ni chombo cha nidhamu na si urahisi tu?",
+      "options": [
+        "Hufanya sauti za kupendeza.",
+        "Hubadilisha kutazama-chati kwa kuendelea — na kutazama hutengeneza biashara za msukumo; tahadhari hugeuza ufuatiliaji kuwa tendo la salama-kwa-msingi, linaloendeshwa-na-tukio.",
+        "Huboresha bei za utimizaji.",
+        "Zinahitajika na masoko."
+      ],
+      "explanation": "Kila saa mbele ya skrini ni saa ya kishawishi kinachochota kutoka utashi wenye kikomo. Tahadhari hukusogeza kutoka kuchunguza (kishawishi hai) hadi vikatizo (usalama uliobuniwa)."
+    },
+    "live_apply": {
+      "cta": "Badilisha tabia moja ya kutazama-chati sasa hivi: weka tahadhari kwenye viwango vya uamuzi vya nafasi zako zilizofunguliwa na ufunge chati."
+    },
+    "bridge": {
+      "cta": "Itumie: pitisha Katiba yako ya Biashara katika Mapitio - risiti itakushikilia kwayo."
+    }
+  },
+  {
+    "id": "advanced-23-drawdown-psychology",
+    "title": "Kunusurika Drawdown",
+    "summary": "Maumivu yanayotarajiwa, nidhamu ya uchunguzi, na lini kusimama.",
+    "concept": "Ulijifunza hesabu ya drawdown katika track ya Hatari; somo hili ni saikolojia ya kuishi ndani ya moja. Hatua ya kwanza ni **kuweka matarajio**: drawdown ya juu ya kihistoria ya mbinu yako (iliyochapishwa kwenye kila preseti) si hali yake mbaya zaidi — hai, tarajia ya kina zaidi. Ikiwa mkunjo wa mkakati unaonyesha −14%, mtu anayeufanya biashara siku moja atakaa kwenye −14% *bila kujua kama utawahi kugeuka* — kutojua huko ndiyo uzoefu halisi.\n\nHatua ya pili ni **ngazi ya uchunguzi**, inayoendeshwa kwa mpangilio wakati wa maumivu: (1) Je, ninafuata mpango? (ukaguzi wa ufuasi wa diari). (2) Je, hali imebadilika? (injini huainisha-upya kila pau — angalia). (3) Je, faida yenyewe imeozea? (linganisha expectancy ya hivi karibuni na kipande cha OOS cha backtest). 'Ndio' kwenye kiwango cha 3 pekee huhalalisha kubadilisha mbinu; viwango 1–2 huhalalisha kubadilisha *tabia* au *kusubiri*.\n\nHatua ya tatu ni **kanuni ya kusimama**: ahidi-kabla kina cha drawdown (kwa R au asilimia) ambapo unasimama, hupitia diari nzima, na huanza upya tu kwa ukubwa uliopunguzwa. Kusimama si kushindwa — ni mfumo ukilinda mwendeshaji wake.",
+    "key_terms": [
+      {
+        "term": "Drawdown inayotarajiwa",
+        "definition": "Drawdown ya juu ya backtest kama sakafu, si dari, kwa maumivu hai."
+      },
+      {
+        "term": "Ngazi ya uchunguzi",
+        "definition": "Ufuasi wa mpango → mabadiliko ya hali → uozo wa faida, ukikaguliwa kwa mpangilio."
+      },
+      {
+        "term": "Uozo wa faida",
+        "definition": "Matokeo ya hivi karibuni chini sana ya msingi wa OOS kwa sampuli yenye maana."
+      },
+      {
+        "term": "Kanuni ya kusimama",
+        "definition": "Kina kilichoahidiwa-kabla kinachochochea kusimama, mapitio, anza-upya-kidogo."
+      }
+    ],
+    "exercise": {
+      "question": "Katikati ya drawdown, diari yako inaonyesha ufuasi kamili wa mpango na hali imegeuka kutoka trending hadi ranging. Ngazi ya uchunguzi inahitimisha nini?",
+      "options": [
+        "Mbinu imevunjika — jenga upya kila kitu.",
+        "Tabia iko sawa na hali ya hewa imebadilika: seti za mwelekeo katika hali ya ranging hufanya vibaya kwa muundo — subiri au fanya biashara familia inayolingana-na-hali.",
+        "Maradufisha ukubwa kutoka drawdown haraka.",
+        "Futa diari."
+      ],
+      "explanation": "Kiwango 1 hupita, kiwango 2 hueleza maumivu, kiwango 3 kamwe hakifikiwi. Hatua sahihi ni subira-ya-hali, si upasuaji-wa-mbinu — kosa la gharama zaidi ni kurekebisha kisichovunjika."
+    },
+    "live_apply": {
+      "cta": "Soma drawdown ya juu ya preseti yako kuu na uandike, mapema, kina chako binafsi cha kusimama na kanuni ya kuanza upya."
+    },
+    "bridge": {
+      "cta": "Itumie: cheza tena The Gap Down na usimamie mshtuko wa ukwasi kwa mchakato, si adrenaline."
+    }
+  }
+]
