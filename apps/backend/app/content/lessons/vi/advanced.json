@@ -1,0 +1,1412 @@
+[
+  {
+    "id": "advanced-16-cost-stack",
+    "title": "Toàn bộ chồng chi phí",
+    "summary": "Spread, phí, trượt giá, và lợi thế phải vượt qua chúng.",
+    "concept": "Mọi chiến lược đều cạnh tranh với chính chồng chi phí của nó. Lớp một: **spread** — vượt qua sổ lệnh tốn nửa spread mỗi chiều ngay cả trước khi ai đó tính phí bạn. Lớp hai: **phí** — phần trăm rõ ràng mỗi chiều. Lớp ba: **trượt giá (slippage)** — lệnh khớp trôi khỏi giá dự định trong điều kiện nhanh hoặc mỏng.\n\nMô hình mặc định của QuantGlass tính, mỗi chiều, 0.10% phí + 0.05% trượt giá với crypto và 0.02% + 0.01% với cổ phiếu; bộ backtest chuyển vòng khứ hồi thành R và trừ nó khỏi mọi giao dịch mô phỏng. Hệ quả chiến lược là **lực hấp dẫn chi phí (cost gravity)**: lợi thế gộp mỗi giao dịch của một chiến lược phải vượt rõ rệt chi phí khứ hồi nếu không chi phí *chính là* kết quả. Chiến lược khung thời gian ngắn chịu thiệt nhất — biến động trung bình nhỏ hơn so với khoản phí phần trăm cố định nghĩa là trader 15m trả phần lợi thế lớn hơn nhiều cho ma sát so với trader 1d.\n\nQuy tắc đọc: khi so sánh các preset qua các khung thời gian, hãy chia kỳ vọng cho gánh nặng chi phí trong đầu — chiến lược chậm hơn với cùng kỳ vọng là cái bền vững hơn.",
+    "key_terms": [
+      {
+        "term": "Chồng chi phí",
+        "definition": "Spread + phí + trượt giá, trả cả hai chiều."
+      },
+      {
+        "term": "Lực hấp dẫn chi phí",
+        "definition": "Khoản phí cố định mà mọi lợi thế gộp phải vượt qua."
+      },
+      {
+        "term": "Tỷ lệ chi phí trên lợi thế",
+        "definition": "Chi phí khứ hồi như một phần của lợi nhuận giao dịch trung bình."
+      },
+      {
+        "term": "Hình phạt khung thời gian",
+        "definition": "Khung thời gian ngắn hơn trả ma sát theo tỷ lệ nhiều hơn."
+      }
+    ],
+    "exercise": {
+      "question": "Hai preset cho kỳ vọng +0.20R: một giao dịch nến 15m, một giao dịch nến 1d. Tại sao kết quả 1d đáng tin hơn?",
+      "options": [
+        "Nến ngày đẹp hơn.",
+        "Biến động trung bình nhỏ hơn của chiến lược 15m nghĩa là chi phí ngốn phần lớn hơn của lợi thế gộp — +0.20R của nó nằm gần sàn nhiễu của ma sát hơn.",
+        "Dữ liệu 15m luôn sai.",
+        "Không phải — kỳ vọng là kỳ vọng."
+      ],
+      "explanation": "Cùng con số ròng, khác tỷ lệ gộp-trên-chi-phí. Chiến lược vượt rào ma sát cao hơn với biên dư an toàn sẽ suy thoái nhẹ nhàng hơn khi điều kiện thực xấu đi."
+    },
+    "live_apply": {
+      "cta": "So sánh feesPercent/slippagePercent trên một preset crypto với một preset cổ phiếu — rồi tìm chúng được trừ trong kỳ vọng."
+    }
+  },
+  {
+    "id": "advanced-17-slippage-dynamics",
+    "title": "Trượt giá: Khi nào và tại sao lệnh khớp trôi",
+    "summary": "Ba điều kiện làm rộng khoảng cách giữa biểu đồ và lệnh khớp.",
+    "concept": "Trượt giá không phải hằng số — nó là hàm của ba biến. **Biến động**: trong thị trường nhanh, giá di chuyển giữa quyết định và lệnh khớp của bạn; stop bắn vào túi khí và khớp xa quá mức ngưỡng. **Kích cỡ so với độ sâu**: lệnh thị trường ăn sổ lệnh từng mức một; nếu kích cỡ của bạn vượt đỉnh sổ, *bạn* di chuyển chính giá mình trả. **Giờ thanh khoản**: cùng lệnh đó vào giờ chết (cuối tuần crypto, giờ trưa cổ phiếu) vượt qua một sổ lệnh mỏng hơn.\n\nLưu ý điều này hàm ý gì về stop: lệnh dừng lỗ bảo đảm *kích hoạt*, không bao giờ bảo đảm *giá* — trong một gap hay thác đổ, lệnh khớp ở bất cứ đâu thanh khoản tiếp theo tồn tại. Đây là lý do chế độ biến động-mở-rộng của engine nới rộng stop và thu nhỏ kích cỡ đồng thời: cả hai điều chỉnh giảm khả năng bị khớp sâu vượt kế hoạch.\n\nGiao dịch giấy của QuantGlass khớp ý định ở giá khả dụng kế tiếp thay vì giá in trên biểu đồ — một mô hình khiêm tốn có chủ ý giữ buổi tập trung thực.",
+    "key_terms": [
+      {
+        "term": "Túi khí",
+        "definition": "Vùng giá không có thanh khoản nghỉ — nơi lệnh stop khớp xa khỏi ngưỡng của nó."
+      },
+      {
+        "term": "Độ sâu sổ lệnh",
+        "definition": "Kích cỡ nghỉ ở mỗi mức; kích cỡ của bạn so với nó quyết định tác động lên chính mình."
+      },
+      {
+        "term": "Bảo đảm của stop",
+        "definition": "Stop bảo đảm kích hoạt, không bao giờ bảo đảm giá khớp."
+      },
+      {
+        "term": "Giờ thanh khoản",
+        "definition": "Biến thiên độ sâu theo thời điểm trong ngày/tuần."
+      }
+    ],
+    "exercise": {
+      "question": "Stop của bạn ở 95.00; tin tức qua đêm tạo gap mở cửa xuống 91.40. Lệnh dừng lỗ của bạn khớp ở đâu?",
+      "options": [
+        "Ở 95.00 — stop khóa giá của chúng.",
+        "Quanh 91.40 — kích hoạt bắn ở cơ hội đầu tiên, và lệnh khớp ở bất cứ đâu thanh khoản thực sự tồn tại.",
+        "Nó tự hủy trong hổ thẹn.",
+        "Ở điểm giữa, 93.20."
+      ],
+      "explanation": "Một stop là một kích hoạt cộng một lệnh thị trường. Khi giá nhảy qua ngưỡng, lệnh thực thi trong thực tại mới — chênh lệch 3.6 điểm là rủi ro gap được hiện hình."
+    },
+    "live_apply": {
+      "cta": "So sánh giá thực thi của một lệnh khớp giấy với giá biểu đồ lúc gửi — khoảng cách đó là bài học này gói trong một con số."
+    }
+  },
+  {
+    "id": "advanced-18-liquidity-traps",
+    "title": "Bẫy thanh khoản: Những giao dịch nên từ chối",
+    "summary": "Một số thiết lập hoàn hảo trừ phần bạn không thể thoát ra.",
+    "concept": "Vào lệnh là tùy chọn; thoát lệnh là bắt buộc. Một **bẫy thanh khoản** là bất kỳ vị thế nào mà lối thoát phụ thuộc vào độ sâu có thể không tồn tại khi cần: alt-coin mỏng nơi kích cỡ của bạn là một phần đáng kể của khối lượng theo giờ, công cụ spread rộng nơi vòng khứ hồi bắt đầu ở −1%, thị trường giờ chết nơi sổ lệnh chỉ còn xương, và cửa sổ sự kiện (công bố lớn) nơi nhà tạo lập kéo báo giá đúng lúc bạn cần chúng.\n\nKiểm tra thanh khoản trước giao dịch đáng làm thành cơ học: spread có phải một phần nhỏ của biến động kỳ vọng không? Kích cỡ dự định có nhỏ không đáng kể so với khối lượng nến gần đây không? Bạn có thể thoát *tại stop, trong cơn hoảng loạn*, mà không tự đẩy thị trường chống lại mình không? Nếu bất kỳ câu trả lời nào là không, kích cỡ đúng là nhỏ hơn — hoặc bằng không.\n\nNhận thức bất đối xứng: thiếu thanh khoản tốn ít trên đường vào (bạn có thể chờ) và tốn mọi thứ trên đường ra (bạn không thể). Hãy lập kế hoạch thoát cho giờ tệ nhất bạn có thể gặp, không phải giờ trung bình.",
+    "key_terms": [
+      {
+        "term": "Bẫy thanh khoản",
+        "definition": "Một vị thế mà lối thoát giả định độ sâu có thể biến mất."
+      },
+      {
+        "term": "Thanh khoản thoát",
+        "definition": "Độ sâu khả dụng khi bạn phải rời đi — loại duy nhất quan trọng."
+      },
+      {
+        "term": "Cửa sổ sự kiện",
+        "definition": "Giai đoạn tin tức theo lịch khi báo giá mỏng đi."
+      },
+      {
+        "term": "Kích cỡ trên khối lượng",
+        "definition": "Lệnh của bạn như một phần của khối lượng giao dịch điển hình — giữ nó không đáng kể."
+      }
+    ],
+    "exercise": {
+      "question": "Một thiết lập alt-coin mỏng trông hoàn hảo như sách giáo khoa, nhưng vị thế dự định bằng 20% khối lượng trung bình theo giờ của nó. Lựa chọn kỷ luật là gì?",
+      "options": [
+        "Vào lệnh — mô hình hơn hệ thống ống dẫn.",
+        "Thu nhỏ kích cỡ mạnh hoặc bỏ qua: bất kỳ lối thoát khẩn cấp nào ở quy mô đó sẽ đẩy thị trường chống lại bạn, biến stop thành hư cấu.",
+        "Gấp đôi kích cỡ vì niềm tin.",
+        "Bỏ stop để nó không thể trượt."
+      ],
+      "explanation": "Một stop bạn không thể thực thi ở kích cỡ đáng kể chỉ là trang trí. Thanh khoản là một đầu vào định cỡ vị thế giống như ATR — và đôi khi kích cỡ đúng là bằng không."
+    },
+    "live_apply": {
+      "cta": "Xếp hạng danh sách theo dõi theo khối lượng điển hình: symbol nào có thể hấp thụ kích cỡ giấy của bạn vào giờ tệ nhất, và symbol nào không?"
+    }
+  },
+  {
+    "id": "advanced-19-paper-vs-live",
+    "title": "Giấy so với Thật: Khoảng cách trung thực",
+    "summary": "Buổi tập dạy gì, không thể dạy gì, và cách bắc cầu.",
+    "concept": "Giao dịch giấy là buổi tập, và buổi tập khác buổi diễn theo những cách đã biết. **Lệnh khớp**: giấy khớp ở giá khả dụng kế tiếp với chi phí được mô hình hóa; thật đối mặt hàng đợi (lệnh giới hạn cần người bán đến với bạn), thực thi một phần, và vi cấu trúc đối kháng. **Tác động**: giấy giả định thị trường bỏ qua bạn — đúng với kích cỡ thật nhỏ, sai khi vượt qua. **Tâm lý**: đây là vực thẳm. Lỗ giả không thể tạo ra sợ hãi thật, và sợ hãi, không phải số học, mới là thứ phá vỡ quy tắc.\n\nĐiều giấy thực sự chứng nhận: cơ học, kỷ luật kế hoạch, thói quen ghi nhật ký, và một đường cơ sở thống kê về *các quyết định của bạn* qua các chế độ. Điều chỉ phơi nhiễm thật mới chứng nhận: hành vi của bạn khi tiền là thật.\n\nCây cầu kỷ luật, khi ai đó cuối cùng chọn nó (không bao giờ là lời khuyên tài chính): chỉ tốt nghiệp sau khi đạt một tiêu chí viết ra trên giấy — ví dụ, 30+ giao dịch với kỳ vọng dương *và* tuân thủ kế hoạch cao — rồi bắt đầu ở kích cỡ đáng kể nhỏ nhất, nơi học phí rẻ. Kỹ năng chuyển giao; sự bình tĩnh phải được kiếm lại.",
+    "key_terms": [
+      {
+        "term": "Vị trí hàng đợi",
+        "definition": "Lệnh giới hạn chờ đến lượt — giấy bỏ qua hàng."
+      },
+      {
+        "term": "Khớp một phần",
+        "definition": "Lệnh thật có thể thực thi từng mảnh hoặc không hề."
+      },
+      {
+        "term": "Khoảng cách tâm lý",
+        "definition": "Lỗ giả không thể tập dượt sợ hãi thật."
+      },
+      {
+        "term": "Tiêu chí tốt nghiệp",
+        "definition": "Một ngưỡng hồ sơ giấy viết ra trước bất kỳ thay đổi kích cỡ nào."
+      }
+    ],
+    "exercise": {
+      "question": "Yếu tố nào của giao dịch mà thực hành giấy về cơ bản KHÔNG chứng nhận?",
+      "options": [
+        "Cơ học lệnh và thực thi kế hoạch.",
+        "Hành vi cảm xúc của bạn khi lỗ là thật — sợ hãi không có phiên bản giấy.",
+        "Thói quen ghi nhật ký.",
+        "Đọc tín hiệu và chế độ."
+      ],
+      "explanation": "Mọi thứ mang tính quy trình đều chuyển giao từ buổi tập. Gánh nặng tâm lý của lỗ thật là biến số duy nhất giấy không thể mô phỏng — đó là lý do tốt nghiệp, nếu có, bắt đầu thật nhỏ."
+    },
+    "live_apply": {
+      "cta": "Xem lại thống kê giấy của bạn: chúng có vượt qua tiêu chí tốt nghiệp viết ra gồm 30+ giao dịch, kỳ vọng dương, và tuân thủ cao không?"
+    }
+  },
+  {
+    "id": "advanced-34-price-vs-value",
+    "title": "Giá, Giá trị, và cách Trader dùng Cơ bản",
+    "summary": "Nhà đầu tư ước tính giá trị; trader lập bản đồ chất xúc tác.",
+    "concept": "**Cơ bản (fundamentals)** là những sự thật bên dưới một tài sản: lợi nhuận và bảng cân đối của một công ty, cơ chế nguồn cung và mức sử dụng của một token. Một *nhà đầu tư* dùng chúng để ước tính giá trị và chờ giá đồng ý — một cược nhiều năm. Một *trader* dùng chúng khác đi: như một **bản đồ về biến động theo lịch và dòng chảy bền bỉ**.\n\nBa câu hỏi của trader cho bất kỳ sự thật cơ bản nào: **Chất xúc tác kế tiếp khi nào?** (ngày báo cáo lợi nhuận, sự kiện mở khóa — đây là *thay đổi chế độ theo lịch*); **Điều gì đã được phản ánh vào giá?** (thị trường di chuyển theo bất ngờ so với kỳ vọng, không theo tốt-hay-xấu — một báo cáo 'tuyệt vời' dưới kỳ vọng vẫn rơi); và **Dòng chảy bền bỉ nghiêng về hướng nào?** (mua lại cổ phiếu, phát hành, lạm phát token — áp lực chậm làm nghiêng sân chơi mà một xu hướng cưỡi lên).\n\nSự khiêm tốn làm điều này dùng được: trong ngắn hạn, *giá là cơ bản duy nhất bạn có thể giao dịch*. Cơ bản giải thích tại sao chế độ hình thành và khi nào chúng có thể vỡ; biểu đồ, chi phí, và toán rủi ro vẫn chi phối mọi lần vào lệnh. Chống lại một xu hướng vì 'cơ bản không đồng ý' có nghĩa địa riêng của nó.",
+    "key_terms": [
+      {
+        "term": "Cơ bản",
+        "definition": "Lớp sự thật: lợi nhuận, nguồn cung, mức sử dụng, dòng tiền."
+      },
+      {
+        "term": "Chất xúc tác",
+        "definition": "Một sự kiện theo lịch có khả năng định giá lại tài sản — lợi nhuận, mở khóa."
+      },
+      {
+        "term": "Đã phản ánh vào giá",
+        "definition": "Thị trường di chuyển theo bất ngờ so với kỳ vọng, không theo chất lượng tin thô."
+      },
+      {
+        "term": "Dòng chảy bền bỉ",
+        "definition": "Áp lực mua/bán cấu trúc chậm: mua lại, lạm phát token."
+      }
+    ],
+    "exercise": {
+      "question": "Một công ty báo lợi nhuận kỷ lục, nhưng cổ phiếu rớt 8%. Giải thích nhận-thức-cơ-bản là gì?",
+      "options": [
+        "Lợi nhuận gây bán.",
+        "Kỳ vọng còn cao hơn nữa: giá đã hấp thụ một con số lớn hơn, và bất ngờ là âm dù kết quả tuyệt đối là một kỷ lục.",
+        "Báo cáo là giả.",
+        "Cổ phiếu di chuyển ngẫu nhiên với mọi tin tức."
+      ],
+      "explanation": "Thị trường giao dịch khoảng cách giữa kết quả và kỳ vọng. 'Kỷ lục' là tuyệt đối; giá đã được đặt bởi một dự báo cao hơn nó — bài học đã-phản-ánh-vào-giá trong một cây nến."
+    },
+    "live_apply": {
+      "cta": "Kiểm tra bảng tin bên cạnh biểu đồ: với mỗi tiêu đề, hãy hỏi ba câu hỏi của trader — thời điểm chất xúc tác, đã-phản-ánh, dòng chảy bền bỉ."
+    }
+  },
+  {
+    "id": "advanced-35-equity-fundamentals",
+    "title": "Cơ bản cổ phiếu: Lợi nhuận như những cơn bão theo lịch",
+    "summary": "Chu kỳ hàng quý mà mọi trader cổ phiếu phải tôn trọng.",
+    "concept": "Cổ phiếu chạy theo một lịch công khai. Mỗi quý, **báo cáo lợi nhuận (earnings)**: kết quả so với kỳ vọng của nhà phân tích, cộng **định hướng (guidance)** — dự báo của ban lãnh đạo, thường di chuyển giá nhiều hơn cả kết quả (thị trường là cỗ máy hướng tới tương lai). Quanh những ngày này, biến động thực tăng vọt, gap trở nên thường lệ, và spread mở rộng — nhớ lại bài học gap: biểu đồ cổ phiếu tạo gap chính vì tin tức rơi xuống khi sàn giao dịch ngủ.\n\nVới một trader kỹ thuật, lớp hành động chủ yếu là **vệ sinh rủi ro**: biết ngày báo lợi nhuận của bất cứ thứ gì bạn nắm; nhận ra rằng một stop không thể bảo vệ qua một gap (ví dụ qua đêm của bài học trượt giá chính xác là điều này); và coi những ngày trước báo lợi nhuận như một chế độ riêng — nhiều trader kỷ luật đơn giản đưa về vị thế phẳng hoặc thu nhỏ trước sự kiện thay vì đánh bạc với một cú tung đồng xu có đuôi mở rộng.\n\nCác bội số định giá (P/E và họ hàng) quan trọng trên chân trời của trader chủ yếu như **bối cảnh đám đông**: cực trị đánh dấu nơi phản ứng với bất ngờ trở nên dữ dội. Khóa học định giá sâu thuộc về đầu tư; trader cần lịch, kỳ vọng, và sự khiêm tốn.",
+    "key_terms": [
+      {
+        "term": "Báo cáo lợi nhuận",
+        "definition": "Kết quả hàng quý so với kỳ vọng — cơn bão theo lịch."
+      },
+      {
+        "term": "Định hướng",
+        "definition": "Dự báo hướng tới tương lai của ban lãnh đạo; thường là động lực giá thực sự."
+      },
+      {
+        "term": "Rủi ro gap",
+        "definition": "Định giá lại qua đêm nhảy qua stop — đỉnh điểm quanh báo lợi nhuận."
+      },
+      {
+        "term": "Làm phẳng theo sự kiện",
+        "definition": "Giảm hoặc đóng phơi nhiễm trước các sự kiện nhị phân theo lịch."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao nhiều trader kỷ luật giảm hoặc đóng vị thế cổ phiếu ngay trước báo cáo lợi nhuận?",
+      "options": [
+        "Ngày báo lợi nhuận là bí mật.",
+        "Sự kiện là một chế độ rủi-ro-gap nhị phân nơi stop không thể bảo vệ qua cú nhảy qua đêm — vị thế trở thành cú tung đồng xu với đuôi mở rộng, không phải một thiết lập.",
+        "Giao dịch đóng cửa vào ngày báo lợi nhuận.",
+        "Lợi nhuận luôn gây rớt giá."
+      ],
+      "explanation": "Lợi thế đến từ những thiết lập mà bạn có thể định nghĩa rủi ro. Một gap xuyên qua stop là rủi ro không xác định theo cấu trúc — đứng sang một bên là quản trị rủi ro, không phải hèn nhát."
+    },
+    "live_apply": {
+      "cta": "Với mỗi cổ phiếu trong danh sách theo dõi, tìm ngày báo lợi nhuận kế tiếp và ghi chú nó bên cạnh các mức vô hiệu của bạn."
+    }
+  },
+  {
+    "id": "advanced-36-crypto-fundamentals",
+    "title": "Cơ bản crypto: Tokenomics và thực tế on-chain",
+    "summary": "Lịch nguồn cung, mở khóa, và mức sử dụng — những sự thật bên dưới đồng coin.",
+    "concept": "Crypto không có lợi nhuận, nhưng có cơ bản sắc nét hơn: **cơ chế nguồn cung** được định nghĩa bằng code. Những câu hỏi quan trọng: **Lịch phát hành (emission)** là gì (bao nhiêu token mới chạm thị trường mỗi ngày — dòng bán bền bỉ)? Có **vách mở khóa (unlock cliff)** không (token của nội bộ/nhà đầu tư phát hành theo ngày — bão nguồn cung theo lịch, tương đương lợi nhuận của crypto)? Nguồn cung có giới hạn không (halving của Bitcoin — *giảm* dòng chảy theo lịch)? Và **mức sử dụng on-chain** (địa chỉ hoạt động, phí trả, giá trị thanh toán) có hỗ trợ câu chuyện không, hay giá là phản xạ thuần túy?\n\nMô hình tỉnh ngộ: ngày mở khóa là công khai, nhưng giá vẫn thường xuyên trượt vào và sau chúng — cơ bản ở đây hoạt động ít như lợi thế bí mật và nhiều hơn như **tránh hiểm họa**: đừng là người mua mà đợt mở khóa bán vào.\n\nMột lời nhắc phòng-chống-lừa-đảo có răng: token mà 'cơ bản' chỉ là lạm phát, tiếp thị, và nguồn cung nội bộ bị khóa là phiên bản hình-dạng-tài-sản của phễu guru. Cùng danh sách kiểm tra áp dụng — ai cần tiền của bạn, và họ nắm gì mà bạn không thể thấy?",
+    "key_terms": [
+      {
+        "term": "Lịch phát hành",
+        "definition": "Nguồn cung mới theo chu kỳ do code định nghĩa — dòng bán cấu trúc."
+      },
+      {
+        "term": "Vách mở khóa",
+        "definition": "Phát hành theo ngày token nội bộ/nhà đầu tư — cú sốc nguồn cung theo lịch."
+      },
+      {
+        "term": "Halving",
+        "definition": "Cắt phát hành định kỳ của Bitcoin — giảm dòng chảy theo lịch."
+      },
+      {
+        "term": "Mức sử dụng on-chain",
+        "definition": "Địa chỉ, phí, thanh toán — kiểm chứng thực tế phía cầu."
+      }
+    ],
+    "exercise": {
+      "question": "Một token có 80% nguồn cung bị khóa với nội bộ, mở khóa hàng tháng trong hai năm. Cách đọc cấu trúc là gì?",
+      "options": [
+        "Khan hiếm — chỉ 20% tồn tại, nên giá phải tăng.",
+        "Một sự dư thừa nguồn cung theo lịch hai năm: mỗi tháng thêm token nội bộ tốn của người nắm giữ ~không gì, tạo áp lực bán bền bỉ mà lệnh mua của bạn sẽ hấp thụ.",
+        "Khóa là tăng giá theo định nghĩa.",
+        "Lịch mở khóa không bao giờ ảnh hưởng giá."
+      ],
+      "explanation": "Lượng lưu hành nhỏ hôm nay, nhưng lịch là cơ bản: nguồn cung giá-rẻ đến hàng tháng là cơn gió ngược mà mọi vị thế mua chống lại. Công khai, theo ngày, và thường xuyên bị đánh giá thấp."
+    },
+    "live_apply": {
+      "cta": "Chọn một symbol crypto và hỏi bốn câu hỏi nguồn cung — phát hành, mở khóa, giới hạn, mức sử dụng — trước khi đọc biểu đồ của nó."
+    }
+  },
+  {
+    "id": "advanced-37-fundamentals-scope",
+    "title": "Chất xúc tác gặp Biểu đồ: Đường ranh giới phạm vi",
+    "summary": "Cơ bản đóng khung chế độ; kỹ thuật định thời giao dịch; engine vẫn thuần kỹ thuật.",
+    "concept": "Sự tổng hợp. Cơ bản và kỹ thuật trả lời những câu hỏi khác nhau trên những chiếc đồng hồ khác nhau: cơ bản giải thích **tại sao** một chế độ tồn tại và **khi nào** nó có thể vỡ (chất xúc tác); kỹ thuật — cấu trúc, chế độ, khối lượng, biến động — nói **liệu và ở đâu** một thiết lập giao dịch được tồn tại ngay bây giờ. Mô hình chuyên nghiệp không phải chọn một phía mà phân vai: *cơ bản như bối cảnh và lịch, kỹ thuật như kích hoạt và hình học rủi ro*.\n\nQuantGlass đứng ở đâu? Engine **cố ý chỉ-kỹ-thuật**: mọi tín hiệu xuất phát từ nến đã đóng — giá, khối lượng, và toán học của chúng. Nó không phân tích lợi nhuận, dự báo định hướng, hay cân nhắc tokenomics, và vì thế — theo quy tắc trung-thực-về-phạm-vi bạn đã thấy ba lần — nó không bao giờ tuyên bố như vậy. Bảng tin bên cạnh biểu đồ là đầu vào cơ bản *của bạn*, được giữ tách biệt khỏi các sự thật được tính toán của engine chính xác để bạn luôn biết loại tuyên bố nào mình đang đọc.\n\nQuy trình làm việc của bạn, lắp ráp: lịch trước (bão nào đã được lên lịch?), chế độ thứ hai (trò chơi nào đang diễn?), thiết lập thứ ba (engine có thấy cấu trúc không?), rủi ro luôn luôn (định cỡ từ stop, tôn trọng sự kiện). Thứ tự đó là toàn bộ track trong một câu.",
+    "key_terms": [
+      {
+        "term": "Bối cảnh so với kích hoạt",
+        "definition": "Cơ bản đóng khung; kỹ thuật định thời."
+      },
+      {
+        "term": "Engine chỉ-kỹ-thuật",
+        "definition": "Tín hiệu QuantGlass xuất phát từ nến đơn thuần — phạm vi được tuyên bố."
+      },
+      {
+        "term": "Tách biệt các tuyên bố",
+        "definition": "Sự thật được tính toán và bối cảnh tin tức được giữ phân biệt rõ ràng."
+      },
+      {
+        "term": "Quy trình lịch-trước",
+        "definition": "Chất xúc tác theo lịch được kiểm tra trước khi nhận bất kỳ thiết lập nào."
+      }
+    ],
+    "exercise": {
+      "question": "Engine cho thấy một thiết lập pullback như sách giáo khoa trên một cổ phiếu báo lợi nhuận ngày mai. Quy trình của track nói gì?",
+      "options": [
+        "Vào lệnh — thiết lập hơn lịch.",
+        "Lịch trước: chế độ gap nhị phân ngày mai làm xói mòn sự bảo vệ của stop, nên bỏ qua hoặc hoãn — hình học của thiết lập giả định một thị trường có thể thoát ra.",
+        "Gấp đôi kích cỡ để kiếm tiền từ sự kiện.",
+        "Thiết lập vô hiệu trong những tháng có báo lợi nhuận."
+      ],
+      "explanation": "Mọi con số rủi ro của Academy đều giả định lối thoát thực thi được. Một sự kiện gap theo lịch đình chỉ tiền đề đó — cách đọc kỷ luật là rủi ro của giao dịch không xác định, dù biểu đồ nói gì."
+    },
+    "live_apply": {
+      "cta": "Với mỗi tín hiệu hiện tại, chạy lịch-trước: có chất xúc tác theo lịch nào nằm trong thời gian nắm giữ kỳ vọng của giao dịch không?"
+    }
+  },
+  {
+    "id": "advanced-24-margin-basics",
+    "title": "Ký quỹ: Giao dịch bằng một khoản vay",
+    "summary": "Sức mua đi vay là một khoản vay thật với điều khoản thật.",
+    "concept": "**Ký quỹ (margin)** là một khoản vay từ broker được thế chấp bằng tài khoản của bạn. Nạp 10,000 với ký quỹ 2:1 và bạn có thể nắm 20,000 vị thế — nhưng 10,000 đi vay tích lũy **lãi suất**, và quyền đòi của broker với nó xếp trên quyền của bạn. Phần đặt cọc thật của bạn là **vốn chủ (equity)**: giá trị vị thế trừ khoản vay.\n\nĐiều khoản khoản vay cắn qua **yêu cầu duy trì (maintenance requirement)**: vốn chủ phải duy trì trên một phần đặt sẵn của giá trị vị thế. Vì khoản vay cố định trong khi vị thế dao động, *lỗ hoàn toàn đến từ vốn chủ của bạn* — vị thế rớt 10% ở 2:1 là vốn chủ rớt 20%. Ký quỹ không thay đổi thị trường; nó thay đổi bao nhiêu của biến động thị trường rơi vào bạn.\n\nKhông gì trong cơ chế này bị che giấu — đó là số học — nhưng ký quỹ vẫn là kẻ chuyển đổi hàng đầu những sai lầm có thể sống sót thành những sai lầm kết thúc tài khoản, vì mọi con số rủi ro bạn đã học (rủi ro 1%, giới hạn nhiệt, toán drawdown) đều âm thầm giả định vốn chủ *không đòn bẩy*. Trên ký quỹ, hãy tính lại mọi thứ so với vốn chủ, không phải kích cỡ vị thế.",
+    "key_terms": [
+      {
+        "term": "Khoản vay ký quỹ",
+        "definition": "Tín dụng broker thế chấp bằng tài khoản của bạn, có lãi."
+      },
+      {
+        "term": "Vốn chủ",
+        "definition": "Giá trị vị thế trừ khoản vay — phần đặt cọc thực của bạn."
+      },
+      {
+        "term": "Yêu cầu duy trì",
+        "definition": "Phần vốn chủ tối thiểu trước khi bị hành động bắt buộc."
+      },
+      {
+        "term": "PnL khuếch đại",
+        "definition": "Biến động vị thế rơi vào nền vốn chủ nhỏ hơn."
+      }
+    ],
+    "exercise": {
+      "question": "Bạn nắm vị thế 20,000 trên vốn chủ 10,000 (2:1). Vị thế rớt 10%. Điều gì xảy ra với vốn chủ của bạn?",
+      "options": [
+        "Giảm 10% — lỗ khớp với biến động vị thế.",
+        "Giảm 20% — khoản lỗ 2,000 hoàn toàn rơi vào vốn chủ 10,000 của bạn, vì khoản vay không hấp thụ lỗ.",
+        "Giảm 5% — broker chia sẻ lỗ.",
+        "Không đổi cho đến khi bạn bán."
+      ],
+      "explanation": "Người cho vay được hoàn vốn trước. Đòn bẩy L nhân mọi biến động vị thế với L trên vốn chủ của bạn: phương trình cốt lõi của ký quỹ."
+    },
+    "live_apply": {
+      "cta": "Đọc lại max drawdown của một preset và nhân đôi nó trong đầu — đó là drawdown vốn chủ của cùng chiến lược ở 2:1."
+    }
+  },
+  {
+    "id": "advanced-25-leverage-arithmetic",
+    "title": "Số học đòn bẩy và Khoảng cách thanh lý",
+    "summary": "Biến động xóa sổ bạn là 100% chia cho đòn bẩy của bạn.",
+    "concept": "Đòn bẩy có một phương trình chủ: ở **L×**, một biến động giá **100%/L chống lại bạn xóa sạch vốn chủ của bạn hoàn toàn**. 2× → biến động bất lợi 50% về không. 5× → 20%. 10× → 10%. 100× (được một số sàn crypto chào mời công khai) → một dao động 1% — *nhiễu giờ thông thường* — là mất hết.\n\nTrên thực tế bạn bị thanh lý **trước** khi về không: sàn đóng bạn khi vốn chủ chạm mức duy trì, nên khoảng cách thật còn ngắn hơn, trừ phí. Hãy so khoảng cách đó với ATR bạn đã nghiên cứu: nếu ATR hàng ngày của một tài sản là 3% và thanh lý của bạn nằm cách 2%, tuổi thọ kỳ vọng của vị thế được đo bằng nhiễu, không phải bằng luận điểm.\n\nĐây là lý do 'nhiều đòn bẩy = nhiều lợi nhuận' là hiểu lầm của người mới. Đòn bẩy không thêm lợi thế; nó **đổi tỷ lệ bàn cờ** cho đến khi biến động bình thường trở nên chí mạng. Người chuyên nghiệp dùng đòn bẩy dùng bội số *nhỏ* trên cấu trúc *biến động thấp* — không bao giờ bội số tối đa trên crypto chủ lực.",
+    "key_terms": [
+      {
+        "term": "Khoảng cách thanh lý",
+        "definition": "Biến động bất lợi ≈100%/L (trừ duy trì và phí) đến đóng bắt buộc."
+      },
+      {
+        "term": "Tính chí mạng của nhiễu",
+        "definition": "Khoảng cách thanh lý nhỏ hơn biến động ATR thường lệ."
+      },
+      {
+        "term": "Rủi ro đổi tỷ lệ",
+        "definition": "Đòn bẩy thu nhỏ biến động sống sót được; nó không bao giờ thêm lợi thế."
+      },
+      {
+        "term": "Đệm duy trì",
+        "definition": "Thanh lý bắn trước khi vốn chủ về không."
+      }
+    ],
+    "exercise": {
+      "question": "Ở đòn bẩy 5x (bỏ qua phí và đệm duy trì), biến động giá bất lợi bao nhiêu phần trăm xóa 100% vốn chủ của bạn?",
+      "hint": "phần trăm xóa sổ = 100 ÷ đòn bẩy",
+      "explanation": "100 ÷ 5 = **20%**. Mọi biến động vị thế là ×5 trên vốn chủ, nên một biến động bất lợi 20% là −100%. Thanh lý thật bắn còn sớm hơn, ở mức duy trì."
+    },
+    "live_apply": {
+      "cta": "Kiểm tra ATR của một symbol crypto theo phần trăm giá, rồi tính đòn bẩy nào sẽ đặt thanh lý nằm trong khoảng dao động của một ngày thông thường."
+    },
+    "common_mistakes": [
+      "Đọc đòn bẩy 10x là lợi nhuận 10x. Đó là phơi nhiễm 10x: một biến động bất lợi 10% là toàn bộ tài khoản.",
+      "Quên chi phí funding và vay. Vị thế đòn bẩy chảy máu phí giữ hàng ngày, ngay cả khi giá đứng yên."
+    ]
+  },
+  {
+    "id": "advanced-26-liquidation",
+    "title": "Lệnh gọi ký quỹ và Thác thanh lý",
+    "summary": "Thoát bắt buộc xảy ra ở giá tệ nhất, theo thiết kế.",
+    "concept": "Khi vốn chủ phá vỡ mức duy trì, hai điều có thể xảy ra. Một **lệnh gọi ký quỹ (margin call)** yêu cầu bạn thêm vốn hoặc giảm vị thế — dưới áp lực thời gian, vào một khoảnh khắc thua lỗ, mà track tâm lý sẽ nhận ra là điều kiện ra quyết định tệ nhất có thể. Hoặc, trên hầu hết sàn crypto, không có lệnh gọi nào: engine **thanh lý tự động**, bán-thị-trường vị thế của bạn vào bất cứ thanh khoản nào tồn tại.\n\nBán bắt buộc có hệ quả cấu trúc thị trường: các vụ thanh lý tụ lại ở những mức giá tương tự (người ta dùng đòn bẩy tại những điểm tương tự), nên một đợt bán bắt buộc đẩy giá vào đợt *kế tiếp* — một **thác thanh lý (liquidation cascade)**. Chúng tạo ra những bấc dữ dội săn mọi stop và mức thanh lý trên đường đi, rồi thường hồi lại. Nếu bạn từng thấy một bấc crypto 10% vào một ngày yên tĩnh: đó là đòn bẩy, không phải tin tức.\n\nHai phòng thủ nếu ký quỹ từng được dùng: **ký quỹ cô lập (isolated margin)** (khoản vay của mỗi vị thế được khoanh vùng, nên một vụ thanh lý không thể ngốn cả tài khoản — so với ký quỹ chéo, nơi nó có thể), và đệm cấp vốn trước để một bấc thường lệ không thể chạm tới ranh giới. Phòng thủ tốt nhất vẫn là lựa chọn không đòn bẩy: một stop *bạn* chọn thắng một lối thoát mà sàn chọn.",
+    "key_terms": [
+      {
+        "term": "Lệnh gọi ký quỹ",
+        "definition": "Yêu cầu thêm vốn hoặc cắt vị thế theo hạn chót."
+      },
+      {
+        "term": "Tự thanh lý",
+        "definition": "Sàn đóng bắt buộc bạn ở thị trường — không thương lượng."
+      },
+      {
+        "term": "Thác thanh lý",
+        "definition": "Bán bắt buộc kích hoạt thêm bán bắt buộc theo chuỗi."
+      },
+      {
+        "term": "Cô lập so với chéo",
+        "definition": "Khoản vay khoanh-vùng-mỗi-vị-thế so với cả tài khoản làm thế chấp."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao thác thanh lý tạo ra những bấc dài rồi hồi lại một phần?",
+      "options": [
+        "Sàn vẽ bấc để trang trí.",
+        "Bán-thị-trường bắt buộc tụ lại làm cạn thanh khoản của mỗi mức và kích hoạt cụm kế tiếp; một khi dòng bắt buộc kết thúc, áp lực nhân tạo biến mất và giá bật lại.",
+        "Tin tức luôn tự đảo ngược.",
+        "Bấc là lỗi dữ liệu."
+      ],
+      "explanation": "Việc bán là cơ học, vô cảm với giá, và hữu hạn. Khi nhiên liệu của thác (vị thế đòn bẩy) cháy hết, chiết khấu nó tạo ra thu hút người mua thật — chữ ký bấc-và-hồi-phục."
+    },
+    "live_apply": {
+      "cta": "Tìm một bấc dưới dữ dội trên biểu đồ crypto và kiểm tra đỉnh khối lượng bên dưới nó — dấu chân của thác."
+    },
+    "common_mistakes": [
+      "Coi giá thanh lý như một stop. Thanh lý chiếm vị thế ở giá tệ nhất cộng phạt; một stop là lựa chọn của bạn ở mức của bạn.",
+      "Thêm ký quỹ để bảo vệ một vị thế đòn bẩy đang lỗ - biến một khoản lỗ có giới hạn thành một khoản không giới hạn."
+    ]
+  },
+  {
+    "id": "advanced-27-short-selling",
+    "title": "Cơ chế bán khống",
+    "summary": "Bán trước, mua sau — với cổ phiếu đi vay và rủi ro không giới hạn.",
+    "concept": "Một **bán khống (short sale)** đảo ngược giao dịch: vay tài sản, bán nó ngay, mua lại ('cover') sau, trả lại, giữ phần chênh lệch. Lời khi giá giảm. Cơ chế thêm chi phí và rủi ro mà vị thế mua không bao giờ gặp: **phí vay (borrow fee)** (những cái tên khó-vay tính lãi suất hàng năm hai chữ số), **cổ tức/funding** nợ khi đang khống, khả năng bị **thu hồi (recall)** (người cho vay muốn cổ phiếu lại vào lúc tệ nhất), và sự bất đối xứng bạn đã gặp ở bài học khống-từ-chối — lỗ về lý thuyết là **không giới hạn** vì giá không có trần.\n\nSự bất đối xứng đó nuôi một kẻ săn mồi: **siết khống (short squeeze)**. Khi một tài sản bị khống nặng tăng, người khống phải *mua* để chặn lỗ — và việc mua của họ tiếp nhiên liệu cho đà tăng siết người khống kế tiếp. Vị thế khống đông đúc là nhiên liệu tên lửa nạp sẵn, đó là lý do lãi suất khống tự nó là một thước đo rủi ro.\n\nLưu ý cách đóng khung của QuantGlass: tín hiệu SELL/từ-chối của engine mô tả *cấu trúc* giảm giá; tài khoản giấy mô phỏng vị thế đối xứng. Thực tế phí vay, thu hồi, và siết khống sống một lớp bên dưới — và phải được tính vào giá trước khi bất kỳ vị thế khống thực tế nào từng được cân nhắc.",
+    "key_terms": [
+      {
+        "term": "Phí vay",
+        "definition": "Chi phí thuê cổ phiếu bán khống — trừng phạt trên những cái tên đông đúc."
+      },
+      {
+        "term": "Cover",
+        "definition": "Mua lại để đóng một vị thế khống."
+      },
+      {
+        "term": "Siết khống",
+        "definition": "Giá tăng buộc người khống phải mua, tiếp nhiên liệu cho đà tăng thêm."
+      },
+      {
+        "term": "Rủi ro thu hồi",
+        "definition": "Người cho vay đòi cổ phiếu lại, buộc cover không đúng lúc."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao lãi suất khống nặng làm một tài sản DỄ có những biến động tăng dữ dội hơn?",
+      "options": [
+        "Người khống hợp pháp chặn giá có thể lên cao đến đâu.",
+        "Mỗi vị thế khống là một người mua tương lai được bảo đảm dưới áp lực: các đợt tăng buộc cover, và cover là mua, kéo dài đợt tăng vào nỗi đau của người khống kế tiếp.",
+        "Người bán khống lan truyền lạc quan.",
+        "Không — khống chỉ ảnh hưởng phía giảm."
+      ],
+      "explanation": "Vị thế khống đông đúc là cầu tiềm ẩn với một kích hoạt căng thẳng. Siết khống là phản xạ: biến động làm tổn thương người khống được khuếch đại bởi chính lối thoát bắt buộc của họ."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu trạng-thái-SELL và ghi chú stop của nó trên cấu trúc từ chối — trong một vị thế khống thật, stop đó cũng là bảo hiểm chống siết."
+    }
+  },
+  {
+    "id": "advanced-28-leverage-discipline",
+    "title": "Kỷ luật đòn bẩy (và lập luận cho việc không dùng)",
+    "summary": "Nếu từng dùng: nhỏ, cô lập, định cỡ theo rủi ro — và không bao giờ để 'gỡ lại'.",
+    "concept": "Sau bốn bài học cơ chế, sự tổng hợp. Đòn bẩy là một công cụ với đúng một mục đích trung thực: **hiệu quả vốn trên một chiến lược đã hoạt động không đòn bẩy** — và ngay cả khi đó cũng ở bội số nhỏ với ký quỹ cô lập và khoảng cách thanh lý cách nhiều ATR. Mọi cách dùng khác là một trong các mô hình thất bại: dùng đòn bẩy để làm một tài khoản nhỏ 'có ý nghĩa' (đổi tỷ lệ nhiễu thành chí mạng), dùng đòn bẩy để gỡ một drawdown (vòng xoáy tilt với một bội số), hoặc dùng đòn bẩy vì thanh trượt của một sàn lên tới 100× (nó lên đó vì thanh lý là doanh thu).\n\nDanh sách kỷ luật nếu ký quỹ từng được chạm: rủi ro vị thế vẫn tính từ **khoảng cách stop so với vốn chủ** (công thức định cỡ sống sót; chỉ toán thế chấp thay đổi); khoảng cách thanh lý ≥ 3–4× ATR của tài sản; chỉ ký quỹ cô lập; tổng phơi nhiễm vay có giới hạn; và một quy tắc thường trực rằng **không quyết định đòn bẩy nào được đưa ra bên trong một drawdown**.\n\nVà sự thật thiết kế có chủ ý để đóng track: engine và tài khoản giấy của QuantGlass **chỉ-spot, không đòn bẩy, theo cấu trúc**. Mọi thống kê Academy này dạy bạn — kỳ vọng, drawdown, khoảng conformal — đều được đo trên trò chơi không đòn bẩy. Hãy làm chủ trò chơi đó trước. Hầu hết không bao giờ cần trò kia.",
+    "key_terms": [
+      {
+        "term": "Hiệu quả vốn",
+        "definition": "Một mục đích trung thực của đòn bẩy — không bao giờ thêm lợi thế."
+      },
+      {
+        "term": "Quy tắc drawdown",
+        "definition": "Không quyết định đòn bẩy nào được đưa ra khi đang thua."
+      },
+      {
+        "term": "Đệm ATR",
+        "definition": "Khoảng cách thanh lý giữ ở bội số của biến động bình thường."
+      },
+      {
+        "term": "Thiết kế chỉ-spot",
+        "definition": "Cấu trúc không-đòn-bẩy có chủ ý của QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Động cơ nào để thêm đòn bẩy là yếu tố dự báo đáng tin cậy nhất về sự diệt vong?",
+      "options": [
+        "Hiệu quả vốn trên một chiến lược đã được chứng minh, biến động thấp.",
+        "Gỡ một drawdown nhanh hơn — nó kết hợp vòng xoáy tilt với một bội số lỗ vào đúng khoảnh khắc phán đoán tệ nhất.",
+        "Một sàn cung cấp ký quỹ cô lập.",
+        "Tò mò trong một tài khoản giấy."
+      ],
+      "explanation": "Giao dịch trả thù bạn đã gặp ở track tâm lý; đòn bẩy trao cho nó một vũ khí lớn hơn giữa cơn tilt. Động cơ gỡ lại thất bại trên cả toán học lẫn tâm trí."
+    },
+    "live_apply": {
+      "cta": "Xác nhận cấu trúc tài khoản giấy của bạn: spot, không đòn bẩy, rủi ro định nghĩa bằng stop — đường cơ sở mà mọi thống kê Academy giả định."
+    }
+  },
+  {
+    "id": "advanced-29-options-basics",
+    "title": "Call và Put: Quyền, không phải Nghĩa vụ",
+    "summary": "Giải phẫu hợp đồng: strike, đáo hạn, premium.",
+    "concept": "Một **quyền chọn (option)** là một hợp đồng trao một *quyền không kèm nghĩa vụ*. Một **call** là quyền **mua** một tài sản ở một **giá thực hiện (strike)** cố định cho đến khi **đáo hạn (expiry)**; một **put** là quyền **bán** ở strike. Cho quyền đó, người mua trả một **phí quyền (premium)** — trả một lần, người bán giữ bất kể điều gì.\n\nVí dụ: một call trên cổ phiếu XYZ, strike 100, một tháng nữa, premium 3. Nếu XYZ tăng tới 112, quyền mua ở 100 đáng giá 12 — trừ 3 đã trả, lời 9 trên 3 đã rủi ro. Nếu XYZ không bao giờ vượt 100, quyền chọn đáo hạn vô giá trị: lỗ là premium, toàn bộ premium, và không gì ngoài premium.\n\nĐó là sự mới lạ cấu trúc so với mọi thứ trong Academy này cho đến giờ: **lợi nhuận bất đối xứng theo hợp đồng**, không phải theo kỷ luật stop. Một trader spot xây dựng bất đối xứng bằng stop và bậc thang; một người mua quyền chọn mua đứt nó — và premium là cái giá của lần mua đó, mỗi một lần.",
+    "key_terms": [
+      {
+        "term": "Call",
+        "definition": "Quyền mua ở strike cho đến khi đáo hạn."
+      },
+      {
+        "term": "Put",
+        "definition": "Quyền bán ở strike cho đến khi đáo hạn."
+      },
+      {
+        "term": "Strike",
+        "definition": "Giá giao dịch cố định của hợp đồng."
+      },
+      {
+        "term": "Premium",
+        "definition": "Cái giá không hoàn lại của quyền."
+      },
+      {
+        "term": "Đáo hạn",
+        "definition": "Khi quyền ngừng tồn tại."
+      }
+    ],
+    "exercise": {
+      "question": "Bạn mua một call strike 100 với premium 3. Cổ phiếu kết thúc đáo hạn ở 97. Kết quả của bạn là gì?",
+      "options": [
+        "Lỗ 3 — premium, khoản lỗ tối đa có thể trên giao dịch này.",
+        "Lỗ 6 — premium cộng khoảng thiếu đến strike.",
+        "Bạn bị buộc mua cổ phiếu ở 100.",
+        "Hòa vốn."
+      ],
+      "explanation": "Dưới strike, quyền mua ở 100 đáng giá không gì, nên nó đáo hạn không được thực hiện. Quyền, khác nghĩa vụ, giới hạn phía giảm ở đúng premium đã trả."
+    },
+    "live_apply": {
+      "cta": "So với phiên bản spot: một vị thế mua định-nghĩa-bằng-stop rủi ro 1R theo kỷ luật; 1R của người mua call là premium, giới hạn theo hợp đồng."
+    }
+  },
+  {
+    "id": "advanced-30-intrinsic-time-value",
+    "title": "Giá trị nội tại, Giá trị thời gian, và Sự suy giảm",
+    "summary": "Một premium được tạo từ gì — và nó bay hơi thế nào.",
+    "concept": "Mọi premium quyền chọn tách thành hai phần. **Giá trị nội tại (intrinsic value)** là điều thực hiện ngay bây giờ sẽ đáng giá: một call strike 100 với cổ phiếu ở 108 có 8 nội tại (nó **trong tiền - in the money**); với cổ phiếu ở 95 nó có không (ngoài tiền - out of the money — nội tại không bao giờ âm). **Giá trị thời gian (time value)** là mọi thứ còn lại: giá thị trường của *khả năng*, của thời gian còn lại để cổ phiếu di chuyển.\n\nGiá trị thời gian tuân theo một quy tắc tàn nhẫn: nó suy giảm về đúng **không tại đáo hạn** — tại đáo hạn một quyền chọn đáng giá đúng giá trị nội tại của nó và không một xu hơn. Tệ hơn, sự suy giảm (**theta**) tăng tốc khi đáo hạn đến gần: những tuần cuối cháy nhanh hơn nhiều những tuần đầu.\n\nHệ quả mọi người mua quyền chọn phải nội tâm hóa: **bạn có thể đúng về hướng và vẫn lỗ**. Một cổ phiếu trôi lên quá chậm có thể không vượt được sự suy giảm; quyền chọn chảy máu trong khi luận điểm hoạt động. Mua quyền chọn là thuê thời gian, và tiền thuê tăng khi hợp đồng thuê hết hạn.",
+    "key_terms": [
+      {
+        "term": "Giá trị nội tại",
+        "definition": "Giá trị thực hiện ngay — max(0, khoảng cách vào trong tiền)."
+      },
+      {
+        "term": "Giá trị thời gian",
+        "definition": "Premium trừ nội tại: khả năng di chuyển được định giá."
+      },
+      {
+        "term": "Trạng thái tiền (moneyness)",
+        "definition": "Trong/tại/ngoài tiền — giá nằm đâu so với strike."
+      },
+      {
+        "term": "Suy giảm theta",
+        "definition": "Sự xói mòn tăng tốc của giá trị thời gian về không tại đáo hạn."
+      }
+    ],
+    "exercise": {
+      "question": "Một call strike 100 giao dịch ở 5.50 với cổ phiếu ở 103. Premium phân tách thế nào?",
+      "options": [
+        "5.50 nội tại, 0 giá trị thời gian.",
+        "3 nội tại (103 − 100), 2.50 giá trị thời gian — phần còn lại là khả năng được định giá.",
+        "0 nội tại, 5.50 giá trị thời gian.",
+        "Premium không phân tách."
+      ],
+      "explanation": "Nội tại = max(0, 103 − 100) = 3. 2.50 còn lại là giá trị thời gian — phần được bảo đảm sẽ về không tại đáo hạn, nhanh hay chậm."
+    },
+    "live_apply": {
+      "cta": "Nhìn ATR của một symbol: giá trị thời gian, đại khái, là thị trường tính phí cho biến động đó qua phần đời còn lại của quyền chọn."
+    }
+  },
+  {
+    "id": "advanced-31-greeks-intuition",
+    "title": "Các Greek, theo trực giác",
+    "summary": "Delta, theta, vega — ba núm xoay di chuyển một premium.",
+    "concept": "Giá quyền chọn phản ứng với nhiều hơn hướng, và các **Greek** đặt tên cho các độ nhạy. **Delta**: premium di chuyển bao nhiêu mỗi biến động 1 điểm của tài sản — call sâu trong tiền tiến tới +1 (chúng hành xử như cổ phiếu), call xa ngoài tiền tiến tới 0 (vé số). **Theta**: sự chảy máu hàng ngày của giá trị thời gian bạn đã gặp bài trước. **Vega**: độ nhạy với **biến động ngụ ý (implied volatility)** — kỳ vọng được định giá của thị trường về biến động tương lai.\n\nVega là cái bẫy nổi tiếng. Biến động ngụ ý *phồng lên trước các sự kiện đã biết* (báo lợi nhuận, công bố lớn) và sụp đổ sau — **sự nghiền nát biến động (volatility crush)**. Một trader mua call trước báo lợi nhuận, thấy cổ phiếu gap lên, và vẫn lỗ tiền vừa mới gặp vega: biến động đã xảy ra, nhưng *khả năng* được phản ánh vào giá xì hơi nhanh hơn hướng trả.\n\nTóm tắt kỷ luật: một vị thế quyền chọn đồng thời là một cược về hướng (delta), về thời điểm (theta), và về kỳ vọng biến động (vega). Giao dịch spot yêu cầu bạn đúng một lần; quyền chọn yêu cầu bạn đúng ba cách cùng lúc.",
+    "key_terms": [
+      {
+        "term": "Delta",
+        "definition": "Độ nhạy của premium với biến động giá của tài sản cơ sở."
+      },
+      {
+        "term": "Theta",
+        "definition": "Suy giảm giá trị thời gian hàng ngày — tiền thuê."
+      },
+      {
+        "term": "Vega",
+        "definition": "Độ nhạy của premium với thay đổi biến động ngụ ý."
+      },
+      {
+        "term": "Nghiền nát biến động",
+        "definition": "IV sụp đổ sau một sự kiện, xì hơi premium dù có biến động."
+      }
+    ],
+    "exercise": {
+      "question": "Một cổ phiếu gap lên 4% vào báo lợi nhuận, nhưng các call mua hôm qua MỞ CỬA THẤP HƠN. Điều gì đã xảy ra?",
+      "options": [
+        "Sàn định giá sai phiên mở cửa.",
+        "Nghiền nát biến động: sự bất định của sự kiện đã được phản ánh vào premium, và sự sụp đổ của biến động ngụ ý (vega) vượt qua biến động thuận lợi (delta).",
+        "Báo lợi nhuận luôn giảm giá quyền chọn.",
+        "Theta chỉ tác động vào cuối tuần."
+      ],
+      "explanation": "Premium chứa *khả năng* của một biến động lớn. Một khi sự kiện được giải quyết, khả năng đó xì hơi — đúng về hướng thua trước sai về biến động."
+    },
+    "live_apply": {
+      "cta": "Nhớ lại các bài học chế độ: biến động ngụ ý là người anh em hướng-tới-tương-lai của các chế độ dựa-trên-ATR mà bạn đã đọc."
+    }
+  },
+  {
+    "id": "advanced-32-buyer-seller-asymmetry",
+    "title": "Người mua và Người bán: Vũ trụ rủi ro đối lập",
+    "summary": "Rủi ro xác định một phía; nghĩa vụ phía kia.",
+    "concept": "Mọi quyền chọn có hai bên sống trong những vũ trụ rủi ro đối lập. **Người mua** trả premium cho một quyền: lỗ tối đa = premium, xác định lúc vào lệnh, chấm hết. **Người bán (writer)** thu premium và gánh một **nghĩa vụ**: giao (call) hoặc mua (put) ở strike nếu bị chỉ định. Một người bán 'có bảo chứng' nắm tài sản bù trừ; một người bán **trần (naked)** không nắm gì ngoài hy vọng.\n\nGiao kèo của người bán hấp dẫn về thống kê và nguy hiểm về cấu trúc: hầu hết quyền chọn đáo hạn vô giá trị, nên người bán thắng *thường xuyên* — premium nhỏ, tỷ lệ thắng cao. Bạn đã gặp đúng hồ sơ này ở track thống kê: **tỷ lệ thắng cao, độ lệch âm** — nhiều thắng nhỏ được tài trợ bởi những khoản lỗ thảm họa hiếm. Trường hợp tệ nhất của người bán call trần là không giới hạn (giá không có trần); cả những quỹ đã bay hơi trong một cú siết khống duy nhất.\n\nPhán quyết của Academy nhận thức được sự đối xứng: mua quyền chọn là *rủi-ro-xác-định nhưng trả-tiền-thuê*; bán chúng là *thu-nhập nhưng phơi-nhiễm-đuôi*. Không cái nào là tiền miễn phí. Cả hai đòi hỏi cùng số học kỳ vọng như mọi thứ khác — với rủi ro đuôi của người bán được định giá trung thực, chính là cái mà tỷ lệ thắng của nó che giấu.",
+    "key_terms": [
+      {
+        "term": "Writer",
+        "definition": "Người bán quyền chọn — người thu premium, người gánh nghĩa vụ."
+      },
+      {
+        "term": "Chỉ định (assignment)",
+        "definition": "Nghĩa vụ kích hoạt: người mua thực hiện chống lại người bán."
+      },
+      {
+        "term": "Có bảo chứng so với trần",
+        "definition": "Nghĩa vụ được đảm bảo bằng tài sản so với được đảm bảo bằng không gì."
+      },
+      {
+        "term": "Độ lệch âm",
+        "definition": "Thắng nhỏ thường xuyên, lỗ lớn hiếm — hồ sơ của người bán."
+      }
+    ],
+    "exercise": {
+      "question": "Bán call trần thắng 90% thời gian trong một backtest. Từ track thống kê, câu hỏi đầu tiên trước khi tin chiến lược này là gì?",
+      "options": [
+        "Cách mở rộng nó tới kích cỡ tối đa ngay lập tức.",
+        "10% thua tốn gì? Tỷ lệ thắng cao với lỗ đuôi không giới hạn là cái bẫy độ-lệch-âm kinh điển — kỳ vọng có thể sâu sắc âm.",
+        "Liệu 90% có thể đạt 95%.",
+        "Broker nào có phí thấp nhất."
+      ],
+      "explanation": "Tỷ lệ thắng không kèm phân phối lợi nhuận là thước đo phù phiếm mà bài bộ-thước-đo đã cảnh báo. Đuôi không giới hạn biến '90% thắng' thành một đồng hồ đếm ngược."
+    },
+    "live_apply": {
+      "cta": "Đọc lại ví dụ của bài thước-đo về chiến lược thua với tỷ lệ thắng 84% — bán quyền chọn là hiện thân thực tế thuần khiết nhất của nó."
+    }
+  },
+  {
+    "id": "advanced-33-options-as-insurance",
+    "title": "Quyền chọn như Bảo hiểm — và Đường ranh giới phạm vi",
+    "summary": "Trường hợp dùng chính đáng, và tại sao engine vẫn spot.",
+    "concept": "Lột bỏ đầu cơ đi và một quyền chọn là **bảo hiểm**. Một put trên một tài sản nắm giữ là một sàn giá: bạn trả một premium, và dưới strike lỗ của bạn dừng lại — đúng một cấu trúc khấu-trừ-và-hợp-đồng. Call có thể bảo hiểm chống bỏ lỡ phía tăng trong khi vốn chờ ở nơi khác. Được định giá công bằng, quyền chọn *chuyển giao rủi ro*; đó là công việc kinh tế trung thực của chúng.\n\nVậy tại sao QuantGlass vẫn **chỉ-spot**? Ba lý do nhất quán với Academy. **Đòn bẩy nhúng**: lợi nhuận quyền chọn vốn dĩ có đòn bẩy, và track trước đã cho thấy đòn bẩy làm gì với toán khả năng sống sót. **Tính đa chiều**: mọi thống kê engine này báo cáo — kỳ vọng theo R, khoảng conformal, stop ATR — giả định một vị thế mà giá trị bám theo một biến (giá); quyền chọn thêm thời gian và biến động làm trục rủi ro sống, vô hiệu hóa các công cụ đó mà không xây lại toàn bộ. **Trung thực**: một engine không thể mô hình theta và vega chính xác thì không nên tường thuật giao dịch quyền chọn — và cái này từ chối giả vờ.\n\nVậy nên đường ranh giới phạm vi: hiểu quyền chọn (giờ bạn đã, ở mức nền tảng), dùng làm chủ spot làm điều kiện tiên quyết, và đối xử với bất kỳ giáo dục phái sinh nào trong tương lai theo cách Academy này đối xử với giao dịch thật — như một thứ phải được *mở khóa bởi sự sẵn sàng đã chứng minh*, không bao giờ vấp vào.",
+    "key_terms": [
+      {
+        "term": "Put bảo vệ",
+        "definition": "Một put nắm chống lại một vị thế — một sàn giá trả phí."
+      },
+      {
+        "term": "Chuyển giao rủi ro",
+        "definition": "Chức năng trung thực của quyền chọn: chuyển rủi ro cho một người bán sẵn lòng với một cái giá."
+      },
+      {
+        "term": "Đòn bẩy nhúng",
+        "definition": "Lợi nhuận quyền chọn có đòn bẩy theo cấu trúc."
+      },
+      {
+        "term": "Trung thực về phạm vi",
+        "definition": "Engine từ chối tường thuật cái nó không thể mô hình."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao QuantGlass cố ý loại quyền chọn khỏi engine và tài khoản giấy của nó?",
+      "options": [
+        "Quyền chọn bất hợp pháp ở hầu hết các nước.",
+        "Giá trị quyền chọn di chuyển theo thời gian và biến động cũng như giá — thống kê dựa-trên-R và hình học ATR của engine sẽ âm thầm sai, và quy tắc thiết kế là không bao giờ hiển thị một con số nó không thể bảo vệ.",
+        "Quyền chọn không bao giờ phù hợp bất kỳ nhà đầu tư nào.",
+        "Phí bản quyền cho dữ liệu quyền chọn."
+      ],
+      "explanation": "Cùng nguyên tắc như tường thuật được-bảo-vệ-bằng-sự-thật: phạm vi là một tính năng trung thực. Công cụ nên từ chối lãnh thổ nơi con số của chúng ngừng là thật."
+    },
+    "live_apply": {
+      "cta": "Đọc cơ sở tin cậy của bất kỳ tín hiệu nào và lưu ý mọi thống kê đều giả định spot — đường ranh giới phạm vi mà track này vừa giải thích."
+    }
+  },
+  {
+    "id": "advanced-04-backtest-reading",
+    "title": "Đọc một Backtest — IS so với OOS",
+    "summary": "Diễn giải các thước đo in-sample và out-of-sample để đánh giá chất lượng thiết lập.",
+    "concept": "QuantGlass chia nến lịch sử 70/30 theo thời gian:\n\n- **In-Sample (IS, 70%)**: cửa sổ huấn luyện. Engine có thể 'thấy' giai đoạn này khi tạo tín hiệu hiện tại. Thước đo IS cho bạn biết thiết lập hoạt động thế nào trong lịch sử.\n- **Out-of-Sample (OOS, 30%)**: cửa sổ giữ lại mà engine không huấn luyện trên đó. Thước đo OOS xấp xỉ hiệu suất tương lai trung thực hơn IS.\n\n**Các thước đo chính cần đọc:**\n| Thước đo | Ý nghĩa |\n|---|---|\n| Win Rate | % giao dịch trả về > 0R |\n| Expectancy | R trung bình mỗi giao dịch |\n| Profit Factor | Lợi nhuận gộp ÷ Lỗ gộp |\n| Max Drawdown | Lỗ đỉnh-đến-đáy tệ nhất |\n| Sharpe / Sortino | Lợi nhuận điều chỉnh theo rủi ro |\n| OOS Validated | True khi OOS có ≥ min_sample giao dịch VÀ expectancy OOS dương |\n\nMột tín hiệu có thước đo IS cao nhưng OOS_Validated = False nên được xử lý thận trọng.",
+    "key_terms": [
+      {
+        "term": "In-Sample (IS)",
+        "definition": "Cửa sổ lịch sử mô hình huấn luyện trên đó — 70% theo thời gian."
+      },
+      {
+        "term": "Out-of-Sample (OOS)",
+        "definition": "Cửa sổ giữ lại — 30% lịch sử, mô phỏng hiệu suất tương lai."
+      },
+      {
+        "term": "Profit Factor",
+        "definition": "Thắng gộp ÷ Lỗ gộp. > 1.3 nhìn chung là tích cực."
+      },
+      {
+        "term": "Max Drawdown",
+        "definition": "Sự suy giảm tệ nhất từ đỉnh vốn chủ trong backtest — cho thấy nỗi đau trường hợp xấu nhất."
+      },
+      {
+        "term": "OOS Validated",
+        "definition": "True khi OOS có đủ giao dịch (≥ min_sample) với expectancy dương."
+      }
+    ],
+    "exercise": {
+      "question": "Một backtest cho thấy win rate IS 65%, win rate OOS 41%, expectancy OOS −0.12R. Thiết lập này có đáng tin không?",
+      "options": [
+        "Có — win rate IS 65% là mạnh.",
+        "Không — khoảng cách IS/OOS gợi ý overfitting; expectancy OOS âm.",
+        "Có thể — chờ thêm giao dịch trong giai đoạn OOS.",
+        "Có — expectancy OOS âm là bình thường với hồi quy về trung bình."
+      ],
+      "explanation": "Một khoảng cách IS/OOS lớn (65% so với 41%) và expectancy OOS âm (−0.12R) gợi ý mạnh rằng thiết lập bị **overfit** với giai đoạn IS — nó bắt được nhiễu, không phải tín hiệu. QuantGlass đặt `out_of_sample_validated = False` và giới hạn confidence ở 62 trong trường hợp này."
+    },
+    "live_apply": {
+      "cta": "Mở Backtesting, chọn bất kỳ preset nào, và so sánh Win Rate IS với Win Rate OOS. Tìm một cái mà OOS gần với IS."
+    }
+  },
+  {
+    "id": "advanced-05-confidence-basis",
+    "title": "Cơ sở tin cậy — Điều gì điều khiển điểm số",
+    "summary": "Phân tích ngược điểm tin cậy bằng cách đọc từng thành phần con.",
+    "concept": "Con số `confidence` (0–100) được suy ra từ các điểm con có trọng số sau:\n\n| Thành phần | Trọng số | Nguồn |\n|---|---|---|\n| base | Cố định (42–58) | Loại tín hiệu (WAIT=42, HOLD/WATCH=52, BUY/SELL=58) |\n| trend_alignment | × 14 | |khoảng cách EMA-SMA| / close |\n| volume_confirmation | × 8 | volume_ratio / 1.75 |\n| confluence_score − 0.5 | × 18 | Điểm đa-yếu-tố từ họ tín hiệu |\n| calibrated_win_rate − 0.5 | × 32 | Win rate co-Bayes từ expectancy gộp |\n| expectancy | × 10 | Expectancy gộp R (giới hạn ±1) |\n| phạt mẫu mỏng | −8 | Áp dụng khi pooled_sample < min_sample |\n| giới hạn OOS | tối đa 62 | Áp dụng khi out_of_sample_validated = False |\n\nConfidence cuối được kẹp về [20, 89] — engine không bao giờ tuyên bố chắc chắn.",
+    "key_terms": [
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Co rút Bayes: win rate thô → 0.5 tỷ lệ với độ mỏng của mẫu."
+      },
+      {
+        "term": "Pooled Expectancy",
+        "definition": "Expectancy tổng hợp chéo-symbol cho loại thiết lập này trên toàn hành lang."
+      },
+      {
+        "term": "Confluence Score",
+        "definition": "Điểm kết hợp đa-yếu-tố: xu hướng, khối lượng, MACD, độ dốc HTF, thưởng chế độ."
+      },
+      {
+        "term": "OOS Cap",
+        "definition": "Confidence bị giới hạn cứng ở 62 khi out_of_sample_validated là False."
+      }
+    ],
+    "exercise": {
+      "question": "Một tín hiệu BUY_ZONE có trend alignment hoàn hảo (1.0) nhưng OOS_validated = False và pooled_sample = 12 (< min_sample=50). Confidence tối đa xấp xỉ là bao nhiêu?",
+      "options": [
+        "89 — trend alignment hoàn hảo kiếm được confidence tối đa.",
+        "≈ 62 — giới hạn OOS áp dụng; phạt mẫu mỏng giảm thêm.",
+        "20 — sàn tối thiểu kích hoạt.",
+        "50 — mặc định trung lập."
+      ],
+      "explanation": "Giới hạn OOS đặt trần cứng ở 62. Phạt mẫu mỏng (−8) cũng được áp dụng vì pooled_sample (12) < min_sample (50). Bắt đầu từ base BUY 58 + alignment hoàn hảo (14) = 72, trừ 8 (mẫu mỏng) = 64, rồi giới hạn ở 62. Engine sẽ không tuyên bố confidence cao mà không có bằng chứng."
+    },
+    "live_apply": {
+      "cta": "Mở bất kỳ ngăn tín hiệu nào và mở rộng phần Cơ sở Tin cậy. Tìm một tín hiệu mà OOS_validated = True và một cái mà nó là False."
+    }
+  },
+  {
+    "id": "advanced-11-why-backtests-lie",
+    "title": "Tại sao Backtest nói dối",
+    "summary": "Bốn gian lận kinh điển và các phòng thủ của engine.",
+    "concept": "Hầu hết backtest được công bố tâng bốc tác giả của chúng qua bốn cơ chế. **Overfitting**: tinh chỉnh tham số cho đến khi lịch sử được ghi nhớ — đường cong khớp với nhiễu, không phải tín hiệu. **Thiên kiến nhìn-trước (look-ahead bias)**: cho mô phỏng liếc trộm dữ liệu không khả dụng tại thời điểm quyết định (dùng giá đóng của một nến để quyết định lệnh vào của chính nến đó). **Thiên kiến sống sót (survivorship bias)**: kiểm thử trên những công cụ vẫn còn tồn tại, âm thầm loại trừ những cái đã hủy niêm yết và đã chết. **Mất trí nhớ chi phí (cost amnesia)**: mô phỏng lệnh khớp ở giá không ma sát.\n\nCác phòng thủ cấu trúc của QuantGlass, không cái nào tùy chọn: quyết định chỉ tiêu thụ **nến đã đóng** và bộ backtest chạy lại *đúng* bộ phát hiện mà tín hiệu thật dùng, từng nến một; mọi giao dịch mô phỏng trả **mô hình chi phí khứ hồi đầy đủ**; kết quả được chia **theo thời gian** thành in-sample và out-of-sample không pha trộn; và tham số được cố định toàn-engine thay vì khớp theo từng symbol — đối lập với việc xoa bóp từng-công-cụ của khớp-đường-cong.\n\nTư thế trung thực: coi bất kỳ backtest nào, kể cả của chúng tôi, như một *cận trên* của hiệu suất thật, không phải một lời hứa.",
+    "key_terms": [
+      {
+        "term": "Overfitting",
+        "definition": "Ghi nhớ nhiễu của lịch sử qua tinh chỉnh tham số."
+      },
+      {
+        "term": "Thiên kiến nhìn-trước",
+        "definition": "Dùng thông tin không khả dụng tại thời điểm quyết định."
+      },
+      {
+        "term": "Thiên kiến sống sót",
+        "definition": "Chỉ kiểm thử trên những tài sản đã sống sót."
+      },
+      {
+        "term": "Mất trí nhớ chi phí",
+        "definition": "Bỏ qua phí và trượt giá trong mô phỏng."
+      },
+      {
+        "term": "Cận trên",
+        "definition": "Cách đọc trung thực của bất kỳ kết quả backtest nào."
+      }
+    ],
+    "exercise": {
+      "question": "Chiến lược của một nhà cung cấp cho thấy win rate 94% sau khi tối ưu 12 tham số mỗi symbol trên 3 năm dữ liệu. Giải thích khả dĩ nhất là gì?",
+      "options": [
+        "Một sự không hiệu quả thị trường thật bỏ qua mọi chi phí.",
+        "Overfitting: 12 núm vặn mỗi-symbol có thể ghi nhớ 3 năm nhiễu; kết quả mô tả quá khứ, không phải tương lai.",
+        "Kỹ năng tự động chuyển giao sang giao dịch thật.",
+        "Một lỗi đánh máy — win rate giới hạn ở 60%."
+      ],
+      "explanation": "Đủ tham số có thể khớp bất cứ thứ gì, kể cả tính ngẫu nhiên. Sự suy giảm out-of-sample là chữ ký: nhiễu được ghi nhớ không lặp lại."
+    },
+    "live_apply": {
+      "cta": "Lưu ý rằng mọi preset QuantGlass đều dùng cùng tham số toàn-engine — sự vắng mặt của núm vặn từng-symbol là phòng thủ chống-overfitting."
+    },
+    "common_mistakes": [
+      "Tinh chỉnh tham số cho đến khi đường cong trông hoàn hảo. Đường cong đó mô tả quá khứ bạn đã tối ưu cho, không phải tương lai.",
+      "Kiểm thử trên cùng dữ liệu đã gợi ý ý tưởng. Khám phá in-sample đòi hỏi bằng chứng out-of-sample - không ngoại lệ.",
+      "Bỏ qua chi phí. Một chiến lược với lợi thế trung bình 0.2R chết hoàn toàn vì spread và trượt giá."
+    ]
+  },
+  {
+    "id": "advanced-12-is-oos",
+    "title": "In-Sample, Out-of-Sample: Sự chia tách trung thực",
+    "summary": "Sự chia 70/30 theo thời gian của engine và thanh chắn xác thực của nó.",
+    "concept": "Bài kiểm thử thuyết phục duy nhất của một quy tắc là dữ liệu nó chưa bao giờ chạm. QuantGlass chia các giao dịch mô phỏng của mỗi symbol **theo thời gian** — 70% giao dịch đầu là **in-sample (IS)**, 30% còn lại **out-of-sample (OOS)** — và báo cáo hai khối **riêng biệt, không bao giờ pha trộn**. Chia theo thời gian (không ngẫu nhiên) quan trọng trong thị trường: nó bảo toàn thứ tự chế độ và đảm bảo khối OOS thực sự là thông tin *muộn hơn*.\n\nThanh chắn xác thực rõ ràng: một thiết lập kiếm được `out_of_sample_validated` chỉ khi khối OOS có **ít nhất mẫu tối thiểu** (cài đặt an toàn của bạn, mặc định 50) *và* **expectancy OOS dương**. Trượt một trong hai và mọi điểm confidence bị giới hạn cứng ở 62 — engine về cấu trúc từ chối phấn khích về những mô hình chưa xác thực.\n\nKhi đọc một preset, hãy phát triển phản xạ của nhà phân tích: bỏ qua tiêu đề, so sánh IS với OOS. Ổn định qua sự chia tách → bền vững; sụp đổ trong OOS → ghi nhớ.",
+    "key_terms": [
+      {
+        "term": "Chia theo thời gian",
+        "definition": "70% giao dịch đầu IS, 30% cuối OOS — sắp xếp theo thời gian, không bao giờ xáo trộn."
+      },
+      {
+        "term": "Xác thực OOS",
+        "definition": "Mẫu OOS tối thiểu VÀ expectancy OOS dương."
+      },
+      {
+        "term": "Giới hạn confidence",
+        "definition": "Thiết lập chưa xác thực không thể đạt điểm trên 62."
+      },
+      {
+        "term": "Suy giảm IS/OOS",
+        "definition": "Hiệu suất sụp đổ out-of-sample — dấu vân tay của overfitting."
+      }
+    ],
+    "exercise": {
+      "question": "Một preset cho thấy expectancy IS +0.42R và expectancy OOS −0.05R trên một mẫu lành mạnh. Kết luận trung thực?",
+      "options": [
+        "Lấy trung bình chúng: +0.18R lợi thế.",
+        "Mô hình có khả năng đã ghi nhớ cửa sổ huấn luyện của nó — sự sụp đổ OOS là dấu hiệu, và engine sẽ từ chối xác thực.",
+        "Dữ liệu OOS đơn giản là sai.",
+        "Nhân đôi kích cỡ vị thế."
+      ],
+      "explanation": "Pha trộn sẽ rửa sạch thất bại. Toàn bộ điểm của khối chưa-chạm là nó không thể thương lượng được — và nó vừa nói không."
+    },
+    "live_apply": {
+      "cta": "Chọn bất kỳ preset nào và đọc IS so với OOS cạnh nhau trước khi nhìn tiêu đề pha trộn."
+    }
+  },
+  {
+    "id": "advanced-13-metrics-suite",
+    "title": "Đọc bộ thước đo đầy đủ",
+    "summary": "Win rate, expectancy, profit factor, Sharpe, Sortino, drawdown — một câu chuyện, sáu góc nhìn.",
+    "concept": "Không thước đo nào sống sót một mình. **Win rate** không kèm kích cỡ lợi nhuận là một con số phù phiếm — 90% thắng +0.1R với lỗ −2R là diệt vong. **Expectancy** (R trung bình mỗi giao dịch) là điểm mấu chốt nhưng che giấu sự biến động của nó. **Profit factor** (thắng gộp ÷ lỗ gộp) đọc độ bền: dưới ~1.2 là mong manh sau chi phí. **Sharpe** chia trung bình cho tổng biến động; **Sortino** chia cho biến động *phía giảm* mà thôi — tử tế hơn với những chiến lược mà biến động chủ yếu là phía tăng, đó là lý do theo-xu-hướng thường trông tốt hơn trong Sortino. **Max drawdown** là cái giá tâm lý để vào cửa.\n\nEngine tính cả sáu từ cùng danh sách giao dịch trên mọi preset, cộng đường vốn chủ và drawdown mà chúng tóm tắt. Các hồ sơ cần nhận ra: theo-xu-hướng (win rate 40–50%, thắng trung bình cao, Sortino tốt, drawdown phẳng kéo dài), hồi quy về trung bình (win rate cao, thắng nhỏ, drawdown rủi-ro-đuôi).\n\nThói quen của nhà phân tích: đọc thước đo như một *kiểm tra nhất quán* — nếu hai trong số chúng không đồng ý với câu chuyện bạn đã hình thành, câu chuyện của bạn sai.",
+    "key_terms": [
+      {
+        "term": "Profit factor",
+        "definition": "Lợi nhuận gộp ÷ lỗ gộp — độ bền sau chi phí."
+      },
+      {
+        "term": "Tỷ lệ Sharpe",
+        "definition": "Lợi nhuận trung bình chia theo tổng biến động."
+      },
+      {
+        "term": "Tỷ lệ Sortino",
+        "definition": "Trung bình chia theo biến động phía giảm mà thôi."
+      },
+      {
+        "term": "Hồ sơ thước đo",
+        "definition": "Mô hình thước đo đặc trưng của một họ chiến lược."
+      }
+    ],
+    "exercise": {
+      "question": "Chiến lược A: win rate 84%, expectancy −0.07R. Chiến lược B: win rate 43%, expectancy +0.31R. Cái nào kiếm tiền theo thời gian?",
+      "options": [
+        "A — win rate là điểm mấu chốt.",
+        "B — expectancy là điểm mấu chốt; những thắng nhỏ thường xuyên của A được tài trợ bởi những khoản lỗ thảm họa thỉnh thoảng.",
+        "Cả hai như nhau.",
+        "Không cái nào, vì win rate phải vượt 90%."
+      ],
+      "explanation": "Expectancy đã cấn thắng với lỗ rồi. Hồ sơ của A (win rate cao, expectancy âm) là chữ ký kinh điển của hành vi cắt-thắng-để-lỗ-chạy."
+    },
+    "live_apply": {
+      "cta": "Lấy một preset và đọc cả sáu thước đo theo thứ tự: chúng có kể một câu chuyện nhất quán không?"
+    }
+  },
+  {
+    "id": "advanced-14-shrinkage",
+    "title": "Kích cỡ mẫu và Co rút",
+    "summary": "Tại sao engine từ chối tin mẫu nhỏ — kèm công thức.",
+    "concept": "Ba thắng từ ba giao dịch là win rate 100% và về thống kê gần như không là gì. Engine mã hóa sự hoài nghi đó như **co rút Bayes thực nghiệm (empirical-Bayes shrinkage)**: mọi win rate được kéo về 50% tỷ lệ với độ mỏng của mẫu.\n\nCông thức chính xác: `calibrated = (raw × n + 0.5 × k) ÷ (n + k)`, trong đó **n** là kích cỡ mẫu và **k** là độ mạnh tiên nghiệm — đặt thành cài đặt mẫu-backtest-tối-thiểu của bạn (mặc định 50). Ví dụ tính: một thành tích hoàn hảo 10-trên-10 cho (1.0×10 + 0.5×50) ÷ 60 = **58.3%** — bằng chứng ấn tượng giảm xuống một nghiêng nhẹ. Một win rate 60% trên 400 giao dịch hầu như không di chuyển: (240 + 25) ÷ 450 = 58.9%. Cùng niềm tin được hiệu chỉnh, bằng chứng khác nhau hoàn toàn — đúng như nó nên vậy.\n\nGộp hoàn thành phòng thủ: mẫu mỗi-symbol mỏng, nên engine tổng hợp kết quả theo họ thiết lập và khung thời gian trên các symbol, và ưu tiên thống kê gộp bất cứ khi nào mẫu gộp vượt thanh chắn. Tin chậm; cập nhật bằng bằng chứng.",
+    "key_terms": [
+      {
+        "term": "Co rút (shrinkage)",
+        "definition": "Kéo ước tính về trung lập tỷ lệ với độ mỏng của mẫu."
+      },
+      {
+        "term": "Độ mạnh tiên nghiệm",
+        "definition": "k trong công thức — engine dùng cài đặt mẫu-tối-thiểu của bạn."
+      },
+      {
+        "term": "Expectancy gộp",
+        "definition": "Tổng hợp chéo-symbol theo họ thiết lập và khung thời gian."
+      },
+      {
+        "term": "Trọng số bằng chứng",
+        "definition": "n ÷ (n + k): dữ liệu áp đảo tiên nghiệm bao nhiêu."
+      }
+    ],
+    "exercise": {
+      "question": "Dùng công thức của engine với độ mạnh tiên nghiệm k = 50: một thiết lập là 10-trên-10 (win rate thô 100%). Win rate được hiệu chỉnh là bao nhiêu, theo phần trăm?",
+      "hint": "(1.0 × 10 + 0.5 × 50) ÷ (10 + 50), rồi ×100",
+      "explanation": "(10 + 25) ÷ 60 = 0.5833 → **58.3%**. Mười giao dịch hoàn hảo dịch kim từ 50% lên 58% — bằng chứng được tôn trọng, nhưng mẫu nhỏ không thể hét lớn."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu với mẫu backtest nhỏ và để ý confidence của nó giữ khiêm tốn thế nào — bạn vừa tính ra tại sao."
+    }
+  },
+  {
+    "id": "advanced-15-honest-simulation",
+    "title": "Bên trong Bộ mô phỏng trung thực",
+    "summary": "Lệnh khớp chạm-đầu-tiên, bậc thang thật, chi phí, và stop thời gian.",
+    "concept": "Chính xác điều gì xảy ra khi QuantGlass backtest một thiết lập? Với mỗi nến lịch sử nơi *bộ phát hiện thật giống hệt* bắn, bộ mô phỏng đi tới từng nến một và chơi giao dịch được hiển thị mà không hồi tưởng: nếu khoảng dao động của nến chạm **stop**, vị thế còn lại thoát ở đó — stop trước, thận trọng, khi cả stop và mục tiêu nằm trong khoảng dao động của một nến. Nếu không, mỗi **bậc thang (ladder rung)** mà khoảng dao động của nến chạm tới khớp đúng trọng số của nó (50/30/20). Nếu vị thế sống sót đến **giữ tối đa (max hold)** của khung thời gian (24 nến trên 1h, 12 trên 1d), nó thoát ở giá đóng của nến đó — stop thời gian.\n\nKết quả được cấn ròng **chi phí khứ hồi đầy đủ** chuyển thành R, rồi gia nhập danh sách giao dịch theo thời gian nuôi mọi thước đo, sự chia IS/OOS, và tập hiệu chỉnh conformal.\n\nNguyên tắc bên dưới: backtest mô phỏng **giao dịch bạn thực sự sẽ thấy trên thẻ** — cùng logic vào lệnh, cùng stop, cùng bậc thang, cùng chi phí. Không có lối thoát lý tưởng hóa, không có giao dịch được chỉ định lại. Khi một con số có thể được kiểm tra với mô phỏng đã tạo ra nó, niềm tin trở nên kiểm toán được.",
+    "key_terms": [
+      {
+        "term": "Khớp chạm-đầu-tiên",
+        "definition": "Các mức khớp khi khoảng dao động của một nến chạm tới chúng đầu tiên; stop được ưu tiên trong một nến."
+      },
+      {
+        "term": "Trung thực bậc thang",
+        "definition": "Lối thoát mô phỏng dùng đúng bậc thang 50/30/20 được hiển thị."
+      },
+      {
+        "term": "Giữ tối đa",
+        "definition": "Stop thời gian mỗi-khung-thời-gian — thiết lập đình trệ thoát ở giá đóng."
+      },
+      {
+        "term": "Nguyên tắc giao-dịch-hiển-thị",
+        "definition": "Backtest và thẻ tín hiệu chia sẻ một hình học."
+      }
+    ],
+    "exercise": {
+      "question": "Trong một nến mô phỏng duy nhất, giá dao động qua cả stop và bậc thang đầu tiên. Engine giải quyết nó thế nào?",
+      "options": [
+        "Khớp bậc có lời trước — mô phỏng xứng đáng lạc quan.",
+        "Lấy stop trên vị thế còn lại — giải quyết thận trọng, vì nến không thể tiết lộ mức nào được chạm trước.",
+        "Chia đôi chênh lệch ở điểm giữa.",
+        "Bỏ qua nến hoàn toàn."
+      ],
+      "explanation": "OHLCV phá hủy đường đi trong-nến, nên bộ mô phỏng tự tính cho mình trường hợp tệ nhất. Backtest trung thực giải quyết sự mơ hồ chống lại chính nó."
+    },
+    "live_apply": {
+      "cta": "Đọc số lượng giao dịch và expectancy của một preset giờ đã biết chính xác mỗi giao dịch mô phỏng được khớp, tính phí, và đóng thế nào."
+    }
+  },
+  {
+    "id": "advanced-01-market-regimes",
+    "title": "Các chế độ thị trường",
+    "summary": "Hiểu tại sao cùng một chỉ báo hoạt động khác nhau trong mỗi chế độ.",
+    "concept": "QuantGlass phân loại thị trường hiện tại vào một trong bốn **chế độ (regime)** trước khi tạo tín hiệu. Chế độ kiểm soát họ chiến lược nào đủ điều kiện:\n\n| Chế độ | Điều kiện | Chiến lược hoạt động |\n|---|---|---|\n| **Trending** | ADX ≥ 22 | Pullback, Breakout-retest |\n| **Ranging** | ADX < 16 | Mean-reversion (RSI-2 + BB) |\n| **Volatile** | ATR% ≥ 1.7× ATR% trung vị | Mọi lệnh vào bị chặn / confidence giảm |\n| **Transitional** | ADX 16–22 | Chỉ Pullback, confluence giảm |\n\n**ADX (Average Directional Index)** đo *sức mạnh* xu hướng, không phải hướng. ADX cao = xu hướng mạnh (tăng hoặc giảm); ADX thấp = thị trường yếu/đi ngang.",
+    "key_terms": [
+      {
+        "term": "ADX-14",
+        "definition": "Average Directional Index 14 chu kỳ — đo sức mạnh xu hướng (0–100)."
+      },
+      {
+        "term": "Trending",
+        "definition": "ADX ≥ 22 — một xu hướng có hướng đang hiện diện."
+      },
+      {
+        "term": "Ranging",
+        "definition": "ADX < 16 — không có xu hướng đáng kể; ưu tiên chiến lược hồi quy về trung bình."
+      },
+      {
+        "term": "Volatile",
+        "definition": "ATR% ≥ 1.7× trung vị 50-nến của nó — biến động bất thường, confidence bị giới hạn."
+      },
+      {
+        "term": "Transitional",
+        "definition": "ADX 16–22 — thị trường chuyển dịch giữa trending và ranging."
+      }
+    ],
+    "exercise": {
+      "question": "ADX = 12, ATR% gần trung vị lịch sử của nó. QuantGlass đánh giá họ thiết lập nào?",
+      "options": [
+        "Chỉ Breakout-retest.",
+        "Mean-reversion (range_meanreversion_long/short) dùng RSI-2 và Bollinger Bands.",
+        "Chỉ Trend-pullback.",
+        "Tất cả họ đồng thời."
+      ],
+      "explanation": "ADX = 12 < 16 → chế độ **ranging**. Engine bỏ qua họ trend-pullback và breakout và chỉ đánh giá họ mean-reversion: RSI-2 ở cực trị gần Bollinger Bands. Chiến lược sai trong chế độ sai là nguồn chính của thất bại tín hiệu."
+    },
+    "live_apply": {
+      "cta": "Mở bất kỳ tín hiệu nào và nhìn market_regime trong confidence_basis. Tìm một tín hiệu 'ranging' và một 'trending'."
+    }
+  },
+  {
+    "id": "advanced-02-macd",
+    "title": "MACD Histogram — Xác nhận động lượng",
+    "summary": "Dùng MACD histogram làm bộ lọc xác nhận động lượng thứ cấp.",
+    "concept": "**MACD** (Moving Average Convergence/Divergence) đo khoảng cách giữa hai EMA:\n`MACD Line = EMA(12) − EMA(26)`\n`Signal Line = EMA(9) của MACD Line`\n`Histogram = MACD Line − Signal Line`\n\n**Diễn giải histogram:**\n- Histogram > 0 và tăng → động lượng tăng giá đang gia tốc\n- Histogram < 0 và thu nhỏ → động lượng giảm giá đang phai (có thể đảo chiều)\n- **Phân kỳ (Divergence)**: giá tạo đỉnh mới, histogram thì không → yếu kém ẩn giấu\n\n**Vai trò trong QuantGlass:** dấu của MACD histogram là một boolean `macd_agree` trong công thức confluence. Nếu histogram đồng ý với hướng giao dịch, điểm confluence tăng 0.10. Đó là bộ lọc xác nhận, không phải kích hoạt chính.",
+    "key_terms": [
+      {
+        "term": "MACD Line",
+        "definition": "EMA(12) − EMA(26) — đường động lượng cốt lõi."
+      },
+      {
+        "term": "Signal Line",
+        "definition": "EMA(9) của đường MACD — phiên bản làm mượt."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD Line − Signal Line — cho thấy tốc độ thay đổi động lượng."
+      },
+      {
+        "term": "Phân kỳ MACD",
+        "definition": "Giá và MACD di chuyển ngược hướng — biến động yếu đi."
+      }
+    ],
+    "exercise": {
+      "question": "Giá trên EMA-21 > SMA-50. MACD histogram ở −0.02. Engine có thêm thưởng 'macd_agree' không?",
+      "options": [
+        "Có — histogram gần không, được tính là đồng ý trung lập.",
+        "Không — macd_agree yêu cầu histogram > 0 với một thiết lập BUY_ZONE.",
+        "Có — ở trong một chồng tăng giá luôn kiếm được thưởng.",
+        "MACD hoàn toàn không được dùng trong QuantGlass."
+      ],
+      "explanation": "Với một thiết lập mua/tăng giá, `macd_agree = macd_histogram > 0`. Một histogram âm (−0.02) nghĩa là động lượng giảm giá dù chồng giá tăng — thưởng confluence +0.10 bị giữ lại. Tín hiệu vẫn có thể bắn, nhưng với confidence thấp hơn."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu HOLD hoặc WATCH — chúng thường có MACD không đồng ý với hướng, hạ thấp confidence."
+    }
+  },
+  {
+    "id": "advanced-03-bollinger-bands",
+    "title": "Bollinger Bands — Bao biến động",
+    "summary": "Dùng BB squeeze và expansion để định thời lệnh vào theo biến động.",
+    "concept": "**Bollinger Bands** gồm:\n- `BB Mid` = SMA(20)\n- `BB Upper` = SMA(20) + 2 × StdDev(20)\n- `BB Lower` = SMA(20) − 2 × StdDev(20)\n- `BB Bandwidth` = (Upper − Lower) / Mid × 100\n\n**Squeeze**: dải thu hẹp → biến động thấp → năng lượng nén lại → breakout sắp đến.\n**Expansion**: dải mở rộng → biến động tăng vọt → xu hướng đang diễn ra.\n\n**Trong QuantGlass (chế độ ranging):**\n- Giá ở BB Lower + RSI-2 ≤ 8 → `range_meanreversion_long` (BUY_ZONE)\n- Giá ở BB Upper + RSI-2 ≥ 92 → `range_meanreversion_short` (SELL)\n- Mục tiêu cho mean-reversion: BB Mid (SMA 20 chu kỳ)\n\nBandwidth cũng được dùng để đặt bội số stop `volatility_regime`.",
+    "key_terms": [
+      {
+        "term": "BB Upper",
+        "definition": "SMA(20) + 2 độ lệch chuẩn — bao trên."
+      },
+      {
+        "term": "BB Lower",
+        "definition": "SMA(20) − 2 độ lệch chuẩn — bao dưới."
+      },
+      {
+        "term": "BB Bandwidth",
+        "definition": "(Upper − Lower) / Mid × 100 — bề rộng của dải, một đại diện biến động."
+      },
+      {
+        "term": "BB Squeeze",
+        "definition": "Dải thu hẹp — biến động đang nén lại trước một biến động có hướng."
+      }
+    ],
+    "exercise": {
+      "question": "BB Bandwidth đã co lại 10 nến và vừa đạt mức tối thiểu 6 tháng. Bạn nên chuẩn bị cho điều gì?",
+      "options": [
+        "Một giai đoạn biến động thấp kéo dài — sẽ không có gì xảy ra.",
+        "Một sự mở rộng biến động / breakout — squeeze giải phóng năng lượng.",
+        "Một sự đảo chiều ngay lập tức về đường giữa BB.",
+        "Engine tín hiệu sẽ chặn mọi tín hiệu."
+      ],
+      "explanation": "Một BB squeeze về mức thấp nhiều-tháng là một thiết lập kinh điển cho sự mở rộng biến động sắp đến. Hướng không được dự đoán bởi mỗi dải — bạn cần chồng xu hướng và một kích hoạt khối lượng để chọn mua hay bán. Đây là lý do QuantGlass kết hợp BB với ADX và RSI-2."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu range_meanreversion. Vùng vào lệnh sẽ gần BB Lower (mua) hoặc BB Upper (bán)."
+    }
+  },
+  {
+    "id": "advanced-06-trend-pullback",
+    "title": "Pullback theo xu hướng: Mua sức mạnh đang giảm giá",
+    "summary": "Thiết lập mua chủ lực của engine, từng điều kiện một.",
+    "concept": "Pullback theo xu hướng mua một xu hướng lành mạnh ở mức chiết khấu. Các điều kiện mua chính xác của engine: **cấu trúc** — close > EMA-21 > SMA-50 (chồng tăng giá); **vị trí** — giá tương tác với EMA-21 (nến chạm nó, hoặc close nằm trong 0.8% của nó); **động lượng hợp lý** — RSI-14 giữa 46 và 72: đủ ấm để xác nhận xu hướng, không quá nóng đến mức biến động đã cạn; **chế độ** — chỉ trending hoặc transitional.\n\nHình học giao dịch sau đó theo một cách cơ học: giá tham chiếu gần EMA, một vùng vào lệnh −0.45 đến +0.15 ATR quanh nó, một stop ở bội số ATR theo chế-độ-biến-động bên dưới, và bậc thang tỷ-lệ-2.4R bên trên. Tiền đề được mua: *trong xu hướng, các pullback về đường trung bình đang tăng có xu hướng giải quyết theo hướng xu hướng.* Stop nằm nơi tiền đề đó chết — dưới nền móng của pullback.\n\nTấm gương của nó, khống từ chối, đảo ngược mọi điều kiện (close < EMA < SMA, RSI 28–54).",
+    "key_terms": [
+      {
+        "term": "Chồng tăng giá",
+        "definition": "Close trên EMA-21 trên SMA-50 — cấu trúc xu hướng nguyên vẹn."
+      },
+      {
+        "term": "Vùng pullback",
+        "definition": "Giá tương tác với EMA-21 đang tăng."
+      },
+      {
+        "term": "Cửa sổ RSI",
+        "definition": "46–72 cho lệnh mua: ấm xác nhận mà không kiệt sức."
+      },
+      {
+        "term": "Tiền đề",
+        "definition": "Tuyên bố thống kê mà một thiết lập mua — ở đây, xu hướng tiếp tục từ trung bình."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao thiết lập pullback từ chối lệnh mua khi RSI-14 trên 72?",
+      "options": [
+        "RSI cao là bất hợp pháp.",
+        "Trên ~72 cú đẩy đã kéo dài — thiết lập muốn mua phần còn lại sau cú giảm, không đuổi theo đỉnh của biến động.",
+        "RSI không thể vượt 72 về mặt toán học.",
+        "EMA biến mất ở RSI cao."
+      ],
+      "explanation": "Lợi thế của thiết lập là vào lệnh trong lúc chiết khấu, không phải ở đỉnh nhiệt. Một trần RSI lọc ra việc đuổi giá ngụy trang thành mua-pullback."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu ema_reclaim_pullback hoặc daily_trend_pullback và xác minh từng điều kiện trong bốn điều kiện trong lý do của nó."
+    }
+  },
+  {
+    "id": "advanced-07-trend-rejection",
+    "title": "Khống từ chối: Xu hướng chết từ bên dưới",
+    "summary": "Tấm gương giảm giá — bán những đợt tăng thất bại trong xu hướng giảm.",
+    "concept": "Xu hướng giảm mời gọi giao dịch gương: giá tăng vào EMA-21 đang giảm, bị **từ chối (rejected)**, và tiếp tục thấp hơn. Điều kiện engine: chồng giảm giá (close < EMA-21 < SMA-50), nến tương tác với EMA từ bên dưới, RSI-14 giữa 28 và 54 (một cú nảy thật, không phải thị trường chết), chế độ trending/transitional, với confluence được ghi nhận khi MACD histogram âm và trôi dạt khung-thời-gian-cao chỉ xuống.\n\nBán khống xứng đáng hai lưu ý bất đối xứng trung thực. **Hình dạng rủi ro**: trường hợp tệ nhất của lệnh mua là −100%; trường hợp tệ nhất lý thuyết của lệnh khống là không giới hạn — đó là lý do stop trên đỉnh từ chối còn ít thương lượng hơn bình thường. **Hình dạng hành vi**: các đợt giảm có xu hướng nhanh và sắc hơn các đợt tăng (sợ hãi thanh lý nhanh hơn lòng tham tích lũy), nên khống từ chối thường giải quyết nhanh hơn tấm gương mua của chúng.\n\nTrong giao dịch giấy QuantGlass bạn có thể luyện toàn bộ cơ chế đối xứng — engine coi hướng là một tham số hạng nhất, không phải suy nghĩ thêm.",
+    "key_terms": [
+      {
+        "term": "Từ chối",
+        "definition": "Một đợt tăng vào kháng cự (ở đây là EMA đang giảm) thất bại và đóng cửa rời đi."
+      },
+      {
+        "term": "Chồng giảm giá",
+        "definition": "Close dưới EMA-21 dưới SMA-50."
+      },
+      {
+        "term": "Bất đối xứng của khống",
+        "definition": "Lỗ lý thuyết không giới hạn — stop về cấu trúc là bắt buộc."
+      },
+      {
+        "term": "Vận tốc phía giảm",
+        "definition": "Các đợt giảm thường đi nhanh hơn các đợt tăng tương đương."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao kỷ luật stop trên một lệnh khống còn nghiêm khắc hơn trên một lệnh mua?",
+      "options": [
+        "Lệnh khống bị đánh thuế khác.",
+        "Một lệnh mua có thể mất nhiều nhất giá trị của nó; biến động bất lợi của lệnh khống về lý thuyết là không giới hạn, nên một lệnh khống không stop không có trường hợp tệ nhất.",
+        "Stop thực thi nhanh hơn trên lệnh khống.",
+        "Không phải — rủi ro đối xứng."
+      ],
+      "explanation": "Giá có sàn ở không và không có trần. Đỉnh từ chối không chỉ là một tham chiếu — trên nó, vị thế hoàn toàn không có rủi ro xác định."
+    },
+    "live_apply": {
+      "cta": "Tìm một tín hiệu trend_rejection_breakdown và lần theo stop của nó tới cấu trúc từ chối trên điểm vào lệnh."
+    }
+  },
+  {
+    "id": "advanced-08-breakout-retest",
+    "title": "Breakout-Retest: Giao dịch vận tốc thoát ly",
+    "summary": "Cực trị mới, sự tham dự của khối lượng, và sự xác nhận của xu hướng.",
+    "concept": "Họ breakout cược rằng **cực trị mới mở rộng**. Điều kiện engine cho phiên bản mua: chế độ trending (bắt buộc — họ này mong manh nhất với chế độ), chồng tăng giá nguyên vẹn, nến đẩy qua **đỉnh Donchian-20 của nến trước** với close giữ trong 0.3% của mức, và **khối lượng ít nhất ở trung bình gần đây** — những nỗ lực thoát ly không có sự tham dự được giả định là giả.\n\nNó vào như một trạng thái **WATCH** với base confluence cao hơn (0.60) so với pullback: khi một breakout là thật nó là xu hướng tự công bố mình, nhưng họ này trả cho chất lượng đó bằng sự mong manh — trong các vùng đi ngang, nến giống hệt là cú fakeout sách giáo khoa, đó là lý do cổng chế độ tồn tại.\n\n'Retest' trong tên là bài kiểm tra trưởng thành: breakout mạnh thường quay lại hôn mức bị phá vỡ trước khi tiếp tục. Mức từng chặn giá trở thành mức bảo vệ nó — kháng cự biến thành hỗ trợ, sự lật cấu trúc sạch nhất trong giao dịch.",
+    "key_terms": [
+      {
+        "term": "Vận tốc thoát ly",
+        "definition": "Một cú đẩy qua cực trị trước đủ mạnh để giữ."
+      },
+      {
+        "term": "Sự tham dự của khối lượng",
+        "definition": "Tỷ lệ khối lượng ≥ 1.0 — sự tham gia xác nhận cú phá."
+      },
+      {
+        "term": "Lật cấu trúc",
+        "definition": "Kháng cự bị phá hành xử như hỗ trợ mới trên cú retest."
+      },
+      {
+        "term": "Mong manh với chế độ",
+        "definition": "Sự phụ thuộc toàn bộ của họ vào cổng trending."
+      }
+    ],
+    "exercise": {
+      "question": "Một nến xuyên thủng đỉnh Donchian trước trong phiên nhưng đóng cửa 1.2% trở lại bên dưới nó trên khối lượng trung bình. Breakout của engine có bắn không?",
+      "options": [
+        "Có — chạm mức là đủ.",
+        "Không — close trượt bài kiểm tra giữ (trong 0.3% của mức), biến nó thành một bấc từ chối, không phải một sự thoát ly.",
+        "Có, nhưng chỉ vào thứ Ba.",
+        "Không, vì khối lượng phải bằng không."
+      ],
+      "explanation": "Bài kiểm tra close tách thoát ly khỏi chuyến đi: một cú xuyên thủng đóng cửa trở lại tốt bên dưới mức là bằng chứng của nguồn cung ở các đỉnh — tiền đề ngược lại."
+    },
+    "live_apply": {
+      "cta": "Mở một preset breakout_retest_continuation: số lượng giao dịch của nó chính xác là những điều kiện nghiêm ngặt này đồng xuất hiện trong lịch sử thường xuyên thế nào."
+    }
+  },
+  {
+    "id": "advanced-09-mean-reversion",
+    "title": "Hồi quy về trung bình trong vùng đi ngang: Giao dịch dây thun",
+    "summary": "Cực trị bị rửa sạch bật lại về giữa.",
+    "concept": "Trong chế độ ranging lực vận hành là **lực kéo của trung bình**. Điều kiện mua của engine: chế độ ranging (ADX < 16), **RSI 2 chu kỳ ≤ 8** — một dao động cố ý giật nảy gần rửa sạch hoàn toàn — và nến chạm **dải Bollinger dưới** (đáy trong 0.5% của nó). Lệnh khống gương ở RSI-2 ≥ 92 và dải trên.\n\nMọi thứ về họ này được xây dựng khác đi vì tiền đề khác. Mục tiêu không phải một bậc thang mở mà là **dải giữa** — trung bình đang kéo — với bậc thang nén quanh nó (60% của nhịp, chính trung bình, 130% xa hơn). Confluence bắt đầu thấp hơn (base 0.50) vì làm phai các biến động về cấu trúc là cược mong manh hơn: cùng chỉ số rửa sạch trong một chế độ *trending* không phải dây thun, nó là tàu hàng, đó là lý do cổng chế độ là không thể thương lượng ở đây.\n\nHọ này dạy bài học sâu nhất trong track: hình học biểu đồ giống hệt nghĩa những điều ngược lại trong các chế độ khác nhau.",
+    "key_terms": [
+      {
+        "term": "RSI-2",
+        "definition": "Một RSI 2 chu kỳ — một bộ phát hiện rửa-sạch cố ý nảy ngay tức thì."
+      },
+      {
+        "term": "Rửa sạch (washout)",
+        "definition": "RSI-2 ≤ 8 (hoặc ≥ 92): kiệt sức một chiều trong vùng đi ngang."
+      },
+      {
+        "term": "Mục tiêu trung bình",
+        "definition": "Lối thoát nhắm vào dải Bollinger giữa, không mở vô hạn."
+      },
+      {
+        "term": "Rủi ro tàu hàng",
+        "definition": "Làm phai những giá 'căng' trong một chế độ trending."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao họ mean-reversion nhắm vào dải Bollinger giữa thay vì dùng bậc thang 2.4R tiêu chuẩn?",
+      "options": [
+        "Dải giữa trả tiền hoàn lại.",
+        "Tiền đề của nó là một cú bật lại về trung bình — một khi giá chạm trung bình, lý do của engine cho giao dịch đã cạn.",
+        "Bậc thang yêu cầu ADX trên 22.",
+        "Dải giữa luôn cách 2.4R."
+      ],
+      "explanation": "Lối thoát phải khớp với tiền đề. Một giao dịch hồi quy giữ quá trung bình đã trở thành một giao dịch xu hướng không ai lên kế hoạch — mục tiêu giữ giao dịch trung thực với ý tưởng của nó."
+    },
+    "live_apply": {
+      "cta": "Nếu một tín hiệu range_meanreversion tồn tại, so sánh các mức chốt lời của nó với dải giữa của symbol."
+    }
+  },
+  {
+    "id": "advanced-10-choosing-families",
+    "title": "Một Symbol, Nhiều Thiết lập: Engine chọn thế nào",
+    "summary": "Cạnh tranh bằng confluence, và các trạng thái dự phòng.",
+    "concept": "Trên mỗi nến đã đóng, engine đánh giá **mọi họ cộng bất kỳ chiến lược mở rộng nào**, thu thập mọi ứng viên có cổng vượt qua, và chọn **điểm confluence cao nhất**. Không thứ bậc, không thiên vị — thiết lập có nhiều sự đồng ý độc lập nhất thắng thẻ.\n\nKhi *không* họ nào bắn, engine vẫn báo cáo trung thực qua các **trạng thái dự phòng**: một chồng tăng giá không có thiết lập hành động được → **HOLD** (xu hướng nguyên vẹn, không có gì để làm); một chồng giảm giá → **WATCH** cú phá vỡ; không cái nào → **WAIT**, được đánh dấu vô hiệu. Các trạng thái base-thấp này (0.30) tồn tại vì *'không có gì để làm'* là một câu trả lời chính đáng, thường xuyên, và có giá trị — engine từ chối chế tạo hành động.\n\nBài học meta cho giao dịch của bạn: một chiến lược không phải một thiết lập đơn lẻ, nó là một **danh mục tiền đề** với quy tắc cho khi nào mỗi cái áp dụng và sự khiêm tốn để nói 'không cái nào áp dụng'. Hầu hết lỗ bán lẻ là sự từ chối chấp nhận lựa chọn thứ ba đó.",
+    "key_terms": [
+      {
+        "term": "Cạnh tranh ứng viên",
+        "definition": "Mọi thiết lập vượt qua được chấm điểm; confluence cao nhất được hiển thị."
+      },
+      {
+        "term": "Trạng thái dự phòng",
+        "definition": "HOLD/WATCH/WAIT — những câu trả lời 'không thiết lập' trung thực."
+      },
+      {
+        "term": "Danh mục tiền đề",
+        "definition": "Một chiến lược như một tập ý tưởng kiểm-soát-theo-chế-độ, không phải một mô hình."
+      },
+      {
+        "term": "Hành động chế tạo",
+        "definition": "Giao dịch vì bạn muốn một giao dịch — kẻ thù của các trạng thái dự phòng."
+      }
+    ],
+    "exercise": {
+      "question": "Cả bốn họ trượt cổng của chúng trên một symbol có chồng tăng giá nguyên vẹn. Engine phát ra gì?",
+      "options": [
+        "Không gì — symbol biến mất.",
+        "Một trạng thái HOLD: cấu trúc xu hướng nguyên vẹn, không thiết lập hành động được, base confluence thấp, không có lệnh vào được chế tạo.",
+        "Một BUY_ZONE bắt buộc ở nửa confidence.",
+        "Một thông báo lỗi."
+      ],
+      "explanation": "HOLD là thông tin, không phải thất bại: ở lại với cái đang hoạt động, không thêm gì. Engine thà nhàn rỗi trung thực còn hơn bận rộn nhân tạo."
+    },
+    "live_apply": {
+      "cta": "Đếm các trạng thái HOLD/WATCH/WAIT hôm nay so với các trạng thái hành động được — tỷ lệ là sự trung thực của engine đang thể hiện."
+    }
+  },
+  {
+    "id": "advanced-20-biases",
+    "title": "Những thiên kiến định giá sai lầm của bạn",
+    "summary": "Ngại lỗ, chi phí chìm, gần đây, xác nhận — và trang phục giao dịch của chúng.",
+    "concept": "Bốn thiên kiến nhận thức gây phần lớn thiệt hại. **Ngại lỗ (loss aversion)**: lỗ đau khoảng gấp đôi mức vui của lợi tương đương — nên trader giữ những vị thế lỗ (tránh nỗi đau hiện thực hóa) và cắt những vị thế lãi (gửi sự nhẹ nhõm). Đảo ngược chính xác của lợi thế. **Chi phí chìm (sunk cost)**: 'Tôi đã lỗ 8% rồi, không thể thoát bây giờ' — nhưng thị trường không biết điểm vào của bạn; câu hỏi duy nhất là liệu vị thế có xứng đáng tồn tại ở giá *hôm nay* không. **Gần đây (recency)**: ba thắng cảm thấy như làm chủ, ba thua như diệt vong; cả hai là nhiễu khoác trang phục xu hướng. **Xác nhận (confirmation)**: một khi đã có vị thế, bạn chấm điểm bằng chứng theo sự đồng ý — tweet tăng giá được đánh dấu, cấu trúc giảm giá được biện minh.\n\nKhung trung thực: đây không phải khiếm khuyết tính cách, chúng là phần mềm gốc (firmware) — ai cũng chạy chúng. Khác biệt chuyên nghiệp không phải cảm thấy khác đi; mà là **quyết định vào một thời điểm khác**: mọi cam-kết-trước kiểu QuantGlass (stop cố định trước khi vào lệnh, kế hoạch viết khi đang phẳng) dời quyết định sang một khoảnh khắc khi thiên kiến chưa được nạp.",
+    "key_terms": [
+      {
+        "term": "Ngại lỗ",
+        "definition": "Lỗ nặng ~2× lợi tương đương — động cơ giữ-lỗ/cắt-lãi."
+      },
+      {
+        "term": "Chi phí chìm",
+        "definition": "Để giá vào lệnh của bạn tranh luận về quyết định hôm nay."
+      },
+      {
+        "term": "Thiên kiến gần đây",
+        "definition": "Ngoại suy vài kết quả gần nhất thành một chế độ."
+      },
+      {
+        "term": "Thiên kiến xác nhận",
+        "definition": "Chấm điểm bằng chứng theo việc nó có đồng ý với vị thế của bạn không."
+      },
+      {
+        "term": "Cam kết trước",
+        "definition": "Quyết định trước khi thiên kiến được nạp — thuốc giải cấu trúc."
+      }
+    ],
+    "exercise": {
+      "question": "Một trader từ chối thoát một vị thế lỗ 'vì tôi sẽ bán ở đáy điểm vào CỦA TÔI'. Thiên kiến nào đang nói, và câu hỏi đúng là gì?",
+      "options": [
+        "Thiên kiến gần đây; câu hỏi là ba giao dịch cuối thế nào.",
+        "Chi phí chìm; câu hỏi hợp lệ duy nhất là liệu vị thế này có xứng đáng tồn tại ở giá và cấu trúc hôm nay không.",
+        "Thiên kiến xác nhận; câu hỏi là Twitter nghĩ gì.",
+        "Không thiên kiến; điểm vào là thiêng liêng."
+      ],
+      "explanation": "Thị trường không mang ký ức về điểm vào của bất kỳ ai. Hãy tái-thẩm-định vị thế như thể đang phẳng: bạn có mở nó ở đây, bây giờ không? Nếu không, giá vào lệnh là thứ duy nhất giữ nó."
+    },
+    "live_apply": {
+      "cta": "Chọn một vị thế giấy đang mở và tái-thẩm-định nó: chỉ biết biểu đồ hôm nay, bạn có mở nó bây giờ không?"
+    },
+    "common_mistakes": [
+      "Tin rằng biết một thiên kiến đánh bại nó. Thiên kiến hoạt động trước-ý-thức; chỉ quy trình (danh sách kiểm tra, kế hoạch, tự động hóa) mới phòng thủ chống lại chúng.",
+      "Chọn lọc những thắng được nhớ làm bằng chứng kỹ năng. Nhật ký tồn tại vì ký ức là tập dữ liệu thiên lệch nhất bạn sở hữu."
+    ]
+  },
+  {
+    "id": "advanced-21-tilt",
+    "title": "Tilt và Giao dịch trả thù",
+    "summary": "Cơ chế vòng xoáy lỗ — và bộ phát hiện canh chừng nó.",
+    "concept": "**Tilt** là việc ra quyết định bị kích động cảm xúc cướp đoạt sau những khoản lỗ. Chữ ký giao dịch của nó là **giao dịch trả thù (revenge trade)**: tái vào cùng symbol nhanh chóng, quá cỡ, với một luận điểm 'gỡ lại' thay vì một thiết lập. Vòng xoáy là cơ học: lỗ → kích động thu hẹp sự chú ý → tiêu chuẩn rớt (thiết lập 'đủ tốt') → kích cỡ tăng ('để gỡ nhanh hơn') → một khoản lỗ tệ hơn → lặp lại. Các sòng bạc xây dựng cơ nghiệp trên vòng lặp này.\n\nCác cầu dao hoạt động là *vật lý và cam-kết-trước*, không phải khát vọng: một sự dừng cố định sau bất kỳ lần stop-out nào (kể cả 30 phút cũng phá vỡ chu kỳ kích động), một stop hàng ngày (hai khoản lỗ kế hoạch → xong ngày hôm đó), và một quy tắc tái-vào (cùng symbol chỉ trên một thiết lập nến-đã-đóng *mới*, không bao giờ trên sự gần kề với lần thoát cuối của bạn).\n\nBảng coaching của QuantGlass chạy một bộ phát hiện bắn-nhanh trên chính các ý định giấy của bạn — các lệnh lặp lại trên một symbol trong một cửa sổ ngắn — và đưa ra đúng bài học này khi mô hình xuất hiện. Cỗ máy có thể phát hiện dấu chân của vòng xoáy; chỉ các cam-kết-trước của bạn mới có thể ngắt nó.",
+    "key_terms": [
+      {
+        "term": "Tilt",
+        "definition": "Kích động sau-lỗ làm suy giảm chất lượng quyết định."
+      },
+      {
+        "term": "Giao dịch trả thù",
+        "definition": "Tái vào do thôi thúc gỡ lại thay vì thiết lập."
+      },
+      {
+        "term": "Cầu dao",
+        "definition": "Một sự dừng vật lý hoặc stop hàng ngày được cam-kết-trước."
+      },
+      {
+        "term": "Mô hình bắn-nhanh",
+        "definition": "Dấu chân lệnh-lặp-lại mà bảng coaching phát hiện."
+      }
+    ],
+    "exercise": {
+      "question": "Sau một lần stop-out, bạn cảm thấy thôi thúc mạnh tái vào cùng symbol ngay lập tức ở kích cỡ lớn hơn. Đặc điểm xác định khiến đây là một giao dịch trả thù là gì?",
+      "options": [
+        "Symbol là cùng một cái.",
+        "Động cơ là gỡ lại khoản lỗ thay vì một thiết lập nến-đã-đóng mới — giao dịch tồn tại để sửa một cảm giác, không phải để thể hiện một lợi thế.",
+        "Kích cỡ lớn hơn.",
+        "Nó xảy ra sau một khoản lỗ."
+      ],
+      "explanation": "Symbol, kích cỡ, và thời điểm là triệu chứng; căn bệnh là động cơ. Một thiết lập hợp lệ mới năm phút sau là chính đáng — 'gỡ lại' thì không bao giờ."
+    },
+    "live_apply": {
+      "cta": "Kiểm tra bảng coaching sau các phiên giấy hoạt động — khoảnh khắc bắn-nhanh xuất hiện là chính cơn tilt của bạn được hiện hình."
+    },
+    "common_mistakes": [
+      "Giao dịch để thắng lại một khoản lỗ. Giao dịch trả thù được định cỡ bằng giận dữ và định thời bằng thiếu kiên nhẫn - hai nhà quản lý danh mục tệ nhất.",
+      "Tin rằng tilt chỉ theo sau các khoản lỗ. Chuỗi thắng đưa trader vào quá-cỡ một cách đáng tin cậy không kém ('thành công nguy hiểm').",
+      "Cố vượt-kỷ-luật tilt trong khoảnh khắc. Giải pháp là cấu trúc: giới hạn hàng ngày và thời gian hạ nhiệt quyết định trước."
+    ],
+    "bridge": {
+      "cta": "Áp dụng nó: Nhiệm vụ The Operator yêu cầu mười giao dịch kỷ luật liên tiếp - tilt đặt lại chuỗi."
+    }
+  },
+  {
+    "id": "advanced-22-discipline-systems",
+    "title": "Hệ thống đánh bại ý chí",
+    "summary": "Thiết kế kỷ luật thay vì triệu hồi nó.",
+    "concept": "Ý chí là một nguồn lực cạn kiệt thất bại đúng lúc cần nhất — tại đỉnh căng thẳng, muộn trong ngày, giữa drawdown. Kỷ luật bền vững được **thiết kế (engineered)**: thay đổi môi trường để hành động đúng là mặc định và hành động sai đòi hỏi nỗ lực.\n\nBộ công cụ thiết kế, ánh xạ vào thiết lập của bạn: **cam kết trước** (stop và kích cỡ quyết định khi đang phẳng — toàn bộ thiết kế của thẻ tín hiệu); **bất đối xứng ma sát** (cảnh báo thông báo cho bạn thay vì bạn nhìn chằm chằm vào biểu đồ; nhìn chằm chằm chế tạo giao dịch); **cổng cơ học** (cổng chế-độ/confluence của engine từ chối giao dịch bất kể tâm trạng của bạn — hãy mượn mô hình cho quy tắc của riêng bạn); **ký ức ngoại hóa** (nhật ký và danh sách kiểm tra, vì dưới kích động bạn sẽ không nhớ tiêu chuẩn của mình); và **rà soát tự động** (bảng coaching như một đối tác trách nhiệm không mệt mỏi, không tự ái).\n\nSự chuyển dịch danh tính điều này hàm ý: công việc của bạn ít là 'đưa ra quyết định tuyệt vời trong khoảnh khắc' và nhiều hơn là **thiết kế một hệ thống có mặc định là những quyết định tuyệt vời** — rồi tuân thủ thiết kế của chính bạn.",
+    "key_terms": [
+      {
+        "term": "Cạn kiệt ý chí",
+        "definition": "Tự chủ như một nguồn lực hữu hạn thất bại dưới tải."
+      },
+      {
+        "term": "Thiết kế mặc định",
+        "definition": "Làm cho hành động đúng là con đường ít kháng cự nhất."
+      },
+      {
+        "term": "Bất đối xứng ma sát",
+        "definition": "Tuân thủ dễ, lệch hướng tốn công."
+      },
+      {
+        "term": "Kỷ luật ngoại hóa",
+        "definition": "Quy tắc sống trong hệ thống (cổng, cảnh báo, danh sách kiểm tra) thay vì tâm trạng."
+      }
+    ],
+    "exercise": {
+      "question": "Tại sao cảnh báo giá là một công cụ kỷ luật chứ không chỉ một tiện ích?",
+      "options": [
+        "Chúng tạo ra âm thanh dễ chịu.",
+        "Chúng thay thế việc nhìn-biểu-đồ liên tục — và việc nhìn chế tạo các giao dịch bốc đồng; cảnh báo biến việc giám sát thành một hành động an-toàn-mặc-định, theo-sự-kiện.",
+        "Chúng cải thiện giá khớp.",
+        "Chúng được sàn giao dịch yêu cầu."
+      ],
+      "explanation": "Mỗi giờ trước màn hình là một giờ cám dỗ rút từ ý chí hữu hạn. Cảnh báo dời bạn từ thăm dò (cám dỗ chủ động) sang ngắt (an toàn được thiết kế)."
+    },
+    "live_apply": {
+      "cta": "Thay thế một thói quen nhìn-biểu-đồ ngay bây giờ: đặt cảnh báo ở các mức quyết định của vị thế đang mở của bạn và đóng biểu đồ."
+    },
+    "bridge": {
+      "cta": "Áp dụng nó: chấp nhận Hiến pháp Giao dịch của bạn trong Rà soát - phiếu sẽ giữ bạn theo nó."
+    }
+  },
+  {
+    "id": "advanced-23-drawdown-psychology",
+    "title": "Sống sót qua Drawdown",
+    "summary": "Nỗi đau dự kiến, kỷ luật chẩn đoán, và khi nào tạm dừng.",
+    "concept": "Bạn đã học số học của drawdown trong track Rủi ro; bài học này là tâm lý của việc sống bên trong một cái. Bước một là **thiết lập kỳ vọng**: max drawdown lịch sử của phương pháp (in trên mọi preset) không phải trường hợp tệ nhất của nó — trong thực tế, hãy kỳ vọng sâu hơn. Nếu đường cong của chiến lược cho thấy −14%, một người giao dịch nó một ngày nào đó sẽ ngồi ở −14% *mà không biết liệu nó có bao giờ đảo chiều* — sự không biết đó là trải nghiệm thực sự.\n\nBước hai là **thang chẩn đoán**, chạy theo thứ tự trong cơn đau: (1) Tôi có tuân theo kế hoạch không? (kiểm tra tuân thủ nhật ký). (2) Chế độ đã thay đổi chưa? (engine phân loại lại mọi nến — hãy nhìn). (3) Bản thân lợi thế đã suy giảm chưa? (so sánh expectancy gần đây với khối OOS của backtest). Chỉ một 'có' ở mức 3 mới biện minh cho việc thay đổi phương pháp; mức 1–2 biện minh cho việc thay đổi *hành vi* hoặc *chờ đợi*.\n\nBước ba là **quy tắc tạm dừng**: cam-kết-trước một độ sâu drawdown (theo R hoặc phần trăm) mà tại đó bạn dừng, rà soát toàn bộ nhật ký, và chỉ khởi động lại ở kích cỡ giảm. Tạm dừng không phải thất bại — nó là hệ thống bảo vệ người vận hành của nó.",
+    "key_terms": [
+      {
+        "term": "Drawdown dự kiến",
+        "definition": "Max drawdown của backtest như một sàn, không phải trần, cho nỗi đau thực tế."
+      },
+      {
+        "term": "Thang chẩn đoán",
+        "definition": "Tuân thủ kế hoạch → thay đổi chế độ → suy giảm lợi thế, kiểm tra theo thứ tự."
+      },
+      {
+        "term": "Suy giảm lợi thế",
+        "definition": "Kết quả gần đây thấp hơn đáng kể đường cơ sở OOS ở mẫu có ý nghĩa."
+      },
+      {
+        "term": "Quy tắc tạm dừng",
+        "definition": "Một độ sâu cam-kết-trước kích hoạt dừng, rà soát, khởi-động-lại-nhỏ."
+      }
+    ],
+    "exercise": {
+      "question": "Giữa drawdown, nhật ký của bạn cho thấy tuân thủ kế hoạch đầy đủ và chế độ đã lật từ trending sang ranging. Thang chẩn đoán kết luận gì?",
+      "options": [
+        "Phương pháp bị hỏng — xây lại mọi thứ.",
+        "Hành vi ổn và thời tiết đã thay đổi: thiết lập xu hướng trong một chế độ ranging hoạt động kém theo thiết kế — chờ hoặc giao dịch họ phù-hợp-với-chế-độ.",
+        "Nhân đôi kích cỡ để thoát drawdown nhanh hơn.",
+        "Xóa nhật ký."
+      ],
+      "explanation": "Mức 1 vượt qua, mức 2 giải thích cơn đau, mức 3 không bao giờ đạt tới. Nước đi đúng là kiên-nhẫn-với-chế-độ, không phải phẫu-thuật-phương-pháp — sai lầm đắt nhất là sửa cái không hỏng."
+    },
+    "live_apply": {
+      "cta": "Đọc max drawdown của preset chính của bạn và viết xuống, trước, độ sâu tạm dừng cá nhân và quy tắc khởi động lại của bạn."
+    },
+    "bridge": {
+      "cta": "Áp dụng nó: chơi lại The Gap Down và quản lý một cú sốc thanh khoản bằng quy trình, không phải adrenaline."
+    }
+  }
+]
