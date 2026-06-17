@@ -1,0 +1,1412 @@
+[
+  {
+    "id": "advanced-16-cost-stack",
+    "title": "A pilha completa de custos",
+    "summary": "Spread, taxas, slippage, e a margem que precisam superar.",
+    "concept": "Cada estratégia compete contra sua própria pilha de custos. Camada um: o **spread** — atravessar o livro custa meio spread em cada direção, antes mesmo de alguém te cobrar algo. Camada dois: **taxas** — percentuais explícitos por lado. Camada três: **slippage** — execuções que se afastam dos preços pretendidos em condições rápidas ou de pouca liquidez.\n\nO modelo padrão do QuantGlass cobra, por lado, 0,10% de taxa + 0,05% de slippage em cripto e 0,02% + 0,01% em ações; o backtester converte a ida e volta em R e a subtrai de cada operação simulada. A consequência estratégica é a **gravidade do custo**: a margem bruta por operação de uma estratégia deve superar claramente seu custo de ida e volta, ou o custo *é* o resultado. Estratégias de timeframe curto sofrem mais — movimentos médios menores contra um pedágio percentual fixo significam que o trader de 15m paga proporcionalmente muito mais de sua margem ao atrito do que o trader de 1d.\n\nRegra de leitura: ao comparar presets entre timeframes, divida mentalmente a expectativa pelo peso do custo — a estratégia mais lenta com igual expectativa é a mais robusta.",
+    "key_terms": [
+      {
+        "term": "Pilha de custos",
+        "definition": "Spread + taxas + slippage, pagos nas duas direções."
+      },
+      {
+        "term": "Gravidade do custo",
+        "definition": "O pedágio fixo que toda margem bruta deve superar."
+      },
+      {
+        "term": "Razão custo-margem",
+        "definition": "Custo de ida e volta como parte do lucro médio por operação."
+      },
+      {
+        "term": "Penalidade de timeframe",
+        "definition": "Timeframes mais curtos pagam proporcionalmente mais atrito."
+      }
+    ],
+    "exercise": {
+      "question": "Dois presets mostram expectativa de +0,20R: um opera candles de 15m, outro de 1d. Por que o resultado de 1d é mais confiável?",
+      "options": [
+        "Candles diários são mais bonitos.",
+        "Os movimentos médios menores da estratégia de 15m significam que os custos consumiram uma parte maior de sua margem bruta — seu +0,20R fica mais perto do piso de ruído do atrito.",
+        "Os dados de 15m estão sempre errados.",
+        "Não é — expectativa é expectativa."
+      ],
+      "explanation": "Mesmo número líquido, razões bruto-para-custo diferentes. A estratégia que superou um obstáculo de atrito mais alto com folga degrada com mais elegância quando as condições ao vivo pioram."
+    },
+    "live_apply": {
+      "cta": "Compare o feesPercent/slippagePercent de um preset de cripto com um de ações — depois encontre-os deduzidos na expectativa."
+    }
+  },
+  {
+    "id": "advanced-17-slippage-dynamics",
+    "title": "Slippage: quando e por que as execuções se afastam",
+    "summary": "As três condições que alargam a brecha entre o gráfico e a execução.",
+    "concept": "Slippage não é uma constante — é função de três variáveis. **Volatilidade**: em mercados rápidos, o preço se move entre sua decisão e sua execução; stops disparam em bolsões de ar e executam bem além de seu nível. **Tamanho relativo à profundidade**: uma ordem a mercado come o livro nível a nível; se seu tamanho exceder o topo do livro, *você* move o preço que paga. **Hora de liquidez**: a mesma ordem em uma hora morta (fins de semana de cripto, almoço de ações) atravessa um livro mais fino.\n\nNote o que isso implica sobre stops: um stop-loss garante o *gatilho*, nunca o *preço* — em um gap ou cascata, a execução está onde a liquidez existir a seguir. É por isso que o regime de volatilidade expandida do motor alarga os stops e encolhe o tamanho ao mesmo tempo: ambos os ajustes reduzem a chance de executar fundo, além do plano.\n\nO paper trading do QuantGlass executa as intenções ao próximo preço disponível em vez do preço impresso no gráfico — um modelo deliberadamente humilde que mantém o ensaio honesto.",
+    "key_terms": [
+      {
+        "term": "Bolsão de ar",
+        "definition": "Uma zona de preço sem liquidez em repouso — onde as execuções de stop pousam longe de seu nível."
+      },
+      {
+        "term": "Profundidade do livro",
+        "definition": "Tamanho em repouso em cada nível; seu tamanho contra ele determina o autoimpacto."
+      },
+      {
+        "term": "Garantia do stop",
+        "definition": "Stops garantem o disparo, nunca o preço de execução."
+      },
+      {
+        "term": "Hora de liquidez",
+        "definition": "Variação de profundidade conforme a hora do dia/semana."
+      }
+    ],
+    "exercise": {
+      "question": "Seu stop está em 95,00; notícias noturnas abrem com gap em 91,40. Onde seu stop-loss executa?",
+      "options": [
+        "Em 95,00 — stops travam seu preço.",
+        "Por volta de 91,40 — o gatilho disparou na primeira oportunidade, e a execução está onde a liquidez de fato existe.",
+        "Cancela-se de vergonha.",
+        "No ponto médio, 93,20."
+      ],
+      "explanation": "Um stop é um gatilho mais uma ordem a mercado. Quando o preço pula o nível, a ordem executa na nova realidade — a diferença de 3,6 pontos é o risco de gap tornado tangível."
+    },
+    "live_apply": {
+      "cta": "Compare o preço executado de uma operação em papel com o preço do gráfico ao enviar — essa brecha é esta lição em um único número."
+    }
+  },
+  {
+    "id": "advanced-18-liquidity-traps",
+    "title": "Armadilhas de liquidez: operações a recusar",
+    "summary": "Alguns setups são perfeitos, exceto pela parte em que você não consegue sair.",
+    "concept": "A entrada é opcional; a saída é obrigatória. Uma **armadilha de liquidez** é qualquer posição cuja saída depende de profundidade que pode não existir quando necessário: alts finas onde seu tamanho é parte significativa do volume horário, instrumentos de spread largo onde a ida e volta começa em −1%, mercados de hora morta onde os livros são esqueléticos, e janelas de eventos (grandes divulgações) onde os formadores de mercado retiram cotações justamente quando você precisaria delas.\n\nVerificações de liquidez pré-operação que vale a pena tornar mecânicas: o spread é uma fração pequena do seu movimento esperado? Seu tamanho pretendido é trivialmente pequeno frente ao volume do candle recente? Você poderia sair *no stop, durante um pânico*, sem mover o mercado contra você? Se qualquer resposta for não, o tamanho correto é menor — ou zero.\n\nA percepção assimétrica: a falta de liquidez custa pouco na entrada (você pode esperar) e tudo na saída (você não pode). Planeje as saídas para a pior hora que você pode enfrentar, não a média.",
+    "key_terms": [
+      {
+        "term": "Armadilha de liquidez",
+        "definition": "Uma posição cuja saída assume profundidade que pode desaparecer."
+      },
+      {
+        "term": "Liquidez de saída",
+        "definition": "Profundidade disponível quando você precisa sair — a única que importa."
+      },
+      {
+        "term": "Janela de evento",
+        "definition": "Períodos de notícia agendados quando as cotações afinam."
+      },
+      {
+        "term": "Tamanho-para-volume",
+        "definition": "Sua ordem como parte do volume típico negociado — mantenha-a trivial."
+      }
+    ],
+    "exercise": {
+      "question": "Um setup de alt fina parece perfeito de manual, mas sua posição pretendida equivale a 20% do volume horário médio dela. Qual é a decisão disciplinada?",
+      "options": [
+        "Pega — padrões mandam sobre encanamento.",
+        "Reduza drasticamente o tamanho ou pule: qualquer saída urgente nessa escala moveria o mercado contra você, tornando o stop uma ficção.",
+        "Dobre o tamanho por convicção.",
+        "Remova o stop para que ele não possa deslizar."
+      ],
+      "explanation": "Um stop que você não consegue executar em tamanho significativo é decoração. A liquidez é um insumo de dimensionamento como o ATR — e às vezes o tamanho certo é zero."
+    },
+    "live_apply": {
+      "cta": "Classifique sua watchlist por volume típico: quais símbolos poderiam absorver seu tamanho em papel na pior hora, e quais não?"
+    }
+  },
+  {
+    "id": "advanced-19-paper-vs-live",
+    "title": "Papel vs ao vivo: a brecha honesta",
+    "summary": "O que o ensaio ensina, o que não consegue, e como construir a ponte.",
+    "concept": "Paper trading é um ensaio, e ensaios diferem de apresentações de maneiras conhecidas. **Execuções**: o papel executa ao próximo preço disponível com custos modelados; o ao vivo enfrenta filas (ordens limitadas precisam de vendedores que cheguem até você), execuções parciais e microestrutura adversária. **Impacto**: o papel assume que o mercado te ignora — verdade para tamanhos pequenos ao vivo, falso além disso. **Psicologia**: este é o abismo. Perdas falsas não produzem medo real, e o medo, não a aritmética, é o que quebra regras.\n\nO que o papel genuinamente certifica: mecânica, disciplina de plano, hábitos de registro, e uma linha de base estatística das *suas decisões* entre regimes. O que apenas a exposição ao vivo certifica: seu comportamento quando o dinheiro é real.\n\nA ponte disciplinada, quando alguém finalmente a escolhe (nunca aconselhamento financeiro): graduar-se apenas após cumprir um critério escrito no papel — p.ex., 30+ operações com expectativa positiva *e* alta aderência ao plano — depois começar pelo menor tamanho significativo, onde a mensalidade é barata. As habilidades se transferem; a calma precisa ser reconquistada.",
+    "key_terms": [
+      {
+        "term": "Posição na fila",
+        "definition": "Ordens limitadas esperam sua vez — o papel fura a fila."
+      },
+      {
+        "term": "Execução parcial",
+        "definition": "Ordens ao vivo podem executar em pedaços ou não executar."
+      },
+      {
+        "term": "Brecha psicológica",
+        "definition": "Perdas falsas não conseguem ensaiar o medo real."
+      },
+      {
+        "term": "Critério de graduação",
+        "definition": "Um limiar escrito de registro em papel antes de qualquer mudança de tamanho."
+      }
+    ],
+    "exercise": {
+      "question": "Qual elemento da operação a prática em papel fundamentalmente NÃO certifica?",
+      "options": [
+        "Mecânica de ordens e execução do plano.",
+        "Seu comportamento emocional quando as perdas são reais — o medo não tem equivalente em papel.",
+        "Hábitos de registro.",
+        "Ler sinais e regimes."
+      ],
+      "explanation": "Tudo o que é procedimental se transfere do ensaio. A carga psicológica da perda real é a única variável que o papel não consegue simular — por isso a graduação, se houver, começa minúscula."
+    },
+    "live_apply": {
+      "cta": "Revise suas estatísticas em papel: elas passariam num critério escrito de graduação de 30+ operações, expectativa positiva e alta aderência?"
+    }
+  },
+  {
+    "id": "advanced-34-price-vs-value",
+    "title": "Preço, valor e o uso dos fundamentos pelo trader",
+    "summary": "Investidores estimam valor; traders mapeiam catalisadores.",
+    "concept": "**Fundamentos** são os fatos por baixo de um ativo: os lucros e o balanço de uma empresa, a mecânica de oferta e o uso de um token. Um *investidor* os usa para estimar valor e espera o preço concordar — uma aposta de vários anos. Um *trader* os usa de forma diferente: como um **mapa de volatilidade agendada e fluxos persistentes**.\n\nAs três perguntas do trader sobre qualquer fato fundamental: **Quando é o próximo catalisador?** (datas de resultados, eventos de desbloqueio — estes são *mudanças de regime agendadas*); **O que já está precificado?** (mercados se movem pela surpresa frente à expectativa, não pelo bom-frente-ao-ruim — um relatório 'excelente' abaixo das expectativas cai); e **Para que direção pendem os fluxos persistentes?** (recompras, emissão, emissões — pressão lenta que inclina o campo sobre o qual uma tendência cavalga).\n\nA humildade que torna isso utilizável: no curto prazo, *o preço é o único fundamento que você pode operar*. Os fundamentos explicam por que os regimes se formam e quando podem quebrar; o gráfico, os custos e a matemática de risco ainda governam cada entrada. Lutar contra uma tendência porque 'os fundamentos discordam' tem seu próprio cemitério.",
+    "key_terms": [
+      {
+        "term": "Fundamentos",
+        "definition": "A camada factual: lucros, oferta, uso, fluxos de caixa."
+      },
+      {
+        "term": "Catalisador",
+        "definition": "Um evento agendado que provavelmente reprecifica o ativo — resultados, desbloqueios."
+      },
+      {
+        "term": "Precificado",
+        "definition": "Mercados se movem pela surpresa relativa às expectativas, não pela qualidade bruta da notícia."
+      },
+      {
+        "term": "Fluxo persistente",
+        "definition": "Pressão estrutural lenta de compra/venda: recompras, emissões."
+      }
+    ],
+    "exercise": {
+      "question": "Uma empresa reporta lucros recorde, mas a ação cai 8%. A explicação consciente dos fundamentos?",
+      "options": [
+        "Lucros causam venda.",
+        "As expectativas eram ainda mais altas: o preço já havia absorvido um número maior, e a surpresa foi negativa mesmo o resultado absoluto sendo recorde.",
+        "O relatório era falso.",
+        "Ações se movem aleatoriamente com todas as notícias."
+      ],
+      "explanation": "O mercado opera a brecha entre resultado e expectativa. 'Recorde' é absoluto; o preço fora fixado por uma previsão acima dele — a lição do precificado em um único candle."
+    },
+    "live_apply": {
+      "cta": "Revise o painel de notícias ao lado dos gráficos: para cada manchete, faça as três perguntas do trader — timing do catalisador, precificado, fluxo persistente."
+    }
+  },
+  {
+    "id": "advanced-35-equity-fundamentals",
+    "title": "Fundamentos de ações: resultados como tempestades agendadas",
+    "summary": "O ciclo trimestral que todo trader de ações deve respeitar.",
+    "concept": "Ações funcionam num calendário público. A cada trimestre, **resultados**: números frente às expectativas dos analistas, mais o **guidance** — a previsão da gestão, que muitas vezes move o preço mais que os próprios resultados (mercados são máquinas voltadas ao futuro). Em torno dessas datas, a volatilidade realizada salta, gaps viram rotina e spreads alargam — lembre a lição dos gaps: gráficos de ações dão gap justamente porque a notícia chega enquanto as bolsas dormem.\n\nPara um trader técnico, a camada acionável é sobretudo **higiene de risco**: saiba a data de resultados de qualquer coisa que você carregue; reconheça que um stop não protege através de um gap (o exemplo noturno da lição de slippage era exatamente isso); e trate os dias antes dos resultados como um regime próprio — muitos traders disciplinados simplesmente zeram ou reduzem antes do evento em vez de apostar num cara-ou-coroa de caudas alargadas.\n\nMúltiplos de valuation (P/L e parentes) importam no horizonte do trader principalmente como **contexto de aglomeração**: os extremos marcam onde as reações à surpresa ficam violentas. O curso profundo de valuation pertence ao investimento; o trader precisa do calendário, da expectativa e da humildade.",
+    "key_terms": [
+      {
+        "term": "Relatório de resultados",
+        "definition": "Números trimestrais frente às expectativas — a tempestade agendada."
+      },
+      {
+        "term": "Guidance",
+        "definition": "A previsão da gestão voltada ao futuro; muitas vezes o verdadeiro motor do preço."
+      },
+      {
+        "term": "Risco de gap",
+        "definition": "Reprecificação noturna que salta stops — pico em torno dos resultados."
+      },
+      {
+        "term": "Zerar no evento",
+        "definition": "Reduzir ou fechar exposição antes de eventos binários agendados."
+      }
+    ],
+    "exercise": {
+      "question": "Por que muitos traders disciplinados reduzem ou fecham posições em ações logo antes dos resultados?",
+      "options": [
+        "As datas de resultados são secretas.",
+        "O evento é um regime binário de risco de gap onde os stops não protegem através do salto noturno — a posição vira um cara-ou-coroa de caudas alargadas, não um setup.",
+        "A operação fica fechada no dia dos resultados.",
+        "Resultados sempre causam queda."
+      ],
+      "explanation": "A margem vem de setups cujo risco você pode definir. Um gap através do seu stop é risco indefinido por construção — sair de cena é gestão de risco, não covardia."
+    },
+    "live_apply": {
+      "cta": "Para cada ação na sua watchlist, encontre a próxima data de resultados e anote-a ao lado dos seus níveis de invalidação."
+    }
+  },
+  {
+    "id": "advanced-36-crypto-fundamentals",
+    "title": "Fundamentos de cripto: tokenomics e realidade on-chain",
+    "summary": "Cronogramas de oferta, desbloqueios e uso — os fatos por baixo da moeda.",
+    "concept": "Cripto não tem resultados, mas tem fundamentos de borda mais dura: **mecânica de oferta** definida por código. As perguntas que importam: qual é o **cronograma de emissão** (quantos novos tokens chegam ao mercado por dia — fluxo vendedor persistente)? Há **penhascos de desbloqueio** (tokens de insiders/investidores liberados em datas — tempestades de oferta agendadas, o equivalente cripto dos resultados)? A oferta é limitada (os halvings do Bitcoin — *reduções* agendadas no fluxo)? E o **uso on-chain** (endereços ativos, taxas pagas, valor liquidado) sustenta a narrativa, ou o preço é pura reflexividade?\n\nO padrão sóbrio: as datas de desbloqueio são públicas, e ainda assim os preços rotineiramente deslizam em direção a elas e depois — os fundamentos aqui funcionam menos como margem secreta e mais como **evitação de perigo**: não seja o comprador para quem o desbloqueio vende.\n\nUm retorno à defesa contra golpes com dentes: tokens cujos 'fundamentos' são só emissões, marketing e oferta travada de insiders são a versão em forma de ativo do funil do guru. A mesma checklist se aplica — quem precisa do seu dinheiro, e o que eles têm que você não pode ver?",
+    "key_terms": [
+      {
+        "term": "Cronograma de emissão",
+        "definition": "Nova oferta por período definida por código — fluxo vendedor estrutural."
+      },
+      {
+        "term": "Penhasco de desbloqueio",
+        "definition": "Liberação datada de tokens de insiders/investidores — choque de oferta agendado."
+      },
+      {
+        "term": "Halving",
+        "definition": "O corte periódico de emissão do Bitcoin — uma redução de fluxo agendada."
+      },
+      {
+        "term": "Uso on-chain",
+        "definition": "Endereços, taxas, liquidação — a verificação de realidade do lado da demanda."
+      }
+    ],
+    "exercise": {
+      "question": "Um token tem 80% da oferta travada com insiders, desbloqueando mensalmente ao longo de dois anos. Qual é a leitura estrutural?",
+      "options": [
+        "Escassez — só 20% existe, então o preço deve subir.",
+        "Um excedente de oferta agendado de dois anos: a cada mês adiciona tokens de insiders que lhes custaram ~nada, criando pressão vendedora persistente que suas compras absorveriam.",
+        "Travas são altistas por definição.",
+        "Cronogramas de desbloqueio nunca afetam o preço."
+      ],
+      "explanation": "O float é pequeno hoje, mas o cronograma é o fundamento: oferta de base barata chegando mensalmente é o vento contrário com que todo long luta. Pública, datada e rotineiramente subestimada."
+    },
+    "live_apply": {
+      "cta": "Escolha um símbolo de cripto e faça as quatro perguntas de oferta — emissão, desbloqueios, limite, uso — antes de ler o gráfico dele."
+    }
+  },
+  {
+    "id": "advanced-37-fundamentals-scope",
+    "title": "Catalisadores encontram os gráficos: a linha de escopo",
+    "summary": "Fundamentos enquadram o regime; técnicos cronometram a operação; o motor permanece técnico.",
+    "concept": "A síntese. Fundamentos e técnicos respondem perguntas diferentes em relógios diferentes: os fundamentos explicam **por que** um regime existe e **quando** pode quebrar (catalisadores); os técnicos — estrutura, regimes, volume, volatilidade — dizem **se e onde** existe um setup operável agora. O padrão profissional não é escolher um lado, mas atribuir papéis: *fundamentos como contexto e calendário, técnicos como gatilho e geometria de risco*.\n\nOnde está o QuantGlass? O motor é **deliberadamente só técnico**: cada sinal deriva de candles fechados — preço, volume e sua matemática. Ele não analisa resultados, não prevê guidance, nem pondera tokenomics e, portanto — pela regra de honestidade de escopo que você já viu três vezes — nunca o afirma. O painel de notícias ao lado dos gráficos é o *seu* insumo fundamental, mantido separado dos fatos calculados do motor justamente para que você sempre saiba que tipo de afirmação está lendo.\n\nSeu fluxo de trabalho, montado: calendário primeiro (que tempestades estão agendadas?), regime segundo (que jogo está em curso?), setup terceiro (o motor vê estrutura?), risco sempre (dimensione pelo stop, respeite os eventos). Essa ordem é a trilha inteira em uma frase.",
+    "key_terms": [
+      {
+        "term": "Contexto vs gatilho",
+        "definition": "Fundamentos enquadram; técnicos cronometram."
+      },
+      {
+        "term": "Motor só técnico",
+        "definition": "Sinais do QuantGlass derivam apenas de candles — escopo declarado."
+      },
+      {
+        "term": "Separação de afirmações",
+        "definition": "Fatos calculados e contexto de notícias mantidos visivelmente distintos."
+      },
+      {
+        "term": "Fluxo calendário-primeiro",
+        "definition": "Catalisadores agendados verificados antes de tomar qualquer setup."
+      }
+    ],
+    "exercise": {
+      "question": "O motor mostra um setup de pullback de manual numa ação que reporta resultados amanhã. O que diz o fluxo de trabalho da trilha?",
+      "options": [
+        "Pega — setups mandam sobre calendários.",
+        "Calendário primeiro: o regime binário de gap de amanhã mina a proteção do stop, então pule ou adie — a geometria do setup assume um mercado do qual se pode sair.",
+        "Dobre o tamanho para monetizar o evento.",
+        "Setups são inválidos em meses de resultados."
+      ],
+      "explanation": "Cada número de risco da Academia pressupõe saídas executáveis. Um evento de gap agendado suspende essa premissa — a leitura disciplinada é que o risco da operação é indefinido, diga o gráfico o que disser."
+    },
+    "live_apply": {
+      "cta": "Para cada sinal atual, rode calendário-primeiro: há algum catalisador agendado dentro do período de retenção esperado da operação?"
+    }
+  },
+  {
+    "id": "advanced-24-margin-basics",
+    "title": "Margem: operar com um empréstimo",
+    "summary": "O poder de compra emprestado é um empréstimo real com termos reais.",
+    "concept": "**Margem** é um empréstimo do seu corretor, colateralizado pela sua conta. Deposite 10.000 com margem 2:1 e você pode carregar 20.000 de posições — mas os 10.000 emprestados acumulam **juros**, e a reivindicação do corretor sobre eles supera a sua. Sua participação real é o **patrimônio (equity)**: valor da posição menos o empréstimo.\n\nOs termos do empréstimo mordem pela **exigência de manutenção**: o patrimônio deve permanecer acima de uma fração fixa do valor da posição. Como o empréstimo é fixo enquanto a posição oscila, *as perdas saem inteiramente do seu patrimônio* — uma queda de 10% da posição em 2:1 é uma queda de 20% do patrimônio. A margem não mudou o mercado; mudou quanto do movimento do mercado recai sobre você.\n\nNada nessa mecânica está oculto — é aritmética — e ainda assim a margem segue como a principal conversora de erros sobreviventes em erros que encerram a conta, porque cada número de risco que você aprendeu (risco de 1%, tetos de calor, matemática de drawdown) assumia silenciosamente patrimônio *sem alavancagem*. Na margem, recalcule tudo contra o patrimônio, não o tamanho da posição.",
+    "key_terms": [
+      {
+        "term": "Empréstimo de margem",
+        "definition": "Crédito do corretor colateralizado pela sua conta, com juros."
+      },
+      {
+        "term": "Patrimônio",
+        "definition": "Valor da posição menos o empréstimo — sua participação real."
+      },
+      {
+        "term": "Exigência de manutenção",
+        "definition": "A fração mínima de patrimônio antes da ação forçada."
+      },
+      {
+        "term": "PnL amplificado",
+        "definition": "Movimentos da posição recaem sobre a base de patrimônio menor."
+      }
+    ],
+    "exercise": {
+      "question": "Você carrega uma posição de 20.000 sobre 10.000 de patrimônio (2:1). A posição cai 10%. O que aconteceu com seu patrimônio?",
+      "options": [
+        "Caiu 10% — as perdas igualam o movimento da posição.",
+        "Caiu 20% — a perda de 2.000 recai inteiramente sobre seus 10.000 de patrimônio, porque o empréstimo não absorve perdas.",
+        "Caiu 5% — o corretor divide a perda.",
+        "Inalterado até você vender."
+      ],
+      "explanation": "O credor é ressarcido primeiro. A alavancagem L multiplica cada movimento da posição por L sobre seu patrimônio: a equação central da margem."
+    },
+    "live_apply": {
+      "cta": "Releia o drawdown máximo de um preset e dobre-o mentalmente — esse é o drawdown de patrimônio da mesma estratégia em 2:1."
+    }
+  },
+  {
+    "id": "advanced-25-leverage-arithmetic",
+    "title": "Aritmética da alavancagem e distância de liquidação",
+    "summary": "O movimento que te zera é 100% dividido pela sua alavancagem.",
+    "concept": "A alavancagem tem uma equação mestra: em **L×**, um movimento de preço de **100%/L contra você apaga seu patrimônio por completo**. 2× → movimento adverso de 50% até zero. 5× → 20%. 10× → 10%. 100× (oferecido abertamente por algumas exchanges de cripto) → um tremor de 1% — *ruído horário comum* — é perda total.\n\nNa prática você é liquidado **antes** do zero: a exchange te fecha quando o patrimônio atinge o nível de manutenção, então a distância real é ainda menor, menos taxas. Compare essa distância com o ATR que você estudou: se o ATR diário de um ativo é 3% e sua liquidação está a 2%, a expectativa de vida da sua posição é medida em ruído, não em tese.\n\nÉ por isso que 'mais alavancagem = mais lucro' é uma leitura errada de iniciante. A alavancagem não adiciona margem; ela **redimensiona o tabuleiro** até a volatilidade normal se tornar letal. Os profissionais que usam alavancagem usam múltiplos *pequenos* em estruturas de *baixa volatilidade* — nunca múltiplos máximos em majors de cripto.",
+    "key_terms": [
+      {
+        "term": "Distância de liquidação",
+        "definition": "Movimento adverso de ≈100%/L (menos manutenção e taxas) até o fechamento forçado."
+      },
+      {
+        "term": "Letalidade do ruído",
+        "definition": "Distância de liquidação menor que movimentos rotineiros de ATR."
+      },
+      {
+        "term": "Risco redimensionado",
+        "definition": "A alavancagem encolhe o movimento sobrevivível; nunca adiciona margem."
+      },
+      {
+        "term": "Colchão de manutenção",
+        "definition": "A liquidação dispara antes de o patrimônio chegar a zero."
+      }
+    ],
+    "exercise": {
+      "question": "Em alavancagem 5x (ignorando taxas e colchão de manutenção), que percentual de movimento adverso de preço apaga 100% do seu patrimônio?",
+      "hint": "apagamento% = 100 ÷ alavancagem",
+      "explanation": "100 ÷ 5 = **20%**. Cada movimento da posição é ×5 sobre o patrimônio, então um movimento adverso de 20% é −100%. A liquidação real dispara ainda antes, no nível de manutenção."
+    },
+    "common_mistakes": [
+      "Ler alavancagem 10x como lucro 10x. É 10x de exposição: um movimento adverso de 10% é a conta inteira.",
+      "Esquecer os custos de funding e empréstimo. Posições alavancadas sangram carry diariamente, mesmo quando o preço não vai a lugar nenhum."
+    ],
+    "live_apply": {
+      "cta": "Verifique o ATR de um símbolo de cripto como percentual do preço, depois calcule qual alavancagem colocaria a liquidação dentro do range de um dia comum."
+    }
+  },
+  {
+    "id": "advanced-26-liquidation",
+    "title": "Chamadas de margem e cascatas de liquidação",
+    "summary": "Saídas forçadas acontecem nos piores preços, por design.",
+    "concept": "Quando o patrimônio rompe a manutenção, duas coisas podem acontecer. Uma **chamada de margem** pede que você adicione fundos ou reduza posições — sob pressão de tempo, num momento de perda, o que a trilha de psicologia reconhecerá como as piores condições possíveis de decisão. Ou, na maioria das exchanges de cripto, nenhuma chamada: o motor **liquida automaticamente**, vendendo a mercado sua posição contra qualquer liquidez que exista.\n\nA venda forçada tem uma consequência de microestrutura: as liquidações se aglomeram em níveis de preço similares (as pessoas alavancam em pontos similares), então uma onda de vendas forçadas empurra o preço para a *próxima* onda — uma **cascata de liquidação**. Elas produzem os pavios violentos que caçam cada stop e nível de liquidação no caminho, e depois muitas vezes recuam. Se você já viu um pavio de 10% em cripto num dia calmo: aquilo foi alavancagem, não notícia.\n\nDuas defesas se a margem for usada algum dia: **margem isolada** (o empréstimo de cada posição é cercado, então uma liquidação não pode consumir a conta inteira — frente à margem cruzada, onde pode), e colchões pré-financiados para que um pavio rotineiro não alcance a linha. A melhor defesa segue sendo a alternativa sem alavancagem: um stop que *você* escolhe supera uma saída que a exchange escolhe.",
+    "key_terms": [
+      {
+        "term": "Chamada de margem",
+        "definition": "Uma exigência de adicionar fundos ou cortar posições dentro de um prazo."
+      },
+      {
+        "term": "Autoliquidação",
+        "definition": "A exchange te fechando à força a mercado — sem negociação."
+      },
+      {
+        "term": "Cascata de liquidação",
+        "definition": "Vendas forçadas disparando mais vendas forçadas em cadeia."
+      },
+      {
+        "term": "Isolada vs cruzada",
+        "definition": "Empréstimos cercados por posição frente à conta inteira como colateral."
+      }
+    ],
+    "exercise": {
+      "question": "Por que cascatas de liquidação criam pavios longos que depois recuam parcialmente?",
+      "options": [
+        "Exchanges desenham pavios de decoração.",
+        "As vendas forçadas a mercado aglomeradas esgotam a liquidez de cada nível e disparam o próximo grupo; quando o fluxo forçado termina, a pressão artificial desaparece e o preço recupera.",
+        "Notícias sempre se revertem.",
+        "Pavios são erros de dados."
+      ],
+      "explanation": "A venda é mecânica, insensível ao preço e finita. Quando o combustível da cascata (posições alavancadas) queima, o desconto que criou atrai compradores reais — a assinatura pavio-e-recuperação."
+    },
+    "common_mistakes": [
+      "Tratar o preço de liquidação como um stop. A liquidação toma a posição no pior preço mais penalidade; um stop é sua escolha no seu nível.",
+      "Adicionar margem para defender uma posição alavancada perdedora — convertendo uma perda limitada em ilimitada."
+    ],
+    "live_apply": {
+      "cta": "Encontre um pavio inferior violento num gráfico de cripto e verifique o pico de volume abaixo dele — a pegada da cascata."
+    }
+  },
+  {
+    "id": "advanced-27-short-selling",
+    "title": "Mecânica da venda a descoberto",
+    "summary": "Vender primeiro, comprar depois — com ações emprestadas e risco ilimitado.",
+    "concept": "Uma **venda a descoberto** inverte a operação: tome o ativo emprestado, venda agora, recompre ('cobrir') depois, devolva, fique com a diferença. Lucro quando o preço cai. A mecânica adiciona custos e riscos que os longs nunca encontram: **taxas de empréstimo** (nomes difíceis de tomar cobram taxas anuais de dois dígitos), **dividendos/funding** devidos enquanto vendido, a possibilidade de um **recall** (o emprestador quer as ações de volta na pior hora), e a assimetria que você viu na lição de short por rejeição — as perdas são teoricamente **ilimitadas** porque o preço não tem teto.\n\nEssa assimetria cria um predador: o **short squeeze**. Quando um ativo muito vendido a descoberto sobe, os vendidos precisam *comprar* para limitar suas perdas — e a compra deles alimenta a alta que espreme o próximo vendido. Vendidos aglomerados são combustível de foguete pré-carregado, por isso o juro a descoberto é em si uma métrica de risco.\n\nNote o enquadramento do QuantGlass: os sinais de SELL/rejeição do motor descrevem *estrutura* baixista; a conta em papel simula a posição de forma simétrica. As realidades de taxa de empréstimo, recall e squeeze vivem uma camada abaixo — e devem ser precificadas antes de contemplar qualquer short do mundo real.",
+    "key_terms": [
+      {
+        "term": "Taxa de empréstimo",
+        "definition": "O custo de aluguel das ações vendidas — punitivo em nomes aglomerados."
+      },
+      {
+        "term": "Cobrir",
+        "definition": "Recomprar para fechar um short."
+      },
+      {
+        "term": "Short squeeze",
+        "definition": "Preços em alta forçando os vendidos a comprar, alimentando mais alta."
+      },
+      {
+        "term": "Risco de recall",
+        "definition": "O emprestador exigindo as ações de volta, forçando uma cobertura inoportuna."
+      }
+    ],
+    "exercise": {
+      "question": "Por que um juro a descoberto elevado torna um ativo MAIS propenso a movimentos violentos de alta?",
+      "options": [
+        "Vendidos limitam legalmente quão alto os preços podem ir.",
+        "Cada vendido é um comprador futuro garantido sob coação: as altas forçam a cobertura, e cobrir é comprar, o que estende a alta até a dor do próximo vendido.",
+        "Vendedores a descoberto espalham otimismo.",
+        "Não torna — vendidos só afetam a baixa."
+      ],
+      "explanation": "Vendidos aglomerados são demanda latente com um gatilho de estresse. O squeeze é reflexivo: o movimento que machuca os vendidos é amplificado por suas próprias saídas forçadas."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal em estado SELL e anote seu stop acima da estrutura de rejeição — num short real, esse stop é também seguro contra squeeze."
+    }
+  },
+  {
+    "id": "advanced-28-leverage-discipline",
+    "title": "Disciplina de alavancagem (e o argumento por nenhuma)",
+    "summary": "Se algum dia usada: pequena, isolada, dimensionada por risco — e nunca para 'recuperar'.",
+    "concept": "Após quatro lições de mecânica, a síntese. A alavancagem é uma ferramenta com exatamente um uso honesto: **eficiência de capital numa estratégia que já funciona sem alavancagem** — e mesmo assim em múltiplos pequenos, com margem isolada e distâncias de liquidação a vários ATRs. Todo outro uso é um dos padrões de fracasso: alavancar para tornar uma conta pequena 'significativa' (redimensionar ruído em letalidade), alavancar para recuperar um drawdown (a espiral de tilt com um multiplicador), ou alavancar porque o controle da exchange vai a 100× (vai até lá porque liquidações são receita).\n\nA checklist de disciplina se a margem for tocada algum dia: o risco da posição ainda é calculado pela **distância do stop contra o patrimônio** (a fórmula de dimensionamento sobrevive; só a matemática do colateral muda); distância de liquidação ≥ 3–4× o ATR do ativo; só margem isolada; teto na exposição total emprestada; e uma regra permanente de que **nenhuma decisão de alavancagem é tomada dentro de um drawdown**.\n\nE o fato de design deliberado para encerrar a trilha: o motor e a conta em papel do QuantGlass são **só spot, sem alavancagem, por construção**. Cada estatística que esta Academia ensinou — expectativa, drawdown, faixas conformes — foi medida no jogo sem alavancagem. Domine esse jogo primeiro. A maioria nunca precisa do outro.",
+    "key_terms": [
+      {
+        "term": "Eficiência de capital",
+        "definition": "O único propósito honesto da alavancagem — nunca margem adicionada."
+      },
+      {
+        "term": "Regra de drawdown",
+        "definition": "Nenhuma decisão de alavancagem tomada enquanto se perde."
+      },
+      {
+        "term": "Colchão de ATR",
+        "definition": "Distância de liquidação mantida em múltiplos da volatilidade normal."
+      },
+      {
+        "term": "Design só spot",
+        "definition": "A construção deliberadamente sem alavancagem do QuantGlass."
+      }
+    ],
+    "exercise": {
+      "question": "Qual motivação para adicionar alavancagem é o preditor mais confiável de ruína?",
+      "options": [
+        "Eficiência de capital numa estratégia comprovada de baixa volatilidade.",
+        "Recuperar um drawdown mais rápido — combina a espiral de tilt com um multiplicador de perda no exato momento em que o julgamento é pior.",
+        "Uma exchange que oferece margem isolada.",
+        "Curiosidade numa conta em papel."
+      ],
+      "explanation": "A operação de vingança que você viu na trilha de psicologia; a alavancagem lhe entrega uma arma maior no meio do tilt. O motivo de recuperação falha tanto na matemática quanto na mente."
+    },
+    "live_apply": {
+      "cta": "Confirme a construção da sua conta em papel: spot, sem alavancagem, risco definido por stop — a linha de base que toda estatística da Academia assume."
+    }
+  },
+  {
+    "id": "advanced-29-options-basics",
+    "title": "Calls e puts: direitos, não obrigações",
+    "summary": "A anatomia do contrato: strike, vencimento, prêmio.",
+    "concept": "Uma **opção** é um contrato que confere um *direito sem obrigação*. Uma **call** é o direito de **comprar** um ativo a um **preço de exercício (strike)** fixo até o **vencimento**; uma **put** é o direito de **vender** ao strike. Por esse direito, o comprador paga um **prêmio (premium)** — pago uma vez, retido pelo vendedor aconteça o que acontecer.\n\nExemplo: uma call sobre a ação XYZ, strike 100, a um mês, prêmio 3. Se XYZ subir a 112, o direito de comprar a 100 vale 12 — menos os 3 pagos, um lucro de 9 sobre 3 arriscados. Se XYZ nunca exceder 100, a opção vira pó no vencimento: a perda é o prêmio, todo o prêmio, e nada além do prêmio.\n\nEssa é a novidade estrutural frente a tudo nesta Academia até aqui: o **payoff é assimétrico por contrato**, não por disciplina de stop. Um trader de spot constrói assimetria com stops e escadas; um comprador de opção a compra diretamente — e o prêmio é o preço dessa compra, toda vez.",
+    "key_terms": [
+      {
+        "term": "Call",
+        "definition": "O direito de comprar ao strike até o vencimento."
+      },
+      {
+        "term": "Put",
+        "definition": "O direito de vender ao strike até o vencimento."
+      },
+      {
+        "term": "Strike",
+        "definition": "O preço fixo de transação do contrato."
+      },
+      {
+        "term": "Prêmio (premium)",
+        "definition": "O preço não reembolsável do direito."
+      },
+      {
+        "term": "Vencimento",
+        "definition": "Quando o direito deixa de existir."
+      }
+    ],
+    "exercise": {
+      "question": "Você compra uma call de strike 100 por um prêmio de 3. A ação termina o vencimento em 97. Qual é seu resultado?",
+      "options": [
+        "Uma perda de 3 — o prêmio, sua perda máxima possível nesta operação.",
+        "Uma perda de 6 — prêmio mais a diferença até o strike.",
+        "Você é forçado a comprar a ação a 100.",
+        "Empate."
+      ],
+      "explanation": "Abaixo do strike o direito de comprar a 100 não vale nada, então vira pó sem exercício. Direitos, ao contrário de obrigações, limitam a perda exatamente ao prêmio pago."
+    },
+    "live_apply": {
+      "cta": "Compare com a versão spot: um long definido por stop arrisca 1R por disciplina; o 1R do comprador de call é o prêmio, limitado por contrato."
+    }
+  },
+  {
+    "id": "advanced-30-intrinsic-time-value",
+    "title": "Valor intrínseco, valor temporal e decaimento",
+    "summary": "Do que um prêmio é feito — e como ele evapora.",
+    "concept": "Todo prêmio de opção se divide em duas partes. O **valor intrínseco** é o que exercer agora valeria: uma call de strike 100 com a ação em 108 tem 8 de intrínseco (está **dentro do dinheiro**); com a ação em 95 tem zero (fora do dinheiro — o intrínseco nunca é negativo). O **valor temporal** é todo o resto: o preço de mercado da *possibilidade*, do tempo restante para a ação se mover.\n\nO valor temporal obedece a uma regra cruel: decai a exatamente **zero no vencimento** — no vencimento uma opção vale seu valor intrínseco e nem um centavo a mais. Pior, o decaimento (**theta**) acelera com a aproximação do vencimento: as últimas semanas queimam muito mais rápido que as primeiras.\n\nA consequência que todo comprador de opção deve internalizar: **você pode acertar a direção e ainda perder**. Uma ação que sobe devagar demais pode não ultrapassar o decaimento; a opção sangra enquanto a tese funciona. Comprar opções é alugar tempo, e o aluguel sobe à medida que o contrato se esgota.",
+    "key_terms": [
+      {
+        "term": "Valor intrínseco",
+        "definition": "Valor de exercício imediato — máx(0, distância dentro do dinheiro)."
+      },
+      {
+        "term": "Valor temporal",
+        "definition": "Prêmio menos intrínseco: a possibilidade de movimento precificada."
+      },
+      {
+        "term": "Moneyness",
+        "definition": "Dentro/no/fora do dinheiro — onde o preço fica frente ao strike."
+      },
+      {
+        "term": "Decaimento theta",
+        "definition": "A erosão acelerante do valor temporal rumo a zero no vencimento."
+      }
+    ],
+    "exercise": {
+      "question": "Uma call de strike 100 é negociada a 5,50 com a ação em 103. Como o prêmio se decompõe?",
+      "options": [
+        "5,50 intrínseco, 0 valor temporal.",
+        "3 intrínseco (103 − 100), 2,50 valor temporal — o resto é possibilidade precificada.",
+        "0 intrínseco, 5,50 valor temporal.",
+        "Prêmios não se decompõem."
+      ],
+      "explanation": "Intrínseco = máx(0, 103 − 100) = 3. Os 2,50 restantes são valor temporal — a parte garantida a chegar a zero no vencimento, rápido ou devagar."
+    },
+    "live_apply": {
+      "cta": "Olhe o ATR de um símbolo: o valor temporal é, grosso modo, o mercado cobrando por aquela volatilidade ao longo da vida restante da opção."
+    }
+  },
+  {
+    "id": "advanced-31-greeks-intuition",
+    "title": "Os gregos, intuitivamente",
+    "summary": "Delta, theta, vega — os três botões que movem um prêmio.",
+    "concept": "Preços de opção respondem a mais que a direção, e os **gregos (Greeks)** nomeiam as sensibilidades. **Delta**: quanto o prêmio se move por movimento de 1 ponto no ativo — calls bem dentro do dinheiro se aproximam de +1 (comportam-se como a ação), as bem fora do dinheiro se aproximam de 0 (bilhetes de loteria). **Theta**: o sangramento diário de valor temporal que você viu na lição passada. **Vega**: sensibilidade à **volatilidade implícita** — a expectativa precificada do mercado de movimento futuro.\n\nVega é a armadilha famosa. A volatilidade implícita *infla antes de eventos conhecidos* (resultados, grandes anúncios) e colapsa depois — o **volatility crush**. Um trader que compra calls antes dos resultados, vê a ação dar gap de alta e ainda assim perde dinheiro acabou de conhecer o vega: o movimento aconteceu, mas a *possibilidade* precificada esvaziou mais rápido do que a direção pagou.\n\nO resumo disciplinado: uma posição de opção é simultaneamente uma aposta na direção (delta), no timing (theta) e nas expectativas de volatilidade (vega). O spot pede que você acerte uma vez; as opções pedem que você acerte de três formas ao mesmo tempo.",
+    "key_terms": [
+      {
+        "term": "Delta",
+        "definition": "Sensibilidade do prêmio ao movimento de preço do subjacente."
+      },
+      {
+        "term": "Theta",
+        "definition": "Decaimento diário do valor temporal — o aluguel."
+      },
+      {
+        "term": "Vega",
+        "definition": "Sensibilidade do prêmio a mudanças na volatilidade implícita."
+      },
+      {
+        "term": "Volatility crush",
+        "definition": "A VI colapsando após um evento, esvaziando prêmios apesar do movimento."
+      }
+    ],
+    "exercise": {
+      "question": "Uma ação dá gap de alta de 4% nos resultados, mas as calls compradas ontem ABREM EM BAIXA. O que aconteceu?",
+      "options": [
+        "A exchange precificou mal a abertura.",
+        "Volatility crush: a incerteza do evento estava precificada no prêmio, e o colapso da volatilidade implícita (vega) superou o movimento favorável (delta).",
+        "Resultados sempre reduzem preços de opção.",
+        "Theta só age nos fins de semana."
+      ],
+      "explanation": "O prêmio continha a *possibilidade* de um grande movimento. Uma vez resolvido o evento, essa possibilidade esvaziou — acertar a direção perdeu para errar a volatilidade."
+    },
+    "live_apply": {
+      "cta": "Lembre das lições de regime: a volatilidade implícita é a prima voltada ao futuro do mercado de opções dos regimes baseados em ATR que você já leu."
+    }
+  },
+  {
+    "id": "advanced-32-buyer-seller-asymmetry",
+    "title": "Compradores e vendedores: universos de risco opostos",
+    "summary": "Risco definido de um lado; obrigação do outro.",
+    "concept": "Toda opção tem duas partes vivendo em universos de risco opostos. O **comprador** paga prêmio por um direito: perda máxima = prêmio, definida na entrada, ponto. O **vendedor (lançador, writer)** recebe prêmio e assume uma **obrigação**: entregar (calls) ou comprar (puts) ao strike se exercido. Um vendedor 'coberto' tem ativos compensatórios; um vendedor **descoberto (naked)** não tem nada além de esperança.\n\nO negócio do vendedor é estatisticamente sedutor e estruturalmente perigoso: a maioria das opções vira pó, então os vendedores ganham *com frequência* — prêmios pequenos, alta taxa de acerto. Você viu esse perfil exato na trilha de estatística: **alta taxa de acerto, assimetria negativa** — muitos ganhos pequenos financiados por raras perdas catastróficas. O pior caso de um vendedor de call descoberta é ilimitado (o preço não tem teto); fundos inteiros evaporaram num único squeeze.\n\nO veredito da Academia é consciente da simetria: comprar opções é *risco definido, mas pagando aluguel*; vendê-las é *recebendo renda, mas exposto à cauda*. Nenhum é dinheiro grátis. Ambos exigem a mesma aritmética de expectativa de tudo o mais — com o risco de cauda do vendedor precificado honestamente, que é exatamente o que sua taxa de acerto esconde.",
+    "key_terms": [
+      {
+        "term": "Lançador (writer)",
+        "definition": "O vendedor da opção — recebedor de prêmio, portador da obrigação."
+      },
+      {
+        "term": "Exercício",
+        "definition": "A obrigação disparando: o comprador exerce contra o vendedor."
+      },
+      {
+        "term": "Coberto vs descoberto",
+        "definition": "Obrigação lastreada por ativos frente a lastreada por nada."
+      },
+      {
+        "term": "Assimetria negativa",
+        "definition": "Ganhos pequenos frequentes, perdas enormes raras — o perfil do vendedor."
+      }
+    ],
+    "exercise": {
+      "question": "Vender calls descobertas ganha 90% das vezes num backtest. Pela trilha de estatística, qual é a primeira pergunta antes de acreditar nesta estratégia?",
+      "options": [
+        "Como escalá-la ao tamanho máximo imediatamente.",
+        "Quanto custam os 10% perdedores? Altas taxas de acerto com perdas de cauda ilimitadas são a clássica armadilha de assimetria negativa — a expectativa pode ser profundamente negativa.",
+        "Se 90% pode chegar a 95%.",
+        "Qual corretora tem as menores taxas."
+      ],
+      "explanation": "Taxa de acerto sem distribuição de payoff é a métrica de vaidade da qual a lição do conjunto de métricas alertou. Caudas ilimitadas transformam '90% de vencedores' numa contagem regressiva."
+    },
+    "live_apply": {
+      "cta": "Releia o exemplo da lição de métricas da estratégia perdedora com 84% de acerto — vender opções é sua encarnação mais pura no mundo real."
+    }
+  },
+  {
+    "id": "advanced-33-options-as-insurance",
+    "title": "Opções como seguro — e a linha de escopo",
+    "summary": "O caso de uso legítimo, e por que o motor permanece spot.",
+    "concept": "Tire a especulação e uma opção é **seguro**. Uma put sobre uma posição é um piso de preço: você paga um prêmio, e abaixo do strike suas perdas param — exatamente uma estrutura de franquia-e-apólice. Calls podem segurar contra perder a alta enquanto o capital espera em outro lugar. Precificadas de forma justa, opções *transferem risco*; esse é seu trabalho econômico honesto.\n\nPor que, então, o QuantGlass permanece **só spot**? Três razões consistentes com a Academia. **Alavancagem embutida**: payoffs de opção são inerentemente alavancados, e a trilha anterior mostrou o que a alavancagem faz com a matemática de sobrevivência. **Dimensionalidade**: cada estatística que este motor reporta — expectativa em R, faixas conformes, stops de ATR — assume uma posição cujo valor segue uma variável (preço); opções adicionam tempo e volatilidade como eixos de risco vivos, invalidando essas ferramentas sem uma reconstrução completa. **Honestidade**: um motor que não consegue modelar theta e vega corretamente não deveria narrar operações de opção — e este se recusa a fingir.\n\nEntão a linha de escopo: entenda opções (você agora entende, em nível de fundamento), use o domínio do spot como pré-requisito, e trate qualquer educação futura em derivativos como esta Academia trata a operação ao vivo — como algo a ser *desbloqueado por prontidão demonstrada*, nunca em que se tropeça.",
+    "key_terms": [
+      {
+        "term": "Put protetora",
+        "definition": "Uma put mantida contra uma posição — um piso de preço pago."
+      },
+      {
+        "term": "Transferência de risco",
+        "definition": "A função honesta das opções: mover o risco a um vendedor disposto por um preço."
+      },
+      {
+        "term": "Alavancagem embutida",
+        "definition": "Payoffs de opção são alavancados por construção."
+      },
+      {
+        "term": "Honestidade de escopo",
+        "definition": "O motor se recusa a narrar o que não consegue modelar."
+      }
+    ],
+    "exercise": {
+      "question": "Por que o QuantGlass exclui deliberadamente as opções do seu motor e conta em papel?",
+      "options": [
+        "Opções são ilegais na maioria dos países.",
+        "Valores de opção se movem com tempo e volatilidade além do preço — as estatísticas em R do motor e a geometria de ATR estariam silenciosamente erradas, e a regra de design é nunca exibir um número que não consiga defender.",
+        "Opções nunca servem a nenhum investidor.",
+        "Taxas de licença para dados de opção."
+      ],
+      "explanation": "Mesmo princípio da narração protegida por fatos: o escopo é uma característica de honestidade. Ferramentas devem recusar o território onde seus números deixam de ser verdadeiros."
+    },
+    "live_apply": {
+      "cta": "Leia a base de confiança de qualquer sinal e note que cada estatística assume spot — a linha de escopo que esta trilha acabou de explicar."
+    }
+  },
+  {
+    "id": "advanced-04-backtest-reading",
+    "title": "Ler um backtest — IS vs OOS",
+    "summary": "Interprete as métricas dentro e fora da amostra para julgar a qualidade do setup.",
+    "concept": "O QuantGlass divide os candles históricos 70/30 por tempo:\n\n- **Dentro da amostra (IS, 70%)**: a janela de treino. O motor pode 'ver' esse período ao produzir o sinal atual. As métricas IS dizem como o setup se desempenhou na história.\n- **Fora da amostra (OOS, 30%)**: uma janela reservada na qual o motor não treinou. As métricas OOS aproximam o desempenho futuro de forma mais honesta que as IS.\n\n**Métricas-chave para ler:**\n| Métrica | O que significa |\n|---|---|\n| Win Rate | % de operações que retornaram > 0R |\n| Expectancy | R médio por operação |\n| Profit Factor | Lucro bruto ÷ Perda bruta |\n| Max Drawdown | Pior perda de pico a vale |\n| Sharpe / Sortino | Retorno ajustado ao risco |\n| OOS Validated | True quando OOS tem ≥ min_sample operações E expectativa OOS positiva |\n\nUm sinal com métricas IS altas mas OOS_Validated = False deve ser tratado com cautela.",
+    "key_terms": [
+      {
+        "term": "Dentro da amostra (IS)",
+        "definition": "Janela histórica em que o modelo treinou — 70% por tempo."
+      },
+      {
+        "term": "Fora da amostra (OOS)",
+        "definition": "Janela reservada — 30% da história, simula o desempenho futuro."
+      },
+      {
+        "term": "Profit Factor",
+        "definition": "Ganhos brutos ÷ perdas brutas. > 1,3 é geralmente positivo."
+      },
+      {
+        "term": "Max Drawdown",
+        "definition": "A pior queda do pico de patrimônio no backtest — mostra a dor do pior caso."
+      },
+      {
+        "term": "OOS Validated",
+        "definition": "True quando OOS tem operações suficientes (≥ min_sample) com expectativa positiva."
+      }
+    ],
+    "exercise": {
+      "question": "Um backtest mostra win rate IS 65%, win rate OOS 41%, expectativa OOS −0,12R. Esse setup é confiável?",
+      "options": [
+        "Sim — um win rate IS de 65% é forte.",
+        "Não — a brecha IS/OOS sugere overfitting; a expectativa OOS é negativa.",
+        "Talvez — espere mais operações no período OOS.",
+        "Sim — expectativa OOS negativa é normal para reversão à média."
+      ],
+      "explanation": "Uma grande brecha IS/OOS (65% vs 41%) e expectativa OOS negativa (−0,12R) sugerem fortemente que o setup está **sobreajustado** ao período IS — captou ruído, não sinal. O QuantGlass define `out_of_sample_validated = False` e limita a confiança a 62 neste caso."
+    },
+    "live_apply": {
+      "cta": "Abra o Backtesting, selecione qualquer preset e compare o Win Rate IS com o Win Rate OOS. Encontre um onde OOS esteja perto de IS."
+    }
+  },
+  {
+    "id": "advanced-05-confidence-basis",
+    "title": "A base de confiança — o que move a pontuação",
+    "summary": "Faça engenharia reversa das pontuações de confiança lendo cada subcomponente.",
+    "concept": "O número de `confidence` (0–100) deriva destes subscores ponderados:\n\n| Componente | Peso | Fonte |\n|---|---|---|\n| base | Fixo (42–58) | Tipo de sinal (WAIT=42, HOLD/WATCH=52, BUY/SELL=58) |\n| trend_alignment | × 14 | |brecha EMA-SMA| / close |\n| volume_confirmation | × 8 | volume_ratio / 1.75 |\n| confluence_score − 0.5 | × 18 | Pontuação multifator da família do sinal |\n| calibrated_win_rate − 0.5 | × 32 | Win rate com encolhimento bayesiano da expectativa agrupada |\n| expectancy | × 10 | Expectativa R agrupada (limitada ±1) |\n| penalidade de amostra fina | −8 | Aplicada quando pooled_sample < min_sample |\n| teto OOS | máx 62 | Aplicado quando out_of_sample_validated = False |\n\nA confiança final é limitada a [20, 89] — o motor nunca afirma certeza.",
+    "key_terms": [
+      {
+        "term": "Calibrated Win Rate",
+        "definition": "Encolhimento bayesiano: win rate bruto → 0,5 proporcional à finura da amostra."
+      },
+      {
+        "term": "Pooled Expectancy",
+        "definition": "Expectativa agregada entre símbolos para este tipo de setup no corredor."
+      },
+      {
+        "term": "Confluence Score",
+        "definition": "Pontuação multifator combinada: tendência, volume, MACD, inclinação HTF, bônus de regime."
+      },
+      {
+        "term": "OOS Cap",
+        "definition": "Confiança limitada de forma rígida a 62 quando out_of_sample_validated é False."
+      }
+    ],
+    "exercise": {
+      "question": "Um sinal BUY_ZONE tem alinhamento de tendência perfeito (1.0) mas OOS_validated = False e pooled_sample = 12 (< min_sample=50). Qual é a confiança máxima aproximada?",
+      "options": [
+        "89 — alinhamento perfeito ganha a confiança máxima.",
+        "≈ 62 — o teto OOS se aplica; a penalidade de amostra fina reduz mais.",
+        "20 — entra o piso mínimo.",
+        "50 — padrão neutro."
+      ],
+      "explanation": "O teto OOS fixa o teto rígido em 62. A penalidade de amostra fina (−8) também se aplica, pois pooled_sample (12) < min_sample (50). Partindo da base BUY 58 + alinhamento perfeito (14) = 72, menos 8 (amostra fina) = 64, depois limitado a 62. O motor não afirmará alta confiança sem evidência."
+    },
+    "live_apply": {
+      "cta": "Abra qualquer gaveta de sinal e expanda a seção Base de Confiança. Encontre um sinal onde OOS_validated = True e um onde é False."
+    }
+  },
+  {
+    "id": "advanced-11-why-backtests-lie",
+    "title": "Por que backtests mentem",
+    "summary": "As quatro fraudes clássicas e as defesas do motor.",
+    "concept": "A maioria dos backtests publicados lisonjeia seus autores por quatro mecanismos. **Overfitting**: ajustar parâmetros até a história ser memorizada — a curva ajusta o ruído, não o sinal. **Viés de antecipação (look-ahead)**: deixar a simulação espiar dados indisponíveis no momento da decisão (usar o fechamento de um candle para decidir a entrada daquele candle). **Viés de sobrevivência**: testar em instrumentos que ainda existem, excluindo silenciosamente os deslistados e mortos. **Amnésia de custos**: simular execuções a preços sem atrito.\n\nAs defesas estruturais do QuantGlass, nenhuma opcional: as decisões consomem **apenas candles fechados** e o backtester reexecuta o detector *idêntico* que o sinal ao vivo usa, candle a candle; cada operação simulada paga o **modelo completo de custo de ida e volta**; os resultados são divididos **cronologicamente** em dentro e fora da amostra sem mistura; e os parâmetros são fixos em todo o motor em vez de ajustados por símbolo — o oposto da massagem por instrumento do curve-fitting.\n\nA postura honesta: trate qualquer backtest, incluindo o nosso, como um *limite superior* do desempenho ao vivo, não uma promessa.",
+    "key_terms": [
+      {
+        "term": "Overfitting",
+        "definition": "Memorizar o ruído da história via ajuste de parâmetros."
+      },
+      {
+        "term": "Viés de antecipação",
+        "definition": "Usar informação indisponível no momento da decisão."
+      },
+      {
+        "term": "Viés de sobrevivência",
+        "definition": "Testar apenas em ativos que sobreviveram."
+      },
+      {
+        "term": "Amnésia de custos",
+        "definition": "Ignorar taxas e slippage na simulação."
+      },
+      {
+        "term": "Limite superior",
+        "definition": "A leitura honesta de qualquer resultado de backtest."
+      }
+    ],
+    "exercise": {
+      "question": "A estratégia de um fornecedor mostra 94% de win rate após otimizar 12 parâmetros por símbolo em 3 anos de dados. Qual é a explicação mais provável?",
+      "options": [
+        "Uma ineficiência de mercado genuína que ignora todos os custos.",
+        "Overfitting: 12 botões por símbolo podem memorizar 3 anos de ruído; o resultado descreve o passado, não o futuro.",
+        "Habilidade que se transfere automaticamente para a operação ao vivo.",
+        "Um erro de digitação — win rates limitam em 60%."
+      ],
+      "explanation": "Parâmetros suficientes ajustam qualquer coisa, inclusive aleatoriedade. O decaimento fora da amostra é a assinatura: ruído memorizado não se repete."
+    },
+    "common_mistakes": [
+      "Ajustar parâmetros até a curva parecer perfeita. Essa curva descreve o passado que você otimizou, não o futuro.",
+      "Testar nos mesmos dados que sugeriram a ideia. A descoberta dentro da amostra exige prova fora da amostra — sem exceções.",
+      "Ignorar custos. Uma estratégia com 0,2R de margem média morre inteiramente para spread e slippage."
+    ],
+    "live_apply": {
+      "cta": "Note que cada preset do QuantGlass usa os mesmos parâmetros em todo o motor — a ausência de botões por símbolo é a defesa anti-overfitting."
+    }
+  },
+  {
+    "id": "advanced-12-is-oos",
+    "title": "Dentro da amostra, fora da amostra: a divisão honesta",
+    "summary": "A divisão cronológica 70/30 do motor e seu limiar de validação.",
+    "concept": "O único teste convincente de uma regra são dados que ela nunca tocou. O QuantGlass divide as operações simuladas de cada símbolo **cronologicamente** — os primeiros 70% das operações são **dentro da amostra (IS)**, os 30% restantes **fora da amostra (OOS)** — e reporta os dois blocos **separadamente, nunca misturados**. A divisão cronológica (não aleatória) importa nos mercados: preserva a ordem dos regimes e garante que o bloco OOS seja informação genuinamente *posterior*.\n\nO limiar de validação é explícito: um setup ganha `out_of_sample_validated` apenas quando o bloco OOS tem **pelo menos a amostra mínima** (sua configuração de segurança, padrão 50) *e* **expectativa OOS positiva**. Falhe em qualquer um e cada pontuação de confiança é limitada de forma rígida a 62 — o motor se recusa estruturalmente a se animar com padrões não validados.\n\nAo ler um preset, desenvolva o reflexo do analista: pule a manchete, compare IS com OOS. Estável na divisão → robusto; colapsando em OOS → memorizado.",
+    "key_terms": [
+      {
+        "term": "Divisão cronológica",
+        "definition": "Primeiros 70% das operações IS, últimos 30% OOS — ordenado por tempo, nunca embaralhado."
+      },
+      {
+        "term": "Validação OOS",
+        "definition": "Amostra OOS mínima E expectativa OOS positiva."
+      },
+      {
+        "term": "Teto de confiança",
+        "definition": "Setups não validados não podem pontuar acima de 62."
+      },
+      {
+        "term": "Decaimento IS/OOS",
+        "definition": "Desempenho colapsando fora da amostra — a impressão digital do overfitting."
+      }
+    ],
+    "exercise": {
+      "question": "Um preset mostra expectativa IS +0,42R e expectativa OOS −0,05R sobre uma amostra saudável. A conclusão honesta?",
+      "options": [
+        "Tire a média: +0,18R de margem.",
+        "O padrão provavelmente memorizou sua janela de treino — o colapso OOS é o sinal, e o motor recusará a validação.",
+        "Os dados OOS estão simplesmente errados.",
+        "Dobre o tamanho da posição."
+      ],
+      "explanation": "Misturar lavaria o fracasso. O propósito inteiro do bloco intocado é que não se pode negociar com ele — e ele acabou de dizer não."
+    },
+    "live_apply": {
+      "cta": "Escolha qualquer preset e leia IS vs OOS lado a lado antes de olhar a manchete misturada."
+    }
+  },
+  {
+    "id": "advanced-13-metrics-suite",
+    "title": "Ler o conjunto completo de métricas",
+    "summary": "Win rate, expectativa, profit factor, Sharpe, Sortino, drawdown — uma história, seis ângulos.",
+    "concept": "Nenhuma métrica única sobrevive sozinha. O **win rate** sem tamanho de payoff é um número de vaidade — 90% de acertos de +0,1R com perdas de −2R é ruína. A **expectativa** (R médio por operação) é a linha de fundo, mas esconde sua volatilidade. O **profit factor** (ganhos brutos ÷ perdas brutas) lê a robustez: abaixo de ~1,2 é frágil após custos. O **Sharpe** escala a média pela volatilidade total; o **Sortino** divide só pela volatilidade *de baixa* — mais gentil com estratégias cuja volatilidade é majoritariamente de alta, por isso seguir tendência costuma parecer melhor no Sortino. O **max drawdown** é o preço psicológico de entrada.\n\nO motor calcula as seis a partir da mesma lista de operações em cada preset, além das curvas de patrimônio e drawdown que elas resumem. Perfis a reconhecer: seguir tendência (40–50% win rate, alto ganho médio, bom Sortino, drawdowns planos longos), reversão à média (alto win rate, ganhos pequenos, drawdowns de risco de cauda).\n\nHábito do analista: leia as métricas como uma *verificação de consistência* — se duas delas discordarem da história que você formou, sua história está errada.",
+    "key_terms": [
+      {
+        "term": "Profit factor",
+        "definition": "Lucro bruto ÷ perda bruta — robustez após custos."
+      },
+      {
+        "term": "Índice de Sharpe",
+        "definition": "Retorno médio escalado pela volatilidade total."
+      },
+      {
+        "term": "Índice de Sortino",
+        "definition": "Média escalada só pela volatilidade de baixa."
+      },
+      {
+        "term": "Perfil de métricas",
+        "definition": "O padrão de métricas característico de uma família de estratégia."
+      }
+    ],
+    "exercise": {
+      "question": "Estratégia A: 84% win rate, expectativa −0,07R. Estratégia B: 43% win rate, expectativa +0,31R. Qual ganha dinheiro ao longo do tempo?",
+      "options": [
+        "A — o win rate é a linha de fundo.",
+        "B — a expectativa é a linha de fundo; os ganhos pequenos frequentes de A são financiados por perdas catastróficas ocasionais.",
+        "Ambas igualmente.",
+        "Nenhuma, porque win rates devem exceder 90%."
+      ],
+      "explanation": "A expectativa já compensa ganhos contra perdas. O perfil de A (alto win rate, expectativa negativa) é a assinatura clássica do comportamento de cortar-vencedores-deixar-correr-perdedores."
+    },
+    "live_apply": {
+      "cta": "Pegue um preset e leia as seis métricas em ordem: elas contam uma história consistente?"
+    }
+  },
+  {
+    "id": "advanced-14-shrinkage",
+    "title": "Tamanho da amostra e encolhimento",
+    "summary": "Por que o motor se recusa a acreditar em amostras pequenas — com a fórmula.",
+    "concept": "Três vitórias em três operações é um win rate de 100% e estatisticamente quase nada. O motor codifica esse ceticismo como **encolhimento bayesiano empírico**: cada win rate é puxado em direção a 50% na proporção de quão fina é sua amostra.\n\nA fórmula exata: `calibrated = (raw × n + 0.5 × k) ÷ (n + k)`, onde **n** é o tamanho da amostra e **k** é a força do prior — fixada na sua configuração de amostra-mínima-de-backtest (padrão 50). Exemplo trabalhado: um registro perfeito de 10 em 10 dá (1.0×10 + 0.5×50) ÷ 60 = **58,3%** — evidência impressionante reduzida a uma leve inclinação. Um win rate de 60% sobre 400 operações mal se move: (240 + 25) ÷ 450 = 58,9%. Mesma crença calibrada, evidência selvagemente diferente — exatamente como deveria ser.\n\nO agrupamento completa a defesa: amostras por símbolo são finas, então o motor agrega resultados por família de setup e timeframe entre símbolos, e prefere estatísticas agrupadas sempre que a amostra agrupada superar o limiar. Acredite devagar; atualize com evidência.",
+    "key_terms": [
+      {
+        "term": "Encolhimento",
+        "definition": "Puxar estimativas em direção ao neutro na proporção da finura da amostra."
+      },
+      {
+        "term": "Força do prior",
+        "definition": "k na fórmula — o motor usa sua configuração de amostra-mínima."
+      },
+      {
+        "term": "Expectativa agrupada",
+        "definition": "Agregação entre símbolos por família de setup e timeframe."
+      },
+      {
+        "term": "Peso da evidência",
+        "definition": "n ÷ (n + k): quanto os dados superam o prior em votos."
+      }
+    ],
+    "exercise": {
+      "question": "Usando a fórmula do motor com força do prior k = 50: um setup é 10 em 10 (win rate bruto 100%). Qual é o win rate calibrado, em percentual?",
+      "hint": "(1.0 × 10 + 0.5 × 50) ÷ (10 + 50), depois ×100",
+      "explanation": "(10 + 25) ÷ 60 = 0,5833 → **58,3%**. Dez operações perfeitas movem o ponteiro de 50% para 58% — a evidência é respeitada, mas amostras pequenas não podem gritar."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal com uma amostra pequena de backtest e note como sua confiança permanece modesta — você acabou de calcular o porquê."
+    }
+  },
+  {
+    "id": "advanced-15-honest-simulation",
+    "title": "Dentro do simulador honesto",
+    "summary": "Execuções por primeiro toque, a escada real, custos e o stop temporal.",
+    "concept": "O que exatamente acontece quando o QuantGlass faz backtest de um setup? Para cada candle histórico onde o *detector ao vivo idêntico* dispara, o simulador avança candle a candle e joga a operação exibida sem retrovisão: se o range do candle toca o **stop**, a posição restante sai ali — o stop primeiro, conservadoramente, quando stop e alvo estão ambos dentro do range de um candle. Caso contrário, cada **degrau da escada** que o range do candle alcança preenche seu peso exato (50/30/20). Se a posição sobrevive até a **retenção máxima** do timeframe (24 candles em 1h, 12 em 1d), ela sai no fechamento daquele candle — o stop temporal.\n\nO resultado é líquido do **custo completo de ida e volta** convertido em R, depois junta-se à lista cronológica de operações que alimenta cada métrica, a divisão IS/OOS e o conjunto de calibração conforme.\n\nO princípio por baixo: o backtest simula **a operação que você realmente veria no card** — mesma lógica de entrada, mesmo stop, mesmos degraus, mesmos custos. Sem saídas idealizadas, sem operações reespecificadas. Quando um número pode ser verificado contra a simulação que o produziu, a confiança se torna auditável.",
+    "key_terms": [
+      {
+        "term": "Execução por primeiro toque",
+        "definition": "Os níveis preenchem quando o range de um candle os alcança primeiro; stops têm prioridade dentro de um candle."
+      },
+      {
+        "term": "Fidelidade da escada",
+        "definition": "Saídas simuladas usam os degraus exibidos 50/30/20 exatamente."
+      },
+      {
+        "term": "Retenção máxima",
+        "definition": "O stop temporal por timeframe — setups parados saem no fechamento."
+      },
+      {
+        "term": "Princípio da operação exibida",
+        "definition": "Backtest e card de sinal compartilham uma geometria."
+      }
+    ],
+    "exercise": {
+      "question": "Dentro de um único candle simulado, o preço percorre tanto o stop quanto o primeiro degrau da escada. Como o motor resolve isso?",
+      "options": [
+        "Preenche o degrau lucrativo primeiro — simulações merecem otimismo.",
+        "Toma o stop na posição restante — a resolução conservadora, já que o candle não pode revelar qual nível foi tocado primeiro.",
+        "Divide a diferença no ponto médio.",
+        "Pula o candle por completo."
+      ],
+      "explanation": "OHLCV destrói o caminho dentro do candle, então o simulador cobra de si mesmo o pior caso. Backtests honestos resolvem a ambiguidade contra si mesmos."
+    },
+    "live_apply": {
+      "cta": "Leia a contagem de operações e a expectativa de um preset sabendo agora exatamente como cada operação simulada foi preenchida, custeada e fechada."
+    }
+  },
+  {
+    "id": "advanced-01-market-regimes",
+    "title": "Regimes de mercado",
+    "summary": "Entenda por que o mesmo indicador funciona de forma diferente em cada regime.",
+    "concept": "O QuantGlass classifica o mercado atual em um de quatro **regimes** antes de gerar um sinal. O regime condiciona quais famílias de estratégia são elegíveis:\n\n| Regime | Condição | Estratégias ativas |\n|---|---|---|\n| **Trending** | ADX ≥ 22 | Pullback, Breakout-retest |\n| **Ranging** | ADX < 16 | Reversão à média (RSI-2 + BB) |\n| **Volatile** | ATR% ≥ 1.7× ATR% mediano | Todas as entradas suprimidas / confiança reduzida |\n| **Transitional** | ADX 16–22 | Só pullback, confluência reduzida |\n\nO **ADX (Average Directional Index)** mede a *força* da tendência, não a direção. ADX alto = tendência forte (de alta ou de baixa); ADX baixo = mercado fraco/lateral.",
+    "key_terms": [
+      {
+        "term": "ADX-14",
+        "definition": "Average Directional Index de 14 períodos — mede a força da tendência (0–100)."
+      },
+      {
+        "term": "Trending",
+        "definition": "ADX ≥ 22 — há uma tendência direcional em curso."
+      },
+      {
+        "term": "Ranging",
+        "definition": "ADX < 16 — sem tendência significativa; estratégias de reversão à média preferidas."
+      },
+      {
+        "term": "Volatile",
+        "definition": "ATR% ≥ 1,7× sua mediana de 50 candles — volatilidade anormal, confiança limitada."
+      },
+      {
+        "term": "Transitional",
+        "definition": "ADX 16–22 — mercado mudando entre tendência e lateralização."
+      }
+    ],
+    "exercise": {
+      "question": "ADX = 12, ATR% perto da mediana histórica. Qual família de setup o QuantGlass avalia?",
+      "options": [
+        "Só breakout-retest.",
+        "Reversão à média (range_meanreversion_long/short) usando RSI-2 e Bandas de Bollinger.",
+        "Só trend-pullback.",
+        "Todas as famílias simultaneamente."
+      ],
+      "explanation": "ADX = 12 < 16 → regime **ranging**. O motor pula as famílias de trend-pullback e breakout e avalia só a família de reversão à média: RSI-2 em extremos perto das Bandas de Bollinger. A estratégia errada no regime errado é uma fonte primária de falha de sinal."
+    },
+    "live_apply": {
+      "cta": "Abra qualquer sinal e olhe market_regime no confidence_basis. Encontre um sinal 'ranging' e um 'trending'."
+    }
+  },
+  {
+    "id": "advanced-02-macd",
+    "title": "Histograma MACD — confirmação de momentum",
+    "summary": "Use o histograma MACD como filtro secundário de confirmação de momentum.",
+    "concept": "**MACD** (Moving Average Convergence/Divergence) mede a brecha entre duas EMAs:\n`MACD Line = EMA(12) − EMA(26)`\n`Signal Line = EMA(9) of MACD Line`\n`Histogram = MACD Line − Signal Line`\n\n**Interpretação do histograma:**\n- Histograma > 0 e crescendo → momentum de alta acelerando\n- Histograma < 0 e encolhendo → momentum de baixa esvaecendo (possível reversão)\n- **Divergência**: o preço faz nova máxima, o histograma não → fraqueza oculta\n\n**Papel no QuantGlass:** o sinal do histograma MACD é um booleano `macd_agree` na fórmula de confluência. Se o histograma concorda com a direção da operação, a pontuação de confluência ganha 0,10. É um filtro de confirmação, não um gatilho primário.",
+    "key_terms": [
+      {
+        "term": "MACD Line",
+        "definition": "EMA(12) − EMA(26) — a linha central de momentum."
+      },
+      {
+        "term": "Signal Line",
+        "definition": "EMA(9) da linha MACD — versão suavizada."
+      },
+      {
+        "term": "Histogram",
+        "definition": "MACD Line − Signal Line — mostra a taxa de mudança do momentum."
+      },
+      {
+        "term": "Divergência MACD",
+        "definition": "Preço e MACD movendo-se em direções opostas — movimento enfraquecendo."
+      }
+    ],
+    "exercise": {
+      "question": "O preço está acima de EMA-21 > SMA-50. O histograma MACD está em −0,02. O motor adiciona o bônus 'macd_agree'?",
+      "options": [
+        "Sim — o histograma está perto de zero, o que conta como concordância neutra.",
+        "Não — macd_agree exige histograma > 0 para um setup BUY_ZONE.",
+        "Sim — estar num empilhamento de alta sempre ganha o bônus.",
+        "O MACD não é usado no QuantGlass de jeito nenhum."
+      ],
+      "explanation": "Para um setup long/de alta, `macd_agree = macd_histogram > 0`. Um histograma negativo (−0,02) significa momentum de baixa apesar do empilhamento de preço de alta — o bônus de confluência de +0,10 é retido. Sinais ainda podem disparar, mas com menor confiança."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal HOLD ou WATCH — estes costumam ter o MACD discordando da direção, baixando a confiança."
+    }
+  },
+  {
+    "id": "advanced-03-bollinger-bands",
+    "title": "Bandas de Bollinger — envelope de volatilidade",
+    "summary": "Use o aperto e a expansão das BB para cronometrar entradas com a volatilidade.",
+    "concept": "As **Bandas de Bollinger** consistem em:\n- `BB Mid` = SMA(20)\n- `BB Upper` = SMA(20) + 2 × StdDev(20)\n- `BB Lower` = SMA(20) − 2 × StdDev(20)\n- `BB Bandwidth` = (Upper − Lower) / Mid × 100\n\n**Aperto (squeeze)**: bandas estreitam → baixa volatilidade → energia se comprime → breakout iminente.\n**Expansão**: bandas alargam → pico de volatilidade → tendência em curso.\n\n**No QuantGlass (regime ranging):**\n- Preço na BB Lower + RSI-2 ≤ 8 → `range_meanreversion_long` (BUY_ZONE)\n- Preço na BB Upper + RSI-2 ≥ 92 → `range_meanreversion_short` (SELL)\n- Alvo para reversão à média: BB Mid (a SMA de 20 períodos)\n\nO Bandwidth também é usado para definir o multiplicador de stop do `volatility_regime`.",
+    "key_terms": [
+      {
+        "term": "BB Upper",
+        "definition": "SMA(20) + 2 desvios-padrão — envelope superior."
+      },
+      {
+        "term": "BB Lower",
+        "definition": "SMA(20) − 2 desvios-padrão — envelope inferior."
+      },
+      {
+        "term": "BB Bandwidth",
+        "definition": "(Upper − Lower) / Mid × 100 — a largura das bandas, um proxy de volatilidade."
+      },
+      {
+        "term": "BB Squeeze",
+        "definition": "Bandas estreitando — a volatilidade se comprime antes de um movimento direcional."
+      }
+    ],
+    "exercise": {
+      "question": "O BB Bandwidth vem se contraindo há 10 candles e acabou de atingir sua mínima de 6 meses. Para o que você deveria se preparar?",
+      "options": [
+        "Um período sustentado de baixa volatilidade — nada vai acontecer.",
+        "Uma expansão de volatilidade / breakout — o aperto libera energia.",
+        "Uma reversão imediata à linha média da BB.",
+        "O motor de sinais vai suprimir todos os sinais."
+      ],
+      "explanation": "Um aperto da BB a mínimas de vários meses é um setup clássico para uma expansão de volatilidade iminente. A direção não é prevista só pelas bandas — você precisa do empilhamento de tendência e de um gatilho de volume para escolher long vs short. Por isso o QuantGlass combina BB com ADX e RSI-2."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal range_meanreversion. A zona de entrada estará perto da BB Lower (long) ou BB Upper (short)."
+    }
+  },
+  {
+    "id": "advanced-06-trend-pullback",
+    "title": "O pullback de tendência: comprar força em desconto",
+    "summary": "O setup long carro-chefe do motor, condição por condição.",
+    "concept": "O pullback de tendência compra uma tendência saudável com desconto. As condições long exatas do motor: **estrutura** — close > 21-EMA > 50-SMA (o empilhamento de alta); **localização** — preço interagindo com a 21-EMA (o candle a atravessa, ou o fechamento fica dentro de 0,8% dela); **sanidade de momentum** — RSI-14 entre 46 e 72: quente o bastante para confirmar a tendência, não tão quente que o movimento já se esgotou; **regime** — só trending ou transitional.\n\nA geometria da operação então segue mecanicamente: preço de referência perto da EMA, uma zona de entrada de −0,45 a +0,15 ATR ao redor dela, um stop ao múltiplo de ATR do regime de volatilidade abaixo, e a escada escalada a 2,4R acima. A premissa comprada: *em tendências, pullbacks à média ascendente tendem a se resolver na direção da tendência.* O stop fica onde essa premissa morre — abaixo da base do pullback.\n\nSeu espelho, o short de rejeição, inverte cada condição (close < EMA < SMA, RSI 28–54).",
+    "key_terms": [
+      {
+        "term": "Empilhamento de alta",
+        "definition": "Fechamento acima da 21-EMA acima da 50-SMA — estrutura de tendência intacta."
+      },
+      {
+        "term": "Zona de pullback",
+        "definition": "Preço interagindo com a 21-EMA ascendente."
+      },
+      {
+        "term": "Janela RSI",
+        "definition": "46–72 para longs: calor confirmador sem exaustão."
+      },
+      {
+        "term": "Premissa",
+        "definition": "A afirmação estatística que um setup compra — aqui, retomada da tendência a partir da média."
+      }
+    ],
+    "exercise": {
+      "question": "Por que o setup de pullback rejeita longs quando o RSI-14 está acima de 72?",
+      "options": [
+        "RSI alto é ilegal.",
+        "Acima de ~72 o impulso já está estendido — o setup quer comprar o resto após o recuo, não perseguir o cume do movimento.",
+        "O RSI não pode exceder 72 matematicamente.",
+        "A EMA desaparece com RSI alto."
+      ],
+      "explanation": "A margem do setup é entrar durante o desconto, não no pico do calor. Um teto de RSI filtra a perseguição disfarçada de compra em pullback."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal ema_reclaim_pullback ou daily_trend_pullback e verifique cada uma das quatro condições nas razões dele."
+    }
+  },
+  {
+    "id": "advanced-07-trend-rejection",
+    "title": "O short de rejeição: tendências morrem por baixo",
+    "summary": "O espelho de baixa — vender rallies fracassados em tendências de baixa.",
+    "concept": "Tendências de baixa oferecem a operação espelho: o preço sobe rumo à 21-EMA descendente, é **rejeitado**, e retoma a queda. Condições do motor: empilhamento de baixa (close < 21-EMA < 50-SMA), o candle interagindo com a EMA por baixo, RSI-14 entre 28 e 54 (um repique real, não um mercado morto), regime trending/transitional, com confluência creditada quando o histograma MACD é negativo e o drift do timeframe superior aponta para baixo.\n\nVender a descoberto merece duas notas honestas de assimetria. **Forma do risco**: o pior caso de um long é −100%; o pior caso teórico de um short é ilimitado — por isso o stop acima da máxima de rejeição é ainda menos negociável que o usual. **Forma do comportamento**: quedas tendem a ser mais rápidas e bruscas que rallies (o medo liquida mais rápido do que a ganância acumula), então shorts de rejeição costumam se resolver mais rápido que seus espelhos long.\n\nNo paper trading do QuantGlass você pode praticar toda a mecânica de forma simétrica — o motor trata a direção como um parâmetro de primeira classe, não um pensamento tardio.",
+    "key_terms": [
+      {
+        "term": "Rejeição",
+        "definition": "Um rally rumo à resistência (aqui a EMA descendente) que falha e fecha afastado."
+      },
+      {
+        "term": "Empilhamento de baixa",
+        "definition": "Fechamento abaixo da 21-EMA abaixo da 50-SMA."
+      },
+      {
+        "term": "Assimetria do short",
+        "definition": "Perda teórica ilimitada — stops são estruturalmente obrigatórios."
+      },
+      {
+        "term": "Velocidade de baixa",
+        "definition": "Quedas tipicamente viajam mais rápido que rallies equivalentes."
+      }
+    ],
+    "exercise": {
+      "question": "Por que a disciplina de stop num short é ainda mais rígida que num long?",
+      "options": [
+        "Shorts são tributados diferente.",
+        "Um long pode perder no máximo seu valor; o movimento adverso de um short é teoricamente ilimitado, então um short sem stop não tem pior caso.",
+        "Stops executam mais rápido em shorts.",
+        "Não é — o risco é simétrico."
+      ],
+      "explanation": "O preço tem um piso em zero e nenhum teto. A máxima de rejeição não é só uma referência — acima dela, a posição não tem nenhum risco definido."
+    },
+    "live_apply": {
+      "cta": "Encontre um sinal trend_rejection_breakdown e trace o stop dele até a estrutura de rejeição acima da entrada."
+    }
+  },
+  {
+    "id": "advanced-08-breakout-retest",
+    "title": "Breakout-retest: operar a velocidade de escape",
+    "summary": "Novos extremos, presença de volume e a confirmação da tendência.",
+    "concept": "A família de breakout aposta que **novos extremos se estendem**. Condições do motor para a versão long: regime trending (obrigatório — esta família é a mais frágil ao regime), o empilhamento de alta intacto, o candle empurrando através da **máxima de 20-Donchian do candle anterior** com o fechamento se mantendo dentro de 0,3% do nível, e **volume ao menos na sua média recente** — tentativas de escape sem presença são presumidas falsas.\n\nEntra como um estado **WATCH** com uma base de confluência mais alta (0,60) que o pullback: quando um breakout é real ele é a tendência se anunciando, mas a família paga por essa qualidade com fragilidade — em ranges, o candle idêntico é o fakeout de manual, por isso existe o portão de regime.\n\nO 'retest' do nome é o teste de maturidade: breakouts fortes costumam voltar para beijar o nível rompido antes de continuar. O nível que limitava o preço vira o nível que o defende — resistência virada suporte, a mudança de estrutura mais limpa da operação.",
+    "key_terms": [
+      {
+        "term": "Velocidade de escape",
+        "definition": "Um empurrão através de extremos anteriores forte o bastante para se manter."
+      },
+      {
+        "term": "Presença de volume",
+        "definition": "Razão de volume ≥ 1,0 — participação validando o rompimento."
+      },
+      {
+        "term": "Mudança de estrutura",
+        "definition": "Resistência rompida agindo como novo suporte no retest."
+      },
+      {
+        "term": "Fragilidade de regime",
+        "definition": "A dependência total da família do portão trending."
+      }
+    ],
+    "exercise": {
+      "question": "Um candle perfura a máxima de Donchian anterior no intraday mas fecha 1,2% abaixo dela com volume médio. O breakout do motor dispara?",
+      "options": [
+        "Sim — tocar o nível basta.",
+        "Não — o fechamento falhou no teste de manutenção (dentro de 0,3% do nível), tornando isto um pavio de rejeição, não um escape.",
+        "Sim, mas só às terças.",
+        "Não, porque o volume deve ser zero."
+      ],
+      "explanation": "O teste de fechamento separa escapes de excursões: uma perfuração que fecha bem abaixo do nível é evidência de oferta nas máximas — a premissa oposta."
+    },
+    "live_apply": {
+      "cta": "Abra um preset breakout_retest_continuation: a contagem de operações dele é exatamente quantas vezes estas condições estritas coocorreram historicamente."
+    }
+  },
+  {
+    "id": "advanced-09-mean-reversion",
+    "title": "Reversão à média em range: operar o elástico",
+    "summary": "Extremos exauridos que voltam de estalo para o meio.",
+    "concept": "Num regime ranging a força operante é o **puxão da média**. As condições long do motor: regime ranging (ADX < 16), o **RSI de 2 períodos ≤ 8** — uma leitura de oscilador deliberadamente nervosa perto da exaustão total — e o candle tocando a **banda de Bollinger inferior** (mínima dentro de 0,5% dela). Shorts espelham em RSI-2 ≥ 92 e na banda superior.\n\nTudo nesta família é construído diferente porque a premissa é diferente. O alvo não é uma escada aberta, mas a **banda média** — a média fazendo o puxão — com a escada comprimida ao redor dela (60% do trecho, a própria média, 130% além). A confluência começa mais baixa (base 0,50) porque ir contra os movimentos é estruturalmente a aposta mais frágil: a mesma leitura de exaustão num regime *trending* não é um elástico, é um trem de carga, por isso o portão de regime é inegociável aqui.\n\nEsta família ensina a lição mais profunda da trilha: geometria de gráfico idêntica significa coisas opostas em regimes diferentes.",
+    "key_terms": [
+      {
+        "term": "RSI-2",
+        "definition": "Um RSI de 2 períodos — um detector de exaustão de gatilho propositalmente sensível."
+      },
+      {
+        "term": "Exaustão (washout)",
+        "definition": "RSI-2 ≤ 8 (ou ≥ 92): esgotamento de um lado dentro do range."
+      },
+      {
+        "term": "Alvo de média",
+        "definition": "Saídas mirando a banda média de Bollinger, não abertas."
+      },
+      {
+        "term": "Risco de trem de carga",
+        "definition": "Ir contra preços 'esticados' num regime trending."
+      }
+    ],
+    "exercise": {
+      "question": "Por que a família de reversão à média mira a banda média de Bollinger em vez de usar a escada padrão de 2,4R?",
+      "options": [
+        "Bandas médias pagam reembolsos.",
+        "Sua premissa é uma volta de estalo à média — uma vez que o preço alcança a média, a razão do motor para a operação se esgota.",
+        "Escadas exigem ADX acima de 22.",
+        "A banda média está sempre a 2,4R."
+      ],
+      "explanation": "As saídas devem combinar com as premissas. Uma operação de reversão que se mantém além da média virou uma operação de tendência que ninguém planejou — o alvo mantém a operação honesta à sua ideia."
+    },
+    "live_apply": {
+      "cta": "Se existir um sinal range_meanreversion, compare os níveis de take-profit dele com a banda média do símbolo."
+    }
+  },
+  {
+    "id": "advanced-10-choosing-families",
+    "title": "Um símbolo, muitos setups: como o motor escolhe",
+    "summary": "Competição por confluência, e os estados de reserva.",
+    "concept": "A cada candle fechado o motor avalia **todas as famílias mais quaisquer estratégias de extensão**, recolhe cada candidato cujos portões passem, e seleciona a **maior pontuação de confluência**. Sem hierarquia, sem favoritismo — o setup com mais concordância independente vence o card.\n\nQuando *nenhuma* família dispara, o motor ainda reporta honestamente por **estados de reserva**: um empilhamento de alta sem setup acionável → **HOLD** (tendência intacta, nada a fazer); um empilhamento de baixa → **WATCH** o rompimento; nenhum → **WAIT**, marcado como invalidado. Esses estados de base baixa (0,30) existem porque *'nada a fazer'* é uma resposta legítima, frequente e valiosa — o motor se recusa a fabricar ação.\n\nA meta-lição para a sua própria operação: uma estratégia não é um único setup, é um **portfólio de premissas** com regras de quando cada uma se aplica e a humildade de dizer 'nenhuma se aplica'. A maioria das perdas de varejo é a recusa de aceitar essa terceira opção.",
+    "key_terms": [
+      {
+        "term": "Competição de candidatos",
+        "definition": "Todos os setups que passam são pontuados; a maior confluência é exibida."
+      },
+      {
+        "term": "Estado de reserva",
+        "definition": "HOLD/WATCH/WAIT — as respostas honestas de 'sem setup'."
+      },
+      {
+        "term": "Portfólio de premissas",
+        "definition": "Uma estratégia como conjunto de ideias condicionadas por regime, não um padrão."
+      },
+      {
+        "term": "Ação fabricada",
+        "definition": "Operar porque você quer uma operação — o inimigo dos estados de reserva."
+      }
+    ],
+    "exercise": {
+      "question": "As quatro famílias falham seus portões num símbolo com um empilhamento de alta intacto. O que o motor emite?",
+      "options": [
+        "Nada — o símbolo desaparece.",
+        "Um estado HOLD: estrutura de tendência intacta, sem setup acionável, base de confluência baixa, nenhuma entrada fabricada.",
+        "Um BUY_ZONE forçado em meia confiança.",
+        "Uma mensagem de erro."
+      ],
+      "explanation": "HOLD é informação, não fracasso: fique com o que funciona, não adicione nada. O motor prefere estar honestamente ocioso a artificialmente ocupado."
+    },
+    "live_apply": {
+      "cta": "Conte os estados HOLD/WATCH/WAIT de hoje frente aos acionáveis — a razão é a honestidade do motor se mostrando."
+    }
+  },
+  {
+    "id": "advanced-20-biases",
+    "title": "Os vieses que precificam seus erros",
+    "summary": "Aversão à perda, custo afundado, recência, confirmação — e seus disfarces na operação.",
+    "concept": "Quatro vieses cognitivos causam a maior parte do dano. **Aversão à perda**: perdas doem cerca do dobro do que ganhos iguais agradam — então traders seguram perdedores (evitando a dor de realizar) e cortam vencedores (embolsando o alívio). A inversão exata da margem. **Custo afundado**: 'já estou 8% no prejuízo, não posso sair agora' — mas o mercado não conhece sua entrada; a única pergunta é se a posição merece existir ao preço de *hoje*. **Recência**: três vitórias parecem maestria, três perdas parecem ruína; ambas são ruído vestindo o disfarce de tendência. **Confirmação**: uma vez posicionado, você nota a evidência por concordância — tweets de alta são salvos, estrutura de baixa é desculpada.\n\nO enquadramento honesto: estes não são defeitos de caráter, são firmware — todo mundo os roda. A diferença profissional não é sentir diferente; é **decidir em um momento diferente**: cada pré-compromisso estilo QuantGlass (stop fixado antes da entrada, plano escrito estando zerado) move a decisão para um momento em que o viés não está carregado.",
+    "key_terms": [
+      {
+        "term": "Aversão à perda",
+        "definition": "Perdas pesam ~2× ganhos iguais — o motor de segurar-perdedores/cortar-vencedores."
+      },
+      {
+        "term": "Custo afundado",
+        "definition": "Deixar seu preço de entrada discutir sobre a decisão de hoje."
+      },
+      {
+        "term": "Viés de recência",
+        "definition": "Extrapolar os últimos poucos resultados para um regime."
+      },
+      {
+        "term": "Viés de confirmação",
+        "definition": "Avaliar a evidência conforme ela concorda com sua posição."
+      },
+      {
+        "term": "Pré-compromisso",
+        "definition": "Decidir antes de o viés estar carregado — o antídoto estrutural."
+      }
+    ],
+    "exercise": {
+      "question": "Um trader se recusa a sair de uma posição perdedora 'porque eu estaria vendendo no fundo da MINHA entrada'. Qual viés está falando, e qual é a pergunta correta?",
+      "options": [
+        "Viés de recência; a pergunta é como foram as últimas três operações.",
+        "Custo afundado; a única pergunta válida é se esta posição merece existir ao preço e estrutura de hoje.",
+        "Viés de confirmação; a pergunta é o que o Twitter pensa.",
+        "Nenhum viés; entradas são sagradas."
+      ],
+      "explanation": "O mercado não carrega memória da entrada de ninguém. Resubscreva a posição como se estivesse zerado: você a abriria aqui, agora? Se não, o preço de entrada é a única coisa que a segura."
+    },
+    "common_mistakes": [
+      "Acreditar que conhecer um viés o derrota. Vieses operam pré-conscientemente; só o processo (checklists, planos, automação) defende contra eles.",
+      "Escolher a dedo vitórias lembradas como evidência de habilidade. O diário existe porque a memória é o conjunto de dados mais enviesado que você possui."
+    ],
+    "live_apply": {
+      "cta": "Escolha uma posição em papel aberta e resubscreva-a: sabendo só o gráfico de hoje, você a abriria agora?"
+    }
+  },
+  {
+    "id": "advanced-21-tilt",
+    "title": "Tilt e operação de vingança",
+    "summary": "O mecanismo da espiral de perdas — e o detector que vigia por ele.",
+    "concept": "**Tilt** é a tomada de decisão sequestrada pela excitação emocional após perdas. Sua assinatura na operação é a **operação de vingança**: reentrar no mesmo símbolo rapidamente, superdimensionado, com uma tese de 'recuperar' em vez de um setup. A espiral é mecânica: perda → a excitação estreita a atenção → os padrões caem (setups 'bons o bastante') → o tamanho sobe ('para recuperar mais rápido') → uma perda pior → repete. Cassinos constroem negócios sobre esse laço.\n\nOs disjuntores que funcionam são *físicos e pré-comprometidos*, não aspiracionais: uma pausa fixa após qualquer stop (até 30 minutos quebram o ciclo de excitação), um stop diário (duas perdas planejadas → encerrado pelo dia), e uma regra de reentrada (mesmo símbolo só num *novo* setup de candle fechado, nunca pela proximidade à sua última saída).\n\nO painel de coaching do QuantGlass roda um detector de disparo rápido sobre suas próprias intenções em papel — ordens repetidas num símbolo dentro de uma janela curta — e exibe esta lição exata quando o padrão aparece. A máquina consegue detectar a pegada da espiral; só seus pré-compromissos podem interrompê-la.",
+    "key_terms": [
+      {
+        "term": "Tilt",
+        "definition": "Excitação pós-perda degradando a qualidade das decisões."
+      },
+      {
+        "term": "Operação de vingança",
+        "definition": "Reentrada movida pela urgência de recuperar em vez de um setup."
+      },
+      {
+        "term": "Disjuntor",
+        "definition": "Uma pausa física ou stop diário pré-comprometidos."
+      },
+      {
+        "term": "Padrão de disparo rápido",
+        "definition": "A pegada de entradas repetidas que o painel de coaching detecta."
+      }
+    ],
+    "exercise": {
+      "question": "Após um stop, você sente um forte impulso de reentrar no mesmo símbolo imediatamente em tamanho maior. Qual é a característica definidora que torna isto uma operação de vingança?",
+      "options": [
+        "O símbolo é o mesmo.",
+        "A motivação é recuperar a perda em vez de um novo setup de candle fechado — a operação existe para consertar um sentimento, não para expressar uma margem.",
+        "O tamanho é maior.",
+        "Acontece após uma perda."
+      ],
+      "explanation": "Símbolo, tamanho e timing são sintomas; a doença é a motivação. Um novo setup válido cinco minutos depois é legítimo — 'recuperar' nunca é."
+    },
+    "common_mistakes": [
+      "Operar para reaver uma perda. Operações de vingança são dimensionadas pela raiva e cronometradas pela impaciência — os dois piores gestores de portfólio.",
+      "Acreditar que o tilt só segue perdas. Sequências de vitória levam traders ao tilt de superdimensionamento com a mesma confiabilidade ('sucesso perigoso').",
+      "Tentar vencer o tilt na disciplina do momento. A solução é estrutural: tetos diários e resfriamentos decididos com antecedência."
+    ],
+    "live_apply": {
+      "cta": "Verifique seu painel de coaching após sessões ativas em papel — o momento de disparo rápido aparecendo é o seu próprio tilt tornado visível."
+    },
+    "bridge": {
+      "cta": "Aplique: a missão O Operador exige dez operações disciplinadas consecutivas — o tilt reinicia a sequência."
+    }
+  },
+  {
+    "id": "advanced-22-discipline-systems",
+    "title": "Sistemas vencem a força de vontade",
+    "summary": "Projetar disciplina em vez de invocá-la.",
+    "concept": "A força de vontade é um recurso que se esgota e falha justamente quando mais necessário — no pico do estresse, tarde no dia, no meio do drawdown. A disciplina durável é **projetada**: mude o ambiente para que a ação certa seja o padrão e a errada exija esforço.\n\nO kit de engenharia, mapeado ao seu setup: **pré-compromisso** (stops e tamanhos decididos estando zerado — todo o design do card de sinal); **assimetria de atrito** (alertas te notificam em vez de você ficar olhando gráficos; ficar olhando fabrica operações); **portões mecânicos** (os portões de regime/confluência do motor recusam operações independentemente do seu humor — pegue o padrão emprestado para suas próprias regras); **memória externalizada** (diários e checklists, porque sob excitação você não lembrará seus padrões); e **revisão automatizada** (o painel de coaching como um parceiro de responsabilização incansável e inofendível).\n\nA mudança de identidade que isso implica: seu trabalho é menos 'tomar grandes decisões no momento' e mais **projetar um sistema cujos padrões são grandes decisões** — depois cumprir o seu próprio design.",
+    "key_terms": [
+      {
+        "term": "Esgotamento da vontade",
+        "definition": "Autocontrole como recurso finito que falha sob carga."
+      },
+      {
+        "term": "Design por padrão",
+        "definition": "Tornar a ação certa o caminho de menor resistência."
+      },
+      {
+        "term": "Assimetria de atrito",
+        "definition": "Conformidade fácil, desvio trabalhoso."
+      },
+      {
+        "term": "Disciplina externalizada",
+        "definition": "Regras vivendo em sistemas (portões, alertas, checklists) em vez do humor."
+      }
+    ],
+    "exercise": {
+      "question": "Por que alertas de preço são uma ferramenta de disciplina e não só uma conveniência?",
+      "options": [
+        "Eles fazem sons agradáveis.",
+        "Eles substituem o olhar contínuo de gráficos — e olhar fabrica operações impulsivas; o alerta transforma o monitoramento num ato seguro por padrão, orientado a eventos.",
+        "Eles melhoram os preços de execução.",
+        "Eles são exigidos pelas exchanges."
+      ],
+      "explanation": "Cada hora na tela é uma hora de tentação puxando da força de vontade finita. Alertas te movem de sondagem (tentação ativa) para interrupções (segurança projetada)."
+    },
+    "live_apply": {
+      "cta": "Substitua um hábito de olhar gráficos agora mesmo: coloque alertas nos níveis de decisão das suas posições abertas e feche o gráfico."
+    },
+    "bridge": {
+      "cta": "Aplique: adote sua Constituição de Operação na Revisão — o ticket vai te manter fiel a ela."
+    }
+  },
+  {
+    "id": "advanced-23-drawdown-psychology",
+    "title": "Sobreviver a drawdowns",
+    "summary": "Dor esperada, disciplina diagnóstica, e quando pausar.",
+    "concept": "Você aprendeu a aritmética do drawdown na trilha de Risco; esta lição é a psicologia de viver dentro de um. O passo um é **definir expectativa**: o drawdown máximo histórico do seu método (impresso em cada preset) não é seu pior caso — ao vivo, espere mais fundo. Se a curva da estratégia mostra −14%, alguém operando-a um dia se sentará em −14% *sem saber se algum dia vira* — esse não-saber é a experiência real.\n\nO passo dois é a **escada diagnóstica**, rodada em ordem durante a dor: (1) Estou seguindo o plano? (verificação de aderência do diário). (2) O regime mudou? (o motor reclassifica cada candle — olhe). (3) A própria margem decaiu? (compare a expectativa recente com o bloco OOS do backtest). Só um 'sim' no nível 3 justifica mudar o método; os níveis 1–2 justificam mudar o *comportamento* ou *esperar*.\n\nO passo três é a **regra de pausa**: pré-comprometa-se a uma profundidade de drawdown (em R ou percentual) na qual você para, revisa o diário completo, e reinicia só em tamanho reduzido. Pausar não é derrota — é o sistema protegendo seu operador.",
+    "key_terms": [
+      {
+        "term": "Drawdown esperado",
+        "definition": "O drawdown máximo do backtest como piso, não teto, da dor ao vivo."
+      },
+      {
+        "term": "Escada diagnóstica",
+        "definition": "Aderência ao plano → mudança de regime → decaimento de margem, verificados em ordem."
+      },
+      {
+        "term": "Decaimento de margem",
+        "definition": "Resultados recentes materialmente abaixo da linha de base OOS em amostra significativa."
+      },
+      {
+        "term": "Regra de pausa",
+        "definition": "Uma profundidade pré-comprometida que dispara parar, revisar, reiniciar-pequeno."
+      }
+    ],
+    "exercise": {
+      "question": "No meio do drawdown, seu diário mostra aderência total ao plano e o regime virou de trending para ranging. O que a escada diagnóstica conclui?",
+      "options": [
+        "O método está quebrado — reconstrua tudo.",
+        "O comportamento está bem e o tempo mudou: setups de tendência num regime ranging rendem abaixo por design — espere ou opere a família apropriada ao regime.",
+        "Dobre o tamanho para sair do drawdown mais rápido.",
+        "Apague o diário."
+      ],
+      "explanation": "O nível 1 passa, o nível 2 explica a dor, o nível 3 nunca é alcançado. O movimento certo é paciência de regime, não cirurgia de método — o erro mais caro é consertar o que não está quebrado."
+    },
+    "live_apply": {
+      "cta": "Leia o drawdown máximo do seu preset principal e escreva, com antecedência, sua profundidade de pausa pessoal e regra de reinício."
+    },
+    "bridge": {
+      "cta": "Aplique: rejogue The Gap Down e gerencie um choque de liquidez com processo, não adrenalina."
+    }
+  }
+]
