@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "expert-01-oos-validation",
+    "title": "Validation OOS Walk-Forward",
+    "summary": "Comprendre la base statistique d'un backtesting honnête.",
+    "concept": "**L'analyse walk-forward** teste une stratégie de façon répétée sur des fenêtres hors-échantillon (out-of-sample) glissantes au lieu d'une seule division fixe. L'intuition : si une stratégie est robuste, elle devrait montrer une espérance positive sur *plusieurs* fenêtres OOS indépendantes, pas une seule.\n\n**Critères de validation OOS de QuantGlass :**\n1. Nombre de transactions OOS ≥ `min_backtest_sample` (par défaut : 50 transactions)\n2. Espérance OOS > 0.0R (la configuration a gagné de l'argent sur la période réservée)\n\nLes deux doivent être vrais pour que `out_of_sample_validated = True`.\n\n**Pourquoi la taille de l'échantillon compte** : un taux de réussite de 80 % sur 5 transactions OOS est statistiquement dénué de sens. Le **rétrécissement Empirical Bayes (Empirical Bayes shrinkage)** dans `_calibrate_win_rate` gère cela en tirant les taux de réussite d'échantillons minces vers 50 % proportionnellement à la minceur de l'échantillon.",
+    "key_terms": [
+      {
+        "term": "Walk-Forward",
+        "definition": "Backtest à fenêtre glissante sur plusieurs périodes OOS."
+      },
+      {
+        "term": "min_backtest_sample",
+        "definition": "Nombre minimum de transactions OOS requis avant que la validation OOS soit revendiquée."
+      },
+      {
+        "term": "Espérance OOS",
+        "definition": "R moyen par transaction dans les 30 % de données réservées."
+      },
+      {
+        "term": "Rétrécissement Empirical Bayes",
+        "definition": "Tirer les taux de réussite bruts vers 50 % quand l'échantillon est mince — évite le surajustement."
+      }
+    ],
+    "exercise": {
+      "question": "Une configuration a 8 transactions OOS avec un taux de réussite de 75 % et une espérance de +0.9R. min_backtest_sample = 50. L'OOS est-elle validée ?",
+      "options": [
+        "Oui — un taux de réussite de 75 % est une preuve solide.",
+        "Non — le nombre de transactions OOS (8) < min_backtest_sample (50). Les deux conditions doivent être remplies.",
+        "Oui — l'espérance positive seule suffit.",
+        "Non — un taux de réussite de 75 % est trop élevé ; il suggère un biais de lookahead."
+      ],
+      "explanation": "Même si l'espérance est positive (+0.9R), le nombre de transactions OOS (8) est sous le minimum (50). Les **deux** conditions doivent passer : `oos_count ≥ min_sample AND oos_expectancy > 0`. 8 transactions sont un échantillon bien trop petit — même un taux de réussite de 75 % sur 8 transactions est statistiquement insignifiant. La confiance sera plafonnée à 62 et marquée comme non validée."
+    },
+    "live_apply": {
+      "cta": "Dans Paramètres → Sécurité, essayez de réduire min_backtest_sample à 10 et voyez combien de signaux supplémentaires affichent OOS_validated=True — puis demandez-vous si c'est digne de confiance."
+    }
+  },
+  {
+    "id": "expert-02-empirical-bayes",
+    "title": "Calibration de la confiance Empirical Bayes",
+    "summary": "Apprenez comment le moteur empêche les résultats de backtest sur petits échantillons de gonfler la confiance.",
+    "concept": "**Le problème** : une stratégie avec 3 transactions gagnantes sur 3 a un taux de réussite observé de 100 %. La traiter comme une confiance de 100 % serait dangereusement trompeur.\n\nLe **rétrécissement Empirical Bayes** résout cela en incorporant un *a priori (prior)* (une croyance sceptique que le vrai taux de réussite est de 50 %) et en le mettant à jour avec des preuves :\n\n`calibrated_win_rate = (raw_win_rate × sample_size + 0.5 × prior_strength) / (sample_size + prior_strength)`\n\noù `prior_strength = min_backtest_sample` (par défaut : 50).\n\n**Effet :**\n- 3 sur 3 (brut 100 %) : calibré = (3 + 25) / (3 + 50) = 52.8 % → presque neutre\n- 40 sur 50 (brut 80 %) : calibré = (40 + 25) / (50 + 50) = 65 % → confiance modérée\n- 100 sur 120 (brut 83 %) : calibré = (100 + 25) / (120 + 50) = 73.5 % → confiance élevée\n\nPlus de données = moins de rétrécissement = le score calibré se rapproche de la réalité brute.",
+    "key_terms": [
+      {
+        "term": "A priori (Prior)",
+        "definition": "Croyance de départ (taux de réussite de 50 %) avant de voir la moindre donnée."
+      },
+      {
+        "term": "Force de l'a priori (Prior Strength)",
+        "definition": "À quel point l'a priori domine — égal à min_backtest_sample (50 pseudo-transactions)."
+      },
+      {
+        "term": "Rétrécissement (Shrinkage)",
+        "definition": "Tirer l'estimation vers l'a priori quand l'échantillon est petit."
+      },
+      {
+        "term": "Taux de réussite calibré",
+        "definition": "Taux de réussite ajusté bayésiennement — plus fiable que le taux brut sur petits échantillons."
+      }
+    ],
+    "exercise": {
+      "question": "raw_win_rate = 0.70, sample_size = 20, prior_strength = 50. Quel est le calibrated_win_rate ? (arrondir à 2 décimales, ex. 0.63)",
+      "hint": "calibré = (raw × n + 0.5 × prior) / (n + prior)",
+      "explanation": "calibré = (0.70 × 20 + 0.5 × 50) / (20 + 50) = (14 + 25) / 70 = 39 / 70 = **0.557 ≈ 0.56**. Un taux de réussite brut de 70 % sur 20 transactions se rétrécit à ~56 % — proche du neutre. Cela évite l'excès de confiance dans les backtests minces."
+    },
+    "live_apply": {
+      "cta": "Comparez une configuration avec 10 transactions OOS à une avec 80 transactions OOS. Remarquez comment la confiance diffère même pour des taux de réussite bruts similaires."
+    }
+  },
+  {
+    "id": "expert-06-conformal-prediction",
+    "title": "Prédiction conforme (Conformal Prediction) : des garanties sans hypothèses",
+    "summary": "Les maths derrière la plage à couverture garantie du tiroir de signal.",
+    "concept": "La plupart des intervalles de prédiction s'appuient sur des hypothèses que les marchés refusent d'honorer (normalité, variance stable). La **prédiction conforme par division (Split-conformal prediction)** n'exige presque rien : prenez un ensemble de calibration de résultats passés (QuantGlass utilise les **résultats de transactions hors-échantillon en R**), triez-les, et lisez les quantiles ajustés par rang. L'intervalle obtenu contient le résultat *suivant* avec au moins la probabilité énoncée, en échantillon fini, en supposant uniquement l'échangeabilité (pas de coup d'œil furtif, pas de réordonnancement).\n\nLa mécanique exacte du moteur pour une couverture de 90 % : avec n résultats de calibration, la borne inférieure est le ⌊(n+1)·0.05⌋-ième plus petit et la supérieure le ⌈(n+1)·0.95⌉-ième. Ces rangs n'existent que lorsque **n ≥ 19** — en dessous, le tiroir n'affiche *aucun* intervalle plutôt qu'un non étayé. L'honnêteté inclut le refus de fabriquer des garanties.\n\nLire « plage de la prochaine transaction −1.0R à +2.1R (90 % garanti sur 214 transactions OOS) » du tiroir : elle encadre des résultats, pas des profits — et la largeur est de l'information : des intervalles larges sont les données avouant leur propre dispersion.",
+    "key_terms": [
+      {
+        "term": "Split-conformal",
+        "definition": "Intervalles sans distribution issus des statistiques de rang d'un ensemble de calibration."
+      },
+      {
+        "term": "Échangeabilité (Exchangeability)",
+        "definition": "La seule hypothèse : les résultats de calibration et futurs sont indifférents à l'ordre."
+      },
+      {
+        "term": "Couverture (Coverage)",
+        "definition": "La probabilité garantie que le résultat suivant tombe dans l'intervalle."
+      },
+      {
+        "term": "n minimum",
+        "definition": "n ≥ 19 pour une couverture de 90 % — en dessous, le moteur n'affiche rien."
+      },
+      {
+        "term": "Largeur d'intervalle",
+        "definition": "Dispersion honnête : des plages larges signifient des configurations bruitées."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi le tiroir de signal n'affiche-t-il parfois AUCUNE plage de prochaine transaction ?",
+      "options": [
+        "La fonctionnalité est payante uniquement.",
+        "L'ensemble de calibration OOS est sous le minimum (19 transactions pour 90 %) — les maths de rang ne peuvent fournir la garantie, donc le moteur refuse d'en falsifier une.",
+        "Les intervalles conformes n'existent que pour les actions.",
+        "La plage est cachée quand elle paraît mauvaise."
+      ],
+      "explanation": "Une garantie qui ne peut être calculée ne doit pas être affichée. L'absence de l'intervalle est elle-même une information honnête sur la taille de l'échantillon."
+    },
+    "live_apply": {
+      "cta": "Ouvrez un tiroir de signal avec un grand échantillon OOS et lisez sa plage garantie — puis trouvez-en un sans, et vérifiez la taille de l'échantillon."
+    }
+  },
+  {
+    "id": "expert-07-calibration",
+    "title": "Calibration : la confiance signifie-t-elle quelque chose ?",
+    "summary": "Prédit contre réalisé — l'examen final du score.",
+    "concept": "Un score de confiance ne gagne la confiance que s'il est **calibré** : parmi tous les signaux notés autour de 70, à peu près la fraction correspondante devrait fonctionner ; les signaux notés 55 devraient réussir moins souvent que ceux notés 75. La calibration se vérifie avec un tableau d'une simplicité désarmante : regroupez les signaux passés par confiance, puis comparez le niveau *prédit* de chaque groupe à sa fréquence *réalisée*.\n\nLes modes d'échec ont des noms : **excès de confiance (overconfidence)** (réalisé sous le prédit — le dangereux) et les motifs du diagramme de fiabilité qui révèlent où dans la plage se situe le score. QuantGlass combat déjà l'excès de confiance structurellement — rétrécissement, le plafond de 62 points pour les non validés, le plafond dur de 89 — et le tableau de suivi de calibration (le couronnement de la feuille de route du moteur) boucle la boucle en notant le noteur contre l'historique de votre propre application.\n\nL'habitude transposable : tout score que quiconque vous montre — y compris le nôtre — mérite la question *« calibré par rapport à quoi ? »*. Un nombre de confiance sans vérification de calibration est un adjectif déguisé.",
+    "key_terms": [
+      {
+        "term": "Calibration",
+        "definition": "Accord entre la confiance prédite et la fréquence réalisée."
+      },
+      {
+        "term": "Groupe de fiabilité",
+        "definition": "Signaux groupés par bande de score, comparés prédit-contre-réalisé."
+      },
+      {
+        "term": "Excès de confiance (Overconfidence)",
+        "definition": "Succès réalisé sous le prédit — la mauvaise calibration coûteuse."
+      },
+      {
+        "term": "Noter le noteur",
+        "definition": "Auditer le modèle de confiance lui-même contre les résultats."
+      }
+    ],
+    "exercise": {
+      "question": "Les signaux notés 70–79 dans votre historique ont réussi 48 % du temps. Quelle est la constatation ?",
+      "options": [
+        "Rien — les scores sont décoratifs.",
+        "Le score est en excès de confiance dans cette bande : les prédictions ont dépassé la réalité, donc les entrées ou la pondération doivent être recalibrées.",
+        "48 % s'arrondit à 75 %.",
+        "Les taux de succès ne peuvent être mesurés."
+      ],
+      "explanation": "Cet écart est exactement ce qu'un tableau de calibration existe pour révéler. Un groupe des 70 bien calibré devrait se réaliser près de sa prétention — un déficit persistant signifie que le modèle se flatte lui-même."
+    },
+    "live_apply": {
+      "cta": "Notez la confiance de vos cinq prochains signaux suivis et leurs résultats — cinq lignes de votre propre tableau de calibration."
+    }
+  },
+  {
+    "id": "expert-08-monte-carlo",
+    "title": "Monte Carlo : un seul historique ne suffit pas",
+    "summary": "Rééchantillonner les résultats de transactions pour voir les avenirs que vous n'avez pas eus.",
+    "concept": "La courbe de capital d'un backtest est **un tirage** de la distribution de la stratégie — l'ordre particulier dans lequel gains et pertes se sont produits. Remélangez les mêmes transactions et le drawdown maximal change, parfois radicalement : la séquence est de la chance, et votre historique unique incarne une séquence chanceuse-ou-non.\n\nLe **rééchantillonnage Monte Carlo (Monte Carlo resampling)** rend cela explicite : échantillonnez des transactions (avec remise) depuis votre liste de résultats, construisez des milliers de courbes de capital synthétiques, et lisez des *distributions* au lieu de points — drawdown maximal médian, drawdown au 95e centile, la probabilité d'atteindre un seuil de ruine avant un objectif. Une stratégie dont le backtest montre un drawdown maximal de −12 % peut montrer un 95e centile de −28 % sous rééchantillonnage ; la différence est le risque de séquence que la courbe unique a caché.\n\nUsages pratiques : dimensionnez pour que le drawdown du *95e centile* reste survivable (pas l'historique), et fixez la profondeur de la règle de pause depuis la distribution plutôt que depuis l'espoir. Les résultats R par transaction du moteur — la même liste qui alimente la calibration conforme — sont exactement l'entrée du rééchantillonnage.",
+    "key_terms": [
+      {
+        "term": "Risque de séquence (Sequence risk)",
+        "definition": "La dépendance du drawdown à l'ordre des résultats."
+      },
+      {
+        "term": "Rééchantillonnage (Resampling)",
+        "definition": "Tirer des transactions avec remise pour générer des historiques synthétiques."
+      },
+      {
+        "term": "Distribution de drawdown",
+        "definition": "Centiles du drawdown maximal à travers les simulations."
+      },
+      {
+        "term": "Probabilité de ruine",
+        "definition": "La fraction de chemins franchissant un seuil de survie."
+      }
+    ],
+    "exercise": {
+      "question": "Deux stratégies partagent des résultats de transactions identiques mais des ordres différents, donnant des drawdowns maximaux de −9 % et −22 %. Qu'est-ce qui explique la différence ?",
+      "options": [
+        "Un backtest est corrompu.",
+        "La séquence : les mêmes résultats dans un ordre malchanceux regroupent les pertes — le drawdown dépend du chemin, ce qui est exactement pourquoi Monte Carlo rééchantillonne les ordres.",
+        "Le drawdown est du bruit aléatoire sans signification.",
+        "La stratégie à −9 % a un meilleur taux de réussite."
+      ],
+      "explanation": "Mêmes transactions, même espérance, chance d'agencement différente. Juger la robustesse sur un seul ordre, c'est juger un dé sur un seul lancer."
+    },
+    "live_apply": {
+      "cta": "Prenez les statistiques de résultats d'un préréglage et demandez : si ces mêmes transactions arrivaient dans leur pire ordre plausible, votre dimensionnement y survivrait-il ?"
+    },
+    "common_mistakes": [
+      "Lire le chemin médian comme l'espérance. La dispersion des chemins - en particulier le drawdown au 95e centile - est la sortie pertinente pour la décision.",
+      "Rééchantillonner sans tenir compte du regroupement par régime. Les rendements remélangés sous-estiment les séries ; les vraies pertes arrivent en grappes."
+    ]
+  },
+  {
+    "id": "expert-03-custom-indicator",
+    "title": "Écrire une extension d'indicateur personnalisée",
+    "summary": "Contribuez un indicateur déterministe à QuantGlass via l'API d'extensions.",
+    "concept": "Les indicateurs dans QuantGlass doivent satisfaire ces contraintes :\n1. **Déterministe** — les mêmes entrées produisent toujours les mêmes sorties\n2. **Aucun appel réseau** — calcul pur sur les données de bougies fournies\n3. **Aucun lookahead** — l'indice N ne peut utiliser que les bougies 0…N\n4. **Aucun état caché** — fonctions sans état ou classes réinitialisées à chaque appel\n\n**Extension d'indicateur minimale :**\n```python\nfrom app.extensions.base import ExtensionBase, ExtensionManifest\n\nclass VWAPIndicatorExtension(ExtensionBase):\n    def manifest(self):\n        return ExtensionManifest(\n            id='vwap-indicator',\n            name='VWAP',\n            version='1.0.0',\n            capabilities=['indicator'],\n            permissions=[],\n        )\n\n    def register(self, context):\n        context.indicator_registry.register({\n            'id': 'vwap',\n            'name': 'Volume-Weighted Average Price',\n            'compute': self._compute_vwap,\n        })\n\n    def _compute_vwap(self, candles):\n        cumvol, cumvp = 0.0, 0.0\n        result = []\n        for c in candles:\n            cumvol += c['volume']\n            cumvp += c['volume'] * (c['high'] + c['low'] + c['close']) / 3\n            result.append(cumvp / cumvol if cumvol else None)\n        return result\n```\nDéposez ce fichier dans `workspace/extensions/` et redémarrez le backend.",
+    "key_terms": [
+      {
+        "term": "Manifeste d'extension (Extension Manifest)",
+        "definition": "Déclare id, nom, version, capacités (capabilities) et permissions requises."
+      },
+      {
+        "term": "Contrat d'indicateur (Indicator Contract)",
+        "definition": "compute(candles) → liste de valeurs, une par bougie, sans lookahead."
+      },
+      {
+        "term": "Déterministe",
+        "definition": "Même entrée → même sortie, toujours, sans effets de bord."
+      }
+    ],
+    "exercise": {
+      "question": "Lequel de ces éléments viole le contrat d'indicateur de QuantGlass ?",
+      "options": [
+        "Utiliser candle[i] pour calculer une somme glissante de candle[0..i].",
+        "Faire une requête HTTP pour récupérer des données de prix supplémentaires dans compute().",
+        "Renvoyer None pour les N premières bougies pendant que la fenêtre se réchauffe.",
+        "Accepter un paramètre « period » dans la signature de la fonction compute."
+      ],
+      "explanation": "Les appels HTTP dans `compute()` violent la règle **aucun-réseau**. Les appels réseau introduisent latence, non-déterminisme et biais de lookahead potentiel. Toutes les données doivent être fournies via l'argument candles. Renvoyer None pendant le réchauffement et accepter des paramètres sont tous deux des motifs valides et attendus."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → Extensions. Examinez l'extension community_momentum_pack comme implémentation de référence."
+    }
+  },
+  {
+    "id": "expert-04-custom-strategy",
+    "title": "Écrire une extension de stratégie personnalisée",
+    "summary": "Créez une stratégie complète qui s'intègre au moteur de signaux de QuantGlass.",
+    "concept": "Une extension de stratégie enregistre une `candidate_factory` — une fonction appelée par le moteur de signaux qui renvoie des configurations candidates dans le même format que les familles intégrées.\n\n**Champs candidats requis :**\n`signal`, `setup_type`, `direction`, `reference_price`, `entry_zone[2]`, `stop_loss`, `take_profit[3]`, `confluence_score`\n\n**Règles du contrat de stratégie :**\n1. N'utilisez que des **bougies fermées (closed candles)** — pas de coup d'œil sur la barre partielle\n2. Incluez des **frais et du slippage** réalistes dans les backtests\n3. Rapportez **IS et OOS séparément** — ne mélangez pas les fenêtres\n4. **L'échelle de take_profit montrée aux utilisateurs doit correspondre à ce que le backtest simule**\n\nCette dernière règle est celle que l'audit de production a signalée comme mode d'échec courant — QuantGlass l'impose en utilisant `_TP_LADDER_WEIGHTS = (0.5, 0.3, 0.2)` dans le simulateur de backtest et en affichant les trois mêmes niveaux dans la sortie du signal.",
+    "key_terms": [
+      {
+        "term": "candidate_factory",
+        "definition": "Fonction qui renvoie des candidats de configuration depuis le contexte du moteur de signaux."
+      },
+      {
+        "term": "Cohérence de l'échelle TP",
+        "definition": "Les sorties montrées aux utilisateurs doivent correspondre exactement aux sorties que le backtest simule."
+      },
+      {
+        "term": "Règle de la bougie fermée",
+        "definition": "Les stratégies ne peuvent utiliser que des bougies avec status='closed' — aucune donnée de barre partielle."
+      }
+    ],
+    "exercise": {
+      "question": "Votre stratégie montre un TP à 3R aux utilisateurs, mais le backtest sort à 2R. Quel est le problème ?",
+      "options": [
+        "Aucun problème — montrer un TP plus optimiste encourage les utilisateurs.",
+        "L'espérance du backtest est fausse — elle sous-estime la performance réelle.",
+        "Le backtest simule des sorties plus basses que celles affichées — il surestime la survivabilité mais sous-estime la récompense. Le contrat de stratégie est violé.",
+        "Aucun problème — le TP n'est qu'une suggestion, pas une règle stricte."
+      ],
+      "explanation": "Quand le backtest sort à 2R mais que l'affichage promet 3R, le backtest simule une transaction différente de celle que l'utilisateur exécute. Cela rend les résultats du backtest peu fiables comme prédicteur de l'expérience utilisateur. QuantGlass impose la cohérence via `_TP_LADDER_WEIGHTS`."
+    },
+    "live_apply": {
+      "cta": "Examinez extensions/community_momentum_pack.py pour un exemple complet et fonctionnel d'extension de stratégie."
+    }
+  },
+  {
+    "id": "expert-09-extension-sdk",
+    "title": "Le SDK d'extensions : une surface stable",
+    "summary": "Manifeste, permissions, paramètres — étendre le moteur en sécurité.",
+    "concept": "Tout ce dont un auteur d'extension a besoin s'importe depuis un seul module : `app.extensions.sdk`. Il porte une **SDK_VERSION** explicite et une promesse de compatibilité — les ajouts incrémentent le mineur, les ruptures le majeur — afin que l'interne puisse être refactorisé librement pendant que votre extension continue de fonctionner.\n\nL'anatomie : un **ExtensionManifest** déclare l'identité (un id stable), les **capabilities** (les types de choses que vous fournissez : indicateur, stratégie, notification, …) et les **permissions** (ce que vous demandez à toucher : read_market_data, network_access, …). Les entrées **ExtensionSetting** déclarent une configuration typée, éditable par l'utilisateur, qui apparaît automatiquement dans Paramètres → Extensions. Un hook register reçoit l'**ExtensionContext** et contribue des définitions — un `IndicatorDefinition` qui calcule depuis les bougies, un `StrategyDefinition` dont le hook candidat reçoit le même dictionnaire de contexte que voient les familles intégrées et renvoie des candidats qui rivalisent sur la confluence comme n'importe quelle configuration native.\n\nRègle de conception à copier : les extensions *déclarent* ce dont elles ont besoin et *contribuent* des définitions ; elles n'atteignent jamais l'interne du moteur. Cette frontière est ce qui permet à une communauté de publier du code auquel les utilisateurs peuvent faire confiance et qu'ils peuvent auditer.",
+    "key_terms": [
+      {
+        "term": "SDK_VERSION",
+        "definition": "La promesse de compatibilité versionnée de app.extensions.sdk."
+      },
+      {
+        "term": "Manifeste",
+        "definition": "Identité + capacités + permissions, déclarées d'avance."
+      },
+      {
+        "term": "Permission",
+        "definition": "Une demande d'octroi explicite (réseau, données de marché, …) montrée à l'utilisateur."
+      },
+      {
+        "term": "Hook candidat",
+        "definition": "L'entrée d'une extension de stratégie dans la même compétition de confluence que les intégrées."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi une extension doit-elle déclarer ses permissions dans le manifeste au lieu de simplement faire ce que son code veut ?",
+      "options": [
+        "Les manifestes rendent les fichiers plus gros.",
+        "Les permissions déclarées rendent l'extension auditable et consentable — les utilisateurs et relecteurs voient exactement ce qui est demandé avant qu'aucun code ne s'exécute.",
+        "Python l'exige.",
+        "Les permissions sont décoratives."
+      ],
+      "explanation": "Le manifeste est un contrat montré aux humains. Les revues de sécurité, le balayage du registre et le consentement à l'installation reposent tous sur cette déclaration — l'accès non déclaré est la définition même du non digne de confiance."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → Extensions et lisez les capacités et paramètres déclarés d'une extension installée — le manifeste rendu comme interface."
+    }
+  },
+  {
+    "id": "expert-10-publishing-extensions",
+    "title": "Publication : du dossier local à la confiance de la communauté",
+    "summary": "Chemins de chargement, validation et le pipeline de confiance.",
+    "concept": "Livrer une extension a trois stades de maturité. **Local** : déposez un module dans le dossier `extensions/` de l'espace de travail (ou l'équivalent dans le répertoire de données) et le registre le charge au démarrage — la boucle de développement. **Empaqueté** : distribuez via des points d'entrée Python sous `quantglass.extensions`, installable avec pip et verrouillé derrière un drapeau d'adhésion explicite, car le code installé est du code de confiance. **Communauté** : le modèle de registre — soumissions relues, chaque version balayée automatiquement, différences de permissions signalées, étiquettes d'auteur-de-confiance gagnées — afin que la stratégie d'un inconnu puisse être installée avec un consentement éclairé plutôt qu'une foi aveugle.\n\nAvant tout cela : validez. Le dépôt livre un outillage de fixtures qui exerce les contributions d'une extension contre des données connues, et votre indicateur/stratégie ne doit se comporter que sur des bougies fermées — les mêmes règles d'honnêteté que le moteur obéit. Une extension qui jette un coup d'œil à la barre en formation paraîtra brillante en développement et mentira en production.\n\nLe point culturel : dans la plupart des écosystèmes de trading, le code communautaire touchant à l'argent n'est pas relu par conception. Faire de la relecture et des permissions des citoyens de première classe est le facteur de différenciation qui vaut la peine d'être contribué.",
+    "key_terms": [
+      {
+        "term": "Chargement depuis l'espace de travail",
+        "definition": "Déposer des extensions dans le dossier local pour le développement."
+      },
+      {
+        "term": "Point d'entrée",
+        "definition": "Distribution installable par pip sous quantglass.extensions, derrière l'adhésion."
+      },
+      {
+        "term": "Différence de permissions (Permission diff)",
+        "definition": "Alarme du registre quand une nouvelle version demande plus d'accès."
+      },
+      {
+        "term": "Règle de la bougie fermée",
+        "definition": "Les extensions doivent obéir à la même discipline du non-coup-d'œil que le moteur."
+      }
+    ],
+    "exercise": {
+      "question": "La mise à jour d'une extension communautaire demande network_access là où la v1 n'en avait pas besoin. Que devrait faire le pipeline de confiance ?",
+      "options": [
+        "Approuver automatiquement — les mises à jour sont des améliorations.",
+        "Signaler la différence de permissions pour relecture et nouveau consentement : l'expansion de portée est exactement le moment où surviennent les attaques de la chaîne d'approvisionnement.",
+        "Bloquer toutes les mises à jour pour toujours.",
+        "Les permissions ne peuvent pas changer."
+      ],
+      "explanation": "La version N gagnant la confiance ne la transfère pas aux nouveaux pouvoirs de la version N+1. Comparer les permissions déclarées à chaque version est la vérification la moins chère et la plus précieuse qu'un registre effectue."
+    },
+    "live_apply": {
+      "cta": "Trouvez l'adhésion du point d'entrée des extensions dans votre configuration — notez que le code installé exige un drapeau explicite, jamais le silence."
+    }
+  },
+  {
+    "id": "expert-11-fact-guarded-ai",
+    "title": "Narration gardée par les faits",
+    "summary": "Comment l'application laisse un modèle parler sans le laisser inventer.",
+    "concept": "Les modèles de langage sont fluides et peu fiables — un couple dangereux autour de l'argent. Le pipeline de narration de QuantGlass suppose que le modèle finira par halluciner et construit la cage d'abord.\n\nLes couches : le modèle reçoit **uniquement des faits calculés par le moteur** (les nombres du signal en JSON) avec l'instruction de reformuler, pas d'inventer ; la génération est **contrainte par schéma** (les sorties structurées imposent une enveloppe `{summary}` — pas de divagation libre à analyser) ; le texte renvoyé passe un **garde de faits numériques** qui extrait chaque nombre et vérifie qu'il remonte à un fait fourni — un seul prix fabriqué et toute la sortie est jetée ; et à tout échec le **modèle déterministe** prend le relais, étiqueté comme tel. La source de la narration est toujours affichée, donc vous savez si c'est un modèle ou le modèle déterministe qui parle.\n\nLe principe transposable pour toute recherche assistée par IA que vous faites : la génération est bon marché, **la vérification est le produit**. Utilisez les modèles pour expliquer des nombres vérifiés ; ne les utilisez jamais comme source de nombres.",
+    "key_terms": [
+      {
+        "term": "Ancrage aux faits (Fact grounding)",
+        "definition": "Le modèle ne peut que reformuler des valeurs calculées par le moteur."
+      },
+      {
+        "term": "Sortie structurée",
+        "definition": "Génération contrainte par schéma — l'enveloppe {summary}."
+      },
+      {
+        "term": "Garde de faits numériques",
+        "definition": "Chaque nombre dans la sortie doit remonter à un fait fourni."
+      },
+      {
+        "term": "Repli sur modèle",
+        "definition": "Le chemin déterministe et étiqueté quand le modèle échoue ou ment."
+      }
+    ],
+    "exercise": {
+      "question": "Le modèle de narration produit un résumé fluide contenant un objectif de prix qui n'apparaît nulle part dans les faits du moteur. Que se passe-t-il ?",
+      "options": [
+        "L'objectif est livré — la fluidité implique l'exactitude.",
+        "Le garde de faits rejette toute la sortie et le modèle déterministe est rendu à la place, avec la source étiquetée.",
+        "Le prix est supprimé silencieusement.",
+        "On demande au modèle de s'excuser."
+      ],
+      "explanation": "Un seul nombre intraçable empoisonne tout le texte — une confiance partielle n'est pas une confiance. Jeter-et-replier garde chaque phrase affichée défendable."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → IA : quel que soit le fournisseur que vous choisissez, le garde et le repli sur modèle se tiennent entre chaque modèle et votre écran."
+    }
+  },
+  {
+    "id": "expert-12-local-models",
+    "title": "Modèles locaux et passerelles",
+    "summary": "Confidentialité, latence et l'abstraction de passerelle.",
+    "concept": "Où tourne le modèle de narration est une vraie décision. **Local** (Ollama, LM Studio, vLLM, llama.cpp) : vos signaux, soldes et habitudes ne quittent jamais la machine ; la latence est liée au matériel ; la capacité plafonne à ce que votre GPU héberge. **API** (clouds compatibles OpenAI, Anthropic, Gemini, et routeurs comme OpenRouter) : des modèles plus puissants, mais votre contexte de recherche voyage vers un tiers sous leurs politiques de rétention.\n\nLa **passerelle de modèles** de QuantGlass abstrait ce choix : une interface, des modules par fournisseur, des vérifications de santé à l'exécution, la découverte de modèles, et le même pipeline sortie-structurée + garde-de-faits quel que soit le backend — changer de fournisseur est un changement de paramètres, pas d'architecture. La présence du garde de faits rééquilibre aussi le compromis : puisqu'ici les modèles ne font que *reformuler* les nombres du moteur, un petit modèle local suffit généralement entièrement, et l'argument de confidentialité pour le local-d'abord a le dernier mot pour la recherche sensible.\n\nAdaptez l'outil à l'enjeu : local pour tout ce qui touche vos positions ; cloud, si jamais, pour des explications génériques où le contexte est de notoriété publique.",
+    "key_terms": [
+      {
+        "term": "Inférence locale",
+        "definition": "Modèles sur votre matériel — privés, liés à la latence, plafonnés en capacité."
+      },
+      {
+        "term": "Passerelle de modèles",
+        "definition": "Une interface au-dessus des fournisseurs Ollama/compatibles-OpenAI/natifs."
+      },
+      {
+        "term": "Résidence des données",
+        "definition": "Où votre contexte de recherche va physiquement."
+      },
+      {
+        "term": "Suffisance de capacité",
+        "definition": "Reformuler des faits gardés exige bien moins de modèle qu'inventer une analyse."
+      }
+    ],
+    "exercise": {
+      "question": "Pour narrer des signaux incluant vos positions papier, pourquoi un petit modèle local est-il souvent le choix par défaut rationnel ?",
+      "options": [
+        "Les modèles locaux sont toujours plus intelligents.",
+        "La tâche est de reformuler des faits vérifiés par le moteur sous un garde — une capacité modeste suffit, et des données de position qui ne quittent jamais la machine emportent le départage.",
+        "Les API cloud ne peuvent pas produire de texte.",
+        "La latence n'existe pas en local."
+      ],
+      "explanation": "Le pipeline réduit délibérément le travail du modèle à une reformulation fluide. Quand les exigences de capacité chutent, la confidentialité devient le critère décisif."
+    },
+    "live_apply": {
+      "cta": "Dans Paramètres → IA, listez quels fournisseurs configurés tournent en local contre via API — et lequel votre narration utilise actuellement."
+    }
+  },
+  {
+    "id": "expert-13-mcp-agents",
+    "title": "MCP : votre moteur comme vérité terrain d'un agent",
+    "summary": "Des outils en lecture seule qui laissent les assistants IA utiliser votre moteur local.",
+    "concept": "Le **Model Context Protocol** standardise la manière dont les assistants IA appellent des outils externes. QuantGlass livre un serveur MCP sur loopback exposant exactement quatre outils en **lecture seule** : list_signals, list_backtest_presets, get_paper_account, list_watchlist. Connectez Claude ou tout client MCP et « que dit le moteur de ma watchlist aujourd'hui ? » cesse d'être une occasion d'hallucination — l'agent *appelle votre moteur* et raisonne sur du JSON vérifié.\n\nLes choix de conception sont la leçon. **Lecture seule** : aucun outil d'ordre, aucun outil de paramètres, aucun secret — une compromission d'agent ne peut déplacer de l'argent ni changer la configuration. **Loopback uniquement** : le serveur se lie à votre machine. **Honnêteté auto-descriptive** : la description de chaque outil porte le cadre éducatif-pas-conseil, donc même le contexte de l'agent hérite de la posture.\n\nCela inverse l'argumentaire habituel de l'IA-trading : au lieu qu'une IA invente des transactions à croire, votre moteur déterministe fournit des faits qu'une IA explique. L'intelligence reste auditable ; le langage reste fluide ; l'autorité reste aux mathématiques.",
+    "key_terms": [
+      {
+        "term": "MCP",
+        "definition": "Model Context Protocol — un standard pour les appels assistant-vers-outil."
+      },
+      {
+        "term": "Surface en lecture seule",
+        "definition": "Des faits qui sortent, jamais d'actions qui entrent — la posture de sécurité du serveur."
+      },
+      {
+        "term": "Liaison loopback",
+        "definition": "Le serveur ne répond qu'à votre propre machine."
+      },
+      {
+        "term": "Agent ancré",
+        "definition": "Un assistant dont les affirmations de marché viennent d'appels d'outils, pas de la mémoire."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi le serveur MCP n'expose-t-il délibérément aucun outil de soumission d'ordre ?",
+      "options": [
+        "MCP ne peut pas encoder d'ordres.",
+        "La capacité est un risque : un agent qui ne peut que lire des faits ne peut être trompé, sollicité ou bogué pour déplacer de l'argent — la frontière est structurelle, pas comportementale.",
+        "Les ordres sont trop rapides pour l'IA.",
+        "Cela sera ajouté pour les utilisateurs premium."
+      ],
+      "explanation": "La sécurité par construction l'emporte sur la sécurité par instruction. Quoi que dise une invite, un outil qui n'existe pas ne peut être détourné."
+    },
+    "live_apply": {
+      "cta": "Le point de terminaison MCP tourne sur 127.0.0.1:8000/mcp dès que le backend est actif — connectez un assistant compatible MCP et demandez-lui vos signaux."
+    }
+  },
+  {
+    "id": "expert-05-trading-plan",
+    "title": "Construire un plan de trading complet",
+    "summary": "Synthétisez tous les concepts en un plan de trading discipliné et basé sur des règles.",
+    "concept": "Un **plan de trading** est un ensemble écrit de règles qui retire l'émotion des décisions de transaction. Il répond à : *quand entrer, combien risquer, quand sortir, et comment revoir la performance*.\n\n**Modèle de plan de trading natif de QuantGlass :**\n\n1. **Univers** : quels symboles du corridor et quelles unités de temps trader\n2. **Porte de signal** : confiance minimale, OOS_validated = True requis ?\n3. **Risque par transaction** : ex., 1 % du compte papier par signal\n4. **Règle d'entrée** : n'entrez que dans l'entry_zone, pas en dehors\n5. **Règle de stop** : stop = stop_loss du signal, aucun remplacement manuel\n6. **Règle de sortie** : sortez par paliers à TP1 (50 %), TP2 (30 %), gardez le reste jusqu'à TP3\n7. **Revue quotidienne** : comparez le capital du compte papier à un indice de référence (ex., BTC ou SPY)\n8. **Calibration mensuelle** : mettez à jour le seuil min_confidence selon les taux de réussite réalisés\n\nLe plan ne vaut que par votre adhésion. QuantGlass fournit les signaux ; la discipline fournit l'avantage.",
+    "key_terms": [
+      {
+        "term": "Plan de trading",
+        "definition": "Un jeu de règles écrites pour entrées, dimensionnement, sorties et revue — retire l'émotion discrétionnaire."
+      },
+      {
+        "term": "Porte de signal",
+        "definition": "Critères minimaux qu'un signal doit remplir avant que vous agissiez (ex., confiance ≥ 65, OOS_validated)."
+      },
+      {
+        "term": "Calibration mensuelle",
+        "definition": "Vérifier si votre seuil min_confidence correspond à votre taux de réussite réel."
+      }
+    ],
+    "exercise": {
+      "question": "Sur 3 mois vous avez pris 40 transactions papier avec confiance ≥ 65. Votre taux de réussite réel était de 48 %. Le taux de réussite backtesté du moteur pour ces configurations était de 56 %. Que devriez-vous faire ?",
+      "options": [
+        "Rien — un écart de 8 % est une variance normale sur 40 transactions.",
+        "Monter min_confidence à ≥ 72 pour filtrer des configurations de meilleure qualité, ou enquêter si le timing d'exécution était décalé (entré hors de l'entry_zone).",
+        "Baisser min_confidence à ≥ 55 — le seuil plus bas améliorera le taux de réussite.",
+        "Cesser d'utiliser QuantGlass — le modèle est cassé."
+      ],
+      "explanation": "Un écart persistant entre le taux de réussite backtesté (56 %) et le taux réalisé (48 %) sur 40 transactions suggère soit du slippage d'exécution (entrée trop tardive, hors de l'entry_zone) soit que le seuil de confiance actuel sélectionne des configurations où l'écart est le plus large. Monter le seuil à ≥ 72 filtre des configurations de meilleure qualité avec des preuves OOS plus fortes. Auditez aussi vos exécutions — êtes-vous entré dans l'entry_zone à chaque fois ?"
+    },
+    "live_apply": {
+      "cta": "Rédigez votre plan de trading sur papier. Pour vos 10 prochaines transactions papier, notez : prix d'entrée, pourquoi vous êtes entré, résultat, et si vous avez suivi vos règles."
+    },
+    "common_mistakes": [
+      "Écrire une constitution et ne jamais l'amender. Une politique qui n'évolue pas avec les preuves devient une relique ; révisez-la selon un calendrier, pas sur une impulsion.",
+      "Rendre les règles si strictes qu'elles sont abandonnées en deuxième semaine. Une constitution que vous suivez vraiment à 80 % de rigueur bat une parfaite que vous ignorez."
+    ]
+  },
+  {
+    "id": "expert-14-key-custody",
+    "title": "Garde des clés et la frontière des secrets",
+    "summary": "Où vivent les identifiants, et les niveaux de dégâts qu'ils peuvent causer.",
+    "concept": "Chaque identifiant externe est une délégation de pouvoir, et pas de façon égale : une **clé de données en lecture seule** (actualités, bougies) fuite au pire votre curiosité ; une **clé apte au trade** (clé de courtier + secret) est de l'argent déguisé d'un fil. La garde doit s'adapter à ce niveau.\n\nLa frontière de QuantGlass : les secrets ne reposent jamais dans des lignes en clair. Ils vivent dans un **coffre de secrets local chiffré**, avec un **routage vers le trousseau de l'OS** pour les clés aptes au trade là où un trousseau utilisable existe — et les clés sont marquées `tradeEnabled` afin que l'application elle-même sache quels identifiants sont dangereux. L'interface des paramètres efface les valeurs après l'enregistrement ; l'API renvoie des métadonnées, pas des secrets ; la surface MCP n'expose rien ayant la forme d'un identifiant.\n\nVotre hygiène opérationnelle complète le système : créez des clés de courtier avec les **portées minimales** offertes (données-seules si les données sont tout ce qu'il vous faut), préférez des clés qui *ne peuvent pas retirer*, faites tourner après tout soupçon, et traitez les demandes « collez votre clé API » partout en dehors de l'écran des paramètres comme l'arnaque qu'elles sont presque certainement.",
+    "key_terms": [
+      {
+        "term": "Clé apte au trade",
+        "definition": "Un identifiant qui peut déplacer de l'argent — le niveau de garde le plus élevé."
+      },
+      {
+        "term": "Coffre de secrets chiffré",
+        "definition": "Stockage local chiffré ; jamais des lignes de base de données en clair."
+      },
+      {
+        "term": "Routage vers le trousseau",
+        "definition": "Garde au niveau de l'OS pour le niveau dangereux quand disponible."
+      },
+      {
+        "term": "Portée minimale",
+        "definition": "Clés créées avec le moindre pouvoir qui fait le travail."
+      }
+    ],
+    "exercise": {
+      "question": "Votre courtier propose des portées de clé : lecture seule, trade, trade+retrait. Vous voulez les données de marché de QuantGlass et à terme des tests de parité papier. Quelle portée est correcte ?",
+      "options": [
+        "trade+retrait — flexibilité maximale.",
+        "lecture seule maintenant ; trade seulement si et quand l'exécution réelle est délibérément déverrouillée ; retrait jamais — aucune application n'a besoin de vos droits de retrait.",
+        "Celle qui est en premier dans le menu déroulant.",
+        "Les portées sont équivalentes."
+      ],
+      "explanation": "La portée est le rayon de l'explosion. Des droits de retrait dans une clé API convertissent toute compromission en vol ; des droits de trade avant d'en avoir besoin sont une pure responsabilité."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → Clés API et identifiez quels champs sont marqués aptes au trade — les niveaux de garde de l'application rendus visibles."
+    }
+  },
+  {
+    "id": "expert-15-going-live-gate",
+    "title": "La porte du passage au réel",
+    "summary": "Exposition par paliers, déverrouillages mérités, et la discipline de rester en papier.",
+    "concept": "QuantGlass est livré avec le **trading réel désactivé** — non comme une fonctionnalité manquante mais comme un principe produit : l'exécution réelle devrait être *déverrouillée par une préparation démontrée*, jamais subie par accident. Le chemin par paliers reflète l'ingénierie de sécurité que vous avez rencontrée tout au long du cours : trading papier avec données réelles (où vous êtes) → mode réel *visible mais verrouillé* derrière des identifiants de courtier explicites, une confirmation distincte, et des vérifications de sécurité du backend → si jamais activé, **mode petite-taille d'abord**, où les erreurs coûtent des frais de scolarité plutôt que du capital.\n\nUne barre de préparation qui vaut la peine d'être écrite avant tout changement de palier (éducation, pas conseil) : un échantillon papier significatif (pensez 100+ transactions, pas 10) avec une espérance positive ou maîtrisée ; une discipline de journal quasi parfaite ; aucune violation grave de risque dans votre historique récent ; un plan de trading écrit ; réussir votre propre revue honnête de la voie psychologie ; et la règle de refroidissement — toute décision de déverrouillage prise un *jour différent* de l'envie de la prendre.\n\nEt la vérité silencieuse sur laquelle repose toute cette Académie : **rester en mode papier indéfiniment est un résultat légitime et complet.** Les compétences, les statistiques, la discipline — tout cela est réel, que de l'argent réel y soit jamais attaché ou non.",
+    "key_terms": [
+      {
+        "term": "Exposition par paliers",
+        "definition": "Papier → visibilité verrouillée → petite-taille → réel limité par l'utilisateur."
+      },
+      {
+        "term": "Barre de préparation",
+        "definition": "Critères écrits et multidimensionnels — échantillon, discipline, plan, psychologie."
+      },
+      {
+        "term": "Règle de refroidissement",
+        "definition": "Décisions de déverrouillage reportées à un jour plus calme, ultérieur."
+      },
+      {
+        "term": "Papier comme résultat",
+        "definition": "Rester en simulation est un état final valide, pas un échec."
+      }
+    ],
+    "exercise": {
+      "question": "Quel est l'argument le plus fort pour rendre le trading réel optionnel derrière une préparation démontrée, plutôt qu'activé par défaut ?",
+      "options": [
+        "Cela augmente les revenus d'abonnement.",
+        "Les défauts sont le destin : la plupart des dégâts viennent d'utilisateurs sous-formés rencontrant un effet de levier réel trop tôt, et une porte de préparation convertit le chemin par défaut en chemin sûr.",
+        "Les courtiers l'exigent.",
+        "Le trading papier consomme moins d'électricité."
+      ],
+      "explanation": "L'ingénierie de sécurité place la barrière là où est le précipice. Une porte qui doit être méritée consciemment et de façon démontrable rend le chemin dangereux délibéré et le chemin sûr automatique."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → Risque : trouvez la porte du mode de trading et ses exigences — le déverrouillage par paliers rendu comme interface."
+    },
+    "common_mistakes": [
+      "Passer au réel pour que le trading papier « semble réel ». Si la discipline papier manque, l'argent l'empire, il ne l'améliore pas.",
+      "Passer à la taille pleine juste après la porte. L'exécution réelle a des coûts et des émotions que le papier ne modélise jamais - méritez la taille par paliers."
+    ]
+  },
+  {
+    "id": "expert-16-rates-liquidity",
+    "title": "Taux d'intérêt et la marée de liquidité",
+    "summary": "Le prix de l'argent fixe la météo de chaque actif risqué.",
+    "concept": "Les taux d'intérêt sont la gravité de la finance : ils fixent le rendement disponible pour ne prendre *aucun* risque, et donc la barre que chaque actif risqué doit franchir. Quand les banques centrales montent les taux, le rendement sûr attire le capital hors des actions et de la crypto par compétition ; quand elles baissent et injectent de la **liquidité**, ce capital reflue vers l'extérieur le long de la courbe de risque — et les actifs les plus spéculatifs (petites capitalisations, alts) oscillent le plus fort aux deux extrémités.\n\nC'est pourquoi la crypto, commercialisée comme non corrélée, se négocie depuis 2020 comme un **actif de liquidité à bêta élevé** : la même marée, amplifiée.\n\nL'usage du trader est le contexte de régime, pas la prédiction : sachez si la marée de liquidité monte ou descend, et attendez-vous à ce que le suivi de tendance fonctionne *avec* la marée et lutte mal contre elle. Les calendriers macro (décisions des banques centrales, publications d'inflation) sont l'équivalent des résultats d'entreprises à l'échelle du marché — de la volatilité programmée pour chaque graphique à la fois.",
+    "key_terms": [
+      {
+        "term": "Taux sans risque",
+        "definition": "Le rendement des actifs sûrs — l'obstacle que tout risque doit franchir."
+      },
+      {
+        "term": "Liquidité",
+        "definition": "L'offre d'argent investissable — la marée sous les valorisations."
+      },
+      {
+        "term": "Bêta élevé",
+        "definition": "Sensibilité amplifiée à la marée commune — les alts à l'extrême."
+      },
+      {
+        "term": "Calendrier macro",
+        "definition": "Décisions de taux et publications d'inflation — volatilité programmée à l'échelle du marché."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi les décisions de taux des banques centrales font-elles bouger la crypto, qui n'a ni bénéfices ni paiements d'intérêts ?",
+      "options": [
+        "Elles ne le font pas — la crypto est non corrélée.",
+        "Les taux fixent le coût d'opportunité de toute prise de risque : la marée de liquidité qui finance les actifs spéculatifs monte et descend avec la politique, et la crypto se situe loin sur la courbe de risque.",
+        "Les banques centrales possèdent la plupart des pièces.",
+        "La crypto verse des dividendes indexés sur les taux."
+      ],
+      "explanation": "Aucun flux de trésorerie n'est nécessaire pour que le canal fonctionne — seulement la compétition pour le capital. Les actifs les plus spéculatifs sont les derniers financés et les premiers vendus quand l'argent se resserre."
+    },
+    "live_apply": {
+      "cta": "Notez la prochaine date importante d'une banque centrale et observez comment la volatilité de chaque graphique se regroupe autour d'elle."
+    }
+  },
+  {
+    "id": "expert-17-dollar-correlations",
+    "title": "Le dollar et les corrélations inter-actifs",
+    "summary": "Quand tout bouge ensemble, la diversification est une illusion.",
+    "concept": "La plupart des actifs négociés mondialement sont valorisés en dollars, donc **la force du dollar est le dénominateur de tout le monde** : un dollar en forte hausse pèse mécaniquement sur les actifs valorisés en dollars (crypto, matières premières, marchés émergents) et accompagne souvent des flux de fuite-du-risque vers la sécurité américaine.\n\nLa leçon plus profonde, ce sont les **régimes de corrélation**. Dans les marchés calmes, les actifs suivent leurs propres histoires et les corrélations restent basses ; sous stress, *les corrélations convergent vers un* — tout ce qui est risqué se vend ensemble car le vendeur est le même : des portefeuilles à effet de levier qui lèvent du cash. Vous avez rencontré la conséquence dans la leçon sur la chaleur du portefeuille : six longs « différents » deviennent une seule transaction exactement quand ça fait le plus mal.\n\nL'instrument pratique : surveillez quelques cadrans inter-marchés (le dollar, des indices actions larges, BTC pour le bêta crypto). Quand ils sursautent tous dans la même direction d'un coup, lisez cela comme un **événement de régime** — le remplacement de régime-volatil du moteur au niveau d'un actif unique a un jumeau macro, et votre budget de chaleur devrait respecter les deux.",
+    "key_terms": [
+      {
+        "term": "Dénominateur dollar",
+        "definition": "La force du dollar revalorisant mécaniquement les actifs cotés en dollars."
+      },
+      {
+        "term": "Régime de corrélation",
+        "definition": "Calme : corrélations basses. Stress : convergence vers un."
+      },
+      {
+        "term": "Fuite du risque (Risk-off)",
+        "definition": "La fuite synchronisée du risque vers la sécurité."
+      },
+      {
+        "term": "Cadrans inter-marchés",
+        "definition": "Quelques jauges inter-actifs surveillées pour confirmer le régime."
+      }
+    ],
+    "exercise": {
+      "question": "Lors d'un fort événement de fuite-du-risque, pourquoi des positions « diversifiées » à travers actions et plusieurs cryptos chutent-elles ensemble ?",
+      "options": [
+        "Pure coïncidence, à répétition.",
+        "Le stress fait converger les corrélations vers un : le vendeur marginal est le même flux de désendettement sur tous les actifs risqués, donc la diversification n'était qu'une propriété de marché-calme.",
+        "Les bourses synchronisent les prix par règle.",
+        "Cela ne peut arriver avec plus de trois actifs."
+      ],
+      "explanation": "La corrélation dépend du régime. La chaleur du portefeuille doit être budgétée pour la matrice de corrélation stressée, pas la calme — la version macro de la leçon sur la chaleur."
+    },
+    "live_apply": {
+      "cta": "À travers toute votre watchlist, comptez combien de positions sont en réalité le même pari de liquidité portant des symboles différents."
+    }
+  },
+  {
+    "id": "expert-18-cycles-narratives",
+    "title": "Cycles et récits",
+    "summary": "Les marchés bougent en saisons psychologiques ; les récits sont leurs bulletins météo.",
+    "concept": "Dézoomez assez loin et les marchés respirent en **cycles** : accumulation (silencieuse, incrédule), markup (en tendance, de plus en plus cru), distribution (oscillation euphorique aux sommets), markdown (déclin à travers le déni). La crypto comprime ces saisons en années plutôt qu'en décennies, rimant historiquement avec des vagues de liquidité ancrées au halving.\n\nChaque phase porte un **récit** — l'histoire expliquant pourquoi « cette fois » la tendance est le destin. Les récits ne sont pas du bruit : ils coordonnent les flux et peuvent soutenir des tendances bien au-delà de la valeur « juste » (réflexivité). Mais ce sont des *descriptions retardées déguisées en prédiction* — les plus bruyantes précisément aux retournements. Les sommets « nouveau paradigme » et les creux « la classe d'actifs est morte » sont la paire canonique.\n\nLa posture d'expert : tradez le régime devant vous (le travail du moteur), situez-vous dans le cycle pour l'appétit de risque (votre travail), et traitez l'accord narratif universel comme un avertissement de volatilité à contre-courant, pas un feu vert.",
+    "key_terms": [
+      {
+        "term": "Cycle de marché",
+        "definition": "Accumulation → markup → distribution → markdown."
+      },
+      {
+        "term": "Récit",
+        "definition": "L'histoire coordinatrice derrière un flux — la plus forte aux extrêmes."
+      },
+      {
+        "term": "Réflexivité (Reflexivity)",
+        "definition": "Les prix changeant l'histoire-fondamentale qui justifie les prix."
+      },
+      {
+        "term": "Marqueurs euphorie/désespoir",
+        "definition": "Les sommets « nouveau paradigme » et les creux « c'est mort »."
+      }
+    ],
+    "exercise": {
+      "question": "Quand un seul récit haussier est universellement accepté et que « tout le monde est dedans », qu'implique la logique du cycle ?",
+      "options": [
+        "La tendance est maintenant la plus sûre — le consensus est une confirmation.",
+        "Le carburant est épuisé : si tous ceux qui peuvent acheter ont acheté, le flux marginal qui soutenait le markup a disparu, et les conditions de distribution se forment.",
+        "Les récits n'ont aucun rapport avec les flux.",
+        "Les prix doivent monter encore un cycle entier."
+      ],
+      "explanation": "Les tendances sont nourries par de nouveaux acheteurs. L'accord universel signifie que la conversion est complète — le moment le plus bruyant du récit et le plus faible de son flux sont le même moment."
+    },
+    "live_apply": {
+      "cta": "Regardez les segments plats et raides d'une longue courbe de capital — les stratégies aussi respirent avec le cycle ; l'espérance n'est pas une constante de la nature."
+    }
+  },
+  {
+    "id": "expert-19-macro-scope",
+    "title": "Humilité macro et la ligne de portée",
+    "summary": "Du contexte, pas une boule de cristal — et le silence du moteur sur le macro est délibéré.",
+    "concept": "Clôturez la voie par la calibration. La prévision macro professionnelle a un bilan public et humiliant : récessions annoncées en retard, trajectoires de taux fausses de points de pourcentage entiers, chaque année. Si des institutions déployant des armées d'économistes ne peuvent prédire de façon fiable l'avenir macro, l'avantage du trader particulier ne peut être de *les surpasser en prévision*.\n\nCe que l'alphabétisation macro vous achète vraiment : la **posture de risque** (marée montante ou descendante → budget de chaleur à la hausse ou à la baisse), la **conscience du calendrier** (tempêtes programmées respectées, comme les résultats), et le **réalisme de corrélation** (le stress transforme les portefeuilles en une seule transaction). Tout est défensif, tout est réel.\n\nEt la ligne de portée, une dernière fois : QuantGlass ne calcule **rien de macro**. Aucun modèle de taux, aucun appel de cycle — uniquement des bougies fermées. La couche macro vous est délibérément laissée, avec les outils pour être un consommateur calibré plutôt qu'un prévisionniste sûr de lui. La loi récurrente de l'Académie : tout système devrait savoir, et dire, ce qu'il ne sait pas. Cela inclut le trader.",
+    "key_terms": [
+      {
+        "term": "Humilité de prévision",
+        "definition": "L'absence documentée de fiabilité de la prédiction macro."
+      },
+      {
+        "term": "Macro défensif",
+        "definition": "Utiliser le macro pour la posture, le calendrier et la corrélation — pas les appels."
+      },
+      {
+        "term": "Consommateur calibré",
+        "definition": "Pondérer les commentaires macro selon leur bilan, pas leur assurance."
+      },
+      {
+        "term": "Loi de portée",
+        "definition": "Les systèmes — et les traders — déclarant ce qu'ils ne savent pas."
+      }
+    ],
+    "exercise": {
+      "question": "Compte tenu du bilan de la prévision, à quoi sert VRAIMENT l'alphabétisation macro dans cette Académie ?",
+      "options": [
+        "Prédire la trajectoire des taux de l'an prochain mieux que les banques.",
+        "Posture défensive : dimensionner le risque avec la marée, respecter le calendrier macro, et anticiper la convergence des corrélations sous stress — un contexte qui n'a pas besoin de boule de cristal.",
+        "Choisir quelles prévisions croire complètement.",
+        "Rien — les graphiques contiennent toute l'information."
+      ],
+      "explanation": "La valeur réside dans ce dont le contexte macro vous protège, pas dans ce qu'il prédit. Le même standard d'honnêteté que le moteur s'applique à lui-même s'applique aux opinions macro."
+    },
+    "live_apply": {
+      "cta": "Remarquez que nulle part dans les paramètres du moteur il n'y a une entrée macro — l'honnêteté de portée rendue comme une absence."
+    }
+  },
+  {
+    "id": "expert-20-auction-mechanics",
+    "title": "L'enchère continue",
+    "summary": "Le prix n'est pas un nombre — c'est l'état actuel d'une négociation.",
+    "concept": "Sous chaque bougie coule une **double enchère continue** : les ordres à cours limité au repos forment le carnet (le côté patient), et les ordres au marché entrants le consomment (le côté pressé). Une transaction ne se produit que lorsque l'urgence rencontre la patience ; « le prix » n'est que la rencontre la plus récente de ce type.\n\nLe prix *bouge* quand l'urgence d'un côté épuise la patience de l'autre à un niveau — la pression acheteuse mange tout le niveau de l'offre, et l'offre suivante devient le prix. Voilà pourquoi **le volume valide les mouvements** (la logique de ratio-de-volume qu'utilise le moteur) : un mouvement sur volume lourd signifie qu'une urgence réelle a brûlé une offre réelle au repos ; une dérive sur rien peut être revalorisée par un seul ordre.\n\nLes marchés actions ajoutent des **enchères d'ouverture et de clôture** — des appariements par lot qui concentrent un volume énorme aux extrémités de la séance et fixent les cotations sur lesquelles vos bougies quotidiennes ouvrent et ferment. Les carnets crypto ne ferment simplement jamais. Même machine, calendrier différent.",
+    "key_terms": [
+      {
+        "term": "Double enchère",
+        "definition": "Limites au repos (patience) appariées aux ordres au marché (urgence)."
+      },
+      {
+        "term": "Épuisement de niveau",
+        "definition": "Le prix bouge quand un niveau du carnet est entièrement consommé."
+      },
+      {
+        "term": "Enchère par lot",
+        "definition": "Appariements d'ouverture/clôture concentrant le volume actions."
+      },
+      {
+        "term": "Prime d'urgence",
+        "definition": "Les ordres au marché paient le spread pour exiger l'immédiateté."
+      }
+    ],
+    "exercise": {
+      "question": "Mécaniquement, qu'est-ce qui fait monter le prix d'un niveau ?",
+      "options": [
+        "La bourse vote toutes les heures.",
+        "L'urgence acheteuse entrante consomme chaque part au repos à la meilleure offre actuelle, donc le niveau d'offre suivant, plus haut, devient le marché.",
+        "Les vendeurs montent les prix quand ils sont contents.",
+        "Les bougies clôturant en vert."
+      ],
+      "explanation": "Le prix est la frontière où l'urgence a rencontré la patience en dernier. Les mouvements sont des événements d'inventaire — un niveau vidé — c'est pourquoi la participation (le volume) vous dit si un mouvement a été mérité."
+    },
+    "live_apply": {
+      "cta": "Observez une bougie à fort volume contre une calme et lisez-les comme des événements d'enchère : combien de patience l'urgence de chaque côté a-t-elle consommé ?"
+    }
+  },
+  {
+    "id": "expert-21-makers-takers",
+    "title": "Makers, takers et l'économie du spread",
+    "summary": "Qui gagne le spread que vous payez — et ce qu'ils veulent de vous.",
+    "concept": "Chaque plateforme divise les participants en **makers** (dont les ordres au repos fournissent le carnet) et **takers** (dont les ordres au marché le consomment) — les barèmes de frais les tarifent souvent littéralement différemment, versant des rabais aux makers. L'activité du teneur de marché professionnel : coter les deux côtés, gagner le spread de façon répétée, et se débarrasser du risque d'inventaire aussi vite que possible.\n\nComprenez leur unique peur et vous comprenez le comportement du prix à court terme : la **sélection adverse (adverse selection)** — se faire écraser par un flux informé. Quand une lourde pression unilatérale arrive, les makers élargissent les spreads et retirent les cotations (votre leçon sur la dynamique du slippage, maintenant avec un *pourquoi*), et ils recentrent les cotations autour du flux plutôt que de la « juste valeur ».\n\nPour vous, deux conséquences : les ordres à cours limité font de vous le maker (gagnant l'avantage du spread mais risquant vous-même la sélection adverse — votre offre au repos a le plus de chances d'être exécutée exactement quand quelque chose de baissier vient de se produire), et les marchés rapides sont structurellement le moment le plus coûteux pour exiger l'immédiateté.",
+    "key_terms": [
+      {
+        "term": "Maker/taker",
+        "definition": "Fournisseur de liquidité contre consommateur — souvent des paliers de frais distincts."
+      },
+      {
+        "term": "Teneur de marché",
+        "definition": "Un professionnel cotant les deux côtés pour gagner le spread."
+      },
+      {
+        "term": "Sélection adverse",
+        "definition": "Être exécuté par un flux mieux informé — le risque central du maker."
+      },
+      {
+        "term": "Évanouissement des cotations",
+        "definition": "Spreads qui s'élargissent et profondeur qui disparaît quand la pression informée frappe."
+      }
+    ],
+    "exercise": {
+      "question": "Votre ordre d'achat à cours limité au repos s'exécute instantanément lors d'une chute soudaine. À travers le prisme de la sélection adverse, que vient-il de se passer ?",
+      "options": [
+        "Vous avez obtenu une remise chanceuse sans conditions.",
+        "Vous étiez la patience que la vente urgente, peut-être informée, a consommée — les exécutions de limites se regroupent exactement quand le flux contre vous est le plus fort.",
+        "La bourse vous a offert des parts.",
+        "Les ordres à cours limité ne peuvent s'exécuter dans les chutes."
+      ],
+      "explanation": "La malédiction du maker s'applique à vous aussi : le marché accorde votre prix le plus volontiers quand une nouvelle information dit que ce prix était trop généreux. Pas une raison d'éviter les limites — une raison de les placer là où votre thèse accepte déjà l'exécution."
+    },
+    "live_apply": {
+      "cta": "Reconsidérez le bord inférieur de la zone d'entrée : une exécution là pendant une purge est une sélection adverse que votre configuration doit déjà avoir intégrée au prix."
+    }
+  },
+  {
+    "id": "expert-22-order-flow",
+    "title": "Flux d'ordres, déséquilibre et d'où viennent les mèches",
+    "summary": "Lire la logique du ruban sans prétendre lire les pensées.",
+    "concept": "Le **flux d'ordres** est la séquence réalisée d'achat agressif contre vente — le grand livre de l'urgence. Ses déséquilibres expliquent l'anatomie familière des graphiques par le bas : les **cascades de stops** (le prix atteignant un niveau où les stops au repos se convertissent en une rafale d'ordres au marché — la mécanique de cascade-de-liquidation de la voie sur l'effet de levier, généralisée à tous les stops) sculptent les mèches violentes ; l'**absorption** (vente agressive lourde qui échoue à bouger le prix car des offres patientes continuent de se recharger) précède bien des retournements — l'épuisement rencontrant l'accumulation.\n\nC'est aussi là que vit la **manipulation** aux marges : le spoofing (fausse taille au repos destinée à effrayer, retirée avant exécution) et le wash trading (volume d'auto-négociation sur des plateformes laxistes — un rappel de la défense-contre-arnaques pour juger les prétentions de volume des bourses).\n\nLa frontière honnête : le trading complet de flux d'ordres exige des flux de données et du temps d'écran au-delà de la portée de cette application. Ce qui se transpose aux lecteurs de bougies : les mèches sont des événements de flux, le volume est de l'urgence, et les niveaux évidents pour tous (nombres ronds, extrêmes antérieurs) attirent précisément les grappes de stops qui les rendent traîtres où garer des stops.",
+    "key_terms": [
+      {
+        "term": "Déséquilibre du flux d'ordres",
+        "definition": "Achat agressif net moins vente sur une fenêtre."
+      },
+      {
+        "term": "Cascade de stops",
+        "definition": "Stops se convertissant en ordres au marché en chaîne — la mèche de liquidation généralisée."
+      },
+      {
+        "term": "Absorption",
+        "definition": "L'agressivité échouant à bouger le prix contre la patience qui se recharge — carburant de retournement."
+      },
+      {
+        "term": "Spoofing",
+        "definition": "Fausse taille au repos affichée pour intimider, annulée avant exécution."
+      }
+    ],
+    "exercise": {
+      "question": "Le prix plonge à travers un support à nombre rond évident, remplit la mèche d'un volume énorme, puis clôture à nouveau au-dessus. La lecture microstructurelle ?",
+      "options": [
+        "Le support est maintenant cassé de façon permanente.",
+        "Une cascade de stops : les stops regroupés sous le niveau évident se sont convertis en ventes au marché, ont été absorbés par des offres patientes, et la fin du flux forcé a laissé le prix se rétablir — le niveau était une poche de liquidité, pas un verdict.",
+        "Les données sont corrompues.",
+        "Les nombres ronds repoussent les prix."
+      ],
+      "explanation": "Les niveaux évidents concentrent les stops ; les stops sont de l'urgence pré-engagée ; l'urgence s'épuise dans la patience. La mèche-et-reprise est cette phrase entière dessinée sur un graphique — et pourquoi les stops garés au prix évident paient une taxe structurelle."
+    },
+    "live_apply": {
+      "cta": "Trouvez une longue mèche à travers un niveau évident et vérifiez son volume — puis reconsidérez où vos propres stops ont tendance à se situer."
+    }
+  },
+  {
+    "id": "expert-23-microstructure-scope",
+    "title": "Microstructure pour le trader de bougies",
+    "summary": "Ce qui survit au dézoom — et l'altitude choisie par le moteur.",
+    "concept": "La question de synthèse : en tradant depuis des bougies fermées, que devrait changer la microstructure à votre comportement ? Quatre transferts durables. **Stops** : placez-les au-delà des poches de liquidité évidentes, pas dessus — le nombre rond est la maison de la cascade, une distance tamponnée-par-volatilité au-delà est la vôtre (la logique du multiple ATR, maintenant avec sa justification microstructurelle). **Entrées** : ordres à cours limité dans des zones que votre thèse accepte déjà, jamais des offres au repos que vous regretteriez de voir exécutées. **Timing** : évitez d'exiger l'immédiateté dans les marchés rapides et les heures mortes — l'économie du spread est contre vous aux deux extrêmes. **Volume** : lisez-le comme urgence-rencontrant-patience, ce qui est exactement l'interprétation qu'encode le score de confirmation-de-volume du moteur.\n\nEt la ligne d'altitude : QuantGlass opère délibérément à l'**altitude des bougies fermées** — aucun flux de ticks, aucune donnée de carnet, aucun signal de flux. Les bougies sont la compression qui rend possible une analyse déterministe, auditable, rejouable ; le chaos du ruban est réel mais vit sous la résolution déclarée du moteur. Vous savez maintenant ce que le moteur voit, ce qu'il ne voit pas, et — tout l'intérêt de l'Académie — exactement lequel est lequel.",
+    "key_terms": [
+      {
+        "term": "Poche de liquidité",
+        "definition": "Grappes de stops/ordres aux niveaux évidents — carburant de cascade."
+      },
+      {
+        "term": "Stop tamponné",
+        "definition": "Une invalidation placée au-delà de la poche d'une marge de volatilité."
+      },
+      {
+        "term": "Altitude des bougies",
+        "definition": "La résolution déclarée du moteur : OHLCV fermé, rien en dessous."
+      },
+      {
+        "term": "Compression auditable",
+        "definition": "Pourquoi les bougies : analyse déterministe, rejouable, vérifiable."
+      }
+    ],
+    "exercise": {
+      "question": "Sachant que les cascades de stops se regroupent aux niveaux évidents, où cette voie vous dit-elle de placer le stop d'un long par rapport à un support clair ?",
+      "options": [
+        "Exactement au prix du support, là où tout le monde peut le voir.",
+        "À une distance tamponnée-par-volatilité au-delà du niveau évident, afin que le raid de routine de la poche de liquidité ne convertisse pas votre 1R prévu en une exécution de cascade.",
+        "Aucun stop — les cascades rendent les stops inutiles.",
+        "Au-dessus de l'entrée, par sécurité."
+      ],
+      "explanation": "Les stops à multiple-ATR du moteur ont fait cela pour vous depuis le début : le tampon est dimensionné pour que l'incursion normale de la poche passe en dessous. La microstructure est le pourquoi derrière le multiple."
+    },
+    "live_apply": {
+      "cta": "Comparez le stop de n'importe quel signal au niveau évident le plus proche — mesurez le tampon et reconnaissez l'assurance contre la cascade que vous portez."
+    }
+  },
+  {
+    "id": "expert-24-two-hats",
+    "title": "Les deux casquettes : trader et responsable des risques",
+    "summary": "Les firmes professionnelles séparent celui qui prend le risque de celui qui le limite. Vous aussi devriez.",
+    "concept": "Dans chaque firme de trading sérieuse, le trader qui veut la position et le **responsable des risques** qui peut y opposer son veto sont des personnes différentes — car le même esprit ne peut honnêtement vouloir une transaction et la surveiller simultanément. Les traders solitaires ne peuvent embaucher la deuxième personne, mais ils peuvent installer le second *rôle* : un ensemble de règles écrites par vous-au-plus-calme qui **prévalent** sur vous-dans-l'instant.\n\nLa séparation est temporelle, pas personnelle : le responsable des risques travaille **avant** (fixant les limites à plat) et **après** (relisant les violations dans le journal) ; le trader travaille **pendant**. Toute règle renégociée en plein milieu d'une transaction n'a jamais été une règle — c'était une suggestion en uniforme.\n\nVous avez déjà rencontré le motif partout dans cette Académie : stops pré-engagés, portes de régime refusant les transactions quelle que soit l'humeur, l'échelle de déverrouillage elle-même. Cette voie rend le rôle explicite, lui donne des politiques, et — la partie difficile — lui donne l'autorité de passer outre son collègue plus excité.",
+    "key_terms": [
+      {
+        "term": "Responsable des risques",
+        "definition": "Le rôle qui fixe et applique les limites — tenu par vous, au calme."
+      },
+      {
+        "term": "Séparation temporelle",
+        "definition": "Limites fixées avant, relues après ; jamais négociées pendant."
+      },
+      {
+        "term": "Autorité de la règle",
+        "definition": "Une règle qui peut être contournée dans l'instant est une suggestion."
+      },
+      {
+        "term": "Pouvoir de veto",
+        "definition": "Le droit définissant le rôle de risque : non est une phrase complète."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi le trader-dans-l'instant ne peut-il pas aussi servir de son propre responsable des risques au moment de la décision ?",
+      "options": [
+        "La réglementation l'interdit.",
+        "Vouloir une position et la surveiller utilise le même esprit dans des directions opposées — sous l'excitation, le désir l'emporte, c'est pourquoi les limites doivent être fixées et appliquées depuis un moment différent dans le temps.",
+        "Les responsables des risques ont besoin de certifications.",
+        "Cela fonctionne bien ; les firmes les séparent pour des raisons de paie."
+      ],
+      "explanation": "Le conflit d'intérêts est interne et neurologique, pas procédural. La séparation temporelle — le-vous-calme légiférant pour le-vous-excité — est la version du trader solitaire des deux bureaux de la firme."
+    },
+    "live_apply": {
+      "cta": "Ouvrez Paramètres → Risque et lisez ses portes comme les ordres permanents de votre bureau des risques — écrits au calme, appliqués quelle que soit l'humeur."
+    }
+  },
+  {
+    "id": "expert-25-limits-policy",
+    "title": "Les limites comme politique écrite",
+    "summary": "Limites par-transaction, quotidienne, de chaleur et de drawdown — rédigées une fois, obéies toujours.",
+    "concept": "Une politique de risque tient sur une page et couvre quatre altitudes. **Par-transaction** : risque maximal en fraction du capital (le 1 % que vous avez utilisé tout le cours) et une taille de position maximale indépendante des maths de stop (assurance gros-doigt). **Par-jour** : une limite de perte en R (couramment 2–3R) après laquelle la journée se termine — non parce que l'avantage s'est évanoui, mais parce que la voie psychologie a montré ce qui se compose après des pertes consécutives. **Portefeuille** : le plafond de chaleur et un plafond d'exposition-corrélée (la leçon de corrélation-stressée de la voie macro, codifiée). **Compte** : la règle de pause sur drawdown — une profondeur à laquelle tout s'arrête pour une revue écrite complète et un redémarrage à taille réduite.\n\nChaque limite a besoin de trois parties écrites : le **seuil**, l'**action** (réduire/arrêter/revoir — automatique, pas consultative), et la **condition de redémarrage**. Une limite sans redémarrage convenu d'avance devient un sursaut permanent ; une sans action automatique devient une entrée de journal sur ce qui aurait dû se passer.\n\nRédigez les vôtres maintenant, tant que rien ne fait mal. C'est toute l'astuce.",
+    "key_terms": [
+      {
+        "term": "Plafond par-transaction",
+        "definition": "Fraction de risque plus un plafond de taille absolu."
+      },
+      {
+        "term": "Stop quotidien",
+        "definition": "Un niveau de perte en R qui met fin à la journée de trading."
+      },
+      {
+        "term": "Plafond d'exposition-corrélée",
+        "definition": "Chaleur budgétée contre la matrice de corrélation stressée."
+      },
+      {
+        "term": "Condition de redémarrage",
+        "definition": "Le chemin de retour convenu d'avance depuis toute limite déclenchée."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi chaque limite de la politique a-t-elle besoin d'une condition de REDÉMARRAGE pré-écrite, pas seulement d'un seuil et d'une action ?",
+      "options": [
+        "Exhaustivité de la paperasse.",
+        "Sans chemin de retour défini, les limites déclenchées dégénèrent soit en peur permanente (ne jamais redémarrer) soit en exceptions improvisées (redémarrer selon l'humeur) — la règle de redémarrage est ce qui garde la limite un système plutôt qu'une cicatrice.",
+        "Les redémarrages sont exigés par les courtiers.",
+        "Les limites ne devraient jamais être redémarrées."
+      ],
+      "explanation": "Un disjoncteur que personne ne sait réinitialiser sera contourné la prochaine fois. La condition de redémarrage — journal relu, taille réduite, date précise — boucle la boucle et garde l'autorité à la politique."
+    },
+    "live_apply": {
+      "cta": "Encodez une limite physiquement tout de suite : une alerte à votre équivalent de stop-quotidien sur votre plus grande position ouverte."
+    }
+  },
+  {
+    "id": "expert-26-breach-review",
+    "title": "Surveillance et revue des violations",
+    "summary": "Le vrai produit du bureau des risques est une paperasse honnête sur les violations.",
+    "concept": "Les limites sont violées — par les marchés (gaps à travers les stops) et par vous (la transaction prise à 1,4 % de risque parce qu'elle « paraissait exceptionnelle »). La valeur du bureau des risques n'est pas d'empêcher chaque violation ; c'est de les **enregistrer et classifier** honnêtement : *violation de marché* (le plan a rencontré des conditions qu'il ne pouvait contrôler — revoyez les hypothèses du plan) contre *violation de discipline* (le plan a été outrepassé — revoyez l'opérateur).\n\nLe rituel de revue, emprunté à tout bureau des risques sérieux : consignez chaque violation dans la journée, classifiez-la, écrivez la cause d'une phrase, et — pour les violations de discipline — identifiez le *moment* où l'outrepassement s'est produit et dans quel état vous étiez (les étiquettes émotionnelles du journal deviennent des preuves médico-légales). Trois violations de discipline du même type en un mois ne sont pas trois incidents ; c'est un motif portant trois dates.\n\nVotre instrumentation existe déjà : le panneau de coaching signale les moments de risque quand ils surviennent, le journal retient l'adhésion, et votre historique papier horodate tout. Le travail du responsable des risques est de les lire comme un auditeur — mensuellement, par écrit, sans pitié ni mélodrame.",
+    "key_terms": [
+      {
+        "term": "Violation de marché",
+        "definition": "Les conditions ont dépassé le plan — une revue des hypothèses."
+      },
+      {
+        "term": "Violation de discipline",
+        "definition": "Le plan a été outrepassé — une revue de l'opérateur."
+      },
+      {
+        "term": "Journal des violations",
+        "definition": "Violations datées, classifiées avec des causes d'une phrase."
+      },
+      {
+        "term": "Seuil de motif",
+        "definition": "Violations répétées du même type traitées comme une seule découverte systémique."
+      }
+    ],
+    "exercise": {
+      "question": "Votre stop était correctement réglé mais un gap nocturne vous a exécuté à 2,3R de baisse au lieu de 1R. Comment le bureau des risques classifie-t-il et agit-il ?",
+      "options": [
+        "Violation de discipline — punir l'opérateur.",
+        "Violation de marché : le plan a rencontré un risque de gap qu'il portait sciemment ; la revue vise les hypothèses (calendrier d'événements respecté ? exposition nocturne dimensionnée pour les gaps ?) plutôt que le comportement de l'opérateur.",
+        "Pas une violation puisqu'un stop existait.",
+        "Supprimer la transaction du journal."
+      ],
+      "explanation": "La classification décide du remède. Punir l'opérateur pour une violation de marché enseigne la peur ; excuser une violation de discipline comme malchance n'enseigne rien. La taxonomie est tout l'outil."
+    },
+    "live_apply": {
+      "cta": "Auditez vos dix dernières transactions papier : classifiez tout écart au plan comme violation de marché ou de discipline, et cherchez le type répété."
+    }
+  },
+  {
+    "id": "expert-27-capital-preservation",
+    "title": "La doctrine de préservation du capital",
+    "summary": "La survie est la stratégie ; les rendements sont ce que la survie gagne avec le temps.",
+    "concept": "Chaque leçon de cette voie sert une doctrine : **vous ne pouvez pas composer à partir de zéro**. L'arithmétique que vous avez rencontrée tôt — la reprise asymétrique du drawdown, la ligne d'anéantissement 100/L, le risque de ruine sous des séries — dit toute la même chose : le trader qui survit à des années médiocres bat le trader brillant qui n'a pas survécu à une mauvaise semaine. L'avantage est loué ; le capital est le bail.\n\nLes règles d'exploitation de la doctrine : dimensionnez chaque transaction comme si les sept prochaines pouvaient toutes perdre (un jour elles le feront) ; coupez la taille en *premier* quand quelque chose semble mauvais — la taille est le seul levier qui fonctionne en pleine tempête ; traitez « se refaire » comme le motif interdit (le méchant commun des voies tilt et effet de levier) ; et mesurez-vous dans les marchés baissiers par le peu que vous avez perdu, pas le beaucoup que vous avez gagné.\n\nC'est aussi la lecture la plus profonde de l'application que vous utilisez : papier-d'abord, spot-seulement, progression verrouillée, statistiques honnêtes — toute l'architecture est la doctrine de préservation rendue en logiciel. L'Académie vous a appris à trader ; cette doctrine est ce qui vous permet de trader encore dans dix ans.",
+    "key_terms": [
+      {
+        "term": "Asymétrie de la ruine",
+        "definition": "Zéro est le seul résultat dont vous ne pouvez vous remettre."
+      },
+      {
+        "term": "Réponse taille-d'abord",
+        "definition": "Réduire la taille comme action universelle en-pleine-tempête."
+      },
+      {
+        "term": "Motif interdit",
+        "definition": "« Se refaire » — l'ennemi nommé de la doctrine."
+      },
+      {
+        "term": "Métrique de survie",
+        "definition": "Performance en marché baissier jugée par les pertes évitées."
+      }
+    ],
+    "exercise": {
+      "question": "Deux traders sur cinq ans : A fait en moyenne +22 %/an mais fait faillite dans le krach de l'année six ; B fait en moyenne +9 % et y survit. Le verdict de la doctrine ?",
+      "options": [
+        "A était meilleur — moyenne plus élevée tant que ça a duré.",
+        "B gagne tout ce qui compte : la composition n'existe que pour le survivant, et la moyenne supérieure de A était louée contre un risque de ruine qui l'a finalement facturé.",
+        "Ils sont à égalité à parité ajustée-au-risque.",
+        "L'année six devrait être exclue comme aberrante."
+      ],
+      "explanation": "Les rendements sont conditionnels à la survie ; la survie n'est pas conditionnelle aux rendements. La moyenne géométrique d'une séquence contenant zéro est zéro — toute la doctrine en une multiplication."
+    },
+    "live_apply": {
+      "cta": "Relisez le drawdown maximal de n'importe quel préréglage et posez d'abord la question de la doctrine : la survie est-elle certaine à travers le double de cette profondeur ?"
+    }
+  },
+  {
+    "id": "expert-28-trading-day",
+    "title": "La journée de l'opérateur",
+    "summary": "Préparer, exécuter, revoir — la boucle qui remplace l'humeur par le processus.",
+    "concept": "Une journée de trading professionnelle est une **boucle**, pas une veille. **Préparer** (avant toute décision de marché) : vérifiez le calendrier (événements macro, résultats sur les positions), lisez les dégâts nocturnes, revoyez les positions ouvertes par rapport à leurs plans, balayez le panneau de coaching, fixez le budget de risque du jour selon l'état actuel de drawdown. **Exécuter** (pendant) : n'agissez que sur des configurations planifiées dans des régimes valides, placez des alertes au lieu de fixer l'écran (la leçon des systèmes-de-discipline), consignez les entrées avec leur raison d'une phrase au moment où elles se produisent. **Revoir** (après, toujours) : journalisez chaque sortie, classifiez toute violation, notez le calendrier de demain, fermez les écrans.\n\nLa loi de séquence rencontrée dans la leçon de la checklist — *gérer avant de chasser* — s'étend à toute la journée : la préparation prévaut sur l'exécution, et la revue n'est pas un dessert optionnel ; c'est là que l'apprentissage se produit vraiment (la journée elle-même n'est que collecte de données).\n\nLe piège que cette structure prévient a un nom : **fixer l'écran comme travail**. Des heures à fixer produisent des transactions impulsives et de la fatigue, pas un avantage. La journée de l'opérateur est courte, ordonnée, et surtout *pas* passée à regarder les bougies se former.",
+    "key_terms": [
+      {
+        "term": "Préparer-exécuter-revoir",
+        "definition": "La boucle quotidienne ; l'apprentissage vit dans la troisième phase."
+      },
+      {
+        "term": "Vérification du budget-risque",
+        "definition": "Dimensionner la journée selon l'état actuel de drawdown, avant de trader."
+      },
+      {
+        "term": "Raison-à-l'entrée",
+        "definition": "Consigner la thèse quand elle est décidée, pas reconstruite après."
+      },
+      {
+        "term": "Piège de la fixation d'écran",
+        "definition": "Fixer confondu avec travailler — l'usine à transactions impulsives."
+      }
+    ],
+    "exercise": {
+      "question": "Pourquoi la boucle de l'opérateur place-t-elle la revue du journal APRÈS la séance comme une phase non négociable, plutôt que « quand il y a le temps » ?",
+      "options": [
+        "Pour remplir le calendrier.",
+        "L'exécution ne génère que des données ; la revue les convertit en apprentissage — sautez la troisième phase et la boucle dégénère en répétant la même journée avec de nouvelles erreurs.",
+        "Les journaux expirent légalement chaque jour.",
+        "Revoir avant de dormir améliore les rêves."
+      ],
+      "explanation": "La voie statistiques a montré que votre avantage se cache dans vos propres agrégats. Les agrégats n'existent que si la phase de revue s'exécute — chaque revue sautée est un paiement de frais de scolarité avec le reçu jeté."
+    },
+    "live_apply": {
+      "cta": "Construisez la boucle de demain ce soir : des alertes à chaque niveau de décision, pour que l'exécution puisse être pilotée par les événements plutôt que fixée."
+    }
+  },
+  {
+    "id": "expert-29-research-pipeline",
+    "title": "Le pipeline de recherche",
+    "summary": "Idée → hypothèse → backtest → test en avant → taille — avec des critères d'élimination à chaque étape.",
+    "concept": "Les professionnels séparent la **recherche** du **trading** aussi strictement que le risque du désir. Le pipeline : une **idée** (d'une leçon, d'un motif remarqué, d'une observation de régime) devient une **hypothèse** — écrite assez précisément pour pouvoir être fausse (« les pullbacks vers l'EMA-21 en régimes de tendance se résolvent vers la tendance en N barres »). L'hypothèse rencontre le **backtester** (la machinerie de la voie honnêteté-statistique : IS/OOS, coûts, taille d'échantillon) — la plupart des idées devraient mourir ici, à bon marché. Les survivantes vont au **test papier en avant** : données réelles, temps réel, capital zéro — tout l'appareil papier du moteur existe exactement pour cette étape. Alors seulement, avec les preuves historiques et en-avant d'accord, la **taille** entre dans la conversation.\n\nChaque étape a besoin d'un **critère d'élimination** pré-écrit — le résultat qui envoie l'idée au cimetière sans appel. La recherche sans critères d'élimination n'est pas de la recherche ; c'est faire les courses de la confirmation (la voie des biais, en blouse de labo).\n\nRemarquez ce que cela fait de QuantGlass : non un flux de signaux mais un **laboratoire de recherche personnel** — détecteur, backtester, environnement de test-en-avant et journal, partageant une seule colonne vertébrale de données honnête.",
+    "key_terms": [
+      {
+        "term": "Hypothèse",
+        "definition": "Une idée écrite assez précisément pour être falsifiée."
+      },
+      {
+        "term": "Mort à bon marché",
+        "definition": "Les backtests existent pour que les mauvaises idées meurent avant de coûter de l'argent."
+      },
+      {
+        "term": "Test en avant",
+        "definition": "Validation papier sur données réelles — l'étape entre l'histoire et le capital."
+      },
+      {
+        "term": "Critère d'élimination",
+        "definition": "Le résultat convenu d'avance qui met fin à une idée sans appel."
+      }
+    ],
+    "exercise": {
+      "question": "Une idée se backteste magnifiquement mais saigne régulièrement sur huit semaines de test papier en avant. Le verdict du pipeline ?",
+      "options": [
+        "Livrez-la — les backtests prévalent sur le bruit récent.",
+        "L'étape en avant existe exactement pour attraper cela : changement de régime ou histoire surajustée — dans tous les cas le critère d'élimination se déclenche, et l'idée retourne à la recherche plutôt que d'avancer au capital.",
+        "Faites la moyenne des deux résultats.",
+        "Prolongez le test en avant jusqu'à ce qu'il soit d'accord."
+      ],
+      "explanation": "L'histoire peut être mémorisée ; le présent ne le peut pas. Le désaccord entre étapes est de l'information, et « prolonger le test jusqu'à ce qu'il confirme » est le biais de confirmation que le pipeline a été bâti pour tuer."
+    },
+    "live_apply": {
+      "cta": "Choisissez un préréglage de stratégie et écrivez son critère d'élimination pour un test papier en avant : quel résultat sur 30 transactions y mettrait honnêtement fin ?"
+    }
+  },
+  {
+    "id": "expert-30-pro-reporting",
+    "title": "Faire des rapports comme un professionnel",
+    "summary": "La lettre mensuelle à votre unique investisseur : vous.",
+    "concept": "Les fonds écrivent des lettres aux investisseurs ; vous en écrivez une à vous-même, mensuellement, en R. Le modèle : **chiffres de tête** (transactions, taux de réussite, espérance, R total, drawdown maximal de cette période) ; **attribution** (quelles configurations, régimes et symboles ont produit et consommé le R — le découpage appris dans la leçon de statistiques-de-journal) ; **rapport de violations** (le journal du bureau des risques : marché contre discipline, motifs signalés) ; **métriques de processus** (taux d'adhésion au plan, complétude du journal — les chiffres qui prédisent les autres chiffres) ; et **un changement** — un unique ajustement spécifique pour le mois prochain, car les rapports qui exigent cinq changements en produisent zéro.\n\nLa discipline est de l'écrire quand le mois a été *mauvais* : le rapport que vous voulez le moins écrire contient l'information la plus chère que vous possédez. Et le format impose le cadre professionnel — les mois sont évalués comme des échantillons (n de transactions), pas des histoires (« ça paraissait horrible ») ; un mois à -3R d'adhésion parfaite est un *bon rapport* avec un chiffre rouge.\n\nVotre colonne vertébrale de données existe déjà : historique papier, journal, scores de préparation, journal des violations. La lettre est une heure honnête, douze fois par an.",
+    "key_terms": [
+      {
+        "term": "Lettre à l'investisseur",
+        "definition": "Le rapport mensuel sur soi-même — chiffres d'abord, en R."
+      },
+      {
+        "term": "Attribution",
+        "definition": "R découpé par configuration, régime et symbole."
+      },
+      {
+        "term": "Métriques de processus",
+        "definition": "Adhésion et complétude — les indicateurs avancés."
+      },
+      {
+        "term": "Règle de l'unique changement",
+        "definition": "Un seul ajustement spécifique par rapport."
+      }
+    ],
+    "exercise": {
+      "question": "Votre mois : -2,4R au total, mais 96 % d'adhésion au plan et chaque perte dans son 1R prévu. Comment le rapport professionnel le lit-il ?",
+      "options": [
+        "Un mois raté — le chiffre est rouge.",
+        "Un mois bien opéré dans un échantillon non payant : les métriques de processus ont passé, les pertes étaient de la taille prévue, et le verdict sur la méthode attend plus de n — exactement ce que signifie « juger les méthodes par les agrégats ».",
+        "L'adhésion a causé les pertes.",
+        "Les rapports sont sautés les mois perdants."
+      ],
+      "explanation": "Le rapport sépare l'opérateur du résultat. Les mois rouges avec processus vert sont de la variance ; les mois verts avec processus rouge sont les dangereux — la lettre existe pour les distinguer."
+    },
+    "live_apply": {
+      "cta": "Rédigez la lettre de ce mois depuis votre historique papier : R de tête, meilleure/pire configuration, estimation d'adhésion, et l'unique changement."
+    }
+  },
+  {
+    "id": "expert-31-complete-operator",
+    "title": "L'opérateur complet",
+    "summary": "Chaque voie, une identité — et ce que signifie vraiment l'obtention du diplôme.",
+    "concept": "Assemblez ce que vous portez maintenant. Vous lisez les marchés structurellement (fondations, alphabétisation des graphiques, régimes) et savez ce que calcule le moteur contre ce que vous devez juger (chaque leçon de ligne-de-portée). Vous dimensionnez depuis l'invalidation, budgétez la chaleur contre les corrélations stressées, et traitez l'effet de levier comme le redimensionnement de la survie (les voies risque, marge). Vous exigez l'honnêteté statistique — échantillons, OOS, calibration, bornes conformes — de toute affirmation, y compris la vôtre (les voies statistiques, validation). Vous reconnaissez l'ennemi de l'intérieur (psychologie) et de l'extérieur (défense contre les arnaques). Vous opérez sur une boucle, recherchez sur un pipeline, faites des rapports en R, et répondez à un bureau des risques que vous avez bâti vous-même (ce niveau).\n\nRemarquez ce qui a changé : rien de tout cela n'est de la prédiction. L'Académie ne vous a jamais appris ce que fera le marché — elle vous a appris à ne pas avoir besoin d'un tel savoir : les avantages se trouvent dans le processus, s'expriment en unités de risque, se valident honnêtement, et survivent jusqu'à la composition.\n\nL'obtention du diplôme, alors, n'est pas le déverrouillage du trading réel (qui reste un choix, pas une destination — la maîtrise du papier est un résultat complet). L'obtention du diplôme est ceci : **vous pouvez maintenant défendre chaque chiffre sur lequel vous agissez**. Ce standard — le standard du moteur, maintenant le vôtre — est tout le programme en une phrase. Portez-le.",
+    "key_terms": [
+      {
+        "term": "Opérateur complet",
+        "definition": "Lecteur de structure, dimensionneur de risque, statisticien honnête, autogouverné."
+      },
+      {
+        "term": "Avantage de processus",
+        "definition": "Avantage situé dans l'exploitation, pas la prédiction."
+      },
+      {
+        "term": "Chiffre défendable",
+        "definition": "Le standard du diplôme : chaque chiffre sur lequel on agit est auditable."
+      },
+      {
+        "term": "Maîtrise du papier",
+        "definition": "Un état final complet et légitime — pas une salle d'attente."
+      }
+    ],
+    "exercise": {
+      "question": "Quel est le véritable critère d'obtention du diplôme de l'Académie, selon cette leçon de couronnement ?",
+      "options": [
+        "Déverrouiller le trading réel.",
+        "Être capable de défendre chaque chiffre sur lequel vous agissez — échantillon, source, hypothèse et risque — le même standard que le moteur s'impose à lui-même.",
+        "Terminer 113 leçons.",
+        "Un mois rentable."
+      ],
+      "explanation": "Les leçons se terminent ; le standard non. Le trading réel est une de ses applications optionnelles ; le chiffre défendable est l'identité que vous gardez quoi qu'il arrive."
+    },
+    "live_apply": {
+      "cta": "Faites défiler vos voies terminées et choisissez l'unique leçon que vous reliriez chaque mois — chaque opérateur garde une pierre à aiguiser."
+    }
+  }
+]
