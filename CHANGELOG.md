@@ -6,6 +6,36 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-06-18
+
+### Fixed
+
+- **Orphaned backend sidecar no longer strands the analytics database.** After a
+  crash or force-quit of the desktop app, the bundled backend was only stopped on
+  a graceful exit — so it could be left running and keep the analytics DuckDB
+  file lock, breaking the next launch with "Could not set lock on file …
+  quantglass.duckdb". The sidecar now self-terminates the moment its parent app
+  goes away (a cross-platform parent watchdog), so it can never outlive the app.
+- **The AI numeric fact guard is now locale-robust.** When narration is generated
+  in a non-English language the model may localize numerals (non-Latin digits or
+  comma/dot separators); the guard now canonicalizes them before checking, so a
+  correct figure is no longer spuriously rejected (and a localized number is no
+  longer mis-read). The guard still fails closed.
+
+### Added
+
+- **Comprehensive developer documentation** for the SDK and extensions: a full
+  `quantglass-sdk` API reference and changelog, and an illustrated extension
+  guide suite (providers, strategies, indicators, content packs & localization,
+  packaging & trust) alongside polished per-surface reference docs.
+
+### Changed
+
+- README now leads with the 20-language multilingual support; ROADMAP marks
+  shipped work and leads with native-speaker translation review; translation
+  status is described honestly (machine-translated, native review in progress);
+  and `SECURITY.md` links the private vulnerability-reporting path.
+
 ## [0.3.0] - 2026-06-18
 
 ### Added
