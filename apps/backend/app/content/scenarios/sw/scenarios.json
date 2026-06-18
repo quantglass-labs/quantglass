@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "Mvunjiko Usiokuwa",
+    "description": "Uigaji wa kimtindo wa mvunjiko bandia wa kawaida wa eneo. Bei husinyaa chini ya dari inayofuatiliwa vizuri, huvunja kwa mlipuko wa kiasi — kisha huporomoka. Unaamua, pau kwa pau, mfanyabiashara mwenye nidhamu hufanya nini kila wakati.",
+    "checkpoints": [
+      {
+        "question": "Bei imefunga juu ya kilele cha eneo kwenye pau ya kiasi kikubwa zaidi katika wiki kadhaa. Kila mtu kwenye mlisho anapiga kelele za mvunjiko. Unafanya nini?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Nunua sokoni sasa hivi kabla haijakimbia",
+            "debrief": "Kununua kwenye ufungaji wa kwanza wa furaha ni kufukuza: kuingia kwako kuko mbali na kiwango chochote cha ubatilifu, hivyo kizuizi ni kikubwa mno au cha kiholela. Hesabu ya mguso-wa-kwanza ya injini haina huruma — kizuizi pana hubadilisha kurudi nyuma kwa kawaida kuwa hasara kamili."
+          },
+          {
+            "id": "plan",
+            "label": "Fafanua biashara kwanza: kuingia kwenye jaribio-upya, kizuizi chini ya pau ya mvunjiko, lengo kutoka urefu wa eneo",
+            "debrief": "Sahihi. Mvunjiko ni dhana, si matokeo. Kuandika kuingia, kizuizi na lengo kabla ya kuweka mtaji ndiyo hasa alama ya mchakato inayozawadia, na ni toleo pekee la biashara hii lenye hatari iliyofafanuliwa."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Nunua nusu ya nafasi sasa, kizuizi nitafikiria baadaye",
+            "debrief": "Ukubwa mdogo hupunguza uharibifu, lakini «kizuizi baadaye» maana yake biashara haina ubatilifu. Biashara ndogo mbaya bado ni biashara mbaya; jarida litaiweka daraja kama isiyo na kizuizi."
+          }
+        ]
+      },
+      {
+        "question": "Mvunjiko unayumba. Bei imekaa pau nne kando juu kidogo ya kilele cha eneo la zamani, na kiasi kinafifia. Kuingia kwako kwa jaribio-upya kulikopangwa kumejazwa, kizuizi chini ya pau ya mvunjiko. Sasa nini?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Panua kizuizi chini ya eneo lote — kipe nafasi ya kupumua",
+            "debrief": "Kupanua kizuizi baada ya kuingia ni tabia inayoharibu zaidi katika biashara: hubadilisha hasara ndogo iliyopangwa kuwa hasara kubwa isiyopangwa. Katiba ipo hasa kukataza hili."
+          },
+          {
+            "id": "hold",
+            "label": "Usifanye chochote — mpango ni salama hadi kizuizi kigongwe",
+            "debrief": "Sahihi. Kiasi kinachofifia kinasumbua, lakini si ubatilifu wako. Mpango hufanya kazi tu wakati maamuzi yanafanywa na mpango, si usumbufu."
+          },
+          {
+            "id": "add",
+            "label": "Ongeza kwenye nafasi — shusha kuingia kwa wastani kabla haijaanza tena",
+            "debrief": "Kuongeza kwenye mvunjiko unaoyumba huongeza hatari hasa wakati ushahidi unapodhoofika. Kizuizi kikigongwa, sasa unapoteza zaidi ya mpango ulivyowahi kuruhusu."
+          }
+        ]
+      },
+      {
+        "question": "Mvunjiko umeshindwa. Kizuizi chako kimegongwa pau mbili zilizopita kwa hasara iliyopangwa -1R, na bei sasa iko anguko huru chini ya eneo la zamani. Unafunga kipindi vipi?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Uza chini sasa hivi — inanidai",
+            "debrief": "Hii ni biashara ya kulipiza kisasi: sababu ya kuingia ni hasara yako, si soko. Saikolojia huiita hasira, na lebo ya hisia ya jarida ipo hasa kunasa wakati huu."
+          },
+          {
+            "id": "journal",
+            "label": "Rekodi biashara: hasara iliyopangwa, kizuizi kilitiiwa, eleza mvunjiko bandia ulivyoonekana",
+            "debrief": "Sahihi. Hii ni hasara iliyochezwa vizuri — uamuzi sahihi, matokeo mabaya. Kiainishi cha 2x2 kipo kwa sababu wafanyabiashara wanaoweza kukubali -1R bila kuyumba ndio wanaobaki wanaolipa baada ya biashara mia moja."
+          },
+          {
+            "id": "stew",
+            "label": "Ondoka na uruke jarida — ilikuwa biashara iliyoshindwa tu",
+            "debrief": "Kuondoka ni bora kuliko kulipiza kisasi, lakini hasara isiyorekodiwa haifundishi chochote. Saini ya mvunjiko bandia — kiasi cha jaribio-upya kinachofifia — ndilo somo ulilolilipia."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Kurudi Nyuma katika Mwelekeo",
+    "description": "Uigaji wa kimtindo wa mwelekeo thabiti wa kupanda unaorudisha ghafla faida ya wiki katika pau tatu nyekundu. Kwa kila kipimo mwelekeo ni salama — lakini haihisi hivyo. Fanya biashara mpango, si hisia.",
+    "checkpoints": [
+      {
+        "question": "Pau tatu kali nyekundu zimefuta faida ya wiki. Muundo wa mwelekeo wa muda wa juu ni salama: bei iko juu ya chini ya bembea iliyotangulia, na lango la hali bado linasoma mwelekeo. Unashikilia nafasi kutoka viwango vya chini zaidi. Unafanya nini?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Uza yote — linda faida kabla haijatoweka",
+            "debrief": "Kutoka kwa hofu wakati hakuna kiwango cha ubatilifu kilichogongwa maana yake si chati iliyoshika usukani — ni tumbo lako. Unalinda faida lakini unafunza tabia ya kuacha mipango chini ya shinikizo."
+          },
+          {
+            "id": "check_plan",
+            "label": "Soma upya mpango: kizuizi chini ya chini ya bembea, hakijaguswa — shikilia",
+            "debrief": "Sahihi. Kurudi nyuma kunakosimama juu ya ubatilifu wako, kwa ufafanuzi, ni kelele. Somo la saikolojia ya kushuka ni wakati huu hasa: mpango uliandikwa na toleo tulivu kwa ajili ya toleo lenye hofu."
+          },
+          {
+            "id": "double",
+            "label": "Ongeza nafasi mara mbili — iko kwa punguzo",
+            "debrief": "Mwelekeo huunga mkono kuongeza, lakini kuongeza mara mbili huvimbisha hatari katikati ya biashara bila mpango mpya. Chini ya bembea ikivunjika, unapoteza zaidi sana ya hatari ya mpango wa awali. Nyongeza zinahitaji kuingia, kizuizi na ukubwa wake."
+          }
+        ]
+      },
+      {
+        "question": "Bei imetulia juu kidogo ya chini ya bembea. Unataka kuongeza kwenye nafasi. Unaamuaje ukubwa wa nyongeza?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Amua ili nyongeza ihatarishe 1% kwa kizuizi kilekile, kama biashara yoyote mpya",
+            "debrief": "Sahihi. Nyongeza ni biashara mpya kabisa iliyovaa jezi ya zamani. Hesabu ya ukubwa haijali kuwa tayari unashikilia kitu — hatari kwa kila umbali wa kizuizi ndiyo kiingilio pekee cha ukubwa."
+          },
+          {
+            "id": "size_gut",
+            "label": "Nunua namba ya mviringo inayohisi yenye maana",
+            "debrief": "Ukubwa kwa namba ya mviringo maana yake hatari itaamuliwa na chati baadaye. Somo la ukubwa lipo kwa sababu «ilihisi sahihi» ndiyo jinsi hasara ya 5% hutokea chini ya sera ya 1%."
+          },
+          {
+            "id": "all_in",
+            "label": "Tumia uwezo wote wa kununua uliobaki — imani iko juu",
+            "debrief": "Imani ni hisia iliyovaa suti. Ukubwa kamili hufanya pau moja pinzani kuwa ya kifo, na somo la Monte Carlo la injini huonyesha jinsi misururu ya kushindwa ya ukubwa kamili hufilisi akaunti haraka."
+          }
+        ]
+      },
+      {
+        "question": "Mwelekeo umeanza tena, na nafasi iko kwenye faida nzuri. Lengo la awali liko karibu. Mwisho wenye nidhamu ni upi?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Ghairi lengo — hii itaenda juu zaidi",
+            "debrief": "Inawezekana — lakini kuacha njia ya kutoka iliyoandikwa hubadilisha mpango uliojaribiwa kuwa uboreshaji wa papo hapo wakati wa pupa kubwa zaidi. Ukitaka mfumo wa kufuatilia badala ya lengo, ubuni kabla ya biashara ijayo, si wakati wa hii."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Acha lengo au kizuizi kilichofuatiliwa kikutoe, kwa mpango",
+            "debrief": "Sahihi. Njia za kutoka zilizoamuliwa mapema ni nusu ya biashara ambayo hakuna anayeiweka katika jarida. Ushindi uliopatikana kwa ujuzi huhesabika hivyo tu wakati mchakato uliouunda unaweza kurudiwa."
+          },
+          {
+            "id": "exit_now",
+            "label": "Uza mara moja — funga kabla kitu hakijabadilika",
+            "debrief": "Kuchukua faida kamwe si maangamizi, lakini kutoka mapema kwa hofu hupunguza washindi kwa utaratibu huku vizuizi vikishikilia hasara kwa ukubwa kamili. Katika biashara mia moja, kutolingana huko ndio tofauti kati ya matarajio chanya na hasi."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Pengo la Kushuka",
+    "description": "Uigaji wa kimtindo wa mshtuko wa ukwasi: pengo la usiku kucha moja kwa moja kupitia kizuizi chako, kisha mkwaruzo mkali, unaoweza kufanyiwa biashara. Mpango haukunusurika kugusana — sasa mwenendo wako chini ya moto ndio mchezo wote.",
+    "checkpoints": [
+      {
+        "question": "Soko limefungua kwa pengo la kushuka usiku kucha kupitia kizuizi chako — umetoka kwa bei mbaya kuliko mpango, takriban -1.8R badala ya -1R. Soko ni kali. Uamuzi wa kwanza?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Fanya biashara ya tete kwa nguvu — utajiri hutengenezwa hapa",
+            "debrief": "Kufanya biashara kurudisha hasara ni kuingia kwa hasira cha kitabu. Hali kali huadhibu hili hasa: mitawanyo hupanuka, vizuizi hutelezea, na lango la kura-ya-veto-ya-tete la injini lipo kwa sababu makali yaliyopimwa katika masoko tulivu hayahamishiki hapa."
+          },
+          {
+            "id": "stand_down",
+            "label": "Kubali utelezi, punguza ukubwa wote nusu, tathmini upya wakati wa kufunga",
+            "debrief": "Sahihi. Utelezi wa pengo kupitia kizuizi ni gharama ya biashara, si usaliti. Kukata ukubwa wakati tete halisi linapoongezeka maradufu ndiyo kinachoshikilia -1.8R kuwa kero, si domino ya kwanza."
+          },
+          {
+            "id": "reenter",
+            "label": "Ingia tena biashara ileile mara moja — hoja haijabadilika",
+            "debrief": "Hoja inaweza kushikilia, lakini hali imebadilika: umbali wa kizuizi uliohesabiwa kwa ATR ya jana leo si sahihi. Kuingia tena kunahitaji mpango mpya uliopimwa kwa tete jipya, si silika."
+          }
+        ]
+      },
+      {
+        "question": "Katikati ya mkwaruzo, nafasi uliyoipanga upya na kuingia ikiwa na kizuizi iko kwenye hasara lakini haijatolewa. Rafiki anatuma ujumbe: «weka wastani tu chini, daima hurudi». Unafanya nini?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Weka wastani chini — shusha hatua ya kuvunja-sare",
+            "debrief": "Kuweka wastani bila mpango ndiyo jinsi biashara binafsi zinavyoua akaunti: kila nyongeza huvuta hatua ya kuvunja-sare karibu na hatari ya jumla mbali. Kila uchunguzi wa akaunti iliyoungua una hatua hii."
+          },
+          {
+            "id": "respect",
+            "label": "Shikilia nafasi na kizuizi sawasawa kama ilivyopangwa",
+            "debrief": "Sahihi. Biashara inajiendesha ndani ya bahasha iliyopangwa. Ushauri wa nje katikati ya biashara ni kelele; mpango uliouandika ndiyo sauti pekee yenye rekodi ya utendaji."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Funga — kuwa nje kunahisi salama zaidi katika soko hili",
+            "debrief": "Kuhamia nje katika tete ni mwitikio halali, lakini wakati wa uamuzi huo ulikuwa tathmini-upya baada ya pengo. Kutoka katikati ya mpango kwa hisia bado hufunza tabia ya uboreshaji wa papo hapo, kwa mwelekeo salama tu."
+          }
+        ]
+      },
+      {
+        "question": "Mkwaruzo umetatuliwa kwenda juu, na biashara yako uliyoipanga upya imefika lengo. Kwa jumla siku imekuwa: hasara ya pengo, upangaji-upya wenye nidhamu, mshindi kamili. Mapitio ya uaminifu:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Niliifanyia biashara ajali kwa umahiri — wakati ujao ongeza ukubwa",
+            "debrief": "Mshtuko mmoja uliyonusurika si sampuli ya umahiri. Kuuita ujuzi na kuongeza ukubwa ni mfumo wa mafanikio hatari: matokeo yalikuwa sehemu ya tofauti, na kuongeza mara mbili mfichuo hukadiria pengo lijalo kwa kufilisika."
+          },
+          {
+            "id": "process",
+            "label": "Mfumo ulifanya kazi: ukubwa ulikatwa, mipango iliandikwa upya, vizuizi vilitiiwa — rekodi yote",
+            "debrief": "Sahihi. Ushindi ni muhimu kidogo kuliko mfuatano uliouunda: jiondoe, badilisha ukubwa, panga upya, tii vizuizi. Mfuatano huo unaweza kurudiwa; kurudi nyuma hakukuwa chako kukidai."
+          },
+          {
+            "id": "lucky",
+            "label": "Bahati tupu — hakuna cha kujifunza kutoka machafuko",
+            "debrief": "Unyenyekevu ni bora kuliko ushujaa, lakini «hakuna cha kujifunza» ni uongo: una rekodi iliyoandikwa ya mwenendo chini ya mshtuko wa ukwasi. Rekodi hiyo — si P&L — ndiyo kipimo cha saikolojia ya mtaalamu kinachopima."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Nidhamu ya Hatari I",
+    "description": "Fanya biashara 5 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 5"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Nidhamu ya Hatari II",
+    "description": "Fanya biashara 10 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Nidhamu ya Hatari III",
+    "description": "Fanya biashara 20 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 20"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Nidhamu ya Hatari IV",
+    "description": "Fanya biashara 40 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 40"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Nidhamu ya Hatari V",
+    "description": "Fanya biashara 75 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 75"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Nidhamu ya Hatari VI",
+    "description": "Fanya biashara 120 za karatasi ambapo kila moja ina kizuizi na haihatarishi zaidi ya sera. Hakuna vighairi, hakuna «mara hii tu» — tabia ndiyo cheti.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 120"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "Damu ya Kwanza, Iliyopangwa",
+    "description": "Chukua hasara yako ya kwanza iliyopangwa: biashara iliyogonga kizuizi chake hasa pale uliposema. Hii ndiyo ada rahisi zaidi soko linauza.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 3"
+      },
+      {
+        "label": "Chukua kizuizi 1 kilichopangwa"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Nidhamu ya Mseto",
+    "description": "Endesha utaratibu kamili wa hatari katika angalau alama 5 tofauti. Nidhamu inayofanya kazi tu kwenye chati unayoipenda ni bahati nasibu, si ujuzi.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 25"
+      },
+      {
+        "label": "Fanya biashara alama 5+ tofauti"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "Zamu Ndefu",
+    "description": "Biashara mia mbili bila uvunjaji hata mmoja wa sera-ya-hatari. Kwa wingi huu, nidhamu si tena chaguo unalofanya — ni wewe ulivyo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 200"
+      },
+      {
+        "label": "Sifuri uvunjaji wa sera-ya-hatari"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Bila Uvumilivu",
+    "description": "Biashara kumi na tano za ubora mfululizo bila hatari ya ukubwa kupita kiasi na bila viingilio visivyo na kizuizi, huku katiba ikiwa inatumika. Sheria ulizozikubali, umezishika.",
+    "criteria": [
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Tekeleza biashara 15"
+      },
+      {
+        "label": "Sifuri uvunjaji wa hatari"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Ubora wa Mchakato I",
+    "description": "Shikilia wastani wa alama ya mchakato wa 60+ katika biashara 5. Alama huweka daraja uamuzi — kizuizi, hoja, ukubwa, hali ya akili — kamwe si matokeo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 5"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Ubora wa Mchakato II",
+    "description": "Shikilia wastani wa alama ya mchakato wa 70+ katika biashara 10. Alama huweka daraja uamuzi — kizuizi, hoja, ukubwa, hali ya akili — kamwe si matokeo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Ubora wa Mchakato III",
+    "description": "Shikilia wastani wa alama ya mchakato wa 75+ katika biashara 20. Alama huweka daraja uamuzi — kizuizi, hoja, ukubwa, hali ya akili — kamwe si matokeo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 20"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Ubora wa Mchakato IV",
+    "description": "Shikilia wastani wa alama ya mchakato wa 80+ katika biashara 40. Alama huweka daraja uamuzi — kizuizi, hoja, ukubwa, hali ya akili — kamwe si matokeo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 40"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Ubora wa Mchakato V",
+    "description": "Shikilia wastani wa alama ya mchakato wa 85+ katika biashara 80. Alama huweka daraja uamuzi — kizuizi, hoja, ukubwa, hali ya akili — kamwe si matokeo.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 80"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Bila Kukatika I",
+    "description": "Unganisha biashara 3 mfululizo zenye alama za mchakato 70 au zaidi. Kiingilio kimoja kizembe huweka upya hesabu — sawa kabisa na vile nidhamu halisi hufanya.",
+    "criteria": [
+      {
+        "label": "Alama 3 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Bila Kukatika II",
+    "description": "Unganisha biashara 5 mfululizo zenye alama za mchakato 70 au zaidi. Kiingilio kimoja kizembe huweka upya hesabu — sawa kabisa na vile nidhamu halisi hufanya.",
+    "criteria": [
+      {
+        "label": "Alama 5 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Bila Kukatika III",
+    "description": "Unganisha biashara 10 mfululizo zenye alama za mchakato 70 au zaidi. Kiingilio kimoja kizembe huweka upya hesabu — sawa kabisa na vile nidhamu halisi hufanya.",
+    "criteria": [
+      {
+        "label": "Alama 10 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Bila Kukatika IV",
+    "description": "Unganisha biashara 20 mfululizo zenye alama za mchakato 70 au zaidi. Kiingilio kimoja kizembe huweka upya hesabu — sawa kabisa na vile nidhamu halisi hufanya.",
+    "criteria": [
+      {
+        "label": "Alama 20 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Bila Kukatika V",
+    "description": "Unganisha biashara 35 mfululizo zenye alama za mchakato 70 au zaidi. Kiingilio kimoja kizembe huweka upya hesabu — sawa kabisa na vile nidhamu halisi hufanya.",
+    "criteria": [
+      {
+        "label": "Alama 35 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Kubali Hasara Iliyopangwa I",
+    "description": "Hifadhi hasara 1 zilizochezwa vizuri — maamuzi mazuri ambapo tofauti ilichukua biashara. Wafanyabiashara wanaoweza kushindwa kwa usahihi ndio bado wanaolipa baada ya biashara mia moja.",
+    "criteria": [
+      {
+        "label": "Hasara 1 zilizochezwa vizuri"
+      },
+      {
+        "label": "Hakuna biashara zisizo na kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Kubali Hasara Iliyopangwa II",
+    "description": "Hifadhi hasara 3 zilizochezwa vizuri — maamuzi mazuri ambapo tofauti ilichukua biashara. Wafanyabiashara wanaoweza kushindwa kwa usahihi ndio bado wanaolipa baada ya biashara mia moja.",
+    "criteria": [
+      {
+        "label": "Hasara 3 zilizochezwa vizuri"
+      },
+      {
+        "label": "Hakuna biashara zisizo na kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Kubali Hasara Iliyopangwa III",
+    "description": "Hifadhi hasara 6 zilizochezwa vizuri — maamuzi mazuri ambapo tofauti ilichukua biashara. Wafanyabiashara wanaoweza kushindwa kwa usahihi ndio bado wanaolipa baada ya biashara mia moja.",
+    "criteria": [
+      {
+        "label": "Hasara 6 zilizochezwa vizuri"
+      },
+      {
+        "label": "Hakuna biashara zisizo na kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Kubali Hasara Iliyopangwa IV",
+    "description": "Hifadhi hasara 12 zilizochezwa vizuri — maamuzi mazuri ambapo tofauti ilichukua biashara. Wafanyabiashara wanaoweza kushindwa kwa usahihi ndio bado wanaolipa baada ya biashara mia moja.",
+    "criteria": [
+      {
+        "label": "Hasara 12 zilizochezwa vizuri"
+      },
+      {
+        "label": "Hakuna biashara zisizo na kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "Kizuizi Kinafanya Kazi I",
+    "description": "Acha kizuizi chako kikutoe mara 2 bila kukipanua au kukighairi. Njia ya kutoka uliyopanga ndiyo pekee inayolinda akaunti uliyopanga kuihifadhi.",
+    "criteria": [
+      {
+        "label": "Vizuizi 2 vilivyopangwa vimechukuliwa"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "Kizuizi Kinafanya Kazi II",
+    "description": "Acha kizuizi chako kikutoe mara 5 bila kukipanua au kukighairi. Njia ya kutoka uliyopanga ndiyo pekee inayolinda akaunti uliyopanga kuihifadhi.",
+    "criteria": [
+      {
+        "label": "Vizuizi 5 vilivyopangwa vimechukuliwa"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "Kizuizi Kinafanya Kazi III",
+    "description": "Acha kizuizi chako kikutoe mara 10 bila kukipanua au kukighairi. Njia ya kutoka uliyopanga ndiyo pekee inayolinda akaunti uliyopanga kuihifadhi.",
+    "criteria": [
+      {
+        "label": "Vizuizi 10 vilivyopangwa vimechukuliwa"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "Kizuizi Kinafanya Kazi IV",
+    "description": "Acha kizuizi chako kikutoe mara 20 bila kukipanua au kukighairi. Njia ya kutoka uliyopanga ndiyo pekee inayolinda akaunti uliyopanga kuihifadhi.",
+    "criteria": [
+      {
+        "label": "Vizuizi 20 vilivyopangwa vimechukuliwa"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Damu Baridi I",
+    "description": "Rekodi hali yako ya kihisia kwa kila kiingilio katika biashara 5 ukiwa na sifuri viingilio vya hasira — hakuna FOMO, hakuna biashara za kuchanganyikiwa. Kutaja hali ndiyo jinsi unavyoinasa mapema.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 5"
+      },
+      {
+        "label": "Sifuri viingilio vya hasira"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Damu Baridi II",
+    "description": "Rekodi hali yako ya kihisia kwa kila kiingilio katika biashara 15 ukiwa na sifuri viingilio vya hasira — hakuna FOMO, hakuna biashara za kuchanganyikiwa. Kutaja hali ndiyo jinsi unavyoinasa mapema.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 15"
+      },
+      {
+        "label": "Sifuri viingilio vya hasira"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Damu Baridi III",
+    "description": "Rekodi hali yako ya kihisia kwa kila kiingilio katika biashara 40 ukiwa na sifuri viingilio vya hasira — hakuna FOMO, hakuna biashara za kuchanganyikiwa. Kutaja hali ndiyo jinsi unavyoinasa mapema.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 40"
+      },
+      {
+        "label": "Sifuri viingilio vya hasira"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Damu Baridi IV",
+    "description": "Rekodi hali yako ya kihisia kwa kila kiingilio katika biashara 100 ukiwa na sifuri viingilio vya hasira — hakuna FOMO, hakuna biashara za kuchanganyikiwa. Kutaja hali ndiyo jinsi unavyoinasa mapema.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 100"
+      },
+      {
+        "label": "Sifuri viingilio vya hasira"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Taja Hisia I",
+    "description": "Rekodi hisia kwenye viingilio 10 — pamoja na vibaya. Kumbukumbu ya hasira ya uaminifu hushinda ya bandia safi; injini huweka daraja uaminifu, si utulivu.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 10"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Taja Hisia II",
+    "description": "Rekodi hisia kwenye viingilio 25 — pamoja na vibaya. Kumbukumbu ya hasira ya uaminifu hushinda ya bandia safi; injini huweka daraja uaminifu, si utulivu.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 25"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Taja Hisia III",
+    "description": "Rekodi hisia kwenye viingilio 60 — pamoja na vibaya. Kumbukumbu ya hasira ya uaminifu hushinda ya bandia safi; injini huweka daraja uaminifu, si utulivu.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 60"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Taja Hisia IV",
+    "description": "Rekodi hisia kwenye viingilio 150 — pamoja na vibaya. Kumbukumbu ya hasira ya uaminifu hushinda ya bandia safi; injini huweka daraja uaminifu, si utulivu.",
+    "criteria": [
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 150"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "Rekodi I",
+    "description": "Andika kidokezo cha tafakari au lebo kwenye biashara 3 zilizotekelezwa. Jarida ndilo seti pekee ya data kuhusu biashara yako ambayo hakuna mwingine anaweza kukusanya.",
+    "criteria": [
+      {
+        "label": "Weka biashara 3 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "Rekodi II",
+    "description": "Andika kidokezo cha tafakari au lebo kwenye biashara 10 zilizotekelezwa. Jarida ndilo seti pekee ya data kuhusu biashara yako ambayo hakuna mwingine anaweza kukusanya.",
+    "criteria": [
+      {
+        "label": "Weka biashara 10 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "Rekodi III",
+    "description": "Andika kidokezo cha tafakari au lebo kwenye biashara 25 zilizotekelezwa. Jarida ndilo seti pekee ya data kuhusu biashara yako ambayo hakuna mwingine anaweza kukusanya.",
+    "criteria": [
+      {
+        "label": "Weka biashara 25 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "Rekodi IV",
+    "description": "Andika kidokezo cha tafakari au lebo kwenye biashara 60 zilizotekelezwa. Jarida ndilo seti pekee ya data kuhusu biashara yako ambayo hakuna mwingine anaweza kukusanya.",
+    "criteria": [
+      {
+        "label": "Weka biashara 60 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "Rekodi V",
+    "description": "Andika kidokezo cha tafakari au lebo kwenye biashara 120 zilizotekelezwa. Jarida ndilo seti pekee ya data kuhusu biashara yako ambayo hakuna mwingine anaweza kukusanya.",
+    "criteria": [
+      {
+        "label": "Weka biashara 120 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Weka Lebo Kosa I",
+    "description": "Weka lebo za makosa za uaminifu kwenye biashara 5. Lebo hulisha vigunduzi vya kocha wa Mapitio — kadiri uwekaji lebo unavyokuwa wa uaminifu, ndivyo maagizo yanavyokuwa makali.",
+    "criteria": [
+      {
+        "label": "Weka lebo biashara 5"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Weka Lebo Kosa II",
+    "description": "Weka lebo za makosa za uaminifu kwenye biashara 15. Lebo hulisha vigunduzi vya kocha wa Mapitio — kadiri uwekaji lebo unavyokuwa wa uaminifu, ndivyo maagizo yanavyokuwa makali.",
+    "criteria": [
+      {
+        "label": "Weka lebo biashara 15"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Weka Lebo Kosa III",
+    "description": "Weka lebo za makosa za uaminifu kwenye biashara 40. Lebo hulisha vigunduzi vya kocha wa Mapitio — kadiri uwekaji lebo unavyokuwa wa uaminifu, ndivyo maagizo yanavyokuwa makali.",
+    "criteria": [
+      {
+        "label": "Weka lebo biashara 40"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Kila Biashara Ina Sababu",
+    "description": "Andika sababu kabla ya kuingia kwenye biashara 20. Kama hoja haiwezi kunusurika sentensi moja iliyoandikwa, haiwezi kunusurika pau pinzani pia.",
+    "criteria": [
+      {
+        "label": "Sababu iliyoandikwa kwenye biashara 20"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "Mpiga Risasi Hodari I",
+    "description": "Katika biashara 10, kamwe usizidi viingilio 3 kwa siku moja. Shughuli si makali — biashara bora siku nyingi ni ile unayoiruka.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Kamwe si zaidi ya biashara 3/siku"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "Mpiga Risasi Hodari II",
+    "description": "Katika biashara 25, kamwe usizidi viingilio 3 kwa siku moja. Shughuli si makali — biashara bora siku nyingi ni ile unayoiruka.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 25"
+      },
+      {
+        "label": "Kamwe si zaidi ya biashara 3/siku"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "Mpiga Risasi Hodari III",
+    "description": "Katika biashara 60, kamwe usizidi viingilio 2 kwa siku moja. Shughuli si makali — biashara bora siku nyingi ni ile unayoiruka.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 60"
+      },
+      {
+        "label": "Kamwe si zaidi ya biashara 2/siku"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Lenzi Pana Zaidi I",
+    "description": "Sambaza biashara yako katika alama 3+ tofauti. Kuoa chati moja hupunguza uamuzi; upana huweka mchakato wa uaminifu.",
+    "criteria": [
+      {
+        "label": "Fanya biashara alama 3+"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Lenzi Pana Zaidi II",
+    "description": "Sambaza biashara yako katika alama 6+ tofauti. Kuoa chati moja hupunguza uamuzi; upana huweka mchakato wa uaminifu.",
+    "criteria": [
+      {
+        "label": "Fanya biashara alama 6+"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Lenzi Pana Zaidi III",
+    "description": "Sambaza biashara yako katika alama 10+ tofauti. Kuoa chati moja hupunguza uamuzi; upana huweka mchakato wa uaminifu.",
+    "criteria": [
+      {
+        "label": "Fanya biashara alama 10+"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "Wiki ya Subira",
+    "description": "Weka hai mfululizo wa kujifunza kwa siku 7 huku kamwe usizidi biashara 2 kwa siku yoyote. Onyesha nidhamu ya kubaki umejihusisha bila kufanya biashara kupita kiasi.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa Akademia wa siku 7"
+      },
+      {
+        "label": "Kamwe si zaidi ya biashara 2/siku"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Kwa Ujuzi, Si Bahati I",
+    "description": "Kusanya ushindi 1 uliopatikana kwa ujuzi — mchakato mzuri NA matokeo mazuri — bila mafanikio hatari njiani. Ushindi huhesabika tu wakati mchakato unaweza kuurudia.",
+    "criteria": [
+      {
+        "label": "Ushindi 1 uliopatikana kwa ujuzi"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Kwa Ujuzi, Si Bahati II",
+    "description": "Kusanya ushindi 3 uliopatikana kwa ujuzi — mchakato mzuri NA matokeo mazuri — bila mafanikio hatari njiani. Ushindi huhesabika tu wakati mchakato unaweza kuurudia.",
+    "criteria": [
+      {
+        "label": "Ushindi 3 uliopatikana kwa ujuzi"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Kwa Ujuzi, Si Bahati III",
+    "description": "Kusanya ushindi 8 uliopatikana kwa ujuzi — mchakato mzuri NA matokeo mazuri — bila mafanikio hatari njiani. Ushindi huhesabika tu wakati mchakato unaweza kuurudia.",
+    "criteria": [
+      {
+        "label": "Ushindi 8 uliopatikana kwa ujuzi"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Kwa Ujuzi, Si Bahati IV",
+    "description": "Kusanya ushindi 20 uliopatikana kwa ujuzi — mchakato mzuri NA matokeo mazuri — bila mafanikio hatari njiani. Ushindi huhesabika tu wakati mchakato unaweza kuurudia.",
+    "criteria": [
+      {
+        "label": "Ushindi 20 uliopatikana kwa ujuzi"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Maliza Hadi Mwisho I",
+    "description": "Peleka biashara 5 hadi utatuzi safi — kizuizi au lengo, hakuna nafasi zilizoachwa. Kila biashara iliyotatuliwa ni nukta moja ya data ya uaminifu; zisizotatuliwa ni kelele.",
+    "criteria": [
+      {
+        "label": "Biashara 5 zilizotatuliwa"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Maliza Hadi Mwisho II",
+    "description": "Peleka biashara 15 hadi utatuzi safi — kizuizi au lengo, hakuna nafasi zilizoachwa. Kila biashara iliyotatuliwa ni nukta moja ya data ya uaminifu; zisizotatuliwa ni kelele.",
+    "criteria": [
+      {
+        "label": "Biashara 15 zilizotatuliwa"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Maliza Hadi Mwisho III",
+    "description": "Peleka biashara 40 hadi utatuzi safi — kizuizi au lengo, hakuna nafasi zilizoachwa. Kila biashara iliyotatuliwa ni nukta moja ya data ya uaminifu; zisizotatuliwa ni kelele.",
+    "criteria": [
+      {
+        "label": "Biashara 40 zilizotatuliwa"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Maliza Hadi Mwisho IV",
+    "description": "Peleka biashara 100 hadi utatuzi safi — kizuizi au lengo, hakuna nafasi zilizoachwa. Kila biashara iliyotatuliwa ni nukta moja ya data ya uaminifu; zisizotatuliwa ni kelele.",
+    "criteria": [
+      {
+        "label": "Biashara 100 zilizotatuliwa"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Nusurika Mvunjiko Bandia",
+    "description": "Pita «Mvunjiko Usiokuwa». Usifukuze kitu, usipanue kitu, weka hasara katika jarida.",
+    "criteria": [
+      {
+        "label": "Pita «Mvunjiko Usiokuwa»"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Shikilia Mstari",
+    "description": "Pita «Kurudi Nyuma katika Mwelekeo». Acha mpango, si pau nyekundu, ufanye maamuzi.",
+    "criteria": [
+      {
+        "label": "Pita «Kurudi Nyuma katika Mwelekeo»"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "Kupitia Pengo",
+    "description": "Pita «Pengo la Kushuka». Jiondoe, badilisha ukubwa, panga upya, tii vizuizi — mwenendo chini ya moto.",
+    "criteria": [
+      {
+        "label": "Pita «Pengo la Kushuka»"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Ushindi Kamili",
+    "description": "Pita kila hali ya kucheza tena katika orodha. Kila moja ni njia tofauti masoko yanavyoadhibu uboreshaji wa papo hapo.",
+    "criteria": [
+      {
+        "label": "Pita hali 3"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Kutoka Kiigizaji hadi Chumba cha Rubani",
+    "description": "Pita hali mbili, kisha thibitisha moja kwa moja: biashara 10 za karatasi zikiwa na kila kizuizi mahali pake. Kiigizaji hufundisha; tepe huchunguza.",
+    "criteria": [
+      {
+        "label": "Pita hali 2"
+      },
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Soma, Kisha Ruka",
+    "description": "Kamilisha masomo 20 kabla ya kupita hali yako ya kwanza. Ingia ukiwa umejiandaa.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 20"
+      },
+      {
+        "label": "Pita hali 1"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Msomi I",
+    "description": "Kamilisha masomo 5 ya Akademia. Kila dhana unayoweza kuitaja ni ile ambayo soko haliwezi tena kuitumia dhidi yako.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 5"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Msomi II",
+    "description": "Kamilisha masomo 15 ya Akademia. Kila dhana unayoweza kuitaja ni ile ambayo soko haliwezi tena kuitumia dhidi yako.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 15"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Msomi III",
+    "description": "Kamilisha masomo 30 ya Akademia. Kila dhana unayoweza kuitaja ni ile ambayo soko haliwezi tena kuitumia dhidi yako.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 30"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Msomi IV",
+    "description": "Kamilisha masomo 60 ya Akademia. Kila dhana unayoweza kuitaja ni ile ambayo soko haliwezi tena kuitumia dhidi yako.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 60"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Msomi V",
+    "description": "Kamilisha masomo 90 ya Akademia. Kila dhana unayoweza kuitaja ni ile ambayo soko haliwezi tena kuitumia dhidi yako.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 90"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Msomi VI",
+    "description": "Kamilisha masomo 121 ya Akademia. Mtaala mzima — kutoka mwanzo hadi mtaalamu, hakuna kilichorukwa.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 121"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Pita Mtihani wa Mwanzo",
+    "description": "Pita tathmini ya kiwango cha mwanzo kwa 80% au zaidi. Mitihani huweka lango la ngazi — na kupita kwa mtihani maana yake mtihani, si muda wa kukaa, ndio unaohesabika.",
+    "criteria": [
+      {
+        "label": "Pita tathmini ya mwanzo"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Pita Mtihani wa Kati",
+    "description": "Pita tathmini ya kiwango cha kati kwa 80% au zaidi. Mitihani huweka lango la ngazi — na kupita kwa mtihani maana yake mtihani, si muda wa kukaa, ndio unaohesabika.",
+    "criteria": [
+      {
+        "label": "Pita tathmini ya kati"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "Pita Mtihani wa Juu",
+    "description": "Pita tathmini ya kiwango cha juu kwa 80% au zaidi. Mitihani huweka lango la ngazi — na kupita kwa mtihani maana yake mtihani, si muda wa kukaa, ndio unaohesabika.",
+    "criteria": [
+      {
+        "label": "Pita tathmini ya juu"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Pita Mtihani wa Mtaalamu",
+    "description": "Pita tathmini ya kiwango cha mtaalamu kwa 80% au zaidi. Mitihani huweka lango la ngazi — na kupita kwa mtihani maana yake mtihani, si muda wa kukaa, ndio unaohesabika.",
+    "criteria": [
+      {
+        "label": "Pita tathmini ya mtaalamu"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Kumbukumbu Kamili I",
+    "description": "Weka daraja kadi 20 za marudio yenye nafasi katika Mazoezi. Dhana unazoweza kukumbuka bila shinikizo ndizo zinazopatikana chini ya shinikizo.",
+    "criteria": [
+      {
+        "label": "Marudio 20 ya mapitio"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Kumbukumbu Kamili II",
+    "description": "Weka daraja kadi 100 za marudio yenye nafasi katika Mazoezi. Dhana unazoweza kukumbuka bila shinikizo ndizo zinazopatikana chini ya shinikizo.",
+    "criteria": [
+      {
+        "label": "Marudio 100 ya mapitio"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Hudhuria I",
+    "description": "Weka mfululizo wa Akademia wa siku 2 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 2"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Hudhuria II",
+    "description": "Weka mfululizo wa Akademia wa siku 5 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 5"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Hudhuria III",
+    "description": "Weka mfululizo wa Akademia wa siku 10 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 10"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Hudhuria IV",
+    "description": "Weka mfululizo wa Akademia wa siku 21 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 21"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Hudhuria V",
+    "description": "Weka mfululizo wa Akademia wa siku 45 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 45"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Hudhuria VI",
+    "description": "Weka mfululizo wa Akademia wa siku 90 — somo lolote, kadi, mtihani, hali, au misheni huhesabika. Masoko humtuza mfanyabiashara ambaye bado yupo katika mwezi wa sita.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 90"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "Wiki Yenye Uwiano",
+    "description": "Shikilia mfululizo wa siku 7 huku ukiweka biashara 5 katika jarida na kuweka daraja kadi 10 za mapitio. Soma, fanya biashara, tafakari — mzunguko kamili, kila siku.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 7"
+      },
+      {
+        "label": "Weka biashara 5 katika jarida"
+      },
+      {
+        "label": "Marudio 10 ya mapitio"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "Kurudi Tena",
+    "description": "Baada ya kukatika kokote, jenga upya: mfululizo wa siku 14 wenye biashara 10, zote zikiwa na vizuizi na ukubwa sahihi. Yeyote anaweza kuwa na nidhamu mara moja; ujuzi ni kuanza tena.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 14"
+      },
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Tia Sahihi Jina Lako",
+    "description": "Andika na ukubali Katiba yako ya Biashara. Kuanzia wakati huo tikiti hutekeleza sheria zako — wewe mtulivu ukimlinda wewe wa baadaye.",
+    "criteria": [
+      {
+        "label": "Kubali katiba"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Sheria Zilizoshikiliwa I",
+    "description": "Katiba yako ikiwa inatumika, endesha biashara 10 ukiwa na sifuri uvunjaji wa hatari na sifuri viingilio visivyo na kizuizi. Kukubali ni rahisi; kushika ndiyo misheni.",
+    "criteria": [
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Tekeleza biashara 10"
+      },
+      {
+        "label": "Sifuri uvunjaji wa hatari"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Sheria Zilizoshikiliwa II",
+    "description": "Katiba yako ikiwa inatumika, endesha biashara 30 ukiwa na sifuri uvunjaji wa hatari na sifuri viingilio visivyo na kizuizi. Kukubali ni rahisi; kushika ndiyo misheni.",
+    "criteria": [
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Tekeleza biashara 30"
+      },
+      {
+        "label": "Sifuri uvunjaji wa hatari"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Sheria Zilizoshikiliwa III",
+    "description": "Katiba yako ikiwa inatumika, endesha biashara 75 ukiwa na sifuri uvunjaji wa hatari na sifuri viingilio visivyo na kizuizi. Kukubali ni rahisi; kushika ndiyo misheni.",
+    "criteria": [
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Tekeleza biashara 75"
+      },
+      {
+        "label": "Sifuri uvunjaji wa hatari"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "Mwendeshaji",
+    "description": "Biashara kumi mfululizo zikipata alama 70+ chini ya katiba iliyokubaliwa bila mafanikio hatari. Hii ndiyo kiwango cha mwenendo ambacho ngazi ya mtaalamu husoma.",
+    "criteria": [
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Alama 10 mfululizo 70+"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Hitimisho la Mwanzo: Kupaa",
+    "description": "Kila kitu anachopaswa kuthibitisha mwanzilishi: masomo yamesomwa, mtihani umepitishwa, biashara za kwanza zimepangwa na kuwekwa katika jarida, hasara ya kwanza iliyopangwa imechukuliwa bila kuyumba.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 15"
+      },
+      {
+        "label": "Pita tathmini ya mwanzo"
+      },
+      {
+        "label": "Tekeleza biashara 5"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Weka biashara 3 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Hitimisho la Kati: Ustadi",
+    "description": "Hesabu ya hatari ndani ya misuli: wastani wa mchakato endelevu, upana katika alama, mtihani, na hali iliyonusurika.",
+    "criteria": [
+      {
+        "label": "Pita tathmini ya kati"
+      },
+      {
+        "label": "Tekeleza biashara 20"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 70+"
+      },
+      {
+        "label": "Fanya biashara alama 3+"
+      },
+      {
+        "label": "Pita hali 1"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "Hitimisho la Juu: Chini ya Moto",
+    "description": "Nidhamu chini ya msongo: kila hali imepitishwa, katiba imeshikiliwa katika biashara 40, hasara zimekubaliwa kwa ratiba, sifuri mafanikio hatari.",
+    "criteria": [
+      {
+        "label": "Pita hali 3"
+      },
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Tekeleza biashara 40"
+      },
+      {
+        "label": "Hasara 3 zilizochezwa vizuri"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Hitimisho la Mtaalamu: Mwendeshaji Kamili",
+    "description": "Rekodi kamili: mtaala mzima, kila mtihani, biashara mia moja zilizotatuliwa kwa wastani wa mchakato wa kitaaluma, katiba hai, mwezi usiokatika.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 121"
+      },
+      {
+        "label": "Pita tathmini ya mtaalamu"
+      },
+      {
+        "label": "Biashara 100 zilizotatuliwa"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 80+"
+      },
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Mfululizo wa siku 30"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Hitimisho: Mshindwa Mwaminifu",
+    "description": "Taaluma ya hasara sahihi: vizuizi 10 vilivyopangwa, hasara 6 zilizochezwa vizuri, kila kitu kimewekwa katika jarida, hakuna kuingia kwa hasira. Kushindwa vizuri ni ujuzi adimu zaidi kwenye tepe.",
+    "criteria": [
+      {
+        "label": "Vizuizi 10 vilivyopangwa"
+      },
+      {
+        "label": "Hasara 6 zilizochezwa vizuri"
+      },
+      {
+        "label": "Weka biashara 15 katika jarida"
+      },
+      {
+        "label": "Sifuri viingilio vya hasira"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Hitimisho: Mfanyabiashara-Msomi",
+    "description": "Maarifa na mwenendo katika rekodi moja: masomo 90, marudio 100 ya mapitio, biashara 50 kwa mchakato 75+, na mfululizo wa siku 21. Maktaba na tepe, vimemilikiwa pamoja.",
+    "criteria": [
+      {
+        "label": "Kamilisha masomo 90"
+      },
+      {
+        "label": "Marudio 100 ya mapitio"
+      },
+      {
+        "label": "Tekeleza biashara 50"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 75+"
+      },
+      {
+        "label": "Mfululizo wa siku 21"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Nidhamu ya Hatari (Lango la Ngazi)",
+    "description": "Kiwango cha mwenendo cha ngazi-ya-juu: biashara 20, kila kizuizi mahali pake, hatari ndani ya sera, sifuri mafanikio hatari.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 20"
+      },
+      {
+        "label": "Kila biashara ina kizuizi"
+      },
+      {
+        "label": "Kila biashara ndani ya sera ya hatari"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Kubali Hasara Iliyopangwa (Lango la Ngazi)",
+    "description": "Hasara tatu zilizochezwa vizuri bila biashara zisizo na kizuizi katika angalau utekelezaji mitano — uthibitisho kwamba unaweza kushindwa kwa usahihi.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 5"
+      },
+      {
+        "label": "Hasara 3 zilizochezwa vizuri"
+      },
+      {
+        "label": "Hakuna biashara zisizo na kizuizi"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "Mwendeshaji (Lango la Ngazi)",
+    "description": "Biashara kumi mfululizo zenye alama za mchakato 70 au zaidi — kiwango cha mwenendo cha ngazi-ya-mtaalamu.",
+    "criteria": [
+      {
+        "label": "Alama 10 mfululizo 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "Hatua za Kwanza: Somo Moja",
+    "description": "Kamilisha somo lako la kwanza la Akademia. Rekodi ya kila mwendeshaji huanza na kiingilio kimoja.",
+    "criteria": [
+      {
+        "label": "Kamilisha somo 1"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "Hatua za Kwanza: Biashara Moja Iliyopangwa",
+    "description": "Wasilisha biashara yako ya kwanza ya karatasi ikiwa na kizuizi na sababu iliyoandikwa. Mpango ndiyo biashara; kujazwa ni karatasi tu.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 1"
+      },
+      {
+        "label": "Ina kizuizi"
+      },
+      {
+        "label": "Ina sababu iliyoandikwa"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "Hatua za Kwanza: Kidokezo Kimoja cha Uaminifu",
+    "description": "Andika kidokezo chako cha kwanza cha jarida kwenye biashara iliyotekelezwa. Sentensi mbili za uaminifu hushinda kumbukumbu kamilifu.",
+    "criteria": [
+      {
+        "label": "Weka biashara 1 katika jarida"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "Hatua za Kwanza: Kadi Moja",
+    "description": "Weka daraja kadi yako ya kwanza ya marudio yenye nafasi katika Mazoezi. Kukumbuka ni misuli; hii ni rudio la kwanza.",
+    "criteria": [
+      {
+        "label": "Rudio 1 la mapitio"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "Mashine ya Hoja",
+    "description": "Biashara hamsini, kila moja ikiwa na sababu iliyoandikwa na hisia iliyorekodiwa. Hapa mpango hujiandika wenyewe — ambao ulikuwa lengo.",
+    "criteria": [
+      {
+        "label": "Sababu iliyoandikwa kwenye biashara 50"
+      },
+      {
+        "label": "Hisia imerekodiwa kwenye biashara 50"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "Mzunguko Kamili",
+    "description": "Nasa, weka alama, gundua, agiza, weka lango — endesha mzunguko mzima wa mrejesho kwa wingi: biashara 75 zilizowekwa katika jarida na kulebwa, hali zilizopitishwa, katiba imeshikiliwa, sifuri mafanikio hatari.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 75"
+      },
+      {
+        "label": "Weka biashara 30 katika jarida"
+      },
+      {
+        "label": "Weka lebo biashara 15"
+      },
+      {
+        "label": "Pita hali 3"
+      },
+      {
+        "label": "Katiba imekubaliwa"
+      },
+      {
+        "label": "Sifuri mafanikio hatari"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Uchaguzi wa Chuma",
+    "description": "Biashara mia moja bila kuzidi mbili kwa siku kamwe, katika alama 8+. Nafasi ngumu zaidi katika biashara ni kutokuwa na nafasi, ikishikiliwa kila siku.",
+    "criteria": [
+      {
+        "label": "Tekeleza biashara 100"
+      },
+      {
+        "label": "Kamwe si zaidi ya biashara 2/siku"
+      },
+      {
+        "label": "Fanya biashara alama 8+"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "Robo Kamilifu",
+    "description": "Mfululizo wa siku 60 wenye wastani wa mchakato 75+ katika biashara 40. Robo ya kuhudhuria na kuamua vizuri — wasifu ambao masoko husoma kweli.",
+    "criteria": [
+      {
+        "label": "Mfululizo wa siku 60"
+      },
+      {
+        "label": "Tekeleza biashara 40"
+      },
+      {
+        "label": "Wastani wa alama ya mchakato 75+"
+      }
+    ]
+  }
+]
