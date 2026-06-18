@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Bell, Clipboard, ShieldAlert } from 'lucide-react';
 import {
@@ -40,6 +41,7 @@ export function SignalDetailDrawer({
   onCreateAlert: () => void;
   onCopyJson: () => void;
 }) {
+  const { t } = useTranslation();
   const retryMockView = () => window.location.reload();
 
   // Feed records carry the instant deterministic template; the model
@@ -66,23 +68,27 @@ export function SignalDetailDrawer({
     liveNarration?.narration_source ?? signalRecord?.signal.narration_source ?? 'template';
   const isModelNarration = narrationSource.startsWith('ollama');
   const narrationLabel = isModelNarration
-    ? 'AI narration (local model, fact-checked against engine numbers):'
-    : 'Rule-based summary — narrates engine facts only:';
+    ? t('signalDetail.narrationModel')
+    : t('signalDetail.narrationRule');
   const narrationSourceDisplay = isModelNarration
-    ? `Local model (${narrationSource.replace('ollama:', '')})`
+    ? t('signalDetail.sourceLocalModel', { model: narrationSource.replace('ollama:', '') })
     : narrationSource === 'template-guarded'
-      ? 'Deterministic template (model output rejected by fact guard)'
+      ? t('signalDetail.sourceGuarded')
       : narrationSource === 'template-fallback'
-        ? 'Deterministic template (model unavailable)'
-        : 'Deterministic template';
+        ? t('signalDetail.sourceFallback')
+        : t('signalDetail.sourceTemplate');
 
   const freshness = signalRecord ? signalFreshness(signalRecord.signal) : null;
 
   return (
     <Drawer
       open={open}
-      title={signalRecord ? `${signalRecord.signal.symbol} signal detail` : 'Signal detail'}
-      description="Full canonical signal object with confidence basis, risk ladder, AI narration, and paper-only execution actions. Signal records are generated on the backend from stored corridor candles."
+      title={
+        signalRecord
+          ? t('signalDetail.title', { symbol: signalRecord.signal.symbol })
+          : t('signalDetail.titleGeneric')
+      }
+      description={t('signalDetail.description')}
       onClose={onClose}
     >
       {signalRecord ? (
@@ -91,14 +97,14 @@ export function SignalDetailDrawer({
           loading={<LoadingSkeleton rows={8} />}
           empty={
             <EmptyState
-              title="Signal detail is empty"
-              description="The drawer stays mounted with an explicit empty state even when no signal payload is available."
+              title={t('signalDetail.emptyTitle')}
+              description={t('signalDetail.emptyDesc')}
             />
           }
           error={
             <ErrorState
-              title="Signal detail unavailable"
-              description="The canonical signal drawer could not be loaded."
+              title={t('signalDetail.errorTitle')}
+              description={t('signalDetail.errorDesc')}
               onRetry={retryMockView}
             />
           }
@@ -107,14 +113,17 @@ export function SignalDetailDrawer({
               <div className="flex items-start justify-between gap-4 rounded-3xl border border-border bg-white/[0.03] p-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                    Canonical signal
+                    {t('signalDetail.canonicalSignal')}
                   </p>
                   <h4 className="mt-1 text-2xl font-semibold text-ink">
                     {signalRecord.signal.symbol}
                   </h4>
                   <p className="mt-2 text-sm text-muted">
-                    {symbol?.marketType} · {signalRecord.signal.timeframe} · generated{' '}
-                    {formatDateTime(signalRecord.signal.generated_at_utc)} UTC
+                    {t('signalDetail.generated', {
+                      market: symbol?.marketType,
+                      timeframe: signalRecord.signal.timeframe,
+                      datetime: formatDateTime(signalRecord.signal.generated_at_utc),
+                    })}
                   </p>
                   {freshness ? (
                     <div className="mt-2">
@@ -135,29 +144,29 @@ export function SignalDetailDrawer({
 
               <div className="grid gap-3 md:grid-cols-2">
                 <MetricStat
-                  label="Signal id"
+                  label={t('signalDetail.signalId')}
                   value={signalRecord.id}
-                  helper="Traceable record id for JSON export"
+                  helper={t('signalDetail.signalIdHelper')}
                 />
                 <MetricStat
-                  label="Risk level"
+                  label={t('signalDetail.riskLevel')}
                   value={signalRecord.signal.risk_level}
-                  helper={`Status: ${signalRecord.status}`}
+                  helper={t('signalDetail.statusHelper', { status: signalRecord.status })}
                 />
                 <MetricStat
-                  label="Confidence"
+                  label={t('signalDetail.confidence')}
                   value={signalRecord.signal.confidence}
-                  helper="Deterministic evidence score"
+                  helper={t('signalDetail.confidenceHelper')}
                 />
                 <MetricStat
-                  label="Entry zone"
+                  label={t('signalDetail.entryZone')}
                   value={signalRecord.signal.entry_zone
                     .map((level) => formatCurrency(level))
                     .join(' - ')}
-                  helper="Zone rendered field-for-field"
+                  helper={t('signalDetail.entryZoneHelper')}
                 />
                 <MetricStat
-                  label="Risk / reward"
+                  label={t('signalDetail.riskReward')}
                   value={signalRecord.signal.risk_reward.toFixed(1)}
                   helper={signalRecord.signal.fees_slippage_assumed}
                 />
@@ -165,62 +174,64 @@ export function SignalDetailDrawer({
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Confidence basis
+                  {t('signalDetail.confidenceBasis')}
                 </p>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <MetricStat
-                    label="Trend alignment"
+                    label={t('signalDetail.trendAlignment')}
                     value={signalRecord.signal.confidence_basis.trend_alignment.toFixed(2)}
                   />
                   <MetricStat
-                    label="Volume confirmation"
+                    label={t('signalDetail.volumeConfirmation')}
                     value={signalRecord.signal.confidence_basis.volume_confirmation.toFixed(2)}
                   />
                   <MetricStat
-                    label="Volatility regime"
+                    label={t('signalDetail.volatilityRegime')}
                     value={signalRecord.signal.confidence_basis.volatility_regime}
                   />
                   <MetricStat
-                    label="Setup type"
+                    label={t('signalDetail.setupType')}
                     value={signalRecord.signal.confidence_basis.setup_type}
                   />
                   <MetricStat
-                    label="Backtested win rate"
+                    label={t('signalDetail.backtestedWinRate')}
                     value={`${(signalRecord.signal.confidence_basis.backtested_winrate * 100).toFixed(0)}%`}
                   />
                   <MetricStat
-                    label="Expectancy R"
+                    label={t('signalDetail.expectancyR')}
                     value={signalRecord.signal.confidence_basis.backtested_expectancy_R.toFixed(2)}
                   />
                   <MetricStat
-                    label="Sample size"
+                    label={t('signalDetail.sampleSize')}
                     value={signalRecord.signal.confidence_basis.backtest_sample_size}
                     helper={
                       signalRecord.signal.confidence_basis.backtest_sample_size < 50
-                        ? 'Low-sample warning'
-                        : 'Above minimum threshold'
+                        ? t('signalDetail.lowSampleWarning')
+                        : t('signalDetail.aboveMinThreshold')
                     }
                   />
                   <MetricStat
-                    label="OOS validated"
+                    label={t('signalDetail.oosValidated')}
                     value={
-                      signalRecord.signal.confidence_basis.out_of_sample_validated ? 'Yes' : 'No'
+                      signalRecord.signal.confidence_basis.out_of_sample_validated
+                        ? t('signalDetail.yes')
+                        : t('signalDetail.no')
                     }
                     helper={
                       signalRecord.signal.confidence_basis.out_of_sample_validated
-                        ? 'Out-of-sample expectancy positive'
-                        : 'Not confirmed out-of-sample'
+                        ? t('signalDetail.oosPositive')
+                        : t('signalDetail.oosNotConfirmed')
                     }
                   />
                   {signalRecord.signal.confidence_basis.market_regime ? (
                     <MetricStat
-                      label="Market regime"
+                      label={t('signalDetail.marketRegime')}
                       value={signalRecord.signal.confidence_basis.market_regime}
                     />
                   ) : null}
                   {typeof signalRecord.signal.confidence_basis.confluence_score === 'number' ? (
                     <MetricStat
-                      label="Confluence score"
+                      label={t('signalDetail.confluenceScore')}
                       value={signalRecord.signal.confidence_basis.confluence_score.toFixed(2)}
                     />
                   ) : null}
@@ -228,22 +239,24 @@ export function SignalDetailDrawer({
                   typeof signalRecord.signal.confidence_basis.conformal_lower_r === 'number' &&
                   typeof signalRecord.signal.confidence_basis.conformal_upper_r === 'number' ? (
                     <MetricStat
-                      label="Next-trade range (90% guaranteed)"
+                      label={t('signalDetail.nextTradeRange')}
                       value={`${signalRecord.signal.confidence_basis.conformal_lower_r.toFixed(2)}R to ${signalRecord.signal.confidence_basis.conformal_upper_r.toFixed(2)}R`}
-                      helper={`Distribution-free conformal bound over ${signalRecord.signal.confidence_basis.conformal_sample_size ?? 0} OOS trades`}
+                      helper={t('signalDetail.conformalHelper', {
+                        n: signalRecord.signal.confidence_basis.conformal_sample_size ?? 0,
+                      })}
                     />
                   ) : null}
                   {typeof signalRecord.signal.confidence_basis.pooled_sample_size === 'number' ? (
                     <MetricStat
-                      label="Pooled sample"
+                      label={t('signalDetail.pooledSample')}
                       value={signalRecord.signal.confidence_basis.pooled_sample_size}
-                      helper="Cross-symbol setup history"
+                      helper={t('signalDetail.pooledSampleHelper')}
                     />
                   ) : null}
                   {typeof signalRecord.signal.confidence_basis.out_of_sample_sample_size ===
                   'number' ? (
                     <MetricStat
-                      label="OOS sample"
+                      label={t('signalDetail.oosSample')}
                       value={signalRecord.signal.confidence_basis.out_of_sample_sample_size}
                     />
                   ) : null}
@@ -252,17 +265,17 @@ export function SignalDetailDrawer({
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Risk ladder and invalidation
+                  {t('signalDetail.riskLadder')}
                 </p>
                 <div className="mt-3 space-y-2 text-sm text-muted">
                   <p>
-                    Stop loss:{' '}
+                    {t('signalDetail.stopLossLabel')}:{' '}
                     <span className="metric-text text-ink">
                       {formatCurrency(signalRecord.signal.stop_loss)}
                     </span>
                   </p>
                   <p>
-                    Take profit ladder:{' '}
+                    {t('signalDetail.takeProfitLabel')}:{' '}
                     <span className="metric-text text-ink">
                       {signalRecord.signal.take_profit
                         .map((level) => formatCurrency(level))
@@ -270,26 +283,27 @@ export function SignalDetailDrawer({
                     </span>
                   </p>
                   <p>
-                    Invalidation:{' '}
+                    {t('signalDetail.invalidationLabel')}:{' '}
                     <span className="text-ink">{signalRecord.signal.invalidation}</span>
                   </p>
                   <p>
-                    Fees and slippage:{' '}
+                    {t('signalDetail.feesLabel')}:{' '}
                     <span className="text-ink">{signalRecord.signal.fees_slippage_assumed}</span>
                   </p>
                   <p>
-                    Candle status:{' '}
+                    {t('signalDetail.candleStatusLabel')}:{' '}
                     <span className="text-ink">{signalRecord.signal.candle_status}</span>
                   </p>
                   <p>
-                    Data source: <span className="text-ink">{signalRecord.signal.data_source}</span>
+                    {t('signalDetail.dataSourceLabel')}:{' '}
+                    <span className="text-ink">{signalRecord.signal.data_source}</span>
                   </p>
                 </div>
               </Panel>
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Engine reasons
+                  {t('signalDetail.engineReasons')}
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-muted">
                   {signalRecord.signal.reasons.map((reason) => (
@@ -305,7 +319,7 @@ export function SignalDetailDrawer({
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  AI explanation
+                  {t('signalDetail.aiExplanation')}
                 </p>
                 <div className="mt-3 rounded-2xl border border-watch/20 bg-watch/8 p-4 text-sm text-muted">
                   <p className="mb-2">{narrationLabel}</p>
@@ -313,13 +327,15 @@ export function SignalDetailDrawer({
                     {liveNarration?.ai_explanation ?? signalRecord.signal.ai_explanation ?? ''}
                   </AiMarkdown>
                 </div>
-                <p className="mt-2 text-xs text-muted">Source: {narrationSourceDisplay}</p>
+                <p className="mt-2 text-xs text-muted">
+                  {t('signalDetail.sourcePrefix', { source: narrationSourceDisplay })}
+                </p>
                 <p className="mt-3 text-xs text-muted">{signalRecord.signal.disclaimer}</p>
               </Panel>
 
               <Panel className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Signal JSON preview
+                  {t('signalDetail.jsonPreview')}
                 </p>
                 <pre className="mt-3 overflow-x-auto rounded-2xl border border-border bg-surface/50 p-4 text-xs text-muted">
                   {JSON.stringify(signalRecord.signal, null, 2)}
@@ -327,22 +343,22 @@ export function SignalDetailDrawer({
               </Panel>
 
               <div className="flex flex-wrap gap-3">
-                <Button onClick={onPaperTrade}>Paper trade this</Button>
+                <Button onClick={onPaperTrade}>{t('signalDetail.paperTradeThis')}</Button>
                 <Button variant="secondary" onClick={onCreateAlert}>
                   <Bell className="size-4" />
-                  Create alert
+                  {t('signalDetail.createAlert')}
                 </Button>
                 <button
                   type="button"
-                  title="Enable in Settings → Risk & Safety; paper trading only by default"
+                  title={t('signalDetail.liveTradeTitle')}
                   className="rounded-2xl border border-border bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-muted"
                 >
                   <ShieldAlert className="mr-2 inline size-4" />
-                  Live trade disabled
+                  {t('signalDetail.liveTradeDisabled')}
                 </button>
                 <Button variant="ghost" onClick={onCopyJson}>
                   <Clipboard className="size-4" />
-                  Copy signal JSON
+                  {t('signalDetail.copyJson')}
                 </Button>
               </div>
             </div>
@@ -350,8 +366,8 @@ export function SignalDetailDrawer({
         />
       ) : (
         <EmptyState
-          title="No signal selected"
-          description="Open any signal card, row action, or symbol-detail button to populate this drawer."
+          title={t('signalDetail.noSignalTitle')}
+          description={t('signalDetail.noSignalDesc')}
         />
       )}
     </Drawer>
