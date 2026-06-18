@@ -1139,5 +1139,20 @@
       "help": "选择应用界面的语言。AI 洞见也会用此语言回复。"
     },
     "notFinancialAdvice": "仅供教育用途，非投资建议。"
+  },
+  "chrome": {
+    "backendUnavailable": "后端不可用",
+    "aiInsightLoading": "AI 正在读取你的数据……大型本地模型可能需要长达一分钟。",
+    "aiInsightError": "AI 读取暂时不可用（模型超时或请求失败）。没有它屏幕也能正常工作——若持续如此，请检查 设置 → AI。",
+    "aiReadTitle": "AI 读取",
+    "copilotStarter1": "现在最强的信号有哪些？",
+    "copilotStarter2": "我的纸面账户表现如何？",
+    "copilotStarter3": "我已平仓的交易中出现了哪些模式？",
+    "copilotError": "Copilot 请求失败——模型可能超时。应用其余部分仍正常工作；请重试或检查 设置 → AI。",
+    "copilotButtonTitle": "QuantGlass Copilot——询问你自己的信号、账户和交易",
+    "copilotReadsData": "读取你的数据 · 绝非建议",
+    "copilotEmptyState": "询问你自己的工作台——信号、纸面账户、自选列表、回测、已平仓交易或你的交易复盘。答案来自引擎的只读数据；这里无法下单。",
+    "copilotBusy": "正在读取你的数据……大型本地模型可能需要长达一分钟。",
+    "copilotPlaceholder": "询问你的信号、账户、交易……"
   }
 }

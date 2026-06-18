@@ -1139,5 +1139,20 @@
       "help": "Choose the language for the app interface. AI insights answer in this language too."
     },
     "notFinancialAdvice": "Educational use only — not financial advice."
+  },
+  "chrome": {
+    "backendUnavailable": "Backend unavailable",
+    "aiInsightLoading": "AI is reading your data… large local models can take up to a minute.",
+    "aiInsightError": "AI read unavailable right now (model timed out or the request failed). The screen works normally without it — check Settings → AI if this persists.",
+    "aiReadTitle": "AI read",
+    "copilotStarter1": "What are the strongest signals right now?",
+    "copilotStarter2": "How is my paper account doing?",
+    "copilotStarter3": "What patterns show up in my closed trades?",
+    "copilotError": "The Copilot request failed - the model may have timed out. The rest of the app keeps working; try again or check Settings → AI.",
+    "copilotButtonTitle": "QuantGlass Copilot - ask about your own signals, account, and trades",
+    "copilotReadsData": "Reads your data · never advice",
+    "copilotEmptyState": "Ask about your own workstation - signals, paper account, watchlist, backtests, closed trades, or your trade review. Answers come from the engine's read-only data; nothing here can place orders.",
+    "copilotBusy": "Reading your data… large local models can take up to a minute.",
+    "copilotPlaceholder": "Ask about your signals, account, trades…"
   }
 }

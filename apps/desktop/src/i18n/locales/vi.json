@@ -1139,5 +1139,20 @@
       "help": "Chọn ngôn ngữ giao diện ứng dụng. Thông tin AI cũng trả lời bằng ngôn ngữ này."
     },
     "notFinancialAdvice": "Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính."
+  },
+  "chrome": {
+    "backendUnavailable": "Backend không khả dụng",
+    "aiInsightLoading": "AI đang đọc dữ liệu của bạn… mô hình cục bộ lớn có thể mất đến một phút.",
+    "aiInsightError": "Đọc AI hiện không khả dụng (mô hình hết thời gian hoặc yêu cầu thất bại). Màn hình vẫn hoạt động bình thường khi không có nó — kiểm tra Cài đặt → AI nếu tình trạng này tiếp diễn.",
+    "aiReadTitle": "Đọc AI",
+    "copilotStarter1": "Tín hiệu mạnh nhất hiện giờ là gì?",
+    "copilotStarter2": "Tài khoản giấy của tôi đang thế nào?",
+    "copilotStarter3": "Mẫu hình nào xuất hiện trong các giao dịch đã đóng của tôi?",
+    "copilotError": "Yêu cầu Copilot thất bại - mô hình có thể đã hết thời gian. Phần còn lại của ứng dụng vẫn hoạt động; thử lại hoặc kiểm tra Cài đặt → AI.",
+    "copilotButtonTitle": "QuantGlass Copilot - hỏi về tín hiệu, tài khoản và giao dịch của riêng bạn",
+    "copilotReadsData": "Đọc dữ liệu của bạn · không bao giờ là lời khuyên",
+    "copilotEmptyState": "Hỏi về máy trạm của riêng bạn - tín hiệu, tài khoản giấy, danh sách theo dõi, backtest, giao dịch đã đóng, hoặc bài đánh giá giao dịch của bạn. Câu trả lời đến từ dữ liệu chỉ-đọc của engine; không gì ở đây có thể đặt lệnh.",
+    "copilotBusy": "Đang đọc dữ liệu của bạn… mô hình cục bộ lớn có thể mất đến một phút.",
+    "copilotPlaceholder": "Hỏi về tín hiệu, tài khoản, giao dịch của bạn…"
   }
 }

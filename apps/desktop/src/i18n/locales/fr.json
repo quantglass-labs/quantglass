@@ -1139,5 +1139,20 @@
       "help": "Choisissez la langue de l'interface. Les analyses IA répondent aussi dans cette langue."
     },
     "notFinancialAdvice": "Usage éducatif uniquement — pas un conseil financier."
+  },
+  "chrome": {
+    "backendUnavailable": "Backend indisponible",
+    "aiInsightLoading": "L'IA lit vos données… les grands modèles locaux peuvent prendre jusqu'à une minute.",
+    "aiInsightError": "Lecture IA indisponible pour le moment (le modèle a expiré ou la requête a échoué). L'écran fonctionne normalement sans elle — vérifiez Réglages → IA si cela persiste.",
+    "aiReadTitle": "Lecture IA",
+    "copilotStarter1": "Quels sont les signaux les plus forts en ce moment ?",
+    "copilotStarter2": "Comment va mon compte papier ?",
+    "copilotStarter3": "Quels schémas apparaissent dans mes trades clôturés ?",
+    "copilotError": "La requête du Copilot a échoué - le modèle a peut-être expiré. Le reste de l'app continue de fonctionner ; réessayez ou vérifiez Réglages → IA.",
+    "copilotButtonTitle": "QuantGlass Copilot - posez des questions sur vos propres signaux, compte et trades",
+    "copilotReadsData": "Lit vos données · jamais de conseil",
+    "copilotEmptyState": "Posez des questions sur votre poste de travail - signaux, compte papier, liste de suivi, backtests, trades clôturés ou votre revue de trades. Les réponses proviennent des données en lecture seule du moteur ; rien ici ne peut passer d'ordres.",
+    "copilotBusy": "Lecture de vos données… les grands modèles locaux peuvent prendre jusqu'à une minute.",
+    "copilotPlaceholder": "Posez des questions sur vos signaux, compte, trades…"
   }
 }

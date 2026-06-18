@@ -1139,5 +1139,20 @@
       "help": "Pilih bahasa antarmuka aplikasi. Wawasan AI juga menjawab dalam bahasa ini."
     },
     "notFinancialAdvice": "Hanya untuk tujuan edukasi — bukan nasihat keuangan."
+  },
+  "chrome": {
+    "backendUnavailable": "Backend tidak tersedia",
+    "aiInsightLoading": "AI sedang membaca data Anda… model lokal besar bisa memakan waktu hingga satu menit.",
+    "aiInsightError": "Pembacaan AI tidak tersedia saat ini (model kehabisan waktu atau permintaan gagal). Layar tetap bekerja normal tanpanya — periksa Pengaturan → AI jika ini berlanjut.",
+    "aiReadTitle": "Pembacaan AI",
+    "copilotStarter1": "Apa sinyal terkuat saat ini?",
+    "copilotStarter2": "Bagaimana kondisi akun kertas saya?",
+    "copilotStarter3": "Pola apa yang muncul di trade tertutup saya?",
+    "copilotError": "Permintaan Copilot gagal - model mungkin kehabisan waktu. Sisa aplikasi tetap bekerja; coba lagi atau periksa Pengaturan → AI.",
+    "copilotButtonTitle": "QuantGlass Copilot - tanyakan tentang sinyal, akun, dan trade Anda sendiri",
+    "copilotReadsData": "Membaca data Anda · bukan saran",
+    "copilotEmptyState": "Tanyakan tentang stasiun kerja Anda sendiri - sinyal, akun kertas, watchlist, backtest, trade tertutup, atau tinjauan trade Anda. Jawaban berasal dari data baca-saja mesin; tidak ada di sini yang bisa menempatkan order.",
+    "copilotBusy": "Membaca data Anda… model lokal besar bisa memakan waktu hingga satu menit.",
+    "copilotPlaceholder": "Tanyakan tentang sinyal, akun, trade Anda…"
   }
 }

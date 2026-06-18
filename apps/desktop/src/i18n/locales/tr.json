@@ -1139,5 +1139,20 @@
       "help": "Uygulama arayüzü dilini seçin. Yapay zekâ içgörüleri de bu dilde yanıt verir."
     },
     "notFinancialAdvice": "Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir."
+  },
+  "chrome": {
+    "backendUnavailable": "Arka uç kullanılamıyor",
+    "aiInsightLoading": "AI verilerinizi okuyor… büyük yerel modeller bir dakikaya kadar sürebilir.",
+    "aiInsightError": "AI okuması şu anda kullanılamıyor (model zaman aşımına uğradı veya istek başarısız). Ekran onsuz da normal çalışır — bu sürerse Ayarlar → AI'yi kontrol edin.",
+    "aiReadTitle": "AI okuması",
+    "copilotStarter1": "Şu anda en güçlü sinyaller neler?",
+    "copilotStarter2": "Kâğıt hesabım nasıl gidiyor?",
+    "copilotStarter3": "Kapanmış işlemlerimde hangi desenler görünüyor?",
+    "copilotError": "Copilot isteği başarısız oldu - model zaman aşımına uğramış olabilir. Uygulamanın geri kalanı çalışmaya devam eder; tekrar deneyin veya Ayarlar → AI'yi kontrol edin.",
+    "copilotButtonTitle": "QuantGlass Copilot - kendi sinyalleriniz, hesabınız ve işlemleriniz hakkında sorun",
+    "copilotReadsData": "Verilerinizi okur · asla tavsiye değil",
+    "copilotEmptyState": "Kendi çalışma istasyonunuz hakkında sorun - sinyaller, kâğıt hesap, izleme listesi, backtestler, kapanmış işlemler veya işlem incelemeniz. Yanıtlar motorun salt-okunur verilerinden gelir; burada hiçbir şey emir veremez.",
+    "copilotBusy": "Verilerinizi okuyor… büyük yerel modeller bir dakikaya kadar sürebilir.",
+    "copilotPlaceholder": "Sinyalleriniz, hesabınız, işlemleriniz hakkında sorun…"
   }
 }

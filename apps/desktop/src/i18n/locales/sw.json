@@ -1139,5 +1139,20 @@
       "help": "Chagua lugha ya kiolesura cha programu. Maarifa ya AI pia hujibu kwa lugha hii."
     },
     "notFinancialAdvice": "Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha."
+  },
+  "chrome": {
+    "backendUnavailable": "Nyuma haipatikani",
+    "aiInsightLoading": "AI inasoma data yako… modeli kubwa za ndani zinaweza kuchukua hadi dakika moja.",
+    "aiInsightError": "Usomaji wa AI haupatikani sasa (modeli imeisha muda au ombi limeshindwa). Skrini hufanya kazi kawaida bila hiyo — angalia Mipangilio → AI ikiwa hii inaendelea.",
+    "aiReadTitle": "Usomaji wa AI",
+    "copilotStarter1": "Ishara zenye nguvu zaidi ni zipi sasa?",
+    "copilotStarter2": "Akaunti yangu ya karatasi inaendeleaje?",
+    "copilotStarter3": "Mifumo gani inaonekana katika biashara zangu zilizofungwa?",
+    "copilotError": "Ombi la Copilot limeshindwa - modeli huenda imeisha muda. Sehemu nyingine ya programu inaendelea kufanya kazi; jaribu tena au angalia Mipangilio → AI.",
+    "copilotButtonTitle": "QuantGlass Copilot - uliza kuhusu ishara, akaunti na biashara zako mwenyewe",
+    "copilotReadsData": "Husoma data yako · kamwe si ushauri",
+    "copilotEmptyState": "Uliza kuhusu kituo chako cha kazi - ishara, akaunti ya karatasi, orodha ya kufuatilia, backtest, biashara zilizofungwa, au mapitio yako ya biashara. Majibu hutoka kwa data ya kusoma-tu ya injini; hakuna kitu hapa kinachoweza kuweka oda.",
+    "copilotBusy": "Inasoma data yako… modeli kubwa za ndani zinaweza kuchukua hadi dakika moja.",
+    "copilotPlaceholder": "Uliza kuhusu ishara, akaunti, biashara zako…"
   }
 }
