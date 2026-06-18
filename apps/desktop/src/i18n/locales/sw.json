@@ -632,6 +632,27 @@
       "reset": "Weka upya",
       "tradeEnabledKey": "Ufunguo ulioidhinishwa kwa biashara",
       "providerScopeSetting": "Mpangilio wa mtoa huduma, arifa au wigo wa uwasilishaji"
+    },
+    "strategies": {
+      "libraryTitle": "Maktaba ya mikakati",
+      "libraryDesc": "Zinatoka wapi: kitufe cha Hifadhi mkakati kwenye skrini ya Backtesting hupiga picha ya uendeshaji uliopenda — alama, usanidi, kipindi, modeli ya gharama, na mgawanyo wa uthibitishaji. Kufungua tena Backtesting huzionyesha kama mipangilio iliyowekwa awali ili uendeshe tena au urekebishe baadaye, na Leta/Hamisha huzihamisha kati ya mashine kama JSON. Kufuta moja huondoa tu mpangilio uliohifadhiwa, kamwe si data yoyote.",
+      "selectedForExport": "{{selected}} kati ya {{total}} zimechaguliwa kuhamisha.",
+      "importLabel": "Leta",
+      "exportLabel": "Hamisha",
+      "selectAll": "Chagua zote",
+      "clearSelection": "Futa chaguo",
+      "deleteLabel": "Futa",
+      "deleteTitle": "Futa {{name}}",
+      "savedAt": "Imehifadhiwa {{datetime}} UTC",
+      "emptyTitle": "Hakuna mikakati iliyohifadhiwa",
+      "emptyDesc": "Tumia Backtesting → Hifadhi mkakati kujaza kichupo hiki au lete faili ya JSON ya mikakati ya QuantGlass.",
+      "selectOneFirst": "Chagua angalau mkakati mmoja kabla ya kuhamisha.",
+      "exportCanceled": "Uhamishaji umeghairiwa.",
+      "exportedToPath": "Mikakati {{count}} iliyochaguliwa imehamishwa hadi {{path}}",
+      "exportedBrowser": "Mikakati {{count}} iliyochaguliwa imehamishwa kupitia upakuaji wa kivinjari.",
+      "importing": "Inaleta mikakati {{count}}…",
+      "noValidStrategies": "Hakuna mikakati halali iliyopatikana katika faili iliyochaguliwa.",
+      "importFailed": "Uletaji umeshindwa kwa sababu faili iliyochaguliwa si JSON halali."
     }
   },
   "symbolDetail": {

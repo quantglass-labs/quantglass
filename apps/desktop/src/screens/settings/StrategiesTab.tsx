@@ -4,6 +4,7 @@
 import { useRef, useState } from 'react';
 
 import { Download, Trash2, Upload } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, EmptyState } from '../../components/ui';
 import { formatDateTime } from '../../lib/format';
@@ -83,6 +84,7 @@ export function StrategiesTab({
   onDeleteSavedStrategy: (strategyId: string) => void;
   onImportSavedStrategies: (strategies: SavedStrategy[]) => void;
 }) {
+  const { t } = useTranslation();
   const [strategyTransferStatus, setStrategyTransferStatus] = useState('');
   const [selectedStrategyIds, setSelectedStrategyIds] = useState<Set<string>>(new Set());
   const strategyImportRef = useRef<HTMLInputElement | null>(null);
@@ -105,7 +107,7 @@ export function StrategiesTab({
       selectedStrategyIds.has(strategy.id),
     );
     if (!strategiesToExport.length) {
-      setStrategyTransferStatus('Select at least one strategy before exporting.');
+      setStrategyTransferStatus(t('settings.strategies.selectOneFirst'));
       return;
     }
     const filename = `quantglass-strategies-${new Date().toISOString().slice(0, 10)}.json`;
@@ -126,13 +128,13 @@ export function StrategiesTab({
         title: 'Export QuantGlass strategies',
       });
       if (!selectedPath) {
-        setStrategyTransferStatus('Export canceled.');
+        setStrategyTransferStatus(t('settings.strategies.exportCanceled'));
         return;
       }
       const { invoke } = await import('@tauri-apps/api/core');
       const path = await invoke<string>('save_json_export', { path: selectedPath, contents });
       setStrategyTransferStatus(
-        `Exported ${strategiesToExport.length} selected strateg${strategiesToExport.length === 1 ? 'y' : 'ies'} to ${path}`,
+        t('settings.strategies.exportedToPath', { count: strategiesToExport.length, path }),
       );
       return;
     } catch {
@@ -152,7 +154,7 @@ export function StrategiesTab({
     anchor.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     setStrategyTransferStatus(
-      `Exported ${strategiesToExport.length} selected strateg${strategiesToExport.length === 1 ? 'y' : 'ies'} through browser download.`,
+      t('settings.strategies.exportedBrowser', { count: strategiesToExport.length }),
     );
   }
 
@@ -178,12 +180,12 @@ export function StrategiesTab({
         .filter((strategy): strategy is SavedStrategy => Boolean(strategy));
       setStrategyTransferStatus(
         strategies.length
-          ? `Importing ${strategies.length} strateg${strategies.length === 1 ? 'y' : 'ies'}...`
-          : 'No valid strategies found in the selected file.',
+          ? t('settings.strategies.importing', { count: strategies.length })
+          : t('settings.strategies.noValidStrategies'),
       );
       onImportSavedStrategies(strategies);
     } catch {
-      setStrategyTransferStatus('Import failed because the selected file is not valid JSON.');
+      setStrategyTransferStatus(t('settings.strategies.importFailed'));
       onImportSavedStrategies([]);
     } finally {
       if (strategyImportRef.current) {
@@ -196,18 +198,15 @@ export function StrategiesTab({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-border bg-white/[0.03] p-4">
         <div>
-          <p className="font-medium text-ink">Strategy library</p>
-          <p className="text-sm text-muted">
-            Where these come from: the <span className="text-ink">Save strategy</span> button on the
-            Backtesting screen snapshots a run you liked — symbol, setup, timeframe, cost model, and
-            validation split. Reopening Backtesting lists them as presets so you can re-run or tweak
-            them later, and Import/Export moves them between machines as JSON. Deleting one only
-            removes the saved preset, never any data.
-          </p>
+          <p className="font-medium text-ink">{t('settings.strategies.libraryTitle')}</p>
+          <p className="text-sm text-muted">{t('settings.strategies.libraryDesc')}</p>
           {savedStrategies.length ? (
             <p className="mt-2 text-xs text-muted">
-              {savedStrategies.filter((strategy) => selectedStrategyIds.has(strategy.id)).length} of{' '}
-              {savedStrategies.length} selected for export.
+              {t('settings.strategies.selectedForExport', {
+                selected: savedStrategies.filter((strategy) => selectedStrategyIds.has(strategy.id))
+                  .length,
+                total: savedStrategies.length,
+              })}
             </p>
           ) : null}
           {strategyTransferStatus ? (
@@ -224,7 +223,7 @@ export function StrategiesTab({
           />
           <Button variant="secondary" onClick={() => strategyImportRef.current?.click()}>
             <Upload className="size-4" />
-            Import
+            {t('settings.strategies.importLabel')}
           </Button>
           <Button
             variant="secondary"
@@ -235,7 +234,7 @@ export function StrategiesTab({
             onClick={() => void exportSavedStrategies()}
           >
             <Download className="size-4" />
-            Export
+            {t('settings.strategies.exportLabel')}
           </Button>
         </div>
       </div>
@@ -248,10 +247,10 @@ export function StrategiesTab({
                 setSelectedStrategyIds(new Set(savedStrategies.map((strategy) => strategy.id)))
               }
             >
-              Select all
+              {t('settings.strategies.selectAll')}
             </Button>
             <Button variant="ghost" onClick={() => setSelectedStrategyIds(new Set())}>
-              Clear selection
+              {t('settings.strategies.clearSelection')}
             </Button>
           </div>
           {savedStrategies.map((strategy) => (
@@ -280,18 +279,20 @@ export function StrategiesTab({
                       {strategy.symbolId} · {strategy.setupType} · {strategy.timeframe}
                     </span>
                     <span className="mt-2 block text-xs text-muted">
-                      Saved {formatDateTime(strategy.savedAt)} UTC
+                      {t('settings.strategies.savedAt', {
+                        datetime: formatDateTime(strategy.savedAt),
+                      })}
                     </span>
                   </span>
                 </label>
                 <div>
                   <Button
                     variant="danger"
-                    title={`Delete ${strategy.name}`}
+                    title={t('settings.strategies.deleteTitle', { name: strategy.name })}
                     onClick={() => onDeleteSavedStrategy(strategy.id)}
                   >
                     <Trash2 className="size-4" />
-                    Delete
+                    {t('settings.strategies.deleteLabel')}
                   </Button>
                 </div>
               </div>
@@ -300,8 +301,8 @@ export function StrategiesTab({
         </div>
       ) : (
         <EmptyState
-          title="No strategies saved"
-          description="Use Backtesting → Save strategy to populate this tab or import a QuantGlass strategy JSON file."
+          title={t('settings.strategies.emptyTitle')}
+          description={t('settings.strategies.emptyDesc')}
         />
       )}
     </div>

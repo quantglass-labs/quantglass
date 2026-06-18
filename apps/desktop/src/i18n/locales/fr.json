@@ -632,6 +632,27 @@
       "reset": "Réinitialiser",
       "tradeEnabledKey": "Clé activée pour le trading",
       "providerScopeSetting": "Réglage de fournisseur, de notification ou de portée de livraison"
+    },
+    "strategies": {
+      "libraryTitle": "Bibliothèque de stratégies",
+      "libraryDesc": "D'où elles viennent : le bouton Enregistrer la stratégie de l'écran Backtesting capture une exécution qui vous a plu — symbole, configuration, intervalle, modèle de coûts et répartition de validation. En rouvrant le Backtesting, elles apparaissent comme préréglages pour les relancer ou les ajuster plus tard, et Importer/Exporter les déplace entre machines au format JSON. En supprimer une ne retire que le préréglage enregistré, jamais de données.",
+      "selectedForExport": "{{selected}} sur {{total}} sélectionnées pour l'export.",
+      "importLabel": "Importer",
+      "exportLabel": "Exporter",
+      "selectAll": "Tout sélectionner",
+      "clearSelection": "Effacer la sélection",
+      "deleteLabel": "Supprimer",
+      "deleteTitle": "Supprimer {{name}}",
+      "savedAt": "Enregistrée le {{datetime}} UTC",
+      "emptyTitle": "Aucune stratégie enregistrée",
+      "emptyDesc": "Utilisez Backtesting → Enregistrer la stratégie pour remplir cet onglet ou importez un fichier JSON de stratégies QuantGlass.",
+      "selectOneFirst": "Sélectionnez au moins une stratégie avant d'exporter.",
+      "exportCanceled": "Export annulé.",
+      "exportedToPath": "{{count}} stratégies sélectionnées exportées vers {{path}}",
+      "exportedBrowser": "{{count}} stratégies sélectionnées exportées via le téléchargement du navigateur.",
+      "importing": "Importation de {{count}} stratégies…",
+      "noValidStrategies": "Aucune stratégie valide trouvée dans le fichier sélectionné.",
+      "importFailed": "Échec de l'importation car le fichier sélectionné n'est pas un JSON valide."
     }
   },
   "symbolDetail": {

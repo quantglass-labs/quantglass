@@ -632,6 +632,27 @@
       "reset": "Setel ulang",
       "tradeEnabledKey": "Kunci yang diaktifkan untuk trading",
       "providerScopeSetting": "Pengaturan penyedia, notifikasi, atau cakupan pengiriman"
+    },
+    "strategies": {
+      "libraryTitle": "Pustaka strategi",
+      "libraryDesc": "Asalnya: tombol Simpan strategi di layar Backtesting mengambil cuplikan eksekusi yang kamu suka — simbol, penyiapan, kerangka waktu, model biaya, dan pembagian validasi. Membuka kembali Backtesting menampilkannya sebagai praatur untuk dijalankan ulang atau diubah nanti, dan Impor/Ekspor memindahkannya antar mesin sebagai JSON. Menghapus satu hanya menghapus praatur tersimpan, bukan data apa pun.",
+      "selectedForExport": "{{selected}} dari {{total}} dipilih untuk ekspor.",
+      "importLabel": "Impor",
+      "exportLabel": "Ekspor",
+      "selectAll": "Pilih semua",
+      "clearSelection": "Hapus pilihan",
+      "deleteLabel": "Hapus",
+      "deleteTitle": "Hapus {{name}}",
+      "savedAt": "Disimpan {{datetime}} UTC",
+      "emptyTitle": "Tidak ada strategi tersimpan",
+      "emptyDesc": "Gunakan Backtesting → Simpan strategi untuk mengisi tab ini atau impor berkas JSON strategi QuantGlass.",
+      "selectOneFirst": "Pilih setidaknya satu strategi sebelum mengekspor.",
+      "exportCanceled": "Ekspor dibatalkan.",
+      "exportedToPath": "{{count}} strategi terpilih diekspor ke {{path}}",
+      "exportedBrowser": "{{count}} strategi terpilih diekspor melalui unduhan peramban.",
+      "importing": "Mengimpor {{count}} strategi…",
+      "noValidStrategies": "Tidak ada strategi valid ditemukan dalam berkas yang dipilih.",
+      "importFailed": "Impor gagal karena berkas yang dipilih bukan JSON yang valid."
     }
   },
   "symbolDetail": {

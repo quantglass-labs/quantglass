@@ -632,6 +632,27 @@
       "reset": "Reset",
       "tradeEnabledKey": "Trade-enabled key",
       "providerScopeSetting": "Provider, notification, or delivery-scope setting"
+    },
+    "strategies": {
+      "libraryTitle": "Strategy library",
+      "libraryDesc": "Where these come from: the Save strategy button on the Backtesting screen snapshots a run you liked — symbol, setup, timeframe, cost model, and validation split. Reopening Backtesting lists them as presets so you can re-run or tweak them later, and Import/Export moves them between machines as JSON. Deleting one only removes the saved preset, never any data.",
+      "selectedForExport": "{{selected}} of {{total}} selected for export.",
+      "importLabel": "Import",
+      "exportLabel": "Export",
+      "selectAll": "Select all",
+      "clearSelection": "Clear selection",
+      "deleteLabel": "Delete",
+      "deleteTitle": "Delete {{name}}",
+      "savedAt": "Saved {{datetime}} UTC",
+      "emptyTitle": "No strategies saved",
+      "emptyDesc": "Use Backtesting → Save strategy to populate this tab or import a QuantGlass strategy JSON file.",
+      "selectOneFirst": "Select at least one strategy before exporting.",
+      "exportCanceled": "Export canceled.",
+      "exportedToPath": "Exported {{count}} selected strategies to {{path}}",
+      "exportedBrowser": "Exported {{count}} selected strategies through browser download.",
+      "importing": "Importing {{count}} strategies…",
+      "noValidStrategies": "No valid strategies found in the selected file.",
+      "importFailed": "Import failed because the selected file is not valid JSON."
     }
   },
   "symbolDetail": {

@@ -632,6 +632,27 @@
       "reset": "Redefinir",
       "tradeEnabledKey": "Chave habilitada para operar",
       "providerScopeSetting": "Configuração de provedor, notificação ou escopo de entrega"
+    },
+    "strategies": {
+      "libraryTitle": "Biblioteca de estratégias",
+      "libraryDesc": "De onde elas vêm: o botão Salvar estratégia na tela de Backtesting captura uma execução que você gostou — símbolo, configuração, intervalo, modelo de custos e divisão de validação. Ao reabrir o Backtesting, elas aparecem como predefinições para reexecutar ou ajustar depois, e Importar/Exportar as move entre máquinas como JSON. Excluir uma remove apenas a predefinição salva, nunca dados.",
+      "selectedForExport": "{{selected}} de {{total}} selecionadas para exportar.",
+      "importLabel": "Importar",
+      "exportLabel": "Exportar",
+      "selectAll": "Selecionar tudo",
+      "clearSelection": "Limpar seleção",
+      "deleteLabel": "Excluir",
+      "deleteTitle": "Excluir {{name}}",
+      "savedAt": "Salva em {{datetime}} UTC",
+      "emptyTitle": "Nenhuma estratégia salva",
+      "emptyDesc": "Use Backtesting → Salvar estratégia para preencher esta aba ou importe um arquivo JSON de estratégias do QuantGlass.",
+      "selectOneFirst": "Selecione ao menos uma estratégia antes de exportar.",
+      "exportCanceled": "Exportação cancelada.",
+      "exportedToPath": "{{count}} estratégias selecionadas exportadas para {{path}}",
+      "exportedBrowser": "{{count}} estratégias selecionadas exportadas via download do navegador.",
+      "importing": "Importando {{count}} estratégias…",
+      "noValidStrategies": "Nenhuma estratégia válida encontrada no arquivo selecionado.",
+      "importFailed": "Falha na importação porque o arquivo selecionado não é um JSON válido."
     }
   },
   "symbolDetail": {

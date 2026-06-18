@@ -632,6 +632,27 @@
       "reset": "重置",
       "tradeEnabledKey": "已启用交易的密钥",
       "providerScopeSetting": "提供商、通知或投递范围设置"
+    },
+    "strategies": {
+      "libraryTitle": "策略库",
+      "libraryDesc": "它们从何而来：回测屏幕上的「保存策略」按钮会快照你喜欢的一次运行——品种、配置、时间框架、成本模型和验证划分。重新打开回测时会将它们列为预设，便于之后重跑或调整，导入/导出以 JSON 在设备间迁移。删除某个仅移除已保存的预设，绝不删除任何数据。",
+      "selectedForExport": "已选 {{selected}}/{{total}} 用于导出。",
+      "importLabel": "导入",
+      "exportLabel": "导出",
+      "selectAll": "全选",
+      "clearSelection": "清除选择",
+      "deleteLabel": "删除",
+      "deleteTitle": "删除 {{name}}",
+      "savedAt": "保存于 {{datetime}} UTC",
+      "emptyTitle": "未保存策略",
+      "emptyDesc": "使用 回测 →「保存策略」来填充此选项卡，或导入 QuantGlass 策略 JSON 文件。",
+      "selectOneFirst": "导出前请至少选择一个策略。",
+      "exportCanceled": "已取消导出。",
+      "exportedToPath": "已将 {{count}} 个所选策略导出到 {{path}}",
+      "exportedBrowser": "已通过浏览器下载导出 {{count}} 个所选策略。",
+      "importing": "正在导入 {{count}} 个策略…",
+      "noValidStrategies": "所选文件中未找到有效策略。",
+      "importFailed": "导入失败，因为所选文件不是有效的 JSON。"
     }
   },
   "symbolDetail": {
