@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Disiplin Risiko I",
+    "description": "Lakukan 5 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 5 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Disiplin Risiko II",
+    "description": "Lakukan 10 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Disiplin Risiko III",
+    "description": "Lakukan 20 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 20 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Disiplin Risiko IV",
+    "description": "Lakukan 40 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 40 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Disiplin Risiko V",
+    "description": "Lakukan 75 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 75 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Disiplin Risiko VI",
+    "description": "Lakukan 120 paper trade di mana setiap satu punya stop dan berisiko tak lebih dari kebijakan. Tanpa pengecualian, tanpa «sekali ini saja» — kebiasaan itulah sertifikasinya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 120 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "Darah Pertama, Terencana",
+    "description": "Ambil kerugian terencana pertamamu: trade yang menyentuh stop-nya persis di tempat yang kamu katakan. Ini uang sekolah termurah yang dijual pasar.",
+    "criteria": [
+      {
+        "label": "Eksekusi 3 trade"
+      },
+      {
+        "label": "Ambil 1 stop-out terencana"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Disiplin Terdiversifikasi",
+    "description": "Jalankan rutinitas risiko penuh sepanjang setidaknya 5 simbol berbeda. Disiplin yang hanya berfungsi pada chart favoritmu adalah kebetulan, bukan keterampilan.",
+    "criteria": [
+      {
+        "label": "Eksekusi 25 trade"
+      },
+      {
+        "label": "Trade 5+ simbol berbeda"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "Pengawasan Panjang",
+    "description": "Dua ratus trade tanpa satu pun pelanggaran kebijakan-risiko. Pada volume ini, disiplin bukan lagi pilihan yang kamu buat — itulah dirimu.",
+    "criteria": [
+      {
+        "label": "Eksekusi 200 trade"
+      },
+      {
+        "label": "Nol pelanggaran kebijakan-risiko"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Tanpa Toleransi",
+    "description": "Lima belas trade berkualitas berturut-turut tanpa risiko berlebihan dan tanpa entri tanpa stop, saat konstitusi berlaku. Aturan yang kamu adopsi, dipatuhi.",
+    "criteria": [
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Eksekusi 15 trade"
+      },
+      {
+        "label": "Nol pelanggaran risiko"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Kualitas Proses I",
+    "description": "Pertahankan skor proses rata-rata 60+ sepanjang 5 trade. Skor menilai keputusan — stop, tesis, ukuran, kondisi pikiran — tak pernah hasilnya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 5 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Kualitas Proses II",
+    "description": "Pertahankan skor proses rata-rata 70+ sepanjang 10 trade. Skor menilai keputusan — stop, tesis, ukuran, kondisi pikiran — tak pernah hasilnya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Kualitas Proses III",
+    "description": "Pertahankan skor proses rata-rata 75+ sepanjang 20 trade. Skor menilai keputusan — stop, tesis, ukuran, kondisi pikiran — tak pernah hasilnya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 20 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Kualitas Proses IV",
+    "description": "Pertahankan skor proses rata-rata 80+ sepanjang 40 trade. Skor menilai keputusan — stop, tesis, ukuran, kondisi pikiran — tak pernah hasilnya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 40 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Kualitas Proses V",
+    "description": "Pertahankan skor proses rata-rata 85+ sepanjang 80 trade. Skor menilai keputusan — stop, tesis, ukuran, kondisi pikiran — tak pernah hasilnya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 80 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Tak Terputus I",
+    "description": "Rangkai 3 trade berturut-turut dengan skor proses 70 atau lebih baik. Satu entri ceroboh mereset hitungan — persis seperti disiplin sejati.",
+    "criteria": [
+      {
+        "label": "3 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Tak Terputus II",
+    "description": "Rangkai 5 trade berturut-turut dengan skor proses 70 atau lebih baik. Satu entri ceroboh mereset hitungan — persis seperti disiplin sejati.",
+    "criteria": [
+      {
+        "label": "5 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Tak Terputus III",
+    "description": "Rangkai 10 trade berturut-turut dengan skor proses 70 atau lebih baik. Satu entri ceroboh mereset hitungan — persis seperti disiplin sejati.",
+    "criteria": [
+      {
+        "label": "10 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Tak Terputus IV",
+    "description": "Rangkai 20 trade berturut-turut dengan skor proses 70 atau lebih baik. Satu entri ceroboh mereset hitungan — persis seperti disiplin sejati.",
+    "criteria": [
+      {
+        "label": "20 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Tak Terputus V",
+    "description": "Rangkai 35 trade berturut-turut dengan skor proses 70 atau lebih baik. Satu entri ceroboh mereset hitungan — persis seperti disiplin sejati.",
+    "criteria": [
+      {
+        "label": "35 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Terima Kerugian Terencana I",
+    "description": "Kumpulkan 1 kerugian yang dimainkan dengan baik — keputusan bagus di mana varians mengambil trade. Trader yang bisa kalah dengan benar adalah yang masih solven setelah seratus trade.",
+    "criteria": [
+      {
+        "label": "1 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Tanpa trade tanpa stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Terima Kerugian Terencana II",
+    "description": "Kumpulkan 3 kerugian yang dimainkan dengan baik — keputusan bagus di mana varians mengambil trade. Trader yang bisa kalah dengan benar adalah yang masih solven setelah seratus trade.",
+    "criteria": [
+      {
+        "label": "3 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Tanpa trade tanpa stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Terima Kerugian Terencana III",
+    "description": "Kumpulkan 6 kerugian yang dimainkan dengan baik — keputusan bagus di mana varians mengambil trade. Trader yang bisa kalah dengan benar adalah yang masih solven setelah seratus trade.",
+    "criteria": [
+      {
+        "label": "6 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Tanpa trade tanpa stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Terima Kerugian Terencana IV",
+    "description": "Kumpulkan 12 kerugian yang dimainkan dengan baik — keputusan bagus di mana varians mengambil trade. Trader yang bisa kalah dengan benar adalah yang masih solven setelah seratus trade.",
+    "criteria": [
+      {
+        "label": "12 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Tanpa trade tanpa stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "Stop Berfungsi I",
+    "description": "Biarkan stop-mu mengeluarkanmu 2 kali tanpa melebarkan atau membatalkannya. Jalan keluar yang kamu rencanakan adalah satu-satunya yang melindungi akun yang kamu rencanakan untuk dijaga.",
+    "criteria": [
+      {
+        "label": "2 stop-out terencana diambil"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "Stop Berfungsi II",
+    "description": "Biarkan stop-mu mengeluarkanmu 5 kali tanpa melebarkan atau membatalkannya. Jalan keluar yang kamu rencanakan adalah satu-satunya yang melindungi akun yang kamu rencanakan untuk dijaga.",
+    "criteria": [
+      {
+        "label": "5 stop-out terencana diambil"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "Stop Berfungsi III",
+    "description": "Biarkan stop-mu mengeluarkanmu 10 kali tanpa melebarkan atau membatalkannya. Jalan keluar yang kamu rencanakan adalah satu-satunya yang melindungi akun yang kamu rencanakan untuk dijaga.",
+    "criteria": [
+      {
+        "label": "10 stop-out terencana diambil"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "Stop Berfungsi IV",
+    "description": "Biarkan stop-mu mengeluarkanmu 20 kali tanpa melebarkan atau membatalkannya. Jalan keluar yang kamu rencanakan adalah satu-satunya yang melindungi akun yang kamu rencanakan untuk dijaga.",
+    "criteria": [
+      {
+        "label": "20 stop-out terencana diambil"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Berdarah Dingin I",
+    "description": "Catat kondisi emosionalmu pada setiap entri sepanjang 5 trade dengan nol entri tilt — tanpa FOMO, tanpa trade frustrasi. Menamai kondisi adalah cara kamu menangkapnya lebih dini.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 5 trade"
+      },
+      {
+        "label": "Nol entri tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Berdarah Dingin II",
+    "description": "Catat kondisi emosionalmu pada setiap entri sepanjang 15 trade dengan nol entri tilt — tanpa FOMO, tanpa trade frustrasi. Menamai kondisi adalah cara kamu menangkapnya lebih dini.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 15 trade"
+      },
+      {
+        "label": "Nol entri tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Berdarah Dingin III",
+    "description": "Catat kondisi emosionalmu pada setiap entri sepanjang 40 trade dengan nol entri tilt — tanpa FOMO, tanpa trade frustrasi. Menamai kondisi adalah cara kamu menangkapnya lebih dini.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 40 trade"
+      },
+      {
+        "label": "Nol entri tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Berdarah Dingin IV",
+    "description": "Catat kondisi emosionalmu pada setiap entri sepanjang 100 trade dengan nol entri tilt — tanpa FOMO, tanpa trade frustrasi. Menamai kondisi adalah cara kamu menangkapnya lebih dini.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 100 trade"
+      },
+      {
+        "label": "Nol entri tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Namai Perasaan I",
+    "description": "Catat satu emosi pada 10 entri — termasuk yang buruk. Log tilt yang jujur mengalahkan yang palsu rapi; mesin menilai kejujuran, bukan ketenangan.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 10 trade"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Namai Perasaan II",
+    "description": "Catat satu emosi pada 25 entri — termasuk yang buruk. Log tilt yang jujur mengalahkan yang palsu rapi; mesin menilai kejujuran, bukan ketenangan.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 25 trade"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Namai Perasaan III",
+    "description": "Catat satu emosi pada 60 entri — termasuk yang buruk. Log tilt yang jujur mengalahkan yang palsu rapi; mesin menilai kejujuran, bukan ketenangan.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 60 trade"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Namai Perasaan IV",
+    "description": "Catat satu emosi pada 150 entri — termasuk yang buruk. Log tilt yang jujur mengalahkan yang palsu rapi; mesin menilai kejujuran, bukan ketenangan.",
+    "criteria": [
+      {
+        "label": "Emosi dicatat pada 150 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "Catatan I",
+    "description": "Tulis catatan refleksi atau tag pada 3 trade yang dieksekusi. Jurnal adalah satu-satunya kumpulan data tentang tradingmu yang tak bisa dikumpulkan orang lain.",
+    "criteria": [
+      {
+        "label": "Catat 3 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "Catatan II",
+    "description": "Tulis catatan refleksi atau tag pada 10 trade yang dieksekusi. Jurnal adalah satu-satunya kumpulan data tentang tradingmu yang tak bisa dikumpulkan orang lain.",
+    "criteria": [
+      {
+        "label": "Catat 10 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "Catatan III",
+    "description": "Tulis catatan refleksi atau tag pada 25 trade yang dieksekusi. Jurnal adalah satu-satunya kumpulan data tentang tradingmu yang tak bisa dikumpulkan orang lain.",
+    "criteria": [
+      {
+        "label": "Catat 25 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "Catatan IV",
+    "description": "Tulis catatan refleksi atau tag pada 60 trade yang dieksekusi. Jurnal adalah satu-satunya kumpulan data tentang tradingmu yang tak bisa dikumpulkan orang lain.",
+    "criteria": [
+      {
+        "label": "Catat 60 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "Catatan V",
+    "description": "Tulis catatan refleksi atau tag pada 120 trade yang dieksekusi. Jurnal adalah satu-satunya kumpulan data tentang tradingmu yang tak bisa dikumpulkan orang lain.",
+    "criteria": [
+      {
+        "label": "Catat 120 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Beri Tag Kesalahan I",
+    "description": "Terapkan tag kesalahan yang jujur pada 5 trade. Tag memberi makan detektor pelatih Tinjauan — makin jujur penandaan, makin tajam resepnya.",
+    "criteria": [
+      {
+        "label": "Beri tag 5 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Beri Tag Kesalahan II",
+    "description": "Terapkan tag kesalahan yang jujur pada 15 trade. Tag memberi makan detektor pelatih Tinjauan — makin jujur penandaan, makin tajam resepnya.",
+    "criteria": [
+      {
+        "label": "Beri tag 15 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Beri Tag Kesalahan III",
+    "description": "Terapkan tag kesalahan yang jujur pada 40 trade. Tag memberi makan detektor pelatih Tinjauan — makin jujur penandaan, makin tajam resepnya.",
+    "criteria": [
+      {
+        "label": "Beri tag 40 trade"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Setiap Trade Punya Alasan",
+    "description": "Tulis alasan sebelum entri pada 20 trade. Jika tesis tak bisa bertahan satu kalimat tertulis, ia juga tak bisa bertahan satu batang yang merugikan.",
+    "criteria": [
+      {
+        "label": "Alasan tertulis pada 20 trade"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "Penembak Jitu I",
+    "description": "Sepanjang 10 trade, jangan pernah melebihi 3 entri dalam satu hari. Aktivitas bukan keunggulan — trade terbaik kebanyakan hari adalah yang kamu lewati.",
+    "criteria": [
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Tak pernah lebih dari 3 trade/hari"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "Penembak Jitu II",
+    "description": "Sepanjang 25 trade, jangan pernah melebihi 3 entri dalam satu hari. Aktivitas bukan keunggulan — trade terbaik kebanyakan hari adalah yang kamu lewati.",
+    "criteria": [
+      {
+        "label": "Eksekusi 25 trade"
+      },
+      {
+        "label": "Tak pernah lebih dari 3 trade/hari"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "Penembak Jitu III",
+    "description": "Sepanjang 60 trade, jangan pernah melebihi 2 entri dalam satu hari. Aktivitas bukan keunggulan — trade terbaik kebanyakan hari adalah yang kamu lewati.",
+    "criteria": [
+      {
+        "label": "Eksekusi 60 trade"
+      },
+      {
+        "label": "Tak pernah lebih dari 2 trade/hari"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Lensa Lebih Lebar I",
+    "description": "Sebarkan tradingmu sepanjang 3+ simbol berbeda. Menikahi satu chart mempersempit penilaian; keluasan menjaga proses tetap jujur.",
+    "criteria": [
+      {
+        "label": "Trade 3+ simbol"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Lensa Lebih Lebar II",
+    "description": "Sebarkan tradingmu sepanjang 6+ simbol berbeda. Menikahi satu chart mempersempit penilaian; keluasan menjaga proses tetap jujur.",
+    "criteria": [
+      {
+        "label": "Trade 6+ simbol"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Lensa Lebih Lebar III",
+    "description": "Sebarkan tradingmu sepanjang 10+ simbol berbeda. Menikahi satu chart mempersempit penilaian; keluasan menjaga proses tetap jujur.",
+    "criteria": [
+      {
+        "label": "Trade 10+ simbol"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "Pekan Penuh Kesabaran",
+    "description": "Jaga rentetan belajar tetap hidup selama 7 hari sambil tak pernah melebihi 2 trade dalam hari mana pun. Tunjukkan disiplin tetap terlibat tanpa overtrading.",
+    "criteria": [
+      {
+        "label": "Rentetan Akademi 7 hari"
+      },
+      {
+        "label": "Tak pernah lebih dari 2 trade/hari"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Hasil Keahlian, Bukan Keberuntungan I",
+    "description": "Kumpulkan 1 kemenangan hasil keahlian — proses bagus DAN hasil bagus — dengan nol keberhasilan berbahaya di sepanjang jalan. Kemenangan hanya dihitung saat prosesnya bisa mengulanginya.",
+    "criteria": [
+      {
+        "label": "1 kemenangan hasil keahlian"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Hasil Keahlian, Bukan Keberuntungan II",
+    "description": "Kumpulkan 3 kemenangan hasil keahlian — proses bagus DAN hasil bagus — dengan nol keberhasilan berbahaya di sepanjang jalan. Kemenangan hanya dihitung saat prosesnya bisa mengulanginya.",
+    "criteria": [
+      {
+        "label": "3 kemenangan hasil keahlian"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Hasil Keahlian, Bukan Keberuntungan III",
+    "description": "Kumpulkan 8 kemenangan hasil keahlian — proses bagus DAN hasil bagus — dengan nol keberhasilan berbahaya di sepanjang jalan. Kemenangan hanya dihitung saat prosesnya bisa mengulanginya.",
+    "criteria": [
+      {
+        "label": "8 kemenangan hasil keahlian"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Hasil Keahlian, Bukan Keberuntungan IV",
+    "description": "Kumpulkan 20 kemenangan hasil keahlian — proses bagus DAN hasil bagus — dengan nol keberhasilan berbahaya di sepanjang jalan. Kemenangan hanya dihitung saat prosesnya bisa mengulanginya.",
+    "criteria": [
+      {
+        "label": "20 kemenangan hasil keahlian"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Tuntaskan Sampai Akhir I",
+    "description": "Bawa 5 trade ke penyelesaian bersih — stop atau target, tanpa posisi terbengkalai. Setiap trade yang terselesaikan adalah satu titik data jujur; yang tak terselesaikan adalah derau.",
+    "criteria": [
+      {
+        "label": "5 trade terselesaikan"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Tuntaskan Sampai Akhir II",
+    "description": "Bawa 15 trade ke penyelesaian bersih — stop atau target, tanpa posisi terbengkalai. Setiap trade yang terselesaikan adalah satu titik data jujur; yang tak terselesaikan adalah derau.",
+    "criteria": [
+      {
+        "label": "15 trade terselesaikan"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Tuntaskan Sampai Akhir III",
+    "description": "Bawa 40 trade ke penyelesaian bersih — stop atau target, tanpa posisi terbengkalai. Setiap trade yang terselesaikan adalah satu titik data jujur; yang tak terselesaikan adalah derau.",
+    "criteria": [
+      {
+        "label": "40 trade terselesaikan"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Tuntaskan Sampai Akhir IV",
+    "description": "Bawa 100 trade ke penyelesaian bersih — stop atau target, tanpa posisi terbengkalai. Setiap trade yang terselesaikan adalah satu titik data jujur; yang tak terselesaikan adalah derau.",
+    "criteria": [
+      {
+        "label": "100 trade terselesaikan"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Bertahan dari Breakout Palsu",
+    "description": "Lulus «Breakout yang Bukan». Jangan kejar apa pun, jangan lebarkan apa pun, catat kerugiannya.",
+    "criteria": [
+      {
+        "label": "Lulus «Breakout yang Bukan»"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Pertahankan Garis",
+    "description": "Lulus «Pullback dalam Tren». Biarkan rencana, bukan batang merah, yang membuat keputusan.",
+    "criteria": [
+      {
+        "label": "Lulus «Pullback dalam Tren»"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "Melewati Celah",
+    "description": "Lulus «Gap Turun». Mundur, ubah ukuran, rencanakan ulang, patuhi stop — perilaku di bawah tembakan.",
+    "criteria": [
+      {
+        "label": "Lulus «Gap Turun»"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Sapu Bersih",
+    "description": "Lulus setiap skenario replay dalam katalog. Masing-masing adalah cara berbeda pasar menghukum improvisasi.",
+    "criteria": [
+      {
+        "label": "Lulus 3 skenario"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Dari Simulator ke Kokpit",
+    "description": "Lulus dua skenario, lalu buktikan langsung: 10 paper trade dengan setiap stop terpasang. Simulator mengajar; pasar menguji.",
+    "criteria": [
+      {
+        "label": "Lulus 2 skenario"
+      },
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Baca, Lalu Terbang",
+    "description": "Selesaikan 20 pelajaran sebelum lulus skenario pertamamu. Masuklah dengan persiapan.",
+    "criteria": [
+      {
+        "label": "Selesaikan 20 pelajaran"
+      },
+      {
+        "label": "Lulus 1 skenario"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Cendekiawan I",
+    "description": "Selesaikan 5 pelajaran Akademi. Setiap konsep yang bisa kamu namai adalah konsep yang tak lagi bisa dipakai pasar untuk melawanmu.",
+    "criteria": [
+      {
+        "label": "Selesaikan 5 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Cendekiawan II",
+    "description": "Selesaikan 15 pelajaran Akademi. Setiap konsep yang bisa kamu namai adalah konsep yang tak lagi bisa dipakai pasar untuk melawanmu.",
+    "criteria": [
+      {
+        "label": "Selesaikan 15 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Cendekiawan III",
+    "description": "Selesaikan 30 pelajaran Akademi. Setiap konsep yang bisa kamu namai adalah konsep yang tak lagi bisa dipakai pasar untuk melawanmu.",
+    "criteria": [
+      {
+        "label": "Selesaikan 30 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Cendekiawan IV",
+    "description": "Selesaikan 60 pelajaran Akademi. Setiap konsep yang bisa kamu namai adalah konsep yang tak lagi bisa dipakai pasar untuk melawanmu.",
+    "criteria": [
+      {
+        "label": "Selesaikan 60 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Cendekiawan V",
+    "description": "Selesaikan 90 pelajaran Akademi. Setiap konsep yang bisa kamu namai adalah konsep yang tak lagi bisa dipakai pasar untuk melawanmu.",
+    "criteria": [
+      {
+        "label": "Selesaikan 90 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Cendekiawan VI",
+    "description": "Selesaikan 121 pelajaran Akademi. Seluruh kurikulum — pemula hingga ahli, tak ada yang dilewati.",
+    "criteria": [
+      {
+        "label": "Selesaikan 121 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Lulus Ujian Pemula",
+    "description": "Lulus asesmen tingkat pemula pada 80% atau lebih baik. Ujian menjadi gerbang tangga — dan tes-keluar berarti ujian, bukan lama duduk, yang dihitung.",
+    "criteria": [
+      {
+        "label": "Lulus asesmen pemula"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Lulus Ujian Menengah",
+    "description": "Lulus asesmen tingkat menengah pada 80% atau lebih baik. Ujian menjadi gerbang tangga — dan tes-keluar berarti ujian, bukan lama duduk, yang dihitung.",
+    "criteria": [
+      {
+        "label": "Lulus asesmen menengah"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "Lulus Ujian Lanjutan",
+    "description": "Lulus asesmen tingkat lanjutan pada 80% atau lebih baik. Ujian menjadi gerbang tangga — dan tes-keluar berarti ujian, bukan lama duduk, yang dihitung.",
+    "criteria": [
+      {
+        "label": "Lulus asesmen lanjutan"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Lulus Ujian Ahli",
+    "description": "Lulus asesmen tingkat ahli pada 80% atau lebih baik. Ujian menjadi gerbang tangga — dan tes-keluar berarti ujian, bukan lama duduk, yang dihitung.",
+    "criteria": [
+      {
+        "label": "Lulus asesmen ahli"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Ingatan Total I",
+    "description": "Nilai 20 kartu pengulangan berjarak di Latihan. Konsep yang bisa kamu ingat tanpa tekanan adalah yang tersedia di bawah tekanan.",
+    "criteria": [
+      {
+        "label": "20 repetisi tinjauan"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Ingatan Total II",
+    "description": "Nilai 100 kartu pengulangan berjarak di Latihan. Konsep yang bisa kamu ingat tanpa tekanan adalah yang tersedia di bawah tekanan.",
+    "criteria": [
+      {
+        "label": "100 repetisi tinjauan"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Hadir I",
+    "description": "Jaga rentetan Akademi 2 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 2 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Hadir II",
+    "description": "Jaga rentetan Akademi 5 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 5 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Hadir III",
+    "description": "Jaga rentetan Akademi 10 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 10 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Hadir IV",
+    "description": "Jaga rentetan Akademi 21 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 21 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Hadir V",
+    "description": "Jaga rentetan Akademi 45 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 45 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Hadir VI",
+    "description": "Jaga rentetan Akademi 90 hari — pelajaran, kartu, ujian, skenario, atau misi apa pun dihitung. Pasar memberi imbalan pada trader yang masih ada di bulan keenam.",
+    "criteria": [
+      {
+        "label": "Rentetan 90 hari"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "Pekan Seimbang",
+    "description": "Pertahankan rentetan 7 hari sambil mencatat 5 trade dan menilai 10 kartu tinjauan. Belajar, trade, refleksi — lingkaran penuh, setiap hari.",
+    "criteria": [
+      {
+        "label": "Rentetan 7 hari"
+      },
+      {
+        "label": "Catat 5 trade"
+      },
+      {
+        "label": "10 repetisi tinjauan"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "Kebangkitan",
+    "description": "Setelah jeda apa pun, bangun kembali: rentetan 14 hari dengan 10 trade, semua ber-stop dan berukuran benar. Siapa pun bisa disiplin sekali; keterampilannya adalah memulai lagi.",
+    "criteria": [
+      {
+        "label": "Rentetan 14 hari"
+      },
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Tanda Tangani Namamu",
+    "description": "Tulis dan adopsi Konstitusi Trading-mu. Sejak saat itu tiket menegakkan aturanmu — dirimu yang tenang melindungi dirimu di masa depan.",
+    "criteria": [
+      {
+        "label": "Adopsi konstitusi"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Aturan Dipatuhi I",
+    "description": "Dengan konstitusimu berlaku, jalankan 10 trade dengan nol pelanggaran risiko dan nol entri tanpa stop. Mengadopsi itu mudah; mematuhi adalah misinya.",
+    "criteria": [
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Eksekusi 10 trade"
+      },
+      {
+        "label": "Nol pelanggaran risiko"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Aturan Dipatuhi II",
+    "description": "Dengan konstitusimu berlaku, jalankan 30 trade dengan nol pelanggaran risiko dan nol entri tanpa stop. Mengadopsi itu mudah; mematuhi adalah misinya.",
+    "criteria": [
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Eksekusi 30 trade"
+      },
+      {
+        "label": "Nol pelanggaran risiko"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Aturan Dipatuhi III",
+    "description": "Dengan konstitusimu berlaku, jalankan 75 trade dengan nol pelanggaran risiko dan nol entri tanpa stop. Mengadopsi itu mudah; mematuhi adalah misinya.",
+    "criteria": [
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Eksekusi 75 trade"
+      },
+      {
+        "label": "Nol pelanggaran risiko"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "Operator",
+    "description": "Sepuluh trade berturut-turut mencetak 70+ di bawah konstitusi yang diadopsi dengan nol keberhasilan berbahaya. Inilah standar perilaku yang dibaca tangga ahli.",
+    "criteria": [
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "10 skor berturut-turut 70+"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Penutup Pemula: Lepas Landas",
+    "description": "Semua yang harus dibuktikan pemula: pelajaran dipelajari, ujian lulus, trade pertama direncanakan dan dicatat, kerugian terencana pertama diterima tanpa gentar.",
+    "criteria": [
+      {
+        "label": "Selesaikan 15 pelajaran"
+      },
+      {
+        "label": "Lulus asesmen pemula"
+      },
+      {
+        "label": "Eksekusi 5 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Catat 3 trade"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Penutup Menengah: Keahlian",
+    "description": "Matematika risiko dalam otot: rata-rata proses yang bertahan, keluasan lintas simbol, ujian, dan satu skenario yang dilalui.",
+    "criteria": [
+      {
+        "label": "Lulus asesmen menengah"
+      },
+      {
+        "label": "Eksekusi 20 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 70+"
+      },
+      {
+        "label": "Trade 3+ simbol"
+      },
+      {
+        "label": "Lulus 1 skenario"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "Penutup Lanjutan: Di Bawah Tembakan",
+    "description": "Disiplin di bawah tekanan: setiap skenario lulus, konstitusi dijaga sepanjang 40 trade, kerugian diterima sesuai jadwal, nol keberhasilan berbahaya.",
+    "criteria": [
+      {
+        "label": "Lulus 3 skenario"
+      },
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Eksekusi 40 trade"
+      },
+      {
+        "label": "3 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Penutup Ahli: Operator Lengkap",
+    "description": "Catatan lengkap: seluruh kurikulum, setiap ujian, seratus trade terselesaikan pada rata-rata proses profesional, konstitusi yang hidup, satu bulan tak terputus.",
+    "criteria": [
+      {
+        "label": "Selesaikan 121 pelajaran"
+      },
+      {
+        "label": "Lulus asesmen ahli"
+      },
+      {
+        "label": "100 trade terselesaikan"
+      },
+      {
+        "label": "Skor proses rata-rata 80+"
+      },
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Rentetan 30 hari"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Penutup: Pecundang yang Jujur",
+    "description": "Karier penuh kerugian yang benar: 10 stop-out terencana, 6 kerugian yang dimainkan dengan baik, semua dicatat di jurnal, tanpa entri tilt. Kalah dengan baik adalah keterampilan paling langka di pasar.",
+    "criteria": [
+      {
+        "label": "10 stop-out terencana"
+      },
+      {
+        "label": "6 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Catat 15 trade"
+      },
+      {
+        "label": "Nol entri tilt"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Penutup: Trader-Cendekiawan",
+    "description": "Pengetahuan dan perilaku dalam satu catatan: 90 pelajaran, 100 repetisi tinjauan, 50 trade pada proses 75+, dan rentetan 21 hari. Perpustakaan dan pasar, dikuasai bersama.",
+    "criteria": [
+      {
+        "label": "Selesaikan 90 pelajaran"
+      },
+      {
+        "label": "100 repetisi tinjauan"
+      },
+      {
+        "label": "Eksekusi 50 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 75+"
+      },
+      {
+        "label": "Rentetan 21 hari"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Disiplin Risiko (Gerbang Tangga)",
+    "description": "Standar perilaku tangga-lanjutan: 20 trade, setiap stop terpasang, risiko di dalam kebijakan, nol keberhasilan berbahaya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 20 trade"
+      },
+      {
+        "label": "Setiap trade punya stop"
+      },
+      {
+        "label": "Setiap trade di dalam kebijakan risiko"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Terima Kerugian Terencana (Gerbang Tangga)",
+    "description": "Tiga kerugian yang dimainkan dengan baik tanpa trade tanpa stop sepanjang setidaknya lima eksekusi — bukti bahwa kamu bisa kalah dengan benar.",
+    "criteria": [
+      {
+        "label": "Eksekusi 5 trade"
+      },
+      {
+        "label": "3 kerugian yang dimainkan dengan baik"
+      },
+      {
+        "label": "Tanpa trade tanpa stop"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "Operator (Gerbang Tangga)",
+    "description": "Sepuluh trade berturut-turut dengan skor proses 70 atau lebih baik — standar perilaku tangga-ahli.",
+    "criteria": [
+      {
+        "label": "10 skor berturut-turut 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "Langkah Pertama: Satu Pelajaran",
+    "description": "Selesaikan pelajaran Akademi pertamamu. Rekam jejak setiap operator dimulai dari satu entri tunggal.",
+    "criteria": [
+      {
+        "label": "Selesaikan 1 pelajaran"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "Langkah Pertama: Satu Trade Terencana",
+    "description": "Kirim paper trade pertamamu dengan stop dan alasan tertulis. Rencana adalah trade-nya; eksekusi hanyalah administrasi.",
+    "criteria": [
+      {
+        "label": "Eksekusi 1 trade"
+      },
+      {
+        "label": "Ada stop-nya"
+      },
+      {
+        "label": "Ada alasan tertulisnya"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "Langkah Pertama: Satu Catatan Jujur",
+    "description": "Tulis catatan jurnal pertamamu pada trade yang dieksekusi. Dua kalimat jujur mengalahkan ingatan sempurna.",
+    "criteria": [
+      {
+        "label": "Catat 1 trade"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "Langkah Pertama: Satu Kartu",
+    "description": "Nilai kartu pengulangan berjarak pertamamu di Latihan. Mengingat adalah otot; ini repetisi pertama.",
+    "criteria": [
+      {
+        "label": "1 repetisi tinjauan"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "Mesin Tesis",
+    "description": "Lima puluh trade, setiap satu dengan alasan tertulis dan emosi tercatat. Pada titik ini rencana menulis dirinya sendiri — yang memang tujuannya.",
+    "criteria": [
+      {
+        "label": "Alasan tertulis pada 50 trade"
+      },
+      {
+        "label": "Emosi dicatat pada 50 trade"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "Lingkaran Penuh",
+    "description": "Tangkap, nilai, deteksi, resepkan, gerbangi — jalankan seluruh lingkaran umpan balik dalam volume: 75 trade dicatat dan ditandai, skenario lulus, konstitusi dijaga, nol keberhasilan berbahaya.",
+    "criteria": [
+      {
+        "label": "Eksekusi 75 trade"
+      },
+      {
+        "label": "Catat 30 trade"
+      },
+      {
+        "label": "Beri tag 15 trade"
+      },
+      {
+        "label": "Lulus 3 skenario"
+      },
+      {
+        "label": "Konstitusi diadopsi"
+      },
+      {
+        "label": "Nol keberhasilan berbahaya"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Selektivitas Baja",
+    "description": "Seratus trade tanpa pernah melebihi dua dalam sehari, sepanjang 8+ simbol. Posisi tersulit dalam trading adalah flat, dipegang setiap hari.",
+    "criteria": [
+      {
+        "label": "Eksekusi 100 trade"
+      },
+      {
+        "label": "Tak pernah lebih dari 2 trade/hari"
+      },
+      {
+        "label": "Trade 8+ simbol"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "Kuartal Sempurna",
+    "description": "Rentetan 60 hari dengan rata-rata proses 75+ sepanjang 40 trade. Satu kuartal hadir dan memutuskan dengan baik — resume yang benar-benar dibaca pasar.",
+    "criteria": [
+      {
+        "label": "Rentetan 60 hari"
+      },
+      {
+        "label": "Eksekusi 40 trade"
+      },
+      {
+        "label": "Skor proses rata-rata 75+"
+      }
+    ]
+  }
+]

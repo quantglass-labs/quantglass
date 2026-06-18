@@ -1,0 +1,746 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "Keputusan Ukuran",
+    "scenario": "Akun: $10.000 kertas. Sebuah setup yang kamu sukai muncul: entri 100, struktur mengatakan invalidasi di 95. Kamu ingin masuk. Tiga keputusan berikut menentukan apakah ini sebuah trade atau sebuah judi.",
+    "checkpoints": [
+      {
+        "question": "Bagaimana kamu menentukan ukuran posisi?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Risiko 1% akun: ($10.000 x 1%) / (100 - 95) = 20 saham",
+            "feedback": "Benar. Risiko dipilih dahulu; ukuran diturunkan darinya. Jarak ke stop — bukan keyakinan — yang menentukan jumlah saham."
+          },
+          {
+            "id": "round",
+            "label": "Beli 100 saham — angka bulat cantik yang terasa bermakna",
+            "feedback": "Ukuran berdasar angka bulat berarti risikomu adalah apa yang akan diputuskan chart nanti: di sini 100 saham berisiko 5% akun, lima kali kebijakan."
+          },
+          {
+            "id": "allin",
+            "label": "Pakai seluruh daya beli — setup ini terlalu bagus untuk dilewatkan",
+            "feedback": "Ukuran penuh membuat satu batang merugikan menjadi fatal. Inilah kebiasaan yang mengakhiri akun."
+          }
+        ]
+      },
+      {
+        "question": "Di mana stop ditempatkan?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "Di 95, di bawah level yang membatalkan tesis",
+            "feedback": "Benar. Stop hidup di tempat gagasan terbukti salah, bukan di jumlah dolar yang terasa bisa diterima."
+          },
+          {
+            "id": "tight",
+            "label": "Di 99 — stop lebih ketat berarti aku bisa beli lebih banyak saham",
+            "feedback": "Stop yang ditaruh di dalam derau biasa bukan pengendalian risiko, melainkan sumbangan. Kamu memperbesar ukuran hanya untuk lebih sering kalah."
+          },
+          {
+            "id": "none",
+            "label": "Tanpa stop — aku akan mengawasi dan keluar manual bila perlu",
+            "feedback": "Layar tanpa pengawasan, sebuah rapat, sebuah gap: «stop di kepala» gagal persis saat dibutuhkan. Invalidasi yang tak terdefinisi berarti risiko tanpa batas."
+          }
+        ]
+      },
+      {
+        "question": "Harga jatuh ke 96,20 lalu mandek. Stop-mu di 95 masih utuh. Sekarang apa?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Tidak ada. Rencana utuh sampai 95 ter-trade",
+            "feedback": "Benar. Pullback di atas invalidasi-mu, menurut definisi, adalah derau. Rencana yang membuat keputusan, bukan ketidaknyamanan."
+          },
+          {
+            "id": "widen",
+            "label": "Pindahkan stop ke 93 agar diberi ruang lebih",
+            "feedback": "Melebarkan stop mengubah kerugian kecil terencana menjadi kerugian besar tak terencana. Konstitusi ada justru untuk melarang ini."
+          },
+          {
+            "id": "panic",
+            "label": "Keluar sekarang — selamatkan yang tersisa",
+            "feedback": "Keluar di atas invalidasi berarti perutmu memveto rencana. Kamu menyelamatkan uang tapi melatih kebiasaan meninggalkan rencana."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "process-quality",
+    "title": "Pemeriksaan Pra-Terbang",
+    "scenario": "Kamu melihat pullback dalam tren naik. Chart tampak benar. Sebelum order pergi, skor proses sudah ditulis.",
+    "checkpoints": [
+      {
+        "question": "Apa yang masuk ke tiket sebelum konfirmasi?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Stop, target, % risiko, alasan tertulis, dan bagaimana perasaanku sekarang",
+            "feedback": "Benar. Lima bidang rencana adalah seluruh skor proses: invalidasi, keluar, ukuran, tesis, kondisi pikiran."
+          },
+          {
+            "id": "partial",
+            "label": "Stop dan target — alasannya jelas dari chart",
+            "feedback": "Tesis yang «jelas» hari ini tak terbaca pada tinjauan pekan depan. Alasan yang tak ditulis memberi nol poin dan tak mengajarkan apa pun."
+          },
+          {
+            "id": "speed",
+            "label": "Entri saja — eksekusi dulu, rencanakan nanti, harga tak menunggu",
+            "feedback": "Rencanakan-nanti berarti tak-pernah-merencanakan. Masuk sebelum mendefinisikan risiko adalah penalti skor-proses terbesar."
+          }
+        ]
+      },
+      {
+        "question": "Alasan yang kamu tulis berbunyi «tampak bullish». Cukup?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "Tidak — tulis ulang: «pullback ke EMA20 dalam tren naik yang dikonfirmasi ADX, volume menyusut»",
+            "feedback": "Benar. Tesis menamai struktur, rezim, dan apa yang akan mematahkannya. «Tampak bullish» tak bisa ditinjau maupun dipelajari."
+          },
+          {
+            "id": "fine",
+            "label": "Tak apa — aku tahu maksudku",
+            "feedback": "Setelah 40 trade kamu tak akan ingat. Jurnal adalah surat untuk dirimu di masa depan yang sudah lupa semuanya."
+          },
+          {
+            "id": "skip",
+            "label": "Alasan itu untuk analis — P&L satu-satunya kebenaran",
+            "feedback": "Hasil tanpa proses adalah derau. 2x2 ada karena keputusan buruk yang menguntungkan adalah yang paling mahal."
+          }
+        ]
+      },
+      {
+        "question": "Trade menang +2R, tapi kamu tak pernah memasang stop yang kamu tulis. Tinjauan menyebut ini keberhasilan berbahaya. Reaksimu?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Catat dengan jujur — kemenangan tak mengampuni proses yang rusak",
+            "feedback": "Benar. Keputusan buruk + hasil bagus melatih kebiasaan yang akhirnya mengirim tagihan. Menamainya adalah obatnya."
+          },
+          {
+            "id": "argue",
+            "label": "Batalkan — menang ya menang",
+            "feedback": "Berdebat dengan dasbormu sendiri membatalkan tujuannya. «Kemenangan» berikutnya seperti ini akan diambil dengan ukuran lebih besar."
+          },
+          {
+            "id": "ignore",
+            "label": "Lewati seluruh tinjauan pekan ini",
+            "feedback": "Trade yang tak ditinjau tak mengajarkan apa pun. Keberhasilan berbahaya yang tak kamu periksa adalah yang kamu ulangi."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "Stop Mendekat",
+    "scenario": "Long dari 50, stop 47,50, terencana -1R = $100. Harga di 47,80 dan turun. Setiap trader bertemu momen ini; sedikit yang bertemu dengan benar.",
+    "checkpoints": [
+      {
+        "question": "Harga menyentuh 47,55. Stop hampir ter-trade. Apa yang kamu lakukan?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Tidak ada. Stop adalah rencana yang bekerja, bukan kegagalan",
+            "feedback": "Benar. Kamu membeli risiko yang terdefinisi. -1R selalu salah satu dari dua hasil terencana."
+          },
+          {
+            "id": "cancel",
+            "label": "Batalkan stop — selalu memantul tepat setelah aku keluar",
+            "feedback": "Membatalkan stop mengubah $100 risiko terencana menjadi lubang tak berdasar. Setiap otopsi akun bangkrut memuat langkah ini."
+          },
+          {
+            "id": "average",
+            "label": "Beli lebih di sini, turunkan titik impas",
+            "feedback": "Merata-ratakan pada trade yang kalah menarik titik impas mendekat dan risiko total menjauh. Begitulah trade tunggal membunuh akun."
+          }
+        ]
+      },
+      {
+        "question": "Tersapu di 47,50, -1R. Lima menit kemudian harga merebut 50 kembali. Bagaimana kamu membacanya?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "Kerugian yang dimainkan dengan baik — keputusan benar, varians mengambilnya. Catat dan lanjut",
+            "feedback": "Benar. Pengklasifikasi ada justru untuk sengatan ini: kualitas hasil dan kualitas keputusan adalah sumbu berbeda."
+          },
+          {
+            "id": "broken",
+            "label": "Bukti stop-ku salah — lain kali lebih lebar tanpa menghitung ulang ukuran",
+            "feedback": "Melebarkan stop tanpa menghitung ulang ukuran hanya menambah kerugian dalam dolar. Jika struktur butuh ruang lebih, kecilkan ukuran."
+          },
+          {
+            "id": "revenge",
+            "label": "Masuk lagi segera di 50 — ia berutang padaku",
+            "feedback": "Entri yang alasannya adalah kerugian terakhirmu adalah trade balas dendam. Pasar tak menyimpan buku piutang."
+          }
+        ]
+      },
+      {
+        "question": "Tiga kerugian terencana berturut-turut, semua di stop, semua dicatat. Rata-rata proses: 85. Apa yang berubah?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Secara struktural tak ada — tinjau untuk pola, jaga ukuran, jaga sistem",
+            "feedback": "Benar. Tiga kerugian -1R sepenuhnya di dalam varians biasa sistem nyata mana pun. Mengganti sistem setiap rentetan kalah menjamin kamu tak pernah punya satu pun."
+          },
+          {
+            "id": "halve",
+            "label": "Setengahkan ukuran sampai seorang pemenang muncul",
+            "feedback": "Bisa dibela, tapi terlalu dini pada tiga trade — dan secara asimetris mengecilkan kemenangan yang membayar kerugian."
+          },
+          {
+            "id": "abandon",
+            "label": "Sistem rusak — cari yang baru malam ini",
+            "feedback": "Monte Carlo bilang sistem dengan 50% menang menghabiskan sepertiga hidupnya dalam drawdown. Lompat antar sistem mereset sampel setiap kali."
+          }
+        ]
+      },
+      {
+        "question": "Kamu melindungi posisi dengan stop-limit (pemicu 47,50, limit 47,40) alih-alih stop. Berita semalam membuka gap di 45,80. Apa yang terjadi pada perlindunganmu?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Tak ada yang terisi — kaki limit butuh 47,40 atau lebih baik, dan harga tak ter-trade di sana. Aku masih long, 4% di bawah «stop»-ku",
+            "feedback": "Benar. Inilah jebakan stop-limit: ia membatasi slippage di hari biasa dan diam-diam gagal tepat di hari ia dibutuhkan. Itu sebabnya platform kertas menolak menyimulasikan stop-limit — pada batang yang sudah tertutup, pengisian harus dikarang."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "Terisi di 47,40 — itu yang dijamin limit",
+            "feedback": "Limit menjamin harga, tak pernah pengisian. Harga melewati jendelamu dengan gap tanpa ter-trade di dalamnya; order masih di sana, tak terisi, sementara kerugian membengkak."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "Terisi di pembukaan 45,80, seperti stop biasa",
+            "feedback": "Itu yang dilakukan order STOP sederhana: menjadi order pasar dan menelan gap. Kaki limit justru yang mencegah pengisian itu. Ketahui mana yang kamu pasang."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "tilt-control",
+    "title": "Pagi Merah",
+    "scenario": "Dua stop sebelum siang, keduanya terencana, keduanya -1R. Kamu menyadari rahang mengeras dan menyegarkan chart menjadi obsesif. Keputusan berikutnya adalah seluruh permainan.",
+    "checkpoints": [
+      {
+        "question": "Setup ketiga muncul. Ia marginal — bukan setup A-mu. Apa yang terjadi?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Lewati dan catat emosi: «frustrasi, ingin balas»",
+            "feedback": "Benar. Menamai kondisi dengan lantang adalah cara menangkap tilt lebih dini. Setup marginal + kondisi panas = kerugian ketiga yang klasik."
+          },
+          {
+            "id": "smaller",
+            "label": "Ambil ukuran setengah — kompromi dengan hasrat",
+            "feedback": "Tilt ukuran setengah tetap tilt. Alasan entri adalah pagimu, bukan pasar."
+          },
+          {
+            "id": "double",
+            "label": "Ambil ukuran ganda — balas pagi dengan satu trade",
+            "feedback": "Menggandakan setelah kerugian adalah martingale berhoodie. Inilah pola tingkat keparahan tertinggi yang dikenal petugas risiko."
+          }
+        ]
+      },
+      {
+        "question": "Kamu melewatinya. Setup marginal itu akan menang. Bagaimana kamu membingkainya?",
+        "options": [
+          {
+            "id": "good",
+            "label": "Keputusan bagus. Melewati setup B saat tilt adalah kebijakan, dan kebijakan dihakimi atas 100 trade",
+            "feedback": "Benar. Kemenangan kontrafaktual tak mengubah apa pun: keputusan benar saat dibuat. Menghakimi trade yang dilewati dengan hasil adalah membuka kembali pintu tilt."
+          },
+          {
+            "id": "regret",
+            "label": "Bukti aku harus percaya insting saat frustrasi",
+            "feedback": "Satu sampel melawan kebijakan — begitulah kebiasaan berbahaya direkrut. Insting yang sama yang menginginkan trade ini juga menginginkan entri balas dendam ukuran ganda."
+          },
+          {
+            "id": "rule_off",
+            "label": "Matikan aturan batas harian — itu memakan uang",
+            "feedback": "Menghapus pagar pengaman tepat saat ia bekerja adalah konstitusi gagal pada satu-satunya ujiannya."
+          }
+        ]
+      },
+      {
+        "question": "Apa yang mengakhiri sesi dengan benar?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Catat ketiga keputusan, beri tag emosi, tutup terminal",
+            "feedback": "Benar. Nilai hari itu tak pernah P&L — melainkan catatan perilaku yang bersih yang dijaga di bawah kejengkelan."
+          },
+          {
+            "id": "watch",
+            "label": "Terus tonton pasar «untuk belajar saja» — tapi tanpa order",
+            "feedback": "Menatap layar saat tilt adalah cara «tanpa order» menjadi satu order. Belajar terjadi di jurnal, bukan di lingkaran penyegaran."
+          },
+          {
+            "id": "binge",
+            "label": "Tinggal sampai seorang pemenang membuat hari jadi hijau",
+            "feedback": "Butuh hari hijau — itu tilt yang berbicara. Hari adalah fiksi akuntansi; skor sejati adalah rata-rata proses."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "journaling",
+    "title": "Catatan Jujur",
+    "scenario": "Pasar tutup. Tiga trade tereksekusi tanpa catatan: kemenangan bersih, kemenangan ceroboh, dan kerugian terencana. Tersedia sepuluh menit kejujuran.",
+    "checkpoints": [
+      {
+        "question": "Trade mana yang dicatat lebih dulu dan paling dalam?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "Kemenangan ceroboh — mengejar entri, emosi tak dicatat, keluar karena keberuntungan",
+            "feedback": "Benar. Kemenangan ceroboh yang berbahaya: kesalahan yang dihadiahi terulang. Kemenangan butuh otopsi lebih dari kerugian."
+          },
+          {
+            "id": "loss",
+            "label": "Kerugian — pelajaran hidup dalam kerugian",
+            "feedback": "Masuk akal, tapi kerugian ini terencana dan bersih — ia mengonfirmasi sistem. Kemenangan ceroboh-lah tempat informasi baru berada."
+          },
+          {
+            "id": "best",
+            "label": "Kemenangan bersih — akhiri dengan nada baik",
+            "feedback": "Mencatat hanya yang menyanjungmu adalah buku harian pribadi, bukan kumpulan data."
+          }
+        ]
+      },
+      {
+        "question": "Apa yang dikatakan catatan berguna tentang kemenangan ceroboh?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "«Mengejar 0,8% di atas entri rencana setelah gerakan dimulai. FOMO. Tetap menang — ditandai sebagai kebiasaan berbahaya»",
+            "feedback": "Benar. Perilaku konkret, emosi yang dinamai, tag jujur. Catatan ini memberi makan detektor pelatih dan dirimu di masa depan."
+          },
+          {
+            "id": "vague",
+            "label": "«Entri bisa lebih baik. Tetap hasil bagus»",
+            "feedback": "Catatan kabur tak bisa diagregasi, dideteksi, atau dipelajari. «Bisa lebih baik» menggambarkan setiap trade yang pernah dibuat."
+          },
+          {
+            "id": "victory",
+            "label": "«Tepat sasaran. +1,8R. Lebih banyak yang begini»",
+            "feedback": "«Lebih banyak yang begini» — lebih banyak mengejar entri? Catatan baru saja mengesahkan kesalahan karena ia membayar sekali."
+          }
+        ]
+      },
+      {
+        "question": "Hari panjang dan catatan ketiga terasa opsional. Putuskan.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Tulis — dua kalimat. Trade tanpa catatan tak mengajarkan apa pun",
+            "feedback": "Benar. Rangkaian catatan lengkap lebih berharga daripada wawasan tunggal mana pun. Tiga dari tiga, setiap hari."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Lakukan besok dengan mata segar",
+            "feedback": "Ingatan besok adalah fiksi yang dibumbui kebijaksanaan setelahnya. Kondisi saat-entri sudah menguap."
+          },
+          {
+            "id": "skip2",
+            "label": "Lewati — hanya kerugian terencana, tak ada yang dipelajari",
+            "feedback": "Kerugian terencana mengonfirmasi sistem bekerja — konfirmasi itu adalah data. Melewati jurnal adalah detektor, bukan tanpa alasan."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "selectivity",
+    "title": "Pasar Sepi",
+    "scenario": "Selasa, 11:40. Hari ini kamu membuat satu trade bagus. Pasar menjadi sepi dan tersentak. Batas harianmu 3. Kursor melayang.",
+    "checkpoints": [
+      {
+        "question": "Tak ada yang cocok dengan daftar setup-mu, tapi kamu «sedang dalam ritme». Sekarang apa?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Tetap flat. Tanpa setup tak ada trade; ritme bukan setup",
+            "feedback": "Benar. Posisi tersulit adalah flat. Selektivitas ITULAH keunggulan; aktivitas adalah pajaknya."
+          },
+          {
+            "id": "hunt",
+            "label": "Turun ke chart menit untuk mencari sesuatu",
+            "feedback": "Memperbesar sampai derau tampak seperti sinyal adalah cara «tanpa setup» menjadi lima setup buruk."
+          },
+          {
+            "id": "boredom",
+            "label": "Ambil «trade kebosanan» kecil agar tetap terlibat",
+            "feedback": "Trade kebosanan adalah sepupu sopan dari tilt: alasan entri adalah suasana hatimu. Trade buruk kecil melatih kebiasaan buruk besar."
+          }
+        ]
+      },
+      {
+        "question": "Setup yang benar-benar bagus muncul pada instrumen yang tak pernah kamu trade. Batas mengizinkan. Putuskan.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Lakukan pemeriksaan pra-terbang penuh instrumen baru — likuiditas, spread, volatilitas — lalu ukuran normal bila lolos",
+            "feedback": "Benar. Instrumen baru pantas proses yang sama plus satu pemeriksaan platform. Keluasan yang dilakukan dengan benar adalah diversifikasi penilaian."
+          },
+          {
+            "id": "familiar",
+            "label": "Lewati — trade hanya yang kamu kenal",
+            "feedback": "Bisa dibela, tapi mempersempit «yang aku kenal» ke satu chart mempersempit basis bukti keterampilanmu."
+          },
+          {
+            "id": "yolo",
+            "label": "Ambil seketika — setup ya setup",
+            "feedback": "Setup mungkin bisa dipindahkan; spread, likuiditas, dan perilaku gap mungkin tidak. Risiko platform yang tak diuji tetap risiko."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "Membaca 2x2",
+    "scenario": "Tinjauan mingguan. Empat trade di layar: kemenangan hasil keahlian, kerugian yang dimainkan dengan baik, uang sekolah jujur, dan keberhasilan berbahaya. Cara kamu membacanya menentukan rupa pekan depan.",
+    "checkpoints": [
+      {
+        "question": "Kuadran mana yang paling berbahaya?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "Keberhasilan berbahaya — keputusan buruk yang dibayar pasar",
+            "feedback": "Benar. Kesalahan yang dihadiahi menumpuk: lain kali ukuran lebih besar dan percaya diri lebih, dan tagihan datang dengan bunga."
+          },
+          {
+            "id": "tuition",
+            "label": "Uang sekolah jujur — kehilangan uang DAN keputusan buruk",
+            "feedback": "Uang sekolah menyakitkan tapi mengajar dengan bersih: proses buruk, hasil buruk, pelajaran yang terbaca. Jarang diulang dalam ukuran."
+          },
+          {
+            "id": "loss",
+            "label": "Kerugian yang dimainkan dengan baik — kerugian selalu masalah",
+            "feedback": "Menyebut kerugian yang dimainkan dengan baik «masalah» adalah pemujaan hasil. Kerugian itu adalah sistem yang bekerja."
+          }
+        ]
+      },
+      {
+        "question": "Kemenangan hasil keahlianmu dan keberhasilan berbahaya sama-sama memberi +1,5R. Apa yang memisahkannya?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "Proses kemenangan hasil keahlian bisa diulang dengan sengaja; keberhasilan berbahaya dipinjam dari varians",
+            "feedback": "Benar. P&L identik, informasi berlawanan. Hanya satu dari keduanya yang merupakan bukti penguasaan."
+          },
+          {
+            "id": "same",
+            "label": "Tak ada — R ya R",
+            "feedback": "R mengukur hasil, bukan kualitas keputusan. Jika R adalah segalanya, pemenang lotre akan jadi investor."
+          },
+          {
+            "id": "luck_all",
+            "label": "Keduanya keberuntungan — trade tunggal sama sekali tak bermakna",
+            "feedback": "Hasil tunggal itu bising, tapi keputusan bisa dinilai seketika. Asimetri itulah seluruh makna penilaian proses."
+          }
+        ]
+      },
+      {
+        "question": "Satu-satunya tindakan korektif untuk pekan depan?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Baca ulang syarat entri keberhasilan berbahaya dan tulis aturan yang akan memblokirnya",
+            "feedback": "Benar. Satu aturan tertulis konkret per pola yang terdeteksi — begitulah lingkaran umpan balik menutup."
+          },
+          {
+            "id": "more_wins",
+            "label": "Bidik lebih banyak kemenangan — naikkan rasio kena",
+            "feedback": "Rasio kena adalah keluaran. Mengejarnya langsung biasanya berarti memotong pemenang lebih awal dan melebarkan stop — keduanya mengikis."
+          },
+          {
+            "id": "trade_more",
+            "label": "Trade lebih banyak agar sampel cepat besar",
+            "feedback": "Sampel lebih besar dari keputusan yang tak diuji hanyalah lebih banyak derau. Perbaiki generatornya sebelum menskalakan keluaran."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Membaca Replay",
+    "scenario": "Kamu akan menjalankan satu episode historis di simulator. Cara kamu memakai replay menentukan apakah ia melatih penilaian atau hanya menghibur.",
+    "checkpoints": [
+      {
+        "question": "Di tengah replay kamu mengenali episodenya — kamu tahu akhirnya. Langkah jujurnya apa?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Tetap jawab dari proses: pada batang ini apa yang HARUS dilakukan trader tanpa kebijaksanaan setelahnya?",
+            "feedback": "Benar. Replay menilai keputusan, bukan prediksi. Mengemudi dengan kebijaksanaan setelahnya adalah belajar benar tentang masa lalu."
+          },
+          {
+            "id": "exploit",
+            "label": "Manfaatkan pengetahuan — poin ya poin",
+            "feedback": "Kamu baru saja melatih «bertindak atas informasi yang tak akan ada secara live». Poin naik; keterampilan turun."
+          },
+          {
+            "id": "quit",
+            "label": "Berhenti dan cari episode yang tak kamu kenal",
+            "feedback": "Insting masuk akal, tapi mengenali episode ITULAH literasi pasar — disiplinnya tetap menjawab dari proses."
+          }
+        ]
+      },
+      {
+        "question": "Kamu gagal tinjauan di 55%. Tindakan berikutnya?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Baca konsekuensi tiap checkpoint, pelajari pelajaran terkait, ulangi besok",
+            "feedback": "Benar. Tinjauan memberitahu langkah lebih baik dan alasannya. Ulangan setelah jeda lebih baik daripada menebak ulang seketika."
+          },
+          {
+            "id": "retry_now",
+            "label": "Ulangi seketika — sekarang kamu ingat jawaban benar",
+            "feedback": "Ulangan seketika menguji ingatan, bukan penilaian. Lulus besok bermakna; lulus malam ini hanya berarti ingatan jangka pendekmu bekerja."
+          },
+          {
+            "id": "dismiss",
+            "label": "Abaikan — simulator toh bukan trading nyata",
+            "feedback": "Simulator senyata keputusanmu di dalamnya. Pilot yang meremehkan simulator tak mendapat pesawat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "academy-scholar",
+    "title": "Cara Benar-Benar Belajar",
+    "scenario": "Dua puluh menit untuk Akademi malam ini. Tujuannya pengetahuan yang bertahan kontak dengan chart live.",
+    "checkpoints": [
+      {
+        "question": "Penggunaan terbaik dua puluh menit?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "Satu pelajaran baru, lalu nilai kartu tinjauan yang jatuh tempo, lalu latihan live-nya pada batang nyata",
+            "feedback": "Benar. Memperoleh, menarik, menerapkan — trio yang membuat pengetahuan tersedia di bawah tekanan."
+          },
+          {
+            "id": "binge2",
+            "label": "Lahap empat pelajaran — volume adalah kemajuan",
+            "feedback": "Membaca tanpa menarik menguap dalam beberapa hari. Empat pelajaran yang ditelan adalah satu yang dilupakan, empat kali."
+          },
+          {
+            "id": "reread",
+            "label": "Baca ulang pelajaran favoritmu — terasa kokoh",
+            "feedback": "Membaca ulang terasa seperti kefasihan dan diuji seperti nol. Kartu ada karena mengenali bukan mengingat."
+          }
+        ]
+      },
+      {
+        "question": "Sebuah kartu tinjauan muncul: «ATR». Kosong total. Penilaian yang benar apa?",
+        "options": [
+          {
+            "id": "again",
+            "label": "«Lagi» — kekosongan jujur menjadwalkan ulang kartu lebih cepat, itulah sistem bekerja",
+            "feedback": "Benar. Penilaian jujur adalah seluruh algoritmanya. «Baik» yang menjilat hanya mendorong ketidaktahuanmu lebih jauh."
+          },
+          {
+            "id": "peek_good",
+            "label": "Buka, kenali, nilai «baik» — cukup dekat",
+            "feedback": "Mengenali setelah membuka bukan mengingat sebelum membuka. Kamu baru saja mengajari penjadwal berhenti membantumu."
+          },
+          {
+            "id": "easy_all",
+            "label": "Nilai semua «mudah» untuk membersihkan antrean cepat",
+            "feedback": "Antrean kosong dari kartu yang tak dipelajari adalah kegagalan yang tampak bersih. Antrean bukan musuh; lupa adalah musuh."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "consistency",
+    "title": "Pertanyaan Rentetan",
+    "scenario": "Hari ke-13 dari rentetan harian. Malam ini kamu lelah, dan penghitung rentetan menatapmu.",
+    "checkpoints": [
+      {
+        "question": "Apa unit kehadiran minimum yang jujur hari ini?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Lima kartu tinjauan, dinilai jujur. Kecil dan nyata lebih baik daripada besar dan dilewati",
+            "feedback": "Benar. Rentetan bertahan pada sesi minimum yang layak. Kebiasaan adalah aset; volume hari ini tak relevan."
+          },
+          {
+            "id": "force",
+            "label": "Paksa diri menjalani satu pelajaran penuh plus latihan — rentetan menuntut kerja nyata",
+            "feedback": "Sesi heroik yang lelah menghasilkan belajar dangkal dan kebencian. Kebencian membunuh rentetan lebih pasti daripada istirahat."
+          },
+          {
+            "id": "fake",
+            "label": "Buka aplikasi, tandai pelajaran selesai tanpa membaca — jaga penghitung hidup",
+            "feedback": "Rentetan curang mengukur klik, bukan belajar. Kamu akan berbohong pada satu-satunya penonton yang penting."
+          }
+        ]
+      },
+      {
+        "question": "Hari ke-14: rentetan tetap mati — kamu hanya lupa. Reaksi?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Mulai rentetan dari hari 1 besok. 13 hari belajar tetap milikmu",
+            "feedback": "Benar. Penghitung mereset; pengetahuan tidak. Memperlakukan rentetan yang putus sebagai bencana adalah sebab orang berhenti total."
+          },
+          {
+            "id": "spiral",
+            "label": "Sistem gagal — tinggalkan latihan harian",
+            "feedback": "Satu hari terlewat menghapus kebiasaan adalah pikiran semua-atau-tak-ada — cacat kognitif yang sama yang meledakkan akun."
+          },
+          {
+            "id": "backfill",
+            "label": "Cari cara mencatat aktivitas kemarin dengan tanggal mundur",
+            "feedback": "Mencurangi dasbormu sendiri. Jika angka bisa ditawar, tak satu pun bermakna."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "constitution",
+    "title": "Menulis Aturan yang Bertahan",
+    "scenario": "Kamu menyusun Konstitusi Trading-mu. Aturan yang kamu tulis malam ini nanti akan memblokir order-mu sendiri — tulislah untuk versi terburuk dirimu.",
+    "checkpoints": [
+      {
+        "question": "Aturan risiko maksimum mana yang masuk dokumen?",
+        "options": [
+          {
+            "id": "one",
+            "label": "1% per trade — rentetan kalah yang bisa dilalui, membosankan secara rancangan",
+            "feedback": "Benar. Pada 1%, sepuluh kerugian berturut menghabiskan ~10%. Tugas konstitusi adalah membuat aritmetika kebangkrutan mustahil."
+          },
+          {
+            "id": "five",
+            "label": "5% — kamu di sini untuk tumbuh, bukan merangkak",
+            "feedback": "Pada 5%, tujuh kerugian biasa adalah sepertiga akun. Dari sana, kurva pemulihan drawdown tak kenal ampun."
+          },
+          {
+            "id": "flex",
+            "label": "«Fleksibel sesuai keyakinan» — aturan harus bernapas",
+            "feedback": "Aturan dengan celah keyakinan bukanlah aturan. Keyakinan tertinggi tepat saat disiplin paling penting."
+          }
+        ]
+      },
+      {
+        "question": "Pekan ke-3: trade yang kamu yakini menuntut 2% risiko untuk memuat stop-nya. Tiket memblokirnya. Putuskan.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Setengahkan ukuran agar stop yang sama berharga 1% — aturan berdiri",
+            "feedback": "Benar. Stop bersifat struktural; ukuran adalah variabel bebas. Konstitusi baru saja melakukan satu-satunya tugasnya."
+          },
+          {
+            "id": "amend_now",
+            "label": "Ubah konstitusi sekarang juga untuk izinkan 2% — lalu ambil trade",
+            "feedback": "Mengubah dalam dorongan untuk mengizinkan dorongan bukan tata kelola melainkan kostum. Amandemen terjadi di hari tinjauan, tak pernah di hari trade."
+          },
+          {
+            "id": "disable",
+            "label": "Matikan penegakan untuk satu trade",
+            "feedback": "Sistem penegakan dengan tombol tunda tak melindungi apa pun. Ini kegagalan tata kelola tingkat keparahan tertinggi."
+          }
+        ]
+      },
+      {
+        "question": "Kapan waktu yang benar untuk mengubah konstitusi?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "Pada tinjauan bulanan terjadwal, dengan jurnal terbuka dan tanpa posisi",
+            "feedback": "Benar. Aturan berevolusi atas bukti, diputuskan oleh versi tenang dirimu — tak pernah yang sedang memegang posisi."
+          },
+          {
+            "id": "after_win",
+            "label": "Setelah pekan menang besar — kamu pantas aturan lebih longgar",
+            "feedback": "Melonggarkan risiko setelah kemenangan adalah cara keberhasilan berbahaya lulus menjadi pelajaran sebesar akun."
+          },
+          {
+            "id": "never",
+            "label": "Tak pernah — konstitusi itu selamanya",
+            "feedback": "Aturan yang tak pernah berevolusi atas bukti menjadi relik yang diabaikan total. Amandemen terjadwal ITULAH disiplin."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "capstone",
+    "title": "Satu Jam Operator",
+    "scenario": "Satu jam, kondisi nyata: posisi terbuka dekat stop, setup A segar pada instrumen lain, dua trade kemarin yang belum ditinjau, dan kartu tinjauan jatuh tempo. Alokasikan dirimu.",
+    "checkpoints": [
+      {
+        "question": "Lima menit pertama?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Periksa risiko posisi terbuka: stop aktif, ukuran benar, tak ada yang diputuskan sampai 94,80 ter-trade",
+            "feedback": "Benar. Risiko terbuka selalu prioritas nol. Konfirmasi mesin sudah terisi, lalu biarkan saja."
+          },
+          {
+            "id": "new_first",
+            "label": "Setup A itu — peluang kedaluwarsa, rutinitas tidak",
+            "feedback": "Masuk ke risiko baru sebelum risiko terbuka diperiksa adalah cara dua posisi 1% menjadi kejutan 4%."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Segarkan P&L beberapa kali untuk melihat posisimu",
+            "feedback": "P&L adalah keluaran. Menatapnya tak mengubah apa pun dan melapisi pikiran-hasil sebelum jam keputusan."
+          }
+        ]
+      },
+      {
+        "question": "Setup A valid dan batas harian mengizinkan. Posisi terbuka 0,4R dari stop. Apakah kamu ambil trade baru?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Ya, ukuran normal 1% — tiap trade independen, keduanya di dalam kebijakan, panas gabungan sudah diperiksa",
+            "feedback": "Benar. Dua risiko 1% independen di dalam batas panas yang diperiksa adalah sistem berjalan pada kapasitas, bukan melampauinya."
+          },
+          {
+            "id": "wait_out",
+            "label": "Tidak — tak pernah dua posisi sekaligus",
+            "feedback": "Bisa dilalui tapi sewenang-wenang: jika batas panas dan ukuran nyata, hanya trade berurutan membiarkan kapasitas sistem menganggur karena takut."
+          },
+          {
+            "id": "double_up",
+            "label": "Ya, pada 2% — yang pertama toh praktis sudah kalah",
+            "feedback": "«Praktis sudah kalah» adalah membelanjakan di muka stop yang belum ter-trade, lalu menggandakan paparan dengan aritmetika tilt."
+          }
+        ]
+      },
+      {
+        "question": "Dua puluh menit tersisa. Utang jurnal atau kartu tinjauan?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Catat dua trade selagi konteks hidup, kartu untuk waktu sisa",
+            "feedback": "Benar. Konteks jurnal membusuk dalam jam; jadwal kartu tahan sehari. Kerja yang mudah basi lebih dulu."
+          },
+          {
+            "id": "cards_first",
+            "label": "Kartu dulu — metrik rentetan terlihat, jurnal tidak",
+            "feedback": "Mengoptimalkan metrik yang terlihat dengan mengorbankan yang berharga. Jurnal memberi makan setiap detektor yang dimiliki pelatih."
+          },
+          {
+            "id": "neither",
+            "label": "Tak satu pun — lebih baik cari satu setup lagi",
+            "feedback": "Daya ungkit jam ini tak pernah trade ketiga. Operator dibayar untuk dua puluh menit membosankan itu."
+          }
+        ]
+      }
+    ]
+  }
+]

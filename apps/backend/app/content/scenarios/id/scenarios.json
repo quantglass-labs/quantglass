@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "Breakout yang Bukan",
+    "description": "Rekreasi bergaya dari breakout palsu rentang klasik. Harga menyusut di bawah plafon yang diawasi ketat, menembus dengan ledakan volume — lalu runtuh. Kamu memutuskan, batang demi batang, apa yang dilakukan trader disiplin di tiap momen.",
+    "checkpoints": [
+      {
+        "question": "Harga baru saja menutup di atas puncak rentang pada batang volume terbesar dalam berpekan-pekan. Semua orang di feed berteriak breakout. Apa yang kamu lakukan?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Beli di pasar sekarang juga sebelum lari",
+            "debrief": "Membeli pada penutupan euforia pertama adalah mengejar: entrimu jauh dari level invalidasi mana pun, jadi stop entah raksasa entah sewenang-wenang. Aritmetika sentuhan-pertama mesin tak kenal ampun — stop lebar mengubah pullback biasa menjadi kerugian penuh."
+          },
+          {
+            "id": "plan",
+            "label": "Definisikan trade dulu: entri di retest, stop di bawah batang breakout, target dari tinggi rentang",
+            "debrief": "Benar. Breakout adalah hipotesis, bukan hasil. Menulis entri, stop, dan target sebelum menaruh modal itulah yang dihadiahi skor proses, dan satu-satunya versi trade ini dengan risiko terdefinisi."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Beli setengah posisi sekarang, stop dipikir nanti",
+            "debrief": "Ukuran kecil membatasi kerusakan, tapi «stop nanti» berarti trade tak punya invalidasi. Trade buruk kecil tetap trade buruk; jurnal akan menilainya tanpa stop."
+          }
+        ]
+      },
+      {
+        "question": "Breakout tersendat. Harga menghabiskan empat batang menyamping tepat di atas puncak rentang lama, dan volume meredup. Entri retest yang kamu rencanakan terisi, stop di bawah batang breakout. Sekarang apa?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Lebarkan stop ke bawah seluruh rentang — beri ruang bernapas",
+            "debrief": "Melebarkan stop setelah entri adalah kebiasaan paling mengikis dalam trading: ia mengubah kerugian kecil terencana menjadi kerugian besar tak terencana. Konstitusi ada justru untuk melarang ini."
+          },
+          {
+            "id": "hold",
+            "label": "Jangan lakukan apa pun — rencana utuh sampai stop tersentuh",
+            "debrief": "Benar. Volume yang meredup tak nyaman, tapi itu bukan invalidasi-mu. Rencana hanya bekerja saat keputusan dibuat oleh rencana, bukan ketidaknyamanan."
+          },
+          {
+            "id": "add",
+            "label": "Tambah ke posisi — turunkan entri rata-rata sebelum lanjut",
+            "debrief": "Menambah pada breakout yang tersendat menaikkan risiko tepat saat bukti melemah. Jika stop tersentuh, sekarang kamu rugi lebih dari yang pernah diizinkan rencana."
+          }
+        ]
+      },
+      {
+        "question": "Breakout gagal. Stop-mu tersentuh dua batang lalu dengan kerugian terencana -1R, dan harga kini jatuh bebas di bawah rentang lama. Bagaimana kamu menutup episode?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Short sekarang juga — ia berutang padaku",
+            "debrief": "Ini trade balas dendam: alasan entri adalah kerugianmu, bukan pasar. Psikologi menyebutnya tilt, dan tag emosi jurnal ada justru untuk menangkap momen ini."
+          },
+          {
+            "id": "journal",
+            "label": "Catat trade: kerugian terencana, stop dipatuhi, gambarkan rupa breakout palsu",
+            "debrief": "Benar. Ini kerugian yang dimainkan dengan baik — keputusan benar, hasil buruk. Pengklasifikasi 2x2 ada karena trader yang bisa menerima -1R tanpa gentar adalah yang masih solven setelah seratus trade."
+          },
+          {
+            "id": "stew",
+            "label": "Pergi dan lewati jurnal — hanya satu trade kalah",
+            "debrief": "Pergi lebih baik daripada balas dendam, tapi kerugian yang tak dicatat tak mengajarkan apa pun. Tanda tangan breakout palsu — volume retest yang meredup — adalah pelajaran yang sudah kamu bayar."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Pullback dalam Tren",
+    "description": "Rekreasi bergaya dari tren naik stabil yang tiba-tiba mengembalikan laba sepekan dalam tiga batang merah. Menurut setiap ukuran tren masih utuh — tapi tak terasa begitu. Trade rencananya, bukan perasaannya.",
+    "checkpoints": [
+      {
+        "question": "Tiga batang merah tajam menghapus laba sepekan. Struktur tren kerangka waktu lebih tinggi masih utuh: harga di atas swing low sebelumnya, dan gerbang rezim masih membaca tren. Kamu memegang posisi dari level jauh lebih rendah. Apa yang kamu lakukan?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Jual semua — selamatkan laba sebelum lenyap",
+            "debrief": "Keluar karena takut saat tak ada level invalidasi tersentuh berarti bukan chart yang memegang kemudi — perutmu. Kamu menyelamatkan laba tapi melatih kebiasaan meninggalkan rencana di bawah tekanan."
+          },
+          {
+            "id": "check_plan",
+            "label": "Baca ulang rencana: stop di bawah swing low, tak tersentuh — tahan",
+            "debrief": "Benar. Pullback yang berhenti di atas invalidasi-mu, menurut definisi, adalah derau. Pelajaran psikologi drawdown adalah momen ini: rencana ditulis oleh versi tenang untuk versi yang ketakutan."
+          },
+          {
+            "id": "double",
+            "label": "Gandakan posisi — sedang diskon",
+            "debrief": "Tren mendukung menambah, tapi menggandakan menggelembungkan risiko di tengah trade tanpa rencana baru. Jika swing low jebol, kamu rugi jauh lebih dari risiko rencana awal. Penambahan butuh entri, stop, dan ukurannya sendiri."
+          }
+        ]
+      },
+      {
+        "question": "Harga stabil tepat di atas swing low. Kamu ingin menambah ke posisi. Bagaimana kamu menentukan ukuran penambahan?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Tentukan agar penambahan berisiko 1% terhadap stop yang sama, seperti trade baru mana pun",
+            "debrief": "Benar. Penambahan adalah trade baru yang mengenakan jersey lama. Matematika ukuran tak peduli kamu sudah memegang sesuatu — risiko per jarak stop adalah satu-satunya masukan ukuran."
+          },
+          {
+            "id": "size_gut",
+            "label": "Beli angka bulat yang terasa bermakna",
+            "debrief": "Ukuran berdasar angka bulat berarti risiko diputuskan chart nanti. Pelajaran ukuran ada karena «terasa benar» adalah cara kerugian 5% terjadi di bawah kebijakan 1%."
+          },
+          {
+            "id": "all_in",
+            "label": "Pakai seluruh sisa daya beli — keyakinan tinggi",
+            "debrief": "Keyakinan adalah emosi berjas. Ukuran penuh membuat satu batang merugikan menjadi fatal, dan pelajaran Monte Carlo mesin menunjukkan betapa cepat rentetan kalah ukuran penuh membangkrutkan akun."
+          }
+        ]
+      },
+      {
+        "question": "Tren melanjut, dan posisi untung bagus. Target awal dekat. Apa penutupan yang disiplin?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Batalkan target — ini akan jauh lebih tinggi",
+            "debrief": "Mungkin saja — tapi meninggalkan jalan keluar tertulis mengubah rencana teruji menjadi improvisasi di momen keserakahan puncak. Jika kamu ingin sistem trailing alih-alih target, rancang sebelum trade berikutnya, bukan saat trade ini."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Biarkan target atau stop yang di-trail mengeluarkanmu, sesuai rencana",
+            "debrief": "Benar. Jalan keluar yang diputuskan di muka adalah separuh trading yang tak dicatat siapa pun. Kemenangan hasil keahlian hanya terhitung begitu bila proses yang menciptakannya bisa diulang."
+          },
+          {
+            "id": "exit_now",
+            "label": "Jual seketika — kunci sebelum ada yang berubah",
+            "debrief": "Mengambil laba tak pernah menghancurkan, tapi keluar dini karena takut secara sistematis mengecilkan pemenang sementara stop menahan kerugian pada ukuran penuh. Sepanjang seratus trade, asimetri itu adalah selisih antara ekspektasi positif dan negatif."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Gap Turun",
+    "description": "Rekreasi bergaya dari kejutan likuiditas: gap semalam menembus lurus stop-mu, lalu gergaji liar yang bisa di-trade. Rencana tak selamat dari kontak — kini perilakumu di bawah tembakan adalah seluruh permainan.",
+    "checkpoints": [
+      {
+        "question": "Pasar dibuka gap turun semalam menembus stop-mu — kamu keluar di harga lebih buruk dari rencana, sekitar -1,8R alih-alih -1R. Pasar liar. Keputusan pertama?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Trade volatilitas dengan keras — kekayaan dibuat di sini",
+            "debrief": "Trade untuk memenangkan kembali kerugian adalah entri tilt buku teks. Rezim liar menghukum justru ini: spread melebar, stop tergelincir, dan gerbang veto-volatilitas mesin ada karena keunggulan yang diukur di pasar tenang tak terbawa ke sini."
+          },
+          {
+            "id": "stand_down",
+            "label": "Terima slippage, setengahkan semua ukuran, nilai ulang saat tutup",
+            "debrief": "Benar. Slippage gap menembus stop adalah biaya trading, bukan pengkhianatan. Memangkas ukuran saat volatilitas terwujud berlipat ganda itulah yang menjaga -1,8R sebagai gangguan, bukan domino pertama."
+          },
+          {
+            "id": "reenter",
+            "label": "Masuk lagi trade yang sama seketika — tesis tak berubah",
+            "debrief": "Tesis mungkin bertahan, tapi rezim berubah: jarak stop yang dihitung dengan ATR kemarin hari ini salah. Masuk ulang butuh rencana baru berukuran volatilitas baru, bukan refleks."
+          }
+        ]
+      },
+      {
+        "question": "Di tengah gergaji, posisi yang kamu rencanakan ulang dan masuki dengan stop sedang rugi tapi belum keluar. Seorang teman berpesan: «rata-ratakan saja, selalu memantul». Apa yang kamu lakukan?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Rata-ratakan turun — turunkan titik impas",
+            "debrief": "Merata-ratakan tanpa rencana adalah cara trade tunggal membunuh akun: tiap penambahan menarik titik impas mendekat dan risiko total menjauh. Setiap otopsi akun bangkrut memuat langkah ini."
+          },
+          {
+            "id": "respect",
+            "label": "Tahan posisi dan stop persis seperti direncanakan",
+            "debrief": "Benar. Trade berperilaku di dalam amplop yang direncanakan. Nasihat luar di tengah trade adalah derau; rencana yang kamu tulis adalah satu-satunya suara dengan rekam jejak."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Tutup — flat terasa lebih aman di pasar ini",
+            "debrief": "Beralih ke flat dalam volatilitas adalah reaksi sah, tapi waktu keputusan itu adalah penilaian ulang setelah gap. Keluar di tengah rencana karena perasaan tetap melatih kebiasaan improvisasi, hanya ke arah yang lebih aman."
+          }
+        ]
+      },
+      {
+        "question": "Gergaji selesai ke atas, dan trade yang kamu rencanakan ulang mencapai target. Bersihnya, hari itu menjadi: kerugian gap, perencanaan ulang yang disiplin, pemenang penuh. Tinjauan jujur:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Aku men-trade keruntuhan dengan brilian — lain kali perbesar ukuran",
+            "debrief": "Satu kejutan yang dilalui bukan sampel penguasaan. Menyebutnya kejeniusan dan memperbesar ukuran adalah pola keberhasilan berbahaya: hasilnya sebagian varians, dan menggandakan paparan menghargai gap berikutnya dengan kebangkrutan."
+          },
+          {
+            "id": "process",
+            "label": "Sistem bekerja: ukuran dipangkas, rencana ditulis ulang, stop dipatuhi — catat semuanya",
+            "debrief": "Benar. Kemenangan kurang penting daripada urutan yang menciptakannya: mundur, ubah ukuran, rencanakan ulang, patuhi stop. Urutan itu bisa diulang; pantulan bukan milikmu untuk diklaim."
+          },
+          {
+            "id": "lucky",
+            "label": "Keberuntungan murni — tak ada yang dipelajari dari kekacauan",
+            "debrief": "Kerendahan hati lebih baik daripada kepahlawanan, tapi «tak ada yang dipelajari» itu dusta: kamu punya catatan tertulis perilaku di bawah kejutan likuiditas. Catatan itu — bukan P&L — yang diukur standar psikologi ahli."
+          }
+        ]
+      }
+    ]
+  }
+]
