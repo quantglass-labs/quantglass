@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "Cú Phá vỡ Không thành",
+    "description": "Tái dựng cách điệu một cú phá vỡ giả khỏi vùng giá kinh điển. Giá co lại dưới một trần được theo dõi kỹ, phá vỡ trong một cú bùng khối lượng — rồi sụp đổ. Bạn quyết định, từng nến một, người giao dịch kỷ luật làm gì ở mỗi khoảnh khắc.",
+    "checkpoints": [
+      {
+        "question": "Giá vừa đóng trên đỉnh vùng giá ở cây nến khối lượng lớn nhất trong nhiều tuần. Mọi người trong dòng tin hô phá vỡ. Bạn làm gì?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Mua thị trường ngay trước khi nó chạy mất",
+            "debrief": "Mua ở lần đóng phấn khích đầu tiên là đuổi theo: lệnh vào của bạn xa mọi mức vô hiệu, nên lệnh dừng hoặc khổng lồ hoặc tùy tiện. Số học chạm-đầu của cỗ máy tàn nhẫn — một lệnh dừng rộng biến một nhịp hồi thường thành lỗ toàn phần."
+          },
+          {
+            "id": "plan",
+            "label": "Định nghĩa giao dịch trước: vào ở lần kiểm tra lại, lệnh dừng dưới nến phá vỡ, mục tiêu từ chiều cao vùng giá",
+            "debrief": "Đúng. Phá vỡ là một giả thuyết, không phải kết quả. Viết ra lệnh vào, lệnh dừng và mục tiêu trước khi rót vốn chính là điều điểm quy trình thưởng, và là phiên bản duy nhất của giao dịch này có rủi ro xác định."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Mua nửa vị thế ngay, tính lệnh dừng sau",
+            "debrief": "Cỡ nhỏ giới hạn thiệt hại, nhưng «tính lệnh dừng sau» nghĩa là giao dịch không có vô hiệu. Giao dịch tồi nhỏ vẫn là giao dịch tồi; nhật ký sẽ chấm nó là thiếu lệnh dừng."
+          }
+        ]
+      },
+      {
+        "question": "Phá vỡ chững lại. Giá đi ngang bốn nến ngay trên đỉnh vùng cũ, và khối lượng tàn lụi. Lệnh vào khi kiểm tra lại đã định của bạn đã khớp, lệnh dừng dưới nến phá vỡ. Giờ sao?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Nới lệnh dừng xuống dưới cả vùng — cho nó chỗ thở",
+            "debrief": "Nới lệnh dừng sau khi vào là thói quen ăn mòn nhất trong giao dịch: nó biến một khoản lỗ nhỏ đã định thành khoản lỗ lớn ngoài kế hoạch. Hiến pháp tồn tại chính để cấm điều này."
+          },
+          {
+            "id": "hold",
+            "label": "Không làm gì — kế hoạch còn nguyên cho đến khi lệnh dừng bị chạm",
+            "debrief": "Đúng. Khối lượng tàn lụi gây khó chịu, nhưng nó không phải mức vô hiệu của bạn. Kế hoạch chỉ hiệu quả khi quyết định do kế hoạch đưa ra, không do sự khó chịu."
+          },
+          {
+            "id": "add",
+            "label": "Thêm vào vị thế — kéo giá vào trung bình xuống trước khi nó nối lại",
+            "debrief": "Thêm vào một phá vỡ đang chững làm tăng rủi ro đúng lúc bằng chứng yếu đi. Nếu lệnh dừng bị chạm, giờ bạn mất nhiều hơn kế hoạch từng cho phép."
+          }
+        ]
+      },
+      {
+        "question": "Phá vỡ thất bại. Lệnh dừng của bạn đã chạm hai nến trước với khoản lỗ -1R đã định, và giá giờ rơi tự do dưới vùng cũ. Bạn khép lại đoạn này thế nào?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Bán khống ngay bây giờ — nó nợ tôi",
+            "debrief": "Đây là giao dịch trả thù: lý do vào lệnh là khoản lỗ của bạn, không phải thị trường. Tâm lý học gọi đây là mất bình tĩnh, và thẻ cảm xúc của nhật ký tồn tại chính để bắt khoảnh khắc này."
+          },
+          {
+            "id": "journal",
+            "label": "Ghi giao dịch: lỗ đã định, tuân lệnh dừng, mô tả phá vỡ giả trông thế nào",
+            "debrief": "Đúng. Đây là một khoản lỗ xử lý khéo — quyết định đúng, kết quả tồi. Bộ phân loại 2x2 tồn tại vì những nhà giao dịch chấp nhận -1R không nao núng là người vẫn còn khả năng chi trả sau một trăm giao dịch."
+          },
+          {
+            "id": "stew",
+            "label": "Bỏ đi và bỏ qua nhật ký — chỉ là một lệnh thua",
+            "debrief": "Bỏ đi tốt hơn trả thù, nhưng khoản lỗ không ghi lại chẳng dạy gì. Dấu hiệu của phá vỡ giả — khối lượng kiểm tra lại tàn lụi — là bài học bạn đã trả tiền."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Hồi giá trong Xu hướng",
+    "description": "Tái dựng cách điệu một xu hướng tăng ổn định bất ngờ trả lại một tuần lợi nhuận trong ba nến đỏ. Theo mọi thước đo, xu hướng còn nguyên — nhưng cảm giác không phải vậy. Giao dịch kế hoạch, không phải cảm xúc.",
+    "checkpoints": [
+      {
+        "question": "Ba nến đỏ sắc bén xóa một tuần lợi nhuận. Cấu trúc xu hướng khung lớn còn nguyên: giá trên đáy dao động trước, và cổng chế độ vẫn đọc xu hướng. Bạn đang giữ một vị thế từ mức thấp hơn nhiều. Bạn làm gì?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Bán hết — bảo toàn lợi nhuận trước khi nó biến mất",
+            "debrief": "Thoát vì sợ khi không mức vô hiệu nào bị chạm nghĩa là không phải biểu đồ cầm lái — mà là cái bụng của bạn. Bạn giữ lợi nhuận nhưng huấn luyện thói quen bỏ kế hoạch dưới áp lực."
+          },
+          {
+            "id": "check_plan",
+            "label": "Đọc lại kế hoạch: lệnh dừng dưới đáy dao động, chưa bị động đến — giữ",
+            "debrief": "Đúng. Một nhịp hồi đứng trên mức vô hiệu, theo định nghĩa, là nhiễu. Bài học tâm lý sụt giảm chính là khoảnh khắc này: kế hoạch do phiên bản bình tĩnh viết cho phiên bản hoảng sợ."
+          },
+          {
+            "id": "double",
+            "label": "Nhân đôi vị thế — nó đang giảm giá",
+            "debrief": "Xu hướng ủng hộ việc thêm, nhưng nhân đôi làm phình rủi ro giữa giao dịch mà không có kế hoạch mới. Nếu đáy dao động vỡ, bạn mất nhiều hơn nhiều so với rủi ro kế hoạch gốc. Việc thêm cần lệnh vào, lệnh dừng và cỡ riêng."
+          }
+        ]
+      },
+      {
+        "question": "Giá ổn định ngay trên đáy dao động. Bạn muốn thêm vào vị thế. Bạn xác định cỡ của phần thêm thế nào?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Xác định để phần thêm mạo hiểm 1% với cùng lệnh dừng, như bất kỳ giao dịch mới nào",
+            "debrief": "Đúng. Phần thêm là một giao dịch hoàn toàn mới khoác áo cũ. Số học cỡ không quan tâm bạn đã giữ sẵn gì — rủi ro trên mỗi khoảng cách lệnh dừng là đầu vào cỡ duy nhất."
+          },
+          {
+            "id": "size_gut",
+            "label": "Mua một con số tròn cảm thấy có ý nghĩa",
+            "debrief": "Định cỡ theo con số tròn nghĩa là rủi ro do biểu đồ quyết định sau. Bài học về cỡ tồn tại vì «cảm thấy đúng» chính là cách một khoản lỗ 5% xảy ra dưới chính sách 1%."
+          },
+          {
+            "id": "all_in",
+            "label": "Dùng hết sức mua còn lại — niềm tin cao",
+            "debrief": "Niềm tin là cảm xúc mặc com lê. Định cỡ hết cỡ khiến một cây nến bất lợi trở nên chí mạng, và bài học Monte Carlo của cỗ máy cho thấy chuỗi thua hết cỡ làm cháy tài khoản nhanh thế nào."
+          }
+        ]
+      },
+      {
+        "question": "Xu hướng nối lại, và vị thế lời đậm. Mục tiêu gốc đã gần. Cái kết kỷ luật là gì?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Hủy mục tiêu — cái này sẽ đi cao hơn nhiều",
+            "debrief": "Có thể — nhưng bỏ một lối thoát đã viết biến một kế hoạch đã kiểm chứng thành ứng biến vào lúc tham lam tột độ. Nếu bạn muốn một hệ thống dời lệnh dừng theo giá thay vì mục tiêu, hãy thiết kế nó trước giao dịch sau, không phải trong giao dịch này."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Để mục tiêu hoặc lệnh dừng đã kéo theo đưa bạn ra, theo kế hoạch",
+            "debrief": "Đúng. Các lối thoát quyết định trước là nửa giao dịch mà không ai ghi nhật ký. Một thắng do năng lực chỉ tính như vậy khi quy trình tạo ra nó có thể lặp lại."
+          },
+          {
+            "id": "exit_now",
+            "label": "Bán ngay — khóa lại trước khi có gì thay đổi",
+            "debrief": "Chốt lời không bao giờ là thảm họa, nhưng thoát sớm vì sợ làm thu nhỏ các lệnh thắng một cách có hệ thống trong khi lệnh dừng giữ các khoản lỗ ở cỡ đầy đủ. Qua một trăm giao dịch, tính bất đối xứng đó là khác biệt giữa kỳ vọng dương và âm."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Khoảng trống Giảm",
+    "description": "Tái dựng cách điệu một cú sốc thanh khoản: một khoảng trống qua đêm xuyên thẳng qua lệnh dừng của bạn, rồi một dao động răng cưa dữ dội, có thể giao dịch. Kế hoạch không sống sót khi va chạm — giờ hành vi của bạn dưới làn đạn là cả ván cờ.",
+    "checkpoints": [
+      {
+        "question": "Thị trường mở khoảng trống giảm qua đêm xuyên qua lệnh dừng của bạn — bạn thoát ở giá tệ hơn kế hoạch, khoảng -1,8R thay vì -1R. Thị trường dữ dội. Quyết định đầu tiên?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Giao dịch biến động dữ dội — của cải được tạo ra ở đây",
+            "debrief": "Giao dịch để gỡ lại một khoản lỗ là lần vào khi mất bình tĩnh sách giáo khoa. Chế độ dữ dội trừng phạt đúng điều này: chênh lệch nới rộng, lệnh dừng trượt, và cổng phủ-quyết-biến-động của cỗ máy tồn tại vì lợi thế đo trong thị trường yên ắng không chuyển sang đây."
+          },
+          {
+            "id": "stand_down",
+            "label": "Chấp nhận trượt giá, giảm toàn bộ cỡ một nửa, đánh giá lại lúc đóng cửa",
+            "debrief": "Đúng. Trượt giá qua khoảng trống vượt lệnh dừng là chi phí của giao dịch, không phải sự phản bội. Cắt cỡ khi biến động thực hiện tăng gấp đôi chính là điều giữ -1,8R thành một nỗi bực mình, không phải quân domino đầu tiên."
+          },
+          {
+            "id": "reenter",
+            "label": "Vào lại cùng giao dịch ngay — luận điểm chưa đổi",
+            "debrief": "Luận điểm có thể đứng vững, nhưng chế độ đã đổi: khoảng cách lệnh dừng tính bằng ATR hôm qua hôm nay là sai. Vào lại cần một kế hoạch mới định cỡ theo biến động mới, không phải một phản xạ."
+          }
+        ]
+      },
+      {
+        "question": "Giữa dao động răng cưa, một vị thế bạn lập kế hoạch lại và vào kèm lệnh dừng đang lỗ nhưng chưa bị quét. Một người bạn nhắn: «cứ trung bình giá xuống, nó luôn bật lại». Bạn làm gì?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Trung bình giá xuống — kéo điểm hòa vốn xuống",
+            "debrief": "Trung bình giá xuống không kế hoạch chính là cách từng giao dịch giết tài khoản: mỗi lần thêm kéo điểm hòa vốn lại gần và tổng rủi ro ra xa. Mọi cuộc khám nghiệm tài khoản cháy đều có bước này."
+          },
+          {
+            "id": "respect",
+            "label": "Giữ vị thế và lệnh dừng đúng như kế hoạch",
+            "debrief": "Đúng. Giao dịch đang hành xử trong phong bì đã định. Lời khuyên bên ngoài giữa giao dịch là nhiễu; kế hoạch bạn viết là tiếng nói duy nhất có thành tích."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Đóng — đứng ngoài cảm thấy an toàn hơn trong thị trường này",
+            "debrief": "Chuyển sang đứng ngoài trong biến động là phản ứng chính đáng, nhưng thời điểm cho quyết định đó là lần đánh giá lại sau khoảng trống. Thoát giữa kế hoạch vì cảm xúc vẫn huấn luyện thói quen ứng biến, chỉ theo hướng an toàn hơn."
+          }
+        ]
+      },
+      {
+        "question": "Dao động răng cưa tháo gỡ đi lên, và giao dịch lập kế hoạch lại của bạn chạm mục tiêu. Tính ròng, ngày diễn ra: lỗ khoảng trống, lập kế hoạch lại kỷ luật, một lệnh thắng trọn vẹn. Đánh giá trung thực:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Tôi đã giao dịch cú sụp tuyệt vời — lần sau tăng cỡ",
+            "debrief": "Một cú sốc sống sót không phải mẫu của sự thành thạo. Gọi nó là thiên tài và tăng cỡ là mẫu thành công nguy hiểm: kết quả một phần là phương sai, và nhân đôi phơi nhiễm định giá khoảng trống sau bằng sự phá sản."
+          },
+          {
+            "id": "process",
+            "label": "Hệ thống đã hoạt động: cắt cỡ, viết lại kế hoạch, tuân lệnh dừng — ghi lại tất cả",
+            "debrief": "Đúng. Lệnh thắng ít quan trọng hơn trình tự tạo ra nó: lùi lại, định cỡ lại, lập kế hoạch lại, tuân lệnh dừng. Trình tự đó lặp lại được; cú bật lại không phải của bạn để nhận làm của mình."
+          },
+          {
+            "id": "lucky",
+            "label": "Thuần may mắn — không có gì để học từ hỗn loạn",
+            "debrief": "Khiêm tốn tốt hơn làm anh hùng, nhưng «không có gì để học» là sai: bạn có một bản ghi viết ra về hành vi dưới cú sốc thanh khoản. Bản ghi đó — không phải P&L — là cái mà thanh chuẩn tâm lý chuyên gia đo."
+          }
+        ]
+      }
+    ]
+  }
+]
