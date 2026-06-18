@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "La Cassure Qui N'en Était Pas Une",
+    "description": "Une recréation stylisée d'une classique fausse cassure de range. Le prix se comprime sous un plafond très surveillé, casse sur une explosion de volume — et échoue. Tu décides, bougie par bougie, ce que fait un trader discipliné à chaque instant.",
+    "checkpoints": [
+      {
+        "question": "Le prix vient de clôturer au-dessus du haut du range sur la plus grosse bougie de volume en plusieurs semaines. Tout le monde sur le flux crie à la cassure. Que fais-tu ?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Achète au marché tout de suite avant que ça s'échappe",
+            "debrief": "Acheter la première clôture euphorique, c'est poursuivre : ton entrée est loin de tout niveau d'invalidation, donc ton stop est soit énorme soit arbitraire. La math de premier contact du moteur est impitoyable — un stop large transforme un repli normal en perte totale."
+          },
+          {
+            "id": "plan",
+            "label": "Définis d'abord la transaction : entrée au retest, stop sous la bougie de cassure, objectif depuis la hauteur du range",
+            "debrief": "Correct. Une cassure est une hypothèse, pas un résultat. Écrire entrée, stop et objectif avant d'engager du capital est ce que le score de processus récompense — et c'est la seule version de cette transaction avec un risque défini."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Achète une demi-position maintenant, tu trouveras le stop après",
+            "debrief": "Une taille moindre limite les dégâts mais « trouver le stop après » signifie que la transaction n'a pas d'invalidation. Une petite mauvaise transaction reste une mauvaise transaction — le journal la notera sans stop."
+          }
+        ]
+      },
+      {
+        "question": "La cassure cale. Le prix a passé quatre bougies à aller de côté juste au-dessus de l'ancien haut du range, et le volume s'estompe. Ton entrée de retest planifiée s'est exécutée, stop sous la bougie de cassure. Et maintenant ?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Élargis le stop sous tout le range — donne-lui de la marge pour respirer",
+            "debrief": "Élargir un stop après l'entrée est l'habitude la plus corrosive du trading : elle convertit une petite perte planifiée en une grande non planifiée. La constitution existe précisément pour interdire cela."
+          },
+          {
+            "id": "hold",
+            "label": "Ne fais rien — le plan est intact jusqu'à ce que le stop soit touché",
+            "debrief": "Correct. Un volume qui s'estompe est inconfortable mais ce n'est pas ton niveau d'invalidation. Un plan ne marche que si le plan, pas l'inconfort, prend les décisions."
+          },
+          {
+            "id": "add",
+            "label": "Ajoute à la position — baisse l'entrée moyenne avant qu'elle reprenne",
+            "debrief": "Ajouter à une cassure qui cale augmente le risque exactement quand la preuve faiblit. Si le stop est touché tu perds maintenant plus que le plan n'a jamais permis."
+          }
+        ]
+      },
+      {
+        "question": "La cassure a échoué. Ton stop a été touché il y a deux bougies pour une perte planifiée de -1R, et le prix est maintenant en chute libre sous l'ancien range. Comment clôtures-tu l'épisode ?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Shorte-le tout de suite — il te le doit",
+            "debrief": "C'est du trading de vengeance : la raison de l'entrée est ta perte, pas le marché. La voie psychologie appelle ça du tilt, et l'étiquette d'émotion du journal existe pour attraper exactement ce moment."
+          },
+          {
+            "id": "journal",
+            "label": "Consigne la transaction : perte planifiée, stop respecté, écris à quoi ressemblait la fausse cassure",
+            "debrief": "Correct. C'est une perte bien jouée — bonne décision, mauvais résultat. Le classificateur 2x2 existe parce que les traders qui peuvent assumer un -1R sans broncher sont ceux encore solvables après cent transactions."
+          },
+          {
+            "id": "stew",
+            "label": "Pars et saute le journal — ce n'était qu'une perdante",
+            "debrief": "Partir bat le trading de vengeance, mais une perte non consignée n'enseigne rien. La signature de la fausse cassure — le volume de retest qui s'estompe — est la leçon que tu as payée."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Repli dans une Tendance",
+    "description": "Une recréation stylisée d'une tendance haussière régulière qui rend soudain une semaine de gains en trois bougies rouges. La tendance est intacte selon toute mesure — mais ça n'en a pas l'air. Trade le plan, pas la sensation.",
+    "checkpoints": [
+      {
+        "question": "Trois bougies rouges marquées ont effacé une semaine de gains. La structure de tendance en unité de temps supérieure est intacte : le prix est au-dessus du précédent creux et la porte de régime lit toujours tendance. Tu détiens une position depuis bien plus bas. Que fais-tu ?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Vends tout — protège le profit avant qu'il disparaisse",
+            "debrief": "Sortir par peur quand aucun niveau d'invalidation n'a été touché signifie que le graphique n'a jamais été aux commandes — ton estomac l'était. Tu gardes le profit mais entraînes l'habitude d'abandonner les plans sous pression."
+          },
+          {
+            "id": "check_plan",
+            "label": "Relis le plan : le stop est sous le creux, non touché — tiens",
+            "debrief": "Correct. Un repli qui reste au-dessus de ton niveau d'invalidation est du bruit par définition. La leçon de psychologie du drawdown est ce moment exact : le plan a été écrit par la version calme de toi pour la version effrayée."
+          },
+          {
+            "id": "double",
+            "label": "Double la position — c'est en solde",
+            "debrief": "La tendance soutient l'ajout, mais doubler fait gonfler le risque en plein milieu sans nouveau plan. Si le creux casse tu perds bien plus que ce que le plan original risquait. Les ajouts ont besoin de leur propre entrée, stop et taille."
+          }
+        ]
+      },
+      {
+        "question": "Le prix s'est stabilisé juste au-dessus du creux. Tu veux ajouter à la position. Comment dimensionnes-tu l'ajout ?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Dimensionne-le pour que l'ajout risque 1 % au même stop, comme toute nouvelle transaction",
+            "debrief": "Correct. Un ajout est une transaction toute neuve qui porte le maillot de l'ancienne. La math de dimensionnement se moque que tu en possèdes déjà — le risque par unité de distance de stop est la seule entrée de dimensionnement."
+          },
+          {
+            "id": "size_gut",
+            "label": "Achète un chiffre rond qui semble significatif",
+            "debrief": "Dimensionner par chiffre rond signifie que le risque est ce que le graphique décidera plus tard. La leçon de dimensionnement existe parce que « ça semblait bon » est ainsi que des pertes de 5 % arrivent avec une politique de 1 %."
+          },
+          {
+            "id": "all_in",
+            "label": "Utilise tout le pouvoir d'achat restant — la conviction est haute",
+            "debrief": "La conviction est une émotion en costume. Le tout-en-un rend une seule bougie adverse fatale, et la leçon Monte Carlo du moteur montre à quelle vitesse des séries perdantes à taille pleine ruinent un compte."
+          }
+        ]
+      },
+      {
+        "question": "La tendance a repris et la position est bien en profit. L'objectif original est proche. Quelle est la fin disciplinée ?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Annule l'objectif — celui-ci va beaucoup plus haut",
+            "debrief": "Peut-être — mais abandonner la sortie écrite convertit un plan testé en improvisation au moment de l'avidité maximale. Si tu veux un système de trailing au lieu d'objectif, conçois-le avant la prochaine transaction, pas pendant celle-ci."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Laisse l'objectif ou un stop suiveur te sortir, selon le plan",
+            "debrief": "Correct. Les sorties décidées d'avance sont la moitié du trading dont personne ne tient le journal. Un gain mérité n'en est un que si le processus qui l'a produit se répète."
+          },
+          {
+            "id": "exit_now",
+            "label": "Vends immédiatement — verrouille avant que quoi que ce soit change",
+            "debrief": "Prendre un profit n'est jamais ruineux, mais sortir tôt par peur rétrécit systématiquement les gagnants pendant que les stops gardent les pertes à taille pleine. Sur cent transactions cette asymétrie est la différence entre espérance positive et négative."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Le Gap Baissier",
+    "description": "Une recréation stylisée d'un choc de liquidité : un gap nocturne droit à travers ton stop, puis un haché violent et tradable. Le plan n'a pas survécu au contact — maintenant ta conduite sous le feu est tout le jeu.",
+    "checkpoints": [
+      {
+        "question": "Le marché a ouvert en gap baissier à travers ton stop pendant la nuit — tu es sorti à un prix pire que prévu, environ -1,8R au lieu de -1R. Le marché est violent. Première décision ?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Trade la volatilité à fond — c'est là que les fortunes se font",
+            "debrief": "Trader pour récupérer une perte est l'entrée de tilt de manuel. Les régimes volatils punissent exactement cela : les spreads s'élargissent, les stops glissent, et la porte d'anulation-par-volatilité du moteur existe parce que les avantages mesurés en marchés calmes ne se transfèrent pas ici."
+          },
+          {
+            "id": "stand_down",
+            "label": "Accepte le slippage, réduis de moitié tout le dimensionnement, réévalue à la clôture",
+            "debrief": "Correct. Le slippage de gap au-delà d'un stop est un coût du trading, pas une trahison. Réduire la taille quand la volatilité réalisée double est ce qui garde le -1,8R une contrariété au lieu du premier domino."
+          },
+          {
+            "id": "reenter",
+            "label": "Réentre immédiatement dans la même transaction — la thèse n'a pas changé",
+            "debrief": "La thèse peut tenir mais le régime a changé : les distances de stop calculées sur l'ATR d'hier sont fausses aujourd'hui. La réentrée a besoin d'un nouveau plan dimensionné à la nouvelle volatilité, pas d'un réflexe."
+          }
+        ]
+      },
+      {
+        "question": "En plein haché, une position que tu as replanifiée et entrée avec un stop est en baisse mais non stoppée. Un ami écrit : « moyenne juste à la baisse, ça rebondit toujours ». Que fais-tu ?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Moyenne à la baisse — abaisse le point de rentabilité",
+            "debrief": "Moyenner à la baisse sans plan, c'est ainsi que des transactions individuelles tuent des comptes : chaque ajout rapproche le seuil et éloigne le risque total. Toute autopsie d'explosion contient cette étape."
+          },
+          {
+            "id": "respect",
+            "label": "Garde la position et le stop exactement comme prévu",
+            "debrief": "Correct. La transaction se comporte dans son enveloppe planifiée. Le conseil extérieur en plein milieu est du bruit — ton plan écrit est la seule voix avec un historique."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Ferme-la — être à plat semble plus sûr dans ce marché",
+            "debrief": "Se mettre à plat est une réponse légitime à la volatilité, mais le moment pour cette décision était la réévaluation post-gap. Sortir en plein plan par sensation entraîne quand même l'habitude de l'improvisation, juste dans une direction plus sûre."
+          }
+        ]
+      },
+      {
+        "question": "Le haché s'est résolu à la hausse et ta transaction replanifiée a touché son objectif. Au net, la journée a été : perte en gap, replanification disciplinée, gagnante complète. Le débriefing honnête est :",
+        "options": [
+          {
+            "id": "hero",
+            "label": "J'ai tradé un krach brillamment — augmente la taille la prochaine fois",
+            "debrief": "Un choc survécu n'est pas un échantillon de compétence. L'appeler génie et augmenter la taille est le motif du succès dangereux : le résultat était en partie de la variance, et doubler l'exposition tarife le prochain gap à la ruine."
+          },
+          {
+            "id": "process",
+            "label": "Le système a marché : taille réduite, plans réécrits, stops respectés — consigne tout",
+            "debrief": "Correct. Le gain compte moins que la séquence qui l'a produit : retire-toi, redimensionne, replanifie, obéis aux stops. Cette séquence est réutilisable ; le rebond n'était pas à toi à revendiquer."
+          },
+          {
+            "id": "lucky",
+            "label": "Pure chance — rien à apprendre du chaos",
+            "debrief": "L'humilité bat les héroïsmes, mais « rien à apprendre » est faux : tu as un registre consigné de conduite sous un choc de liquidité. Ce registre — pas le P&L — est ce que mesure la barre de psychologie experte."
+          }
+        ]
+      }
+    ]
+  }
+]
