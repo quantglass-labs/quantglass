@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "O Rompimento Que Não Foi",
+    "description": "Uma recriação estilizada de um clássico falso rompimento de range. O preço se comprime sob um teto muito observado, rompe num estouro de volume — e falha. Você decide, vela a vela, o que um trader disciplinado faz em cada momento.",
+    "checkpoints": [
+      {
+        "question": "O preço acabou de fechar acima da máxima do range na maior vela de volume em semanas. Todos no feed estão gritando o rompimento. O que você faz?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Compre a mercado agora mesmo antes que dispare",
+            "debrief": "Comprar o primeiro fechamento eufórico é perseguir: sua entrada fica longe de qualquer nível de invalidação, então seu stop é enorme ou arbitrário. A matemática de primeiro toque do motor é implacável — um stop largo transforma um pullback normal em perda total."
+          },
+          {
+            "id": "plan",
+            "label": "Defina a operação primeiro: entrada no reteste, stop abaixo da vela de rompimento, alvo pela altura do range",
+            "debrief": "Correto. Um rompimento é uma hipótese, não um resultado. Escrever entrada, stop e alvo antes de comprometer capital é o que a pontuação de processo recompensa — e é a única versão desta operação com risco definido."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Compre meia posição agora, descobre o stop depois",
+            "debrief": "Tamanho menor limita o dano mas «descobrir o stop depois» significa que a operação não tem invalidação. Uma pequena operação ruim ainda é uma operação ruim — o diário a pontuará sem stop."
+          }
+        ]
+      },
+      {
+        "question": "O rompimento está estagnando. O preço passou quatro velas de lado logo acima da antiga máxima do range, e o volume some. Sua entrada de reteste planejada foi executada, stop abaixo da vela de rompimento. E agora?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Alargue o stop abaixo de todo o range — dê espaço para respirar",
+            "debrief": "Alargar um stop após a entrada é o hábito mais corrosivo no trading: converte uma pequena perda planejada em uma grande não planejada. A constituição existe justamente para proibir isso."
+          },
+          {
+            "id": "hold",
+            "label": "Não faça nada — o plano está intacto até o stop ser atingido",
+            "debrief": "Correto. Volume sumindo é desconfortável mas não é seu nível de invalidação. Um plano só funciona se o plano, não o desconforto, tomar as decisões."
+          },
+          {
+            "id": "add",
+            "label": "Adicione à posição — baixe a entrada média antes que retome",
+            "debrief": "Adicionar a um rompimento que estagna aumenta o risco justo quando a evidência enfraquece. Se o stop for atingido você agora perde mais do que o plano jamais permitiu."
+          }
+        ]
+      },
+      {
+        "question": "O rompimento falhou. Seu stop foi atingido duas velas atrás por uma perda planejada de -1R, e o preço está agora em queda livre abaixo do antigo range. Como você fecha o episódio?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Venda a descoberto agora mesmo — ele me deve",
+            "debrief": "Isso é trading de vingança: a razão da entrada é sua perda, não o mercado. A trilha de psicologia chama isso de tilt, e a etiqueta de emoção do diário existe para pegar exatamente este momento."
+          },
+          {
+            "id": "journal",
+            "label": "Registre a operação: perda planejada, stop respeitado, escreva como o falso rompimento parecia",
+            "debrief": "Correto. Esta é uma perda bem jogada — boa decisão, mau resultado. O classificador 2x2 existe porque traders que aceitam um -1R sem vacilar são os que continuam solventes após cem operações."
+          },
+          {
+            "id": "stew",
+            "label": "Vá embora e pule o diário — foi só uma perdedora",
+            "debrief": "Ir embora vence o trading de vingança, mas uma perda sem registro não ensina nada. A assinatura do falso rompimento — o volume de reteste sumindo — é a lição pela qual você pagou."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Pullback em uma Tendência",
+    "description": "Uma recriação estilizada de uma tendência de alta constante que de repente devolve uma semana de ganhos em três velas vermelhas. A tendência está intacta por toda medida — mas não parece. Opere o plano, não a sensação.",
+    "checkpoints": [
+      {
+        "question": "Três velas vermelhas fortes apagaram uma semana de ganhos. A estrutura de tendência do tempo gráfico maior está intacta: o preço está acima do fundo anterior e o portão de regime ainda lê tendência. Você tem uma posição de muito mais abaixo. O que você faz?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Venda tudo — proteja o lucro antes que suma",
+            "debrief": "Sair por medo quando nenhum nível de invalidação foi tocado significa que o gráfico nunca esteve no comando — seu estômago estava. Você mantém o lucro mas treina o hábito de abandonar planos sob pressão."
+          },
+          {
+            "id": "check_plan",
+            "label": "Releia o plano: o stop está abaixo do fundo, intocado — segure",
+            "debrief": "Correto. Um pullback que fica acima do seu nível de invalidação é ruído por definição. A lição de psicologia de drawdown é exatamente este momento: o plano foi escrito pela versão calma de você para a assustada."
+          },
+          {
+            "id": "double",
+            "label": "Dobre a posição — está em promoção",
+            "debrief": "A tendência apoia adicionar, mas dobrar faz o risco inchar no meio da operação sem um novo plano. Se o fundo romper você perde muito mais do que o plano original arriscava. Adições precisam de sua própria entrada, stop e tamanho."
+          }
+        ]
+      },
+      {
+        "question": "O preço se estabilizou logo acima do fundo. Você quer adicionar à posição. Como dimensiona a adição?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Dimensione para que a adição arrisque 1% ao mesmo stop, como qualquer operação nova",
+            "debrief": "Correto. Uma adição é uma operação novinha vestindo a camisa da antiga. A matemática de dimensionamento não liga que você já possui algo — risco por unidade de distância de stop é a única entrada de dimensionamento."
+          },
+          {
+            "id": "size_gut",
+            "label": "Compre um número redondo que pareça significativo",
+            "debrief": "Dimensionar por número redondo significa que o risco é o que o gráfico decidir depois. A lição de dimensionamento existe porque «pareceu certo» é como perdas de 5% acontecem com uma política de 1%."
+          },
+          {
+            "id": "all_in",
+            "label": "Use todo o poder de compra restante — a convicção é alta",
+            "debrief": "Convicção é uma emoção de terno. Dimensionar tudo-de-uma-vez torna fatal uma única vela adversa, e a lição de Monte Carlo do motor mostra quão rápido sequências perdedoras em tamanho cheio levam uma conta à falência."
+          }
+        ]
+      },
+      {
+        "question": "A tendência retomou e a posição está bem no lucro. O alvo original está perto. Qual é o fechamento disciplinado?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Cancele o alvo — esta vai muito mais alto",
+            "debrief": "Talvez vá — mas abandonar a saída escrita converte um plano testado em improvisação no momento de máxima ganância. Se quer um sistema de trailing-em-vez-de-alvo, projete-o antes da próxima operação, não durante esta."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Deixe o alvo ou um stop arrastado te tirar, conforme o plano",
+            "debrief": "Correto. Saídas decididas com antecedência são a metade do trading da qual ninguém faz diário. Um ganho merecido só conta como tal se o processo que o produziu for repetível."
+          },
+          {
+            "id": "exit_now",
+            "label": "Venda imediatamente — trave antes que algo mude",
+            "debrief": "Tirar lucro nunca é ruinoso, mas sair cedo por medo encolhe sistematicamente os vencedores enquanto os stops mantêm as perdas em tamanho cheio. Ao longo de cem operações essa assimetria é a diferença entre expectativa positiva e negativa."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "O Gap de Baixa",
+    "description": "Uma recriação estilizada de um choque de liquidez: um gap noturno direto através do seu stop, depois um movimento truncado, violento e operável. O plano não sobreviveu ao contato — agora sua conduta sob fogo é o jogo inteiro.",
+    "checkpoints": [
+      {
+        "question": "O mercado abriu em gap de baixa através do seu stop durante a noite — você está fora a um preço pior que o planejado, cerca de -1,8R em vez de -1R. O mercado está violento. Primeira decisão?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Opere a volatilidade com força — é aqui que fortunas se fazem",
+            "debrief": "Operar para recuperar uma perda é a entrada de tilt de manual. Regimes voláteis punem exatamente isso: spreads alargam, stops escorregam, e o portão de anulação-por-volatilidade do motor existe porque vantagens medidas em mercados calmos não se transferem aqui."
+          },
+          {
+            "id": "stand_down",
+            "label": "Aceite o slippage, reduza pela metade todo o dimensionamento, reavalie no fechamento",
+            "debrief": "Correto. Slippage de gap além de um stop é um custo do trading, não uma traição. Cortar o tamanho quando a volatilidade realizada dobra é o que mantém -1,8R um aborrecimento em vez do primeiro dominó."
+          },
+          {
+            "id": "reenter",
+            "label": "Reentre na mesma operação imediatamente — a tese não mudou",
+            "debrief": "A tese pode se manter mas o regime mudou: distâncias de stop calculadas no ATR de ontem hoje estão erradas. A reentrada precisa de um novo plano dimensionado à nova volatilidade, não de um reflexo."
+          }
+        ]
+      },
+      {
+        "question": "No meio do movimento truncado, uma posição que você replanejou e entrou com um stop está no prejuízo mas não stopada. Um amigo escreve: «só faça preço médio, sempre repica». O que você faz?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Faça preço médio — baixe o ponto de equilíbrio",
+            "debrief": "Fazer preço médio sem um plano é como operações individuais matam contas: cada adição aproxima o equilíbrio e afasta o risco total. Toda autópsia de explosão contém este passo."
+          },
+          {
+            "id": "respect",
+            "label": "Mantenha a posição e o stop exatamente como planejados",
+            "debrief": "Correto. A operação se comporta dentro de seu envelope planejado. Conselho externo no meio da operação é ruído — seu plano escrito é a única voz com um histórico."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Feche — estar zerado parece mais seguro neste mercado",
+            "debrief": "Ficar zerado é uma resposta legítima à volatilidade, mas a hora dessa decisão foi a reavaliação pós-gap. Sair no meio do plano por sensação ainda treina o hábito da improvisação, só numa direção mais segura."
+          }
+        ]
+      },
+      {
+        "question": "O movimento se resolveu para cima e sua operação replanejada atingiu o alvo. No líquido, o dia foi: perda em gap, replanejamento disciplinado, vencedora completa. O debrief honesto é:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Operei um crash brilhantemente — aumente o tamanho da próxima vez",
+            "debrief": "Um choque sobrevivido não é uma amostra de habilidade. Chamá-lo de genialidade e aumentar o tamanho é o padrão do sucesso perigoso: o resultado foi em parte variância, e dobrar a exposição precifica o próximo gap em ruína."
+          },
+          {
+            "id": "process",
+            "label": "O sistema funcionou: tamanho cortado, planos reescritos, stops respeitados — registre tudo",
+            "debrief": "Correto. O ganho importa menos que a sequência que o produziu: recue, redimensione, replaneje, obedeça aos stops. Essa sequência é reutilizável; o repique não era seu para reivindicar."
+          },
+          {
+            "id": "lucky",
+            "label": "Pura sorte — nada a aprender do caos",
+            "debrief": "Humildade vence heroísmo, mas «nada a aprender» é falso: você tem um registro de conduta sob um choque de liquidez. Esse registro — não o P&L — é o que a barra de psicologia de especialista mede."
+          }
+        ]
+      }
+    ]
+  }
+]
