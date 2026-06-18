@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Risiko-Disziplin I",
+    "description": "Platziere 5 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 5 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Risiko-Disziplin II",
+    "description": "Platziere 10 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Risiko-Disziplin III",
+    "description": "Platziere 20 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 20 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Risiko-Disziplin IV",
+    "description": "Platziere 40 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 40 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Risiko-Disziplin V",
+    "description": "Platziere 75 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 75 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Risiko-Disziplin VI",
+    "description": "Platziere 120 Papier-Trades, bei denen jeder einzelne einen Stop hat und nicht mehr als die Richtlinie riskiert. Keine Ausnahmen, kein „nur dieses eine Mal“ — die Gewohnheit ist die Zertifizierung.",
+    "criteria": [
+      {
+        "label": "Führe 120 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "Erstes Blut, geplant",
+    "description": "Nimm deinen ersten geplanten Verlust: ein Trade, der seinen Stop genau dort traf, wo du es gesagt hast. Dies ist das billigste Lehrgeld, das der Markt verkauft.",
+    "criteria": [
+      {
+        "label": "Führe 3 Trades aus"
+      },
+      {
+        "label": "Nimm 1 geplanten Stop-Out"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Diversifizierte Disziplin",
+    "description": "Führe die volle Risiko-Routine über mindestens 5 verschiedene Symbole aus. Disziplin, die nur auf deinem Lieblingschart funktioniert, ist ein Zufall, keine Fähigkeit.",
+    "criteria": [
+      {
+        "label": "Führe 25 Trades aus"
+      },
+      {
+        "label": "Trade 5+ verschiedene Symbole"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "Die lange Wache",
+    "description": "Zweihundert Trades ohne einen einzigen Verstoß gegen die Risiko-Richtlinie. Bei diesem Volumen ist Disziplin keine Entscheidung mehr, die du triffst — sie ist, wer du bist.",
+    "criteria": [
+      {
+        "label": "Führe 200 Trades aus"
+      },
+      {
+        "label": "Null Verstöße gegen die Risiko-Richtlinie"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Null Toleranz",
+    "description": "Fünfzehn aufeinanderfolgende Qualitäts-Trades ohne übergroßes Risiko und ohne stoplose Einstiege, während eine Verfassung in Kraft ist. Regeln, die du angenommen hast, eingehalten.",
+    "criteria": [
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Führe 15 Trades aus"
+      },
+      {
+        "label": "Null Risiko-Verstöße"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Prozessqualität I",
+    "description": "Halte einen durchschnittlichen Prozess-Score von 60+ über 5 Trades. Der Score bewertet die Entscheidung — Stop, These, Größe, Geisteszustand — nie das Ergebnis.",
+    "criteria": [
+      {
+        "label": "Führe 5 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Prozessqualität II",
+    "description": "Halte einen durchschnittlichen Prozess-Score von 70+ über 10 Trades. Der Score bewertet die Entscheidung — Stop, These, Größe, Geisteszustand — nie das Ergebnis.",
+    "criteria": [
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Prozessqualität III",
+    "description": "Halte einen durchschnittlichen Prozess-Score von 75+ über 20 Trades. Der Score bewertet die Entscheidung — Stop, These, Größe, Geisteszustand — nie das Ergebnis.",
+    "criteria": [
+      {
+        "label": "Führe 20 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Prozessqualität IV",
+    "description": "Halte einen durchschnittlichen Prozess-Score von 80+ über 40 Trades. Der Score bewertet die Entscheidung — Stop, These, Größe, Geisteszustand — nie das Ergebnis.",
+    "criteria": [
+      {
+        "label": "Führe 40 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Prozessqualität V",
+    "description": "Halte einen durchschnittlichen Prozess-Score von 85+ über 80 Trades. Der Score bewertet die Entscheidung — Stop, These, Größe, Geisteszustand — nie das Ergebnis.",
+    "criteria": [
+      {
+        "label": "Führe 80 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Ununterbrochen I",
+    "description": "Reihe 3 aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser aneinander. Ein schlampiger Einstieg setzt die Zählung zurück — genau wie echte Disziplin es tut.",
+    "criteria": [
+      {
+        "label": "3 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Ununterbrochen II",
+    "description": "Reihe 5 aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser aneinander. Ein schlampiger Einstieg setzt die Zählung zurück — genau wie echte Disziplin es tut.",
+    "criteria": [
+      {
+        "label": "5 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Ununterbrochen III",
+    "description": "Reihe 10 aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser aneinander. Ein schlampiger Einstieg setzt die Zählung zurück — genau wie echte Disziplin es tut.",
+    "criteria": [
+      {
+        "label": "10 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Ununterbrochen IV",
+    "description": "Reihe 20 aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser aneinander. Ein schlampiger Einstieg setzt die Zählung zurück — genau wie echte Disziplin es tut.",
+    "criteria": [
+      {
+        "label": "20 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Ununterbrochen V",
+    "description": "Reihe 35 aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser aneinander. Ein schlampiger Einstieg setzt die Zählung zurück — genau wie echte Disziplin es tut.",
+    "criteria": [
+      {
+        "label": "35 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Akzeptiere den geplanten Verlust I",
+    "description": "Verbuche 1 gut gespielte Verluste — gute Entscheidungen, bei denen die Varianz den Trade nahm. Trader, die korrekt verlieren können, sind die, die nach hundert Trades noch solvent sind.",
+    "criteria": [
+      {
+        "label": "1 gut gespielte Verluste"
+      },
+      {
+        "label": "Keine stoplosen Trades"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Akzeptiere den geplanten Verlust II",
+    "description": "Verbuche 3 gut gespielte Verluste — gute Entscheidungen, bei denen die Varianz den Trade nahm. Trader, die korrekt verlieren können, sind die, die nach hundert Trades noch solvent sind.",
+    "criteria": [
+      {
+        "label": "3 gut gespielte Verluste"
+      },
+      {
+        "label": "Keine stoplosen Trades"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Akzeptiere den geplanten Verlust III",
+    "description": "Verbuche 6 gut gespielte Verluste — gute Entscheidungen, bei denen die Varianz den Trade nahm. Trader, die korrekt verlieren können, sind die, die nach hundert Trades noch solvent sind.",
+    "criteria": [
+      {
+        "label": "6 gut gespielte Verluste"
+      },
+      {
+        "label": "Keine stoplosen Trades"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Akzeptiere den geplanten Verlust IV",
+    "description": "Verbuche 12 gut gespielte Verluste — gute Entscheidungen, bei denen die Varianz den Trade nahm. Trader, die korrekt verlieren können, sind die, die nach hundert Trades noch solvent sind.",
+    "criteria": [
+      {
+        "label": "12 gut gespielte Verluste"
+      },
+      {
+        "label": "Keine stoplosen Trades"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "Der Stop funktioniert I",
+    "description": "Lass deinen Stop dich 2 Mal herausnehmen, ohne ihn zu erweitern oder zu stornieren. Der geplante Ausstieg ist der einzige, der das Konto schützt, das du behalten wolltest.",
+    "criteria": [
+      {
+        "label": "2 geplante Stop-Outs genommen"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "Der Stop funktioniert II",
+    "description": "Lass deinen Stop dich 5 Mal herausnehmen, ohne ihn zu erweitern oder zu stornieren. Der geplante Ausstieg ist der einzige, der das Konto schützt, das du behalten wolltest.",
+    "criteria": [
+      {
+        "label": "5 geplante Stop-Outs genommen"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "Der Stop funktioniert III",
+    "description": "Lass deinen Stop dich 10 Mal herausnehmen, ohne ihn zu erweitern oder zu stornieren. Der geplante Ausstieg ist der einzige, der das Konto schützt, das du behalten wolltest.",
+    "criteria": [
+      {
+        "label": "10 geplante Stop-Outs genommen"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "Der Stop funktioniert IV",
+    "description": "Lass deinen Stop dich 20 Mal herausnehmen, ohne ihn zu erweitern oder zu stornieren. Der geplante Ausstieg ist der einzige, der das Konto schützt, das du behalten wolltest.",
+    "criteria": [
+      {
+        "label": "20 geplante Stop-Outs genommen"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Kaltes Blut I",
+    "description": "Protokolliere deinen emotionalen Zustand bei jedem Einstieg über 5 Trades mit null Tilt-Einstiegen — kein FOMO, keine Frust-Trades. Den Zustand zu benennen ist, wie du ihn früh erwischst.",
+    "criteria": [
+      {
+        "label": "Emotion bei 5 Trades protokolliert"
+      },
+      {
+        "label": "Null Tilt-Einstiege"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Kaltes Blut II",
+    "description": "Protokolliere deinen emotionalen Zustand bei jedem Einstieg über 15 Trades mit null Tilt-Einstiegen — kein FOMO, keine Frust-Trades. Den Zustand zu benennen ist, wie du ihn früh erwischst.",
+    "criteria": [
+      {
+        "label": "Emotion bei 15 Trades protokolliert"
+      },
+      {
+        "label": "Null Tilt-Einstiege"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Kaltes Blut III",
+    "description": "Protokolliere deinen emotionalen Zustand bei jedem Einstieg über 40 Trades mit null Tilt-Einstiegen — kein FOMO, keine Frust-Trades. Den Zustand zu benennen ist, wie du ihn früh erwischst.",
+    "criteria": [
+      {
+        "label": "Emotion bei 40 Trades protokolliert"
+      },
+      {
+        "label": "Null Tilt-Einstiege"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Kaltes Blut IV",
+    "description": "Protokolliere deinen emotionalen Zustand bei jedem Einstieg über 100 Trades mit null Tilt-Einstiegen — kein FOMO, keine Frust-Trades. Den Zustand zu benennen ist, wie du ihn früh erwischst.",
+    "criteria": [
+      {
+        "label": "Emotion bei 100 Trades protokolliert"
+      },
+      {
+        "label": "Null Tilt-Einstiege"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Benenne das Gefühl I",
+    "description": "Erfasse eine Emotion bei 10 Einstiegen — auch den hässlichen. Ein ehrliches Tilt-Protokoll schlägt ein sauberes falsches; die Engine bewertet Ehrlichkeit, nicht Gelassenheit.",
+    "criteria": [
+      {
+        "label": "Emotion bei 10 Trades protokolliert"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Benenne das Gefühl II",
+    "description": "Erfasse eine Emotion bei 25 Einstiegen — auch den hässlichen. Ein ehrliches Tilt-Protokoll schlägt ein sauberes falsches; die Engine bewertet Ehrlichkeit, nicht Gelassenheit.",
+    "criteria": [
+      {
+        "label": "Emotion bei 25 Trades protokolliert"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Benenne das Gefühl III",
+    "description": "Erfasse eine Emotion bei 60 Einstiegen — auch den hässlichen. Ein ehrliches Tilt-Protokoll schlägt ein sauberes falsches; die Engine bewertet Ehrlichkeit, nicht Gelassenheit.",
+    "criteria": [
+      {
+        "label": "Emotion bei 60 Trades protokolliert"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Benenne das Gefühl IV",
+    "description": "Erfasse eine Emotion bei 150 Einstiegen — auch den hässlichen. Ein ehrliches Tilt-Protokoll schlägt ein sauberes falsches; die Engine bewertet Ehrlichkeit, nicht Gelassenheit.",
+    "criteria": [
+      {
+        "label": "Emotion bei 150 Trades protokolliert"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "Das Protokoll I",
+    "description": "Schreibe eine Reflexionsnotiz oder ein Tag zu 3 ausgeführten Trades. Das Journal ist der einzige Datensatz über dein Trading, den niemand sonst sammeln kann.",
+    "criteria": [
+      {
+        "label": "Protokolliere 3 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "Das Protokoll II",
+    "description": "Schreibe eine Reflexionsnotiz oder ein Tag zu 10 ausgeführten Trades. Das Journal ist der einzige Datensatz über dein Trading, den niemand sonst sammeln kann.",
+    "criteria": [
+      {
+        "label": "Protokolliere 10 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "Das Protokoll III",
+    "description": "Schreibe eine Reflexionsnotiz oder ein Tag zu 25 ausgeführten Trades. Das Journal ist der einzige Datensatz über dein Trading, den niemand sonst sammeln kann.",
+    "criteria": [
+      {
+        "label": "Protokolliere 25 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "Das Protokoll IV",
+    "description": "Schreibe eine Reflexionsnotiz oder ein Tag zu 60 ausgeführten Trades. Das Journal ist der einzige Datensatz über dein Trading, den niemand sonst sammeln kann.",
+    "criteria": [
+      {
+        "label": "Protokolliere 60 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "Das Protokoll V",
+    "description": "Schreibe eine Reflexionsnotiz oder ein Tag zu 120 ausgeführten Trades. Das Journal ist der einzige Datensatz über dein Trading, den niemand sonst sammeln kann.",
+    "criteria": [
+      {
+        "label": "Protokolliere 120 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Markiere den Fehler I",
+    "description": "Wende ehrliche Fehler-Tags auf 5 Trades an. Tags speisen die Detektoren des Review-Coaches — je ehrlicher das Tagging, desto schärfer die Empfehlungen.",
+    "criteria": [
+      {
+        "label": "Markiere 5 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Markiere den Fehler II",
+    "description": "Wende ehrliche Fehler-Tags auf 15 Trades an. Tags speisen die Detektoren des Review-Coaches — je ehrlicher das Tagging, desto schärfer die Empfehlungen.",
+    "criteria": [
+      {
+        "label": "Markiere 15 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Markiere den Fehler III",
+    "description": "Wende ehrliche Fehler-Tags auf 40 Trades an. Tags speisen die Detektoren des Review-Coaches — je ehrlicher das Tagging, desto schärfer die Empfehlungen.",
+    "criteria": [
+      {
+        "label": "Markiere 40 Trades"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Jeder Trade hat ein Warum",
+    "description": "Schreibe den Grund vor dem Einstieg bei 20 Trades. Wenn die These keinen geschriebenen Satz überlebt, überlebt sie auch keine widrige Kerze.",
+    "criteria": [
+      {
+        "label": "Geschriebener Grund bei 20 Trades"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "Der Scharfschütze I",
+    "description": "Über 10 Trades hinweg, überschreite nie 3 Einstiege an einem einzigen Tag. Aktivität ist kein Vorteil — der beste Trade an den meisten Tagen ist der, den du auslässt.",
+    "criteria": [
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Nie mehr als 3 Trades/Tag"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "Der Scharfschütze II",
+    "description": "Über 25 Trades hinweg, überschreite nie 3 Einstiege an einem einzigen Tag. Aktivität ist kein Vorteil — der beste Trade an den meisten Tagen ist der, den du auslässt.",
+    "criteria": [
+      {
+        "label": "Führe 25 Trades aus"
+      },
+      {
+        "label": "Nie mehr als 3 Trades/Tag"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "Der Scharfschütze III",
+    "description": "Über 60 Trades hinweg, überschreite nie 2 Einstiege an einem einzigen Tag. Aktivität ist kein Vorteil — der beste Trade an den meisten Tagen ist der, den du auslässt.",
+    "criteria": [
+      {
+        "label": "Führe 60 Trades aus"
+      },
+      {
+        "label": "Nie mehr als 2 Trades/Tag"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Weiteres Objektiv I",
+    "description": "Verteile dein Trading über 3+ verschiedene Symbole. Sich an einen Chart zu binden engt das Urteil ein; Breite hält den Prozess ehrlich.",
+    "criteria": [
+      {
+        "label": "Trade 3+ Symbole"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Weiteres Objektiv II",
+    "description": "Verteile dein Trading über 6+ verschiedene Symbole. Sich an einen Chart zu binden engt das Urteil ein; Breite hält den Prozess ehrlich.",
+    "criteria": [
+      {
+        "label": "Trade 6+ Symbole"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Weiteres Objektiv III",
+    "description": "Verteile dein Trading über 10+ verschiedene Symbole. Sich an einen Chart zu binden engt das Urteil ein; Breite hält den Prozess ehrlich.",
+    "criteria": [
+      {
+        "label": "Trade 10+ Symbole"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "Die geduldige Woche",
+    "description": "Halte eine Lernserie 7 Tage am Leben, ohne je 2 Trades an einem Tag zu überschreiten. Zeige die Disziplin, engagiert zu bleiben, ohne zu übertraden.",
+    "criteria": [
+      {
+        "label": "7-Tage-Akademie-Serie"
+      },
+      {
+        "label": "Nie mehr als 2 Trades/Tag"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Verdient, nicht Glück I",
+    "description": "Sammle 1 verdiente Gewinne — guter Prozess UND gutes Ergebnis — mit null gefährlichen Erfolgen auf dem Weg. Gewinne zählen nur, wenn der Prozess sie wiederholen könnte.",
+    "criteria": [
+      {
+        "label": "1 verdiente Gewinne"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Verdient, nicht Glück II",
+    "description": "Sammle 3 verdiente Gewinne — guter Prozess UND gutes Ergebnis — mit null gefährlichen Erfolgen auf dem Weg. Gewinne zählen nur, wenn der Prozess sie wiederholen könnte.",
+    "criteria": [
+      {
+        "label": "3 verdiente Gewinne"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Verdient, nicht Glück III",
+    "description": "Sammle 8 verdiente Gewinne — guter Prozess UND gutes Ergebnis — mit null gefährlichen Erfolgen auf dem Weg. Gewinne zählen nur, wenn der Prozess sie wiederholen könnte.",
+    "criteria": [
+      {
+        "label": "8 verdiente Gewinne"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Verdient, nicht Glück IV",
+    "description": "Sammle 20 verdiente Gewinne — guter Prozess UND gutes Ergebnis — mit null gefährlichen Erfolgen auf dem Weg. Gewinne zählen nur, wenn der Prozess sie wiederholen könnte.",
+    "criteria": [
+      {
+        "label": "20 verdiente Gewinne"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Bring es zu Ende I",
+    "description": "Bringe 5 Trades zu einer sauberen Auflösung — Stop oder Ziel, keine aufgegebenen Positionen. Jeder aufgelöste Trade ist ein ehrlicher Datenpunkt; ungelöste sind Rauschen.",
+    "criteria": [
+      {
+        "label": "5 aufgelöste Trades"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Bring es zu Ende II",
+    "description": "Bringe 15 Trades zu einer sauberen Auflösung — Stop oder Ziel, keine aufgegebenen Positionen. Jeder aufgelöste Trade ist ein ehrlicher Datenpunkt; ungelöste sind Rauschen.",
+    "criteria": [
+      {
+        "label": "15 aufgelöste Trades"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Bring es zu Ende III",
+    "description": "Bringe 40 Trades zu einer sauberen Auflösung — Stop oder Ziel, keine aufgegebenen Positionen. Jeder aufgelöste Trade ist ein ehrlicher Datenpunkt; ungelöste sind Rauschen.",
+    "criteria": [
+      {
+        "label": "40 aufgelöste Trades"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Bring es zu Ende IV",
+    "description": "Bringe 100 Trades zu einer sauberen Auflösung — Stop oder Ziel, keine aufgegebenen Positionen. Jeder aufgelöste Trade ist ein ehrlicher Datenpunkt; ungelöste sind Rauschen.",
+    "criteria": [
+      {
+        "label": "100 aufgelöste Trades"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Überlebe den Fehlausbruch",
+    "description": "Bestehe Der Ausbruch, der keiner war. Jage nichts, erweitere nichts, protokolliere den Verlust.",
+    "criteria": [
+      {
+        "label": "Bestehe „Der Ausbruch, der keiner war“"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Halte die Linie",
+    "description": "Bestehe Pullback in einem Trend. Lass den Plan, nicht die roten Kerzen, die Entscheidungen treffen.",
+    "criteria": [
+      {
+        "label": "Bestehe „Pullback in einem Trend“"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "Durch das Gap",
+    "description": "Bestehe Das Abwärts-Gap. Zieh dich zurück, dimensioniere neu, plane neu, gehorche Stops — Verhalten unter Feuer.",
+    "criteria": [
+      {
+        "label": "Bestehe „Das Abwärts-Gap“"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Reiner Tisch",
+    "description": "Bestehe jedes Replay-Szenario im Katalog. Jedes ist eine andere Art, wie Märkte Improvisation bestrafen.",
+    "criteria": [
+      {
+        "label": "Bestehe 3 Szenarien"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Vom Simulator ins Cockpit",
+    "description": "Bestehe zwei Szenarien, dann beweise es live: 10 Papier-Trades mit jedem Stop an Ort und Stelle. Der Simulator lehrt; der Markt prüft.",
+    "criteria": [
+      {
+        "label": "Bestehe 2 Szenarien"
+      },
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Lies, dann flieg",
+    "description": "Schließe 20 Lektionen ab, bevor du dein erstes Szenario bestehst. Geh vorbereitet hinein.",
+    "criteria": [
+      {
+        "label": "Schließe 20 Lektionen ab"
+      },
+      {
+        "label": "Bestehe 1 Szenario"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Gelehrter I",
+    "description": "Schließe 5 Akademie-Lektionen ab. Jedes Konzept, das du benennen kannst, ist eines, das der Markt nicht mehr gegen dich verwenden kann.",
+    "criteria": [
+      {
+        "label": "Schließe 5 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Gelehrter II",
+    "description": "Schließe 15 Akademie-Lektionen ab. Jedes Konzept, das du benennen kannst, ist eines, das der Markt nicht mehr gegen dich verwenden kann.",
+    "criteria": [
+      {
+        "label": "Schließe 15 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Gelehrter III",
+    "description": "Schließe 30 Akademie-Lektionen ab. Jedes Konzept, das du benennen kannst, ist eines, das der Markt nicht mehr gegen dich verwenden kann.",
+    "criteria": [
+      {
+        "label": "Schließe 30 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Gelehrter IV",
+    "description": "Schließe 60 Akademie-Lektionen ab. Jedes Konzept, das du benennen kannst, ist eines, das der Markt nicht mehr gegen dich verwenden kann.",
+    "criteria": [
+      {
+        "label": "Schließe 60 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Gelehrter V",
+    "description": "Schließe 90 Akademie-Lektionen ab. Jedes Konzept, das du benennen kannst, ist eines, das der Markt nicht mehr gegen dich verwenden kann.",
+    "criteria": [
+      {
+        "label": "Schließe 90 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Gelehrter VI",
+    "description": "Schließe 121 Akademie-Lektionen ab. Der gesamte Lehrplan — Anfänger bis Experte, nichts ausgelassen.",
+    "criteria": [
+      {
+        "label": "Schließe 121 Lektionen ab"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Bestehe die Anfängerprüfung",
+    "description": "Bestehe die Anfänger-Stufenprüfung mit 80% oder besser. Prüfungen sperren die Leiter — und Test-Out bedeutet, dass die Prüfung zählt, nicht die Sitzzeit.",
+    "criteria": [
+      {
+        "label": "Bestehe die Anfänger-Prüfung"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Bestehe die Fortgeschrittenenprüfung",
+    "description": "Bestehe die Fortgeschrittenen-Stufenprüfung mit 80% oder besser. Prüfungen sperren die Leiter — und Test-Out bedeutet, dass die Prüfung zählt, nicht die Sitzzeit.",
+    "criteria": [
+      {
+        "label": "Bestehe die Fortgeschrittenen-Prüfung"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "Bestehe die Profiprüfung",
+    "description": "Bestehe die Profi-Stufenprüfung mit 80% oder besser. Prüfungen sperren die Leiter — und Test-Out bedeutet, dass die Prüfung zählt, nicht die Sitzzeit.",
+    "criteria": [
+      {
+        "label": "Bestehe die Profi-Prüfung"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Bestehe die Expertenprüfung",
+    "description": "Bestehe die Experten-Stufenprüfung mit 80% oder besser. Prüfungen sperren die Leiter — und Test-Out bedeutet, dass die Prüfung zählt, nicht die Sitzzeit.",
+    "criteria": [
+      {
+        "label": "Bestehe die Experten-Prüfung"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Totale Erinnerung I",
+    "description": "Bewerte 20 Spaced-Repetition-Karten in Übung. Konzepte, die du ohne Druck abrufen kannst, sind die, die unter Druck verfügbar sind.",
+    "criteria": [
+      {
+        "label": "20 Wiederholungen"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Totale Erinnerung II",
+    "description": "Bewerte 100 Spaced-Repetition-Karten in Übung. Konzepte, die du ohne Druck abrufen kannst, sind die, die unter Druck verfügbar sind.",
+    "criteria": [
+      {
+        "label": "100 Wiederholungen"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Erscheine I",
+    "description": "Halte eine 2-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "2-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Erscheine II",
+    "description": "Halte eine 5-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "5-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Erscheine III",
+    "description": "Halte eine 10-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "10-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Erscheine IV",
+    "description": "Halte eine 21-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "21-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Erscheine V",
+    "description": "Halte eine 45-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "45-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Erscheine VI",
+    "description": "Halte eine 90-Tage-Akademie-Serie — jede Lektion, Karte, Prüfung, jedes Szenario oder jede Mission zählt. Märkte belohnen den Trader, der im sechsten Monat noch da ist.",
+    "criteria": [
+      {
+        "label": "90-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "Die ausgewogene Woche",
+    "description": "Halte eine 7-Tage-Serie, während du 5 Trades protokollierst und 10 Wiederholungskarten bewertest. Lernen, traden, reflektieren — die volle Schleife, jeden Tag.",
+    "criteria": [
+      {
+        "label": "7-Tage-Serie"
+      },
+      {
+        "label": "Protokolliere 5 Trades"
+      },
+      {
+        "label": "10 Wiederholungen"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "Das Comeback",
+    "description": "Nach jeder Pause, baue wieder auf: eine 14-Tage-Serie mit 10 Trades, alle mit Stop und korrekter Größe. Jeder kann einmal diszipliniert sein; die Fähigkeit ist der Neustart.",
+    "criteria": [
+      {
+        "label": "14-Tage-Serie"
+      },
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Unterschreibe mit deinem Namen",
+    "description": "Schreibe und nimm deine Trading-Verfassung an. Ab diesem Moment setzt das Ticket deine Regeln durch — das ruhige Du schützt das zukünftige Du.",
+    "criteria": [
+      {
+        "label": "Nimm die Verfassung an"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Regeln eingehalten I",
+    "description": "Mit deiner Verfassung in Kraft, führe 10 Trades mit null Risiko-Verstößen und null stoplosen Einstiegen aus. Angenommen ist leicht; eingehalten ist die Mission.",
+    "criteria": [
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Führe 10 Trades aus"
+      },
+      {
+        "label": "Null Risiko-Verstöße"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Regeln eingehalten II",
+    "description": "Mit deiner Verfassung in Kraft, führe 30 Trades mit null Risiko-Verstößen und null stoplosen Einstiegen aus. Angenommen ist leicht; eingehalten ist die Mission.",
+    "criteria": [
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Führe 30 Trades aus"
+      },
+      {
+        "label": "Null Risiko-Verstöße"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Regeln eingehalten III",
+    "description": "Mit deiner Verfassung in Kraft, führe 75 Trades mit null Risiko-Verstößen und null stoplosen Einstiegen aus. Angenommen ist leicht; eingehalten ist die Mission.",
+    "criteria": [
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Führe 75 Trades aus"
+      },
+      {
+        "label": "Null Risiko-Verstöße"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "Der Operator",
+    "description": "Zehn aufeinanderfolgende Trades mit 70+ unter einer angenommenen Verfassung und null gefährlichen Erfolgen. Dies ist die Verhaltenslatte, die die Experten-Leiter liest.",
+    "criteria": [
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "10 aufeinanderfolgende Scores von 70+"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Anfänger-Abschluss: Abheben",
+    "description": "Alles, was ein Anfänger beweisen muss: Lektionen studiert, Prüfung bestanden, erste Trades geplant und protokolliert, erster geplanter Verlust ohne Zucken genommen.",
+    "criteria": [
+      {
+        "label": "Schließe 15 Lektionen ab"
+      },
+      {
+        "label": "Bestehe die Anfänger-Prüfung"
+      },
+      {
+        "label": "Führe 5 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Protokolliere 3 Trades"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Fortgeschrittenen-Abschluss: Das Handwerk",
+    "description": "Risiko-Mathematik in den Muskeln: ein nachhaltiger Prozessdurchschnitt, Breite über Symbole, die Prüfung, und ein überlebtes Szenario.",
+    "criteria": [
+      {
+        "label": "Bestehe die Fortgeschrittenen-Prüfung"
+      },
+      {
+        "label": "Führe 20 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 70+"
+      },
+      {
+        "label": "Trade 3+ Symbole"
+      },
+      {
+        "label": "Bestehe 1 Szenario"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "Profi-Abschluss: Unter Beschuss",
+    "description": "Disziplin unter Stress: jedes Szenario bestanden, eine Verfassung über 40 Trades eingehalten, Verluste planmäßig akzeptiert, null gefährliche Erfolge.",
+    "criteria": [
+      {
+        "label": "Bestehe 3 Szenarien"
+      },
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Führe 40 Trades aus"
+      },
+      {
+        "label": "3 gut gespielte Verluste"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Experten-Abschluss: Der komplette Operator",
+    "description": "Der vollständige Werdegang: der gesamte Lehrplan, jede Prüfung, hundert aufgelöste Trades bei einem professionellen Prozessdurchschnitt, eine lebendige Verfassung, ein ununterbrochener Monat.",
+    "criteria": [
+      {
+        "label": "Schließe 121 Lektionen ab"
+      },
+      {
+        "label": "Bestehe die Experten-Prüfung"
+      },
+      {
+        "label": "100 aufgelöste Trades"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 80+"
+      },
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "30-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Abschluss: Der ehrliche Verlierer",
+    "description": "Eine Karriere korrekter Verluste: 10 geplante Stop-Outs, 6 gut gespielte Verluste, alles im Journal, keine Tilt-Einstiege. Gut zu verlieren ist die seltenste Fähigkeit am Markt.",
+    "criteria": [
+      {
+        "label": "10 geplante Stop-Outs"
+      },
+      {
+        "label": "6 gut gespielte Verluste"
+      },
+      {
+        "label": "Protokolliere 15 Trades"
+      },
+      {
+        "label": "Null Tilt-Einstiege"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Abschluss: Gelehrter-Trader",
+    "description": "Wissen und Verhalten in einem Werdegang: 90 Lektionen, 100 Wiederholungen, 50 Trades bei Prozess 75+, und eine 21-Tage-Serie. Die Bibliothek und der Markt, gemeinsam gemeistert.",
+    "criteria": [
+      {
+        "label": "Schließe 90 Lektionen ab"
+      },
+      {
+        "label": "100 Wiederholungen"
+      },
+      {
+        "label": "Führe 50 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 75+"
+      },
+      {
+        "label": "21-Tage-Serie"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Risiko-Disziplin (Leiter-Tor)",
+    "description": "Die Verhaltenslatte der Profi-Leiter: 20 Trades, jeder Stop an Ort und Stelle, Risiko innerhalb der Richtlinie, null gefährliche Erfolge.",
+    "criteria": [
+      {
+        "label": "Führe 20 Trades aus"
+      },
+      {
+        "label": "Jeder Trade hat einen Stop"
+      },
+      {
+        "label": "Jeder Trade innerhalb der Risiko-Richtlinie"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Akzeptiere den geplanten Verlust (Leiter-Tor)",
+    "description": "Drei gut gespielte Verluste ohne stoplose Trades über mindestens fünf Ausführungen — der Beweis, dass du korrekt verlieren kannst.",
+    "criteria": [
+      {
+        "label": "Führe 5 Trades aus"
+      },
+      {
+        "label": "3 gut gespielte Verluste"
+      },
+      {
+        "label": "Keine stoplosen Trades"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "Der Operator (Leiter-Tor)",
+    "description": "Zehn aufeinanderfolgende Trades mit Prozess-Scores von 70 oder besser — die Verhaltenslatte der Experten-Leiter.",
+    "criteria": [
+      {
+        "label": "10 aufeinanderfolgende Scores von 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "Erste Schritte: Eine Lektion",
+    "description": "Schließe deine erste Akademie-Lektion ab. Der Werdegang jedes Operators beginnt mit einem einzigen Eintrag.",
+    "criteria": [
+      {
+        "label": "Schließe 1 Lektion ab"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "Erste Schritte: Ein geplanter Trade",
+    "description": "Reiche deinen ersten Papier-Trade mit einem Stop und einem geschriebenen Grund ein. Der Plan ist der Trade; die Ausführung ist nur Papierkram.",
+    "criteria": [
+      {
+        "label": "Führe 1 Trade aus"
+      },
+      {
+        "label": "Er hat einen Stop"
+      },
+      {
+        "label": "Er hat einen geschriebenen Grund"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "Erste Schritte: Eine ehrliche Notiz",
+    "description": "Schreibe deine erste Journal-Notiz zu einem ausgeführten Trade. Zwei ehrliche Sätze schlagen ein perfektes Gedächtnis.",
+    "criteria": [
+      {
+        "label": "Protokolliere 1 Trade"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "Erste Schritte: Eine Karte",
+    "description": "Bewerte deine erste Spaced-Repetition-Karte in Übung. Erinnerung ist ein Muskel; dies ist Wiederholung eins.",
+    "criteria": [
+      {
+        "label": "1 Wiederholung"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "Die Thesen-Maschine",
+    "description": "Fünfzig Trades, jeder mit einem geschriebenen Grund und einer protokollierten Emotion. An diesem Punkt schreibt sich der Plan von selbst — was das Ziel war.",
+    "criteria": [
+      {
+        "label": "Geschriebener Grund bei 50 Trades"
+      },
+      {
+        "label": "Emotion bei 50 Trades protokolliert"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "Die vollständige Schleife",
+    "description": "Erfassen, bewerten, erkennen, verordnen, sperren — durchlaufe die gesamte Rückkopplungsschleife im Volumen: 75 Trades im Journal und getaggt, Szenarien bestanden, Verfassung eingehalten, null gefährliche Erfolge.",
+    "criteria": [
+      {
+        "label": "Führe 75 Trades aus"
+      },
+      {
+        "label": "Protokolliere 30 Trades"
+      },
+      {
+        "label": "Markiere 15 Trades"
+      },
+      {
+        "label": "Bestehe 3 Szenarien"
+      },
+      {
+        "label": "Verfassung angenommen"
+      },
+      {
+        "label": "Null gefährliche Erfolge"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Eiserne Selektivität",
+    "description": "Hundert Trades, ohne je zwei an einem Tag zu überschreiten, über 8+ Symbole. Die schwerste Position im Trading ist flach, täglich gehalten.",
+    "criteria": [
+      {
+        "label": "Führe 100 Trades aus"
+      },
+      {
+        "label": "Nie mehr als 2 Trades/Tag"
+      },
+      {
+        "label": "Trade 8+ Symbole"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "Das perfekte Quartal",
+    "description": "Eine 60-Tage-Serie mit einem Prozessdurchschnitt von 75+ über 40 Trades. Ein Quartal des Erscheinens und guten Entscheidens — der Lebenslauf, den Märkte wirklich lesen.",
+    "criteria": [
+      {
+        "label": "60-Tage-Serie"
+      },
+      {
+        "label": "Führe 40 Trades aus"
+      },
+      {
+        "label": "Durchschnittlicher Prozess-Score von 75+"
+      }
+    ]
+  }
+]

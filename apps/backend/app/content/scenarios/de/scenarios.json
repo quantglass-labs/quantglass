@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "Der Ausbruch, der keiner war",
+    "description": "Eine stilisierte Nachbildung eines klassischen Range-Fehlausbruchs. Der Preis komprimiert sich unter einer gut beobachteten Decke, bricht auf einem Volumenschub aus — und scheitert. Du entscheidest, Kerze für Kerze, was ein disziplinierter Trader in jedem Moment tut.",
+    "checkpoints": [
+      {
+        "question": "Der Preis hat gerade über dem Range-Hoch auf der größten Volumenkerze seit Wochen geschlossen. Alle im Feed rufen den Ausbruch aus. Was tust du?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Kauf jetzt sofort zum Markt, bevor es davonläuft",
+            "debrief": "Den ersten euphorischen Schluss zu kaufen ist Verfolgen: Dein Einstieg liegt weit von jedem Invalidierungsniveau, also ist dein Stop entweder riesig oder willkürlich. Die First-Touch-Mathematik der Engine ist unerbittlich — ein weiter Stop macht aus einem normalen Pullback einen Totalverlust."
+          },
+          {
+            "id": "plan",
+            "label": "Definiere zuerst den Trade: Einstieg beim Retest, Stop unter der Ausbruchskerze, Ziel aus der Range-Höhe",
+            "debrief": "Korrekt. Ein Ausbruch ist eine Hypothese, kein Ergebnis. Einstieg, Stop und Ziel zu schreiben, bevor man Kapital einsetzt, ist, was der Prozess-Score belohnt — und es ist die einzige Version dieses Trades mit definiertem Risiko."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Kauf jetzt eine halbe Position, den Stop findest du später heraus",
+            "debrief": "Kleinere Größe begrenzt den Schaden, aber „den Stop später herausfinden“ heißt, der Trade hat keine Invalidierung. Ein kleiner schlechter Trade ist immer noch ein schlechter Trade — das Journal wird ihn als stoplos werten."
+          }
+        ]
+      },
+      {
+        "question": "Der Ausbruch stockt. Der Preis hat vier Kerzen seitwärts knapp über dem alten Range-Hoch verbracht, und das Volumen schwindet. Dein geplanter Retest-Einstieg wurde ausgeführt, Stop unter der Ausbruchskerze. Was nun?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Erweitere den Stop unter die ganze Range — gib ihm Luft zum Atmen",
+            "debrief": "Einen Stop nach dem Einstieg zu erweitern ist die korrosivste Gewohnheit im Trading: Sie verwandelt einen geplanten kleinen Verlust in einen ungeplanten großen. Die Verfassung existiert genau, um das zu verbieten."
+          },
+          {
+            "id": "hold",
+            "label": "Tu nichts — der Plan ist intakt, bis der Stop getroffen wird",
+            "debrief": "Korrekt. Schwindendes Volumen ist unbehaglich, aber es ist nicht dein Invalidierungsniveau. Ein Plan funktioniert nur, wenn der Plan, nicht das Unbehagen, die Entscheidungen trifft."
+          },
+          {
+            "id": "add",
+            "label": "Stocke die Position auf — senke den Durchschnittseinstieg, bevor es weitergeht",
+            "debrief": "In einen stockenden Ausbruch nachzulegen erhöht das Risiko genau dann, wenn die Beweislage schwächer wird. Wird der Stop getroffen, verlierst du jetzt mehr, als der Plan je erlaubte."
+          }
+        ]
+      },
+      {
+        "question": "Der Ausbruch ist gescheitert. Dein Stop wurde vor zwei Kerzen für einen geplanten -1R-Verlust getroffen, und der Preis ist nun im freien Fall unter die alte Range. Wie schließt du die Episode ab?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Shorte es jetzt sofort — es schuldet es dir",
+            "debrief": "Das ist Rache-Trading: Der Einstiegsgrund ist dein Verlust, nicht der Markt. Die Psychologie-Spur nennt das Tilt, und das Emotions-Tag des Journals existiert, um genau diesen Moment zu erwischen."
+          },
+          {
+            "id": "journal",
+            "label": "Protokolliere den Trade: geplanter Verlust, Stop respektiert, schreib, wie der Fehlausbruch aussah",
+            "debrief": "Korrekt. Das ist ein gut gespielter Verlust — gute Entscheidung, schlechtes Ergebnis. Der 2x2-Klassifikator existiert, weil Trader, die ein -1R ohne Zucken nehmen können, die sind, die nach hundert Trades noch solvent sind."
+          },
+          {
+            "id": "stew",
+            "label": "Geh weg und überspring das Journal — es war nur ein Verlierer",
+            "debrief": "Weggehen schlägt Rache-Trading, aber ein unprotokollierter Verlust lehrt nichts. Die Signatur des Fehlausbruchs — das schwindende Retest-Volumen — ist die Lektion, für die du bezahlt hast."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Pullback in einem Trend",
+    "description": "Eine stilisierte Nachbildung eines stetigen Aufwärtstrends, der plötzlich eine Woche an Gewinnen in drei roten Kerzen zurückgibt. Der Trend ist nach jedem Maß intakt — aber es fühlt sich nicht so an. Trade den Plan, nicht das Gefühl.",
+    "checkpoints": [
+      {
+        "question": "Drei scharfe rote Kerzen haben eine Woche an Gewinnen ausgelöscht. Die Trendstruktur des höheren Zeitrahmens ist intakt: Der Preis ist über dem vorherigen Swing-Tief und das Regime-Tor liest weiter Trend. Du hältst eine Position von viel tiefer. Was tust du?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Verkauf alles — schütze den Gewinn, bevor er verschwindet",
+            "debrief": "Aus Angst auszusteigen, wenn kein Invalidierungsniveau berührt wurde, heißt, der Chart hatte nie das Sagen — dein Bauch hatte es. Du behältst den Gewinn, trainierst aber die Gewohnheit, Pläne unter Druck aufzugeben."
+          },
+          {
+            "id": "check_plan",
+            "label": "Lies den Plan erneut: Stop ist unter dem Swing-Tief, unberührt — halte",
+            "debrief": "Korrekt. Ein Pullback, der über deinem Invalidierungsniveau bleibt, ist per Definition Rauschen. Die Drawdown-Psychologie-Lektion ist genau dieser Moment: Der Plan wurde von der ruhigen Version von dir für die verängstigte geschrieben."
+          },
+          {
+            "id": "double",
+            "label": "Verdopple die Position — es ist im Angebot",
+            "debrief": "Der Trend stützt das Nachlegen, aber Verdoppeln lässt das Risiko mitten im Trade ohne neuen Plan aufblähen. Bricht das Swing-Tief, verlierst du weit mehr, als der ursprüngliche Plan riskierte. Nachlagen brauchen ihren eigenen Einstieg, Stop und ihre Größe."
+          }
+        ]
+      },
+      {
+        "question": "Der Preis hat sich knapp über dem Swing-Tief stabilisiert. Du willst die Position aufstocken. Wie dimensionierst du das Nachlegen?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Dimensioniere es so, dass das Nachlegen 1 % zum selben Stop riskiert, wie jeder neue Trade",
+            "debrief": "Korrekt. Ein Nachlegen ist ein brandneuer Trade im Trikot des alten. Die Dimensionierungs-Mathematik kümmert nicht, dass du schon etwas besitzt — Risiko pro Einheit Stop-Distanz ist die einzige Dimensionierungs-Eingabe."
+          },
+          {
+            "id": "size_gut",
+            "label": "Kauf eine runde Zahl, die sich bedeutsam anfühlt",
+            "debrief": "Dimensionierung nach runder Zahl heißt, das Risiko ist, was der Chart später entscheidet. Die Dimensionierungs-Lektion existiert, weil „fühlte sich richtig an“ ist, wie 5-%-Verluste mit einer 1-%-Richtlinie passieren."
+          },
+          {
+            "id": "all_in",
+            "label": "Nutze die ganze verbleibende Kaufkraft — die Überzeugung ist hoch",
+            "debrief": "Überzeugung ist eine Emotion im Anzug. All-in-Dimensionierung macht eine einzige widrige Kerze tödlich, und die Monte-Carlo-Lektion der Engine zeigt, wie schnell Verlustserien in voller Größe ein Konto ruinieren."
+          }
+        ]
+      },
+      {
+        "question": "Der Trend setzte sich fort und die Position ist gut im Gewinn. Das ursprüngliche Ziel ist nah. Was ist der disziplinierte Abschluss?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Storniere das Ziel — dieses geht viel höher",
+            "debrief": "Vielleicht — aber den geschriebenen Ausstieg aufzugeben verwandelt einen getesteten Plan in Improvisation im Moment maximaler Gier. Willst du ein Trailing-statt-Ziel-System, entwirf es vor dem nächsten Trade, nicht während dieses."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Lass das Ziel oder einen nachgezogenen Stop dich herausnehmen, laut Plan",
+            "debrief": "Korrekt. Im Voraus entschiedene Ausstiege sind die Hälfte des Tradings, über die niemand Journal führt. Ein verdienter Gewinn zählt nur als solcher, wenn der Prozess, der ihn erzeugte, wiederholbar ist."
+          },
+          {
+            "id": "exit_now",
+            "label": "Verkauf sofort — sichere es, bevor sich etwas ändert",
+            "debrief": "Gewinn mitzunehmen ist nie ruinös, aber aus Angst früh auszusteigen schrumpft systematisch die Gewinner, während Stops die Verluste in voller Größe halten. Über hundert Trades ist diese Asymmetrie der Unterschied zwischen positiver und negativer Erwartung."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Das Abwärts-Gap",
+    "description": "Eine stilisierte Nachbildung eines Liquiditätsschocks: ein Übernacht-Gap direkt durch deinen Stop, dann ein heftiges, handelbares Gehacke. Der Plan hat den Kontakt nicht überlebt — jetzt ist dein Verhalten unter Feuer das ganze Spiel.",
+    "checkpoints": [
+      {
+        "question": "Der Markt eröffnete über Nacht mit einem Gap durch deinen Stop — du bist zu einem schlechteren Preis als geplant draußen, etwa -1,8R statt -1R. Der Markt ist heftig. Erste Entscheidung?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Trade die Volatilität hart — hier werden Vermögen gemacht",
+            "debrief": "Zu traden, um einen Verlust zurückzuholen, ist der Tilt-Einstieg aus dem Lehrbuch. Volatile Regime bestrafen genau das: Spreads weiten sich, Stops rutschen, und das Volatilitäts-Override-Tor der Engine existiert, weil Vorteile, die in ruhigen Märkten gemessen wurden, sich hier nicht übertragen."
+          },
+          {
+            "id": "stand_down",
+            "label": "Akzeptiere die Slippage, halbiere die gesamte Dimensionierung, bewerte zum Schluss neu",
+            "debrief": "Korrekt. Gap-Slippage über einen Stop hinaus ist ein Kosten des Tradings, kein Verrat. Die Größe zu kürzen, wenn die realisierte Volatilität sich verdoppelt, ist, was -1,8R ein Ärgernis statt den ersten Dominostein bleiben lässt."
+          },
+          {
+            "id": "reenter",
+            "label": "Steig sofort wieder in denselben Trade ein — die These hat sich nicht geändert",
+            "debrief": "Die These mag halten, aber das Regime hat sich geändert: Stop-Distanzen aus dem ATR von gestern sind heute falsch. Der Wiedereinstieg braucht einen neuen Plan, dimensioniert auf die neue Volatilität, keinen Reflex."
+          }
+        ]
+      },
+      {
+        "question": "Mitten im Gehacke ist eine Position, die du neu geplant und mit Stop eingegangen bist, im Minus, aber nicht gestoppt. Ein Freund schreibt: „verbillige einfach, es springt immer zurück“. Was tust du?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Verbillige — senke den Break-even-Punkt",
+            "debrief": "Ohne Plan zu verbilligen ist, wie einzelne Trades Konten töten: Jedes Nachlegen rückt den Break-even näher und das Gesamtrisiko weiter. Jede Blow-up-Obduktion enthält diesen Schritt."
+          },
+          {
+            "id": "respect",
+            "label": "Halte die Position und den Stop genau wie geplant",
+            "debrief": "Korrekt. Der Trade verhält sich innerhalb seiner geplanten Hülle. Außenstehende Ratschläge mitten im Trade sind Rauschen — dein geschriebener Plan ist die einzige Stimme mit einer Bilanz."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Schließe sie — flach fühlt sich in diesem Markt sicherer an",
+            "debrief": "Flach zu gehen ist eine legitime Volatilitätsreaktion, aber der Zeitpunkt für diese Entscheidung war die Neubewertung nach dem Gap. Mitten im Plan nach Gefühl auszusteigen trainiert trotzdem die Improvisationsgewohnheit, nur in eine sicherere Richtung."
+          }
+        ]
+      },
+      {
+        "question": "Das Gehacke löste sich aufwärts und dein neu geplanter Trade traf sein Ziel. Netto verlief der Tag: Gap-Verlust, disziplinierte Neuplanung, voller Gewinner. Das ehrliche Debriefing ist:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Ich habe einen Crash brillant getradet — nächstes Mal größer",
+            "debrief": "Ein überlebter Schock ist keine Können-Stichprobe. Es Brillanz zu nennen und größer zu dimensionieren ist das Muster des gefährlichen Erfolgs: Das Ergebnis war teils Varianz, und die Exposition zu verdoppeln tarifiert das nächste Gap auf Ruin."
+          },
+          {
+            "id": "process",
+            "label": "Das System hat funktioniert: Größe gekürzt, Pläne neu geschrieben, Stops respektiert — protokolliere alles",
+            "debrief": "Korrekt. Der Gewinn zählt weniger als die Sequenz, die ihn erzeugte: zurückziehen, neu dimensionieren, neu planen, Stops gehorchen. Diese Sequenz ist wiederverwendbar; der Rückprall war nicht deiner, ihn zu beanspruchen."
+          },
+          {
+            "id": "lucky",
+            "label": "Reines Glück — nichts aus dem Chaos zu lernen",
+            "debrief": "Demut schlägt Heldentum, aber „nichts zu lernen“ ist falsch: Du hast ein protokolliertes Verhaltensprotokoll unter einem Liquiditätsschock. Dieses Protokoll — nicht der P&L — ist, was die Experten-Psychologie-Latte misst."
+          }
+        ]
+      }
+    ]
+  }
+]
