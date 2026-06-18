@@ -1,0 +1,746 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "Uamuzi wa Ukubwa",
+    "scenario": "Akaunti: $10,000 ya karatasi. Mpangilio unaoupenda unajitokeza: kuingia 100, muundo unasema ubatilifu ni 95. Unataka kuingia. Maamuzi matatu yanayofuata yanaamua kama hii ni biashara au kamari.",
+    "checkpoints": [
+      {
+        "question": "Unaamuaje ukubwa wa nafasi?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Hatarisha 1% ya akaunti: ($10,000 x 1%) / (100 - 95) = hisa 20",
+            "feedback": "Sahihi. Hatari huchaguliwa kwanza; ukubwa hutokana nayo. Umbali hadi kizuizi — si imani — ndio huamua idadi ya hisa."
+          },
+          {
+            "id": "round",
+            "label": "Nunua hisa 100 — namba nzuri ya mviringo inayoonekana yenye maana",
+            "feedback": "Ukubwa kwa namba ya mviringo maana yake hatari yako ni kile chati itakachoamua baadaye: hapa hisa 100 zinahatarisha 5% ya akaunti, mara tano ya sera."
+          },
+          {
+            "id": "allin",
+            "label": "Tumia uwezo wote wa kununua — mpangilio huu ni mzuri sana kuukosa",
+            "feedback": "Ukubwa kamili hufanya pau moja pinzani kuwa ya kifo. Hii ndiyo tabia inayomaliza akaunti."
+          }
+        ]
+      },
+      {
+        "question": "Kizuizi kinawekwa wapi?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "Kwenye 95, chini ya kiwango kinachobatilisha hoja",
+            "feedback": "Sahihi. Kizuizi huishi pale wazo linapothibitishwa kuwa kosa, si kwenye kiasi cha dola kinachoonekana kukubalika."
+          },
+          {
+            "id": "tight",
+            "label": "Kwenye 99 — kizuizi kikali maana yake naweza kununua hisa zaidi",
+            "feedback": "Kizuizi kilichowekwa ndani ya kelele za kawaida si udhibiti wa hatari bali mchango. Umeongeza ukubwa ili kushindwa mara nyingi zaidi."
+          },
+          {
+            "id": "none",
+            "label": "Hakuna kizuizi — nitatazama na kutoka kwa mkono ikibidi",
+            "feedback": "Skrini isiyolindwa, mkutano, pengo: «vizuizi vya akilini» hushindwa hasa pale vinapohitajika. Ubatilifu usio na ufafanuzi maana yake hatari isiyo na kikomo."
+          }
+        ]
+      },
+      {
+        "question": "Bei inashuka hadi 96.20, kisha inatulia. Kizuizi chako kwenye 95 ni salama. Sasa nini?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Hakuna. Mpango ni salama hadi 95 ifanyiwe biashara",
+            "feedback": "Sahihi. Kurudi nyuma juu ya ubatilifu wako, kwa ufafanuzi, ni kelele. Mpango hufanya maamuzi, si usumbufu."
+          },
+          {
+            "id": "widen",
+            "label": "Hamisha kizuizi hadi 93 ili kumpa nafasi zaidi",
+            "feedback": "Kupanua kizuizi hubadilisha hasara ndogo iliyopangwa kuwa hasara kubwa isiyopangwa. Katiba ipo hasa kukataza hili."
+          },
+          {
+            "id": "panic",
+            "label": "Toka sasa — linda kilichobaki",
+            "feedback": "Kutoka juu ya ubatilifu maana yake tumbo limepinga mpango. Umelinda pesa lakini umefunza tabia ya kuacha mipango."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "process-quality",
+    "title": "Ukaguzi wa Kabla ya Kuruka",
+    "scenario": "Unaona kurudi nyuma katika mwelekeo wa kupanda. Chati inaonekana sahihi. Kabla agizo halijaenda, alama ya mchakato tayari inaandikwa.",
+    "checkpoints": [
+      {
+        "question": "Nini kinaingia kwenye tikiti kabla ya uthibitisho?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Kizuizi, lengo, % ya hatari, sababu iliyoandikwa, na ninavyohisi sasa",
+            "feedback": "Sahihi. Sehemu tano za mpango ni alama nzima ya mchakato: ubatilifu, kutoka, ukubwa, hoja, hali ya akili."
+          },
+          {
+            "id": "partial",
+            "label": "Kizuizi na lengo — sababu ni wazi kutoka chati",
+            "feedback": "Hoja iliyo «wazi» leo haisomeki katika mapitio ya wiki ijayo. Sababu zisizoandikwa hutoa sifuri pointi na hazifundishi chochote."
+          },
+          {
+            "id": "speed",
+            "label": "Kuingia tu — tekeleza kwanza, panga baadaye, bei haisubiri",
+            "feedback": "Panga-baadaye maana yake kamwe-usipange. Kuingia kabla ya kufafanua hatari ni adhabu kubwa zaidi ya alama-ya-mchakato."
+          }
+        ]
+      },
+      {
+        "question": "Sababu uliyoiandika inasema «inaonekana ya kupanda». Inatosha?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "Hapana — andika upya: «kurudi nyuma hadi EMA20 katika mwelekeo wa kupanda uliothibitishwa na ADX, kiasi kinapungua»",
+            "feedback": "Sahihi. Hoja hutaja muundo, hali, na nini kitaivunja. «Inaonekana ya kupanda» haiwezi kupitiwa wala kujifunzwa."
+          },
+          {
+            "id": "fine",
+            "label": "Sawa — najua nilichomaanisha",
+            "feedback": "Baada ya biashara 40 hutakumbuka. Jarida ni barua kwa wewe wa baadaye aliyesahau kila kitu."
+          },
+          {
+            "id": "skip",
+            "label": "Sababu ni za wachambuzi — P&L ndio ukweli pekee",
+            "feedback": "Matokeo bila mchakato ni kelele. 2x2 ipo kwa sababu maamuzi mabaya yenye faida ndiyo ya gharama kubwa zaidi."
+          }
+        ]
+      },
+      {
+        "question": "Biashara inashinda +2R, lakini hukuweka kamwe kizuizi ulichoandika. Mapitio yanaiita mafanikio hatari. Mwitikio wako?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Rekodi kwa uaminifu — ushindi hauisamehe mchakato uliovunjika",
+            "feedback": "Sahihi. Uamuzi mbaya + matokeo mazuri hufunza tabia ambayo hatimaye hutuma bili. Kuitaja ndiyo dawa."
+          },
+          {
+            "id": "argue",
+            "label": "Ipinge — ushindi ni ushindi",
+            "feedback": "Kubishana na dashibodi yako mwenyewe hubatilisha lengo lake. «Ushindi» wa namna hii ujao utachukuliwa kwa ukubwa mkubwa zaidi."
+          },
+          {
+            "id": "ignore",
+            "label": "Ruka mapitio yote wiki hii",
+            "feedback": "Biashara zisizopitiwa hazifundishi chochote. Mafanikio hatari usiyoyachunguza ndiyo unayoyarudia."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "Kizuizi Kinakaribia",
+    "scenario": "Long kutoka 50, kizuizi 47.50, iliyopangwa -1R = $100. Bei iko 47.80 na inashuka. Kila mfanyabiashara hukutana na wakati huu; wachache hukutana nao kwa usahihi.",
+    "checkpoints": [
+      {
+        "question": "Bei inagusa 47.55. Kizuizi kiko karibu kufanyiwa biashara. Unafanya nini?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Hakuna. Kizuizi ni mpango unaofanya kazi, si kushindwa",
+            "feedback": "Sahihi. Ulinunua hatari iliyofafanuliwa. -1R daima ilikuwa moja ya matokeo mawili yaliyopangwa."
+          },
+          {
+            "id": "cancel",
+            "label": "Ghairi kizuizi — daima hurudi mara tu ninapotoka",
+            "feedback": "Kughairi kizuizi hubadilisha $100 ya hatari iliyopangwa kuwa shimo lisilo na chini. Kila uchunguzi wa akaunti iliyoungua una hatua hii."
+          },
+          {
+            "id": "average",
+            "label": "Nunua zaidi hapa, shusha hatua ya kuvunja-sare",
+            "feedback": "Kuweka wastani katika biashara inayoshindwa huvuta hatua ya kuvunja-sare karibu na hatari ya jumla mbali. Hivi ndivyo biashara binafsi zinavyoua akaunti."
+          }
+        ]
+      },
+      {
+        "question": "Umetolewa kwenye 47.50, -1R. Dakika tano baadaye bei inarudisha 50. Unaisomaje?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "Hasara iliyochezwa vizuri — uamuzi sahihi, tofauti ilichukua. Rekodi na endelea",
+            "feedback": "Sahihi. Kiainishi kipo kwa ajili ya mchomo huu hasa: ubora wa matokeo na ubora wa uamuzi ni shoka tofauti."
+          },
+          {
+            "id": "broken",
+            "label": "Uthibitisho kizuizi changu kilikuwa kibaya — wakati ujao pana zaidi bila kuhesabu upya ukubwa",
+            "feedback": "Kupanua kizuizi bila kuhesabu upya ukubwa huongeza tu hasara kwa dola. Kama muundo unahitaji nafasi zaidi, punguza ukubwa."
+          },
+          {
+            "id": "revenge",
+            "label": "Ingia tena mara moja kwenye 50 — inanidai",
+            "feedback": "Kuingia ambako sababu yake ni hasara yako ya mwisho ni biashara ya kulipiza kisasi. Soko haliweki daftari la madeni."
+          }
+        ]
+      },
+      {
+        "question": "Hasara tatu zilizopangwa mfululizo, zote kwenye vizuizi, zote katika jarida. Wastani wa mchakato: 85. Nini kinabadilika?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Kimuundo hakuna — pitia kwa mfumo, shika ukubwa, shika mfumo",
+            "feedback": "Sahihi. Hasara tatu za -1R ziko ndani kabisa ya tofauti ya kawaida ya mfumo wowote halisi. Kubadilisha mfumo baada ya kila msururu wa kushindwa kunahakikisha kamwe hutakuwa na mmoja."
+          },
+          {
+            "id": "halve",
+            "label": "Punguza ukubwa nusu hadi mshindi atokee",
+            "feedback": "Inaweza kutetewa, lakini ni mapema kwa biashara tatu — na hupunguza kwa kutolingana ushindi unaolipa hasara."
+          },
+          {
+            "id": "abandon",
+            "label": "Mfumo umevunjika — tafuta mpya usiku huu",
+            "feedback": "Monte Carlo inasema mfumo wenye ushindi wa 50% hutumia theluthi ya maisha yake katika kushuka. Kuruka kati ya mifumo huweka upya sampuli kila wakati."
+          }
+        ]
+      },
+      {
+        "question": "Ulilinda nafasi kwa kizuizi-kikomo (kichocheo 47.50, kikomo 47.40) badala ya kizuizi. Habari za usiku zinafungua kwa pengo kwenye 45.80. Nini kimetokea kwa ulinzi wako?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Hakuna kilichojazwa — mguu wa kikomo ulihitaji 47.40 au bora, na bei haikufanyiwa biashara hapo. Bado niko long, 4% chini ya «kizuizi» changu",
+            "feedback": "Sahihi. Hii ndiyo mtego wa kizuizi-kikomo: hupunguza utelezi siku za kawaida na hushindwa kimya hasa siku ilipohitajika. Ndiyo sababu jukwaa la karatasi linakataa kuiga vizuizi-kikomo — kwenye pau zilizofungwa, kujazwa kungebidi kutungwa."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "Kilijazwa kwenye 47.40 — ndicho kikomo kilichohakikisha",
+            "feedback": "Kikomo huhakikisha bei, kamwe si kujazwa. Bei ilipita dirisha lako kwa pengo bila kufanyiwa biashara ndani yake; agizo bado lipo, halijajazwa, huku hasara ikiongezeka."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "Kilijazwa kwenye ufunguzi 45.80, kama kizuizi cha kawaida",
+            "feedback": "Hilo ndilo agizo la KIZUIZI rahisi hufanya: huwa agizo la soko na humeza pengo. Mguu wa kikomo ndio ulizuia kujazwa huko hasa. Jua uliweka kipi."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "tilt-control",
+    "title": "Asubuhi Nyekundu",
+    "scenario": "Vizuizi viwili kabla ya mchana, vyote vilipangwa, vyote -1R. Unagundua taya limekaza na kuonyesha upya chati kunakuwa hamu kubwa. Uamuzi unaofuata ndio mchezo wote.",
+    "checkpoints": [
+      {
+        "question": "Mpangilio wa tatu unajitokeza. Ni wa mpakani — si mpangilio wako wa A. Nini kinatokea?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Ruka na rekodi hisia: «nimechukizwa, nilitaka kulipiza»",
+            "feedback": "Sahihi. Kutaja hali kwa sauti ndiyo jinsi unavyonasa hasira mapema. Mpangilio wa mpakani + hali ya joto = hasara ya tatu ya kawaida."
+          },
+          {
+            "id": "smaller",
+            "label": "Chukua kwa ukubwa nusu — maelewano na hamu",
+            "feedback": "Hasira ya ukubwa nusu bado ni hasira. Sababu ya kuingia ni asubuhi yako, si soko."
+          },
+          {
+            "id": "double",
+            "label": "Chukua kwa ukubwa maradufu — lipiza asubuhi kwa biashara moja",
+            "feedback": "Kuweka maradufu baada ya hasara ni martingale aliyevaa hudi. Hii ni mfumo wa ukali wa juu zaidi anaoujua afisa wa hatari."
+          }
+        ]
+      },
+      {
+        "question": "Uliruka. Mpangilio wa mpakani ungeshinda. Unaufanyiaje fremu?",
+        "options": [
+          {
+            "id": "good",
+            "label": "Uamuzi mzuri. Kuruka mipangilio ya B ukiwa na hasira ni sera, na sera huhukumiwa kwa biashara 100",
+            "feedback": "Sahihi. Ushindi wa kinyume-na-ukweli haubadilishi chochote: uamuzi ulikuwa sahihi wakati ulipofanywa. Kuhukumu biashara zilizorukwa kwa matokeo ni kufungua tena mlango wa hasira."
+          },
+          {
+            "id": "regret",
+            "label": "Uthibitisho ninapaswa kuamini silika yangu nikiwa nimechukizwa",
+            "feedback": "Sampuli moja dhidi ya sera — hivi ndivyo tabia hatari zinavyoajiriwa. Silika ileile iliyotaka biashara hii ilitaka pia kuingia kwa kulipiza kwa ukubwa maradufu."
+          },
+          {
+            "id": "rule_off",
+            "label": "Zima sheria ya kikomo cha kila siku — inagharimu pesa",
+            "feedback": "Kufuta ulinzi hasa wakati unapofanya kazi ni katiba kushindwa mtihani wake pekee."
+          }
+        ]
+      },
+      {
+        "question": "Nini kinamaliza kipindi kwa usahihi?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Rekodi maamuzi yote matatu, weka lebo hisia, funga kituo",
+            "feedback": "Sahihi. Thamani ya siku kamwe haikuwa P&L — ilikuwa rekodi safi ya tabia iliyoshikiliwa chini ya hasira."
+          },
+          {
+            "id": "watch",
+            "label": "Endelea kuangalia soko «kujifunza tu» — lakini bila maagizo",
+            "feedback": "Kuangalia skrini ukiwa na hasira ndiyo jinsi «hakuna maagizo» kuwa agizo moja. Kujifunza hutokea katika jarida, si katika mzunguko wa kuonyesha upya."
+          },
+          {
+            "id": "binge",
+            "label": "Baki hadi mshindi afanye siku kuwa kijani",
+            "feedback": "Kuhitaji siku ya kijani — hiyo ni hasira ikiongea. Siku ni hadithi za uhasibu; alama halisi ni wastani wa mchakato."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "journaling",
+    "title": "Rekodi ya Uaminifu",
+    "scenario": "Soko limefungwa. Biashara tatu zilizotekelezwa bila rekodi: ushindi safi, ushindi mzembe, na hasara iliyopangwa. Dakika kumi za uaminifu zinapatikana.",
+    "checkpoints": [
+      {
+        "question": "Biashara ipi inarekodiwa kwanza na kwa kina zaidi?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "Ushindi mzembe — ulifukuza kuingia, hisia haikurekodiwa, ulitoka kwa bahati",
+            "feedback": "Sahihi. Ushindi mzembe ndio hatari: makosa yaliyotuzwa hurudiwa. Ushindi unahitaji uchunguzi zaidi kuliko hasara."
+          },
+          {
+            "id": "loss",
+            "label": "Hasara — masomo huishi katika hasara",
+            "feedback": "Ni jambo la busara, lakini hasara hii ilipangwa na ilikuwa safi — inathibitisha mfumo. Ushindi mzembe ndipo penye taarifa mpya."
+          },
+          {
+            "id": "best",
+            "label": "Ushindi safi — maliza kwa noti nzuri",
+            "feedback": "Kurekodi tu kinachokusifu ni shajara ya siri, si seti ya data."
+          }
+        ]
+      },
+      {
+        "question": "Kidokezo chenye manufaa kuhusu ushindi mzembe kinasema nini?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "«Nilifukuza 0.8% juu ya kuingia kwa mpango baada ya mwendo kuanza. FOMO. Bado nilishinda — nimeitia alama tabia hatari»",
+            "feedback": "Sahihi. Tabia maalum, hisia iliyotajwa, lebo ya uaminifu. Kidokezo hiki hulisha vigunduzi vya kocha na wewe wa baadaye."
+          },
+          {
+            "id": "vague",
+            "label": "«Kuingia kungekuwa bora. Bado matokeo mazuri»",
+            "feedback": "Vidokezo visivyo wazi haviwezi kukusanywa, kugunduliwa au kujifunzwa. «Kungekuwa bora» kunaelezea kila biashara iliyowahi kufanywa."
+          },
+          {
+            "id": "victory",
+            "label": "«Sahihi kabisa. +1.8R. Zaidi za namna hii»",
+            "feedback": "«Zaidi za namna hii» — kufukuza kuingia zaidi? Kidokezo kimeidhinisha kosa kwa sababu lililipa mara moja."
+          }
+        ]
+      },
+      {
+        "question": "Siku ilikuwa ndefu na kidokezo cha tatu kinaonekana cha hiari. Amua.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Andika — sentensi mbili. Biashara zisizo na rekodi hazifundishi chochote",
+            "feedback": "Sahihi. Mfululizo wa rekodi kamili una thamani zaidi ya ufahamu wowote mmoja. Tatu kati ya tatu, kila siku."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Fanya kesho kwa macho mapya",
+            "feedback": "Kumbukumbu ya kesho ni hadithi iliyokolezwa na maarifa-baada-ya-tukio. Hali ya wakati wa kuingia tayari inafuka."
+          },
+          {
+            "id": "skip2",
+            "label": "Ruka — ilikuwa hasara iliyopangwa tu, hakuna cha kujifunza",
+            "feedback": "Hasara zilizopangwa zinathibitisha mfumo unafanya kazi — uthibitisho huo ni data. Kuruka jarida ni kigunduzi, si bure."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "selectivity",
+    "title": "Soko Tulivu",
+    "scenario": "Jumanne, 11:40. Leo umefanya biashara moja nzuri. Soko limekuwa tulivu na lenye mkwaruzo. Kikomo chako cha kila siku ni 3. Kishale kinaelea.",
+    "checkpoints": [
+      {
+        "question": "Hakuna kinacholingana na orodha yako ya mipangilio, lakini uko «kwenye mdundo». Sasa nini?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Baki nje. Hakuna mpangilio — hakuna biashara; mdundo si mpangilio",
+            "feedback": "Sahihi. Nafasi ngumu zaidi ni kuwa nje. Uchaguzi NDIO makali; shughuli ni kodi yake."
+          },
+          {
+            "id": "hunt",
+            "label": "Shuka hadi chati ya dakika kutafuta kitu",
+            "feedback": "Kukuza hadi kelele zionekane kama ishara ndiyo jinsi «hakuna mipangilio» kuwa mibaya mitano."
+          },
+          {
+            "id": "boredom",
+            "label": "Chukua «biashara ndogo ya kuchoka» ili kubaki umejihusisha",
+            "feedback": "Biashara za kuchoka ni binamu mwenye adabu wa hasira: sababu ya kuingia ni hali yako ya moyo. Biashara ndogo mbaya hufunza tabia kubwa mbaya."
+          }
+        ]
+      },
+      {
+        "question": "Mpangilio mzuri kweli unajitokeza kwenye chombo ambacho hujawahi kufanyia biashara. Kikomo kinaruhusu. Amua.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Fanya ukaguzi kamili wa kabla ya kuruka wa chombo kipya — ukwasi, mtawanyo, tete — kisha ukubwa wa kawaida ukipita",
+            "feedback": "Sahihi. Vyombo vipya vinastahili mchakato uleule pamoja na ukaguzi wa jukwaa. Upana uliofanywa vizuri ni mseto wa uamuzi."
+          },
+          {
+            "id": "familiar",
+            "label": "Ruka — fanya biashara tu unachokijua",
+            "feedback": "Inaweza kutetewa, lakini kupunguza «ninachokijua» hadi chati moja hupunguza msingi wa ushahidi wa ujuzi wako."
+          },
+          {
+            "id": "yolo",
+            "label": "Chukua mara moja — mpangilio ni mpangilio",
+            "feedback": "Mpangilio unaweza kuhamishika; mtawanyo, ukwasi na tabia ya pengo huenda zisihamishike. Hatari ya jukwaa isiyojaribiwa bado ni hatari."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "Kusoma 2x2",
+    "scenario": "Mapitio ya wiki. Biashara nne kwenye skrini: ushindi uliopatikana kwa ujuzi, hasara iliyochezwa vizuri, ada ya uaminifu, na mafanikio hatari. Jinsi unavyozisoma huamua wiki ijayo inavyoonekana.",
+    "checkpoints": [
+      {
+        "question": "Robo ipi ni hatari zaidi?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "Mafanikio hatari — uamuzi mbaya ambao soko liliulipa",
+            "feedback": "Sahihi. Makosa yaliyotuzwa hujilundika: wakati ujao ukubwa zaidi na ujasiri zaidi, na bili huja na riba."
+          },
+          {
+            "id": "tuition",
+            "label": "Ada ya uaminifu — ilipoteza pesa NA ilikuwa uamuzi mbaya",
+            "feedback": "Ada huumiza lakini hufundisha kwa usafi: mchakato mbaya, matokeo mabaya, somo linalosomeka. Mara chache hurudiwa kwa ukubwa."
+          },
+          {
+            "id": "loss",
+            "label": "Hasara iliyochezwa vizuri — hasara daima ni tatizo",
+            "feedback": "Kuita hasara iliyochezwa vizuri «tatizo» ni ibada ya matokeo. Hasara hiyo ni mfumo unaofanya kazi."
+          }
+        ]
+      },
+      {
+        "question": "Ushindi wako uliopatikana kwa ujuzi na mafanikio hatari vyote vilitoa +1.5R sawa. Nini kinavitenganisha?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "Mchakato wa ushindi uliopatikana unaweza kurudiwa kwa makusudi; mafanikio hatari yalikopwa kutoka tofauti",
+            "feedback": "Sahihi. P&L sawa, taarifa kinyume. Mmoja tu kati ya wawili ni uthibitisho wa umahiri."
+          },
+          {
+            "id": "same",
+            "label": "Hakuna — R ni R",
+            "feedback": "R hupima matokeo, si ubora wa uamuzi. Kama R ingekuwa kila kitu, washindi wa bahati nasibu wangekuwa wawekezaji."
+          },
+          {
+            "id": "luck_all",
+            "label": "Vyote vilikuwa bahati — biashara binafsi hazina maana kabisa",
+            "feedback": "Matokeo binafsi ni ya kelele, lakini maamuzi yanaweza kutathminiwa mara moja. Kutolingana huko ndiyo maana yote ya kuweka alama ya mchakato."
+          }
+        ]
+      },
+      {
+        "question": "Hatua pekee ya kurekebisha kwa wiki ijayo?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Soma upya masharti ya kuingia ya mafanikio hatari na andika sheria ambayo ingeyazuia",
+            "feedback": "Sahihi. Sheria moja maalum iliyoandikwa kwa kila mfumo uliogunduliwa — hivi ndivyo mzunguko wa mrejesho ufungavyo."
+          },
+          {
+            "id": "more_wins",
+            "label": "Lenga ushindi zaidi — pandisha kiwango cha kugonga",
+            "feedback": "Kiwango cha kugonga ni matokeo. Kukifukuza moja kwa moja mara nyingi maana yake kukata washindi mapema na kupanua vizuizi — vyote vinaharibu."
+          },
+          {
+            "id": "trade_more",
+            "label": "Fanya biashara zaidi kukuza sampuli haraka",
+            "feedback": "Sampuli kubwa zaidi ya maamuzi yasiyojaribiwa ni kelele zaidi tu. Tengeneza jenereta kabla ya kupanua matokeo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Kusoma Mchezo wa Tena",
+    "scenario": "Uko karibu kuendesha kipindi cha kihistoria katika kiigizaji. Jinsi unavyotumia mchezo wa tena huamua kama unafunza uamuzi au ni burudani tu.",
+    "checkpoints": [
+      {
+        "question": "Katikati ya mchezo wa tena unakitambua kipindi — unajua kinaishaje. Hatua ya uaminifu ni ipi?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Jibu kutoka mchakato hata hivyo: kwenye pau hii mfanyabiashara ANAPASWA kufanya nini bila maarifa-baada-ya-tukio?",
+            "feedback": "Sahihi. Mchezo wa tena hupima maamuzi, si utabiri. Kuongoza kwa maarifa-baada-ya-tukio ni kujifunza kuwa sahihi kuhusu yaliyopita."
+          },
+          {
+            "id": "exploit",
+            "label": "Tumia maarifa — pointi ni pointi",
+            "feedback": "Umefunza tu «tenda kwa taarifa zisizokuwepo moja kwa moja». Pointi hupanda; ujuzi hushuka."
+          },
+          {
+            "id": "quit",
+            "label": "Acha na utafute kipindi usichokijua",
+            "feedback": "Silika ya busara, lakini kutambua vipindi NDIO ujuzi wa kusoma soko — nidhamu bado ni kujibu kutoka mchakato."
+          }
+        ]
+      },
+      {
+        "question": "Umefeli mapitio kwa 55%. Hatua inayofuata?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Soma matokeo ya kila kituo cha ukaguzi, jifunze masomo husika, fanya tena kesho",
+            "feedback": "Sahihi. Mapitio hueleza hatua bora na kwa nini. Kujaribu tena baada ya nafasi ni bora kuliko kukisia tena papo hapo."
+          },
+          {
+            "id": "retry_now",
+            "label": "Jaribu tena mara moja — sasa unakumbuka majibu sahihi",
+            "feedback": "Majaribio ya papo hapo hupima kumbukumbu, si uamuzi. Kupita kesho kuna maana; kupita usiku huu maana yake tu kumbukumbu yako ya muda mfupi inafanya kazi."
+          },
+          {
+            "id": "dismiss",
+            "label": "Puuza — kiigizaji si biashara halisi hata hivyo",
+            "feedback": "Kiigizaji ni halisi kadiri ya maamuzi yako ndani yake. Marubani wanaopuuza viigizaji hawapati ndege."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "academy-scholar",
+    "title": "Jinsi ya Kujifunza Kweli",
+    "scenario": "Dakika ishirini kwa Akademia usiku huu. Lengo ni maarifa yanayonusurika kugusana na chati halisi.",
+    "checkpoints": [
+      {
+        "question": "Matumizi bora ya dakika ishirini?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "Somo moja jipya, kisha weka daraja kadi za mapitio zilizoiva, kisha zoezi lake la moja kwa moja kwenye pau halisi",
+            "feedback": "Sahihi. Pata, toa, tumia — utatu unaofanya maarifa kupatikana chini ya shinikizo."
+          },
+          {
+            "id": "binge2",
+            "label": "Kimbia masomo manne — wingi ni maendeleo",
+            "feedback": "Kusoma bila kutoa hufuka katika siku. Masomo manne yaliyomezwa ni somo moja lililosahaulika, mara nne."
+          },
+          {
+            "id": "reread",
+            "label": "Soma tena somo unalolipenda — linaonekana imara",
+            "feedback": "Kusoma tena huhisi kama ufasaha na hupimwa kama sifuri. Kadi zipo kwa sababu kutambua si kukumbuka."
+          }
+        ]
+      },
+      {
+        "question": "Kadi ya mapitio inatokea: «ATR». Pengo kamili la kumbukumbu. Daraja sahihi ni lipi?",
+        "options": [
+          {
+            "id": "again",
+            "label": "«Tena» — mapengo ya uaminifu hupanga kadi upya mapema, ambayo ndiyo mfumo unafanya kazi",
+            "feedback": "Sahihi. Kuweka daraja kwa uaminifu ndiyo algoriti nzima. «Vizuri» ya kujipendekeza husukuma tu ujinga wako mbali zaidi."
+          },
+          {
+            "id": "peek_good",
+            "label": "Fungua, tambua, weka daraja «vizuri» — karibu vya kutosha",
+            "feedback": "Kutambua baada ya kufungua si kukumbuka kabla ya kufungua. Umefunza tu mpangaji ratiba kuacha kukusaidia."
+          },
+          {
+            "id": "easy_all",
+            "label": "Weka daraja zote «rahisi» kusafisha foleni haraka",
+            "feedback": "Foleni tupu ya kadi zisizojifunzwa ni kushindwa kunakoonekana kusafi. Foleni si adui; kusahau ndiye adui."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "consistency",
+    "title": "Swali la Mfululizo",
+    "scenario": "Siku ya 13 ya mfululizo wa kila siku. Usiku huu umechoka, na kihesabu cha mfululizo kinakutazama.",
+    "checkpoints": [
+      {
+        "question": "Kipimo cha chini cha uaminifu cha kuhudhuria leo ni kipi?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Kadi tano za mapitio, zilizowekwa daraja kwa uaminifu. Ndogo na halisi ni bora kuliko kubwa na iliyorukwa",
+            "feedback": "Sahihi. Mfululizo hunusurika kwa vipindi vya kiwango cha chini kinachowezekana. Tabia ni mali; wingi wa leo hauna umuhimu."
+          },
+          {
+            "id": "force",
+            "label": "Jilazimishe kupitia somo zima pamoja na mazoezi — mfululizo unadai jitihada halisi",
+            "feedback": "Vipindi vya kishujaa vya uchovu huzaa kujifunza kwa juu juu na chuki. Chuki huua mfululizo kwa uhakika zaidi kuliko kupumzika."
+          },
+          {
+            "id": "fake",
+            "label": "Fungua programu, weka alama somo limekamilika bila kusoma — weka kihesabu hai",
+            "feedback": "Mfululizo wa udanganyifu hupima mibofyo, si kujifunza. Ungemdanganya hadhira pekee inayohusika."
+          }
+        ]
+      },
+      {
+        "question": "Siku ya 14: mfululizo bado unakufa — ulisahau tu. Mwitikio?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Anza mfululizo kutoka siku ya 1 kesho. Siku 13 za kujifunza zinabaki zako",
+            "feedback": "Sahihi. Kihesabu hujiweka upya; maarifa hayajiwekei. Kuona mfululizo uliokatika kama maafa ndiyo sababu watu huacha kabisa."
+          },
+          {
+            "id": "spiral",
+            "label": "Mfumo umeshindwa — acha mazoezi ya kila siku",
+            "feedback": "Siku moja iliyorukwa kufuta tabia ni fikra ya yote-au-bila-kitu — kasoro ileile ya kiakili inayolipua akaunti."
+          },
+          {
+            "id": "backfill",
+            "label": "Tafuta njia ya kurekodi shughuli ya jana kwa tarehe ya nyuma",
+            "feedback": "Kudanganya dashibodi yako mwenyewe. Kama namba zinaweza kujadiliwa, hakuna hata moja yenye maana."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "constitution",
+    "title": "Kuandika Sheria Zinazoshikilia",
+    "scenario": "Unaandaa Katiba yako ya Biashara. Sheria unazoziandika usiku huu baadaye zitazuia maagizo yako mwenyewe — ziandike kwa toleo lako baya zaidi.",
+    "checkpoints": [
+      {
+        "question": "Sheria ipi ya hatari ya juu inahusika na waraka?",
+        "options": [
+          {
+            "id": "one",
+            "label": "1% kwa biashara — misururu ya kushindwa inayonusurika, ya kuchosha kwa muundo",
+            "feedback": "Sahihi. Kwa 1%, hasara kumi mfululizo hugharimu ~10%. Kazi ya katiba ni kufanya hesabu ya kufilisika kuwa isiyowezekana."
+          },
+          {
+            "id": "five",
+            "label": "5% — uko hapa kukua, si kutambaa",
+            "feedback": "Kwa 5%, hasara saba za kawaida ni theluthi ya akaunti. Kutoka hapo, mkunjo wa kupona-kushuka hauna huruma."
+          },
+          {
+            "id": "flex",
+            "label": "«Mwepesi kulingana na imani» — sheria zinapaswa kupumua",
+            "feedback": "Sheria yenye mwanya wa imani si sheria. Imani huwa juu zaidi hasa wakati nidhamu inapokuwa muhimu zaidi."
+          }
+        ]
+      },
+      {
+        "question": "Wiki ya 3: biashara unayoiamini inadai 2% ya hatari kushika kizuizi chake. Tikiti inaizuia. Amua.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Punguza ukubwa nusu ili kizuizi kilekile kigharimu 1% — sheria inashikilia",
+            "feedback": "Sahihi. Kizuizi ni cha kimuundo; ukubwa ni kigeu huru. Katiba imefanya tu kazi yake pekee."
+          },
+          {
+            "id": "amend_now",
+            "label": "Badilisha katiba sasa hivi kuruhusu 2% — kisha chukua biashara",
+            "feedback": "Kubadilisha katika msukumo kuruhusu msukumo si utawala bali vazi. Marekebisho hutokea siku za mapitio, kamwe si siku za biashara."
+          },
+          {
+            "id": "disable",
+            "label": "Zima utekelezaji kwa biashara moja",
+            "feedback": "Mfumo wa utekelezaji wenye kitufe cha kulala haulindi chochote. Hii ni kushindwa kwa utawala kwa ukali wa juu zaidi."
+          }
+        ]
+      },
+      {
+        "question": "Wakati sahihi wa kubadilisha katiba ni lini?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "Kwenye mapitio ya kila mwezi yaliyopangwa, jarida likiwa wazi na bila nafasi",
+            "feedback": "Sahihi. Sheria hubadilika kwa ushahidi, zikiamuliwa na toleo lako tulivu — kamwe si lile linaloshikilia nafasi."
+          },
+          {
+            "id": "after_win",
+            "label": "Baada ya wiki ya ushindi mkubwa — umestahili sheria laini",
+            "feedback": "Kulegeza hatari baada ya ushindi ndiyo jinsi mafanikio hatari yanavyohitimu kuwa masomo ya ukubwa wa akaunti."
+          },
+          {
+            "id": "never",
+            "label": "Kamwe — katiba ni ya milele",
+            "feedback": "Sheria zisizobadilika kwa ushahidi huwa masalia yanayopuuzwa kwa jumla. Marekebisho yaliyopangwa NDIYO nidhamu."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "capstone",
+    "title": "Saa ya Mwendeshaji",
+    "scenario": "Saa moja, mazingira halisi: nafasi wazi karibu na kizuizi, mpangilio mpya wa A kwenye chombo kingine, biashara mbili zisizopitiwa za jana, na kadi za mapitio zilizoiva. Jigawe.",
+    "checkpoints": [
+      {
+        "question": "Dakika tano za kwanza?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Kagua hatari ya nafasi wazi: kizuizi kinatumika, ukubwa sahihi, hakuna cha kuamua hadi 94.80 ifanyiwe biashara",
+            "feedback": "Sahihi. Hatari wazi daima ni kipaumbele sifuri. Thibitisha mashine imepakizwa, kisha iache."
+          },
+          {
+            "id": "new_first",
+            "label": "Mpangilio ule wa A — fursa hupita muda, utaratibu hapana",
+            "feedback": "Kuingia hatari mpya kabla hatari wazi haijakaguliwa ndiyo jinsi nafasi mbili za 1% kuwa mshtuko wa 4%."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Onyesha upya P&L mara kadhaa kuona ulipo",
+            "feedback": "P&L ni matokeo. Kuitazama hakubadilishi chochote na hupaka fikra-ya-matokeo kabla ya saa ya maamuzi."
+          }
+        ]
+      },
+      {
+        "question": "Mpangilio wa A ni halali na kikomo cha kila siku kinaruhusu. Nafasi wazi iko 0.4R kutoka kizuizi. Unachukua biashara mpya?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Ndiyo, kwa ukubwa wa kawaida wa 1% — kila biashara huru, zote ndani ya sera, joto la pamoja limekaguliwa",
+            "feedback": "Sahihi. Hatari mbili huru za 1% ndani ya kikomo cha joto kilichokaguliwa ni mfumo unaofanya kazi kwa uwezo, si kupita kiasi."
+          },
+          {
+            "id": "wait_out",
+            "label": "Hapana — kamwe nafasi mbili kwa wakati mmoja",
+            "feedback": "Inaweza kunusurika lakini ni ya kiholela: kama vikomo vya joto na ukubwa ni halisi, kufanya biashara mfululizo tu huacha uwezo wa mfumo bila kutumika kwa hofu."
+          },
+          {
+            "id": "double_up",
+            "label": "Ndiyo, kwa 2% — ya kwanza tayari imeshindwa kivitendo",
+            "feedback": "«Imeshindwa kivitendo» ni kutumia mapema kizuizi ambacho bado hakijafanyiwa biashara, kisha kuongeza mara mbili mfichuo kwa hesabu ya hasira."
+          }
+        ]
+      },
+      {
+        "question": "Dakika ishirini zimebaki. Deni la jarida au kadi za mapitio?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Rekodi biashara mbili huku muktadha ukiwa hai, kadi kwa muda uliobaki",
+            "feedback": "Sahihi. Muktadha wa jarida huoza kwa saa; ratiba ya kadi huvumilia siku. Kazi inayoharibika kwanza."
+          },
+          {
+            "id": "cards_first",
+            "label": "Kadi kwanza — kipimo cha mfululizo kinaonekana, jarida hapana",
+            "feedback": "Kuboresha kwa kipimo kinachoonekana kwa gharama ya chenye thamani. Jarida hulisha kila kigunduzi alichonacho kocha."
+          },
+          {
+            "id": "neither",
+            "label": "Hakuna — bora utafute mpangilio mwingine",
+            "feedback": "Kichocheo cha saa kamwe hakikuwa biashara ya tatu. Waendeshaji hulipwa kwa dakika zile ishirini za kuchosha."
+          }
+        ]
+      }
+    ]
+  }
+]
