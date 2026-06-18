@@ -16,15 +16,23 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.services.content_locale import localize_scenarios
+from app.services.locale import get_locale
+
 _SCENARIOS_FILE = (
     Path(__file__).resolve().parent.parent / "content" / "scenarios" / "scenarios.json"
 )
 
 
 @lru_cache(maxsize=1)
-def _load_scenarios() -> tuple[dict[str, Any], ...]:
+def _load_scenarios_base() -> tuple[dict[str, Any], ...]:
     with open(_SCENARIOS_FILE, encoding="utf-8") as handle:
         return tuple(json.load(handle))
+
+
+def _load_scenarios() -> tuple[dict[str, Any], ...]:
+    """Replay scenarios localized to the active request locale (English fallback)."""
+    return localize_scenarios(_load_scenarios_base(), get_locale())
 
 
 class ScenarioService:
