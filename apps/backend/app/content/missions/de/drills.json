@@ -1,0 +1,746 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "Die Größenentscheidung",
+    "scenario": "Konto: 10.000 $ Papier. Ein Setup, das dir gefällt, taucht auf: Einstieg 100, die Struktur sagt, die Invalidierung liegt bei 95. Du willst rein. Die nächsten drei Entscheidungen entscheiden, ob dies ein Trade oder ein Glücksspiel ist.",
+    "checkpoints": [
+      {
+        "question": "Wie dimensionierst du die Position?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Riskiere 1 % des Kontos: (10.000 $ x 1 %) / (100 - 95) = 20 Aktien",
+            "feedback": "Korrekt. Das Risiko wird zuerst gewählt; die Größe wird abgeleitet. Die Stop-Distanz — nicht die Überzeugung — bestimmt die Aktienzahl."
+          },
+          {
+            "id": "round",
+            "label": "Kaufe 100 Aktien — eine schöne runde Zahl, die bedeutsam wirkt",
+            "feedback": "Dimensionierung nach runder Zahl bedeutet, dass dein Risiko ist, was der Chart später entscheidet: hier riskieren 100 Aktien 5 % des Kontos, fünfmal die Richtlinie."
+          },
+          {
+            "id": "allin",
+            "label": "Nutze die volle Kaufkraft — das Setup sieht zu gut aus zum Verschwenden",
+            "feedback": "All-in-Dimensionierung macht eine einzige widrige Kerze tödlich. Genau diese Gewohnheit beendet Konten."
+          }
+        ]
+      },
+      {
+        "question": "Wohin kommt der Stop?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "Auf 95, unter das Niveau, das die These invalidiert",
+            "feedback": "Korrekt. Der Stop lebt dort, wo die Idee als falsch erwiesen wird, nicht bei einem Dollarbetrag, der akzeptabel wirkt."
+          },
+          {
+            "id": "tight",
+            "label": "Auf 99 — ein engerer Stop heißt, ich kann mehr Aktien kaufen",
+            "feedback": "Ein Stop innerhalb des normalen Rauschens ist keine Risikokontrolle, sondern eine Spende. Du hast größer dimensioniert, um öfter zu verlieren."
+          },
+          {
+            "id": "none",
+            "label": "Kein Stop — ich beobachte es und steige bei Bedarf manuell aus",
+            "feedback": "Ein unbeobachteter Bildschirm, ein Meeting, ein Gap: „mentale Stops“ versagen genau dann, wenn sie gebraucht werden. Undefinierte Invalidierung heißt unbegrenztes Risiko."
+          }
+        ]
+      },
+      {
+        "question": "Der Preis fällt auf 96,20 und stockt dann. Dein Stop bei 95 ist intakt. Was nun?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Nichts. Der Plan ist intakt, bis 95 gehandelt wird",
+            "feedback": "Korrekt. Ein Pullback über deiner Invalidierung ist per Definition Rauschen. Der Plan, nicht das Unbehagen, trifft die Entscheidungen."
+          },
+          {
+            "id": "widen",
+            "label": "Verschiebe den Stop auf 93, um mehr Spielraum zu geben",
+            "feedback": "Einen Stop zu erweitern verwandelt einen geplanten kleinen Verlust in einen ungeplanten großen. Die Verfassung existiert, um genau das zu verbieten."
+          },
+          {
+            "id": "panic",
+            "label": "Steig jetzt aus — schütze, was übrig ist",
+            "feedback": "Über der Invalidierung auszusteigen heißt, dein Bauch hat deinen Plan überstimmt. Du hast das Geld behalten, aber die Gewohnheit trainiert, Pläne aufzugeben."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "process-quality",
+    "title": "Der Pre-Flight-Check",
+    "scenario": "Du erspähst einen Pullback in einem Aufwärtstrend. Der Chart sieht richtig aus. Bevor die Order reingeht, schreibt sich der Prozess-Score bereits.",
+    "checkpoints": [
+      {
+        "question": "Was kommt auf das Ticket, bevor du bestätigst?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Stop, Ziel, Risiko-%, geschriebener Grund, und wie ich mich gerade fühle",
+            "feedback": "Korrekt. Die fünf Planfelder sind der ganze Prozess-Score: Invalidierung, Ausstieg, Größe, These, Geisteszustand."
+          },
+          {
+            "id": "partial",
+            "label": "Stop und Ziel — der Grund ist aus dem Chart offensichtlich",
+            "feedback": "Eine These, die heute „offensichtlich“ ist, ist in der Review nächste Woche unlesbar. Ungeschriebene Gründe punkten null und lehren nichts."
+          },
+          {
+            "id": "speed",
+            "label": "Nur der Einstieg — erst ausführen, später planen, der Preis wartet nicht",
+            "feedback": "Später-planen ist nie-planen. Vor der Risikodefinition einzusteigen ist die größte Prozess-Score-Strafe."
+          }
+        ]
+      },
+      {
+        "question": "Dein geschriebener Grund lautet „sieht bullisch aus“. Gut genug?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "Nein — schreib ihn neu: „Pullback zur EMA20 in ADX-bestätigtem Aufwärtstrend, Volumen kontrahierend“",
+            "feedback": "Korrekt. Eine These nennt die Struktur, das Regime, und was sie brechen würde. „Sieht bullisch aus“ kann nicht überprüft oder daraus gelernt werden."
+          },
+          {
+            "id": "fine",
+            "label": "Passt schon — ich weiß, was ich meinte",
+            "feedback": "In 40 Trades wirst du es nicht wissen. Das Journal ist ein Brief an ein zukünftiges Ich, das alles vergessen hat."
+          },
+          {
+            "id": "skip",
+            "label": "Gründe sind für Analysten — der P&L ist die einzige Wahrheit",
+            "feedback": "Ergebnis ohne Prozess ist Rauschen. Das 2x2 existiert, weil profitable schlechte Entscheidungen die teuerste Art sind."
+          }
+        ]
+      },
+      {
+        "question": "Der Trade gewinnt +2R, aber du hast nie den Stop gesetzt, den du aufgeschrieben hast. Die Review nennt es einen gefährlichen Erfolg. Deine Reaktion?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Protokolliere es ehrlich — der Gewinn entschuldigt nicht den gebrochenen Prozess",
+            "feedback": "Korrekt. Schlechte Entscheidung + gutes Ergebnis trainiert die Gewohnheit, die dem Konto am Ende die Rechnung stellt. Es zu benennen ist die Lösung."
+          },
+          {
+            "id": "argue",
+            "label": "Überschreib es — ein Gewinn ist ein Gewinn",
+            "feedback": "Mit deiner eigenen Instrumentierung zu streiten besiegt ihren Zweck. Der nächste „Gewinn“ dieser Art wird größer dimensioniert."
+          },
+          {
+            "id": "ignore",
+            "label": "Überspring die Review diese Woche komplett",
+            "feedback": "Nicht überprüfte Trades lehren nichts. Der gefährliche Erfolg, den du nicht untersuchst, ist der, den du wiederholst."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "Der Stop naht",
+    "scenario": "Long von 50, Stop bei 47,50, geplante -1R = 100 $. Der Preis ist bei 47,80 und fällt. Jeder Trader trifft diesen Moment; wenige treffen ihn richtig.",
+    "checkpoints": [
+      {
+        "question": "Der Preis tickt 47,55. Der Stop wird gleich gehandelt. Was tust du?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Nichts. Der Stop ist der Plan, der funktioniert, nicht der Plan, der versagt",
+            "feedback": "Korrekt. Du hast ein definiertes Risiko gekauft. -1R war immer eines der zwei geplanten Ergebnisse."
+          },
+          {
+            "id": "cancel",
+            "label": "Storniere den Stop — es springt immer zurück, gleich nachdem ich raus bin",
+            "feedback": "Den Stop zu stornieren verwandelt 100 $ geplantes Risiko in ein bodenloses Loch. Jede Blow-up-Obduktion enthält diesen Schritt."
+          },
+          {
+            "id": "average",
+            "label": "Kauf hier mehr, um den Break-even zu senken",
+            "feedback": "In einen verlierenden Trade nachzukaufen rückt den Break-even näher und das Gesamtrisiko weiter. So töten einzelne Trades Konten."
+          }
+        ]
+      },
+      {
+        "question": "Bei 47,50 gestoppt, -1R. Fünf Minuten später erobert der Preis 50 zurück. Wie liest du es?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "Ein gut gespielter Verlust — gute Entscheidung, die Varianz nahm ihn. Protokolliere und weiter",
+            "feedback": "Korrekt. Der Klassifikator existiert für genau diesen Stich: Ergebnisqualität und Entscheidungsqualität sind verschiedene Achsen."
+          },
+          {
+            "id": "broken",
+            "label": "Beweis, dass mein Stop falsch war — nächstes Mal einen weiteren ohne Neudimensionierung",
+            "feedback": "Stops zu erweitern, ohne die Größe neu abzuleiten, erhöht nur den Dollarverlust. Wenn die Struktur mehr Spielraum braucht, dimensioniere kleiner."
+          },
+          {
+            "id": "revenge",
+            "label": "Steig sofort wieder bei 50 ein — er schuldet es mir",
+            "feedback": "Ein Einstieg, dessen Grund dein letzter Verlust ist, ist ein Rache-Trade. Der Markt führt keine Forderungskonten."
+          }
+        ]
+      },
+      {
+        "question": "Drei geplante Verluste in Folge, alle an Stops, alle protokolliert. Prozessdurchschnitt: 85. Was ändert sich?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Nichts Strukturelles — auf Muster prüfen, Größe halten, System halten",
+            "feedback": "Korrekt. Drei -1R-Verluste liegen gut innerhalb der normalen Varianz jedes echten Systems. Nach jeder Verlustserie das System zu wechseln garantiert, dass du nie eines hast."
+          },
+          {
+            "id": "halve",
+            "label": "Halbiere die Größe, bis ein Gewinner auftaucht",
+            "feedback": "Vertretbar, aber bei drei Trades verfrüht — und es schrumpft asymmetrisch die Gewinner, die die Verluste bezahlen."
+          },
+          {
+            "id": "abandon",
+            "label": "Das System ist kaputt — finde heute Nacht ein neues",
+            "feedback": "Monte Carlo sagt, ein System mit 50 % Trefferquote verbringt ein Drittel seines Lebens im Drawdown. System-Hopping setzt die Stichprobe jedes Mal zurück."
+          }
+        ]
+      },
+      {
+        "question": "Du hast eine Position mit einem Stop-LIMIT (Auslöser 47,50, Limit 47,40) statt einem Stop geschützt. Eine Nachricht über Nacht öffnet mit Gap bei 45,80. Was geschah mit deinem Schutz?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Nichts wurde ausgeführt — die Limit-Seite brauchte 47,40 oder besser und der Preis handelte dort nie. Ich bin immer noch long, 4 % unter meinem „Stop“",
+            "feedback": "Korrekt. Das ist die Stop-Limit-Falle: Sie deckelt Slippage an normalen Tagen und versagt still genau am Tag, an dem du sie brauchtest. Darum weigert sich der Papier-Markt auch, Stop-Limits zu simulieren — bei geschlossenen Kerzen müsste die Ausführung gefälscht werden."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "Es wurde bei 47,40 ausgeführt — das garantierte das Limit",
+            "feedback": "Ein Limit garantiert den Preis, nie die Ausführung. Der Preis sprang per Gap durch dein Fenster, ohne darin zu handeln; die Order liegt immer noch da, unausgeführt, während der Verlust wächst."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "Es wurde bei der Eröffnung 45,80 ausgeführt wie ein normaler Stop",
+            "feedback": "Das tut eine einfache STOP-Order: Sie wird zur Market-Order und frisst das Gap. Die Limit-Seite ist genau das, was diese Ausführung verhinderte. Wisse, welche du platziert hast."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "tilt-control",
+    "title": "Der rote Morgen",
+    "scenario": "Zwei Stop-Outs vor dem Mittag, beide geplant, beide -1R. Du bemerkst, dass dein Kiefer angespannt ist und das Chart-Aktualisieren zwanghaft wird. Die nächste Entscheidung ist das ganze Spiel.",
+    "checkpoints": [
+      {
+        "question": "Ein drittes Setup taucht auf. Es ist marginal — nicht dein A-Setup. Was passiert?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Überspring es und protokolliere die Emotion: „frustriert, wollte es zurück“",
+            "feedback": "Korrekt. Den Zustand laut zu benennen erwischt Tilt früh. Marginales Setup + heißer Zustand = der klassische dritte Verlust."
+          },
+          {
+            "id": "smaller",
+            "label": "Nimm es mit halber Größe — ein Kompromiss mit dem Drang",
+            "feedback": "Tilt in halber Größe ist immer noch Tilt. Der Einstiegsgrund ist dein Morgen, nicht der Markt."
+          },
+          {
+            "id": "double",
+            "label": "Nimm es mit doppelter Größe — hol den Morgen in einem Trade zurück",
+            "feedback": "Nach Verlusten zu verdoppeln ist die Martingale im Kapuzenpulli. Das ist das Muster höchster Schwere, das der Risiko-Officer kennt."
+          }
+        ]
+      },
+      {
+        "question": "Du hast es übersprungen. Das marginale Setup hätte gewonnen. Wie verbuchst du das?",
+        "options": [
+          {
+            "id": "good",
+            "label": "Eine gute Entscheidung. B-Setups im Tilt zu überspringen ist Richtlinie, und Richtlinie wird über 100 Trades beurteilt",
+            "feedback": "Korrekt. Der kontrafaktische Gewinn ändert nichts: Die Entscheidung war richtig, als sie getroffen wurde. Übersprungene Trades am Ergebnis zu beurteilen öffnet die Tilt-Tür wieder."
+          },
+          {
+            "id": "regret",
+            "label": "Beweis, dass ich frustriert meinem Bauch trauen sollte",
+            "feedback": "Eine Stichprobe gegen die Richtlinie ist, wie gefährliche Gewohnheiten eingestellt werden. Der Bauch, der diesen Trade wollte, wollte auch den Rache-Einstieg in doppelter Größe."
+          },
+          {
+            "id": "rule_off",
+            "label": "Schalte die Tageslimit-Regel aus — sie kostet Geld",
+            "feedback": "Die Leitplanke genau im Moment ihres Eingreifens zu löschen ist die Verfassung, die ihren einzigen Test nicht besteht."
+          }
+        ]
+      },
+      {
+        "question": "Was beendet die Sitzung korrekt?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Protokolliere alle drei Entscheidungen, tagge die Emotion, schließe das Terminal",
+            "feedback": "Korrekt. Der Wert des Tages war nie der P&L — er war ein sauberes Protokoll des Verhaltens unter Reizung."
+          },
+          {
+            "id": "watch",
+            "label": "Beobachte den Markt weiter „nur zum Lernen“ — aber keine Orders",
+            "feedback": "Im Tilt den Bildschirm zu beobachten ist, wie „keine Orders“ zu einer Order wird. Lernen passiert im Journal, nicht in der Aktualisierungsschleife."
+          },
+          {
+            "id": "binge",
+            "label": "Bleib, bis ein Gewinner den Tag grün macht",
+            "feedback": "Einen grünen Tag zu brauchen ist der Tilt, der spricht. Tage sind buchhalterische Fiktionen; der Prozessdurchschnitt ist der wahre Score."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "journaling",
+    "title": "Der ehrliche Eintrag",
+    "scenario": "Der Markt ist geschlossen. Drei ausgeführte Trades sind unprotokolliert: ein sauberer Gewinn, ein schlampiger Gewinn, und ein geplanter Verlust. Zehn Minuten Ehrlichkeit verfügbar.",
+    "checkpoints": [
+      {
+        "question": "Welcher Trade wird zuerst und am tiefsten protokolliert?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "Der schlampige Gewinn — verfolgter Einstieg, keine Emotion protokolliert, glücklicher Ausstieg",
+            "feedback": "Korrekt. Der schlampige Gewinn ist der gefährliche: Belohnte Fehler werden wiederholt. Gewinne brauchen Obduktionen mehr als Verluste."
+          },
+          {
+            "id": "loss",
+            "label": "Der Verlust — in Verlusten leben die Lektionen",
+            "feedback": "Vernünftig, aber dieser Verlust war geplant und sauber — er bestätigt das System. Der schlampige Gewinn ist, wo die neue Information liegt."
+          },
+          {
+            "id": "best",
+            "label": "Der saubere Gewinn — ende mit einem Hochgefühl",
+            "feedback": "Nur das zu protokollieren, was dir schmeichelt, erzeugt ein Tagebuch, keinen Datensatz."
+          }
+        ]
+      },
+      {
+        "question": "Was sagt eine nützliche Notiz zum schlampigen Gewinn?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "„0,8 % über dem Plan-Einstieg verfolgt, nachdem es losging. FOMO. Trotzdem gewonnen — als gefährliche Gewohnheit getaggt“",
+            "feedback": "Korrekt. Spezifisches Verhalten, benannte Emotion, ehrliches Tag. Diese Notiz speist die Detektoren des Coaches und dein zukünftiges Ich."
+          },
+          {
+            "id": "vague",
+            "label": "„Der Einstieg hätte besser sein können. Gutes Ergebnis trotzdem“",
+            "feedback": "Vage Notizen lassen sich nicht aggregieren, erkennen oder daraus lernen. „Hätte besser sein können“ beschreibt jeden je gemachten Trade."
+          },
+          {
+            "id": "victory",
+            "label": "„Genagelt. +1,8R. Mehr davon“",
+            "feedback": "„Mehr davon“ — mehr verfolgte Einstiege? Die Notiz hat gerade den Fehler gebilligt, weil er einmal bezahlte."
+          }
+        ]
+      },
+      {
+        "question": "Es war ein langer Tag und die dritte Notiz fühlt sich optional an. Entscheide.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Schreib sie — zwei Sätze. Unprotokollierte Trades lehren nichts",
+            "feedback": "Korrekt. Die Serie vollständiger Aufzeichnungen ist mehr wert als jede einzelne Erkenntnis. Drei von drei, jeden Tag."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Mach es morgen mit frischem Blick",
+            "feedback": "Das Gedächtnis von morgen ist Fiktion, garniert mit Rückschau. Der Zustand zum Einstiegszeitpunkt verdunstet bereits."
+          },
+          {
+            "id": "skip2",
+            "label": "Überspring sie — es war nur ein geplanter Verlust, nichts zu lernen",
+            "feedback": "Geplante Verluste bestätigen, dass das System funktioniert — diese Bestätigung ist ein Datum. Das Journal zu überspringen ist nicht ohne Grund ein Detektor."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "selectivity",
+    "title": "Der ruhige Markt",
+    "scenario": "Dienstag, 11:40. Du hast heute einen guten Trade gemacht. Der Markt ist ruhig und hackig geworden. Dein Tageslimit ist 3. Der Cursor schwebt.",
+    "checkpoints": [
+      {
+        "question": "Nichts passt zu deiner Setup-Liste, aber du bist „im Rhythmus“. Was nun?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Bleib flach. Kein Setup, kein Trade — Rhythmus ist kein Setup",
+            "feedback": "Korrekt. Die schwerste Position ist flach. Selektivität IST der Vorteil; Aktivität ist ihre Steuer."
+          },
+          {
+            "id": "hunt",
+            "label": "Geh auf den 1-Minuten-Chart, um etwas zu finden",
+            "feedback": "Hineinzuzoomen, bis Rauschen wie Signal aussieht, ist, wie „keine Setups“ zu fünf schlechten wird."
+          },
+          {
+            "id": "boredom",
+            "label": "Nimm einen kleinen „Langeweile-Trade“, um engagiert zu bleiben",
+            "feedback": "Langeweile-Trades sind die höfliche Cousine des Tilt: Der Einstiegsgrund ist deine Stimmung. Kleine schlechte Trades trainieren große schlechte Gewohnheiten."
+          }
+        ]
+      },
+      {
+        "question": "Ein wirklich gutes Setup taucht auf einem Symbol auf, das du nie gehandelt hast. Das Limit erlaubt es. Entscheide.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Mach den vollen Pre-Flight auf dem neuen Symbol — Liquidität, Spread, Volatilität — dann normal dimensionieren, wenn es besteht",
+            "feedback": "Korrekt. Neue Symbole verdienen denselben Prozess plus eine Markt-Prüfung. Richtig gemachte Breite ist Diversifikation des Urteils."
+          },
+          {
+            "id": "familiar",
+            "label": "Überspring es — trade nur, was du kennst",
+            "feedback": "Vertretbar, aber dass „was ich kenne“ auf einen Chart schrumpft, verengt die Beweisgrundlage deiner Fähigkeiten."
+          },
+          {
+            "id": "yolo",
+            "label": "Nimm es sofort — ein Setup ist ein Setup",
+            "feedback": "Das Setup mag sich übertragen; Spread, Liquidität und Gap-Verhalten vielleicht nicht. Ungeprüftes Markt-Risiko ist immer noch Risiko."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "Die 2x2-Lesung",
+    "scenario": "Wöchentliche Review. Vier Trades auf dem Bildschirm: ein verdienter Gewinn, ein gut gespielter Verlust, ein ehrliches Lehrgeld, und ein gefährlicher Erfolg. Wie du sie liest, entscheidet, wie die nächste Woche aussieht.",
+    "checkpoints": [
+      {
+        "question": "Welcher Quadrant ist der gefährlichste?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "Der gefährliche Erfolg — eine schlechte Entscheidung, die der Markt bezahlte",
+            "feedback": "Korrekt. Belohnte Fehler kumulieren: Nächstes Mal mehr Größe und mehr Selbstvertrauen, und die Rechnung kommt mit Zinsen."
+          },
+          {
+            "id": "tuition",
+            "label": "Das ehrliche Lehrgeld — es verlor Geld UND war eine schlechte Entscheidung",
+            "feedback": "Lehrgeld tut weh, lehrt aber sauber: schlechter Prozess, schlechtes Ergebnis, lesbare Lektion. Es wird selten in Größe wiederholt."
+          },
+          {
+            "id": "loss",
+            "label": "Der gut gespielte Verlust — Verluste sind immer das Problem",
+            "feedback": "Gut gespielte Verluste „das Problem“ zu nennen ist Ergebnis-Anbetung. Dieser Verlust ist das System, das funktioniert."
+          }
+        ]
+      },
+      {
+        "question": "Dein verdienter Gewinn und dein gefährlicher Erfolg machten beide +1,5R. Was trennt sie?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "Der Prozess des verdienten Gewinns ist absichtlich wiederholbar; der gefährliche Erfolg war von der Varianz geliehen",
+            "feedback": "Korrekt. Identischer P&L, gegensätzliche Information. Nur einer von ihnen ist ein Beweis für Können."
+          },
+          {
+            "id": "same",
+            "label": "Nichts — R ist R",
+            "feedback": "R misst das Ergebnis, nicht die Entscheidungsqualität. Wäre R alles, wären Lottogewinner Investoren."
+          },
+          {
+            "id": "luck_all",
+            "label": "Beide waren Glück — einzelne Trades bedeuten überhaupt nichts",
+            "feedback": "Einzelne Ergebnisse sind verrauscht, aber Entscheidungen sind sofort bewertbar. Diese Asymmetrie ist der ganze Sinn des Prozess-Scorings."
+          }
+        ]
+      },
+      {
+        "question": "Die eine Korrekturmaßnahme der nächsten Woche?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Lies die Einstiegsbedingungen des gefährlichen Erfolgs erneut und schreib die Regel, die ihn blockiert hätte",
+            "feedback": "Korrekt. Eine spezifische, geschriebene Regel pro erkanntem Muster — so schließt sich die Rückkopplungsschleife."
+          },
+          {
+            "id": "more_wins",
+            "label": "Ziele auf mehr Gewinne — erhöhe die Trefferquote",
+            "feedback": "Die Trefferquote ist eine Ausgabe. Sie direkt zu jagen heißt meist, Gewinner früh zu schneiden und Stops zu erweitern — beides korrosiv."
+          },
+          {
+            "id": "trade_more",
+            "label": "Trade mehr, um die Stichprobe schneller zu vergrößern",
+            "feedback": "Eine größere Stichprobe ungeprüfter Entscheidungen ist nur mehr Rauschen. Repariere den Generator, bevor du die Ausgabe skalierst."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Das Replay lesen",
+    "scenario": "Du bist dabei, eine historische Episode im Simulator zu starten. Wie du das Replay nutzt, entscheidet, ob es Urteilsvermögen trainiert oder nur unterhält.",
+    "checkpoints": [
+      {
+        "question": "Mitten im Replay erkennst du die Episode — du weißt, wie sie endet. Was ist der ehrliche Zug?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Antworte trotzdem aus dem Prozess: Was SOLLTE ein Trader an dieser Kerze ohne Rückschau tun?",
+            "feedback": "Korrekt. Das Replay bewertet Entscheidungen, nicht Vorhersagen. Sich an der Rückschau zu orientieren lehrt dich, über die Vergangenheit recht zu haben."
+          },
+          {
+            "id": "exploit",
+            "label": "Nutze das Wissen — Punkte sind Punkte",
+            "feedback": "Du hast gerade „handle nach Information, die du live nicht hast“ trainiert. Der Score steigt; das Können sinkt."
+          },
+          {
+            "id": "quit",
+            "label": "Brich ab und finde eine Episode, die du nicht kennst",
+            "feedback": "Vernünftiger Instinkt, aber Episoden zu erkennen IST Marktkompetenz — die Disziplin ist, trotzdem aus dem Prozess zu antworten."
+          }
+        ]
+      },
+      {
+        "question": "Du bist im Debriefing mit 55 % durchgefallen. Nächste Aktion?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Lies die Konsequenz jedes Checkpoints, studiere die verlinkten Lektionen, versuch es morgen erneut",
+            "feedback": "Korrekt. Das Debriefing nennt den besseren Zug und warum. Verteilter Wiederholversuch schlägt sofortiges Neuraten."
+          },
+          {
+            "id": "retry_now",
+            "label": "Sofort erneut versuchen — du erinnerst dich jetzt an die richtigen Antworten",
+            "feedback": "Sofortige Wiederholungen testen das Gedächtnis, nicht das Urteil. Morgen zu bestehen bedeutet etwas; heute Abend bedeutet, du hast ein funktionierendes Kurzzeitgedächtnis."
+          },
+          {
+            "id": "dismiss",
+            "label": "Verwirf es — Simulatoren sind sowieso kein echtes Trading",
+            "feedback": "Der Simulator ist genau so real wie deine Entscheidungen darin. Piloten, die Simulatoren verwerfen, bekommen das Flugzeug nicht."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "academy-scholar",
+    "title": "Wie man wirklich lernt",
+    "scenario": "Zwanzig Minuten für die Akademie heute Abend. Das Ziel ist Wissen, das den Kontakt mit einem Live-Chart überlebt.",
+    "checkpoints": [
+      {
+        "question": "Bester Einsatz der zwanzig Minuten?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "Eine neue Lektion, dann die fälligen Wiederholungskarten bewerten, dann ihre Live-Übung an echten Kerzen",
+            "feedback": "Korrekt. Erwerben, abrufen, anwenden — die Triade, die Wissen unter Druck verfügbar macht."
+          },
+          {
+            "id": "binge2",
+            "label": "Vier Lektionen überfliegen — Volumen ist Fortschritt",
+            "feedback": "Lesen ohne Abruf verdunstet in Tagen. Vier überflogene Lektionen sind eine vergessene, viermal."
+          },
+          {
+            "id": "reread",
+            "label": "Lies deine Lieblingslektion nochmal — sie fühlt sich solide an",
+            "feedback": "Wiederlesen fühlt sich wie Geläufigkeit an und prüft als nichts. Die Karten existieren, weil Wiedererkennen kein Abruf ist."
+          }
+        ]
+      },
+      {
+        "question": "Eine Wiederholungskarte kommt: „ATR“. Du hast einen kompletten Blackout. Was ist die richtige Note?",
+        "options": [
+          {
+            "id": "again",
+            "label": "„Nochmal“ — ehrliche Blackouts planen die Karte früher ein, was das System ist, das funktioniert",
+            "feedback": "Korrekt. Ehrlich zu bewerten ist der ganze Algorithmus. Ein schmeichelndes „gut“ plant deine Unwissenheit nur weiter weg."
+          },
+          {
+            "id": "peek_good",
+            "label": "Aufdecken, erkennen, „gut“ bewerten — nah genug",
+            "feedback": "Erkennen nach dem Aufdecken ist kein Abruf davor. Du hast dem Planer gerade beigebracht, dir nicht mehr zu helfen."
+          },
+          {
+            "id": "easy_all",
+            "label": "Alles „leicht“ bewerten, um die Warteschlange schneller zu leeren",
+            "feedback": "Eine leere Warteschlange ungelernter Karten ist ein sauber aussehendes Versagen. Die Warteschlange ist nicht der Feind; das Vergessen ist es."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "consistency",
+    "title": "Die Serien-Frage",
+    "scenario": "Tag 13 einer Tagesserie. Heute Abend bist du erschöpft, und der Serienzähler starrt dich an.",
+    "checkpoints": [
+      {
+        "question": "Was ist die ehrliche Mindesteinheit des Erscheinens heute Abend?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Fünf Wiederholungskarten, ehrlich bewertet. Klein und echt schlägt groß und übersprungen",
+            "feedback": "Korrekt. Serien überleben durch minimal lebensfähige Sitzungen. Die Gewohnheit ist das Vermögen; das Volumen heute Abend ist irrelevant."
+          },
+          {
+            "id": "force",
+            "label": "Erzwinge eine ganze Lektion plus Übungen — Serien verlangen echte Arbeit",
+            "feedback": "Heroische müde Sitzungen erzeugen oberflächliches Lernen und Groll. Groll tötet Serien sicherer als Ruhe."
+          },
+          {
+            "id": "fake",
+            "label": "App öffnen, eine Lektion als erledigt markieren ohne zu lesen — den Zähler am Leben halten",
+            "feedback": "Eine getrickste Serie misst Klicks, nicht Lernen. Du würdest das einzige Publikum belügen, das zählt."
+          }
+        ]
+      },
+      {
+        "question": "Tag 14: die Serie stirbt trotzdem — du hast es einfach vergessen. Reaktion?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Starte die Serie morgen bei Tag 1. Die 13 Tage Lernen gehören weiter dir",
+            "feedback": "Korrekt. Der Zähler setzt zurück; das Wissen nicht. Eine gebrochene Serie als Katastrophe zu behandeln ist, wie Leute ganz aufhören."
+          },
+          {
+            "id": "spiral",
+            "label": "Das System hat versagt — gib die tägliche Praxis auf",
+            "feedback": "Dass ein verpasster Tag die Gewohnheit löscht, ist Alles-oder-nichts-Denken — derselbe kognitive Fehler, der Konten sprengt."
+          },
+          {
+            "id": "backfill",
+            "label": "Such einen Weg, die Aktivität von gestern rückzudatieren",
+            "feedback": "Die eigene Instrumentierung tricksen. Wenn die Zahlen verhandelbar sind, bedeutet keine von ihnen etwas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "constitution",
+    "title": "Regeln schreiben, die halten",
+    "scenario": "Du entwirfst deine Trading-Verfassung. Die Regeln, die du heute Abend schreibst, werden später deine eigenen Orders blockieren — schreib sie für die schlimmste Version von dir.",
+    "checkpoints": [
+      {
+        "question": "Welche Maximalrisiko-Regel gehört ins Dokument?",
+        "options": [
+          {
+            "id": "one",
+            "label": "1 % pro Trade — überlebbare Verlustserien, langweilig per Design",
+            "feedback": "Korrekt. Bei 1 % kosten zehn Verluste in Folge ~10 %. Die Aufgabe der Verfassung ist, die Ruin-Arithmetik unmöglich zu machen."
+          },
+          {
+            "id": "five",
+            "label": "5 % — du bist hier, um zu wachsen, nicht zu kriechen",
+            "feedback": "Bei 5 % sind sieben normale Verluste ein Drittel des Kontos. Die Drawdown-Erholungskurve ist von da an gnadenlos."
+          },
+          {
+            "id": "flex",
+            "label": "„Flexibel je nach Überzeugung“ — Regeln sollten atmen",
+            "feedback": "Eine Regel mit einer Überzeugungs-Notluke ist keine Regel. Die Überzeugung ist genau dann am höchsten, wenn Disziplin am meisten zählt."
+          }
+        ]
+      },
+      {
+        "question": "Woche 3: ein Trade, dessen du sicher bist, braucht 2 % Risiko für seinen Stop. Das Ticket blockiert ihn. Entscheide.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Halbiere die Größe, damit derselbe Stop 1 % kostet — die Regel hält",
+            "feedback": "Korrekt. Der Stop ist strukturell; die Größe ist die freie Variable. Die Verfassung hat gerade ihre einzige Aufgabe erfüllt."
+          },
+          {
+            "id": "amend_now",
+            "label": "Ändere die Verfassung jetzt, um 2 % zu erlauben — dann nimm den Trade",
+            "feedback": "Mitten im Impuls zu ändern, um den Impuls zu erlauben, ist keine Governance, sondern Kostüm. Änderungen passieren an Review-Tagen, nie an Trade-Tagen."
+          },
+          {
+            "id": "disable",
+            "label": "Schalte die Durchsetzung für einen Trade aus",
+            "feedback": "Ein Durchsetzungssystem mit Schlummertaste schützt nichts. Das ist das Governance-Versagen höchster Schwere."
+          }
+        ]
+      },
+      {
+        "question": "Wann ist der richtige Zeitpunkt, die Verfassung zu ändern?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "Bei einer geplanten monatlichen Review, mit offenem Journal und ohne Positionen",
+            "feedback": "Korrekt. Regeln entwickeln sich anhand von Beweisen, entschieden von der ruhigen Version von dir — nie von der, die eine Position hält."
+          },
+          {
+            "id": "after_win",
+            "label": "Nach einer großen Gewinnwoche — du hast lockerere Regeln verdient",
+            "feedback": "Risiko nach Gewinnen zu lockern ist, wie gefährliche Erfolge zu kontogroßen Lektionen aufsteigen."
+          },
+          {
+            "id": "never",
+            "label": "Nie — eine Verfassung ist für immer",
+            "feedback": "Regeln, die sich nie anhand von Beweisen entwickeln, werden zu Relikten, die pauschal ignoriert werden. Die geplante Änderung IST die Disziplin."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "capstone",
+    "title": "Die Stunde des Operators",
+    "scenario": "Eine Stunde, echte Bedingungen: eine offene Position nahe ihrem Stop, ein frisches A-Setup auf einem anderen Symbol, zwei unprotokollierte Trades von gestern, und fällige Wiederholungskarten. Teile dich ein.",
+    "checkpoints": [
+      {
+        "question": "Die ersten fünf Minuten?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Prüfe das Risiko der offenen Position: Stop aktiv, Größe richtig, nichts zu entscheiden, außer 94,80 wird gehandelt",
+            "feedback": "Korrekt. Offenes Risiko ist immer Priorität null. Bestätige, dass die Maschine scharf ist, dann lass sie in Ruhe."
+          },
+          {
+            "id": "new_first",
+            "label": "Das A-Setup — Gelegenheiten verfallen, Verwaltung nicht",
+            "feedback": "In neues Risiko einzusteigen, während das offene Risiko ungeprüft ist, ist, wie zwei 1-%-Positionen zu einer 4-%-Überraschung werden."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Aktualisiere den P&L ein paar Mal, um zu sehen, wo du stehst",
+            "feedback": "Der P&L ist eine Ausgabe. Ihn zu beobachten ändert nichts und grundiert Ergebnis-Denken vor einer Entscheidungsstunde."
+          }
+        ]
+      },
+      {
+        "question": "Das A-Setup ist gültig und dein Tageslimit erlaubt es. Die offene Position ist 0,4R von ihrem Stop. Nimmst du den neuen Trade?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Ja, mit normaler 1-%-Größe — jeder Trade unabhängig, beide in der Richtlinie, kombinierte Hitze geprüft",
+            "feedback": "Korrekt. Zwei unabhängige 1-%-Risiken innerhalb eines geprüften Hitze-Limits sind das System auf Kapazität, nicht darüber."
+          },
+          {
+            "id": "wait_out",
+            "label": "Nein — nie zwei Positionen gleichzeitig",
+            "feedback": "Überlebbar, aber willkürlich: Wenn Hitze-Limits und Dimensionierung echt sind, lässt rein serielles Trading die Kapazität des Systems aus Angst ungenutzt."
+          },
+          {
+            "id": "double_up",
+            "label": "Ja, mit 2 % — die erste ist sowieso quasi verloren",
+            "feedback": "„Quasi verloren“ heißt, einen noch nicht gehandelten Stop vorab auszugeben und dann die Exposition mit Tilt-Mathematik zu verdoppeln."
+          }
+        ]
+      },
+      {
+        "question": "Zwanzig Minuten übrig. Journal-Rückstand oder Wiederholungskarten?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Protokolliere die zwei Trades, solange der Kontext überlebt, Karten mit dem Rest",
+            "feedback": "Korrekt. Der Journal-Kontext zerfällt in Stunden; die Karten-Planung verträgt einen Tag. Die verderbliche Arbeit zuerst."
+          },
+          {
+            "id": "cards_first",
+            "label": "Karten zuerst — die Serien-Metrik ist sichtbar und das Journal nicht",
+            "feedback": "Die sichtbare Metrik über die wertvolle zu optimieren. Das Journal speist jeden Detektor, den der Coach hat."
+          },
+          {
+            "id": "neither",
+            "label": "Keines — such stattdessen nach einem weiteren Setup",
+            "feedback": "Der Hebel der Stunde war nie ein dritter Trade. Operatoren werden für die langweiligen zwanzig Minuten bezahlt."
+          }
+        ]
+      }
+    ]
+  }
+]
