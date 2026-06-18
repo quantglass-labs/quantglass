@@ -1,0 +1,746 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "Boyut Kararı",
+    "scenario": "Hesap: 10.000 $ kâğıt. Beğendiğin bir kurulum beliriyor: giriş 100, yapı geçersizleşmenin 95'te olduğunu söylüyor. Girmek istiyorsun. Sonraki üç karar bunun bir işlem mi yoksa kumar mı olduğunu belirler.",
+    "checkpoints": [
+      {
+        "question": "Pozisyon boyutunu nasıl belirlersin?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Hesabın %1'ini riske at: (10.000 $ x %1) / (100 - 95) = 20 hisse",
+            "feedback": "Doğru. Önce risk seçilir; boyut ondan türetilir. Hisse sayısını kanaat değil, stop mesafesi belirler."
+          },
+          {
+            "id": "round",
+            "label": "100 hisse al — anlamlı görünen güzel bir yuvarlak sayı",
+            "feedback": "Yuvarlak sayıyla boyutlandırma, riskinin sonradan grafiğin karar vereceği şey olması demektir: burada 100 hisse hesabın %5'ini, politikanın beş katını riske atar."
+          },
+          {
+            "id": "allin",
+            "label": "Tüm alım gücünü kullan — bu kurulum kaçırılamayacak kadar iyi",
+            "feedback": "Tam boyut, tek bir olumsuz çubuğu ölümcül kılar. Hesapları bitiren tam da bu alışkanlıktır."
+          }
+        ]
+      },
+      {
+        "question": "Stop nereye konur?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "95'e, tezi geçersiz kılan seviyenin altına",
+            "feedback": "Doğru. Stop, fikrin yanlış olduğunun kanıtlandığı yerde yaşar; kabul edilebilir görünen bir dolar tutarında değil."
+          },
+          {
+            "id": "tight",
+            "label": "99'a — daha sıkı stop, daha fazla hisse alabilmem demek",
+            "feedback": "Sıradan gürültünün içine konan stop risk kontrolü değil, bağıştır. Daha sık kaybetmek için boyutu büyüttün."
+          },
+          {
+            "id": "none",
+            "label": "Stop yok — izlerim, gerekirse elle çıkarım",
+            "feedback": "Gözetimsiz bir ekran, bir toplantı, bir boşluk: «zihinsel stoplar» tam da gerektiğinde başarısız olur. Tanımsız geçersizleşme, sınırsız risk demektir."
+          }
+        ]
+      },
+      {
+        "question": "Fiyat 96,20'ye düşüp duraklıyor. 95'teki stopun sağlam. Şimdi ne?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Hiçbir şey. 95 işlem görene kadar plan sağlam",
+            "feedback": "Doğru. Geçersizleşmenin üzerindeki bir geri çekilme tanımı gereği gürültüdür. Kararı plan verir, rahatsızlık değil."
+          },
+          {
+            "id": "widen",
+            "label": "Stopu 93'e taşı, ona daha fazla alan ver",
+            "feedback": "Stopu genişletmek, planlı küçük bir zararı plansız büyük bir zarara çevirir. Anayasa tam da bunu yasaklamak için vardır."
+          },
+          {
+            "id": "panic",
+            "label": "Şimdi çık — kalanı koru",
+            "feedback": "Geçersizleşmenin üzerinde çıkmak, midenin planı veto ettiği anlamına gelir. Parayı korudun ama planları terk etme alışkanlığını eğittin."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "process-quality",
+    "title": "Uçuş Öncesi Kontrol",
+    "scenario": "Bir yükseliş trendinde geri çekilme fark ediyorsun. Grafik doğru görünüyor. Emir gitmeden önce, süreç puanı çoktan yazılıyor.",
+    "checkpoints": [
+      {
+        "question": "Onaydan önce bilete ne girer?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Stop, hedef, risk %, yazılı neden ve şu an nasıl hissettiğim",
+            "feedback": "Doğru. Planın beş alanı tüm süreç puanıdır: geçersizleşme, çıkış, boyut, tez, ruh hâli."
+          },
+          {
+            "id": "partial",
+            "label": "Stop ve hedef — neden grafikten belli",
+            "feedback": "Bugün «belli» olan tez, gelecek haftanın incelemesinde okunamaz. Yazılmayan nedenler sıfır puan verir ve hiçbir şey öğretmez."
+          },
+          {
+            "id": "speed",
+            "label": "Sadece giriş — önce yürüt, sonra planla, fiyat beklemez",
+            "feedback": "Sonra-planla, asla-planlama demektir. Riski tanımlamadan giriş, en büyük süreç-puanı cezasıdır."
+          }
+        ]
+      },
+      {
+        "question": "Yazdığın neden «yükseliş gibi görünüyor» diyor. Yeterli mi?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "Hayır — yeniden yaz: «ADX-onaylı yükseliş trendinde EMA20'ye geri çekilme, hacim daralıyor»",
+            "feedback": "Doğru. Tez yapıyı, rejimi ve onu neyin kıracağını adlandırır. «Yükseliş gibi görünüyor» ne incelenebilir ne öğrenilebilir."
+          },
+          {
+            "id": "fine",
+            "label": "İyi — ne demek istediğimi biliyorum",
+            "feedback": "40 işlem sonra hatırlamayacaksın. Günlük, her şeyi unutmuş gelecekteki kendine bir mektuptur."
+          },
+          {
+            "id": "skip",
+            "label": "Nedenler analistler için — tek gerçek P&L'dir",
+            "feedback": "Süreçsiz sonuç gürültüdür. 2x2, kârlı kötü kararlar en pahalı olduğu için vardır."
+          }
+        ]
+      },
+      {
+        "question": "İşlem +2R kazanıyor ama yazdığın stopu hiç koymadın. İnceleme buna tehlikeli başarı diyor. Tepkin?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Dürüstçe kaydet — galibiyet bozuk bir süreci aklamaz",
+            "feedback": "Doğru. Kötü karar + iyi sonuç, sonunda faturayı kesen alışkanlığı eğitir. Onu adlandırmak tedavidir."
+          },
+          {
+            "id": "argue",
+            "label": "Geçersiz say — galibiyet galibiyettir",
+            "feedback": "Kendi gösterge panonla tartışmak onun amacını iptal eder. Böyle bir sonraki «galibiyet» daha büyük boyutta alınır."
+          },
+          {
+            "id": "ignore",
+            "label": "Bu hafta incelemeyi tamamen atla",
+            "feedback": "İncelenmeyen işlemler hiçbir şey öğretmez. İncelemediğin tehlikeli başarı, tekrarladığındır."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "Stop Yaklaşıyor",
+    "scenario": "50'den long, stop 47,50, planlı -1R = 100 $. Fiyat 47,80'de ve düşüyor. Her tüccar bu anla karşılaşır; çok azı doğru şekilde karşılaşır.",
+    "checkpoints": [
+      {
+        "question": "Fiyat 47,55'i görüyor. Stop neredeyse gerçekleşecek. Ne yaparsın?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Hiçbir şey. Stop, planın çalışmasıdır, başarısızlığı değil",
+            "feedback": "Doğru. Tanımlı bir risk satın aldın. -1R her zaman iki planlı sonuçtan biriydi."
+          },
+          {
+            "id": "cancel",
+            "label": "Stopu iptal et — ben çıkar çıkmaz hep geri sıçrıyor",
+            "feedback": "Stopu iptal etmek, 100 $'lık planlı riski dipsiz bir kuyuya çevirir. Her hesap çöküşü otopsisinde bu adım vardır."
+          },
+          {
+            "id": "average",
+            "label": "Burada daha al, başa baş noktasını düşür",
+            "feedback": "Kaybeden işlemde maliyet ortalaması, başa başı yakınlaştırır ve toplam riski uzaklaştırır. Tek tek işlemler hesapları böyle öldürür."
+          }
+        ]
+      },
+      {
+        "question": "47,50'de çıktın, -1R. Beş dakika sonra fiyat 50'yi geri alıyor. Bunu nasıl okursun?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "İyi oynanmış bir zarar — doğru karar, varyans aldı. Kaydet ve devam et",
+            "feedback": "Doğru. Sınıflandırıcı tam da bu sızı için vardır: sonuç kalitesi ve karar kalitesi farklı eksenlerdir."
+          },
+          {
+            "id": "broken",
+            "label": "Stopumun yanlış olduğunun kanıtı — sonraki sefer boyutu yeniden hesaplamadan daha geniş",
+            "feedback": "Boyutu yeniden hesaplamadan stopu genişletmek yalnızca dolar zararını artırır. Yapının daha fazla alana ihtiyacı varsa, boyutu küçült."
+          },
+          {
+            "id": "revenge",
+            "label": "50'de hemen yeniden gir — bana borçlu",
+            "feedback": "Nedeni son zararın olan bir giriş intikam işlemidir. Piyasa alacak defteri tutmaz."
+          }
+        ]
+      },
+      {
+        "question": "Arka arkaya üç planlı zarar, hepsi stoplarda, hepsi günlükte. Süreç ortalaması: 85. Ne değişir?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Yapısal olarak hiçbir şey — desen için incele, boyutu koru, sistemi koru",
+            "feedback": "Doğru. Üç -1R zarar, herhangi bir gerçek sistemin sıradan varyansının tam içindedir. Her kayıp serisinden sonra sistem değiştirmek, asla bir sisteminin olmamasını garantiler."
+          },
+          {
+            "id": "halve",
+            "label": "Bir kazanan gelene kadar boyutu yarıya indir",
+            "feedback": "Savunulabilir ama üç işlemde erken — ve zararları ödeyen galibiyetleri orantısız küçültür."
+          },
+          {
+            "id": "abandon",
+            "label": "Sistem bozuk — bu gece yeni bul",
+            "feedback": "Monte Carlo, %50 kazançlı bir sistemin ömrünün üçte birini düşüşte geçirdiğini söyler. Sistemler arası atlamak her seferinde örneklemi sıfırlar."
+          }
+        ]
+      },
+      {
+        "question": "Bir pozisyonu stop yerine stop-limit (tetik 47,50, limit 47,40) ile korudun. Gece bir haber 45,80'de boşlukla açtırıyor. Korumana ne oldu?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Hiçbir şey gerçekleşmedi — limit bacağı 47,40 ya da iyisini istiyordu ve fiyat orada işlem görmedi. Hâlâ long'um, «stopumun» %4 altında",
+            "feedback": "Doğru. Stop-limit tuzağı budur: sıradan günlerde kaymayı sınırlar ve tam da ihtiyaç duyulan günde sessizce başarısız olur. Bu yüzden kâğıt platformu stop-limitleri simüle etmeyi reddeder — kapalı çubuklarda gerçekleşmeyi uydurmak gerekirdi."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "47,40'ta gerçekleşti — limitin garanti ettiği buydu",
+            "feedback": "Limit fiyatı garanti eder, gerçekleşmeyi asla. Fiyat pencereni içinde işlem görmeden boşlukla geçti; emir hâlâ orada, gerçekleşmemiş, zarar büyürken."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "Sıradan bir stop gibi 45,80 açılışta gerçekleşti",
+            "feedback": "Bunu basit bir STOP emri yapar: piyasa emrine döner ve boşluğu yutar. Limit bacağı tam da o gerçekleşmeyi engelledi. Hangisini koyduğunu bil."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "tilt-control",
+    "title": "Kırmızı Sabah",
+    "scenario": "Öğleden önce iki stop, ikisi de planlı, ikisi de -1R. Çenenin kasıldığını ve grafiği yenilemenin takıntıya dönüştüğünü fark ediyorsun. Sonraki karar tüm oyundur.",
+    "checkpoints": [
+      {
+        "question": "Üçüncü bir kurulum beliriyor. Sınırda — A-kurulumun değil. Ne olur?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Atla ve duyguyu kaydet: «hayal kırıklığı, geri kazanmak istedim»",
+            "feedback": "Doğru. Durumu yüksek sesle adlandırmak, tilti erken yakalama yoludur. Sınırda kurulum + sıcak durum = klasik üçüncü zarar."
+          },
+          {
+            "id": "smaller",
+            "label": "Yarı boyutla al — arzuyla uzlaş",
+            "feedback": "Yarı boyutlu tilt yine tilttir. Girişin nedeni sabahın, piyasa değil."
+          },
+          {
+            "id": "double",
+            "label": "Çift boyutla al — sabahı tek işlemle geri kazan",
+            "feedback": "Zararlardan sonra ikiye katlamak, kapüşonlu bir martingaldir. Risk görevlisinin bildiği en yüksek şiddet desenidir."
+          }
+        ]
+      },
+      {
+        "question": "Atladın. Sınırdaki kurulum kazanırdı. Bunu nasıl çerçevelersin?",
+        "options": [
+          {
+            "id": "good",
+            "label": "İyi bir karar. Tiltteyken B-kurulumları atlamak politikadır ve politika 100 işlemde yargılanır",
+            "feedback": "Doğru. Karşıolgusal galibiyet hiçbir şey değiştirmez: karar verildiği anda doğruydu. Atlanan işlemleri sonuca göre yargılamak, tilt kapısını yeniden açmaktır."
+          },
+          {
+            "id": "regret",
+            "label": "Hayal kırıklığındayken içgüdüme güvenmem gerektiğinin kanıtı",
+            "feedback": "Politikaya karşı tek bir örnek — tehlikeli alışkanlıklar böyle işe alınır. Bu işlemi isteyen içgüdü, çift boyutlu intikam girişini de istedi."
+          },
+          {
+            "id": "rule_off",
+            "label": "Günlük limit kuralını kapat — para kaybettiriyor",
+            "feedback": "Korkuluğu tam da çalıştığı anda silmek, anayasanın tek sınavında başarısız olmasıdır."
+          }
+        ]
+      },
+      {
+        "question": "Seansı doğru biçimde ne bitirir?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Üç kararı da kaydet, duyguyu etiketle, terminali kapat",
+            "feedback": "Doğru. Günün değeri asla P&L değildi — sinirlilik altında tutulan temiz bir davranış kaydıydı."
+          },
+          {
+            "id": "watch",
+            "label": "«Sadece öğrenmek için» piyasayı izlemeye devam et — ama emir olmadan",
+            "feedback": "Tiltteyken ekrana bakmak, «emir yok»u tek bir emre çevirir. Öğrenme günlükte olur, yenileme döngüsünde değil."
+          },
+          {
+            "id": "binge",
+            "label": "Bir kazanan günü yeşile çevirene kadar kal",
+            "feedback": "Yeşil bir güne ihtiyaç duymak — bu, tilt konuşuyor. Günler muhasebe kurgularıdır; gerçek puan süreç ortalamasıdır."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "journaling",
+    "title": "Dürüst Kayıt",
+    "scenario": "Piyasa kapandı. Kaydı olmayan üç yürütülmüş işlem: temiz bir galibiyet, özensiz bir galibiyet ve planlı bir zarar. On dakikalık dürüstlük mevcut.",
+    "checkpoints": [
+      {
+        "question": "Hangi işlem önce ve en derin kaydedilir?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "Özensiz galibiyet — girişi kovaladın, duygu kaydedilmedi, şansla çıktın",
+            "feedback": "Doğru. Özensiz galibiyet tehlikelidir: ödüllendirilen hatalar tekrarlanır. Galibiyetler zararlardan daha çok otopsiye ihtiyaç duyar."
+          },
+          {
+            "id": "loss",
+            "label": "Zarar — dersler zararlarda yaşar",
+            "feedback": "Makul ama bu zarar planlı ve temizdi — sistemi doğrular. Özensiz galibiyet, yeni bilginin olduğu yerdir."
+          },
+          {
+            "id": "best",
+            "label": "Temiz galibiyet — iyi bir notla bitir",
+            "feedback": "Yalnızca seni pohpohlayanı kaydetmek bir özel günlüktür, veri kümesi değil."
+          }
+        ]
+      },
+      {
+        "question": "Özensiz galibiyet hakkında yararlı not ne der?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "«Hareket başladıktan sonra plan girişinin %0,8 üstünde kovaladım. FOMO. Yine de kazandım — tehlikeli alışkanlık olarak işaretledim»",
+            "feedback": "Doğru. Somut davranış, adlandırılmış duygu, dürüst etiket. Bu not koçun dedektörlerini ve gelecekteki kendini besler."
+          },
+          {
+            "id": "vague",
+            "label": "«Giriş daha iyi olabilirdi. Yine de iyi sonuç»",
+            "feedback": "Belirsiz notlar toplanamaz, tespit edilemez ya da öğrenilemez. «Daha iyi olabilirdi» şimdiye dek yapılmış her işlemi tanımlar."
+          },
+          {
+            "id": "victory",
+            "label": "«Tam isabet. +1,8R. Bunlardan daha çok»",
+            "feedback": "«Bunlardan daha çok» — daha çok giriş kovalama mı? Not, bir kez işe yaradı diye hatayı onayladı."
+          }
+        ]
+      },
+      {
+        "question": "Gün uzundu ve üçüncü not isteğe bağlı gibi. Karar ver.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Yaz — iki cümle. Kaydı olmayan işlemler hiçbir şey öğretmez",
+            "feedback": "Doğru. Tam kayıtların dizisi herhangi bir tekil içgörüden değerlidir. Üçte üç, her gün."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Yarın taze bir gözle yap",
+            "feedback": "Yarının hafızası, geç akılla terbiyelenmiş bir kurgudur. Giriş anının durumu çoktan buharlaşıyor."
+          },
+          {
+            "id": "skip2",
+            "label": "Atla — sadece planlı bir zarardı, öğrenecek bir şey yok",
+            "feedback": "Planlı zararlar sistemin çalıştığını doğrular — o doğrulama veridir. Günlüğü atlamak bir dedektördür, sebepsiz değil."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "selectivity",
+    "title": "Sessiz Piyasa",
+    "scenario": "Salı, 11:40. Bugün iyi bir işlem yaptın. Piyasa sessiz ve düzensiz oldu. Günlük limitin 3. İmleç havada bekliyor.",
+    "checkpoints": [
+      {
+        "question": "Kurulum listenle hiçbir şey eşleşmiyor ama «ritimdesin». Şimdi ne?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Pozisyonsuz kal. Kurulum yoksa işlem yok; ritim kurulum değildir",
+            "feedback": "Doğru. En zor pozisyon pozisyonsuzluktur. Seçicilik avantajın TA KENDİSİDİR; etkinlik onun vergisidir."
+          },
+          {
+            "id": "hunt",
+            "label": "Bir şey bulmak için dakikalık grafiğe in",
+            "feedback": "Gürültü sinyale benzeyene dek yakınlaştırmak, «kurulum yok»u beş kötü kuruluma çevirir."
+          },
+          {
+            "id": "boredom",
+            "label": "Bağlı kalmak için küçük bir «can sıkıntısı işlemi» al",
+            "feedback": "Can sıkıntısı işlemleri tiltin kibar kuzenidir: girişin nedeni ruh hâlin. Küçük kötü işlemler büyük kötü alışkanlıkları eğitir."
+          }
+        ]
+      },
+      {
+        "question": "Gerçekten iyi bir kurulum hiç işlem yapmadığın bir enstrümanda beliriyor. Limit izin veriyor. Karar ver.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Yeni enstrümanın tam uçuş öncesi kontrolünü yap — likidite, makas, oynaklık — sonra geçerse normal boyut",
+            "feedback": "Doğru. Yeni enstrümanlar aynı süreci artı bir platform kontrolünü hak eder. Doğru yapılan genişlik, muhakemenin çeşitlendirilmesidir."
+          },
+          {
+            "id": "familiar",
+            "label": "Atla — yalnızca bildiğini işle",
+            "feedback": "Savunulabilir ama «bildiğim»i tek bir grafiğe daraltmak, becerinin kanıt tabanını daraltır."
+          },
+          {
+            "id": "yolo",
+            "label": "Hemen al — kurulum kurulumdur",
+            "feedback": "Kurulum taşınabilir; makas, likidite ve boşluk davranışı taşınmayabilir. Test edilmemiş platform riski yine risktir."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "2x2'yi Okumak",
+    "scenario": "Haftalık inceleme. Ekranda dört işlem: kazanılmış bir galibiyet, iyi oynanmış bir zarar, dürüst bir harç ve tehlikeli bir başarı. Bunları nasıl okuduğun, gelecek haftanın nasıl görüneceğini belirler.",
+    "checkpoints": [
+      {
+        "question": "En tehlikeli çeyrek hangisi?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "Tehlikeli başarı — piyasanın ödediği kötü bir karar",
+            "feedback": "Doğru. Ödüllendirilen hatalar birikir: sonraki sefer daha çok boyut ve daha çok güven, ve fatura faiziyle gelir."
+          },
+          {
+            "id": "tuition",
+            "label": "Dürüst harç — para kaybetti VE kötü bir karardı",
+            "feedback": "Harç acıtır ama temiz öğretir: kötü süreç, kötü sonuç, okunabilir ders. Boyutta nadiren tekrarlanır."
+          },
+          {
+            "id": "loss",
+            "label": "İyi oynanmış zarar — zararlar her zaman sorundur",
+            "feedback": "İyi oynanmış zararlara «sorun» demek sonuç tapınmasıdır. O zarar, sistemin çalışmasıdır."
+          }
+        ]
+      },
+      {
+        "question": "Kazanılmış galibiyetin ve tehlikeli başarın aynı +1,5R'yi verdi. Onları ne ayırır?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "Kazanılmış galibiyetin süreci kasıtlı tekrarlanabilir; tehlikeli başarı varyanstan kiralandı",
+            "feedback": "Doğru. Aynı P&L, zıt bilgi. İkisinden yalnızca biri ustalık kanıtıdır."
+          },
+          {
+            "id": "same",
+            "label": "Hiçbir şey — R, R'dir",
+            "feedback": "R sonucu ölçer, karar kalitesini değil. R her şey olsaydı, piyango kazananları yatırımcı olurdu."
+          },
+          {
+            "id": "luck_all",
+            "label": "İkisi de şanstı — tekil işlemlerin hiçbir anlamı yok",
+            "feedback": "Tekil sonuçlar gürültülüdür ama kararlar hemen değerlendirilebilir. Bu asimetri, süreç puanlamasının tüm anlamıdır."
+          }
+        ]
+      },
+      {
+        "question": "Gelecek hafta için tek düzeltici eylem?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Tehlikeli başarının giriş koşullarını yeniden oku ve onu engelleyecek bir kural yaz",
+            "feedback": "Doğru. Tespit edilen her desene bir somut yazılı kural — geri bildirim döngüsü böyle kapanır."
+          },
+          {
+            "id": "more_wins",
+            "label": "Daha çok galibiyet hedefle — isabet oranını yükselt",
+            "feedback": "İsabet oranı bir çıktıdır. Onu doğrudan kovalamak genellikle kazananları erken kesmek ve stopları genişletmektir — ikisi de aşındırıcı."
+          },
+          {
+            "id": "trade_more",
+            "label": "Örneklemi daha hızlı büyütmek için daha çok işle",
+            "feedback": "Test edilmemiş kararların daha büyük örneklemi sadece daha çok gürültüdür. Çıktıyı ölçeklemeden önce üreteci onar."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Tekrarı Okumak",
+    "scenario": "Simülatörde tarihsel bir bölümü çalıştırmak üzeresin. Tekrarı nasıl kullandığın, onun muhakemeyi mi eğittiğini yoksa sadece eğlendirdiğini mi belirler.",
+    "checkpoints": [
+      {
+        "question": "Tekrarın ortasında bölümü tanıyorsun — nasıl bittiğini biliyorsun. Dürüst hamle nedir?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Yine de süreçten yanıtla: bu çubukta tüccar geç akıl olmadan ne YAPMALI?",
+            "feedback": "Doğru. Tekrar kararları puanlar, tahminleri değil. Geç akılla yön bulmak, geçmiş hakkında haklı olmayı öğrenmektir."
+          },
+          {
+            "id": "exploit",
+            "label": "Bilgiyi kullan — puan puandır",
+            "feedback": "Az önce «canlıda olmayacak bilgiyle hareket et»i eğittin. Puan yükselir; beceri düşer."
+          },
+          {
+            "id": "quit",
+            "label": "Bırak ve bilmediğin bir bölüm bul",
+            "feedback": "Makul içgüdü ama bölümleri tanımak piyasa okuryazarlığının TA KENDİSİDİR — disiplin yine de süreçten yanıtlamaktır."
+          }
+        ]
+      },
+      {
+        "question": "İncelemede %55 ile kaldın. Sonraki eylem?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Her kontrol noktasının sonucunu oku, ilgili dersleri çalış, yarın tekrar yap",
+            "feedback": "Doğru. İnceleme daha iyi hamleyi ve nedenini söyler. Aralıklı yeniden deneme, anında yeniden tahminden iyidir."
+          },
+          {
+            "id": "retry_now",
+            "label": "Hemen tekrar dene — şimdi doğru yanıtları hatırlıyorsun",
+            "feedback": "Anında yeniden denemeler hafızayı sınar, muhakemeyi değil. Yarın geçmek bir anlam taşır; bu gece geçmek sadece kısa süreli hafızanın çalıştığını gösterir."
+          },
+          {
+            "id": "dismiss",
+            "label": "Boş ver — simülatör zaten gerçek işlemcilik değil",
+            "feedback": "Simülatör, içindeki kararların kadar gerçektir. Simülatörü küçümseyen pilotlar uçağı alamaz."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "academy-scholar",
+    "title": "Gerçekten Nasıl Öğrenilir",
+    "scenario": "Bu gece Akademi'ye yirmi dakika. Hedef, canlı grafikle temasa dayanan bilgidir.",
+    "checkpoints": [
+      {
+        "question": "Yirmi dakikanın en iyi kullanımı?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "Bir yeni ders, sonra vadesi gelen inceleme kartlarını derecelendir, sonra gerçek çubuklarda canlı alıştırması",
+            "feedback": "Doğru. Edin, geri çağır, uygula — bilgiyi baskı altında erişilebilir kılan üçleme."
+          },
+          {
+            "id": "binge2",
+            "label": "Dört dersi hızla geç — hacim ilerlemedir",
+            "feedback": "Geri çağırma olmadan okuma günlerde buharlaşır. Dört yutulmuş ders, dört kez unutulmuş bir derstir."
+          },
+          {
+            "id": "reread",
+            "label": "Favori dersini yeniden oku — sağlam hissettiriyor",
+            "feedback": "Yeniden okuma akıcılık gibi hissettirir ve hiçbir şey gibi sınanır. Kartlar, tanımak hatırlamak olmadığı için vardır."
+          }
+        ]
+      },
+      {
+        "question": "Bir inceleme kartı geliyor: «ATR». Tam bir hafıza boşluğu. Doğru derece nedir?",
+        "options": [
+          {
+            "id": "again",
+            "label": "«Tekrar» — dürüst boşluklar kartı daha erken yeniden çizelgeler, ki sistemin çalışması budur",
+            "feedback": "Doğru. Dürüst derecelendirme tüm algoritmadır. Pohpohlayan bir «iyi» yalnızca cehaletini ileri iter."
+          },
+          {
+            "id": "peek_good",
+            "label": "Aç, tanı, «iyi» derecele — yeterince yakın",
+            "feedback": "Açtıktan sonra tanımak, açmadan önce hatırlamak değildir. Az önce çizelgeleyiciye sana yardım etmeyi bırakmasını öğrettin."
+          },
+          {
+            "id": "easy_all",
+            "label": "Sırayı hızlı temizlemek için her şeye «kolay» de",
+            "feedback": "Öğrenilmemiş kartların boş sırası, temiz görünen bir başarısızlıktır. Sıra düşman değil; unutmak düşmandır."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "consistency",
+    "title": "Seri Sorusu",
+    "scenario": "Günlük serinin 13. günü. Bu gece bitkinsin ve seri sayacı sana bakıyor.",
+    "checkpoints": [
+      {
+        "question": "Bugün dürüst asgari varlık birimi nedir?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Beş inceleme kartı, dürüstçe derecelenmiş. Küçük ve gerçek, büyük ve atlanmıştan iyidir",
+            "feedback": "Doğru. Seriler asgari uygulanabilir seanslarla hayatta kalır. Alışkanlık varlıktır; bugünün hacmi önemsizdir."
+          },
+          {
+            "id": "force",
+            "label": "Kendini bütün bir derse artı alıştırmalara zorla — seriler gerçek emek ister",
+            "feedback": "Kahramanca yorgun seanslar yüzeysel öğrenme ve küskünlük üretir. Küskünlük serileri dinlenmeden daha kesin öldürür."
+          },
+          {
+            "id": "fake",
+            "label": "Uygulamayı aç, okumadan dersi tamamlandı işaretle — sayacı canlı tut",
+            "feedback": "Hile yapılmış seri tıklamaları ölçer, öğrenmeyi değil. Önemli olan tek izleyiciye yalan söylerdin."
+          }
+        ]
+      },
+      {
+        "question": "14. gün: seri yine de ölüyor — sadece unuttun. Tepki?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Yarın 1. günden seriye başla. 13 günlük öğrenme senin kalır",
+            "feedback": "Doğru. Sayaç sıfırlanır; bilgi sıfırlanmaz. Kopmuş bir seriyi felaket saymak, insanların tamamen bırakma nedenidir."
+          },
+          {
+            "id": "spiral",
+            "label": "Sistem başarısız oldu — günlük uygulamayı bırak",
+            "feedback": "Tek kaçırılan günün alışkanlığı silmesi, ya hep ya hiç düşüncesidir — hesapları havaya uçuran aynı bilişsel kusur."
+          },
+          {
+            "id": "backfill",
+            "label": "Dünkü etkinliği geriye dönük kaydetmenin yolunu bul",
+            "feedback": "Kendi gösterge panonla hile yapmak. Sayılar pazarlık konusuysa, hiçbiri bir anlam taşımaz."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "constitution",
+    "title": "Tutan Kurallar Yazmak",
+    "scenario": "İşlem Anayasanı taslaklıyorsun. Bu gece yazdığın kurallar sonradan kendi emirlerini engelleyecek — onları kendinin en kötü sürümü için yaz.",
+    "checkpoints": [
+      {
+        "question": "Hangi azami risk kuralı belgeye aittir?",
+        "options": [
+          {
+            "id": "one",
+            "label": "İşlem başına %1 — atlatılabilir kayıp serileri, tasarımca sıkıcı",
+            "feedback": "Doğru. %1'de, arka arkaya on zarar ~%10'a mal olur. Anayasanın işi, iflas aritmetiğini imkânsız kılmaktır."
+          },
+          {
+            "id": "five",
+            "label": "%5 — büyümeye geldin, sürünmeye değil",
+            "feedback": "%5'te, yedi sıradan zarar hesabın üçte biridir. Oradan düşüş-toparlanma eğrisi acımasızdır."
+          },
+          {
+            "id": "flex",
+            "label": "«Kanaate göre esnek» — kurallar nefes almalı",
+            "feedback": "Kanaat kaçağı olan bir kural, kural değildir. Kanaat tam da disiplinin en önemli olduğu anda en yüksektir."
+          }
+        ]
+      },
+      {
+        "question": "3. hafta: emin olduğun bir işlem, stopunu sığdırmak için %2 risk istiyor. Bilet onu engelliyor. Karar ver.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Boyutu yarıya indir, aynı stop %1'e mal olsun — kural tutuyor",
+            "feedback": "Doğru. Stop yapısaldır; boyut serbest değişkendir. Anayasa az önce tek işini yaptı."
+          },
+          {
+            "id": "amend_now",
+            "label": "Şimdi anayasayı %2'ye izin verecek şekilde değiştir — sonra işlemi al",
+            "feedback": "Dürtüyü dürtü içinde değiştirmek yönetişim değil, kostümdür. Değişiklikler inceleme günlerinde olur, asla işlem günlerinde değil."
+          },
+          {
+            "id": "disable",
+            "label": "Bir işlem için uygulamayı kapat",
+            "feedback": "Erteleme düğmeli bir uygulama sistemi hiçbir şey korumaz. Bu en yüksek şiddet yönetişim başarısızlığıdır."
+          }
+        ]
+      },
+      {
+        "question": "Anayasayı değiştirmenin doğru zamanı ne zaman?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "Planlı aylık incelemede, günlük açıkken ve pozisyon yokken",
+            "feedback": "Doğru. Kurallar kanıtla evrilir, kendinin sakin sürümü tarafından kararlaştırılır — asla pozisyon tutan sürüm tarafından değil."
+          },
+          {
+            "id": "after_win",
+            "label": "Büyük kazançlı bir haftadan sonra — daha gevşek kuralları hak ettin",
+            "feedback": "Galibiyetlerden sonra riski gevşetmek, tehlikeli başarıların hesap boyutunda derslere mezun olma yoludur."
+          },
+          {
+            "id": "never",
+            "label": "Asla — anayasa sonsuza dektir",
+            "feedback": "Kanıtla asla evrilmeyen kurallar, toptan göz ardı edilen kalıntılara dönüşür. Planlı değişiklik TA disiplindir."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "capstone",
+    "title": "Operatörün Saati",
+    "scenario": "Bir saat, gerçek koşullar: stopa yakın açık bir pozisyon, başka bir enstrümanda taze bir A-kurulum, dünden iki incelenmemiş işlem ve vadesi gelmiş inceleme kartları. Kendini dağıt.",
+    "checkpoints": [
+      {
+        "question": "İlk beş dakika?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Açık pozisyonun riskini kontrol et: stop etkin, boyut doğru, 94,80 işlem görene kadar karar verilecek bir şey yok",
+            "feedback": "Doğru. Açık risk her zaman sıfır önceliklidir. Makinenin kurulu olduğunu doğrula, sonra onu rahat bırak."
+          },
+          {
+            "id": "new_first",
+            "label": "O A-kurulum — fırsatlar sona erer, rutin ermez",
+            "feedback": "Açık risk doğrulanmadan yeni riske girmek, iki %1 pozisyonu %4'lük bir sürprize çevirir."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Nerede olduğunu görmek için P&L'yi birkaç kez yenile",
+            "feedback": "P&L bir çıktıdır. Ona bakmak hiçbir şey değiştirmez ve bir karar saatinden önce sonuç düşüncesini astarlar."
+          }
+        ]
+      },
+      {
+        "question": "A-kurulum geçerli ve günlük limit izin veriyor. Açık pozisyon stoptan 0,4R uzakta. Yeni işlemi alır mısın?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Evet, normal %1 boyutla — her işlem bağımsız, ikisi de politika içinde, toplam ısı kontrol edildi",
+            "feedback": "Doğru. Kontrol edilmiş ısı limiti içinde iki bağımsız %1 risk, sistemin kapasitede çalışmasıdır, üzerinde değil."
+          },
+          {
+            "id": "wait_out",
+            "label": "Hayır — asla aynı anda iki pozisyon",
+            "feedback": "Atlatılabilir ama keyfi: ısı limitleri ve boyut gerçekse, yalnızca sıralı işlem yapmak korkudan sistemin kapasitesini boş bırakır."
+          },
+          {
+            "id": "double_up",
+            "label": "Evet, %2 ile — ilki zaten fiilen kaybedildi",
+            "feedback": "«Fiilen kaybedildi», henüz gerçekleşmemiş bir stopu önceden harcamak, sonra tilt aritmetiğiyle maruziyeti ikiye katlamaktır."
+          }
+        ]
+      },
+      {
+        "question": "Yirmi dakika kaldı. Günlük borcu mu yoksa inceleme kartları mı?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Bağlam yaşarken iki işlemi kaydet, kartlar kalan zamana",
+            "feedback": "Doğru. Günlüğün bağlamı saatlerde çürür; kart çizelgesi bir gün dayanır. Bozulabilir iş önce."
+          },
+          {
+            "id": "cards_first",
+            "label": "Kartlar önce — seri metriği görünür, günlük değil",
+            "feedback": "Görünür metrik için değerli olanın pahasına optimize etmek. Günlük, koçun sahip olduğu her dedektörü besler."
+          },
+          {
+            "id": "neither",
+            "label": "İkisi de değil — bir kurulum daha aramak daha iyi",
+            "feedback": "Saatin kaldıracı asla üçüncü işlem değildi. Operatörlere o sıkıcı yirmi dakika için ödeme yapılır."
+          }
+        ]
+      }
+    ]
+  }
+]
