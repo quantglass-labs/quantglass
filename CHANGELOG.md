@@ -6,17 +6,27 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-18
+
 ### Added
 
-- **Multilingual interface (foundation).** QuantGlass now speaks 20 languages,
-  selectable from Settings — English, 中文, हिन्दी, Español, العربية, Français,
-  বাংলা, Português, Русский, اردو, Bahasa Indonesia, Deutsch, 日本語, فارسی,
-  Türkçe, 한국어, Tiếng Việt, Italiano, سنڌي, and Kiswahili. The four
+- **Multilingual interface — full coverage.** QuantGlass now speaks 20 languages
+  end to end, selectable from Settings — English, 中文, हिन्दी, Español, العربية,
+  Français, বাংলা, Português, Русский, اردو, Bahasa Indonesia, Deutsch, 日本語,
+  فارسی, Türkçe, 한국어, Tiếng Việt, Italiano, سنڌي, and Kiswahili. Localization
+  now spans every screen and surface: navigation and shared chrome, all Settings
+  tabs (Providers, API keys, AI models, Extensions, Strategies), the Academy
+  (121-lesson catalog across 23 tracks, the glossary/reference/progress/practice
+  views, and the interactive engine-true visuals — regime scrubber, Monte Carlo,
+  conformal visualizer, candlestick anatomy, risk sandbox, candle builder,
+  indicator playground, order-book auction, leverage explorer), the 108-mission
+  behavioral catalog with decision drills and replay scenarios, the AI Copilot,
+  the daily AI insight, and the canonical Signal Detail drawer. The four
   right-to-left languages (Arabic, Urdu, Persian, Sindhi) mirror the whole
   layout. AI insights — narration, coaching, postmortems, research reviews —
-  answer in the selected language. The choice is remembered locally. This first
-  pass localizes the navigation and shared chrome; individual screens and the
-  Academy lesson catalog follow.
+  answer in the selected language; the choice is remembered locally. Engine
+  formulas, indicator names, tickers, R-values, and numeric readouts stay
+  verbatim across every language.
 
 ### Changed
 
@@ -24,6 +34,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (`checkout@v5`, `setup-node@v5`, `setup-python@v6`, `upload-artifact@v5`,
   `download-artifact@v5`), ahead of GitHub forcing Node 20 actions onto Node 24
   (2026-06-16) and removing the Node 20 runtime (2026-09-16).
+- Refreshed the README screenshot tour with current captures of the Dashboard,
+  Signals, Watchlist, Academy, Backtesting, and AI Copilot.
 
 ## [0.2.6] - 2026-06-15
 
