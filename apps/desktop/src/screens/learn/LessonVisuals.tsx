@@ -10,6 +10,7 @@
  */
 
 import type { JSX } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   AuctionSim,
@@ -148,13 +149,14 @@ function CandleGlyph({
 }
 
 function CandleAnatomy({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const bullish = params.variant !== 'bearish';
   return (
     <Frame
-      title="Candlestick Anatomy"
-      subtitle="One candle summarizes open, high, low, and close."
+      title={t('academy.candlestickAnatomy')}
+      subtitle={t('academy.candleSummary')}
       viewBox="0 0 1000 480"
-      label="Candlestick anatomy diagram"
+      label={t('academy.candlestickDiagram')}
     >
       <CandleGlyph
         x={420}
@@ -166,44 +168,45 @@ function CandleAnatomy({ params }: { params: Record<string, unknown> }) {
         width={120}
       />
       <text x={420} y={272} textAnchor="middle" fill={PALETTE.bg} fontSize={20} fontWeight={900}>
-        BODY
+        {t('academy.vBody')}
       </text>
-      <Leader x1={420} y1={120} x2={620} label="High" sub="Highest traded price" />
+      <Leader x1={420} y1={120} x2={620} label={t('academy.vHigh')} sub={t('academy.highSub')} />
       <Leader
         x1={480}
         y1={195}
         x2={620}
-        label={bullish ? 'Close' : 'Open'}
-        sub={bullish ? 'Price at the end' : 'Price at the start'}
+        label={bullish ? t('academy.wClose') : t('academy.wOpen')}
+        sub={bullish ? t('academy.priceAtEnd') : t('academy.priceAtStart')}
       />
       <Leader
         x1={480}
         y1={330}
         x2={620}
-        label={bullish ? 'Open' : 'Close'}
-        sub={bullish ? 'Price at the start' : 'Price at the end'}
+        label={bullish ? t('academy.wOpen') : t('academy.wClose')}
+        sub={bullish ? t('academy.priceAtStart') : t('academy.priceAtEnd')}
       />
-      <Leader x1={420} y1={420} x2={620} label="Low" sub="Lowest traded price" />
-      <Leader x1={420} y1={158} x2={250} label="Wick" sub="Visited, then rejected" />
+      <Leader x1={420} y1={420} x2={620} label={t('academy.vLow')} sub={t('academy.lowSub')} />
+      <Leader x1={420} y1={158} x2={250} label={t('academy.vWick')} sub={t('academy.wickSub')} />
     </Frame>
   );
 }
 
 function CandleComparison() {
+  const { t } = useTranslation();
   return (
     <Frame
-      title="Green vs Red"
-      subtitle="Same anatomy — opposite battle outcome."
+      title={t('academy.greenVsRed')}
+      subtitle={t('academy.sameAnatomy')}
       viewBox="0 0 1000 430"
-      label="Green versus red candle comparison"
+      label={t('academy.greenRedComparison')}
     >
       <CandleGlyph x={300} top={120} bodyTop={190} bodyBottom={330} bottom={380} bullish />
       <text x={300} y={415} textAnchor="middle" fill={PALETTE.up} fontSize={18} fontWeight={800}>
-        Close &gt; Open — buyers won
+        {t('academy.closeGtOpen')}
       </text>
       <CandleGlyph x={700} top={120} bodyTop={190} bodyBottom={330} bottom={380} bullish={false} />
       <text x={700} y={415} textAnchor="middle" fill={PALETTE.down} fontSize={18} fontWeight={800}>
-        Close &lt; Open — sellers won
+        {t('academy.closeLtOpen')}
       </text>
     </Frame>
   );

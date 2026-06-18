@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { exponentialMovingAverage, relativeStrengthIndex } from '../../lib/analytics';
 
@@ -91,6 +92,7 @@ function WidgetShell({
 // ---------------------------------------------------------------------------
 
 export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const entry = Number(params.entry ?? 100);
   const balance = Number(params.balance ?? 10000);
   const riskPercent = Number(params.riskPercent ?? 1);
@@ -106,11 +108,11 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
 
   return (
     <WidgetShell
-      title="Risk sandbox — move the levels, the math follows"
+      title={t('academy.riskSandboxTitle')}
       controls={
         <>
           <Slider
-            label="Stop loss"
+            label={t('academy.stopLoss')}
             value={Number(stop.toFixed(1))}
             min={Number((entry * 0.86).toFixed(1))}
             max={Number((entry * 0.999).toFixed(1))}
@@ -118,7 +120,7 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
             onChange={setStop}
           />
           <Slider
-            label="Target"
+            label={t('academy.target')}
             value={Number(target.toFixed(1))}
             min={Number((entry * 1.001).toFixed(1))}
             max={Number((entry * 1.14).toFixed(1))}
@@ -128,7 +130,12 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
         </>
       }
     >
-      <svg viewBox="0 0 720 400" role="img" aria-label="Risk and reward levels" className="w-full">
+      <svg
+        viewBox="0 0 720 400"
+        role="img"
+        aria-label={t('academy.riskRewardLevels')}
+        className="w-full"
+      >
         <rect width="720" height="400" rx={12} fill={C.bg} />
         <rect
           x={60}
@@ -147,9 +154,9 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
           opacity={0.12}
         />
         {[
-          { price: target, color: C.up, label: `Target ${target.toFixed(1)}` },
-          { price: entry, color: C.accent, label: `Entry ${entry.toFixed(1)}` },
-          { price: stop, color: C.down, label: `Stop ${stop.toFixed(1)}` },
+          { price: target, color: C.up, label: t('academy.lineTarget', { v: target.toFixed(1) }) },
+          { price: entry, color: C.accent, label: t('academy.lineEntry', { v: entry.toFixed(1) }) },
+          { price: stop, color: C.down, label: t('academy.lineStop', { v: stop.toFixed(1) }) },
         ].map((line) => (
           <g key={line.label}>
             <line
@@ -178,7 +185,11 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
           1R = {risk.toFixed(2)}
         </text>
         <text x={350} y={36} fill={C.warn} fontSize={15} fontWeight={700}>
-          Size for {riskPercent}% of ${balance.toLocaleString()}: {units.toFixed(2)} units
+          {t('academy.sizeFor', {
+            pct: riskPercent,
+            balance: balance.toLocaleString(),
+            units: units.toFixed(2),
+          })}
         </text>
       </svg>
     </WidgetShell>
@@ -190,6 +201,7 @@ export function RiskSandbox({ params }: { params: Record<string, unknown> }) {
 // ---------------------------------------------------------------------------
 
 export function CandleBuilder() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(40);
   const [close, setClose] = useState(70);
   const [high, setHigh] = useState(85);
@@ -242,17 +254,22 @@ export function CandleBuilder() {
   const pathLen = 500;
   return (
     <WidgetShell
-      title="Candle builder — the path becomes four numbers"
+      title={t('academy.candleBuilderTitle')}
       controls={
         <>
-          <Slider label="Open" value={open} min={10} max={90} onChange={setOpen} />
-          <Slider label="Close" value={close} min={10} max={90} onChange={setClose} />
-          <Slider label="High" value={high} min={10} max={95} onChange={setHigh} />
-          <Slider label="Low" value={low} min={5} max={90} onChange={setLow} />
+          <Slider label={t('academy.wOpen')} value={open} min={10} max={90} onChange={setOpen} />
+          <Slider label={t('academy.wClose')} value={close} min={10} max={90} onChange={setClose} />
+          <Slider label={t('academy.vHigh')} value={high} min={10} max={95} onChange={setHigh} />
+          <Slider label={t('academy.vLow')} value={low} min={5} max={90} onChange={setLow} />
         </>
       }
     >
-      <svg viewBox="0 0 720 380" role="img" aria-label="Candle builder" className="w-full">
+      <svg
+        viewBox="0 0 720 380"
+        role="img"
+        aria-label={t('academy.candleBuilder')}
+        className="w-full"
+      >
         <rect width="720" height="380" rx={12} fill={C.bg} />
         <polyline
           points={path}
@@ -283,7 +300,7 @@ export function CandleBuilder() {
           />
         </g>
         <text x={80} y={36} fill={C.muted} fontSize={14}>
-          The path (left) holds every trade. The candle (right) keeps only O, H, L, C.
+          {t('academy.pathHoldsTrades')}
         </text>
       </svg>
       <button
@@ -291,7 +308,7 @@ export function CandleBuilder() {
         className="mt-3 rounded-lg border border-indigo-500/40 px-3 py-1.5 text-sm text-indigo-200 hover:bg-indigo-600/20"
         onClick={replay}
       >
-        Replay the compression
+        {t('academy.replayCompression')}
       </button>
     </WidgetShell>
   );
@@ -315,6 +332,7 @@ function syntheticCloses(n = 90, seed = 7): number[] {
 }
 
 export function IndicatorPlayground({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const indicator = String(params.indicator ?? 'ema');
   const closes = useMemo(() => syntheticCloses(), []);
   const [period, setPeriod] = useState(indicator === 'rsi' ? 14 : 21);
@@ -332,10 +350,10 @@ export function IndicatorPlayground({ params }: { params: Record<string, unknown
 
   return (
     <WidgetShell
-      title={`Indicator playground — feel the ${indicator.toUpperCase()} period`}
+      title={t('academy.indicatorPlaygroundTitle', { indicator: indicator.toUpperCase() })}
       controls={
         <Slider
-          label={`${indicator.toUpperCase()} period`}
+          label={t('academy.indPeriod', { ind: indicator.toUpperCase() })}
           value={period}
           min={2}
           max={50}
@@ -343,7 +361,12 @@ export function IndicatorPlayground({ params }: { params: Record<string, unknown
         />
       }
     >
-      <svg viewBox="0 0 720 340" role="img" aria-label="Indicator playground" className="w-full">
+      <svg
+        viewBox="0 0 720 340"
+        role="img"
+        aria-label={t('academy.indicatorPlayground')}
+        className="w-full"
+      >
         <rect width="720" height="340" rx={12} fill={C.bg} />
         {indicator === 'rsi' ? (
           <>
@@ -396,9 +419,7 @@ export function IndicatorPlayground({ params }: { params: Record<string, unknown
           </>
         )}
         <text x={40} y={28} fill={C.muted} fontSize={13}>
-          {indicator === 'rsi'
-            ? 'Short periods twitch; long periods sleep. Same prices, different story.'
-            : 'Grey is price. Blue is the average — watch the lag grow with the period.'}
+          {indicator === 'rsi' ? t('academy.rsiCaption') : t('academy.emaCaption')}
         </text>
       </svg>
     </WidgetShell>
@@ -418,6 +439,7 @@ const BOOK = [
 ];
 
 export function AuctionSim() {
+  const { t } = useTranslation();
   const [consumed, setConsumed] = useState(0);
   const orderSize = 10;
   const levels = BOOK.reduce<{ price: number; size: number; eaten: number }[]>((acc, level) => {
@@ -441,8 +463,13 @@ export function AuctionSim() {
   const lastPrice = eatenLevels.length ? eatenLevels[eatenLevels.length - 1].price : 100.0;
 
   return (
-    <WidgetShell title="The auction — your urgency eats the book">
-      <svg viewBox="0 0 720 320" role="img" aria-label="Order book auction" className="w-full">
+    <WidgetShell title={t('academy.auctionTitle')}>
+      <svg
+        viewBox="0 0 720 320"
+        role="img"
+        aria-label={t('academy.orderBookAuction')}
+        className="w-full"
+      >
         <rect width="720" height="320" rx={12} fill={C.bg} />
         {levels.map((level, i) => {
           const y = 60 + i * 48;
@@ -473,23 +500,25 @@ export function AuctionSim() {
                 />
               ) : null}
               <text x={150 + level.size * 14} y={y + 22} fill={C.muted} fontSize={13}>
-                {left} left{level.eaten ? ` (${level.eaten} eaten)` : ''}
+                {t('academy.unitsLeft', { left })}
+                {level.eaten ? t('academy.eatenSuffix', { n: level.eaten }) : ''}
               </text>
             </g>
           );
         })}
         <text x={480} y={80} fill={C.ink} fontSize={15} fontWeight={700}>
-          Bought: {consumed} units
+          {t('academy.bought', { n: consumed })}
         </text>
         <text x={480} y={108} fill={C.warn} fontSize={14}>
-          Avg fill: {consumed ? filledLevels.toFixed(3) : '—'}
+          {t('academy.avgFill', { v: consumed ? filledLevels.toFixed(3) : '—' })}
         </text>
         <text x={480} y={136} fill={C.accent} fontSize={14}>
-          Last price: {consumed ? lastPrice.toFixed(2) : '100.00'}
+          {t('academy.lastPrice', { v: consumed ? lastPrice.toFixed(2) : '100.00' })}
         </text>
         <text x={480} y={164} fill={C.down} fontSize={14}>
-          Slippage vs best ask:{' '}
-          {consumed ? `${(((filledLevels - 100.05) / 100.05) * 100).toFixed(3)}%` : '—'}
+          {t('academy.slippage', {
+            v: consumed ? `${(((filledLevels - 100.05) / 100.05) * 100).toFixed(3)}%` : '—',
+          })}
         </text>
       </svg>
       <div className="mt-3 flex gap-2">
@@ -498,14 +527,14 @@ export function AuctionSim() {
           className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
           onClick={() => setConsumed(Math.min(consumed + orderSize, 75))}
         >
-          Market buy {orderSize}
+          {t('academy.marketBuy', { n: orderSize })}
         </button>
         <button
           type="button"
           className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
           onClick={() => setConsumed(0)}
         >
-          Reset book
+          {t('academy.resetBook')}
         </button>
       </div>
     </WidgetShell>
@@ -517,6 +546,7 @@ export function AuctionSim() {
 // ---------------------------------------------------------------------------
 
 export function PayoffExplorer({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const atrPercent = Number(params.atrPercent ?? 3);
   const [leverage, setLeverage] = useState(5);
   const wipeout = 100 / leverage;
@@ -525,10 +555,10 @@ export function PayoffExplorer({ params }: { params: Record<string, unknown> }) 
   const x = (pct: number) => 60 + (pct / 25) * 600;
   return (
     <WidgetShell
-      title="Leverage explorer — where liquidation meets ordinary noise"
+      title={t('academy.leverageTitle')}
       controls={
         <Slider
-          label="Leverage"
+          label={t('academy.leverage')}
           value={leverage}
           min={1}
           max={50}
@@ -540,7 +570,7 @@ export function PayoffExplorer({ params }: { params: Record<string, unknown> }) 
       <svg
         viewBox="0 0 720 230"
         role="img"
-        aria-label="Leverage and liquidation distance"
+        aria-label={t('academy.leverageDistance')}
         className="w-full"
       >
         <rect width="720" height="230" rx={12} fill={C.bg} />
@@ -553,7 +583,7 @@ export function PayoffExplorer({ params }: { params: Record<string, unknown> }) 
           opacity={0.25}
         />
         <text x={x(0) + 6} y={120} fill={C.warn} fontSize={13}>
-          one day&apos;s typical range (ATR {atrPercent}%)
+          {t('academy.typicalRange', { pct: atrPercent })}
         </text>
         <line
           x1={x(Math.min(wipeout, 25))}
@@ -564,7 +594,7 @@ export function PayoffExplorer({ params }: { params: Record<string, unknown> }) 
           strokeWidth={4}
         />
         <text x={x(Math.min(wipeout, 25)) + 8} y={76} fill={C.down} fontSize={14} fontWeight={800}>
-          wipeout at −{wipeout.toFixed(1)}%
+          {t('academy.wipeoutAt', { pct: wipeout.toFixed(1) })}
         </text>
         <line x1={x(0)} y1={170} x2={x(25)} y2={170} stroke={C.muted} strokeWidth={2} />
         {[0, 5, 10, 15, 20, 25].map((pct) => (
@@ -573,9 +603,7 @@ export function PayoffExplorer({ params }: { params: Record<string, unknown> }) 
           </text>
         ))}
         <text x={60} y={36} fill={insideNoise ? C.down : C.up} fontSize={15} fontWeight={800}>
-          {insideNoise
-            ? 'Liquidation sits INSIDE ordinary noise — survival is luck.'
-            : 'Liquidation sits beyond typical noise — thesis gets room to breathe.'}
+          {insideNoise ? t('academy.liqInside') : t('academy.liqBeyond')}
         </text>
       </svg>
     </WidgetShell>
