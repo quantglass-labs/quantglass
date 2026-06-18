@@ -34,8 +34,18 @@ pip install "quantglass-sdk @ git+https://github.com/quantglass-labs/quantglass-
 
 The SDK follows a versioning promise: additions bump the minor version;
 removals or signature changes bump the major and are announced in the
+[CHANGELOG](CHANGELOG.md) and the
 [release notes](https://github.com/quantglass-labs/quantglass-sdk/releases).
 `SDK_VERSION` exposes the current version.
+
+## Documentation
+
+- **[Full API reference](docs/api-reference.md)** — every symbol, field, default,
+  and contract.
+- **[Changelog](CHANGELOG.md)** — versioning promise and release history.
+- **[Extension guides](https://github.com/quantglass-labs/quantglass-extensions/blob/main/docs/guides/README.md)**
+  — illustrated, end-to-end tutorials for building each surface (providers,
+  strategies, indicators, content packs, packaging & trust).
 
 ## License
 
