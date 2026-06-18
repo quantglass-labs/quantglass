@@ -632,6 +632,27 @@
       "reset": "Sıfırla",
       "tradeEnabledKey": "Trading etkin anahtar",
       "providerScopeSetting": "Sağlayıcı, bildirim veya teslim kapsamı ayarı"
+    },
+    "strategies": {
+      "libraryTitle": "Strateji kütüphanesi",
+      "libraryDesc": "Nereden geliyorlar: Backtesting ekranındaki Stratejiyi kaydet düğmesi beğendiğin bir çalıştırmanın anlık görüntüsünü alır — sembol, kurulum, zaman dilimi, maliyet modeli ve doğrulama bölünmesi. Backtesting'i yeniden açtığında bunları ön ayar olarak listeler; sonra yeniden çalıştırabilir veya değiştirebilirsin, İçe/Dışa Aktar bunları JSON olarak makineler arası taşır. Birini silmek yalnızca kayıtlı ön ayarı kaldırır, asla veriyi.",
+      "selectedForExport": "Dışa aktarım için {{total}} içinden {{selected}} seçildi.",
+      "importLabel": "İçe aktar",
+      "exportLabel": "Dışa aktar",
+      "selectAll": "Tümünü seç",
+      "clearSelection": "Seçimi temizle",
+      "deleteLabel": "Sil",
+      "deleteTitle": "{{name}} sil",
+      "savedAt": "Kaydedildi {{datetime}} UTC",
+      "emptyTitle": "Kayıtlı strateji yok",
+      "emptyDesc": "Bu sekmeyi doldurmak için Backtesting → Stratejiyi kaydet'i kullan ya da bir QuantGlass strateji JSON dosyası içe aktar.",
+      "selectOneFirst": "Dışa aktarmadan önce en az bir strateji seç.",
+      "exportCanceled": "Dışa aktarım iptal edildi.",
+      "exportedToPath": "Seçilen {{count}} strateji {{path}} konumuna aktarıldı",
+      "exportedBrowser": "Seçilen {{count}} strateji tarayıcı indirmesiyle aktarıldı.",
+      "importing": "{{count}} strateji içe aktarılıyor…",
+      "noValidStrategies": "Seçilen dosyada geçerli strateji bulunamadı.",
+      "importFailed": "Seçilen dosya geçerli JSON olmadığından içe aktarma başarısız."
     }
   },
   "symbolDetail": {

@@ -632,6 +632,27 @@
       "reset": "재설정",
       "tradeEnabledKey": "거래 활성화 키",
       "providerScopeSetting": "공급자, 알림 또는 전달 범위 설정"
+    },
+    "strategies": {
+      "libraryTitle": "전략 라이브러리",
+      "libraryDesc": "어디서 오나: 백테스팅 화면의 전략 저장 버튼이 마음에 든 실행의 스냅샷(종목, 설정, 시간대, 비용 모델, 검증 분할)을 찍습니다. 백테스팅을 다시 열면 프리셋으로 표시되어 나중에 다시 실행하거나 조정할 수 있고, 가져오기/내보내기로 JSON으로 기기 간 이동합니다. 하나를 삭제해도 저장된 프리셋만 제거되며 데이터는 절대 삭제되지 않습니다.",
+      "selectedForExport": "내보내기용으로 {{total}}개 중 {{selected}}개 선택됨.",
+      "importLabel": "가져오기",
+      "exportLabel": "내보내기",
+      "selectAll": "모두 선택",
+      "clearSelection": "선택 해제",
+      "deleteLabel": "삭제",
+      "deleteTitle": "{{name}} 삭제",
+      "savedAt": "저장됨 {{datetime}} UTC",
+      "emptyTitle": "저장된 전략 없음",
+      "emptyDesc": "이 탭을 채우려면 백테스팅 → 전략 저장을 사용하거나 QuantGlass 전략 JSON 파일을 가져오세요.",
+      "selectOneFirst": "내보내기 전에 전략을 하나 이상 선택하세요.",
+      "exportCanceled": "내보내기 취소됨.",
+      "exportedToPath": "선택한 {{count}}개 전략을 {{path}}(으)로 내보냈습니다",
+      "exportedBrowser": "선택한 {{count}}개 전략을 브라우저 다운로드로 내보냈습니다.",
+      "importing": "{{count}}개 전략 가져오는 중…",
+      "noValidStrategies": "선택한 파일에서 유효한 전략을 찾을 수 없습니다.",
+      "importFailed": "선택한 파일이 유효한 JSON이 아니어서 가져오기에 실패했습니다."
     }
   },
   "symbolDetail": {

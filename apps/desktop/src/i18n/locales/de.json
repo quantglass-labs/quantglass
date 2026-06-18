@@ -632,6 +632,27 @@
       "reset": "Zurücksetzen",
       "tradeEnabledKey": "Trading-fähiger Schlüssel",
       "providerScopeSetting": "Anbieter-, Benachrichtigungs- oder Zustellungsbereich-Einstellung"
+    },
+    "strategies": {
+      "libraryTitle": "Strategiebibliothek",
+      "libraryDesc": "Woher sie kommen: Die Schaltfläche „Strategie speichern“ im Backtesting-Bildschirm erstellt einen Schnappschuss eines Laufs, der dir gefiel — Symbol, Setup, Zeitrahmen, Kostenmodell und Validierungsaufteilung. Beim erneuten Öffnen von Backtesting erscheinen sie als Voreinstellungen zum erneuten Ausführen oder Anpassen, und Import/Export verschiebt sie als JSON zwischen Maschinen. Das Löschen einer entfernt nur die gespeicherte Voreinstellung, niemals Daten.",
+      "selectedForExport": "{{selected}} von {{total}} zum Export ausgewählt.",
+      "importLabel": "Importieren",
+      "exportLabel": "Exportieren",
+      "selectAll": "Alle auswählen",
+      "clearSelection": "Auswahl löschen",
+      "deleteLabel": "Löschen",
+      "deleteTitle": "{{name}} löschen",
+      "savedAt": "Gespeichert {{datetime}} UTC",
+      "emptyTitle": "Keine Strategien gespeichert",
+      "emptyDesc": "Nutze Backtesting → Strategie speichern, um diesen Tab zu füllen, oder importiere eine QuantGlass-Strategie-JSON-Datei.",
+      "selectOneFirst": "Wähle vor dem Export mindestens eine Strategie aus.",
+      "exportCanceled": "Export abgebrochen.",
+      "exportedToPath": "{{count}} ausgewählte Strategien nach {{path}} exportiert",
+      "exportedBrowser": "{{count}} ausgewählte Strategien per Browser-Download exportiert.",
+      "importing": "Importiere {{count}} Strategien…",
+      "noValidStrategies": "Keine gültigen Strategien in der ausgewählten Datei gefunden.",
+      "importFailed": "Import fehlgeschlagen, da die ausgewählte Datei kein gültiges JSON ist."
     }
   },
   "symbolDetail": {

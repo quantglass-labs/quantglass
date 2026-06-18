@@ -632,6 +632,27 @@
       "reset": "リセット",
       "tradeEnabledKey": "取引有効の鍵",
       "providerScopeSetting": "プロバイダー、通知、または配信範囲の設定"
+    },
+    "strategies": {
+      "libraryTitle": "戦略ライブラリ",
+      "libraryDesc": "これらの出どころ：バックテスト画面の「戦略を保存」ボタンが、気に入った実行のスナップショット（銘柄、セットアップ、時間軸、コストモデル、検証分割）を取ります。バックテストを再び開くとプリセットとして一覧表示され、後で再実行や調整ができ、インポート/エクスポートで JSON として端末間を移動します。1つ削除しても保存済みプリセットが消えるだけで、データは決して消えません。",
+      "selectedForExport": "{{total}} 件中 {{selected}} 件をエクスポート対象に選択。",
+      "importLabel": "インポート",
+      "exportLabel": "エクスポート",
+      "selectAll": "すべて選択",
+      "clearSelection": "選択を解除",
+      "deleteLabel": "削除",
+      "deleteTitle": "{{name}} を削除",
+      "savedAt": "保存：{{datetime}} UTC",
+      "emptyTitle": "保存された戦略はありません",
+      "emptyDesc": "このタブを埋めるにはバックテスト →「戦略を保存」を使うか、QuantGlass の戦略 JSON ファイルをインポートしてください。",
+      "selectOneFirst": "エクスポートの前に少なくとも1つの戦略を選択してください。",
+      "exportCanceled": "エクスポートを取り消しました。",
+      "exportedToPath": "選択した {{count}} 件の戦略を {{path}} にエクスポートしました",
+      "exportedBrowser": "選択した {{count}} 件の戦略をブラウザのダウンロードでエクスポートしました。",
+      "importing": "{{count}} 件の戦略をインポート中…",
+      "noValidStrategies": "選択したファイルに有効な戦略が見つかりませんでした。",
+      "importFailed": "選択したファイルが有効な JSON でないため、インポートに失敗しました。"
     }
   },
   "symbolDetail": {

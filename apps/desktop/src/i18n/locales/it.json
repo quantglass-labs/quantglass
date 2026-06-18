@@ -632,6 +632,27 @@
       "reset": "Reimposta",
       "tradeEnabledKey": "Chiave abilitata al trading",
       "providerScopeSetting": "Impostazione di provider, notifica o ambito di consegna"
+    },
+    "strategies": {
+      "libraryTitle": "Libreria di strategie",
+      "libraryDesc": "Da dove vengono: il pulsante Salva strategia nella schermata di Backtesting cattura un'esecuzione che ti è piaciuta — simbolo, configurazione, intervallo, modello di costo e divisione di validazione. Riaprendo il Backtesting compaiono come preset da rieseguire o modificare in seguito, e Importa/Esporta le sposta tra macchine come JSON. Eliminarne una rimuove solo il preset salvato, mai i dati.",
+      "selectedForExport": "{{selected}} di {{total}} selezionate per l'esportazione.",
+      "importLabel": "Importa",
+      "exportLabel": "Esporta",
+      "selectAll": "Seleziona tutto",
+      "clearSelection": "Cancella selezione",
+      "deleteLabel": "Elimina",
+      "deleteTitle": "Elimina {{name}}",
+      "savedAt": "Salvata {{datetime}} UTC",
+      "emptyTitle": "Nessuna strategia salvata",
+      "emptyDesc": "Usa Backtesting → Salva strategia per popolare questa scheda o importa un file JSON di strategie QuantGlass.",
+      "selectOneFirst": "Seleziona almeno una strategia prima di esportare.",
+      "exportCanceled": "Esportazione annullata.",
+      "exportedToPath": "{{count}} strategie selezionate esportate in {{path}}",
+      "exportedBrowser": "{{count}} strategie selezionate esportate tramite download del browser.",
+      "importing": "Importazione di {{count}} strategie…",
+      "noValidStrategies": "Nessuna strategia valida trovata nel file selezionato.",
+      "importFailed": "Importazione non riuscita perché il file selezionato non è un JSON valido."
     }
   },
   "symbolDetail": {

@@ -632,6 +632,27 @@
       "reset": "Đặt lại",
       "tradeEnabledKey": "Khóa được bật giao dịch",
       "providerScopeSetting": "Cài đặt nhà cung cấp, thông báo hoặc phạm vi giao"
+    },
+    "strategies": {
+      "libraryTitle": "Thư viện chiến lược",
+      "libraryDesc": "Chúng đến từ đâu: nút Lưu chiến lược trên màn hình Backtesting chụp ảnh một lần chạy bạn thích — mã, thiết lập, khung thời gian, mô hình chi phí và phân chia kiểm định. Mở lại Backtesting sẽ liệt kê chúng dưới dạng cài sẵn để chạy lại hoặc chỉnh sau, và Nhập/Xuất di chuyển chúng giữa các máy dưới dạng JSON. Xóa một cái chỉ gỡ cài sẵn đã lưu, không bao giờ xóa dữ liệu.",
+      "selectedForExport": "Đã chọn {{selected}} trên {{total}} để xuất.",
+      "importLabel": "Nhập",
+      "exportLabel": "Xuất",
+      "selectAll": "Chọn tất cả",
+      "clearSelection": "Xóa lựa chọn",
+      "deleteLabel": "Xóa",
+      "deleteTitle": "Xóa {{name}}",
+      "savedAt": "Đã lưu {{datetime}} UTC",
+      "emptyTitle": "Chưa lưu chiến lược nào",
+      "emptyDesc": "Dùng Backtesting → Lưu chiến lược để điền tab này hoặc nhập một tệp JSON chiến lược QuantGlass.",
+      "selectOneFirst": "Chọn ít nhất một chiến lược trước khi xuất.",
+      "exportCanceled": "Đã hủy xuất.",
+      "exportedToPath": "Đã xuất {{count}} chiến lược đã chọn tới {{path}}",
+      "exportedBrowser": "Đã xuất {{count}} chiến lược đã chọn qua tải xuống của trình duyệt.",
+      "importing": "Đang nhập {{count}} chiến lược…",
+      "noValidStrategies": "Không tìm thấy chiến lược hợp lệ trong tệp đã chọn.",
+      "importFailed": "Nhập thất bại vì tệp đã chọn không phải JSON hợp lệ."
     }
   },
   "symbolDetail": {
