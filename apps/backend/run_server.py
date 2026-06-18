@@ -17,11 +17,43 @@ never outlive the app and strand the lock.
 
 import argparse
 import os
+import sys
 import threading
 import time
 
 # How often the watchdog checks that the parent is still alive.
 _WATCHDOG_INTERVAL_SECONDS = 2.0
+
+
+def _process_alive(pid: int) -> bool:
+    """Cross-platform 'is this PID running?' that never signals or terminates.
+
+    POSIX uses a signal-0 probe; Windows opens the process and reads its exit
+    code (``os.kill(pid, 0)`` is unsafe on Windows — it would terminate it)."""
+    if sys.platform == "win32":
+        import ctypes
+        from ctypes import wintypes
+
+        process_query = 0x1000  # PROCESS_QUERY_LIMITED_INFORMATION
+        still_active = 259  # STILL_ACTIVE
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.OpenProcess(process_query, False, pid)
+        if not handle:
+            return False  # no such process (or access denied)
+        try:
+            code = wintypes.DWORD()
+            if kernel32.GetExitCodeProcess(handle, ctypes.byref(code)):
+                return code.value == still_active
+            return True
+        finally:
+            kernel32.CloseHandle(handle)
+    try:
+        os.kill(pid, 0)  # liveness probe; sends no signal
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True  # exists but not ours
+    return True
 
 
 def _parent_has_exited(parent_pid: int | None, start_ppid: int) -> bool:
@@ -33,18 +65,13 @@ def _parent_has_exited(parent_pid: int | None, start_ppid: int) -> bool:
     * **Reparenting** — on POSIX, when the launcher dies the sidecar is reparented
       to init/systemd, so ``getppid()`` changes to ``<= 1``.
     * **Explicit PID liveness** — if the shell passed ``QUANTGLASS_PARENT_PID``, a
-      signal-0 probe tells us directly when that process no longer exists.
+      cross-platform liveness check tells us directly when it no longer exists.
     """
     current_ppid = os.getppid()
     if current_ppid != start_ppid and current_ppid <= 1:
         return True
     if parent_pid is not None:
-        try:
-            os.kill(parent_pid, 0)  # liveness probe; sends no signal
-        except ProcessLookupError:
-            return True
-        except (PermissionError, OSError):
-            return False  # exists (or undeterminable) — assume alive
+        return not _process_alive(parent_pid)
     return False
 
 
