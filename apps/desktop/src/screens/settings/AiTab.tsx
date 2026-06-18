@@ -25,6 +25,8 @@ import {
   Zap,
 } from 'lucide-react';
 
+import { useTranslation } from 'react-i18next';
+
 import { Button } from '../../components/ui';
 import { formatDateTime } from '../../lib/format';
 import { aiProviderProfiles } from './aiProviderMeta';
@@ -84,6 +86,7 @@ export function AiTab({
   onSaveApiKey: (keyId: string, value: string) => void;
   onGoToKeys: () => void;
 }) {
+  const { t } = useTranslation();
   const apiKeysById = useMemo(() => new Map(apiKeys.map((field) => [field.id, field])), [apiKeys]);
   const [draftAiSettings, setDraftAiSettings] = useState<AiSettings>(aiSettings);
   const [customAiModelEnabled, setCustomAiModelEnabled] = useState(false);
@@ -123,10 +126,12 @@ export function AiTab({
     ? (aiModelById.get(draftAiSettings.model) ?? null)
     : null;
   const aiCatalogStatus = aiModelsLoading
-    ? 'Fetching latest models'
+    ? t('settings.ai.fetchingLatest')
     : aiModelsFetched
-      ? `Live catalog${aiModelFetchedAt ? ` - ${formatDateTime(aiModelFetchedAt)} UTC` : ''}`
-      : 'Fallback suggestions';
+      ? aiModelFetchedAt
+        ? t('settings.ai.liveCatalog', { datetime: formatDateTime(aiModelFetchedAt) })
+        : t('settings.ai.liveCatalogNoDate')
+      : t('settings.ai.fallbackSuggestions');
   const aiProviderTemplates: AiProviderTemplate[] = [
     {
       id: 'template',
@@ -354,22 +359,22 @@ export function AiTab({
   }> = [
     {
       category: 'local',
-      label: 'Local runtimes',
+      label: t('settings.ai.groupLocal'),
       items: filteredAiProviderTemplates.filter((template) => template.category === 'local'),
     },
     {
       category: 'cloud',
-      label: 'Cloud APIs',
+      label: t('settings.ai.groupCloud'),
       items: filteredAiProviderTemplates.filter((template) => template.category === 'cloud'),
     },
     {
       category: 'router',
-      label: 'Model routers',
+      label: t('settings.ai.groupRouter'),
       items: filteredAiProviderTemplates.filter((template) => template.category === 'router'),
     },
     {
       category: 'enterprise',
-      label: 'Enterprise',
+      label: t('settings.ai.groupEnterprise'),
       items: filteredAiProviderTemplates.filter((template) => template.category === 'enterprise'),
     },
   ];
@@ -432,69 +437,88 @@ export function AiTab({
   function aiTemplateStatus(template: AiProviderTemplate) {
     if (template.adapterStatus === 'adapter_required') {
       return {
-        label: 'Adapter required',
+        label: t('settings.ai.statusAdapterRequired'),
         tone: 'text-hold',
         dot: 'bg-hold',
-        detail:
-          'This provider needs a native adapter extension before it can fetch models or run narration.',
+        detail: t('settings.ai.statusAdapterRequiredDetail'),
       };
     }
     if (template.provider === 'template') {
       return {
-        label: 'Built-in',
+        label: t('settings.ai.statusBuiltIn'),
         tone: 'text-buy',
         dot: 'bg-buy',
-        detail: 'Always available as the deterministic fallback.',
+        detail: t('settings.ai.statusBuiltInDetail'),
       };
     }
     if (!template.apiKeyId) {
       return {
-        label: template.category === 'local' ? 'Local endpoint' : 'No key selected',
+        label:
+          template.category === 'local'
+            ? t('settings.ai.statusLocalEndpoint')
+            : t('settings.ai.statusNoKeySelected'),
         tone: 'text-buy',
         dot: 'bg-buy',
-        detail: 'No saved API key is required by default.',
+        detail: t('settings.ai.statusNoKeyDetail'),
       };
     }
     const field = apiKeysById.get(template.apiKeyId);
     if (field?.configured) {
       return {
-        label: 'Connected',
+        label: t('settings.ai.statusConnected'),
         tone: 'text-buy',
         dot: 'bg-buy',
-        detail: `${field.label} is saved.`,
+        detail: t('settings.ai.statusConnectedDetail', { label: field.label }),
       };
     }
     return {
-      label: 'Needs setup',
+      label: t('settings.ai.statusNeedsSetup'),
       tone: 'text-hold',
       dot: 'bg-hold',
-      detail: `${field?.label ?? template.authMode} is not saved yet.`,
+      detail: t('settings.ai.statusNeedsSetupDetail', {
+        label: field?.label ?? t(`settings.ai.tpl_${template.id}_auth`),
+      }),
     };
   }
 
   function aiRuntimeStatusMeta(status?: string | null) {
     if (status === 'available') {
-      return { label: 'Available', tone: 'border-buy/25 bg-buy/10 text-buy' };
+      return { label: t('settings.ai.runtimeAvailable'), tone: 'border-buy/25 bg-buy/10 text-buy' };
     }
     if (status === 'loaded') {
-      return { label: 'Loaded', tone: 'border-buy/25 bg-buy/10 text-buy' };
+      return { label: t('settings.ai.runtimeLoaded'), tone: 'border-buy/25 bg-buy/10 text-buy' };
     }
     if (status === 'not_loaded') {
-      return { label: 'Installed', tone: 'border-watch/25 bg-watch/10 text-watch' };
+      return {
+        label: t('settings.ai.runtimeInstalled'),
+        tone: 'border-watch/25 bg-watch/10 text-watch',
+      };
     }
     if (status === 'loading') {
-      return { label: 'Loading', tone: 'border-watch/25 bg-watch/10 text-watch' };
+      return {
+        label: t('settings.ai.runtimeLoading'),
+        tone: 'border-watch/25 bg-watch/10 text-watch',
+      };
     }
     if (status === 'busy') {
-      return { label: 'Busy', tone: 'border-hold/25 bg-hold/10 text-hold' };
+      return { label: t('settings.ai.runtimeBusy'), tone: 'border-hold/25 bg-hold/10 text-hold' };
     }
     if (status === 'not_installed') {
-      return { label: 'Not installed', tone: 'border-sell/25 bg-sell/10 text-sell' };
+      return {
+        label: t('settings.ai.runtimeNotInstalled'),
+        tone: 'border-sell/25 bg-sell/10 text-sell',
+      };
     }
     if (status === 'unavailable') {
-      return { label: 'Runtime unavailable', tone: 'border-hold/25 bg-hold/10 text-hold' };
+      return {
+        label: t('settings.ai.runtimeUnavailable'),
+        tone: 'border-hold/25 bg-hold/10 text-hold',
+      };
     }
-    return { label: 'Runtime unknown', tone: 'border-border bg-white/[0.04] text-muted' };
+    return {
+      label: t('settings.ai.runtimeUnknown'),
+      tone: 'border-border bg-white/[0.04] text-muted',
+    };
   }
 
   function applyAiProviderTemplate(template: AiProviderTemplate, shouldFetch = true) {
@@ -538,11 +562,8 @@ export function AiTab({
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="font-medium text-ink">Model providers</p>
-            <p className="text-sm text-muted">
-              Connect local, cloud, router, and enterprise LLMs. Model lists are fetched from the
-              selected provider when possible.
-            </p>
+            <p className="font-medium text-ink">{t('settings.ai.modelProviders')}</p>
+            <p className="text-sm text-muted">{t('settings.ai.modelProvidersDesc')}</p>
           </div>
           <Button
             variant="secondary"
@@ -555,7 +576,7 @@ export function AiTab({
             }
           >
             <Plus className="size-4" />
-            Add provider
+            {t('settings.ai.addProvider')}
           </Button>
         </div>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-surface/40">
@@ -566,7 +587,7 @@ export function AiTab({
                 <input
                   className="w-full rounded-2xl border border-border bg-white/[0.04] py-2.5 pl-9 pr-3 text-sm text-ink outline-none"
                   value={aiProviderSearch}
-                  placeholder="Search providers"
+                  placeholder={t('settings.ai.searchProviders')}
                   onChange={(event) => setAiProviderSearch(event.target.value)}
                 />
               </label>
@@ -624,14 +645,14 @@ export function AiTab({
                           <div className="flex flex-wrap items-center gap-2">
                             <p className="font-medium text-ink">{activeAiProviderTemplate.label}</p>
                             <span className="rounded-full border border-border bg-white/[0.04] px-2.5 py-1 text-xs text-muted">
-                              {activeAiProviderTemplate.tier}
+                              {t(`settings.ai.tpl_${activeAiProviderTemplate.id}_tier`)}
                             </span>
                             <span className="rounded-full border border-border bg-white/[0.04] px-2.5 py-1 text-xs text-muted">
                               {activeAiProviderTemplate.adapterStatus.replace('_', ' ')}
                             </span>
                           </div>
                           <p className="mt-1 text-sm text-muted">
-                            {activeAiProviderTemplate.description}
+                            {t(`settings.ai.tpl_${activeAiProviderTemplate.id}_desc`)}
                           </p>
                         </div>
                       </div>
@@ -647,19 +668,23 @@ export function AiTab({
                       <div className="grid gap-3 md:grid-cols-4">
                         <div>
                           <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                            Provider
+                            {t('settings.ai.providerLabel')}
                           </p>
                           <p className="mt-1 text-ink">
                             {aiProviderProfiles[draftAiSettings.provider].label}
                           </p>
                         </div>
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em]">Auth</p>
-                          <p className="mt-1 text-ink">{activeAiProviderTemplate.authMode}</p>
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                            {t('settings.ai.authLabel')}
+                          </p>
+                          <p className="mt-1 text-ink">
+                            {t(`settings.ai.tpl_${activeAiProviderTemplate.id}_auth`)}
+                          </p>
                         </div>
                         <div>
                           <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                            Models
+                            {t('settings.ai.modelsLabel')}
                           </p>
                           <p className={`mt-1 ${aiModelsFetched ? 'text-buy' : 'text-hold'}`}>
                             {aiCatalogStatus}
@@ -667,7 +692,7 @@ export function AiTab({
                         </div>
                         <div>
                           <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                            Source
+                            {t('settings.ai.sourceLabel')}
                           </p>
                           <p className="mt-1 text-ink">{aiModelSource}</p>
                         </div>
@@ -679,8 +704,8 @@ export function AiTab({
                       <label className="space-y-2 text-sm text-muted lg:col-span-2">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
                           {activeAiProviderTemplate.category === 'enterprise'
-                            ? 'Endpoint / deployment URL'
-                            : 'Base URL'}
+                            ? t('settings.ai.endpointDeploymentUrl')
+                            : t('settings.ai.baseUrl')}
                         </span>
                         <input
                           className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 font-mono text-sm text-ink outline-none"
@@ -689,7 +714,7 @@ export function AiTab({
                             draftAiSettings.provider === 'template' ||
                             activeAiProviderTemplate.adapterStatus === 'adapter_required'
                           }
-                          placeholder="https://api.openai.com/v1, http://127.0.0.1:11434, or any /v1 compatible endpoint"
+                          placeholder={t('settings.ai.baseUrlPlaceholder')}
                           onChange={(event) =>
                             setDraftAiSettings({
                               ...draftAiSettings,
@@ -701,7 +726,7 @@ export function AiTab({
 
                       <label className="space-y-2 text-sm text-muted">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                          API key slot
+                          {t('settings.ai.apiKeySlot')}
                         </span>
                         <select
                           className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -717,7 +742,7 @@ export function AiTab({
                             })
                           }
                         >
-                          <option value="">No key</option>
+                          <option value="">{t('settings.ai.noKey')}</option>
                           {aiApiKeyOptions.map((field) => (
                             <option key={field.id} value={field.id}>
                               {field.label}
@@ -726,16 +751,27 @@ export function AiTab({
                         </select>
                         <span className="block text-xs text-muted">
                           {selectedAiApiKey
-                            ? `${selectedAiApiKey.label}: ${selectedAiApiKey.configured ? 'Configured' : draftApiKeys[selectedAiApiKey.id]?.trim() ? 'Draft key entered' : 'Not configured'}`
-                            : 'Local runtimes and public test gateways may not need a key.'}
+                            ? t('settings.ai.apiKeyStatus', {
+                                label: selectedAiApiKey.label,
+                                status: selectedAiApiKey.configured
+                                  ? t('settings.ai.keyConfigured')
+                                  : draftApiKeys[selectedAiApiKey.id]?.trim()
+                                    ? t('settings.ai.keyDraftEntered')
+                                    : t('settings.ai.keyNotConfigured'),
+                              })
+                            : t('settings.ai.noKeyHint')}
                         </span>
                       </label>
 
                       <label className="space-y-2 text-sm text-muted">
                         <span className="flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.18em]">
-                          <span>Default model</span>
+                          <span>{t('settings.ai.defaultModel')}</span>
                           <span className={aiModelsFetched ? 'text-buy' : 'text-hold'}>
-                            {aiModelsLoading ? 'Fetching' : aiModelsFetched ? 'Live' : 'Fallback'}
+                            {aiModelsLoading
+                              ? t('settings.ai.fetching')
+                              : aiModelsFetched
+                                ? t('settings.ai.live')
+                                : t('settings.ai.fallback')}
                           </span>
                         </span>
                         <select
@@ -771,8 +807,8 @@ export function AiTab({
                         >
                           <option value="__none__">
                             {aiModelsLoading
-                              ? 'Fetching latest models...'
-                              : 'Select a fetched model'}
+                              ? t('settings.ai.fetchingLatestEllipsis')
+                              : t('settings.ai.selectFetchedModel')}
                           </option>
                           {aiModelOptions.map((model) => {
                             const item = aiModelById.get(model);
@@ -781,23 +817,25 @@ export function AiTab({
                                 ? `${item.label} (${model})`
                                 : model;
                             const runtimeLabel = item?.runtimeStatus
-                              ? ` - ${aiRuntimeStatusMeta(item.runtimeStatus).label}`
+                              ? t('settings.ai.runtimeSuffix', {
+                                  label: aiRuntimeStatusMeta(item.runtimeStatus).label,
+                                })
                               : '';
                             return (
                               <option key={model} value={model}>
                                 {aiModelsFetched
                                   ? `${label}${runtimeLabel}`
-                                  : `${label} - fallback`}
+                                  : t('settings.ai.fallbackSuffix', { label })}
                               </option>
                             );
                           })}
-                          <option value="__custom__">Custom model id...</option>
+                          <option value="__custom__">{t('settings.ai.customModelId')}</option>
                         </select>
                         {customAiModelEnabled ? (
                           <input
                             className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 font-mono text-sm text-ink outline-none"
                             value={draftAiSettings.model}
-                            placeholder="provider/model-name or deployment id"
+                            placeholder={t('settings.ai.customModelPlaceholder')}
                             onChange={(event) =>
                               setDraftAiSettings({
                                 ...draftAiSettings,
@@ -807,7 +845,7 @@ export function AiTab({
                           />
                         ) : null}
                         <span className="block text-xs text-muted">
-                          {aiModelsLoading ? 'Fetching models...' : aiModelDetail}
+                          {aiModelsLoading ? t('settings.ai.fetchingModels') : aiModelDetail}
                         </span>
                       </label>
 
@@ -822,7 +860,7 @@ export function AiTab({
                           </div>
                           <label className="mt-4 block space-y-2 text-sm text-muted">
                             <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                              Stored value
+                              {t('settings.ai.storedValue')}
                             </span>
                             <input
                               className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 font-mono text-sm text-ink outline-none"
@@ -830,8 +868,8 @@ export function AiTab({
                               autoComplete="off"
                               placeholder={
                                 selectedAiApiKey.configured
-                                  ? 'Leave blank to keep current saved key'
-                                  : 'Paste API key'
+                                  ? t('settings.ai.keepBlankPlaceholder')
+                                  : t('settings.ai.pasteApiKey')
                               }
                               value={draftApiKeys[selectedAiApiKey.id] ?? ''}
                               onChange={(event) =>
@@ -852,14 +890,14 @@ export function AiTab({
                                 )
                               }
                             >
-                              Save key
+                              {t('settings.ai.saveKey')}
                             </Button>
                             {selectedAiApiKey.configured ? (
                               <Button
                                 variant="danger"
                                 onClick={() => onSaveApiKey(selectedAiApiKey.id, '')}
                               >
-                                Clear key
+                                {t('settings.ai.clearKey')}
                               </Button>
                             ) : null}
                             <Button
@@ -871,10 +909,10 @@ export function AiTab({
                                 }))
                               }
                             >
-                              Reset key field
+                              {t('settings.ai.resetKeyField')}
                             </Button>
                             <Button variant="ghost" onClick={() => onGoToKeys()}>
-                              All API keys
+                              {t('settings.ai.allApiKeys')}
                             </Button>
                           </div>
                         </div>
@@ -885,7 +923,7 @@ export function AiTab({
                           <div className="grid gap-3 md:grid-cols-5">
                             <div>
                               <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                Selected model
+                                {t('settings.ai.selectedModel')}
                               </p>
                               <p className="mt-1 text-ink">
                                 {selectedAiModelInfo.label ?? selectedAiModelInfo.id}
@@ -893,7 +931,7 @@ export function AiTab({
                             </div>
                             <div>
                               <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                Owner / date
+                                {t('settings.ai.ownerDate')}
                               </p>
                               <p className="mt-1 text-ink">
                                 {selectedAiModelInfo.ownedBy ??
@@ -902,32 +940,32 @@ export function AiTab({
                                     ? new Date(selectedAiModelInfo.created * 1000)
                                         .toISOString()
                                         .slice(0, 10)
-                                    : 'Provider catalog')}
+                                    : t('settings.ai.providerCatalog'))}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                Input limit
+                                {t('settings.ai.inputLimit')}
                               </p>
                               <p className="mt-1 text-ink">
                                 {selectedAiModelInfo.inputTokenLimit
                                   ? selectedAiModelInfo.inputTokenLimit.toLocaleString()
-                                  : 'Provider default'}
+                                  : t('settings.ai.providerDefault')}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                Output limit
+                                {t('settings.ai.outputLimit')}
                               </p>
                               <p className="mt-1 text-ink">
                                 {selectedAiModelInfo.outputTokenLimit
                                   ? selectedAiModelInfo.outputTokenLimit.toLocaleString()
-                                  : 'Provider default'}
+                                  : t('settings.ai.providerDefault')}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs font-semibold uppercase tracking-[0.18em]">
-                                Runtime
+                                {t('settings.ai.runtimeLabel')}
                               </p>
                               <span
                                 className={`mt-1 inline-flex rounded-full border px-2.5 py-1 text-xs ${aiRuntimeStatusMeta(selectedAiModelInfo.runtimeStatus).tone}`}
@@ -951,7 +989,7 @@ export function AiTab({
 
                       <label className="space-y-2 text-sm text-muted">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                          Temperature
+                          {t('settings.ai.temperature')}
                         </span>
                         <input
                           className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -970,7 +1008,7 @@ export function AiTab({
                       </label>
                       <label className="space-y-2 text-sm text-muted">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                          Max tokens
+                          {t('settings.ai.maxTokens')}
                         </span>
                         <input
                           className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -989,7 +1027,7 @@ export function AiTab({
                       </label>
                       <label className="space-y-2 text-sm text-muted">
                         <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                          Timeout seconds
+                          {t('settings.ai.timeoutSeconds')}
                         </span>
                         <input
                           className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -1006,7 +1044,7 @@ export function AiTab({
                           }
                         />
                         <span className="block text-xs text-muted">
-                          Use 60-120 seconds for cold-starting large local models.
+                          {t('settings.ai.timeoutHint')}
                         </span>
                       </label>
                     </div>
@@ -1019,8 +1057,8 @@ export function AiTab({
                           <div className="flex flex-wrap items-center gap-2">
                             <p className="font-medium">
                               {aiProviderTestResult.ok
-                                ? 'Provider test passed'
-                                : 'Provider test failed'}
+                                ? t('settings.ai.providerTestPassed')
+                                : t('settings.ai.providerTestFailed')}
                             </p>
                             <span
                               className={`rounded-full border px-2.5 py-1 text-xs ${
@@ -1044,7 +1082,7 @@ export function AiTab({
                         ) : null}
                         {aiProviderTestResult.source ? (
                           <p className="mt-2 text-xs opacity-80">
-                            Source: {aiProviderTestResult.source}
+                            {t('settings.ai.sourcePrefix', { source: aiProviderTestResult.source })}
                           </p>
                         ) : null}
                         {aiProviderTestResult.sample ? (
@@ -1064,7 +1102,7 @@ export function AiTab({
                         }}
                       >
                         <Save className="size-4" />
-                        Save provider
+                        {t('settings.ai.saveProvider')}
                       </Button>
                       <Button
                         variant="ghost"
@@ -1077,7 +1115,9 @@ export function AiTab({
                         }
                       >
                         <Plug className="size-4" />
-                        {aiProviderTestLoading ? 'Testing provider...' : 'Test / fetch models'}
+                        {aiProviderTestLoading
+                          ? t('settings.ai.testingProvider')
+                          : t('settings.ai.testFetchModels')}
                       </Button>
                       <Button
                         variant="secondary"
@@ -1086,7 +1126,7 @@ export function AiTab({
                           setCustomAiModelEnabled(false);
                         }}
                       >
-                        Reset
+                        {t('settings.ai.reset')}
                       </Button>
                     </div>
                   </div>
@@ -1099,22 +1139,21 @@ export function AiTab({
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-medium text-ink">Model narration</p>
-            <p className="text-sm text-muted">
-              When on, the selected local or API model rewrites the summary. Failed calls and failed
-              fact checks fall back to the deterministic template.
-            </p>
+            <p className="font-medium text-ink">{t('settings.ai.modelNarration')}</p>
+            <p className="text-sm text-muted">{t('settings.ai.modelNarrationDesc')}</p>
           </div>
           <CloudOff className="size-5 text-muted" />
         </div>
         <div className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-surface/40 px-4 py-3 text-sm text-muted">
           <span>
-            Narration:{' '}
-            {draftAiSettings.provider === 'template'
-              ? 'deterministic template'
-              : draftAiSettings.cloudEnabled
-                ? `${draftAiSettings.provider} (fact-checked)`
-                : 'deterministic template'}
+            {t('settings.ai.narrationLabel', {
+              value:
+                draftAiSettings.provider === 'template'
+                  ? t('settings.ai.deterministicTemplate')
+                  : draftAiSettings.cloudEnabled
+                    ? t('settings.ai.factChecked', { provider: draftAiSettings.provider })
+                    : t('settings.ai.deterministicTemplate'),
+            })}
           </span>
           <button
             type="button"
@@ -1127,7 +1166,7 @@ export function AiTab({
               })
             }
           >
-            {draftAiSettings.cloudEnabled ? 'On' : 'Off'}
+            {draftAiSettings.cloudEnabled ? t('settings.ai.on') : t('settings.ai.off')}
           </button>
         </div>
       </div>
