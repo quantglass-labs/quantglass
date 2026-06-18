@@ -14,6 +14,7 @@ A ContextVar is used so the locale rides along into Starlette's threadpool
 every service signature.
 """
 
+import re
 from contextvars import ContextVar
 
 DEFAULT_LOCALE = "en"
@@ -75,3 +76,55 @@ def language_directive(locale: str | None = None) -> str:
         "and any field labels into that language, but keep ticker symbols, numbers, "
         "dates, and units exactly as given."
     )
+
+
+# --- Numeral canonicalization for the numeric fact guard -------------------
+#
+# The fact guard extracts numbers from model output with a plain
+# ``-?\d+(?:\.\d+)?`` pattern and matches them against the engine's facts. The
+# prompt asks the model to keep numbers verbatim, but a model told to answer
+# "entirely in <language>" sometimes localizes them anyway — non-Latin digits
+# (Arabic-Indic ٤٢, Devanagari ६५) or separators (German ``1.000,50``). Latin
+# ``\d``/``float`` already handle non-Latin *digits*, but localized *separators*
+# misparse (``1.000,50`` -> ``1.0`` and ``50``), which would make the guard
+# reject a correct number and fall back to the template. Canonicalizing the
+# model text before the guard runs keeps the guard locale-robust (and also fixes
+# the long-standing English ``1,000`` -> ``1``/``000`` misparse).
+
+# Non-Latin decimal digits used by the supported locales -> ASCII.
+_DIGIT_TABLE = str.maketrans(
+    {
+        chr(base + i): str(i)
+        for base in (0x0660, 0x06F0, 0x0966, 0x09E6, 0xFF10)
+        # Arabic-Indic, Extended Arabic-Indic (Persian/Urdu), Devanagari,
+        # Bengali, Fullwidth.
+        for i in range(10)
+    }
+)
+
+# Locales whose conventional formatting is decimal-comma / thousands-dot (or
+# thousands-space); used only to disambiguate ``.`` vs ``,``.
+_COMMA_DECIMAL_LOCALES = frozenset({"de", "es", "pt", "ru", "tr", "it", "fr", "vi", "id"})
+
+# ``.`` plus assorted Unicode spaces, as a thousands separator between digit
+# groups.
+_DOT_SPACE_THOUSANDS = re.compile(r"(?<=\d)[.\u00a0\u202f\u2009 ](?=\d{3}(?:\D|$))")
+_COMMA_THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}(?:\D|$))")
+_COMMA_DECIMAL = re.compile(r"(?<=\d),(?=\d)")
+
+
+def canonicalize_numerals(text: str, locale: str | None = None) -> str:
+    """Normalize localized numerals in ``text`` to canonical ASCII form (Latin
+    digits, ``.`` decimal, no thousands separators) so a numeric guard matches
+    regardless of the language the model answered in. Defensive and idempotent;
+    plain ASCII numbers pass through unchanged."""
+    code = locale or get_locale()
+    out = text.translate(_DIGIT_TABLE)
+    # Arabic thousands (U+066C) / decimal (U+066B) separators are unambiguous.
+    out = out.replace("٬", "").replace("٫", ".")
+    if code in _COMMA_DECIMAL_LOCALES:
+        out = _DOT_SPACE_THOUSANDS.sub("", out)
+        out = _COMMA_DECIMAL.sub(".", out)
+    else:
+        out = _COMMA_THOUSANDS.sub("", out)
+    return out
