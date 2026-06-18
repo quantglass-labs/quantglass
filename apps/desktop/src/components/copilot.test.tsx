@@ -7,6 +7,10 @@ import '@testing-library/jest-dom/vitest';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
+// Initialise the app i18n so the component's t() resolves keys to English text
+// (the test queries copilot UI by its English title and starter prompt).
+import '../i18n';
+
 const askCopilot = vi.fn();
 vi.mock('../lib/backend', () => ({
   backendClient: { askCopilot: (...args: unknown[]) => askCopilot(...args) },
