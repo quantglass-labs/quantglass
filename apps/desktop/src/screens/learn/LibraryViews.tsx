@@ -11,11 +11,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { BookMarked, BookOpenText } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { backendClient } from '../../lib/backend';
 import type { GlossaryEntry, ReferenceSection } from '../../types';
 
 export function GlossaryView({ onOpenLesson }: { onOpenLesson: (lessonId: string) => void }) {
+  const { t } = useTranslation();
   const [entries, setEntries] = useState<GlossaryEntry[] | null>(null);
   const [query, setQuery] = useState('');
 
@@ -41,15 +43,17 @@ export function GlossaryView({ onOpenLesson }: { onOpenLesson: (lessonId: string
     <div className="max-w-3xl">
       <div className="flex items-center gap-2">
         <BookOpenText size={18} className="text-indigo-400" />
-        <h2 className="text-lg font-semibold text-zinc-100">Glossary</h2>
+        <h2 className="text-lg font-semibold text-zinc-100">{t('academy.glossary')}</h2>
         <span className="ml-auto text-xs text-zinc-600">
-          {entries ? `${entries.length} terms from across the Academy` : 'Loading…'}
+          {entries
+            ? t('academy.termsCount', { count: entries.length })
+            : t('academy.loadingEllipsis')}
         </span>
       </div>
       <input
         type="search"
-        placeholder="Search terms…"
-        aria-label="Search glossary"
+        placeholder={t('academy.searchTermsPlaceholder')}
+        aria-label={t('academy.searchGlossaryAria')}
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         className="mt-4 w-full rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
@@ -62,7 +66,9 @@ export function GlossaryView({ onOpenLesson }: { onOpenLesson: (lessonId: string
         </div>
       ) : (
         <dl className="mt-4 space-y-3">
-          {filtered.length === 0 ? <p className="text-sm text-zinc-500">No terms match.</p> : null}
+          {filtered.length === 0 ? (
+            <p className="text-sm text-zinc-500">{t('academy.noTermsMatch')}</p>
+          ) : null}
           {filtered.map((entry) => (
             <div
               key={entry.term}
@@ -88,6 +94,7 @@ export function GlossaryView({ onOpenLesson }: { onOpenLesson: (lessonId: string
 }
 
 export function ReferenceView() {
+  const { t } = useTranslation();
   const [sections, setSections] = useState<ReferenceSection[] | null>(null);
 
   useEffect(() => {
@@ -101,7 +108,7 @@ export function ReferenceView() {
     <div className="max-w-3xl">
       <div className="flex items-center gap-2">
         <BookMarked size={18} className="text-indigo-400" />
-        <h2 className="text-lg font-semibold text-zinc-100">Reference Library</h2>
+        <h2 className="text-lg font-semibold text-zinc-100">{t('academy.referenceLibrary')}</h2>
       </div>
       {!sections ? (
         <div className="mt-4 space-y-2" aria-busy="true">
