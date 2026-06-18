@@ -17,6 +17,13 @@ registries, and optional local/API AI on a strict fact-guard covenant.
   <img src="docs/assets/screenshots/dashboard.png" alt="QuantGlass dashboard: market regime, signal inventory, watchlist momentum, and paper-account exposure" width="900">
 </p>
 
+<p align="center">
+  <strong>⬇ Download the app —</strong>
+  <a href="https://github.com/quantglass-labs/quantglass/releases/latest"><strong>Windows · macOS · Linux installers (latest release)</strong></a>
+</p>
+
+<p align="center"><em>No Python or Node needed — grab the installer for your OS and run it. <a href="#install-for-traders--no-developer-setup">Install &amp; checksum guide ↓</a></em></p>
+
 <p align="center"><em>A guided tour is below — <a href="#screenshots--a-guided-tour">jump to screenshots</a>.</em></p>
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
@@ -38,7 +45,9 @@ Current working surface:
 - **QuantGlass Academy**: 121 lessons across 23 tracks (novice → expert)
   with exams, live exercises on your own market data, interactive visuals,
   spaced-repetition practice, glossary/reference library, progress
-  analytics, and local completion certificates.
+  analytics, and local completion certificates. The full lesson catalog and
+  interface are **available in 20 languages** (including right-to-left Arabic,
+  Persian, Urdu, and Sindhi) — switch language from the header at any time.
 - **Missions**: a 108-mission behavioral catalog with interactive decision
   drills (scored on Process / Risk / Discipline), replay missions over
   stylized market episodes, and an unlock ladder gated by conduct.
@@ -159,8 +168,12 @@ fact-guard — so it **cannot invent a number**. Source-labeled on every answer.
 
 QuantGlass ships as a normal desktop app. **You do not need Python, Node, or any
 developer tools** — download the installer for your operating system from the
-[Releases page](https://github.com/quantglass-labs/quantglass/releases) and run it.
-The Python engine is bundled inside the app.
+**[latest release](https://github.com/quantglass-labs/quantglass/releases/latest)**
+(or browse [all releases](https://github.com/quantglass-labs/quantglass/releases))
+and run it. The Python engine is bundled inside the app.
+
+On the latest-release page, the installers are under **Assets** — expand it and
+pick the file for your OS from the table below.
 
 | OS          | Download                                                             | Notes                                                                                                                                      |
 | ----------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
