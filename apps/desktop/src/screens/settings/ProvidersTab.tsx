@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 import type { JSX } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { Button, EmptyState, PillTabs } from '../../components/ui';
 import { providerLabelById } from '../../lib/backend';
 import type {
@@ -80,6 +82,7 @@ export function ProvidersTab({
   tradingMode: TradingMode;
   liveTradingConfirmed: boolean;
 }) {
+  const { t } = useTranslation();
   const cryptoRouteLabels = [
     providerSettings.cryptoPrimary,
     providerSettings.cryptoSecondary,
@@ -145,90 +148,77 @@ export function ProvidersTab({
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 rounded-3xl border border-border bg-white/[0.03] p-4">
         <div>
-          <p className="font-medium text-ink">Provider mode</p>
-          <p className="text-sm text-muted">
-            Choose between a simplified UI and explicit provider priority routing.
-          </p>
+          <p className="font-medium text-ink">{t('settings.providers.providerMode')}</p>
+          <p className="text-sm text-muted">{t('settings.providers.providerModeDesc')}</p>
         </div>
         <PillTabs
           value={providerSettings.viewMode}
           onChange={onChangeProviderView}
           options={[
-            { value: 'simple', label: 'Simple' },
-            { value: 'advanced', label: 'Advanced' },
+            { value: 'simple', label: t('settings.providers.simple') },
+            { value: 'advanced', label: t('settings.providers.advanced') },
           ]}
         />
       </div>
       <div className="rounded-3xl border border-watch/25 bg-watch/10 p-4 text-sm text-muted">
-        US build defaults only expose US-compliant venues and data providers. Binance.com global,
-        OKX, and Bybit are intentionally excluded; use Coinbase, Kraken, Gemini, Alpaca, Finnhub,
-        and cached metadata providers in this build.
+        {t('settings.providers.usBuildNotice')}
       </div>
       {providerSettings.viewMode === 'simple' ? (
         <div className="space-y-4">
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Crypto route
+                {t('settings.providers.cryptoRoute')}
               </p>
               <p className="mt-3 text-lg font-medium text-ink">
-                {cryptoRouteLabels.map(providerDisplayName).join(' -> ') || 'No route selected'}
+                {cryptoRouteLabels.map(providerDisplayName).join(' -> ') ||
+                  t('settings.providers.noRouteSelected')}
               </p>
-              <p className="mt-2 text-sm text-muted">
-                The app tries the primary exchange first, then secondary/fallback providers only
-                when the previous route cannot return usable market data.
-              </p>
+              <p className="mt-2 text-sm text-muted">{t('settings.providers.cryptoRouteDesc')}</p>
             </div>
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Stocks route
+                {t('settings.providers.stocksRoute')}
               </p>
               <p className="mt-3 text-lg font-medium text-ink">
-                {stocksRouteLabels.map(providerDisplayName).join(' -> ') || 'No route selected'}
+                {stocksRouteLabels.map(providerDisplayName).join(' -> ') ||
+                  t('settings.providers.noRouteSelected')}
               </p>
-              <p className="mt-2 text-sm text-muted">
-                Public providers work without keys. Keyed providers are used only after their
-                credentials are saved.
-              </p>
+              <p className="mt-2 text-sm text-muted">{t('settings.providers.stocksRouteDesc')}</p>
             </div>
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">AI</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                {t('settings.providers.ai')}
+              </p>
               <p className="mt-3 text-lg font-medium text-ink">
                 {aiProviderProfiles[aiSettings.provider].label}
               </p>
-              <p className="mt-2 text-sm text-muted">
-                Configure local or API model gateways from the AI tab; deterministic narration
-                remains the fallback.
-              </p>
+              <p className="mt-2 text-sm text-muted">{t('settings.providers.aiDesc')}</p>
             </div>
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Trading
+                {t('settings.providers.trading')}
               </p>
               <p className="mt-3 text-lg font-medium text-ink">
                 {tradingMode === 'live' && liveTradingConfirmed
-                  ? 'Live confirmed'
-                  : 'Paper guarded'}
+                  ? t('settings.providers.liveConfirmed')
+                  : t('settings.providers.paperGuarded')}
               </p>
-              <p className="mt-2 text-sm text-muted">
-                Live execution is controlled from Risk & Safety and requires saved Alpaca
-                credentials plus explicit confirmation.
-              </p>
+              <p className="mt-2 text-sm text-muted">{t('settings.providers.tradingDesc')}</p>
             </div>
           </div>
           <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Provider setup
+                  {t('settings.providers.providerSetup')}
                 </p>
                 <p className="mt-2 text-sm text-muted">
-                  Only selected keyed routes appear here. Use Advanced for full provider
-                  diagnostics.
+                  {t('settings.providers.providerSetupDesc')}
                 </p>
               </div>
               <Button variant="secondary" onClick={() => goToProviderSetup()}>
-                API Keys
+                {t('settings.providers.apiKeysBtn')}
               </Button>
             </div>
             {routeSetupRequired.length ? (
@@ -246,15 +236,13 @@ export function ProvidersTab({
                       className="mt-3"
                       onClick={() => goToProviderSetup(item.entry.name)}
                     >
-                      Set up keys
+                      {t('settings.providers.setupKeys')}
                     </Button>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="mt-4 text-sm text-buy">
-                Selected routes are available with the current credential setup.
-              </p>
+              <p className="mt-4 text-sm text-buy">{t('settings.providers.routesAvailable')}</p>
             )}
           </div>
         </div>
@@ -263,12 +251,12 @@ export function ProvidersTab({
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Crypto routing
+                {t('settings.providers.cryptoRouting')}
               </p>
               <div className="mt-4 grid gap-3 text-sm text-muted">
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Primary
+                    {t('settings.providers.primary')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -290,7 +278,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Secondary exchange
+                    {t('settings.providers.secondaryExchange')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -299,7 +287,7 @@ export function ProvidersTab({
                       onUpdateProviderSetting('cryptoSecondary', event.target.value)
                     }
                   >
-                    <option value="">None</option>
+                    <option value="">{t('settings.providers.noneOption')}</option>
                     <option value="Kraken">Kraken</option>
                     <option value="Coinbase">Coinbase</option>
                     <option value="Gemini">Gemini</option>
@@ -313,7 +301,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Fallback exchange
+                    {t('settings.providers.fallbackExchange')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -322,7 +310,7 @@ export function ProvidersTab({
                       onUpdateProviderSetting('cryptoFallback', event.target.value)
                     }
                   >
-                    <option value="">None</option>
+                    <option value="">{t('settings.providers.noneOption')}</option>
                     <option value="Kraken">Kraken</option>
                     <option value="Coinbase">Coinbase</option>
                     <option value="Gemini">Gemini</option>
@@ -336,7 +324,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Rate limit per minute
+                    {t('settings.providers.rateLimitPerMinute')}
                   </span>
                   <input
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -352,21 +340,17 @@ export function ProvidersTab({
                     }
                   />
                 </label>
-                <p className="text-xs text-muted">
-                  Exchange-native candles and quotes come from the primary/fallback exchange. Broad
-                  discovery metadata stays on the secondary provider to match the cost-controlled
-                  adapter design.
-                </p>
+                <p className="text-xs text-muted">{t('settings.providers.cryptoRoutingNote')}</p>
               </div>
             </div>
             <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                Stocks routing
+                {t('settings.providers.stocksRouting')}
               </p>
               <div className="mt-4 grid gap-3 text-sm text-muted">
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Primary
+                    {t('settings.providers.primary')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -390,7 +374,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Secondary
+                    {t('settings.providers.secondary')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -399,7 +383,7 @@ export function ProvidersTab({
                       onUpdateProviderSetting('stocksSecondary', event.target.value)
                     }
                   >
-                    <option value="">None</option>
+                    <option value="">{t('settings.providers.noneOption')}</option>
                     <option value="Yahoo Finance">Yahoo Finance</option>
                     <option value="Finnhub">Finnhub</option>
                     <option value="Alpaca">Alpaca</option>
@@ -415,7 +399,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Fallback
+                    {t('settings.providers.fallback')}
                   </span>
                   <select
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -424,7 +408,7 @@ export function ProvidersTab({
                       onUpdateProviderSetting('stocksFallback', event.target.value)
                     }
                   >
-                    <option value="">None</option>
+                    <option value="">{t('settings.providers.noneOption')}</option>
                     <option value="Yahoo Finance">Yahoo Finance</option>
                     <option value="Twelve Data">Twelve Data</option>
                     <option value="Finnhub">Finnhub</option>
@@ -440,7 +424,7 @@ export function ProvidersTab({
                 </label>
                 <label className="space-y-2">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    Rate limit per minute
+                    {t('settings.providers.rateLimitPerMinute')}
                   </span>
                   <input
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -463,32 +447,32 @@ export function ProvidersTab({
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  Custom provider profiles
+                  {t('settings.providers.customProfiles')}
                 </p>
                 <p className="mt-2 text-sm text-muted">
-                  Add provider identities and credentials for community adapters. Profiles appear in
-                  routing, but live market-data execution still requires an extension adapter for
-                  that provider.
+                  {t('settings.providers.customProfilesDesc')}
                 </p>
               </div>
               <Button variant="secondary" onClick={resetCustomProviderDraft}>
-                New profile
+                {t('settings.providers.newProfile')}
               </Button>
             </div>
             <div className="mt-4 grid gap-4 lg:grid-cols-2">
               <div className="rounded-2xl border border-border bg-surface/40 p-4">
                 <p className="font-medium text-ink">
-                  {editingCustomProviderId ? 'Edit custom provider' : 'Add custom provider'}
+                  {editingCustomProviderId
+                    ? t('settings.providers.editCustomProvider')
+                    : t('settings.providers.addCustomProvider')}
                 </p>
                 <div className="mt-4 grid gap-3 text-sm text-muted">
                   <label className="space-y-2">
                     <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                      Name
+                      {t('settings.providers.name')}
                     </span>
                     <input
                       className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
                       value={draftCustomProvider.label}
-                      placeholder="OpenRouter market data, Internal feed, etc."
+                      placeholder={t('settings.providers.phName')}
                       onChange={(event) =>
                         setDraftCustomProvider({
                           ...draftCustomProvider,
@@ -499,7 +483,7 @@ export function ProvidersTab({
                   </label>
                   <label className="space-y-2">
                     <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                      Base URL
+                      {t('settings.providers.baseUrl')}
                     </span>
                     <input
                       className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -515,7 +499,7 @@ export function ProvidersTab({
                   </label>
                   <label className="space-y-2">
                     <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                      Auth mode
+                      {t('settings.providers.authMode')}
                     </span>
                     <select
                       className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -527,16 +511,18 @@ export function ProvidersTab({
                         })
                       }
                     >
-                      <option value="none">No key</option>
-                      <option value="bearer">Bearer token</option>
-                      <option value="api_key_header">API key header</option>
-                      <option value="api_key_query">API key query param</option>
+                      <option value="none">{t('settings.providers.authNone')}</option>
+                      <option value="bearer">{t('settings.providers.authBearer')}</option>
+                      <option value="api_key_header">
+                        {t('settings.providers.authKeyHeader')}
+                      </option>
+                      <option value="api_key_query">{t('settings.providers.authKeyQuery')}</option>
                     </select>
                   </label>
                   {draftCustomProvider.authType === 'api_key_header' ? (
                     <label className="space-y-2">
                       <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                        Header name
+                        {t('settings.providers.headerName')}
                       </span>
                       <input
                         className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -554,7 +540,7 @@ export function ProvidersTab({
                   {draftCustomProvider.authType === 'api_key_query' ? (
                     <label className="space-y-2">
                       <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                        Query param
+                        {t('settings.providers.queryParam')}
                       </span>
                       <input
                         className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -571,12 +557,12 @@ export function ProvidersTab({
                   ) : null}
                   <label className="space-y-2">
                     <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                      Notes
+                      {t('settings.providers.notes')}
                     </span>
                     <textarea
                       className="min-h-24 w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
                       value={draftCustomProvider.notes ?? ''}
-                      placeholder="Adapter package, docs URL, supported symbols, rate-limit notes..."
+                      placeholder={t('settings.providers.phNotes')}
                       onChange={(event) =>
                         setDraftCustomProvider({
                           ...draftCustomProvider,
@@ -587,7 +573,7 @@ export function ProvidersTab({
                   </label>
                   <div className="space-y-2">
                     <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                      Capabilities
+                      {t('settings.providers.capabilitiesLabel')}
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {(
@@ -605,7 +591,7 @@ export function ProvidersTab({
                     </div>
                   </div>
                   <div className="flex items-center justify-between rounded-2xl border border-border bg-white/[0.03] px-4 py-3">
-                    <span>Enabled</span>
+                    <span>{t('settings.providers.enabled')}</span>
                     <button
                       type="button"
                       className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${draftCustomProvider.enabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`}
@@ -616,7 +602,9 @@ export function ProvidersTab({
                         })
                       }
                     >
-                      {draftCustomProvider.enabled ? 'On' : 'Off'}
+                      {draftCustomProvider.enabled
+                        ? t('settings.providers.on')
+                        : t('settings.providers.off')}
                     </button>
                   </div>
                   <div className="flex flex-wrap gap-3">
@@ -624,10 +612,12 @@ export function ProvidersTab({
                       disabled={!draftCustomProvider.label.trim()}
                       onClick={saveCustomProviderDraft}
                     >
-                      {editingCustomProviderId ? 'Save profile' : 'Add provider'}
+                      {editingCustomProviderId
+                        ? t('settings.providers.saveProfile')
+                        : t('settings.providers.addProvider')}
                     </Button>
                     <Button variant="secondary" onClick={resetCustomProviderDraft}>
-                      Reset
+                      {t('settings.providers.reset')}
                     </Button>
                   </div>
                 </div>
@@ -647,45 +637,50 @@ export function ProvidersTab({
                         <span
                           className={`rounded-full border border-border px-2.5 py-1 text-xs ${provider.enabled ? 'text-buy' : 'text-muted'}`}
                         >
-                          {provider.enabled ? 'enabled' : 'disabled'}
+                          {provider.enabled
+                            ? t('settings.providers.enabledStatus')
+                            : t('settings.providers.disabledStatus')}
                         </span>
                       </div>
                       <p className="mt-3 text-xs text-muted">
-                        Capabilities: {provider.capabilities.join(', ')}
+                        {t('settings.providers.capabilities', {
+                          list: provider.capabilities.join(', '),
+                        })}
                       </p>
                       <p className="mt-2 text-xs text-muted">
-                        Auth: {provider.authType}
-                        {provider.apiKeyId ? ` / key id ${provider.apiKeyId}` : ''}
+                        {t('settings.providers.auth', { auth: provider.authType })}
+                        {provider.apiKeyId
+                          ? t('settings.providers.keyIdSuffix', { id: provider.apiKeyId })
+                          : ''}
                       </p>
                       <p className="mt-2 text-xs text-muted">
-                        Adapter: profile saved, extension adapter required for market-data
-                        execution.
+                        {t('settings.providers.adapterNote')}
                       </p>
                       {provider.notes ? (
                         <p className="mt-2 text-xs text-muted">{provider.notes}</p>
                       ) : null}
                       <div className="mt-4 flex flex-wrap gap-2">
                         <Button variant="secondary" onClick={() => editCustomProvider(provider)}>
-                          Edit
+                          {t('settings.providers.edit')}
                         </Button>
                         {provider.apiKeyId ? (
                           <Button variant="ghost" onClick={() => goToProviderSetup(provider.id)}>
-                            API key
+                            {t('settings.providers.apiKey')}
                           </Button>
                         ) : null}
                         <Button
                           variant="danger"
                           onClick={() => onDeleteCustomProvider(provider.id)}
                         >
-                          Delete
+                          {t('settings.providers.delete')}
                         </Button>
                       </div>
                     </div>
                   ))
                 ) : (
                   <EmptyState
-                    title="No custom providers"
-                    description="Add a provider profile to prepare credentials and routing for a community adapter."
+                    title={t('settings.providers.emptyCustomTitle')}
+                    description={t('settings.providers.emptyCustomDesc')}
                   />
                 )}
               </div>
@@ -693,7 +688,7 @@ export function ProvidersTab({
           </div>
           <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-              Provider registry status
+              {t('settings.providers.registryStatus')}
             </p>
             <div className="mt-4 grid gap-3 lg:grid-cols-2">
               {providerInventory.length ? (
@@ -710,7 +705,9 @@ export function ProvidersTab({
                             {entry.label ?? providerLabelById[entry.name] ?? entry.name}
                           </span>
                           <p className="mt-1 text-xs text-muted">
-                            Capabilities: {entry.capabilities.join(', ') || 'none'}
+                            {t('settings.providers.capabilities', {
+                              list: entry.capabilities.join(', ') || t('settings.providers.none'),
+                            })}
                           </p>
                         </div>
                         <div className="flex flex-wrap justify-end gap-2 text-xs">
@@ -720,7 +717,7 @@ export function ProvidersTab({
                             {status.label}
                           </span>
                           <span className="rounded-full border border-border px-2.5 py-1 text-muted">
-                            {entry.transport ?? 'internal'}
+                            {entry.transport ?? t('settings.providers.internalTransport')}
                           </span>
                         </div>
                       </div>
@@ -731,16 +728,14 @@ export function ProvidersTab({
                           className="mt-2 text-xs text-accent underline-offset-4 hover:underline"
                           onClick={() => goToProviderSetup(entry.name)}
                         >
-                          Set up keys
+                          {t('settings.providers.setupKeys')}
                         </button>
                       ) : null}
                     </div>
                   );
                 })
               ) : (
-                <p className="text-sm text-muted">
-                  Registry metadata is unavailable while the backend is offline.
-                </p>
+                <p className="text-sm text-muted">{t('settings.providers.registryOffline')}</p>
               )}
             </div>
           </div>
