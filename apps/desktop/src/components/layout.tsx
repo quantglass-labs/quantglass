@@ -250,7 +250,7 @@ export function AppShell({
           <div className="mb-6 flex items-start gap-3 rounded-3xl border border-sell/25 bg-sell/10 px-4 py-4 text-sm text-muted">
             <ShieldAlert className="mt-0.5 size-4 shrink-0 text-sell" />
             <div>
-              <p className="font-medium text-ink">Backend unavailable</p>
+              <p className="font-medium text-ink">{t('chrome.backendUnavailable')}</p>
               <p className="mt-1">{backendErrorMessage}</p>
             </div>
           </div>

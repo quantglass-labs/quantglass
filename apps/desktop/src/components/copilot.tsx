@@ -10,6 +10,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Send, Sparkles, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus } from '../types';
 import { AiMarkdown } from './AiMarkdown';
@@ -21,13 +22,14 @@ type CopilotMessage = {
   tools?: string[];
 };
 
-const STARTERS = [
-  'What are the strongest signals right now?',
-  'How is my paper account doing?',
-  'What patterns show up in my closed trades?',
-];
+const STARTER_KEYS = [
+  'chrome.copilotStarter1',
+  'chrome.copilotStarter2',
+  'chrome.copilotStarter3',
+] as const;
 
 export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<CopilotMessage[]>([]);
   const [draft, setDraft] = useState('');
@@ -62,7 +64,7 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
         ...current,
         {
           role: 'assistant',
-          text: 'The Copilot request failed - the model may have timed out. The rest of the app keeps working; try again or check Settings → AI.',
+          text: t('chrome.copilotError'),
           source: 'error',
         },
       ]);
@@ -78,7 +80,7 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        title="QuantGlass Copilot - ask about your own signals, account, and trades"
+        title={t('chrome.copilotButtonTitle')}
         className="fixed bottom-20 right-5 z-50 grid size-12 place-items-center rounded-full border border-accent/40 bg-accentStrong/30 text-accent shadow-lg backdrop-blur-xl transition hover:bg-accentStrong/50 lg:bottom-6"
       >
         {open ? <X className="size-5" /> : <Sparkles className="size-5" />}
@@ -90,28 +92,27 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
             <Sparkles className="size-4 text-accent" />
             <p className="text-sm font-semibold text-ink">QuantGlass Copilot</p>
             <p className="ml-auto text-[10px] uppercase tracking-wider text-muted">
-              Reads your data · never advice
+              {t('chrome.copilotReadsData')}
             </p>
           </div>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
             {messages.length === 0 ? (
               <div className="space-y-2">
-                <p className="text-sm text-muted">
-                  Ask about your own workstation - signals, paper account, watchlist, backtests,
-                  closed trades, or your trade review. Answers come from the engine&apos;s read-only
-                  data; nothing here can place orders.
-                </p>
-                {STARTERS.map((starter) => (
-                  <button
-                    key={starter}
-                    type="button"
-                    onClick={() => void ask(starter)}
-                    className="block w-full rounded-2xl border border-border px-3 py-2 text-left text-xs text-muted transition hover:border-accent/40 hover:text-ink"
-                  >
-                    {starter}
-                  </button>
-                ))}
+                <p className="text-sm text-muted">{t('chrome.copilotEmptyState')}</p>
+                {STARTER_KEYS.map((starterKey) => {
+                  const starter = t(starterKey);
+                  return (
+                    <button
+                      key={starterKey}
+                      type="button"
+                      onClick={() => void ask(starter)}
+                      className="block w-full rounded-2xl border border-border px-3 py-2 text-left text-xs text-muted transition hover:border-accent/40 hover:text-ink"
+                    >
+                      {starter}
+                    </button>
+                  );
+                })}
               </div>
             ) : (
               messages.map((message, index) => (
@@ -148,7 +149,7 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
             {busy ? (
               <div className="mr-4 flex items-center gap-2 rounded-2xl border border-border bg-white/[0.03] px-3 py-2 text-sm text-muted">
                 <span className="size-3 shrink-0 animate-spin rounded-full border-2 border-accent/30 border-t-accent motion-reduce:animate-none" />
-                Reading your data… large local models can take up to a minute.
+                {t('chrome.copilotBusy')}
               </div>
             ) : null}
           </div>
@@ -163,7 +164,7 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
             <input
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              placeholder="Ask about your signals, account, trades…"
+              placeholder={t('chrome.copilotPlaceholder')}
               maxLength={500}
               className="flex-1 rounded-2xl border border-border bg-white/[0.04] px-3 py-2 text-sm text-ink outline-none placeholder:text-muted focus:border-accent"
             />
