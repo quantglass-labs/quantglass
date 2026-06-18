@@ -1,0 +1,80 @@
+name: Translation report
+description: Report a wording, terminology, or layout issue in a non-English language
+title: "[i18n]: "
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make QuantGlass read naturally in your language. The
+        initial translations are machine-generated and under native-speaker
+        review — wording fixes, finance-term corrections, and right-to-left
+        layout reports are all very welcome. No trading expertise required.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language has the issue?
+      options:
+        - 中文 (Chinese, zh)
+        - हिन्दी (Hindi, hi)
+        - Español (Spanish, es)
+        - العربية (Arabic, ar — RTL)
+        - Français (French, fr)
+        - বাংলা (Bengali, bn)
+        - Português (Portuguese, pt)
+        - Русский (Russian, ru)
+        - اردو (Urdu, ur — RTL)
+        - Bahasa Indonesia (id)
+        - Deutsch (German, de)
+        - 日本語 (Japanese, ja)
+        - فارسی (Persian, fa — RTL)
+        - Türkçe (Turkish, tr)
+        - 한국어 (Korean, ko)
+        - Tiếng Việt (Vietnamese, vi)
+        - Italiano (Italian, it)
+        - سنڌي (Sindhi, sd — RTL)
+        - Kiswahili (Swahili, sw)
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      description: Screen, tab, lesson, mission, or button where the text appears.
+      placeholder: e.g. Settings → AI tab, or the Signal Detail drawer
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current text
+      description: Paste the text as it currently appears (a screenshot helps too).
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested correction
+      description: How should it read? For finance terms, note the conventional local usage.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of issue
+      options:
+        - Unnatural or awkward wording
+        - Wrong or inconsistent finance/technical term
+        - Right-to-left layout or text-direction problem
+        - Number, date, or currency formatting
+        - Untranslated text (still showing English)
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: native
+    attributes:
+      label: Native speaker
+      options:
+        - label: I am a native or fluent speaker of this language.

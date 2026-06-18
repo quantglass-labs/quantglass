@@ -3,13 +3,22 @@
 This roadmap is designed to make contribution areas visible. It is not a promise
 of dates or investment performance.
 
+## Recently Shipped
+
+- GitHub Actions CI for backend tests, desktop build, audits, packaging, and
+  license reports — running on every PR and on tag-driven releases.
+- Tag-driven release automation publishing checksummed Windows, macOS, and Linux
+  installers (`v0.2.x`–`v0.3.0`).
+- 20-language interface and content localization (with right-to-left Arabic,
+  Persian, Urdu, and Sindhi); native-speaker review is the open follow-up below.
+- Refreshed documentation and screenshots.
+
 ## Near Term
 
-- Add GitHub Actions CI for backend tests, desktop build, audits, and packaging
-  checks.
+- Native-speaker review of the machine-translated locales, prioritizing Arabic,
+  Persian, Urdu, and Sindhi (see [issues labeled `i18n`](https://github.com/quantglass-labs/quantglass/labels/i18n)).
 - Harden Tauri CSP and command capabilities.
 - Make pytest the official backend test runner.
-- Refresh stale documentation and screenshots.
 - Add provider-adapter and strategy-extension examples.
 - Keep live trading disabled unless safety gates are complete.
 
