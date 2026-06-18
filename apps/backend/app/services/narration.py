@@ -9,7 +9,7 @@ from collections.abc import Callable
 from typing import Any
 
 from app.core.config import AiSettings
-from app.services.locale import language_directive
+from app.services.locale import canonicalize_numerals, language_directive
 from app.services.model_gateway import ModelGateway
 
 _NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)?")
@@ -98,6 +98,9 @@ class NarrationService:
 
     def _passes_fact_guard(self, text: str, facts: dict[str, Any]) -> bool:
         allowed = self._allowed_numbers(facts)
+        # Canonicalize localized numerals (non-Latin digits, comma/dot separators)
+        # so the guard reads the model's numbers regardless of answer language.
+        text = canonicalize_numerals(text)
         for token in _NUMBER_PATTERN.findall(text):
             value = float(token)
             if value in _ALWAYS_ALLOWED:
