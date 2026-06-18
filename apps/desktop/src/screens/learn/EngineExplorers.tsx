@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { backendClient } from '../../lib/backend';
 import { averageTrueRange, directionalMovementIndex } from '../../lib/analytics';
@@ -90,6 +91,7 @@ const REGIME_COLORS: Record<string, string> = {
 };
 
 export function RegimeScrubber({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const [candles, setCandles] = useState<Candle[]>(() => syntheticCandles());
   const [source, setSource] = useState('synthetic series');
   const [playhead, setPlayhead] = useState(120);
@@ -141,11 +143,11 @@ export function RegimeScrubber({ params }: { params: Record<string, unknown> }) 
 
   return (
     <Shell
-      title={`Regime scrubber — the engine's gates over ${source}`}
+      title={t('academy.regimeScrubberTitle', { source })}
       footer={
         <input
           type="range"
-          aria-label="Playhead"
+          aria-label={t('academy.playhead')}
           className="w-full accent-indigo-400"
           min={20}
           max={candles.length - 1}
@@ -154,7 +156,12 @@ export function RegimeScrubber({ params }: { params: Record<string, unknown> }) 
         />
       }
     >
-      <svg viewBox="0 0 720 300" role="img" aria-label="Regime scrubber" className="w-full">
+      <svg
+        viewBox="0 0 720 300"
+        role="img"
+        aria-label={t('academy.regimeScrubber')}
+        className="w-full"
+      >
         <rect width="720" height="300" rx={12} fill={C.bg} />
         {candles.map((_, i) =>
           i % 2 === 0 ? (
@@ -219,6 +226,7 @@ function maxDrawdown(outcomes: number[]): number {
 }
 
 export function MonteCarloAnimator({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const outcomes = (params.outcomes as number[]) ?? DEFAULT_OUTCOMES;
   const [paths, setPaths] = useState<number[][]>([]);
   const raf = useRef<number | null>(null);
@@ -282,21 +290,21 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
 
   return (
     <Shell
-      title="Monte Carlo — your history is one draw"
+      title={t('academy.monteCarloTitle')}
       footer={
         <button
           type="button"
           className="rounded-lg border border-indigo-500/40 px-3 py-1.5 text-sm text-indigo-200 hover:bg-indigo-600/20"
           onClick={run}
         >
-          Resample 200 futures
+          {t('academy.resample')}
         </button>
       }
     >
       <svg
         viewBox="0 0 720 300"
         role="img"
-        aria-label="Monte Carlo equity paths"
+        aria-label={t('academy.monteCarloPaths')}
         className="w-full"
       >
         <rect width="720" height="300" rx={12} fill={C.bg} />
@@ -323,7 +331,7 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
           95th-pct max DD: {paths.length ? p95Dd.toFixed(1) : '—'}%
         </text>
         <text x={40} y={28} fill={C.muted} fontSize={13}>
-          Same trades, shuffled order — drawdown is path-dependent. Size for the 95th percentile.
+          {t('academy.sameTradesShuffled')}
         </text>
       </svg>
     </Shell>
@@ -335,6 +343,7 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
 // ---------------------------------------------------------------------------
 
 export function ConformalVisualizer({ params }: { params: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const pool = (params.outcomes as number[]) ?? DEFAULT_OUTCOMES.concat(DEFAULT_OUTCOMES);
   const [n, setN] = useState(Math.min(30, pool.length));
   const [coverage, setCoverage] = useState(90);
@@ -355,12 +364,12 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
 
   return (
     <Shell
-      title="Conformal visualizer — the guarantee, or honestly nothing"
+      title={t('academy.conformalTitle')}
       footer={
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block text-xs text-zinc-400">
             <span className="flex justify-between">
-              <span>Calibration trades (n)</span>
+              <span>{t('academy.calibrationTrades')}</span>
               <span className="text-zinc-200 font-medium">{n}</span>
             </span>
             <input
@@ -374,7 +383,7 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
           </label>
           <label className="block text-xs text-zinc-400">
             <span className="flex justify-between">
-              <span>Coverage</span>
+              <span>{t('academy.coverage')}</span>
               <span className="text-zinc-200 font-medium">{coverage}%</span>
             </span>
             <input
@@ -390,7 +399,12 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
         </div>
       }
     >
-      <svg viewBox="0 0 720 220" role="img" aria-label="Conformal interval" className="w-full">
+      <svg
+        viewBox="0 0 720 220"
+        role="img"
+        aria-label={t('academy.conformalInterval')}
+        className="w-full"
+      >
         <rect width="720" height="220" rx={12} fill={C.bg} />
         {valid && lower !== null && upper !== null ? (
           <rect
@@ -419,12 +433,10 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
             : `No guarantee — n=${n} is below the minimum for ${coverage}% coverage`}
         </text>
         <text x={60} y={66} fill={C.muted} fontSize={13}>
-          ranks: lower = ⌊(n+1)·α/2⌋ = {lowerRank}, upper = ⌈(n+1)·(1−α/2)⌉ = {upperRank} — the
-          engine refuses intervals it cannot back.
+          {t('academy.ranksExplain', { lower: lowerRank, upper: upperRank })}
         </text>
         <text x={60} y={196} fill={C.muted} fontSize={12}>
-          Each dot is one out-of-sample trade outcome (R), sorted. Amber dots are the rank
-          quantiles.
+          {t('academy.eachDotOos')}
         </text>
       </svg>
     </Shell>
