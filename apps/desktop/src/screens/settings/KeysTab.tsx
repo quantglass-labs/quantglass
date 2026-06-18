@@ -5,6 +5,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
 
 import { KeyRound } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '../../components/ui';
 import type { ApiKeyField, NotificationTestChannel } from '../../types';
@@ -33,6 +34,7 @@ export function KeysTab({
   goToProviderSetup: (rowId: string) => void;
   onGoToProviders: () => void;
 }) {
+  const { t } = useTranslation();
   const keyFieldRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const apiKeySections = useMemo(() => {
@@ -65,32 +67,28 @@ export function KeysTab({
     return [
       {
         id: 'providers',
-        title: 'Provider credentials',
-        description:
-          'Market data and trading-provider credentials that affect registry availability and keyed transports.',
+        titleKey: 'settings.keys.sectionProvidersTitle',
+        descKey: 'settings.keys.sectionProvidersDesc',
         items: apiKeys.filter(
           (field) => !telegramIds.has(field.id) && !emailIds.has(field.id) && !aiIds.has(field.id),
         ),
       },
       {
         id: 'ai',
-        title: 'AI model gateways',
-        description:
-          'Optional keys for OpenAI or OpenAI-compatible model routers. Local Ollama and LM Studio do not need a key by default.',
+        titleKey: 'settings.keys.sectionAiTitle',
+        descKey: 'settings.keys.sectionAiDesc',
         items: apiKeys.filter((field) => aiIds.has(field.id)),
       },
       {
         id: 'telegram',
-        title: 'Telegram delivery',
-        description:
-          'Saved bot token and chat destination for Telegram alert delivery and test sends.',
+        titleKey: 'settings.keys.sectionTelegramTitle',
+        descKey: 'settings.keys.sectionTelegramDesc',
         items: apiKeys.filter((field) => telegramIds.has(field.id)),
       },
       {
         id: 'email',
-        title: 'Email delivery',
-        description:
-          'SMTP host, authentication, sender, and recipients used for email alerts and test sends.',
+        titleKey: 'settings.keys.sectionEmailTitle',
+        descKey: 'settings.keys.sectionEmailDesc',
         items: apiKeys.filter((field) => emailIds.has(field.id)),
       },
     ].filter((section) => section.items.length > 0);
@@ -114,11 +112,10 @@ export function KeysTab({
   return (
     <div className="space-y-4">
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
-        Notification tests use saved backend values for Telegram and email. Save changes first, then
-        test each delivery path.
+        {t('settings.keys.notifTestsHint')}
         <div className="mt-4">
           <Button variant="secondary" onClick={() => onTestNotification('desktop')}>
-            Send Desktop test
+            {t('settings.keys.sendDesktopTest')}
           </Button>
         </div>
       </div>
@@ -126,15 +123,12 @@ export function KeysTab({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-              Provider setup map
+              {t('settings.keys.providerSetupMap')}
             </p>
-            <p className="mt-2 text-sm text-muted">
-              These are the same keyed providers shown in Advanced Providers. Save the listed keys
-              below to move a provider from needs setup to configured.
-            </p>
+            <p className="mt-2 text-sm text-muted">{t('settings.keys.providerSetupMapDesc')}</p>
           </div>
           <Button variant="secondary" onClick={() => onGoToProviders()}>
-            Advanced Providers
+            {t('settings.keys.advancedProviders')}
           </Button>
         </div>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">
@@ -142,9 +136,9 @@ export function KeysTab({
             const isFocused = row === focusedProviderSetup;
             const registryName = row.entry?.name ?? row.id;
             const status = row.status ?? {
-              label: 'registry offline',
+              label: t('settings.keys.registryOffline'),
               tone: 'text-muted',
-              detail: 'Provider registry metadata is unavailable while the backend is offline.',
+              detail: t('settings.keys.registryOfflineDetail'),
             };
             return (
               <div
@@ -162,21 +156,27 @@ export function KeysTab({
                     {status.label}
                   </span>
                 </div>
-                <p className="mt-3 text-xs text-muted">Registry entry: {registryName}</p>
+                <p className="mt-3 text-xs text-muted">
+                  {t('settings.keys.registryEntry', { name: registryName })}
+                </p>
                 <p className="mt-2 text-xs text-muted">
-                  Required keys:{' '}
-                  {row.fields.map((field) => field.label).join(', ') || row.keyIds.join(', ')}
+                  {t('settings.keys.requiredKeys', {
+                    keys:
+                      row.fields.map((field) => field.label).join(', ') || row.keyIds.join(', '),
+                  })}
                 </p>
                 <p className="mt-2 text-xs text-muted">{status.detail}</p>
                 {row.missingFields.length ? (
                   <p className="mt-2 text-xs text-hold">
-                    Missing: {row.missingFields.map((field) => field.label).join(', ')}
+                    {t('settings.keys.missing', {
+                      fields: row.missingFields.map((field) => field.label).join(', '),
+                    })}
                   </p>
                 ) : (
-                  <p className="mt-2 text-xs text-buy">All required keys are saved.</p>
+                  <p className="mt-2 text-xs text-buy">{t('settings.keys.allKeysSaved')}</p>
                 )}
                 <Button variant="ghost" className="mt-3" onClick={() => goToProviderSetup(row.id)}>
-                  Show key fields
+                  {t('settings.keys.showKeyFields')}
                 </Button>
               </div>
             );
@@ -187,9 +187,9 @@ export function KeysTab({
         <div key={section.id} className="space-y-4">
           <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-              {section.title}
+              {t(section.titleKey)}
             </p>
-            <p className="mt-2 text-sm text-muted">{section.description}</p>
+            <p className="mt-2 text-sm text-muted">{t(section.descKey)}</p>
           </div>
           {section.items.map((field) => {
             const isFocusedKey = focusedProviderKeyIds.has(field.id);
@@ -213,13 +213,15 @@ export function KeysTab({
                 <div className="mt-4 rounded-2xl border border-border bg-surface/40 px-4 py-3 metric-text text-sm text-ink">
                   {field.secret
                     ? field.configured
-                      ? 'Configured'
-                      : 'Not configured'
-                    : field.value || 'Not configured'}
+                      ? t('settings.keys.configured')
+                      : t('settings.keys.notConfigured')
+                    : field.value || t('settings.keys.notConfigured')}
                 </div>
                 <label className="mt-4 block space-y-2 text-sm text-muted">
                   <span className="block text-xs font-semibold uppercase tracking-[0.18em]">
-                    {field.secret && field.configured ? 'New value' : 'Stored value'}
+                    {field.secret && field.configured
+                      ? t('settings.keys.newValue')
+                      : t('settings.keys.storedValue')}
                   </span>
                   <input
                     className="w-full rounded-2xl border border-border bg-white/[0.04] px-4 py-3 text-ink outline-none"
@@ -227,7 +229,7 @@ export function KeysTab({
                     autoComplete="off"
                     placeholder={
                       field.secret && field.configured
-                        ? 'Leave blank to keep current saved key'
+                        ? t('settings.keys.keepBlankPlaceholder')
                         : ''
                     }
                     value={draftValue}
@@ -241,11 +243,11 @@ export function KeysTab({
                 </label>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <Button disabled={!canSaveKey} onClick={() => onSaveApiKey(field.id, draftValue)}>
-                    Save key
+                    {t('settings.keys.saveKey')}
                   </Button>
                   {field.secret && field.configured ? (
                     <Button variant="danger" onClick={() => onSaveApiKey(field.id, '')}>
-                      Clear key
+                      {t('settings.keys.clearKey')}
                     </Button>
                   ) : null}
                   {notificationTestFieldMap[field.id] ? (
@@ -257,9 +259,9 @@ export function KeysTab({
                         )
                       }
                     >
-                      Send{' '}
-                      {notificationTestFieldMap[field.id] === 'telegram' ? 'Telegram' : 'Email'}{' '}
-                      test
+                      {notificationTestFieldMap[field.id] === 'telegram'
+                        ? t('settings.keys.sendTelegramTest')
+                        : t('settings.keys.sendEmailTest')}
                     </Button>
                   ) : null}
                   <Button
@@ -271,14 +273,14 @@ export function KeysTab({
                       }))
                     }
                   >
-                    Reset
+                    {t('settings.keys.reset')}
                   </Button>
                 </div>
                 {field.tradeEnabled ? (
-                  <p className="mt-2 text-xs text-hold">Trade-enabled key</p>
+                  <p className="mt-2 text-xs text-hold">{t('settings.keys.tradeEnabledKey')}</p>
                 ) : (
                   <p className="mt-2 text-xs text-muted">
-                    Provider, notification, or delivery-scope setting
+                    {t('settings.keys.providerScopeSetting')}
                   </p>
                 )}
               </div>
