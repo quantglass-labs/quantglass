@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Disciplina de Riesgo I",
+    "description": "Coloca 5 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 5 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Disciplina de Riesgo II",
+    "description": "Coloca 10 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Disciplina de Riesgo III",
+    "description": "Coloca 20 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 20 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Disciplina de Riesgo IV",
+    "description": "Coloca 40 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 40 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Disciplina de Riesgo V",
+    "description": "Coloca 75 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 75 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Disciplina de Riesgo VI",
+    "description": "Coloca 120 operaciones en papel donde cada una tenga un stop y no arriesgue más de lo que marca la política. Sin excepciones, sin «solo por esta vez» — el hábito es la certificación.",
+    "criteria": [
+      {
+        "label": "Ejecuta 120 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "Primera Sangre, Planificada",
+    "description": "Asume tu primera pérdida planificada: una operación que tocó su stop exactamente donde dijiste que lo haría. Esta es la matrícula más barata que vende el mercado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 3 operaciones"
+      },
+      {
+        "label": "Asume 1 stop planificado"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Disciplina Diversificada",
+    "description": "Ejecuta toda la rutina de riesgo en al menos 5 símbolos distintos. La disciplina que solo funciona en tu gráfico favorito es una coincidencia, no una habilidad.",
+    "criteria": [
+      {
+        "label": "Ejecuta 25 operaciones"
+      },
+      {
+        "label": "Opera 5+ símbolos distintos"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "La Larga Vigilia",
+    "description": "Doscientas operaciones sin una sola infracción de la política de riesgo. A este volumen, la disciplina ya no es una elección que tomas — es quien eres.",
+    "criteria": [
+      {
+        "label": "Ejecuta 200 operaciones"
+      },
+      {
+        "label": "Cero infracciones de la política de riesgo"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Tolerancia Cero",
+    "description": "Quince operaciones de calidad consecutivas sin riesgo excesivo y sin entradas sin stop, con una constitución en vigor. Reglas que adoptaste, cumplidas.",
+    "criteria": [
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Ejecuta 15 operaciones"
+      },
+      {
+        "label": "Cero infracciones de riesgo"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Calidad del Proceso I",
+    "description": "Mantén una puntuación de proceso media de 60+ a lo largo de 5 operaciones. La puntuación califica la decisión — stop, tesis, tamaño, estado de ánimo — nunca el resultado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 5 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Calidad del Proceso II",
+    "description": "Mantén una puntuación de proceso media de 70+ a lo largo de 10 operaciones. La puntuación califica la decisión — stop, tesis, tamaño, estado de ánimo — nunca el resultado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Calidad del Proceso III",
+    "description": "Mantén una puntuación de proceso media de 75+ a lo largo de 20 operaciones. La puntuación califica la decisión — stop, tesis, tamaño, estado de ánimo — nunca el resultado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 20 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Calidad del Proceso IV",
+    "description": "Mantén una puntuación de proceso media de 80+ a lo largo de 40 operaciones. La puntuación califica la decisión — stop, tesis, tamaño, estado de ánimo — nunca el resultado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 40 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Calidad del Proceso V",
+    "description": "Mantén una puntuación de proceso media de 85+ a lo largo de 80 operaciones. La puntuación califica la decisión — stop, tesis, tamaño, estado de ánimo — nunca el resultado.",
+    "criteria": [
+      {
+        "label": "Ejecuta 80 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Sin Romper I",
+    "description": "Encadena 3 operaciones consecutivas con puntuaciones de proceso de 70 o más. Una entrada descuidada reinicia la cuenta — exactamente como hace la disciplina de verdad.",
+    "criteria": [
+      {
+        "label": "3 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Sin Romper II",
+    "description": "Encadena 5 operaciones consecutivas con puntuaciones de proceso de 70 o más. Una entrada descuidada reinicia la cuenta — exactamente como hace la disciplina de verdad.",
+    "criteria": [
+      {
+        "label": "5 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Sin Romper III",
+    "description": "Encadena 10 operaciones consecutivas con puntuaciones de proceso de 70 o más. Una entrada descuidada reinicia la cuenta — exactamente como hace la disciplina de verdad.",
+    "criteria": [
+      {
+        "label": "10 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Sin Romper IV",
+    "description": "Encadena 20 operaciones consecutivas con puntuaciones de proceso de 70 o más. Una entrada descuidada reinicia la cuenta — exactamente como hace la disciplina de verdad.",
+    "criteria": [
+      {
+        "label": "20 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Sin Romper V",
+    "description": "Encadena 35 operaciones consecutivas con puntuaciones de proceso de 70 o más. Una entrada descuidada reinicia la cuenta — exactamente como hace la disciplina de verdad.",
+    "criteria": [
+      {
+        "label": "35 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Acepta la Pérdida Planificada I",
+    "description": "Suma 1 pérdidas bien jugadas — buenas decisiones donde la varianza se llevó la operación. Los traders que saben perder correctamente son los que siguen solventes tras cien operaciones.",
+    "criteria": [
+      {
+        "label": "1 pérdidas bien jugadas"
+      },
+      {
+        "label": "Sin operaciones sin stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Acepta la Pérdida Planificada II",
+    "description": "Suma 3 pérdidas bien jugadas — buenas decisiones donde la varianza se llevó la operación. Los traders que saben perder correctamente son los que siguen solventes tras cien operaciones.",
+    "criteria": [
+      {
+        "label": "3 pérdidas bien jugadas"
+      },
+      {
+        "label": "Sin operaciones sin stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Acepta la Pérdida Planificada III",
+    "description": "Suma 6 pérdidas bien jugadas — buenas decisiones donde la varianza se llevó la operación. Los traders que saben perder correctamente son los que siguen solventes tras cien operaciones.",
+    "criteria": [
+      {
+        "label": "6 pérdidas bien jugadas"
+      },
+      {
+        "label": "Sin operaciones sin stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Acepta la Pérdida Planificada IV",
+    "description": "Suma 12 pérdidas bien jugadas — buenas decisiones donde la varianza se llevó la operación. Los traders que saben perder correctamente son los que siguen solventes tras cien operaciones.",
+    "criteria": [
+      {
+        "label": "12 pérdidas bien jugadas"
+      },
+      {
+        "label": "Sin operaciones sin stop"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "El Stop Funciona I",
+    "description": "Deja que tu stop te saque 2 veces sin ensancharlo ni cancelarlo. La salida que planeaste es la única que protege la cuenta que planeabas conservar.",
+    "criteria": [
+      {
+        "label": "2 stops planificados asumidos"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "El Stop Funciona II",
+    "description": "Deja que tu stop te saque 5 veces sin ensancharlo ni cancelarlo. La salida que planeaste es la única que protege la cuenta que planeabas conservar.",
+    "criteria": [
+      {
+        "label": "5 stops planificados asumidos"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "El Stop Funciona III",
+    "description": "Deja que tu stop te saque 10 veces sin ensancharlo ni cancelarlo. La salida que planeaste es la única que protege la cuenta que planeabas conservar.",
+    "criteria": [
+      {
+        "label": "10 stops planificados asumidos"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "El Stop Funciona IV",
+    "description": "Deja que tu stop te saque 20 veces sin ensancharlo ni cancelarlo. La salida que planeaste es la única que protege la cuenta que planeabas conservar.",
+    "criteria": [
+      {
+        "label": "20 stops planificados asumidos"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Sangre Fría I",
+    "description": "Registra tu estado emocional en cada entrada a lo largo de 5 operaciones con cero entradas en tilt — sin FOMO, sin operaciones por frustración. Nombrar el estado es como lo detectas pronto.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 5 operaciones"
+      },
+      {
+        "label": "Cero entradas en tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Sangre Fría II",
+    "description": "Registra tu estado emocional en cada entrada a lo largo de 15 operaciones con cero entradas en tilt — sin FOMO, sin operaciones por frustración. Nombrar el estado es como lo detectas pronto.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 15 operaciones"
+      },
+      {
+        "label": "Cero entradas en tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Sangre Fría III",
+    "description": "Registra tu estado emocional en cada entrada a lo largo de 40 operaciones con cero entradas en tilt — sin FOMO, sin operaciones por frustración. Nombrar el estado es como lo detectas pronto.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 40 operaciones"
+      },
+      {
+        "label": "Cero entradas en tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Sangre Fría IV",
+    "description": "Registra tu estado emocional en cada entrada a lo largo de 100 operaciones con cero entradas en tilt — sin FOMO, sin operaciones por frustración. Nombrar el estado es como lo detectas pronto.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 100 operaciones"
+      },
+      {
+        "label": "Cero entradas en tilt"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Nombra la Emoción I",
+    "description": "Registra una emoción en 10 entradas — incluidas las feas. Un registro de tilt honesto vale más que uno limpio y falso; el motor califica la honestidad, no la serenidad.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 10 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Nombra la Emoción II",
+    "description": "Registra una emoción en 25 entradas — incluidas las feas. Un registro de tilt honesto vale más que uno limpio y falso; el motor califica la honestidad, no la serenidad.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 25 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Nombra la Emoción III",
+    "description": "Registra una emoción en 60 entradas — incluidas las feas. Un registro de tilt honesto vale más que uno limpio y falso; el motor califica la honestidad, no la serenidad.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 60 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Nombra la Emoción IV",
+    "description": "Registra una emoción en 150 entradas — incluidas las feas. Un registro de tilt honesto vale más que uno limpio y falso; el motor califica la honestidad, no la serenidad.",
+    "criteria": [
+      {
+        "label": "Emoción registrada en 150 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "El Registro I",
+    "description": "Escribe una nota de reflexión o etiqueta en 3 operaciones ejecutadas. El diario es el único conjunto de datos sobre tu trading que nadie más puede recopilar.",
+    "criteria": [
+      {
+        "label": "Registra 3 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "El Registro II",
+    "description": "Escribe una nota de reflexión o etiqueta en 10 operaciones ejecutadas. El diario es el único conjunto de datos sobre tu trading que nadie más puede recopilar.",
+    "criteria": [
+      {
+        "label": "Registra 10 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "El Registro III",
+    "description": "Escribe una nota de reflexión o etiqueta en 25 operaciones ejecutadas. El diario es el único conjunto de datos sobre tu trading que nadie más puede recopilar.",
+    "criteria": [
+      {
+        "label": "Registra 25 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "El Registro IV",
+    "description": "Escribe una nota de reflexión o etiqueta en 60 operaciones ejecutadas. El diario es el único conjunto de datos sobre tu trading que nadie más puede recopilar.",
+    "criteria": [
+      {
+        "label": "Registra 60 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "El Registro V",
+    "description": "Escribe una nota de reflexión o etiqueta en 120 operaciones ejecutadas. El diario es el único conjunto de datos sobre tu trading que nadie más puede recopilar.",
+    "criteria": [
+      {
+        "label": "Registra 120 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Etiqueta el Error I",
+    "description": "Aplica etiquetas honestas de error a 5 operaciones. Las etiquetas alimentan los detectores del coach de Revisión — cuanto más honestas, más afiladas las recomendaciones.",
+    "criteria": [
+      {
+        "label": "Etiqueta 5 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Etiqueta el Error II",
+    "description": "Aplica etiquetas honestas de error a 15 operaciones. Las etiquetas alimentan los detectores del coach de Revisión — cuanto más honestas, más afiladas las recomendaciones.",
+    "criteria": [
+      {
+        "label": "Etiqueta 15 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Etiqueta el Error III",
+    "description": "Aplica etiquetas honestas de error a 40 operaciones. Las etiquetas alimentan los detectores del coach de Revisión — cuanto más honestas, más afiladas las recomendaciones.",
+    "criteria": [
+      {
+        "label": "Etiqueta 40 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Cada Operación Tiene un Porqué",
+    "description": "Escribe la razón antes de entrar en 20 operaciones. Si la tesis no sobrevive a una frase escrita, tampoco sobrevivirá a una vela adversa.",
+    "criteria": [
+      {
+        "label": "Razón escrita en 20 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "El Francotirador I",
+    "description": "A lo largo de 10 operaciones, nunca superes 3 entradas en un solo día. La actividad no es ventaja — la mejor operación la mayoría de los días es la que te saltas.",
+    "criteria": [
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Nunca más de 3 operaciones/día"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "El Francotirador II",
+    "description": "A lo largo de 25 operaciones, nunca superes 3 entradas en un solo día. La actividad no es ventaja — la mejor operación la mayoría de los días es la que te saltas.",
+    "criteria": [
+      {
+        "label": "Ejecuta 25 operaciones"
+      },
+      {
+        "label": "Nunca más de 3 operaciones/día"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "El Francotirador III",
+    "description": "A lo largo de 60 operaciones, nunca superes 2 entradas en un solo día. La actividad no es ventaja — la mejor operación la mayoría de los días es la que te saltas.",
+    "criteria": [
+      {
+        "label": "Ejecuta 60 operaciones"
+      },
+      {
+        "label": "Nunca más de 2 operaciones/día"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Lente Más Amplia I",
+    "description": "Reparte tu operativa entre 3+ símbolos distintos. Casarse con un gráfico estrecha el juicio; la amplitud mantiene el proceso honesto.",
+    "criteria": [
+      {
+        "label": "Opera 3+ símbolos"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Lente Más Amplia II",
+    "description": "Reparte tu operativa entre 6+ símbolos distintos. Casarse con un gráfico estrecha el juicio; la amplitud mantiene el proceso honesto.",
+    "criteria": [
+      {
+        "label": "Opera 6+ símbolos"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Lente Más Amplia III",
+    "description": "Reparte tu operativa entre 10+ símbolos distintos. Casarse con un gráfico estrecha el juicio; la amplitud mantiene el proceso honesto.",
+    "criteria": [
+      {
+        "label": "Opera 10+ símbolos"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "La Semana Paciente",
+    "description": "Mantén viva una racha de aprendizaje durante 7 días sin superar nunca 2 operaciones en un mismo día. Demuestra la disciplina de seguir comprometido sin sobreoperar.",
+    "criteria": [
+      {
+        "label": "Racha de 7 días en la Academia"
+      },
+      {
+        "label": "Nunca más de 2 operaciones/día"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Ganado, No por Suerte I",
+    "description": "Reúne 1 ganancias merecidas — buen proceso Y buen resultado — con cero éxitos peligrosos por el camino. Las ganancias solo cuentan cuando el proceso podría repetirlas.",
+    "criteria": [
+      {
+        "label": "1 ganancias merecidas"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Ganado, No por Suerte II",
+    "description": "Reúne 3 ganancias merecidas — buen proceso Y buen resultado — con cero éxitos peligrosos por el camino. Las ganancias solo cuentan cuando el proceso podría repetirlas.",
+    "criteria": [
+      {
+        "label": "3 ganancias merecidas"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Ganado, No por Suerte III",
+    "description": "Reúne 8 ganancias merecidas — buen proceso Y buen resultado — con cero éxitos peligrosos por el camino. Las ganancias solo cuentan cuando el proceso podría repetirlas.",
+    "criteria": [
+      {
+        "label": "8 ganancias merecidas"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Ganado, No por Suerte IV",
+    "description": "Reúne 20 ganancias merecidas — buen proceso Y buen resultado — con cero éxitos peligrosos por el camino. Las ganancias solo cuentan cuando el proceso podría repetirlas.",
+    "criteria": [
+      {
+        "label": "20 ganancias merecidas"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Llévalo Hasta el Final I",
+    "description": "Lleva 5 operaciones a una resolución limpia — stop u objetivo, sin posiciones abandonadas. Cada operación resuelta es un dato honesto; las no resueltas son ruido.",
+    "criteria": [
+      {
+        "label": "5 operaciones resueltas"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Llévalo Hasta el Final II",
+    "description": "Lleva 15 operaciones a una resolución limpia — stop u objetivo, sin posiciones abandonadas. Cada operación resuelta es un dato honesto; las no resueltas son ruido.",
+    "criteria": [
+      {
+        "label": "15 operaciones resueltas"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Llévalo Hasta el Final III",
+    "description": "Lleva 40 operaciones a una resolución limpia — stop u objetivo, sin posiciones abandonadas. Cada operación resuelta es un dato honesto; las no resueltas son ruido.",
+    "criteria": [
+      {
+        "label": "40 operaciones resueltas"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Llévalo Hasta el Final IV",
+    "description": "Lleva 100 operaciones a una resolución limpia — stop u objetivo, sin posiciones abandonadas. Cada operación resuelta es un dato honesto; las no resueltas son ruido.",
+    "criteria": [
+      {
+        "label": "100 operaciones resueltas"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Sobrevive a la Falsa Ruptura",
+    "description": "Supera La Ruptura Que No Fue. No persigas nada, no ensanches nada, registra la pérdida.",
+    "criteria": [
+      {
+        "label": "Supera «La Ruptura Que No Fue»"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Mantén la Línea",
+    "description": "Supera Retroceso en una Tendencia. Deja que el plan, no las velas rojas, tome las decisiones.",
+    "criteria": [
+      {
+        "label": "Supera «Retroceso en una Tendencia»"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "A Través del Hueco",
+    "description": "Supera El Hueco a la Baja. Retírate, redimensiona, replanifica, obedece los stops — conducta bajo fuego.",
+    "criteria": [
+      {
+        "label": "Supera «El Hueco a la Baja»"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Barrido Limpio",
+    "description": "Supera todos los escenarios de repetición del catálogo. Cada uno es una forma distinta en que los mercados castigan la improvisación.",
+    "criteria": [
+      {
+        "label": "Supera 3 escenarios"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Del Simulador a la Cabina",
+    "description": "Supera dos escenarios y luego demuéstralo en vivo: 10 operaciones en papel con cada stop colocado. El simulador enseña; el mercado examina.",
+    "criteria": [
+      {
+        "label": "Supera 2 escenarios"
+      },
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Lee y Luego Vuela",
+    "description": "Completa 20 lecciones antes de superar tu primer escenario. Entra preparado.",
+    "criteria": [
+      {
+        "label": "Completa 20 lecciones"
+      },
+      {
+        "label": "Supera 1 escenario"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Erudito I",
+    "description": "Completa 5 lecciones de la Academia. Cada concepto que sabes nombrar es uno que el mercado ya no puede usar en tu contra.",
+    "criteria": [
+      {
+        "label": "Completa 5 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Erudito II",
+    "description": "Completa 15 lecciones de la Academia. Cada concepto que sabes nombrar es uno que el mercado ya no puede usar en tu contra.",
+    "criteria": [
+      {
+        "label": "Completa 15 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Erudito III",
+    "description": "Completa 30 lecciones de la Academia. Cada concepto que sabes nombrar es uno que el mercado ya no puede usar en tu contra.",
+    "criteria": [
+      {
+        "label": "Completa 30 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Erudito IV",
+    "description": "Completa 60 lecciones de la Academia. Cada concepto que sabes nombrar es uno que el mercado ya no puede usar en tu contra.",
+    "criteria": [
+      {
+        "label": "Completa 60 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Erudito V",
+    "description": "Completa 90 lecciones de la Academia. Cada concepto que sabes nombrar es uno que el mercado ya no puede usar en tu contra.",
+    "criteria": [
+      {
+        "label": "Completa 90 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Erudito VI",
+    "description": "Completa 121 lecciones de la Academia. Todo el plan de estudios — de novato a experto, sin saltarse nada.",
+    "criteria": [
+      {
+        "label": "Completa 121 lecciones"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Aprueba el Examen de Novato",
+    "description": "Aprueba la evaluación de nivel novato con un 80% o más. Los exámenes filtran la escalera — y la opción de examen libre significa que cuenta el examen, no el tiempo de asiento.",
+    "criteria": [
+      {
+        "label": "Aprueba la evaluación de novato"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Aprueba el Examen Intermedio",
+    "description": "Aprueba la evaluación de nivel intermedio con un 80% o más. Los exámenes filtran la escalera — y la opción de examen libre significa que cuenta el examen, no el tiempo de asiento.",
+    "criteria": [
+      {
+        "label": "Aprueba la evaluación intermedia"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "Aprueba el Examen Avanzado",
+    "description": "Aprueba la evaluación de nivel avanzado con un 80% o más. Los exámenes filtran la escalera — y la opción de examen libre significa que cuenta el examen, no el tiempo de asiento.",
+    "criteria": [
+      {
+        "label": "Aprueba la evaluación avanzada"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Aprueba el Examen Experto",
+    "description": "Aprueba la evaluación de nivel experto con un 80% o más. Los exámenes filtran la escalera — y la opción de examen libre significa que cuenta el examen, no el tiempo de asiento.",
+    "criteria": [
+      {
+        "label": "Aprueba la evaluación experta"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Memoria Total I",
+    "description": "Califica 20 tarjetas de repetición espaciada en Práctica. Los conceptos que recuerdas sin presión son los que tienes disponibles bajo presión.",
+    "criteria": [
+      {
+        "label": "20 repeticiones de repaso"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Memoria Total II",
+    "description": "Califica 100 tarjetas de repetición espaciada en Práctica. Los conceptos que recuerdas sin presión son los que tienes disponibles bajo presión.",
+    "criteria": [
+      {
+        "label": "100 repeticiones de repaso"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Preséntate I",
+    "description": "Mantén una racha de 2 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 2 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Preséntate II",
+    "description": "Mantén una racha de 5 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 5 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Preséntate III",
+    "description": "Mantén una racha de 10 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 10 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Preséntate IV",
+    "description": "Mantén una racha de 21 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 21 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Preséntate V",
+    "description": "Mantén una racha de 45 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 45 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Preséntate VI",
+    "description": "Mantén una racha de 90 días en la Academia — cuenta cualquier lección, tarjeta, examen, escenario o misión. Los mercados recompensan al trader que sigue ahí en el sexto mes.",
+    "criteria": [
+      {
+        "label": "Racha de 90 días"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "La Semana Equilibrada",
+    "description": "Mantén una racha de 7 días mientras registras 5 operaciones y calificas 10 tarjetas de repaso. Estudia, opera, reflexiona — el ciclo completo, cada día.",
+    "criteria": [
+      {
+        "label": "Racha de 7 días"
+      },
+      {
+        "label": "Registra 5 operaciones"
+      },
+      {
+        "label": "10 repeticiones de repaso"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "El Regreso",
+    "description": "Tras cualquier pausa, reconstruye: una racha de 14 días con 10 operaciones, todas con stop y tamaño correcto. Cualquiera puede ser disciplinado una vez; la habilidad es empezar de nuevo.",
+    "criteria": [
+      {
+        "label": "Racha de 14 días"
+      },
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Firma con tu Nombre",
+    "description": "Escribe y adopta tu Constitución de Trading. Desde ese momento el tique hace cumplir tus reglas — el tú en calma protegiendo al tú del futuro.",
+    "criteria": [
+      {
+        "label": "Adopta la constitución"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Reglas Cumplidas I",
+    "description": "Con tu constitución en vigor, realiza 10 operaciones con cero infracciones de riesgo y cero entradas sin stop. Adoptarla es fácil; cumplirla es la misión.",
+    "criteria": [
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Ejecuta 10 operaciones"
+      },
+      {
+        "label": "Cero infracciones de riesgo"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Reglas Cumplidas II",
+    "description": "Con tu constitución en vigor, realiza 30 operaciones con cero infracciones de riesgo y cero entradas sin stop. Adoptarla es fácil; cumplirla es la misión.",
+    "criteria": [
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Ejecuta 30 operaciones"
+      },
+      {
+        "label": "Cero infracciones de riesgo"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Reglas Cumplidas III",
+    "description": "Con tu constitución en vigor, realiza 75 operaciones con cero infracciones de riesgo y cero entradas sin stop. Adoptarla es fácil; cumplirla es la misión.",
+    "criteria": [
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Ejecuta 75 operaciones"
+      },
+      {
+        "label": "Cero infracciones de riesgo"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "El Operador",
+    "description": "Diez operaciones consecutivas con puntuación de 70+ bajo una constitución adoptada y cero éxitos peligrosos. Esta es la vara de conducta que lee la escalera experta.",
+    "criteria": [
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "10 puntuaciones consecutivas de 70+"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Proyecto Final de Novato: Despegue",
+    "description": "Todo lo que un principiante debe demostrar: lecciones estudiadas, examen aprobado, primeras operaciones planificadas y registradas, primera pérdida planificada asumida sin pestañear.",
+    "criteria": [
+      {
+        "label": "Completa 15 lecciones"
+      },
+      {
+        "label": "Aprueba la evaluación de novato"
+      },
+      {
+        "label": "Ejecuta 5 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Registra 3 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Proyecto Final Intermedio: El Oficio",
+    "description": "La matemática del riesgo en los músculos: un promedio de proceso sostenido, amplitud entre símbolos, el examen, y un escenario sobrevivido.",
+    "criteria": [
+      {
+        "label": "Aprueba la evaluación intermedia"
+      },
+      {
+        "label": "Ejecuta 20 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 70+"
+      },
+      {
+        "label": "Opera 3+ símbolos"
+      },
+      {
+        "label": "Supera 1 escenario"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "Proyecto Final Avanzado: Bajo Fuego",
+    "description": "Disciplina bajo presión: cada escenario superado, una constitución cumplida a lo largo de 40 operaciones, pérdidas aceptadas a tiempo, cero éxitos peligrosos.",
+    "criteria": [
+      {
+        "label": "Supera 3 escenarios"
+      },
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Ejecuta 40 operaciones"
+      },
+      {
+        "label": "3 pérdidas bien jugadas"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Proyecto Final Experto: El Operador Completo",
+    "description": "El historial completo: todo el plan de estudios, cada examen, cien operaciones resueltas con un promedio de proceso profesional, una constitución viva, un mes sin romper.",
+    "criteria": [
+      {
+        "label": "Completa 121 lecciones"
+      },
+      {
+        "label": "Aprueba la evaluación experta"
+      },
+      {
+        "label": "100 operaciones resueltas"
+      },
+      {
+        "label": "Puntuación de proceso media de 80+"
+      },
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Racha de 30 días"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Proyecto Final: El Perdedor Honesto",
+    "description": "Una carrera de pérdidas correctas: 10 stops planificados, 6 pérdidas bien jugadas, todo registrado en el diario, sin entradas en tilt. Perder bien es la habilidad más rara del mercado.",
+    "criteria": [
+      {
+        "label": "10 stops planificados"
+      },
+      {
+        "label": "6 pérdidas bien jugadas"
+      },
+      {
+        "label": "Registra 15 operaciones"
+      },
+      {
+        "label": "Cero entradas en tilt"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Proyecto Final: Erudito-Trader",
+    "description": "Conocimiento y conducta en un solo historial: 90 lecciones, 100 repeticiones de repaso, 50 operaciones con proceso 75+, y una racha de 21 días. La biblioteca y el mercado, dominados juntos.",
+    "criteria": [
+      {
+        "label": "Completa 90 lecciones"
+      },
+      {
+        "label": "100 repeticiones de repaso"
+      },
+      {
+        "label": "Ejecuta 50 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 75+"
+      },
+      {
+        "label": "Racha de 21 días"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Disciplina de Riesgo (Puerta de Escalera)",
+    "description": "La vara de conducta de la escalera avanzada: 20 operaciones, cada stop colocado, riesgo dentro de la política, cero éxitos peligrosos.",
+    "criteria": [
+      {
+        "label": "Ejecuta 20 operaciones"
+      },
+      {
+        "label": "Cada operación tiene un stop"
+      },
+      {
+        "label": "Cada operación dentro de la política de riesgo"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Acepta la Pérdida Planificada (Puerta de Escalera)",
+    "description": "Tres pérdidas bien jugadas sin operaciones sin stop a lo largo de al menos cinco ejecuciones — la prueba de que sabes perder correctamente.",
+    "criteria": [
+      {
+        "label": "Ejecuta 5 operaciones"
+      },
+      {
+        "label": "3 pérdidas bien jugadas"
+      },
+      {
+        "label": "Sin operaciones sin stop"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "El Operador (Puerta de Escalera)",
+    "description": "Diez operaciones consecutivas con puntuaciones de proceso de 70 o más — la vara de conducta de la escalera experta.",
+    "criteria": [
+      {
+        "label": "10 puntuaciones consecutivas de 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "Primeros Pasos: Una Lección",
+    "description": "Completa tu primera lección de la Academia. El historial de todo operador empieza con una sola entrada.",
+    "criteria": [
+      {
+        "label": "Completa 1 lección"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "Primeros Pasos: Una Operación Planificada",
+    "description": "Envía tu primera operación en papel con un stop y una razón escrita. El plan es la operación; la ejecución es solo papeleo.",
+    "criteria": [
+      {
+        "label": "Ejecuta 1 operación"
+      },
+      {
+        "label": "Tiene un stop"
+      },
+      {
+        "label": "Tiene una razón escrita"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "Primeros Pasos: Una Nota Honesta",
+    "description": "Escribe tu primera nota de diario sobre una operación ejecutada. Dos frases honestas valen más que una memoria perfecta.",
+    "criteria": [
+      {
+        "label": "Registra 1 operación"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "Primeros Pasos: Una Tarjeta",
+    "description": "Califica tu primera tarjeta de repetición espaciada en Práctica. La memoria es un músculo; esta es la primera repetición.",
+    "criteria": [
+      {
+        "label": "1 repetición de repaso"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "La Máquina de Tesis",
+    "description": "Cincuenta operaciones, cada una con una razón escrita y una emoción registrada. A estas alturas el plan se escribe solo — que era el objetivo.",
+    "criteria": [
+      {
+        "label": "Razón escrita en 50 operaciones"
+      },
+      {
+        "label": "Emoción registrada en 50 operaciones"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "El Ciclo Completo",
+    "description": "Captura, puntúa, detecta, prescribe, filtra — ejecuta todo el ciclo de retroalimentación en volumen: 75 operaciones registradas y etiquetadas, escenarios superados, constitución cumplida, cero éxitos peligrosos.",
+    "criteria": [
+      {
+        "label": "Ejecuta 75 operaciones"
+      },
+      {
+        "label": "Registra 30 operaciones"
+      },
+      {
+        "label": "Etiqueta 15 operaciones"
+      },
+      {
+        "label": "Supera 3 escenarios"
+      },
+      {
+        "label": "Constitución adoptada"
+      },
+      {
+        "label": "Cero éxitos peligrosos"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Selectividad de Hierro",
+    "description": "Cien operaciones sin superar nunca dos en un día, a lo largo de 8+ símbolos. La posición más difícil en el trading es estar plano, sostenido día tras día.",
+    "criteria": [
+      {
+        "label": "Ejecuta 100 operaciones"
+      },
+      {
+        "label": "Nunca más de 2 operaciones/día"
+      },
+      {
+        "label": "Opera 8+ símbolos"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "El Trimestre Perfecto",
+    "description": "Una racha de 60 días con un promedio de proceso de 75+ a lo largo de 40 operaciones. Un trimestre de presentarte y decidir bien — el currículum que los mercados de verdad leen.",
+    "criteria": [
+      {
+        "label": "Racha de 60 días"
+      },
+      {
+        "label": "Ejecuta 40 operaciones"
+      },
+      {
+        "label": "Puntuación de proceso media de 75+"
+      }
+    ]
+  }
+]
