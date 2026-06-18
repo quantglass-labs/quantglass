@@ -11,6 +11,7 @@
 import { useEffect, useState } from 'react';
 
 import { Award, BarChart3 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { CountUp, FadeIn } from '../../components/motion';
 import { MetricTile } from '../../components/surface';
@@ -18,28 +19,34 @@ import { backendClient } from '../../lib/backend';
 import type { LearnAnalytics, LearnCertificate } from '../../types';
 
 function CertificateCard({ certificate }: { certificate: LearnCertificate }) {
+  const { t } = useTranslation();
   if (!certificate.earned) return null;
   return (
     <div className="rounded-xl border-2 border-emerald-500/40 bg-gradient-to-br from-zinc-900 to-emerald-950/40 p-6 text-center">
       <Award size={28} className="mx-auto text-emerald-300" />
       <p className="mt-2 text-xs uppercase tracking-[0.2em] text-emerald-400/80">
-        Certificate of Completion
+        {t('academy.certificateOfCompletion')}
       </p>
       <p className="mt-2 text-xl font-bold text-zinc-100">{certificate.level_title}</p>
       <p className="mt-1 text-sm text-zinc-400">
-        {certificate.lesson_count} lessons · exam score {certificate.exam_score}%
+        {t('academy.certLessonsScore', {
+          count: certificate.lesson_count,
+          score: certificate.exam_score,
+        })}
       </p>
       <p className="mt-3 text-[11px] text-zinc-600">
-        Issued {certificate.issued_at?.slice(0, 10)} · verification {certificate.verification}
+        {t('academy.certIssued', {
+          date: certificate.issued_at?.slice(0, 10),
+          code: certificate.verification,
+        })}
       </p>
-      <p className="mt-1 text-[10px] text-zinc-700">
-        QuantGlass Academy — local, educational, not financial advice.
-      </p>
+      <p className="mt-1 text-[10px] text-zinc-700">{t('academy.academyDisclaimer')}</p>
     </div>
   );
 }
 
 export function ProgressView() {
+  const { t } = useTranslation();
   const [analytics, setAnalytics] = useState<LearnAnalytics | null>(null);
   const [certificates, setCertificates] = useState<LearnCertificate[]>([]);
 
@@ -71,7 +78,7 @@ export function ProgressView() {
     <div className="max-w-3xl">
       <div className="flex items-center gap-2">
         <BarChart3 size={18} className="text-indigo-400" />
-        <h2 className="text-lg font-semibold text-zinc-100">Progress</h2>
+        <h2 className="text-lg font-semibold text-zinc-100">{t('academy.progress')}</h2>
       </div>
 
       {!analytics ? (
@@ -85,26 +92,33 @@ export function ProgressView() {
           {totals ? (
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <MetricTile
-                label="Lessons completed"
+                label={t('academy.lessonsCompleted')}
                 hero
-                helper={`of ${totals.lessons} in the Academy`}
+                helper={t('academy.ofInAcademy', { total: totals.lessons })}
               >
                 <CountUp value={totals.completed} format={(n) => String(Math.round(n))} />
               </MetricTile>
-              <MetricTile label="Completion" toneClass="text-buy" helper="Across every level">
+              <MetricTile
+                label={t('academy.completion')}
+                toneClass="text-buy"
+                helper={t('academy.acrossEveryLevel')}
+              >
                 <CountUp
                   value={totals.lessons ? (100 * totals.completed) / totals.lessons : 0}
                   format={(n) => `${Math.round(n)}%`}
                 />
               </MetricTile>
               <MetricTile
-                label="Tracks mastered"
+                label={t('academy.tracksMastered')}
                 toneClass="text-watch"
-                helper="Full tracks earned"
+                helper={t('academy.fullTracksEarned')}
               >
                 <CountUp value={totals.tracksMastered} format={(n) => String(Math.round(n))} />
               </MetricTile>
-              <MetricTile label="Certificates" helper="Levels fully certified">
+              <MetricTile
+                label={t('academy.certificates')}
+                helper={t('academy.levelsFullyCertified')}
+              >
                 <CountUp value={totals.certs} format={(n) => String(Math.round(n))} />
               </MetricTile>
             </div>
@@ -123,7 +137,7 @@ export function ProgressView() {
                           : 'border-amber-500/40 text-amber-300'
                       }`}
                     >
-                      exam {level.assessment.score}%
+                      {t('academy.examScore', { score: level.assessment.score })}
                     </span>
                   ) : null}
                   {level.certificate_earned ? (
@@ -143,7 +157,7 @@ export function ProgressView() {
           {analytics.weekly.length ? (
             <>
               <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
-                Weekly pace
+                {t('academy.weeklyPace')}
               </h3>
               <div className="mt-3 flex items-end gap-2 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
                 {analytics.weekly.map((week) => (
@@ -161,7 +175,7 @@ export function ProgressView() {
           ) : null}
 
           <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
-            Tracks
+            {t('academy.tracks')}
           </h3>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {analytics.tracks.map((track) => (
@@ -188,7 +202,7 @@ export function ProgressView() {
           {certificates.length ? (
             <>
               <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
-                Certificates
+                {t('academy.certificates')}
               </h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 {certificates.map((certificate, index) => (
