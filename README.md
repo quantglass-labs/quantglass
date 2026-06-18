@@ -3,7 +3,7 @@
 [![CI](https://github.com/quantglass-labs/quantglass/actions/workflows/ci.yml/badge.svg)](https://github.com/quantglass-labs/quantglass/actions/workflows/ci.yml)
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/quantglass-labs/quantglass?include_prereleases)](https://github.com/quantglass-labs/quantglass/releases)
-[![Languages: 20 + RTL](https://img.shields.io/badge/languages-20%20%C2%B7%20RTL-2ea44f.svg)](#speaks-your-language-20-languages-fully-localized)
+[![Languages: 20 + RTL](https://img.shields.io/badge/languages-20%20%C2%B7%20RTL-2ea44f.svg)](#speaks-your-language-20-languages)
 
 QuantGlass is an open-source, local-first trading education and research
 workstation for crypto and US equities — a complete trading academy (121
@@ -30,7 +30,7 @@ fact-guard covenant.
 
 <p align="center"><em>A guided tour is below — <a href="#screenshots--a-guided-tour">jump to screenshots</a>.</em></p>
 
-<p align="center"><em>🌍 Now in <strong>20 languages</strong> — including full right-to-left Arabic, Persian, Urdu &amp; Sindhi. <a href="#speaks-your-language-20-languages-fully-localized">See the list ↓</a></em></p>
+<p align="center"><em>🌍 Now in <strong>20 languages</strong> — including full right-to-left Arabic, Persian, Urdu &amp; Sindhi. <a href="#speaks-your-language-20-languages">See the list ↓</a></em></p>
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
 free to use, study, modify, and redistribute under the AGPL. Commercial licenses
@@ -41,12 +41,13 @@ compliance is not a fit.
 QuantGlass is not financial advice. It is research and decision-support
 software. See [DISCLAIMER.md](DISCLAIMER.md).
 
-## Speaks your language: 20 languages, fully localized
+## Speaks your language: 20 languages
 
-QuantGlass is **fully localized in 20 languages** — not just the lessons, but
-every screen, setting, chart annotation, mission, decision drill, and AI
-coaching response. Switch language from the header at any time; the four
-right-to-left languages mirror the entire layout, sidebar to scrollbars.
+QuantGlass ships with **complete 20-language coverage** — every screen, setting,
+chart annotation, mission, decision drill, and AI coaching response has a
+translation, enforced by an automated key-parity test so no language silently
+falls behind. Switch language from the header at any time; the four right-to-left
+languages mirror the entire layout, sidebar to scrollbars.
 
 > English · 中文 (Chinese) · हिन्दी (Hindi) · Español (Spanish) · العربية (Arabic — RTL) ·
 > Français (French) · বাংলা (Bengali) · Português (Portuguese) · Русский (Russian) ·
@@ -60,6 +61,13 @@ reviews answer in your selected language, and the choice is remembered locally.
 Engine formulas, indicator names, tickers, and R-values stay verbatim across
 every language, so the math reads the same everywhere.
 
+**Translation quality and status.** The initial translations are
+machine-generated and are being refined through native-speaker review,
+prioritizing the four right-to-left languages (Arabic, Persian, Urdu, Sindhi).
+If you spot wording that reads unnaturally or a finance term that lands wrong,
+please [open a translation report](https://github.com/quantglass-labs/quantglass/issues/new?template=translation_report.yml)
+— they are tagged `i18n` and very welcome.
+
 ## Public Preview Status
 
 QuantGlass is suitable for **community preview, local research, paper trading,
@@ -67,10 +75,11 @@ and extension development**. It is not yet a production trading product.
 
 Current working surface:
 
-- **20 languages, fully localized**: every screen, the Academy, missions,
+- **20 languages, complete coverage**: every screen, the Academy, missions,
   settings, chart annotations, and AI coaching — switchable from the header,
-  with full right-to-left support for Arabic, Persian, Urdu, and Sindhi. See
-  [Speaks your language](#speaks-your-language-20-languages-fully-localized).
+  with full right-to-left support for Arabic, Persian, Urdu, and Sindhi
+  (machine-translated, native review in progress). See
+  [Speaks your language](#speaks-your-language-20-languages).
 - **QuantGlass Academy**: 121 lessons across 23 tracks (novice → expert)
   with exams, live exercises on your own market data, interactive visuals,
   spaced-repetition practice, glossary/reference library, progress

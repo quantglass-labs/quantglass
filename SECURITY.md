@@ -20,7 +20,15 @@ Do not open a public issue for vulnerabilities involving:
 - Local backend exposure.
 - Provider credential leakage.
 
-Instead, contact the repository maintainers privately through GitHub.
+Instead, report it privately through GitHub's private vulnerability reporting,
+which is enabled for this repository:
+
+- **[Open a private security advisory](https://github.com/quantglass-labs/quantglass/security/advisories/new)**
+  (repository **Security → Advisories → Report a vulnerability**).
+
+This creates an encrypted, maintainer-only thread — your report and any proof of
+concept stay private until a fix is released and you are credited. Please allow a
+reasonable disclosure window before sharing details publicly.
 
 Include:
 
