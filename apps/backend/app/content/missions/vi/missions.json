@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Kỷ luật rủi ro I",
+    "description": "Đặt 5 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 5 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Kỷ luật rủi ro II",
+    "description": "Đặt 10 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Kỷ luật rủi ro III",
+    "description": "Đặt 20 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 20 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Kỷ luật rủi ro IV",
+    "description": "Đặt 40 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 40 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Kỷ luật rủi ro V",
+    "description": "Đặt 75 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 75 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Kỷ luật rủi ro VI",
+    "description": "Đặt 120 giao dịch giấy mà mỗi cái đều có lệnh dừng và rủi ro không quá chính sách. Không ngoại lệ, không «chỉ lần này» — thói quen là chứng chỉ.",
+    "criteria": [
+      {
+        "label": "Thực thi 120 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "Vết máu đầu, đã định",
+    "description": "Nhận khoản lỗ đã định đầu tiên: một giao dịch chạm lệnh dừng đúng nơi bạn nói nó sẽ chạm. Đây là học phí rẻ nhất thị trường bán.",
+    "criteria": [
+      {
+        "label": "Thực thi 3 giao dịch"
+      },
+      {
+        "label": "Nhận 1 lần dừng lỗ đã định"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Kỷ luật đa dạng hóa",
+    "description": "Chạy toàn bộ quy trình rủi ro qua ít nhất 5 mã khác nhau. Kỷ luật chỉ hiệu quả trên biểu đồ yêu thích là sự trùng hợp, không phải kỹ năng.",
+    "criteria": [
+      {
+        "label": "Thực thi 25 giao dịch"
+      },
+      {
+        "label": "Giao dịch 5+ mã riêng biệt"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "Phiên canh dài",
+    "description": "Hai trăm giao dịch không một lần vi phạm chính sách rủi ro. Ở quy mô này, kỷ luật không còn là lựa chọn bạn làm — nó là chính bạn.",
+    "criteria": [
+      {
+        "label": "Thực thi 200 giao dịch"
+      },
+      {
+        "label": "Không vi phạm chính sách rủi ro"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Không khoan nhượng",
+    "description": "Mười lăm giao dịch chất lượng liên tiếp không rủi ro quá cỡ và không vào lệnh thiếu dừng lỗ, trong khi một hiến pháp đang hiệu lực. Quy tắc bạn chấp nhận, đã giữ.",
+    "criteria": [
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Thực thi 15 giao dịch"
+      },
+      {
+        "label": "Không vi phạm rủi ro"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Chất lượng quy trình I",
+    "description": "Giữ điểm quy trình trung bình 60+ qua 5 giao dịch. Điểm chấm quyết định — dừng lỗ, luận điểm, cỡ, trạng thái tâm trí — không bao giờ chấm kết quả.",
+    "criteria": [
+      {
+        "label": "Thực thi 5 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Chất lượng quy trình II",
+    "description": "Giữ điểm quy trình trung bình 70+ qua 10 giao dịch. Điểm chấm quyết định — dừng lỗ, luận điểm, cỡ, trạng thái tâm trí — không bao giờ chấm kết quả.",
+    "criteria": [
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Chất lượng quy trình III",
+    "description": "Giữ điểm quy trình trung bình 75+ qua 20 giao dịch. Điểm chấm quyết định — dừng lỗ, luận điểm, cỡ, trạng thái tâm trí — không bao giờ chấm kết quả.",
+    "criteria": [
+      {
+        "label": "Thực thi 20 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Chất lượng quy trình IV",
+    "description": "Giữ điểm quy trình trung bình 80+ qua 40 giao dịch. Điểm chấm quyết định — dừng lỗ, luận điểm, cỡ, trạng thái tâm trí — không bao giờ chấm kết quả.",
+    "criteria": [
+      {
+        "label": "Thực thi 40 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Chất lượng quy trình V",
+    "description": "Giữ điểm quy trình trung bình 85+ qua 80 giao dịch. Điểm chấm quyết định — dừng lỗ, luận điểm, cỡ, trạng thái tâm trí — không bao giờ chấm kết quả.",
+    "criteria": [
+      {
+        "label": "Thực thi 80 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Không gián đoạn I",
+    "description": "Nối liền 3 giao dịch liên tiếp với điểm quy trình 70 trở lên. Một lần vào lệnh cẩu thả reset bộ đếm — đúng như kỷ luật thật làm.",
+    "criteria": [
+      {
+        "label": "3 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Không gián đoạn II",
+    "description": "Nối liền 5 giao dịch liên tiếp với điểm quy trình 70 trở lên. Một lần vào lệnh cẩu thả reset bộ đếm — đúng như kỷ luật thật làm.",
+    "criteria": [
+      {
+        "label": "5 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Không gián đoạn III",
+    "description": "Nối liền 10 giao dịch liên tiếp với điểm quy trình 70 trở lên. Một lần vào lệnh cẩu thả reset bộ đếm — đúng như kỷ luật thật làm.",
+    "criteria": [
+      {
+        "label": "10 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Không gián đoạn IV",
+    "description": "Nối liền 20 giao dịch liên tiếp với điểm quy trình 70 trở lên. Một lần vào lệnh cẩu thả reset bộ đếm — đúng như kỷ luật thật làm.",
+    "criteria": [
+      {
+        "label": "20 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Không gián đoạn V",
+    "description": "Nối liền 35 giao dịch liên tiếp với điểm quy trình 70 trở lên. Một lần vào lệnh cẩu thả reset bộ đếm — đúng như kỷ luật thật làm.",
+    "criteria": [
+      {
+        "label": "35 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Chấp nhận khoản lỗ đã định I",
+    "description": "Tích lũy 1 khoản lỗ xử lý khéo — quyết định tốt nhưng phương sai lấy mất giao dịch. Nhà giao dịch biết thua đúng cách là người vẫn còn khả năng chi trả sau một trăm giao dịch.",
+    "criteria": [
+      {
+        "label": "1 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không giao dịch thiếu dừng lỗ"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Chấp nhận khoản lỗ đã định II",
+    "description": "Tích lũy 3 khoản lỗ xử lý khéo — quyết định tốt nhưng phương sai lấy mất giao dịch. Nhà giao dịch biết thua đúng cách là người vẫn còn khả năng chi trả sau một trăm giao dịch.",
+    "criteria": [
+      {
+        "label": "3 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không giao dịch thiếu dừng lỗ"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Chấp nhận khoản lỗ đã định III",
+    "description": "Tích lũy 6 khoản lỗ xử lý khéo — quyết định tốt nhưng phương sai lấy mất giao dịch. Nhà giao dịch biết thua đúng cách là người vẫn còn khả năng chi trả sau một trăm giao dịch.",
+    "criteria": [
+      {
+        "label": "6 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không giao dịch thiếu dừng lỗ"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Chấp nhận khoản lỗ đã định IV",
+    "description": "Tích lũy 12 khoản lỗ xử lý khéo — quyết định tốt nhưng phương sai lấy mất giao dịch. Nhà giao dịch biết thua đúng cách là người vẫn còn khả năng chi trả sau một trăm giao dịch.",
+    "criteria": [
+      {
+        "label": "12 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không giao dịch thiếu dừng lỗ"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "Lệnh dừng phát huy tác dụng I",
+    "description": "Để lệnh dừng đưa bạn ra 2 lần mà không nới rộng hay hủy nó. Lối thoát bạn đã định là cái duy nhất bảo vệ tài khoản bạn định giữ.",
+    "criteria": [
+      {
+        "label": "Đã nhận 2 lần dừng lỗ đã định"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "Lệnh dừng phát huy tác dụng II",
+    "description": "Để lệnh dừng đưa bạn ra 5 lần mà không nới rộng hay hủy nó. Lối thoát bạn đã định là cái duy nhất bảo vệ tài khoản bạn định giữ.",
+    "criteria": [
+      {
+        "label": "Đã nhận 5 lần dừng lỗ đã định"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "Lệnh dừng phát huy tác dụng III",
+    "description": "Để lệnh dừng đưa bạn ra 10 lần mà không nới rộng hay hủy nó. Lối thoát bạn đã định là cái duy nhất bảo vệ tài khoản bạn định giữ.",
+    "criteria": [
+      {
+        "label": "Đã nhận 10 lần dừng lỗ đã định"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "Lệnh dừng phát huy tác dụng IV",
+    "description": "Để lệnh dừng đưa bạn ra 20 lần mà không nới rộng hay hủy nó. Lối thoát bạn đã định là cái duy nhất bảo vệ tài khoản bạn định giữ.",
+    "criteria": [
+      {
+        "label": "Đã nhận 20 lần dừng lỗ đã định"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Máu lạnh I",
+    "description": "Ghi trạng thái cảm xúc ở mỗi lần vào lệnh qua 5 giao dịch với không lần vào khi mất bình tĩnh — không FOMO, không giao dịch vì bực bội. Gọi tên trạng thái là cách bạn bắt nó sớm.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 5 giao dịch"
+      },
+      {
+        "label": "Không vào lệnh khi mất bình tĩnh"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Máu lạnh II",
+    "description": "Ghi trạng thái cảm xúc ở mỗi lần vào lệnh qua 15 giao dịch với không lần vào khi mất bình tĩnh — không FOMO, không giao dịch vì bực bội. Gọi tên trạng thái là cách bạn bắt nó sớm.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 15 giao dịch"
+      },
+      {
+        "label": "Không vào lệnh khi mất bình tĩnh"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Máu lạnh III",
+    "description": "Ghi trạng thái cảm xúc ở mỗi lần vào lệnh qua 40 giao dịch với không lần vào khi mất bình tĩnh — không FOMO, không giao dịch vì bực bội. Gọi tên trạng thái là cách bạn bắt nó sớm.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 40 giao dịch"
+      },
+      {
+        "label": "Không vào lệnh khi mất bình tĩnh"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Máu lạnh IV",
+    "description": "Ghi trạng thái cảm xúc ở mỗi lần vào lệnh qua 100 giao dịch với không lần vào khi mất bình tĩnh — không FOMO, không giao dịch vì bực bội. Gọi tên trạng thái là cách bạn bắt nó sớm.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 100 giao dịch"
+      },
+      {
+        "label": "Không vào lệnh khi mất bình tĩnh"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Gọi tên cảm xúc I",
+    "description": "Ghi một cảm xúc ở 10 lần vào lệnh — kể cả cái xấu xí. Một nhật ký mất bình tĩnh trung thực thắng một cái giả sạch sẽ; cỗ máy chấm sự trung thực, không chấm sự bình thản.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 10 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Gọi tên cảm xúc II",
+    "description": "Ghi một cảm xúc ở 25 lần vào lệnh — kể cả cái xấu xí. Một nhật ký mất bình tĩnh trung thực thắng một cái giả sạch sẽ; cỗ máy chấm sự trung thực, không chấm sự bình thản.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 25 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Gọi tên cảm xúc III",
+    "description": "Ghi một cảm xúc ở 60 lần vào lệnh — kể cả cái xấu xí. Một nhật ký mất bình tĩnh trung thực thắng một cái giả sạch sẽ; cỗ máy chấm sự trung thực, không chấm sự bình thản.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 60 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Gọi tên cảm xúc IV",
+    "description": "Ghi một cảm xúc ở 150 lần vào lệnh — kể cả cái xấu xí. Một nhật ký mất bình tĩnh trung thực thắng một cái giả sạch sẽ; cỗ máy chấm sự trung thực, không chấm sự bình thản.",
+    "criteria": [
+      {
+        "label": "Cảm xúc được ghi trên 150 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "Bản ghi I",
+    "description": "Viết một ghi chú suy ngẫm hoặc thẻ trên 3 giao dịch đã thực thi. Nhật ký là tập dữ liệu duy nhất về giao dịch của bạn mà không ai khác thu thập được.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 3 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "Bản ghi II",
+    "description": "Viết một ghi chú suy ngẫm hoặc thẻ trên 10 giao dịch đã thực thi. Nhật ký là tập dữ liệu duy nhất về giao dịch của bạn mà không ai khác thu thập được.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 10 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "Bản ghi III",
+    "description": "Viết một ghi chú suy ngẫm hoặc thẻ trên 25 giao dịch đã thực thi. Nhật ký là tập dữ liệu duy nhất về giao dịch của bạn mà không ai khác thu thập được.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 25 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "Bản ghi IV",
+    "description": "Viết một ghi chú suy ngẫm hoặc thẻ trên 60 giao dịch đã thực thi. Nhật ký là tập dữ liệu duy nhất về giao dịch của bạn mà không ai khác thu thập được.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 60 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "Bản ghi V",
+    "description": "Viết một ghi chú suy ngẫm hoặc thẻ trên 120 giao dịch đã thực thi. Nhật ký là tập dữ liệu duy nhất về giao dịch của bạn mà không ai khác thu thập được.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 120 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Gắn thẻ sai lầm I",
+    "description": "Gắn thẻ sai lầm trung thực cho 5 giao dịch. Thẻ nuôi các bộ dò của huấn luyện viên Đánh giá — gắn thẻ càng trung thực, đơn kê càng sắc bén.",
+    "criteria": [
+      {
+        "label": "Gắn thẻ 5 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Gắn thẻ sai lầm II",
+    "description": "Gắn thẻ sai lầm trung thực cho 15 giao dịch. Thẻ nuôi các bộ dò của huấn luyện viên Đánh giá — gắn thẻ càng trung thực, đơn kê càng sắc bén.",
+    "criteria": [
+      {
+        "label": "Gắn thẻ 15 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Gắn thẻ sai lầm III",
+    "description": "Gắn thẻ sai lầm trung thực cho 40 giao dịch. Thẻ nuôi các bộ dò của huấn luyện viên Đánh giá — gắn thẻ càng trung thực, đơn kê càng sắc bén.",
+    "criteria": [
+      {
+        "label": "Gắn thẻ 40 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Mỗi giao dịch có một lý do",
+    "description": "Viết lý do trước khi vào lệnh trên 20 giao dịch. Nếu luận điểm không sống nổi một câu viết ra, nó cũng không sống nổi một cây nến bất lợi.",
+    "criteria": [
+      {
+        "label": "Lý do viết ra trên 20 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "Xạ thủ I",
+    "description": "Qua 10 giao dịch, không bao giờ vượt 3 lần vào lệnh trong một ngày. Hoạt động không phải lợi thế — giao dịch tốt nhất phần lớn các ngày là cái bạn bỏ qua.",
+    "criteria": [
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Không bao giờ quá 3 giao dịch/ngày"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "Xạ thủ II",
+    "description": "Qua 25 giao dịch, không bao giờ vượt 3 lần vào lệnh trong một ngày. Hoạt động không phải lợi thế — giao dịch tốt nhất phần lớn các ngày là cái bạn bỏ qua.",
+    "criteria": [
+      {
+        "label": "Thực thi 25 giao dịch"
+      },
+      {
+        "label": "Không bao giờ quá 3 giao dịch/ngày"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "Xạ thủ III",
+    "description": "Qua 60 giao dịch, không bao giờ vượt 2 lần vào lệnh trong một ngày. Hoạt động không phải lợi thế — giao dịch tốt nhất phần lớn các ngày là cái bạn bỏ qua.",
+    "criteria": [
+      {
+        "label": "Thực thi 60 giao dịch"
+      },
+      {
+        "label": "Không bao giờ quá 2 giao dịch/ngày"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Ống kính rộng hơn I",
+    "description": "Trải giao dịch của bạn qua 3+ mã riêng biệt. Cưới một biểu đồ thu hẹp phán đoán; bề rộng giữ quy trình trung thực.",
+    "criteria": [
+      {
+        "label": "Giao dịch 3+ mã"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Ống kính rộng hơn II",
+    "description": "Trải giao dịch của bạn qua 6+ mã riêng biệt. Cưới một biểu đồ thu hẹp phán đoán; bề rộng giữ quy trình trung thực.",
+    "criteria": [
+      {
+        "label": "Giao dịch 6+ mã"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Ống kính rộng hơn III",
+    "description": "Trải giao dịch của bạn qua 10+ mã riêng biệt. Cưới một biểu đồ thu hẹp phán đoán; bề rộng giữ quy trình trung thực.",
+    "criteria": [
+      {
+        "label": "Giao dịch 10+ mã"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "Tuần lễ kiên nhẫn",
+    "description": "Giữ chuỗi học sống trong 7 ngày mà không bao giờ vượt 2 giao dịch trong bất kỳ ngày nào. Thể hiện kỷ luật gắn bó mà không giao dịch quá mức.",
+    "criteria": [
+      {
+        "label": "Chuỗi Học viện 7 ngày"
+      },
+      {
+        "label": "Không bao giờ quá 2 giao dịch/ngày"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Do năng lực, không do may I",
+    "description": "Thu thập 1 chiến thắng do năng lực — quy trình tốt VÀ kết quả tốt — với không thành công nguy hiểm trên đường. Chiến thắng chỉ tính khi quy trình có thể lặp lại chúng.",
+    "criteria": [
+      {
+        "label": "1 chiến thắng do năng lực"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Do năng lực, không do may II",
+    "description": "Thu thập 3 chiến thắng do năng lực — quy trình tốt VÀ kết quả tốt — với không thành công nguy hiểm trên đường. Chiến thắng chỉ tính khi quy trình có thể lặp lại chúng.",
+    "criteria": [
+      {
+        "label": "3 chiến thắng do năng lực"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Do năng lực, không do may III",
+    "description": "Thu thập 8 chiến thắng do năng lực — quy trình tốt VÀ kết quả tốt — với không thành công nguy hiểm trên đường. Chiến thắng chỉ tính khi quy trình có thể lặp lại chúng.",
+    "criteria": [
+      {
+        "label": "8 chiến thắng do năng lực"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Do năng lực, không do may IV",
+    "description": "Thu thập 20 chiến thắng do năng lực — quy trình tốt VÀ kết quả tốt — với không thành công nguy hiểm trên đường. Chiến thắng chỉ tính khi quy trình có thể lặp lại chúng.",
+    "criteria": [
+      {
+        "label": "20 chiến thắng do năng lực"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Theo đến cùng I",
+    "description": "Đưa 5 giao dịch đến kết thúc sạch sẽ — dừng lỗ hoặc mục tiêu, không bỏ mặc vị thế. Mỗi giao dịch kết thúc là một điểm dữ liệu trung thực; cái chưa kết thúc là nhiễu.",
+    "criteria": [
+      {
+        "label": "5 giao dịch kết thúc"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Theo đến cùng II",
+    "description": "Đưa 15 giao dịch đến kết thúc sạch sẽ — dừng lỗ hoặc mục tiêu, không bỏ mặc vị thế. Mỗi giao dịch kết thúc là một điểm dữ liệu trung thực; cái chưa kết thúc là nhiễu.",
+    "criteria": [
+      {
+        "label": "15 giao dịch kết thúc"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Theo đến cùng III",
+    "description": "Đưa 40 giao dịch đến kết thúc sạch sẽ — dừng lỗ hoặc mục tiêu, không bỏ mặc vị thế. Mỗi giao dịch kết thúc là một điểm dữ liệu trung thực; cái chưa kết thúc là nhiễu.",
+    "criteria": [
+      {
+        "label": "40 giao dịch kết thúc"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Theo đến cùng IV",
+    "description": "Đưa 100 giao dịch đến kết thúc sạch sẽ — dừng lỗ hoặc mục tiêu, không bỏ mặc vị thế. Mỗi giao dịch kết thúc là một điểm dữ liệu trung thực; cái chưa kết thúc là nhiễu.",
+    "criteria": [
+      {
+        "label": "100 giao dịch kết thúc"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Sống sót qua phá vỡ giả",
+    "description": "Vượt «Cú Phá vỡ Không thành». Không đuổi gì, không nới gì, ghi nhật ký khoản lỗ.",
+    "criteria": [
+      {
+        "label": "Vượt «Cú Phá vỡ Không thành»"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Giữ phòng tuyến",
+    "description": "Vượt «Hồi giá trong Xu hướng». Để kế hoạch, không phải các nến đỏ, ra quyết định.",
+    "criteria": [
+      {
+        "label": "Vượt «Hồi giá trong Xu hướng»"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "Xuyên qua khoảng trống",
+    "description": "Vượt «Khoảng trống Giảm». Lùi lại, định cỡ lại, lên kế hoạch lại, tuân lệnh dừng — hành xử dưới làn đạn.",
+    "criteria": [
+      {
+        "label": "Vượt «Khoảng trống Giảm»"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Quét sạch",
+    "description": "Vượt mọi kịch bản phát lại trong danh mục. Mỗi cái là một cách khác nhau thị trường trừng phạt sự ứng biến.",
+    "criteria": [
+      {
+        "label": "Vượt 3 kịch bản"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Từ mô phỏng đến buồng lái",
+    "description": "Vượt hai kịch bản, rồi chứng minh trực tiếp: 10 giao dịch giấy với mọi lệnh dừng tại chỗ. Mô phỏng dạy; bảng giá kiểm tra.",
+    "criteria": [
+      {
+        "label": "Vượt 2 kịch bản"
+      },
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Đọc, rồi bay",
+    "description": "Hoàn thành 20 bài học trước khi vượt kịch bản đầu tiên. Bước vào có chuẩn bị.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 20 bài học"
+      },
+      {
+        "label": "Vượt 1 kịch bản"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Học giả I",
+    "description": "Hoàn thành 5 bài học Học viện. Mỗi khái niệm bạn gọi được tên là một khái niệm thị trường không còn dùng để chống lại bạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 5 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Học giả II",
+    "description": "Hoàn thành 15 bài học Học viện. Mỗi khái niệm bạn gọi được tên là một khái niệm thị trường không còn dùng để chống lại bạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 15 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Học giả III",
+    "description": "Hoàn thành 30 bài học Học viện. Mỗi khái niệm bạn gọi được tên là một khái niệm thị trường không còn dùng để chống lại bạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 30 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Học giả IV",
+    "description": "Hoàn thành 60 bài học Học viện. Mỗi khái niệm bạn gọi được tên là một khái niệm thị trường không còn dùng để chống lại bạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 60 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Học giả V",
+    "description": "Hoàn thành 90 bài học Học viện. Mỗi khái niệm bạn gọi được tên là một khái niệm thị trường không còn dùng để chống lại bạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 90 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Học giả VI",
+    "description": "Hoàn thành 121 bài học Học viện. Toàn bộ chương trình — từ sơ cấp đến chuyên gia, không bỏ sót gì.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 121 bài học"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Vượt qua kỳ thi sơ cấp",
+    "description": "Vượt đánh giá cấp sơ cấp ở 80% trở lên. Kỳ thi là cổng của bậc thang — và thi vượt nghĩa là kỳ thi, không phải thời gian ngồi, mới là cái tính.",
+    "criteria": [
+      {
+        "label": "Vượt đánh giá sơ cấp"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Vượt qua kỳ thi trung cấp",
+    "description": "Vượt đánh giá cấp trung cấp ở 80% trở lên. Kỳ thi là cổng của bậc thang — và thi vượt nghĩa là kỳ thi, không phải thời gian ngồi, mới là cái tính.",
+    "criteria": [
+      {
+        "label": "Vượt đánh giá trung cấp"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "Vượt qua kỳ thi nâng cao",
+    "description": "Vượt đánh giá cấp nâng cao ở 80% trở lên. Kỳ thi là cổng của bậc thang — và thi vượt nghĩa là kỳ thi, không phải thời gian ngồi, mới là cái tính.",
+    "criteria": [
+      {
+        "label": "Vượt đánh giá nâng cao"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Vượt qua kỳ thi chuyên gia",
+    "description": "Vượt đánh giá cấp chuyên gia ở 80% trở lên. Kỳ thi là cổng của bậc thang — và thi vượt nghĩa là kỳ thi, không phải thời gian ngồi, mới là cái tính.",
+    "criteria": [
+      {
+        "label": "Vượt đánh giá chuyên gia"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Hồi tưởng trọn vẹn I",
+    "description": "Chấm điểm 20 thẻ lặp lại ngắt quãng trong Luyện tập. Khái niệm bạn hồi tưởng được khi không áp lực là cái sẵn có khi có áp lực.",
+    "criteria": [
+      {
+        "label": "20 lần ôn tập"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Hồi tưởng trọn vẹn II",
+    "description": "Chấm điểm 100 thẻ lặp lại ngắt quãng trong Luyện tập. Khái niệm bạn hồi tưởng được khi không áp lực là cái sẵn có khi có áp lực.",
+    "criteria": [
+      {
+        "label": "100 lần ôn tập"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Có mặt I",
+    "description": "Giữ chuỗi Học viện 2 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 2 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Có mặt II",
+    "description": "Giữ chuỗi Học viện 5 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 5 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Có mặt III",
+    "description": "Giữ chuỗi Học viện 10 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 10 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Có mặt IV",
+    "description": "Giữ chuỗi Học viện 21 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 21 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Có mặt V",
+    "description": "Giữ chuỗi Học viện 45 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 45 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Có mặt VI",
+    "description": "Giữ chuỗi Học viện 90 ngày — bất kỳ bài học, thẻ, kỳ thi, kịch bản hay nhiệm vụ nào đều tính. Thị trường thưởng nhà giao dịch vẫn còn ở đó vào tháng thứ sáu.",
+    "criteria": [
+      {
+        "label": "Chuỗi 90 ngày"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "Tuần lễ cân bằng",
+    "description": "Giữ chuỗi 7 ngày trong khi ghi nhật ký 5 giao dịch và chấm 10 thẻ ôn tập. Học, giao dịch, suy ngẫm — vòng lặp trọn vẹn, mỗi ngày.",
+    "criteria": [
+      {
+        "label": "Chuỗi 7 ngày"
+      },
+      {
+        "label": "Ghi nhật ký 5 giao dịch"
+      },
+      {
+        "label": "10 lần ôn tập"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "Sự trở lại",
+    "description": "Sau bất kỳ gián đoạn nào, xây lại: chuỗi 14 ngày với 10 giao dịch, tất cả có dừng lỗ và định cỡ đúng. Ai cũng kỷ luật được một lần; kỹ năng là bắt đầu lại.",
+    "criteria": [
+      {
+        "label": "Chuỗi 14 ngày"
+      },
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Ký tên",
+    "description": "Viết và chấp nhận Hiến pháp Giao dịch của bạn. Từ khoảnh khắc đó, phiếu lệnh thực thi quy tắc của bạn — bạn bình tĩnh bảo vệ bạn tương lai.",
+    "criteria": [
+      {
+        "label": "Chấp nhận hiến pháp"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Giữ vững quy tắc I",
+    "description": "Với hiến pháp của bạn đang hiệu lực, chạy 10 giao dịch với không vi phạm rủi ro và không vào lệnh thiếu dừng lỗ. Chấp nhận thì dễ; giữ mới là nhiệm vụ.",
+    "criteria": [
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Thực thi 10 giao dịch"
+      },
+      {
+        "label": "Không vi phạm rủi ro"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Giữ vững quy tắc II",
+    "description": "Với hiến pháp của bạn đang hiệu lực, chạy 30 giao dịch với không vi phạm rủi ro và không vào lệnh thiếu dừng lỗ. Chấp nhận thì dễ; giữ mới là nhiệm vụ.",
+    "criteria": [
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Thực thi 30 giao dịch"
+      },
+      {
+        "label": "Không vi phạm rủi ro"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Giữ vững quy tắc III",
+    "description": "Với hiến pháp của bạn đang hiệu lực, chạy 75 giao dịch với không vi phạm rủi ro và không vào lệnh thiếu dừng lỗ. Chấp nhận thì dễ; giữ mới là nhiệm vụ.",
+    "criteria": [
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Thực thi 75 giao dịch"
+      },
+      {
+        "label": "Không vi phạm rủi ro"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "Người vận hành",
+    "description": "Mười giao dịch liên tiếp đạt 70+ dưới một hiến pháp đã chấp nhận với không thành công nguy hiểm. Đây là thanh chuẩn hành xử mà bậc thang chuyên gia đọc.",
+    "criteria": [
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "10 điểm liên tiếp 70+"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Tổng kết sơ cấp: Cất cánh",
+    "description": "Mọi điều người mới phải chứng minh: học bài, vượt thi, lên kế hoạch và ghi nhật ký giao dịch đầu, nhận khoản lỗ đã định đầu tiên mà không nao núng.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 15 bài học"
+      },
+      {
+        "label": "Vượt đánh giá sơ cấp"
+      },
+      {
+        "label": "Thực thi 5 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Ghi nhật ký 3 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Tổng kết trung cấp: Tay nghề",
+    "description": "Toán rủi ro trong cơ bắp: một điểm quy trình trung bình bền vững, bề rộng qua các mã, kỳ thi, và một kịch bản sống sót.",
+    "criteria": [
+      {
+        "label": "Vượt đánh giá trung cấp"
+      },
+      {
+        "label": "Thực thi 20 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 70+"
+      },
+      {
+        "label": "Giao dịch 3+ mã"
+      },
+      {
+        "label": "Vượt 1 kịch bản"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "Tổng kết nâng cao: Dưới làn đạn",
+    "description": "Kỷ luật dưới áp lực: vượt mọi kịch bản, giữ hiến pháp qua 40 giao dịch, chấp nhận lỗ đúng lịch, không thành công nguy hiểm.",
+    "criteria": [
+      {
+        "label": "Vượt 3 kịch bản"
+      },
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Thực thi 40 giao dịch"
+      },
+      {
+        "label": "3 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Tổng kết chuyên gia: Người vận hành hoàn chỉnh",
+    "description": "Hồ sơ trọn vẹn: toàn bộ chương trình, mọi kỳ thi, một trăm giao dịch kết thúc ở điểm quy trình chuyên nghiệp, một hiến pháp sống, một tháng không gián đoạn.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 121 bài học"
+      },
+      {
+        "label": "Vượt đánh giá chuyên gia"
+      },
+      {
+        "label": "100 giao dịch kết thúc"
+      },
+      {
+        "label": "Điểm quy trình trung bình 80+"
+      },
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Chuỗi 30 ngày"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Tổng kết: Kẻ thua cuộc trung thực",
+    "description": "Một sự nghiệp của những khoản lỗ đúng đắn: 10 lần dừng lỗ đã định, 6 khoản lỗ xử lý khéo, mọi thứ ghi nhật ký, không vào lệnh khi mất bình tĩnh. Thua giỏi là kỹ năng hiếm nhất trên bảng giá.",
+    "criteria": [
+      {
+        "label": "10 lần dừng lỗ đã định"
+      },
+      {
+        "label": "6 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Ghi nhật ký 15 giao dịch"
+      },
+      {
+        "label": "Không vào lệnh khi mất bình tĩnh"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Tổng kết: Nhà giao dịch học giả",
+    "description": "Kiến thức và hành xử trong một hồ sơ: 90 bài học, 100 lần ôn tập, 50 giao dịch ở quy trình 75+, và chuỗi 21 ngày. Thư viện và bảng giá, làm chủ cùng nhau.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 90 bài học"
+      },
+      {
+        "label": "100 lần ôn tập"
+      },
+      {
+        "label": "Thực thi 50 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 75+"
+      },
+      {
+        "label": "Chuỗi 21 ngày"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Kỷ luật rủi ro (Cổng bậc thang)",
+    "description": "Thanh chuẩn hành xử bậc thang nâng cao: 20 giao dịch, mọi lệnh dừng tại chỗ, rủi ro trong chính sách, không thành công nguy hiểm.",
+    "criteria": [
+      {
+        "label": "Thực thi 20 giao dịch"
+      },
+      {
+        "label": "Mỗi giao dịch có lệnh dừng"
+      },
+      {
+        "label": "Mỗi giao dịch trong chính sách rủi ro"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Chấp nhận khoản lỗ đã định (Cổng bậc thang)",
+    "description": "Ba khoản lỗ xử lý khéo không có giao dịch thiếu dừng lỗ qua ít nhất năm lần thực thi — bằng chứng bạn có thể thua đúng cách.",
+    "criteria": [
+      {
+        "label": "Thực thi 5 giao dịch"
+      },
+      {
+        "label": "3 khoản lỗ xử lý khéo"
+      },
+      {
+        "label": "Không giao dịch thiếu dừng lỗ"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "Người vận hành (Cổng bậc thang)",
+    "description": "Mười giao dịch liên tiếp với điểm quy trình 70 trở lên — thanh chuẩn hành xử bậc thang chuyên gia.",
+    "criteria": [
+      {
+        "label": "10 điểm liên tiếp 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "Bước đầu: Một bài học",
+    "description": "Hoàn thành bài học Học viện đầu tiên. Hồ sơ của mọi người vận hành bắt đầu bằng một mục duy nhất.",
+    "criteria": [
+      {
+        "label": "Hoàn thành 1 bài học"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "Bước đầu: Một giao dịch đã định",
+    "description": "Gửi giao dịch giấy đầu tiên với một lệnh dừng và lý do viết ra. Kế hoạch chính là giao dịch; khớp lệnh chỉ là giấy tờ.",
+    "criteria": [
+      {
+        "label": "Thực thi 1 giao dịch"
+      },
+      {
+        "label": "Nó có lệnh dừng"
+      },
+      {
+        "label": "Nó có lý do viết ra"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "Bước đầu: Một ghi chú trung thực",
+    "description": "Viết ghi chú nhật ký đầu tiên trên một giao dịch đã thực thi. Hai câu trung thực thắng một trí nhớ hoàn hảo.",
+    "criteria": [
+      {
+        "label": "Ghi nhật ký 1 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "Bước đầu: Một thẻ",
+    "description": "Chấm điểm thẻ lặp lại ngắt quãng đầu tiên trong Luyện tập. Hồi tưởng là một cơ bắp; đây là lần lặp một.",
+    "criteria": [
+      {
+        "label": "1 lần ôn tập"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "Cỗ máy luận điểm",
+    "description": "Năm mươi giao dịch, mỗi cái có lý do viết ra và cảm xúc được ghi. Đến đây kế hoạch tự viết — đó là mục tiêu.",
+    "criteria": [
+      {
+        "label": "Lý do viết ra trên 50 giao dịch"
+      },
+      {
+        "label": "Cảm xúc được ghi trên 50 giao dịch"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "Vòng lặp trọn vẹn",
+    "description": "Ghi lại, chấm điểm, phát hiện, kê đơn, đặt cổng — chạy toàn bộ vòng phản hồi ở quy mô: 75 giao dịch ghi nhật ký và gắn thẻ, vượt các kịch bản, giữ hiến pháp, không thành công nguy hiểm.",
+    "criteria": [
+      {
+        "label": "Thực thi 75 giao dịch"
+      },
+      {
+        "label": "Ghi nhật ký 30 giao dịch"
+      },
+      {
+        "label": "Gắn thẻ 15 giao dịch"
+      },
+      {
+        "label": "Vượt 3 kịch bản"
+      },
+      {
+        "label": "Hiến pháp đã chấp nhận"
+      },
+      {
+        "label": "Không thành công nguy hiểm"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Chọn lọc sắt đá",
+    "description": "Một trăm giao dịch không bao giờ vượt hai trong một ngày, qua 8+ mã. Vị thế khó nhất trong giao dịch là không vị thế, giữ mỗi ngày.",
+    "criteria": [
+      {
+        "label": "Thực thi 100 giao dịch"
+      },
+      {
+        "label": "Không bao giờ quá 2 giao dịch/ngày"
+      },
+      {
+        "label": "Giao dịch 8+ mã"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "Quý hoàn hảo",
+    "description": "Chuỗi 60 ngày với điểm quy trình trung bình 75+ qua 40 giao dịch. Một quý có mặt và quyết định tốt — bản lý lịch mà thị trường thực sự đọc.",
+    "criteria": [
+      {
+        "label": "Chuỗi 60 ngày"
+      },
+      {
+        "label": "Thực thi 40 giao dịch"
+      },
+      {
+        "label": "Điểm quy trình trung bình 75+"
+      }
+    ]
+  }
+]

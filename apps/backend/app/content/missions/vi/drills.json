@@ -1,0 +1,746 @@
+[
+  {
+    "category": "risk-discipline",
+    "title": "Quyết định cỡ lệnh",
+    "scenario": "Tài khoản: 10.000 $ giấy. Một thiết lập bạn thích xuất hiện: vào lệnh 100, cấu trúc nói điểm vô hiệu là 95. Bạn muốn vào. Ba quyết định kế tiếp định đoạt đây là một giao dịch hay một canh bạc.",
+    "checkpoints": [
+      {
+        "question": "Bạn xác định cỡ vị thế thế nào?",
+        "options": [
+          {
+            "id": "formula",
+            "label": "Rủi ro 1% tài khoản: (10.000 $ x 1%) / (100 - 95) = 20 cổ phiếu",
+            "feedback": "Đúng. Chọn rủi ro trước; cỡ được suy ra từ đó. Chính khoảng cách đến lệnh dừng — không phải niềm tin — quyết định số cổ phiếu."
+          },
+          {
+            "id": "round",
+            "label": "Mua 100 cổ phiếu — một con số tròn đẹp trông có ý nghĩa",
+            "feedback": "Định cỡ theo con số tròn nghĩa là rủi ro của bạn do biểu đồ quyết định sau: ở đây 100 cổ phiếu mạo hiểm 5% tài khoản, gấp năm lần chính sách."
+          },
+          {
+            "id": "allin",
+            "label": "Dùng hết sức mua — thiết lập này quá tốt để bỏ lỡ",
+            "feedback": "Định cỡ hết cỡ khiến một cây nến bất lợi trở nên chí mạng. Đây chính là thói quen kết liễu tài khoản."
+          }
+        ]
+      },
+      {
+        "question": "Lệnh dừng đặt ở đâu?",
+        "options": [
+          {
+            "id": "structure",
+            "label": "Ở 95, dưới mức làm vô hiệu luận điểm",
+            "feedback": "Đúng. Lệnh dừng sống ở nơi ý tưởng được chứng minh là sai, không phải ở một số tiền nghe có vẻ chấp nhận được."
+          },
+          {
+            "id": "tight",
+            "label": "Ở 99 — lệnh dừng chặt hơn nghĩa là tôi mua được nhiều cổ phiếu hơn",
+            "feedback": "Lệnh dừng đặt trong nhiễu thông thường không phải kiểm soát rủi ro mà là quyên góp. Bạn đã tăng cỡ chỉ để thua thường xuyên hơn."
+          },
+          {
+            "id": "none",
+            "label": "Không lệnh dừng — tôi theo dõi và thoát tay nếu cần",
+            "feedback": "Một màn hình không người trông, một cuộc họp, một khoảng trống: «lệnh dừng trong đầu» thất bại đúng lúc cần đến. Vô hiệu không xác định nghĩa là rủi ro vô hạn."
+          }
+        ]
+      },
+      {
+        "question": "Giá rơi xuống 96,20 rồi đứng yên. Lệnh dừng ở 95 của bạn còn nguyên. Giờ sao?",
+        "options": [
+          {
+            "id": "hold",
+            "label": "Không gì cả. Kế hoạch còn nguyên cho đến khi 95 khớp",
+            "feedback": "Đúng. Một nhịp hồi trên mức vô hiệu, theo định nghĩa, là nhiễu. Quyết định do kế hoạch đưa ra, không do sự khó chịu."
+          },
+          {
+            "id": "widen",
+            "label": "Dời lệnh dừng xuống 93 để cho nó thêm chỗ",
+            "feedback": "Nới lệnh dừng biến một khoản lỗ nhỏ đã định thành khoản lỗ lớn ngoài kế hoạch. Hiến pháp tồn tại chính để cấm điều này."
+          },
+          {
+            "id": "panic",
+            "label": "Thoát ngay — bảo toàn những gì còn lại",
+            "feedback": "Thoát trên mức vô hiệu nghĩa là cái bụng đã phủ quyết kế hoạch. Bạn giữ được tiền nhưng huấn luyện thói quen bỏ kế hoạch."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "process-quality",
+    "title": "Kiểm tra trước khi bay",
+    "scenario": "Bạn nhận thấy một nhịp hồi trong xu hướng tăng. Biểu đồ trông đúng. Trước khi lệnh đi, điểm quy trình đã được viết rồi.",
+    "checkpoints": [
+      {
+        "question": "Trước khi xác nhận, đưa gì vào phiếu lệnh?",
+        "options": [
+          {
+            "id": "full",
+            "label": "Lệnh dừng, mục tiêu, % rủi ro, lý do viết ra, và cảm giác của tôi lúc này",
+            "feedback": "Đúng. Năm trường của kế hoạch là toàn bộ điểm quy trình: vô hiệu, lối thoát, cỡ, luận điểm, trạng thái tâm trí."
+          },
+          {
+            "id": "partial",
+            "label": "Lệnh dừng và mục tiêu — lý do hiển nhiên từ biểu đồ",
+            "feedback": "Luận điểm «hiển nhiên» hôm nay sẽ không đọc nổi trong buổi đánh giá tuần sau. Lý do không viết ra cho điểm không và chẳng dạy gì."
+          },
+          {
+            "id": "speed",
+            "label": "Chỉ vào lệnh — thực thi trước, lập kế hoạch sau, giá không chờ",
+            "feedback": "Lập-kế-hoạch-sau nghĩa là không-bao-giờ-lập-kế-hoạch. Vào lệnh trước khi xác định rủi ro là khoản trừ điểm quy trình lớn nhất."
+          }
+        ]
+      },
+      {
+        "question": "Lý do bạn viết là «trông có vẻ tăng». Đủ chưa?",
+        "options": [
+          {
+            "id": "specific",
+            "label": "Chưa — viết lại: «nhịp hồi về EMA20 trong xu hướng tăng được ADX xác nhận, khối lượng co lại»",
+            "feedback": "Đúng. Luận điểm gọi tên cấu trúc, chế độ, và điều gì sẽ phá vỡ nó. «Trông có vẻ tăng» không thể đánh giá lại cũng không thể học."
+          },
+          {
+            "id": "fine",
+            "label": "Ổn — tôi biết ý mình là gì",
+            "feedback": "Sau 40 giao dịch bạn sẽ không nhớ. Nhật ký là lá thư gửi bạn tương lai đã quên hết."
+          },
+          {
+            "id": "skip",
+            "label": "Lý do dành cho nhà phân tích — P&L là chân lý duy nhất",
+            "feedback": "Kết quả không có quy trình là nhiễu. 2x2 tồn tại vì những quyết định tồi mà có lời là đắt giá nhất."
+          }
+        ]
+      },
+      {
+        "question": "Giao dịch thắng +2R nhưng bạn chẳng bao giờ đặt lệnh dừng đã viết. Buổi đánh giá gọi đây là thành công nguy hiểm. Phản ứng của bạn?",
+        "options": [
+          {
+            "id": "accept",
+            "label": "Ghi lại trung thực — thắng không tha thứ cho quy trình hỏng",
+            "feedback": "Đúng. Quyết định tồi + kết quả tốt huấn luyện thói quen rốt cuộc sẽ gửi hóa đơn. Gọi tên nó chính là phương thuốc."
+          },
+          {
+            "id": "argue",
+            "label": "Bác bỏ — thắng là thắng",
+            "feedback": "Cãi với chính bảng điều khiển của mình là vô hiệu hóa mục đích của nó. «Thắng» kiểu này lần sau sẽ được vào với cỡ lớn hơn."
+          },
+          {
+            "id": "ignore",
+            "label": "Bỏ qua toàn bộ buổi đánh giá tuần này",
+            "feedback": "Giao dịch không được đánh giá chẳng dạy gì. Thành công nguy hiểm bạn không xem xét chính là cái bạn lặp lại."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "loss-acceptance",
+    "title": "Lệnh dừng đến gần",
+    "scenario": "Mua ở 50, lệnh dừng 47,50, kế hoạch -1R = 100 $. Giá ở 47,80 và đang rơi. Mọi nhà giao dịch đều gặp khoảnh khắc này; ít người gặp nó đúng cách.",
+    "checkpoints": [
+      {
+        "question": "Giá chạm 47,55. Lệnh dừng sắp khớp. Bạn làm gì?",
+        "options": [
+          {
+            "id": "nothing",
+            "label": "Không gì cả. Lệnh dừng là kế hoạch đang hoạt động, không phải thất bại",
+            "feedback": "Đúng. Bạn đã mua một rủi ro xác định. -1R luôn là một trong hai kết quả đã định."
+          },
+          {
+            "id": "cancel",
+            "label": "Hủy lệnh dừng — nó luôn bật lại ngay khi tôi thoát",
+            "feedback": "Hủy lệnh dừng biến 100 $ rủi ro đã định thành một hố không đáy. Mọi cuộc khám nghiệm tài khoản cháy đều có bước này."
+          },
+          {
+            "id": "average",
+            "label": "Mua thêm ở đây, kéo điểm hòa vốn xuống",
+            "feedback": "Trung bình giá xuống trong giao dịch thua kéo điểm hòa vốn lại gần và tổng rủi ro ra xa. Đó là cách từng giao dịch giết chết tài khoản."
+          }
+        ]
+      },
+      {
+        "question": "Bị quét ở 47,50, -1R. Năm phút sau giá lấy lại 50. Bạn đọc thế nào?",
+        "options": [
+          {
+            "id": "variance",
+            "label": "Một khoản lỗ xử lý khéo — quyết định đúng, phương sai lấy mất. Ghi lại và đi tiếp",
+            "feedback": "Đúng. Bộ phân loại tồn tại chính vì cái nhói này: chất lượng kết quả và chất lượng quyết định là hai trục khác nhau."
+          },
+          {
+            "id": "broken",
+            "label": "Bằng chứng lệnh dừng của tôi sai — lần sau rộng hơn mà không tính lại cỡ",
+            "feedback": "Nới lệnh dừng mà không tính lại cỡ chỉ làm tăng khoản lỗ tính bằng đô. Nếu cấu trúc cần thêm chỗ, hãy giảm cỡ."
+          },
+          {
+            "id": "revenge",
+            "label": "Vào lại ngay ở 50 — nó nợ tôi",
+            "feedback": "Một lần vào lệnh mà lý do là khoản lỗ vừa rồi là giao dịch trả thù. Thị trường không giữ sổ nợ phải thu."
+          }
+        ]
+      },
+      {
+        "question": "Ba khoản lỗ đã định liên tiếp, đều ở lệnh dừng, đều ghi nhật ký. Điểm quy trình trung bình: 85. Thay đổi gì?",
+        "options": [
+          {
+            "id": "nothing2",
+            "label": "Về cấu trúc không gì cả — xem lại tìm mẫu, giữ cỡ, giữ hệ thống",
+            "feedback": "Đúng. Ba khoản lỗ -1R hoàn toàn nằm trong phương sai thông thường của bất kỳ hệ thống thật nào. Đổi hệ thống sau mỗi chuỗi thua bảo đảm bạn chẳng bao giờ có một hệ thống."
+          },
+          {
+            "id": "halve",
+            "label": "Giảm cỡ một nửa cho đến khi có một lệnh thắng",
+            "feedback": "Có thể bào chữa, nhưng quá sớm ở ba giao dịch — và nó thu nhỏ một cách bất đối xứng những lệnh thắng vốn trả cho các khoản lỗ."
+          },
+          {
+            "id": "abandon",
+            "label": "Hệ thống hỏng rồi — tối nay tìm cái mới",
+            "feedback": "Monte Carlo nói một hệ thống thắng 50% dành một phần ba đời nó trong sụt giảm. Nhảy giữa các hệ thống reset mẫu mỗi lần."
+          }
+        ]
+      },
+      {
+        "question": "Bạn bảo vệ một vị thế bằng lệnh dừng-giới hạn (kích hoạt 47,50, giới hạn 47,40) thay vì lệnh dừng. Tin tức qua đêm mở khoảng trống ở 45,80. Sự bảo vệ của bạn ra sao?",
+        "options": [
+          {
+            "id": "unfilled",
+            "label": "Không gì khớp — nhánh giới hạn cần 47,40 hoặc tốt hơn, và giá không giao dịch ở đó. Tôi vẫn đang mua, thấp hơn «lệnh dừng» của mình 4%",
+            "feedback": "Đúng. Đây là cái bẫy của lệnh dừng-giới hạn: nó giới hạn trượt giá trong những ngày thường và lặng lẽ thất bại đúng ngày cần đến. Đó cũng là lý do nền giấy từ chối mô phỏng lệnh dừng-giới hạn — trên các nến đã đóng, việc khớp sẽ phải bịa ra."
+          },
+          {
+            "id": "filled_at_limit",
+            "label": "Khớp ở 47,40 — đó là điều giới hạn bảo đảm",
+            "feedback": "Giới hạn bảo đảm giá, không bao giờ bảo đảm khớp. Giá nhảy qua cửa sổ của bạn mà không giao dịch trong đó; lệnh vẫn còn ở đó, chưa khớp, trong khi khoản lỗ phình to."
+          },
+          {
+            "id": "filled_at_open",
+            "label": "Khớp ở giá mở 45,80, như lệnh dừng thường",
+            "feedback": "Đó là điều một lệnh DỪNG đơn giản làm: thành lệnh thị trường và nuốt khoảng trống. Nhánh giới hạn chính là thứ đã ngăn việc khớp đó. Hãy biết bạn đã đặt loại nào."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "tilt-control",
+    "title": "Buổi sáng đỏ",
+    "scenario": "Hai lệnh dừng trước trưa, cả hai đã định, cả hai -1R. Bạn nhận ra hàm mình đang nghiến và việc làm mới biểu đồ trở thành ám ảnh. Quyết định kế tiếp là cả ván cờ.",
+    "checkpoints": [
+      {
+        "question": "Thiết lập thứ ba xuất hiện. Nó nửa vời — không phải thiết lập A của bạn. Điều gì xảy ra?",
+        "options": [
+          {
+            "id": "skip",
+            "label": "Bỏ qua và ghi cảm xúc: «bực bội, muốn gỡ lại»",
+            "feedback": "Đúng. Gọi tên trạng thái thành tiếng là cách bắt mất bình tĩnh sớm. Thiết lập nửa vời + trạng thái nóng = khoản lỗ thứ ba kinh điển."
+          },
+          {
+            "id": "smaller",
+            "label": "Vào với nửa cỡ — thỏa hiệp với ham muốn",
+            "feedback": "Mất bình tĩnh nửa cỡ vẫn là mất bình tĩnh. Lý do vào lệnh là buổi sáng của bạn, không phải thị trường."
+          },
+          {
+            "id": "double",
+            "label": "Vào với cỡ gấp đôi — gỡ lại buổi sáng bằng một giao dịch",
+            "feedback": "Gấp đôi sau các khoản lỗ là martingale khoác áo hoodie. Đây là mẫu hình mức nghiêm trọng cao nhất mà nhân viên rủi ro biết."
+          }
+        ]
+      },
+      {
+        "question": "Bạn đã bỏ qua. Thiết lập nửa vời lẽ ra đã thắng. Bạn đóng khung nó thế nào?",
+        "options": [
+          {
+            "id": "good",
+            "label": "Một quyết định đúng. Bỏ thiết lập B khi mất bình tĩnh là chính sách, và chính sách được phán xét trên 100 giao dịch",
+            "feedback": "Đúng. Chiến thắng phản thực không thay đổi gì: quyết định đã đúng vào lúc đưa ra. Phán xét giao dịch bị bỏ qua bằng kết quả là mở lại cánh cửa mất bình tĩnh."
+          },
+          {
+            "id": "regret",
+            "label": "Bằng chứng tôi nên tin trực giác khi bực bội",
+            "feedback": "Một mẫu chống lại chính sách — đó là cách những thói quen nguy hiểm được tuyển dụng. Cùng trực giác muốn giao dịch này cũng muốn lần vào trả thù cỡ gấp đôi."
+          },
+          {
+            "id": "rule_off",
+            "label": "Tắt quy tắc giới hạn ngày — nó đang tốn tiền",
+            "feedback": "Xóa rào chắn đúng lúc nó phát huy tác dụng là hiến pháp thất bại bài kiểm tra duy nhất của nó."
+          }
+        ]
+      },
+      {
+        "question": "Điều gì kết thúc phiên đúng cách?",
+        "options": [
+          {
+            "id": "ritual",
+            "label": "Ghi lại cả ba quyết định, gắn thẻ cảm xúc, đóng terminal",
+            "feedback": "Đúng. Giá trị của ngày chưa bao giờ là P&L — đó là một bản ghi hành vi sạch sẽ giữ được trong sự cáu kỉnh."
+          },
+          {
+            "id": "watch",
+            "label": "Tiếp tục xem thị trường «chỉ để học» — nhưng không lệnh",
+            "feedback": "Nhìn màn hình khi mất bình tĩnh là cách «không lệnh» thành một lệnh. Việc học diễn ra trong nhật ký, không trong vòng làm mới."
+          },
+          {
+            "id": "binge",
+            "label": "Ở lại đến khi một lệnh thắng làm ngày thành xanh",
+            "feedback": "Cần một ngày xanh — đó là mất bình tĩnh đang nói. Ngày là hư cấu kế toán; điểm thật là điểm quy trình trung bình."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "journaling",
+    "title": "Bản ghi trung thực",
+    "scenario": "Thị trường đóng cửa. Ba giao dịch đã thực thi chưa có bản ghi: một thắng sạch, một thắng cẩu thả, và một lỗ đã định. Mười phút trung thực có sẵn.",
+    "checkpoints": [
+      {
+        "question": "Giao dịch nào được ghi đầu tiên và sâu nhất?",
+        "options": [
+          {
+            "id": "sloppy",
+            "label": "Thắng cẩu thả — đuổi theo lệnh vào, cảm xúc không ghi, thoát nhờ may",
+            "feedback": "Đúng. Thắng cẩu thả mới nguy hiểm: sai lầm được thưởng sẽ được lặp lại. Lệnh thắng cần khám nghiệm hơn lệnh thua."
+          },
+          {
+            "id": "loss",
+            "label": "Khoản lỗ — bài học sống trong các khoản lỗ",
+            "feedback": "Hợp lý, nhưng khoản lỗ này đã định và sạch sẽ — nó xác nhận hệ thống. Thắng cẩu thả mới là nơi có thông tin mới."
+          },
+          {
+            "id": "best",
+            "label": "Thắng sạch — kết thúc bằng một nốt nhạc hay",
+            "feedback": "Chỉ ghi lại điều tâng bốc mình là một cuốn nhật ký riêng tư, không phải một tập dữ liệu."
+          }
+        ]
+      },
+      {
+        "question": "Ghi chú hữu ích về lần thắng cẩu thả nói gì?",
+        "options": [
+          {
+            "id": "honest",
+            "label": "«Đuổi theo cao hơn điểm vào kế hoạch 0,8% sau khi chuyển động bắt đầu. FOMO. Vẫn thắng — đã đánh dấu là thói quen nguy hiểm»",
+            "feedback": "Đúng. Hành vi cụ thể, cảm xúc gọi tên, thẻ trung thực. Ghi chú này nuôi các bộ dò của huấn luyện viên và bạn tương lai."
+          },
+          {
+            "id": "vague",
+            "label": "«Lệnh vào lẽ ra tốt hơn. Dù sao kết quả tốt»",
+            "feedback": "Ghi chú mơ hồ không thể tổng hợp, dò hay học. «Lẽ ra tốt hơn» mô tả mọi giao dịch từng làm."
+          },
+          {
+            "id": "victory",
+            "label": "«Trúng phóc. +1,8R. Thêm nhiều kiểu này»",
+            "feedback": "«Thêm nhiều kiểu này» — đuổi lệnh vào nhiều hơn? Ghi chú vừa tán thành một sai lầm vì nó có lời một lần."
+          }
+        ]
+      },
+      {
+        "question": "Ngày dài và ghi chú thứ ba có vẻ tùy chọn. Quyết định đi.",
+        "options": [
+          {
+            "id": "write",
+            "label": "Viết đi — hai câu. Giao dịch không bản ghi chẳng dạy gì",
+            "feedback": "Đúng. Chuỗi các bản ghi đầy đủ giá trị hơn bất kỳ tia hiểu biết đơn lẻ nào. Ba trong ba, mỗi ngày."
+          },
+          {
+            "id": "tomorrow",
+            "label": "Làm ngày mai với cái nhìn tươi mới",
+            "feedback": "Trí nhớ ngày mai là hư cấu được nêm bằng nhận thức sau sự việc. Trạng thái lúc vào lệnh đã bốc hơi rồi."
+          },
+          {
+            "id": "skip2",
+            "label": "Bỏ qua — chỉ là một lỗ đã định, không có gì để học",
+            "feedback": "Khoản lỗ đã định xác nhận hệ thống đang hoạt động — sự xác nhận đó là dữ liệu. Bỏ qua nhật ký là một bộ dò, không phải vô cớ."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "selectivity",
+    "title": "Thị trường yên ắng",
+    "scenario": "Thứ Ba, 11:40. Hôm nay bạn đã làm một giao dịch tốt. Thị trường trở nên yên ắng và giật cục. Giới hạn ngày của bạn là 3. Con trỏ lơ lửng.",
+    "checkpoints": [
+      {
+        "question": "Không gì khớp danh sách thiết lập của bạn, nhưng bạn «đang có nhịp». Giờ sao?",
+        "options": [
+          {
+            "id": "flat",
+            "label": "Đứng ngoài. Không thiết lập thì không giao dịch; nhịp không phải thiết lập",
+            "feedback": "Đúng. Vị thế khó nhất là đứng ngoài. Tính chọn lọc CHÍNH LÀ lợi thế; hoạt động là khoản thuế của nó."
+          },
+          {
+            "id": "hunt",
+            "label": "Xuống biểu đồ phút để tìm cái gì đó",
+            "feedback": "Phóng to đến khi nhiễu trông như tín hiệu là cách «không thiết lập» thành năm thiết lập tồi."
+          },
+          {
+            "id": "boredom",
+            "label": "Vào một «giao dịch buồn chán» nhỏ để giữ sự gắn bó",
+            "feedback": "Giao dịch buồn chán là họ hàng lịch sự của mất bình tĩnh: lý do vào lệnh là tâm trạng bạn. Giao dịch tồi nhỏ huấn luyện thói quen tồi lớn."
+          }
+        ]
+      },
+      {
+        "question": "Một thiết lập thực sự tốt xuất hiện trên một công cụ bạn chưa từng giao dịch. Giới hạn cho phép. Quyết định đi.",
+        "options": [
+          {
+            "id": "check",
+            "label": "Kiểm tra trước khi bay đầy đủ cho công cụ mới — thanh khoản, chênh lệch, biến động — rồi cỡ bình thường nếu đạt",
+            "feedback": "Đúng. Công cụ mới xứng đáng cùng quy trình cộng một lần kiểm tra nền. Bề rộng làm đúng là đa dạng hóa phán đoán."
+          },
+          {
+            "id": "familiar",
+            "label": "Bỏ qua — chỉ giao dịch cái bạn biết",
+            "feedback": "Có thể bào chữa, nhưng thu hẹp «cái tôi biết» về một biểu đồ làm hẹp nền tảng bằng chứng cho kỹ năng của bạn."
+          },
+          {
+            "id": "yolo",
+            "label": "Vào ngay — thiết lập là thiết lập",
+            "feedback": "Thiết lập có thể chuyển được; chênh lệch, thanh khoản và hành vi khoảng trống có thể không. Rủi ro nền chưa kiểm tra vẫn là rủi ro."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "outcome-integrity",
+    "title": "Đọc 2x2",
+    "scenario": "Đánh giá tuần. Bốn giao dịch trên màn hình: một thắng do năng lực, một lỗ xử lý khéo, một học phí trung thực, và một thành công nguy hiểm. Cách bạn đọc chúng định đoạt tuần sau trông thế nào.",
+    "checkpoints": [
+      {
+        "question": "Góc phần tư nào nguy hiểm nhất?",
+        "options": [
+          {
+            "id": "ds",
+            "label": "Thành công nguy hiểm — một quyết định tồi mà thị trường đã trả tiền",
+            "feedback": "Đúng. Sai lầm được thưởng dồn lại: lần sau cỡ lớn hơn và tự tin hơn, và hóa đơn đến kèm lãi."
+          },
+          {
+            "id": "tuition",
+            "label": "Học phí trung thực — mất tiền VÀ là quyết định tồi",
+            "feedback": "Học phí đau nhưng dạy sạch sẽ: quy trình tồi, kết quả tồi, bài học đọc được. Hiếm khi lặp lại ở cỡ lớn."
+          },
+          {
+            "id": "loss",
+            "label": "Lỗ xử lý khéo — lỗ luôn là vấn đề",
+            "feedback": "Gọi lỗ xử lý khéo là «vấn đề» là sùng bái kết quả. Khoản lỗ đó là hệ thống đang hoạt động."
+          }
+        ]
+      },
+      {
+        "question": "Thắng do năng lực và thành công nguy hiểm của bạn đều cho cùng +1,5R. Điều gì tách chúng?",
+        "options": [
+          {
+            "id": "repeat",
+            "label": "Quy trình của thắng do năng lực có thể cố ý lặp lại; thành công nguy hiểm vay từ phương sai",
+            "feedback": "Đúng. P&L giống hệt, thông tin trái ngược. Chỉ một trong hai là bằng chứng của sự thành thạo."
+          },
+          {
+            "id": "same",
+            "label": "Không gì cả — R là R",
+            "feedback": "R đo kết quả, không đo chất lượng quyết định. Nếu R là tất cả, người trúng số đã là nhà đầu tư."
+          },
+          {
+            "id": "luck_all",
+            "label": "Cả hai đều là may — giao dịch đơn lẻ chẳng có ý nghĩa gì",
+            "feedback": "Kết quả đơn lẻ ồn ào, nhưng quyết định có thể đánh giá ngay. Tính bất đối xứng đó là toàn bộ ý nghĩa của chấm điểm quy trình."
+          }
+        ]
+      },
+      {
+        "question": "Hành động sửa chữa duy nhất cho tuần sau?",
+        "options": [
+          {
+            "id": "fix_ds",
+            "label": "Đọc lại điều kiện vào lệnh của thành công nguy hiểm và viết một quy tắc lẽ ra đã chặn nó",
+            "feedback": "Đúng. Một quy tắc cụ thể viết ra cho mỗi mẫu được phát hiện — đó là cách vòng phản hồi khép lại."
+          },
+          {
+            "id": "more_wins",
+            "label": "Nhắm nhiều lệnh thắng hơn — nâng tỷ lệ trúng",
+            "feedback": "Tỷ lệ trúng là đầu ra. Đuổi theo nó trực tiếp thường nghĩa là cắt lệnh thắng sớm và nới lệnh dừng — cả hai đều ăn mòn."
+          },
+          {
+            "id": "trade_more",
+            "label": "Giao dịch nhiều hơn để tăng mẫu nhanh hơn",
+            "feedback": "Một mẫu lớn hơn của các quyết định chưa kiểm tra chỉ là nhiều nhiễu hơn. Sửa bộ tạo trước khi mở rộng đầu ra."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "replay-mastery",
+    "title": "Đọc phát lại",
+    "scenario": "Bạn sắp chạy một đoạn lịch sử trong mô phỏng. Cách bạn dùng phát lại định đoạt nó huấn luyện phán đoán hay chỉ giải trí.",
+    "checkpoints": [
+      {
+        "question": "Giữa phát lại bạn nhận ra đoạn này — bạn biết nó kết thúc thế nào. Nước đi trung thực là gì?",
+        "options": [
+          {
+            "id": "process",
+            "label": "Vẫn trả lời từ quy trình: trên cây nến này, nhà giao dịch NÊN làm gì khi không có nhận thức sau sự việc?",
+            "feedback": "Đúng. Phát lại chấm các quyết định, không phải dự đoán. Lái theo nhận thức sau sự việc là học cách đúng về quá khứ."
+          },
+          {
+            "id": "exploit",
+            "label": "Khai thác kiến thức — điểm là điểm",
+            "feedback": "Bạn vừa huấn luyện «hành động theo thông tin sẽ không có khi giao dịch thật». Điểm tăng; kỹ năng giảm."
+          },
+          {
+            "id": "quit",
+            "label": "Bỏ và tìm một đoạn bạn không biết",
+            "feedback": "Bản năng hợp lý, nhưng nhận ra các đoạn CHÍNH LÀ khả năng đọc thị trường — kỷ luật vẫn là trả lời từ quy trình."
+          }
+        ]
+      },
+      {
+        "question": "Bạn trượt buổi đánh giá ở 55%. Hành động kế tiếp?",
+        "options": [
+          {
+            "id": "study",
+            "label": "Đọc hệ quả từng điểm kiểm tra, học các bài liên quan, làm lại ngày mai",
+            "feedback": "Đúng. Buổi đánh giá nói nước đi tốt hơn và lý do. Làm lại sau một quãng nghỉ hơn đoán lại ngay."
+          },
+          {
+            "id": "retry_now",
+            "label": "Làm lại ngay — giờ bạn nhớ đáp án đúng",
+            "feedback": "Làm lại ngay kiểm tra trí nhớ, không phải phán đoán. Đạt vào ngày mai có ý nghĩa; đạt tối nay chỉ nghĩa là trí nhớ ngắn hạn của bạn hoạt động."
+          },
+          {
+            "id": "dismiss",
+            "label": "Gạt đi — dù sao mô phỏng cũng không phải giao dịch thật",
+            "feedback": "Mô phỏng thật đúng bằng các quyết định của bạn trong đó. Phi công gạt bỏ mô phỏng không được giao máy bay."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "academy-scholar",
+    "title": "Học thật sự thế nào",
+    "scenario": "Hai mươi phút cho Học viện tối nay. Mục tiêu là kiến thức sống sót khi chạm biểu đồ thật.",
+    "checkpoints": [
+      {
+        "question": "Cách dùng hai mươi phút tốt nhất?",
+        "options": [
+          {
+            "id": "mix",
+            "label": "Một bài học mới, rồi chấm các thẻ ôn đến hạn, rồi bài tập trực tiếp của nó trên nến thật",
+            "feedback": "Đúng. Thu nhận, truy xuất, áp dụng — bộ ba làm kiến thức sẵn dùng dưới áp lực."
+          },
+          {
+            "id": "binge2",
+            "label": "Lướt bốn bài học — số lượng là tiến bộ",
+            "feedback": "Đọc không truy xuất bốc hơi trong vài ngày. Bốn bài học nuốt vội là một bài quên, bốn lần."
+          },
+          {
+            "id": "reread",
+            "label": "Đọc lại bài yêu thích — cảm thấy vững chắc",
+            "feedback": "Đọc lại cảm thấy như trôi chảy và kiểm tra ra như con số không. Thẻ tồn tại vì nhận ra không phải hồi tưởng."
+          }
+        ]
+      },
+      {
+        "question": "Một thẻ ôn xuất hiện: «ATR». Trống rỗng hoàn toàn. Chấm điểm đúng là gì?",
+        "options": [
+          {
+            "id": "again",
+            "label": "«Lại» — khoảng trống trung thực lên lịch thẻ sớm hơn, đó là hệ thống đang hoạt động",
+            "feedback": "Đúng. Chấm điểm trung thực là toàn bộ thuật toán. Một «tốt» nịnh hót chỉ đẩy sự thiếu hiểu biết của bạn ra xa hơn."
+          },
+          {
+            "id": "peek_good",
+            "label": "Mở, nhận ra, chấm «tốt» — đủ gần",
+            "feedback": "Nhận ra sau khi mở không phải hồi tưởng trước khi mở. Bạn vừa dạy bộ lên lịch ngừng giúp bạn."
+          },
+          {
+            "id": "easy_all",
+            "label": "Chấm tất cả «dễ» để dọn hàng đợi nhanh",
+            "feedback": "Một hàng đợi trống của các thẻ chưa học là một thất bại trông sạch sẽ. Hàng đợi không phải kẻ thù; sự quên mới là kẻ thù."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "consistency",
+    "title": "Câu hỏi về chuỗi",
+    "scenario": "Ngày 13 của chuỗi hằng ngày. Tối nay bạn kiệt sức, và bộ đếm chuỗi đang nhìn chằm chằm.",
+    "checkpoints": [
+      {
+        "question": "Đơn vị hiện diện tối thiểu trung thực hôm nay là gì?",
+        "options": [
+          {
+            "id": "cards",
+            "label": "Năm thẻ ôn, chấm trung thực. Nhỏ và thật hơn lớn và bỏ lỡ",
+            "feedback": "Đúng. Chuỗi sống sót nhờ các phiên khả thi tối thiểu. Thói quen là tài sản; số lượng hôm nay không liên quan."
+          },
+          {
+            "id": "force",
+            "label": "Ép mình qua trọn một bài học cộng bài tập — chuỗi đòi nỗ lực thật",
+            "feedback": "Phiên kiệt sức kiểu anh hùng tạo ra học hời hợt và oán giận. Oán giận giết chuỗi chắc chắn hơn nghỉ ngơi."
+          },
+          {
+            "id": "fake",
+            "label": "Mở ứng dụng, đánh dấu bài hoàn thành mà không đọc — giữ bộ đếm sống",
+            "feedback": "Chuỗi gian lận đo các cú nhấp, không đo việc học. Bạn sẽ nói dối khán giả duy nhất quan trọng."
+          }
+        ]
+      },
+      {
+        "question": "Ngày 14: chuỗi vẫn chết — bạn chỉ quên thôi. Phản ứng?",
+        "options": [
+          {
+            "id": "restart",
+            "label": "Bắt đầu chuỗi từ ngày 1 vào ngày mai. 13 ngày học vẫn là của bạn",
+            "feedback": "Đúng. Bộ đếm reset; kiến thức thì không. Coi một chuỗi đứt là thảm họa là lý do người ta bỏ hẳn."
+          },
+          {
+            "id": "spiral",
+            "label": "Hệ thống thất bại — bỏ luyện tập hằng ngày",
+            "feedback": "Một ngày bỏ lỡ xóa thói quen là tư duy được-ăn-cả-ngã-về-không — chính lỗi nhận thức làm cháy tài khoản."
+          },
+          {
+            "id": "backfill",
+            "label": "Tìm cách ghi lùi ngày cho hoạt động hôm qua",
+            "feedback": "Gian lận với chính bảng điều khiển của mình. Nếu các con số có thể thương lượng, thì không con số nào có ý nghĩa."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "constitution",
+    "title": "Viết những quy tắc giữ vững",
+    "scenario": "Bạn đang soạn Hiến pháp Giao dịch. Những quy tắc bạn viết tối nay sau này sẽ chặn chính lệnh của bạn — viết chúng cho phiên bản tệ nhất của bạn.",
+    "checkpoints": [
+      {
+        "question": "Quy tắc rủi ro tối đa nào thuộc về tài liệu?",
+        "options": [
+          {
+            "id": "one",
+            "label": "1% mỗi giao dịch — chuỗi thua sống sót được, buồn chán theo thiết kế",
+            "feedback": "Đúng. Ở 1%, mười khoản lỗ liên tiếp tốn ~10%. Công việc của hiến pháp là làm số học phá sản trở nên bất khả."
+          },
+          {
+            "id": "five",
+            "label": "5% — bạn đến để lớn, không phải để bò",
+            "feedback": "Ở 5%, bảy khoản lỗ thông thường là một phần ba tài khoản. Từ đó đường cong phục hồi sụt giảm tàn nhẫn."
+          },
+          {
+            "id": "flex",
+            "label": "«Linh hoạt theo niềm tin» — quy tắc nên thở",
+            "feedback": "Một quy tắc có cửa thoát niềm tin không phải quy tắc. Niềm tin cao nhất đúng lúc kỷ luật quan trọng nhất."
+          }
+        ]
+      },
+      {
+        "question": "Tuần 3: một giao dịch bạn tự tin đòi 2% rủi ro để chứa lệnh dừng của nó. Phiếu lệnh chặn nó. Quyết định đi.",
+        "options": [
+          {
+            "id": "resize",
+            "label": "Giảm cỡ một nửa để cùng lệnh dừng tốn 1% — quy tắc đứng vững",
+            "feedback": "Đúng. Lệnh dừng có tính cấu trúc; cỡ là biến tự do. Hiến pháp vừa làm công việc duy nhất của nó."
+          },
+          {
+            "id": "amend_now",
+            "label": "Sửa hiến pháp ngay để cho phép 2% — rồi vào giao dịch",
+            "feedback": "Sửa trong cơn bốc đồng để cho phép cơn bốc đồng không phải quản trị mà là trang phục. Sửa đổi diễn ra vào ngày đánh giá, không bao giờ vào ngày giao dịch."
+          },
+          {
+            "id": "disable",
+            "label": "Tắt thực thi cho một giao dịch",
+            "feedback": "Một hệ thống thực thi có nút báo lại chẳng bảo vệ gì. Đây là thất bại quản trị mức nghiêm trọng cao nhất."
+          }
+        ]
+      },
+      {
+        "question": "Thời điểm đúng để thay đổi hiến pháp là khi nào?",
+        "options": [
+          {
+            "id": "scheduled",
+            "label": "Vào buổi đánh giá hằng tháng đã lên lịch, với nhật ký mở và không vị thế",
+            "feedback": "Đúng. Quy tắc tiến hóa theo bằng chứng, do phiên bản bình tĩnh của bạn quyết — không bao giờ do phiên bản đang ôm vị thế."
+          },
+          {
+            "id": "after_win",
+            "label": "Sau một tuần thắng lớn — bạn đã xứng đáng quy tắc lỏng hơn",
+            "feedback": "Nới lỏng rủi ro sau các lệnh thắng chính là cách thành công nguy hiểm tốt nghiệp thành bài học cỡ tài khoản."
+          },
+          {
+            "id": "never",
+            "label": "Không bao giờ — hiến pháp là vĩnh viễn",
+            "feedback": "Quy tắc không bao giờ tiến hóa theo bằng chứng thành di tích bị phớt lờ hàng loạt. Sửa đổi đã lên lịch CHÍNH LÀ kỷ luật."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "capstone",
+    "title": "Một giờ của người vận hành",
+    "scenario": "Một giờ, điều kiện thật: một vị thế mở gần lệnh dừng, một thiết lập A tươi mới trên công cụ khác, hai giao dịch chưa đánh giá từ hôm qua, và các thẻ ôn đến hạn. Phân bổ bản thân.",
+    "checkpoints": [
+      {
+        "question": "Năm phút đầu?",
+        "options": [
+          {
+            "id": "risk_first",
+            "label": "Kiểm tra rủi ro vị thế mở: lệnh dừng đang hoạt động, cỡ đúng, không có gì để quyết cho đến khi 94,80 khớp",
+            "feedback": "Đúng. Rủi ro mở luôn là ưu tiên số không. Xác nhận cỗ máy đã lên đạn, rồi để yên nó."
+          },
+          {
+            "id": "new_first",
+            "label": "Thiết lập A đó — cơ hội hết hạn, thủ tục thì không",
+            "feedback": "Vào rủi ro mới trước khi kiểm tra rủi ro mở là cách hai vị thế 1% thành một cú sốc 4%."
+          },
+          {
+            "id": "pnl_first",
+            "label": "Làm mới P&L vài lần để xem mình đang ở đâu",
+            "feedback": "P&L là đầu ra. Nhìn chằm chằm vào nó chẳng thay đổi gì và lót nền tư duy kết quả trước một giờ quyết định."
+          }
+        ]
+      },
+      {
+        "question": "Thiết lập A hợp lệ và giới hạn ngày cho phép. Vị thế mở cách lệnh dừng 0,4R. Bạn vào giao dịch mới chứ?",
+        "options": [
+          {
+            "id": "size_aware",
+            "label": "Có, cỡ 1% bình thường — mỗi giao dịch độc lập, cả hai trong chính sách, nhiệt gộp đã kiểm tra",
+            "feedback": "Đúng. Hai rủi ro 1% độc lập trong giới hạn nhiệt đã kiểm tra là hệ thống chạy ở công suất, không phải vượt quá."
+          },
+          {
+            "id": "wait_out",
+            "label": "Không — không bao giờ hai vị thế cùng lúc",
+            "feedback": "Sống sót được nhưng tùy tiện: nếu giới hạn nhiệt và cỡ là thật, chỉ giao dịch tuần tự là bỏ không công suất hệ thống vì sợ hãi."
+          },
+          {
+            "id": "double_up",
+            "label": "Có, ở 2% — dù sao cái đầu cũng coi như thua rồi",
+            "feedback": "«Coi như thua rồi» là tiêu trước một lệnh dừng chưa khớp, rồi nhân đôi phơi nhiễm bằng số học mất bình tĩnh."
+          }
+        ]
+      },
+      {
+        "question": "Còn hai mươi phút. Nợ nhật ký hay thẻ ôn?",
+        "options": [
+          {
+            "id": "journal_first",
+            "label": "Ghi hai giao dịch khi bối cảnh còn sống, thẻ để thời gian còn lại",
+            "feedback": "Đúng. Bối cảnh nhật ký phân rã theo giờ; lịch thẻ chịu được một ngày. Việc dễ hỏng làm trước."
+          },
+          {
+            "id": "cards_first",
+            "label": "Thẻ trước — chỉ số chuỗi nhìn thấy được, nhật ký thì không",
+            "feedback": "Tối ưu cho chỉ số nhìn thấy được trả giá bằng cái có giá trị. Nhật ký nuôi mọi bộ dò mà huấn luyện viên có."
+          },
+          {
+            "id": "neither",
+            "label": "Không cái nào — tốt hơn nên tìm thêm một thiết lập",
+            "feedback": "Đòn bẩy của giờ này chưa bao giờ là giao dịch thứ ba. Người vận hành được trả lương cho hai mươi phút buồn chán đó."
+          }
+        ]
+      }
+    ]
+  }
+]
