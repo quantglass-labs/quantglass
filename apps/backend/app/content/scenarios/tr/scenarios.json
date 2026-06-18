@@ -1,0 +1,203 @@
+[
+  {
+    "id": "the-breakout-that-wasnt",
+    "title": "Olmayan Kırılma",
+    "description": "Klasik bir aralık sahte kırılmasının üsluplaştırılmış bir yeniden canlandırması. Fiyat iyi izlenen bir tavanın altında daralır, bir hacim patlamasıyla kırar — ve sonra çöker. Çubuk çubuk, her anda disiplinli bir tüccarın ne yaptığına karar verirsin.",
+    "checkpoints": [
+      {
+        "question": "Fiyat haftalardır en büyük hacim çubuğunda aralık zirvesinin üstünde kapandı. Akıştaki herkes kırılma diye bağırıyor. Ne yaparsın?",
+        "options": [
+          {
+            "id": "chase",
+            "label": "Kaçmadan hemen piyasadan al",
+            "debrief": "İlk coşkulu kapanışta almak kovalamaktır: girişin herhangi bir geçersizleşme seviyesinden uzakta, bu yüzden stop ya devasa ya keyfîdir. Motorun ilk-dokunuş aritmetiği acımasızdır — geniş bir stop, sıradan bir geri çekilmeyi tam zarara çevirir."
+          },
+          {
+            "id": "plan",
+            "label": "Önce işlemi tanımla: yeniden testte giriş, kırılma çubuğunun altında stop, aralık yüksekliğinden hedef",
+            "debrief": "Doğru. Kırılma bir hipotezdir, sonuç değil. Sermaye koymadan önce giriş, stop ve hedef yazmak süreç puanının ödüllendirdiği şeydir ve bu işlemin tanımlı riskli tek sürümüdür."
+          },
+          {
+            "id": "fomo_small",
+            "label": "Şimdi yarım pozisyon al, stopu sonra düşünürüm",
+            "debrief": "Küçük boyut hasarı sınırlar ama «stopu sonra» işlemin geçersizleşmesi olmaması demektir. Küçük kötü işlem yine kötü işlemdir; günlük onu stopsuz olarak puanlar."
+          }
+        ]
+      },
+      {
+        "question": "Kırılma tökezliyor. Fiyat eski aralık zirvesinin biraz üstünde dört çubuk yatay geçirdi ve hacim sönüyor. Planladığın yeniden test girişi gerçekleşti, stop kırılma çubuğunun altında. Şimdi ne?",
+        "options": [
+          {
+            "id": "widen",
+            "label": "Stopu tüm aralığın altına genişlet — nefes alacak alan ver",
+            "debrief": "Girişten sonra stopu genişletmek işlemcilikteki en aşındırıcı alışkanlıktır: planlı küçük bir zararı plansız büyük bir zarara çevirir. Anayasa tam da bunu yasaklamak için vardır."
+          },
+          {
+            "id": "hold",
+            "label": "Hiçbir şey yapma — stop değene kadar plan sağlam",
+            "debrief": "Doğru. Sönen hacim rahatsız edicidir ama geçersizleşmen değildir. Plan, ancak kararları rahatsızlık değil plan verdiğinde çalışır."
+          },
+          {
+            "id": "add",
+            "label": "Pozisyona ekle — yeniden başlamadan önce ortalama girişi düşür",
+            "debrief": "Tökezleyen bir kırılmaya eklemek, tam kanıt zayıflarken riski artırır. Stop değerse, şimdi planın izin verdiğinden fazlasını kaybedersin."
+          }
+        ]
+      },
+      {
+        "question": "Kırılma başarısız oldu. Stopun iki çubuk önce planlı -1R zararla değdi ve fiyat şimdi eski aralığın altında serbest düşüşte. Bölümü nasıl kapatırsın?",
+        "options": [
+          {
+            "id": "revenge",
+            "label": "Hemen short'a gir — bana borçlu",
+            "debrief": "Bu bir intikam işlemidir: girişin nedeni zararın, piyasa değil. Psikoloji buna tilt der ve günlüğün duygu etiketi tam da bu anı yakalamak için vardır."
+          },
+          {
+            "id": "journal",
+            "label": "İşlemi kaydet: planlı zarar, stopa uyuldu, sahte kırılmanın nasıl göründüğünü tarif et",
+            "debrief": "Doğru. Bu iyi oynanmış bir zarardır — doğru karar, kötü sonuç. 2x2 sınıflandırıcısı vardır çünkü gözünü kırpmadan -1R kabul edebilen tüccarlar yüz işlemden sonra ödeme gücü kalanlardır."
+          },
+          {
+            "id": "stew",
+            "label": "Uzaklaş ve günlüğü atla — sadece kaybeden bir işlemdi",
+            "debrief": "Uzaklaşmak intikamdan iyidir ama kaydedilmeyen zarar hiçbir şey öğretmez. Sahte kırılmanın imzası — sönen yeniden test hacmi — bedelini ödediğin derstir."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pullback-in-a-trend",
+    "title": "Trendde Geri Çekilme",
+    "description": "İstikrarlı bir yükseliş trendinin aniden üç kırmızı çubukta bir haftalık kârı geri vermesinin üsluplaştırılmış yeniden canlandırması. Her ölçüye göre trend sağlam — ama öyle hissettirmiyor. Duyguyu değil, planı işle.",
+    "checkpoints": [
+      {
+        "question": "Üç keskin kırmızı çubuk bir haftalık kârı sildi. Üst zaman dilimi trend yapısı sağlam: fiyat önceki salınım dibinin üstünde ve rejim kapısı hâlâ trend okuyor. Çok daha düşük seviyelerden bir pozisyon tutuyorsun. Ne yaparsın?",
+        "options": [
+          {
+            "id": "panic",
+            "label": "Hepsini sat — kâr kaybolmadan koru",
+            "debrief": "Hiçbir geçersizleşme seviyesi değmemişken korkudan çıkmak, dümeni grafiğin değil midenin tuttuğu anlamına gelir. Kârı korursun ama baskı altında planları terk etme alışkanlığını eğitirsin."
+          },
+          {
+            "id": "check_plan",
+            "label": "Planı yeniden oku: salınım dibinin altında stop, dokunulmamış — tut",
+            "debrief": "Doğru. Geçersizleşmenin üzerinde duran bir geri çekilme tanımı gereği gürültüdür. Düşüş psikolojisi dersi tam da bu andır: planı, korkmuş sürüm için sakin sürüm yazdı."
+          },
+          {
+            "id": "double",
+            "label": "Pozisyonu ikiye katla — indirimde",
+            "debrief": "Trend eklemeyi destekler ama ikiye katlamak yeni bir plan olmadan işlem ortasında riski şişirir. Salınım dibi kırılırsa, orijinal planın riske attığından çok daha fazlasını kaybedersin. Eklemelerin kendi girişi, stopu ve boyutu olmalı."
+          }
+        ]
+      },
+      {
+        "question": "Fiyat salınım dibinin biraz üstünde istikrar buldu. Pozisyona eklemek istiyorsun. Eklemenin boyutunu nasıl belirlersin?",
+        "options": [
+          {
+            "id": "size_risk",
+            "label": "Eklemenin aynı stopa %1 risk atmasını sağla, herhangi bir yeni işlem gibi",
+            "debrief": "Doğru. Ekleme, eski formayı giymiş yepyeni bir işlemdir. Boyut matematiği zaten bir şeyin olduğunu umursamaz — stop mesafesi başına risk tek boyut girdisidir."
+          },
+          {
+            "id": "size_gut",
+            "label": "Anlamlı hisseden yuvarlak bir sayı al",
+            "debrief": "Yuvarlak sayıyla boyutlandırma, riskin sonradan grafiğin karar vereceği şey olması demektir. Boyut dersi vardır çünkü «doğru hissettirdi», %1 politikada %5 zararın yoludur."
+          },
+          {
+            "id": "all_in",
+            "label": "Kalan tüm alım gücünü kullan — kanaat yüksek",
+            "debrief": "Kanaat, takım elbise giymiş bir duygudur. Tam boyut tek bir olumsuz çubuğu ölümcül kılar ve motorun Monte Carlo dersi, tam boyutlu kayıp serilerinin hesabı ne kadar hızlı iflas ettirdiğini gösterir."
+          }
+        ]
+      },
+      {
+        "question": "Trend yeniden başladı ve pozisyon iyi kârda. Orijinal hedef yakın. Disiplinli kapanış nedir?",
+        "options": [
+          {
+            "id": "move_target",
+            "label": "Hedefi iptal et — bu çok daha yükseğe gidecek",
+            "debrief": "Belki gider — ama yazılı bir çıkışı terk etmek, azami açgözlülük anında sınanmış bir planı doğaçlamaya çevirir. Hedef-yerine-iz-süren bir sistem istiyorsan, bu işlem sırasında değil bir sonraki işlemden önce tasarla."
+          },
+          {
+            "id": "follow_plan",
+            "label": "Plana göre hedefin ya da iz süren stopun seni çıkarmasına izin ver",
+            "debrief": "Doğru. Önceden kararlaştırılan çıkışlar, kimsenin günlük tutmadığı işlemcilik yarısıdır. Kazanılmış bir galibiyet, ancak onu üreten süreç tekrarlanabildiğinde öyle sayılır."
+          },
+          {
+            "id": "exit_now",
+            "label": "Hemen sat — bir şey değişmeden kilitle",
+            "debrief": "Kâr almak asla yıkıcı değildir ama korkudan erken çıkmak, stoplar zararları tam boyutta tutarken kazananları sistematik olarak küçültür. Yüz işlem boyunca bu asimetri, pozitif ile negatif beklenti arasındaki farktır."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "the-gap-down",
+    "title": "Aşağı Boşluk",
+    "description": "Bir likidite şokunun üsluplaştırılmış yeniden canlandırması: gece boyu bir boşluk stopunun tam içinden geçer, sonra şiddetli, işlenebilir bir testere dişi. Plan temasta hayatta kalmadı — şimdi ateş altındaki davranışın tüm oyundur.",
+    "checkpoints": [
+      {
+        "question": "Piyasa gece boyu stopunun içinden aşağı boşlukla açtı — plandan kötü bir fiyatta çıktın, -1R yerine yaklaşık -1,8R. Piyasa şiddetli. İlk karar?",
+        "options": [
+          {
+            "id": "win_back",
+            "label": "Oynaklığı sert işle — servetler burada yapılır",
+            "debrief": "Bir zararı geri kazanmak için işlem yapmak ders kitabı tilt girişidir. Şiddetli rejimler tam da bunu cezalandırır: makaslar açılır, stoplar kayar ve motorun oynaklık-veto kapısı vardır çünkü sakin piyasalarda ölçülen avantaj buraya taşınmaz."
+          },
+          {
+            "id": "stand_down",
+            "label": "Kaymayı kabul et, tüm boyutu yarıya indir, kapanışa kadar yeniden değerlendir",
+            "debrief": "Doğru. Stopun içinden boşluk kayması işlemciliğin maliyetidir, ihanet değil. Gerçekleşen oynaklık ikiye katlanırken boyutu kesmek, -1,8R'yi ilk domino değil bir sıkıntı olarak tutan şeydir."
+          },
+          {
+            "id": "reenter",
+            "label": "Aynı işleme hemen yeniden gir — tez değişmedi",
+            "debrief": "Tez tutabilir ama rejim değişti: dünkü ATR ile hesaplanan stop mesafeleri bugün yanlıştır. Yeniden giriş bir refleks değil, yeni oynaklığa göre boyutlandırılmış yeni bir plan ister."
+          }
+        ]
+      },
+      {
+        "question": "Testere dişinin ortasında, yeniden planlayıp stoplu girdiğin bir pozisyon zararda ama çıkmadı. Bir arkadaş yazıyor: «sadece ortala, her zaman sıçrar». Ne yaparsın?",
+        "options": [
+          {
+            "id": "average",
+            "label": "Ortala — başa baş noktasını düşür",
+            "debrief": "Plansız ortalama, tek tek işlemlerin hesapları öldürme yoludur: her ekleme başa başı yakınlaştırır ve toplam riski uzaklaştırır. Her hesap çöküşü otopsisinde bu adım vardır."
+          },
+          {
+            "id": "respect",
+            "label": "Pozisyonu ve stopu tam planlandığı gibi tut",
+            "debrief": "Doğru. İşlem planlanan zarfın içinde davranıyor. İşlem ortası dış tavsiye gürültüdür; yazdığın plan, sicili olan tek sestir."
+          },
+          {
+            "id": "exit_flat",
+            "label": "Kapat — bu piyasada pozisyonsuz olmak daha güvenli hissettiriyor",
+            "debrief": "Oynaklıkta pozisyonsuza geçmek meşru bir tepkidir ama o kararın zamanı boşluk sonrası yeniden değerlendirmeydi. Duyguyla plan ortasında çıkmak, yalnızca daha güvenli yönde de olsa, yine doğaçlama alışkanlığını eğitir."
+          }
+        ]
+      },
+      {
+        "question": "Testere dişi yukarı çözüldü ve yeniden planladığın işlem hedefe ulaştı. Net olarak gün şöyle çıktı: boşluk zararı, disiplinli yeniden planlama, tam kazanan. Dürüst inceleme:",
+        "options": [
+          {
+            "id": "hero",
+            "label": "Çöküşü harika işledim — sonraki sefer boyutu artır",
+            "debrief": "Atlatılan tek bir şok ustalık örneği değildir. Buna dehâ deyip boyutu artırmak tehlikeli başarı desenidir: sonuç kısmen varyanstı ve maruziyeti ikiye katlamak bir sonraki boşluğu iflasla fiyatlar."
+          },
+          {
+            "id": "process",
+            "label": "Sistem çalıştı: boyut kesildi, planlar yeniden yazıldı, stoplara uyuldu — hepsini kaydet",
+            "debrief": "Doğru. Galibiyet, onu üreten diziden daha az önemlidir: geri çekil, yeniden boyutlandır, yeniden planla, stoplara uy. O dizi tekrarlanabilir; sıçrama senin sahipleneceğin bir şey değildi."
+          },
+          {
+            "id": "lucky",
+            "label": "Saf şans — kaostan öğrenecek bir şey yok",
+            "debrief": "Alçakgönüllülük kahramanlıktan iyidir ama «öğrenecek bir şey yok» yalandır: likidite şoku altında davranışın yazılı bir kaydına sahipsin. O kayıt — P&L değil — uzman psikoloji çıtasının ölçtüğü şeydir."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "risk-discipline-1",
+    "title": "Risk Disiplini I",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 5 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "5 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-2",
+    "title": "Risk Disiplini II",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 10 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-3",
+    "title": "Risk Disiplini III",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 20 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "20 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-4",
+    "title": "Risk Disiplini IV",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 40 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "40 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-5",
+    "title": "Risk Disiplini V",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 75 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "75 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline-6",
+    "title": "Risk Disiplini VI",
+    "description": "Her birinin stopu olan ve politikadan fazla risk almayan 120 kâğıt işlem yap. İstisna yok, «sadece bu seferlik» yok — alışkanlık sertifikadır.",
+    "criteria": [
+      {
+        "label": "120 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "risk-first-stop",
+    "title": "İlk Kan, Planlı",
+    "description": "İlk planlı zararını al: stopuna tam söylediğin yerde değen bir işlem. Bu, piyasanın sattığı en ucuz harçtır.",
+    "criteria": [
+      {
+        "label": "3 işlem yürüt"
+      },
+      {
+        "label": "1 planlı stop al"
+      }
+    ]
+  },
+  {
+    "id": "risk-wide-net",
+    "title": "Çeşitlendirilmiş Disiplin",
+    "description": "Tam risk rutinini en az 5 farklı sembolde çalıştır. Yalnızca favori grafiğinde işe yarayan disiplin bir tesadüftür, beceri değil.",
+    "criteria": [
+      {
+        "label": "25 işlem yürüt"
+      },
+      {
+        "label": "5+ farklı sembol işle"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "risk-policy-marathon",
+    "title": "Uzun Nöbet",
+    "description": "Tek bir risk-politika ihlali olmadan iki yüz işlem. Bu hacimde disiplin artık verdiğin bir seçim değildir — o, senin kim olduğundur.",
+    "criteria": [
+      {
+        "label": "200 işlem yürüt"
+      },
+      {
+        "label": "Sıfır risk-politika ihlali"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "risk-zero-tolerance",
+    "title": "Sıfır Tolerans",
+    "description": "Bir anayasa yürürlükteyken, aşırı büyük risk ve stopsuz giriş olmadan on beş ardışık kaliteli işlem. Benimsediğin kurallar, tutuldu.",
+    "criteria": [
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "15 işlem yürüt"
+      },
+      {
+        "label": "Sıfır risk ihlali"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-1",
+    "title": "Süreç Kalitesi I",
+    "description": "60 işlem boyunca 5+ ortalama süreç puanını koru. Puan kararı derecelendirir — stop, tez, boyut, ruh hâli — asla sonucu değil.",
+    "criteria": [
+      {
+        "label": "5 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 60+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-2",
+    "title": "Süreç Kalitesi II",
+    "description": "70 işlem boyunca 10+ ortalama süreç puanını koru. Puan kararı derecelendirir — stop, tez, boyut, ruh hâli — asla sonucu değil.",
+    "criteria": [
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-3",
+    "title": "Süreç Kalitesi III",
+    "description": "75 işlem boyunca 20+ ortalama süreç puanını koru. Puan kararı derecelendirir — stop, tez, boyut, ruh hâli — asla sonucu değil.",
+    "criteria": [
+      {
+        "label": "20 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 75+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-4",
+    "title": "Süreç Kalitesi IV",
+    "description": "80 işlem boyunca 40+ ortalama süreç puanını koru. Puan kararı derecelendirir — stop, tez, boyut, ruh hâli — asla sonucu değil.",
+    "criteria": [
+      {
+        "label": "40 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 80+"
+      }
+    ]
+  },
+  {
+    "id": "process-quality-5",
+    "title": "Süreç Kalitesi V",
+    "description": "85 işlem boyunca 80+ ortalama süreç puanını koru. Puan kararı derecelendirir — stop, tez, boyut, ruh hâli — asla sonucu değil.",
+    "criteria": [
+      {
+        "label": "80 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 85+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-1",
+    "title": "Kesintisiz I",
+    "description": "Süreç puanları 3 veya daha iyi 70 ardışık işlemi arka arkaya diz. Bir özensiz giriş sayacı sıfırlar — tıpkı gerçek disiplinin yaptığı gibi.",
+    "criteria": [
+      {
+        "label": "3 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-2",
+    "title": "Kesintisiz II",
+    "description": "Süreç puanları 5 veya daha iyi 70 ardışık işlemi arka arkaya diz. Bir özensiz giriş sayacı sıfırlar — tıpkı gerçek disiplinin yaptığı gibi.",
+    "criteria": [
+      {
+        "label": "5 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-3",
+    "title": "Kesintisiz III",
+    "description": "Süreç puanları 10 veya daha iyi 70 ardışık işlemi arka arkaya diz. Bir özensiz giriş sayacı sıfırlar — tıpkı gerçek disiplinin yaptığı gibi.",
+    "criteria": [
+      {
+        "label": "10 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-4",
+    "title": "Kesintisiz IV",
+    "description": "Süreç puanları 20 veya daha iyi 70 ardışık işlemi arka arkaya diz. Bir özensiz giriş sayacı sıfırlar — tıpkı gerçek disiplinin yaptığı gibi.",
+    "criteria": [
+      {
+        "label": "20 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "process-streak-5",
+    "title": "Kesintisiz V",
+    "description": "Süreç puanları 35 veya daha iyi 70 ardışık işlemi arka arkaya diz. Bir özensiz giriş sayacı sıfırlar — tıpkı gerçek disiplinin yaptığı gibi.",
+    "criteria": [
+      {
+        "label": "35 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-1",
+    "title": "Planlı Zararı Kabul Et I",
+    "description": "1 iyi oynanmış zarar biriktir — varyansın işlemi aldığı iyi kararlar. Doğru kaybedebilen tüccarlar, yüz işlemden sonra hâlâ ödeme gücü olanlardır.",
+    "criteria": [
+      {
+        "label": "1 iyi oynanmış zarar"
+      },
+      {
+        "label": "Stopsuz işlem yok"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-2",
+    "title": "Planlı Zararı Kabul Et II",
+    "description": "3 iyi oynanmış zarar biriktir — varyansın işlemi aldığı iyi kararlar. Doğru kaybedebilen tüccarlar, yüz işlemden sonra hâlâ ödeme gücü olanlardır.",
+    "criteria": [
+      {
+        "label": "3 iyi oynanmış zarar"
+      },
+      {
+        "label": "Stopsuz işlem yok"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-3",
+    "title": "Planlı Zararı Kabul Et III",
+    "description": "6 iyi oynanmış zarar biriktir — varyansın işlemi aldığı iyi kararlar. Doğru kaybedebilen tüccarlar, yüz işlemden sonra hâlâ ödeme gücü olanlardır.",
+    "criteria": [
+      {
+        "label": "6 iyi oynanmış zarar"
+      },
+      {
+        "label": "Stopsuz işlem yok"
+      }
+    ]
+  },
+  {
+    "id": "loss-acceptance-4",
+    "title": "Planlı Zararı Kabul Et IV",
+    "description": "12 iyi oynanmış zarar biriktir — varyansın işlemi aldığı iyi kararlar. Doğru kaybedebilen tüccarlar, yüz işlemden sonra hâlâ ödeme gücü olanlardır.",
+    "criteria": [
+      {
+        "label": "12 iyi oynanmış zarar"
+      },
+      {
+        "label": "Stopsuz işlem yok"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-1",
+    "title": "Stop İşe Yarar I",
+    "description": "Stopunu genişletmeden veya iptal etmeden seni 2 kez çıkarmasına izin ver. Planladığın çıkış, korumayı planladığın hesabı koruyan tek çıkıştır.",
+    "criteria": [
+      {
+        "label": "2 planlı stop alındı"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-2",
+    "title": "Stop İşe Yarar II",
+    "description": "Stopunu genişletmeden veya iptal etmeden seni 5 kez çıkarmasına izin ver. Planladığın çıkış, korumayı planladığın hesabı koruyan tek çıkıştır.",
+    "criteria": [
+      {
+        "label": "5 planlı stop alındı"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-3",
+    "title": "Stop İşe Yarar III",
+    "description": "Stopunu genişletmeden veya iptal etmeden seni 10 kez çıkarmasına izin ver. Planladığın çıkış, korumayı planladığın hesabı koruyan tek çıkıştır.",
+    "criteria": [
+      {
+        "label": "10 planlı stop alındı"
+      }
+    ]
+  },
+  {
+    "id": "loss-stops-taken-4",
+    "title": "Stop İşe Yarar IV",
+    "description": "Stopunu genişletmeden veya iptal etmeden seni 20 kez çıkarmasına izin ver. Planladığın çıkış, korumayı planladığın hesabı koruyan tek çıkıştır.",
+    "criteria": [
+      {
+        "label": "20 planlı stop alındı"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-1",
+    "title": "Soğukkanlılık I",
+    "description": "5 işlem boyunca her girişte duygusal durumunu sıfır tilt girişiyle kaydet — FOMO yok, hayal kırıklığı işlemi yok. Durumu adlandırmak, onu erken yakalamanın yoludur.",
+    "criteria": [
+      {
+        "label": "5 işlemde duygu kaydedildi"
+      },
+      {
+        "label": "Sıfır tilt girişi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-2",
+    "title": "Soğukkanlılık II",
+    "description": "15 işlem boyunca her girişte duygusal durumunu sıfır tilt girişiyle kaydet — FOMO yok, hayal kırıklığı işlemi yok. Durumu adlandırmak, onu erken yakalamanın yoludur.",
+    "criteria": [
+      {
+        "label": "15 işlemde duygu kaydedildi"
+      },
+      {
+        "label": "Sıfır tilt girişi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-3",
+    "title": "Soğukkanlılık III",
+    "description": "40 işlem boyunca her girişte duygusal durumunu sıfır tilt girişiyle kaydet — FOMO yok, hayal kırıklığı işlemi yok. Durumu adlandırmak, onu erken yakalamanın yoludur.",
+    "criteria": [
+      {
+        "label": "40 işlemde duygu kaydedildi"
+      },
+      {
+        "label": "Sıfır tilt girişi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-control-4",
+    "title": "Soğukkanlılık IV",
+    "description": "100 işlem boyunca her girişte duygusal durumunu sıfır tilt girişiyle kaydet — FOMO yok, hayal kırıklığı işlemi yok. Durumu adlandırmak, onu erken yakalamanın yoludur.",
+    "criteria": [
+      {
+        "label": "100 işlemde duygu kaydedildi"
+      },
+      {
+        "label": "Sıfır tilt girişi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-1",
+    "title": "Duyguyu Adlandır I",
+    "description": "10 girişe bir duygu kaydet — çirkin olanlar dâhil. Dürüst bir tilt günlüğü, temiz sahte bir günlükten iyidir; motor dürüstlüğü derecelendirir, dinginliği değil.",
+    "criteria": [
+      {
+        "label": "10 işlemde duygu kaydedildi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-2",
+    "title": "Duyguyu Adlandır II",
+    "description": "25 girişe bir duygu kaydet — çirkin olanlar dâhil. Dürüst bir tilt günlüğü, temiz sahte bir günlükten iyidir; motor dürüstlüğü derecelendirir, dinginliği değil.",
+    "criteria": [
+      {
+        "label": "25 işlemde duygu kaydedildi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-3",
+    "title": "Duyguyu Adlandır III",
+    "description": "60 girişe bir duygu kaydet — çirkin olanlar dâhil. Dürüst bir tilt günlüğü, temiz sahte bir günlükten iyidir; motor dürüstlüğü derecelendirir, dinginliği değil.",
+    "criteria": [
+      {
+        "label": "60 işlemde duygu kaydedildi"
+      }
+    ]
+  },
+  {
+    "id": "tilt-honesty-4",
+    "title": "Duyguyu Adlandır IV",
+    "description": "150 girişe bir duygu kaydet — çirkin olanlar dâhil. Dürüst bir tilt günlüğü, temiz sahte bir günlükten iyidir; motor dürüstlüğü derecelendirir, dinginliği değil.",
+    "criteria": [
+      {
+        "label": "150 işlemde duygu kaydedildi"
+      }
+    ]
+  },
+  {
+    "id": "journaling-1",
+    "title": "Kayıt I",
+    "description": "3 yürütülmüş işleme bir düşünce notu veya etiket yaz. Günlük, işlemciliğin hakkında başka kimsenin toplayamayacağı tek veri kümesidir.",
+    "criteria": [
+      {
+        "label": "3 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-2",
+    "title": "Kayıt II",
+    "description": "10 yürütülmüş işleme bir düşünce notu veya etiket yaz. Günlük, işlemciliğin hakkında başka kimsenin toplayamayacağı tek veri kümesidir.",
+    "criteria": [
+      {
+        "label": "10 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-3",
+    "title": "Kayıt III",
+    "description": "25 yürütülmüş işleme bir düşünce notu veya etiket yaz. Günlük, işlemciliğin hakkında başka kimsenin toplayamayacağı tek veri kümesidir.",
+    "criteria": [
+      {
+        "label": "25 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-4",
+    "title": "Kayıt IV",
+    "description": "60 yürütülmüş işleme bir düşünce notu veya etiket yaz. Günlük, işlemciliğin hakkında başka kimsenin toplayamayacağı tek veri kümesidir.",
+    "criteria": [
+      {
+        "label": "60 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-5",
+    "title": "Kayıt V",
+    "description": "120 yürütülmüş işleme bir düşünce notu veya etiket yaz. Günlük, işlemciliğin hakkında başka kimsenin toplayamayacağı tek veri kümesidir.",
+    "criteria": [
+      {
+        "label": "120 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-1",
+    "title": "Hatayı Etiketle I",
+    "description": "5 işleme dürüst hata etiketleri uygula. Etiketler İnceleme koçunun dedektörlerini besler — etiketleme ne kadar dürüstse, reçeteler o kadar keskindir.",
+    "criteria": [
+      {
+        "label": "5 işlemi etiketle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-2",
+    "title": "Hatayı Etiketle II",
+    "description": "15 işleme dürüst hata etiketleri uygula. Etiketler İnceleme koçunun dedektörlerini besler — etiketleme ne kadar dürüstse, reçeteler o kadar keskindir.",
+    "criteria": [
+      {
+        "label": "15 işlemi etiketle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-tags-3",
+    "title": "Hatayı Etiketle III",
+    "description": "40 işleme dürüst hata etiketleri uygula. Etiketler İnceleme koçunun dedektörlerini besler — etiketleme ne kadar dürüstse, reçeteler o kadar keskindir.",
+    "criteria": [
+      {
+        "label": "40 işlemi etiketle"
+      }
+    ]
+  },
+  {
+    "id": "journaling-thesis",
+    "title": "Her İşlemin Bir Nedeni Var",
+    "description": "20 işlemde girişten önce nedeni yaz. Tez yazılı bir cümleyi atlatamıyorsa, olumsuz bir çubuğu da atlatamaz.",
+    "criteria": [
+      {
+        "label": "20 işlemde yazılı neden"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-1",
+    "title": "Keskin Nişancı I",
+    "description": "10 işlem boyunca, tek bir günde 3 girişi asla aşma. Etkinlik avantaj değildir — çoğu gün en iyi işlem atladığındır.",
+    "criteria": [
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Asla günde 3 işlemden fazla değil"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-2",
+    "title": "Keskin Nişancı II",
+    "description": "25 işlem boyunca, tek bir günde 3 girişi asla aşma. Etkinlik avantaj değildir — çoğu gün en iyi işlem atladığındır.",
+    "criteria": [
+      {
+        "label": "25 işlem yürüt"
+      },
+      {
+        "label": "Asla günde 3 işlemden fazla değil"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-3",
+    "title": "Keskin Nişancı III",
+    "description": "60 işlem boyunca, tek bir günde 2 girişi asla aşma. Etkinlik avantaj değildir — çoğu gün en iyi işlem atladığındır.",
+    "criteria": [
+      {
+        "label": "60 işlem yürüt"
+      },
+      {
+        "label": "Asla günde 2 işlemden fazla değil"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-1",
+    "title": "Daha Geniş Mercek I",
+    "description": "İşlemlerini 3+ farklı sembole yay. Tek bir grafikle evlenmek muhakemeyi daraltır; genişlik süreci dürüst tutar.",
+    "criteria": [
+      {
+        "label": "3+ sembol işle"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-2",
+    "title": "Daha Geniş Mercek II",
+    "description": "İşlemlerini 6+ farklı sembole yay. Tek bir grafikle evlenmek muhakemeyi daraltır; genişlik süreci dürüst tutar.",
+    "criteria": [
+      {
+        "label": "6+ sembol işle"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-breadth-3",
+    "title": "Daha Geniş Mercek III",
+    "description": "İşlemlerini 10+ farklı sembole yay. Tek bir grafikle evlenmek muhakemeyi daraltır; genişlik süreci dürüst tutar.",
+    "criteria": [
+      {
+        "label": "10+ sembol işle"
+      }
+    ]
+  },
+  {
+    "id": "selectivity-no-trade",
+    "title": "Sabırlı Hafta",
+    "description": "Herhangi bir günde 7 işlemi asla aşmadan 2 gün boyunca bir öğrenme serisini canlı tut. Aşırı işlem yapmadan bağlı kalmanın disiplinini göster.",
+    "criteria": [
+      {
+        "label": "7 günlük Akademi serisi"
+      },
+      {
+        "label": "Asla günde 2 işlemden fazla değil"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-1",
+    "title": "Kazanılmış, Şanslı Değil I",
+    "description": "1 kazanılmış galibiyet topla — iyi süreç VE iyi sonuç — yol boyunca sıfır tehlikeli başarıyla. Galibiyetler ancak süreç onları tekrarlayabildiğinde sayılır.",
+    "criteria": [
+      {
+        "label": "1 kazanılmış galibiyet"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-2",
+    "title": "Kazanılmış, Şanslı Değil II",
+    "description": "3 kazanılmış galibiyet topla — iyi süreç VE iyi sonuç — yol boyunca sıfır tehlikeli başarıyla. Galibiyetler ancak süreç onları tekrarlayabildiğinde sayılır.",
+    "criteria": [
+      {
+        "label": "3 kazanılmış galibiyet"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-3",
+    "title": "Kazanılmış, Şanslı Değil III",
+    "description": "8 kazanılmış galibiyet topla — iyi süreç VE iyi sonuç — yol boyunca sıfır tehlikeli başarıyla. Galibiyetler ancak süreç onları tekrarlayabildiğinde sayılır.",
+    "criteria": [
+      {
+        "label": "8 kazanılmış galibiyet"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "outcome-earned-4",
+    "title": "Kazanılmış, Şanslı Değil IV",
+    "description": "20 kazanılmış galibiyet topla — iyi süreç VE iyi sonuç — yol boyunca sıfır tehlikeli başarıyla. Galibiyetler ancak süreç onları tekrarlayabildiğinde sayılır.",
+    "criteria": [
+      {
+        "label": "20 kazanılmış galibiyet"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-1",
+    "title": "Sonuna Kadar Götür I",
+    "description": "5 işlemi temiz bir sonuca taşı — stop ya da hedef, terk edilmiş pozisyon yok. Çözülen her işlem dürüst bir veri noktasıdır; çözülmeyenler gürültüdür.",
+    "criteria": [
+      {
+        "label": "5 çözülmüş işlem"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-2",
+    "title": "Sonuna Kadar Götür II",
+    "description": "15 işlemi temiz bir sonuca taşı — stop ya da hedef, terk edilmiş pozisyon yok. Çözülen her işlem dürüst bir veri noktasıdır; çözülmeyenler gürültüdür.",
+    "criteria": [
+      {
+        "label": "15 çözülmüş işlem"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-3",
+    "title": "Sonuna Kadar Götür III",
+    "description": "40 işlemi temiz bir sonuca taşı — stop ya da hedef, terk edilmiş pozisyon yok. Çözülen her işlem dürüst bir veri noktasıdır; çözülmeyenler gürültüdür.",
+    "criteria": [
+      {
+        "label": "40 çözülmüş işlem"
+      }
+    ]
+  },
+  {
+    "id": "outcome-resolved-4",
+    "title": "Sonuna Kadar Götür IV",
+    "description": "100 işlemi temiz bir sonuca taşı — stop ya da hedef, terk edilmiş pozisyon yok. Çözülen her işlem dürüst bir veri noktasıdır; çözülmeyenler gürültüdür.",
+    "criteria": [
+      {
+        "label": "100 çözülmüş işlem"
+      }
+    ]
+  },
+  {
+    "id": "replay-fakeout",
+    "title": "Sahte Kırılmayı Atlat",
+    "description": "«Olmayan Kırılma»yı geç. Hiçbir şeyi kovalama, hiçbir şeyi genişletme, zararı günlüğe işle.",
+    "criteria": [
+      {
+        "label": "«Olmayan Kırılma»yı geç"
+      }
+    ]
+  },
+  {
+    "id": "replay-pullback",
+    "title": "Hattı Tut",
+    "description": "«Trendde Geri Çekilme»yi geç. Kararları kırmızı çubuklar değil, plan versin.",
+    "criteria": [
+      {
+        "label": "«Trendde Geri Çekilme»yi geç"
+      }
+    ]
+  },
+  {
+    "id": "replay-gap",
+    "title": "Boşluğun İçinden",
+    "description": "«Aşağı Boşluk»u geç. Geri çekil, yeniden boyutlandır, yeniden planla, stoplara uy — ateş altında davranış.",
+    "criteria": [
+      {
+        "label": "«Aşağı Boşluk»u geç"
+      }
+    ]
+  },
+  {
+    "id": "replay-clean-sweep",
+    "title": "Tam Süpürme",
+    "description": "Katalogdaki her tekrar senaryosunu geç. Her biri, piyasaların doğaçlamayı cezalandırdığı farklı bir yoldur.",
+    "criteria": [
+      {
+        "label": "3 senaryo geç"
+      }
+    ]
+  },
+  {
+    "id": "replay-then-prove",
+    "title": "Simülatörden Kokpite",
+    "description": "İki senaryo geç, sonra canlı kanıtla: her stopu yerinde 10 kâğıt işlem. Simülatör öğretir; bant sınar.",
+    "criteria": [
+      {
+        "label": "2 senaryo geç"
+      },
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "replay-scholar",
+    "title": "Önce Oku, Sonra Uç",
+    "description": "İlk senaryonu geçmeden önce 20 ders tamamla. Hazırlıklı gir.",
+    "criteria": [
+      {
+        "label": "20 ders tamamla"
+      },
+      {
+        "label": "1 senaryo geç"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-1",
+    "title": "Bilge I",
+    "description": "5 Akademi dersini tamamla. Adlandırabildiğin her kavram, piyasanın artık sana karşı kullanamayacağı bir kavramdır.",
+    "criteria": [
+      {
+        "label": "5 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-2",
+    "title": "Bilge II",
+    "description": "15 Akademi dersini tamamla. Adlandırabildiğin her kavram, piyasanın artık sana karşı kullanamayacağı bir kavramdır.",
+    "criteria": [
+      {
+        "label": "15 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-3",
+    "title": "Bilge III",
+    "description": "30 Akademi dersini tamamla. Adlandırabildiğin her kavram, piyasanın artık sana karşı kullanamayacağı bir kavramdır.",
+    "criteria": [
+      {
+        "label": "30 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-4",
+    "title": "Bilge IV",
+    "description": "60 Akademi dersini tamamla. Adlandırabildiğin her kavram, piyasanın artık sana karşı kullanamayacağı bir kavramdır.",
+    "criteria": [
+      {
+        "label": "60 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-5",
+    "title": "Bilge V",
+    "description": "90 Akademi dersini tamamla. Adlandırabildiğin her kavram, piyasanın artık sana karşı kullanamayacağı bir kavramdır.",
+    "criteria": [
+      {
+        "label": "90 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-lessons-6",
+    "title": "Bilge VI",
+    "description": "121 Akademi dersini tamamla. Tüm müfredat — acemiden uzmana, hiçbir şey atlanmadan.",
+    "criteria": [
+      {
+        "label": "121 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-1",
+    "title": "Acemi Sınavını Geç",
+    "description": "Acemi seviye değerlendirmesini 80% veya daha iyiyle geç. Sınavlar merdivene kapı koyar — ve sınavla atlama, sayılanın koltukta geçen süre değil sınav olduğu anlamına gelir.",
+    "criteria": [
+      {
+        "label": "Acemi değerlendirmeyi geç"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-2",
+    "title": "Orta Sınavı Geç",
+    "description": "Orta seviye değerlendirmesini 80% veya daha iyiyle geç. Sınavlar merdivene kapı koyar — ve sınavla atlama, sayılanın koltukta geçen süre değil sınav olduğu anlamına gelir.",
+    "criteria": [
+      {
+        "label": "Orta değerlendirmeyi geç"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-3",
+    "title": "İleri Sınavı Geç",
+    "description": "İleri seviye değerlendirmesini 80% veya daha iyiyle geç. Sınavlar merdivene kapı koyar — ve sınavla atlama, sayılanın koltukta geçen süre değil sınav olduğu anlamına gelir.",
+    "criteria": [
+      {
+        "label": "İleri değerlendirmeyi geç"
+      }
+    ]
+  },
+  {
+    "id": "scholar-exam-4",
+    "title": "Uzman Sınavını Geç",
+    "description": "Uzman seviye değerlendirmesini 80% veya daha iyiyle geç. Sınavlar merdivene kapı koyar — ve sınavla atlama, sayılanın koltukta geçen süre değil sınav olduğu anlamına gelir.",
+    "criteria": [
+      {
+        "label": "Uzman değerlendirmeyi geç"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-1",
+    "title": "Tam Hatırlama I",
+    "description": "Alıştırma'da 20 aralıklı tekrar kartı derecelendir. Baskı yokken hatırlayabildiğin kavramlar, baskı altında elinin altında olanlardır.",
+    "criteria": [
+      {
+        "label": "20 inceleme tekrarı"
+      }
+    ]
+  },
+  {
+    "id": "scholar-recall-2",
+    "title": "Tam Hatırlama II",
+    "description": "Alıştırma'da 100 aralıklı tekrar kartı derecelendir. Baskı yokken hatırlayabildiğin kavramlar, baskı altında elinin altında olanlardır.",
+    "criteria": [
+      {
+        "label": "100 inceleme tekrarı"
+      }
+    ]
+  },
+  {
+    "id": "consistency-1",
+    "title": "Ortaya Çık I",
+    "description": "2 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "2 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-2",
+    "title": "Ortaya Çık II",
+    "description": "5 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "5 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-3",
+    "title": "Ortaya Çık III",
+    "description": "10 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "10 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-4",
+    "title": "Ortaya Çık IV",
+    "description": "21 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "21 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-5",
+    "title": "Ortaya Çık V",
+    "description": "45 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "45 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-6",
+    "title": "Ortaya Çık VI",
+    "description": "90 günlük Akademi serisi sürdür — herhangi bir ders, kart, sınav, senaryo veya görev sayılır. Piyasalar altıncı ayda hâlâ orada olan tüccarı ödüllendirir.",
+    "criteria": [
+      {
+        "label": "90 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "consistency-balanced",
+    "title": "Dengeli Hafta",
+    "description": "7 işlemi günlüğe işlerken ve 5 inceleme kartını derecelendirirken 10 günlük seriyi sürdür. Çalış, işlem yap, düşün — tam döngü, her gün.",
+    "criteria": [
+      {
+        "label": "7 günlük seri"
+      },
+      {
+        "label": "5 işlemi günlüğe işle"
+      },
+      {
+        "label": "10 inceleme tekrarı"
+      }
+    ]
+  },
+  {
+    "id": "consistency-comeback",
+    "title": "Geri Dönüş",
+    "description": "Herhangi bir kesintiden sonra yeniden inşa et: 14 işlemle 10 günlük seri, hepsi stoplu ve doğru boyutlu. Herkes bir kez disiplinli olabilir; beceri yeniden başlamaktır.",
+    "criteria": [
+      {
+        "label": "14 günlük seri"
+      },
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "constitution-adopt",
+    "title": "Adını İmzala",
+    "description": "İşlem Anayasanı yaz ve benimse. O andan itibaren bilet kurallarını uygular — sakin sen, gelecekteki seni koruyor.",
+    "criteria": [
+      {
+        "label": "Anayasayı benimse"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-1",
+    "title": "Kurallar Tutuldu I",
+    "description": "Anayasan yürürlükteyken, sıfır risk ihlali ve sıfır stopsuz girişle 10 işlem çalıştır. Benimsemek kolaydır; korumak görevdir.",
+    "criteria": [
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "10 işlem yürüt"
+      },
+      {
+        "label": "Sıfır risk ihlali"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-2",
+    "title": "Kurallar Tutuldu II",
+    "description": "Anayasan yürürlükteyken, sıfır risk ihlali ve sıfır stopsuz girişle 30 işlem çalıştır. Benimsemek kolaydır; korumak görevdir.",
+    "criteria": [
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "30 işlem yürüt"
+      },
+      {
+        "label": "Sıfır risk ihlali"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "constitution-kept-3",
+    "title": "Kurallar Tutuldu III",
+    "description": "Anayasan yürürlükteyken, sıfır risk ihlali ve sıfır stopsuz girişle 75 işlem çalıştır. Benimsemek kolaydır; korumak görevdir.",
+    "criteria": [
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "75 işlem yürüt"
+      },
+      {
+        "label": "Sıfır risk ihlali"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      }
+    ]
+  },
+  {
+    "id": "constitution-operator",
+    "title": "Operatör",
+    "description": "Benimsenmiş bir anayasa altında sıfır tehlikeli başarıyla 70+ puanlayan on ardışık işlem. Bu, uzman merdiveninin okuduğu davranış çıtasıdır.",
+    "criteria": [
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "10 ardışık puan 70+"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "capstone-novice",
+    "title": "Acemi Bitirme: Kalkış",
+    "description": "Bir başlangıç düzeyinin kanıtlaması gereken her şey: dersler çalışıldı, sınav geçildi, ilk işlemler planlandı ve günlüğe işlendi, ilk planlı zarar gözünü kırpmadan alındı.",
+    "criteria": [
+      {
+        "label": "15 ders tamamla"
+      },
+      {
+        "label": "Acemi değerlendirmeyi geç"
+      },
+      {
+        "label": "5 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "3 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "capstone-intermediate",
+    "title": "Orta Bitirme: Zanaat",
+    "description": "Kaslardaki risk matematiği: sürdürülen bir süreç ortalaması, semboller arası genişlik, sınav ve atlatılan bir senaryo.",
+    "criteria": [
+      {
+        "label": "Orta değerlendirmeyi geç"
+      },
+      {
+        "label": "20 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 70+"
+      },
+      {
+        "label": "3+ sembol işle"
+      },
+      {
+        "label": "1 senaryo geç"
+      }
+    ]
+  },
+  {
+    "id": "capstone-advanced",
+    "title": "İleri Bitirme: Ateş Altında",
+    "description": "Stres altında disiplin: her senaryo geçildi, 40 işlem boyunca bir anayasa korundu, zararlar zamanında kabul edildi, sıfır tehlikeli başarı.",
+    "criteria": [
+      {
+        "label": "3 senaryo geç"
+      },
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "40 işlem yürüt"
+      },
+      {
+        "label": "3 iyi oynanmış zarar"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "capstone-expert",
+    "title": "Uzman Bitirme: Eksiksiz Operatör",
+    "description": "Tam kayıt: tüm müfredat, her sınav, profesyonel bir süreç ortalamasında yüz çözülmüş işlem, yaşayan bir anayasa, kesintisiz bir ay.",
+    "criteria": [
+      {
+        "label": "121 ders tamamla"
+      },
+      {
+        "label": "Uzman değerlendirmeyi geç"
+      },
+      {
+        "label": "100 çözülmüş işlem"
+      },
+      {
+        "label": "Ortalama süreç puanı 80+"
+      },
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "30 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "capstone-honest-loser",
+    "title": "Bitirme: Dürüst Kaybeden",
+    "description": "Doğru zararlardan oluşan bir kariyer: 10 planlı stop, 6 iyi oynanmış zarar, her şey günlüğe işlendi, tilt girişi yok. İyi kaybetmek bantta en nadir beceridir.",
+    "criteria": [
+      {
+        "label": "10 planlı stop"
+      },
+      {
+        "label": "6 iyi oynanmış zarar"
+      },
+      {
+        "label": "15 işlemi günlüğe işle"
+      },
+      {
+        "label": "Sıfır tilt girişi"
+      }
+    ]
+  },
+  {
+    "id": "capstone-scholar-trader",
+    "title": "Bitirme: Bilge-Tüccar",
+    "description": "Tek bir kayıtta bilgi ve davranış: 90 ders, 100 inceleme tekrarı, süreç 50+ ile 75 işlem ve 21 günlük seri. Kütüphane ve bant, birlikte ustalaşıldı.",
+    "criteria": [
+      {
+        "label": "90 ders tamamla"
+      },
+      {
+        "label": "100 inceleme tekrarı"
+      },
+      {
+        "label": "50 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 75+"
+      },
+      {
+        "label": "21 günlük seri"
+      }
+    ]
+  },
+  {
+    "id": "risk-discipline",
+    "title": "Risk Disiplini (Merdiven Kapısı)",
+    "description": "İleri-merdiven davranış çıtası: 20 işlem, her stop yerinde, risk politika içinde, sıfır tehlikeli başarı.",
+    "criteria": [
+      {
+        "label": "20 işlem yürüt"
+      },
+      {
+        "label": "Her işlemin bir stopu var"
+      },
+      {
+        "label": "Her işlem risk politikası içinde"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "accept-the-planned-loss",
+    "title": "Planlı Zararı Kabul Et (Merdiven Kapısı)",
+    "description": "En az beş yürütme boyunca stopsuz işlem olmadan üç iyi oynanmış zarar — doğru kaybedebileceğinin kanıtı.",
+    "criteria": [
+      {
+        "label": "5 işlem yürüt"
+      },
+      {
+        "label": "3 iyi oynanmış zarar"
+      },
+      {
+        "label": "Stopsuz işlem yok"
+      }
+    ]
+  },
+  {
+    "id": "the-operator",
+    "title": "Operatör (Merdiven Kapısı)",
+    "description": "Süreç puanları 70 veya daha iyi on ardışık işlem — uzman-merdiven davranış çıtası.",
+    "criteria": [
+      {
+        "label": "10 ardışık puan 70+"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-lesson",
+    "title": "İlk Adımlar: Bir Ders",
+    "description": "İlk Akademi dersini tamamla. Her operatörün kaydı tek bir girişle başlar.",
+    "criteria": [
+      {
+        "label": "1 ders tamamla"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-trade",
+    "title": "İlk Adımlar: Bir Planlı İşlem",
+    "description": "Bir stop ve yazılı bir nedenle ilk kâğıt işlemini gönder. Plan işlemdir; gerçekleşme sadece evrak işidir.",
+    "criteria": [
+      {
+        "label": "1 işlem yürüt"
+      },
+      {
+        "label": "Bir stopu var"
+      },
+      {
+        "label": "Yazılı bir nedeni var"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-journal",
+    "title": "İlk Adımlar: Bir Dürüst Not",
+    "description": "Yürütülmüş bir işleme ilk günlük notunu yaz. İki dürüst cümle, kusursuz bir hafızadan iyidir.",
+    "criteria": [
+      {
+        "label": "1 işlemi günlüğe işle"
+      }
+    ]
+  },
+  {
+    "id": "first-steps-card",
+    "title": "İlk Adımlar: Bir Kart",
+    "description": "Alıştırma'da ilk aralıklı tekrar kartını derecelendir. Hatırlama bir kastır; bu birinci tekrardır.",
+    "criteria": [
+      {
+        "label": "1 inceleme tekrarı"
+      }
+    ]
+  },
+  {
+    "id": "thesis-machine",
+    "title": "Tez Makinesi",
+    "description": "Elli işlem, her biri yazılı bir neden ve kayıtlı bir duyguyla. Bu noktada plan kendini yazar — ki amaç buydu.",
+    "criteria": [
+      {
+        "label": "50 işlemde yazılı neden"
+      },
+      {
+        "label": "50 işlemde duygu kaydedildi"
+      }
+    ]
+  },
+  {
+    "id": "sophistication-full-loop",
+    "title": "Tam Döngü",
+    "description": "Yakala, puanla, tespit et, reçete yaz, kapı koy — tüm geri bildirim döngüsünü hacimde çalıştır: 75 işlem günlüğe işlendi ve etiketlendi, senaryolar geçildi, anayasa korundu, sıfır tehlikeli başarı.",
+    "criteria": [
+      {
+        "label": "75 işlem yürüt"
+      },
+      {
+        "label": "30 işlemi günlüğe işle"
+      },
+      {
+        "label": "15 işlemi etiketle"
+      },
+      {
+        "label": "3 senaryo geç"
+      },
+      {
+        "label": "Anayasa benimsendi"
+      },
+      {
+        "label": "Sıfır tehlikeli başarı"
+      }
+    ]
+  },
+  {
+    "id": "iron-selectivity",
+    "title": "Demir Seçicilik",
+    "description": "Bir günde ikiyi asla aşmadan, 8+ sembol boyunca yüz işlem. İşlemcilikte en zor pozisyon, her gün korunan pozisyonsuzluktur.",
+    "criteria": [
+      {
+        "label": "100 işlem yürüt"
+      },
+      {
+        "label": "Asla günde 2 işlemden fazla değil"
+      },
+      {
+        "label": "8+ sembol işle"
+      }
+    ]
+  },
+  {
+    "id": "perfect-quarter",
+    "title": "Kusursuz Çeyrek",
+    "description": "60 işlem boyunca 75+ süreç ortalamasıyla 40 günlük seri. Ortaya çıkıp iyi karar vermenin bir çeyreği — piyasaların gerçekten okuduğu özgeçmiş.",
+    "criteria": [
+      {
+        "label": "60 günlük seri"
+      },
+      {
+        "label": "40 işlem yürüt"
+      },
+      {
+        "label": "Ortalama süreç puanı 75+"
+      }
+    ]
+  }
+]
