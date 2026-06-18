@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { Plug } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, EmptyState } from '../../components/ui';
 import { backendClient, type ExtensionsEnabledState } from '../../lib/backend';
@@ -32,6 +33,7 @@ export function ExtensionsTab({
   onUpdateExtensionSettings: (extensionId: string, settings: Record<string, unknown>) => void;
   onUpdateExtensionEnabled: (extensionId: string, enabled: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const [draftExtensionSettings, setDraftExtensionSettings] = useState<
     Record<string, Record<string, unknown>>
   >({});
@@ -105,21 +107,19 @@ export function ExtensionsTab({
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-medium text-ink">Extension registry</p>
-            <p className="mt-2 text-sm text-muted">
-              Installed Python entry-point extensions can register providers, model gateways,
-              indicators, strategies, and notification channels. External extension loading is off
-              by default and only loads code you have explicitly installed.
-            </p>
+            <p className="font-medium text-ink">{t('settings.extensions.registryTitle')}</p>
+            <p className="mt-2 text-sm text-muted">{t('settings.extensions.registryDesc')}</p>
             {extensionsState ? (
               <div className="mt-3 rounded-2xl border border-border bg-white/[0.02] p-3">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium text-ink">Load extensions</p>
+                    <p className="text-sm font-medium text-ink">
+                      {t('settings.extensions.loadExtensions')}
+                    </p>
                     <p className="text-xs text-muted">
                       {extensionsState.active
-                        ? 'Extensions are loaded in this session.'
-                        : 'Extensions are not loaded in this session.'}
+                        ? t('settings.extensions.loadedThisSession')
+                        : t('settings.extensions.notLoadedThisSession')}
                     </p>
                   </div>
                   <Button
@@ -128,31 +128,25 @@ export function ExtensionsTab({
                     disabled={extensionsBusy}
                     onClick={() => void toggleExtensions()}
                   >
-                    {extensionsState.enabled ? 'On' : 'Off'}
+                    {extensionsState.enabled
+                      ? t('settings.extensions.on')
+                      : t('settings.extensions.off')}
                   </Button>
                 </div>
                 {extensionsState.restartRequired ? (
                   <p className="mt-2 text-xs text-amber-300">
-                    Restart QuantGlass to apply — the setting is read when the engine starts.
+                    {t('settings.extensions.restartToApply')}
                   </p>
                 ) : null}
               </div>
             ) : null}
             <ul className="mt-3 space-y-1 text-sm text-muted">
               <li>
-                <span className="text-ink">Where extensions act:</span> provider extensions join the
-                data routing on the Providers tab; strategy extensions appear as setup presets on
-                the Backtesting screen and feed the signal engine;
+                <span className="text-ink">{t('settings.extensions.whereLabel')}</span>{' '}
+                {t('settings.extensions.whereItem1')}
               </li>
-              <li>
-                indicator extensions register alongside the built-in catalog below; lesson packs add
-                tracks to the Academy (Learn) and mission packs add challenges to Missions — both as
-                validated content that can never run code;
-              </li>
-              <li>
-                notification extensions add alert delivery channels. Two example packs ship in the
-                repo's <span className="text-ink">extensions/</span> folder to copy from.
-              </li>
+              <li>{t('settings.extensions.whereItem2')}</li>
+              <li>{t('settings.extensions.whereItem3')}</li>
             </ul>
           </div>
           <Plug className="size-5 text-accent" />
@@ -215,38 +209,50 @@ export function ExtensionsTab({
                   </ul>
                 ) : null}
                 <p className="mt-3 text-xs text-muted">
-                  Capabilities: {extension.capabilities.join(', ') || 'none'}
+                  {t('settings.extensions.capabilities', {
+                    list: extension.capabilities.join(', ') || t('settings.extensions.none'),
+                  })}
                 </p>
                 <p className="mt-2 text-xs text-muted">
-                  Permissions: {extension.permissions.join(', ') || 'none'}
+                  {t('settings.extensions.permissions', {
+                    list: extension.permissions.join(', ') || t('settings.extensions.none'),
+                  })}
                 </p>
                 <p className="mt-2 text-xs text-muted">
-                  Settings:{' '}
-                  {extensionSettings.length
-                    ? extensionSettings.map((setting) => setting.key).join(', ')
-                    : 'none'}
+                  {t('settings.extensions.settingsList', {
+                    list: extensionSettings.length
+                      ? extensionSettings.map((setting) => setting.key).join(', ')
+                      : t('settings.extensions.none'),
+                  })}
                 </p>
                 {isLoaderNotice ? (
                   <div className="mt-4 rounded-2xl border border-hold/30 bg-hold/10 px-4 py-3 text-sm text-hold">
-                    Extension code loading is off. Restart the backend with{' '}
+                    {t('settings.extensions.loaderNoticePre')}{' '}
                     <code className="rounded-md bg-black/20 px-1.5 py-0.5 text-xs">
                       npm run backend:dev:extensions
                     </code>{' '}
-                    to discover trusted local packs and installed entry points.
+                    {t('settings.extensions.loaderNoticePost')}
                   </div>
                 ) : (
                   <div className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-surface/40 px-4 py-3 text-sm text-muted">
-                    <span>{extension.enabled ? 'Enabled after backend restart' : 'Disabled'}</span>
+                    <span>
+                      {extension.enabled
+                        ? t('settings.extensions.enabledAfterRestart')
+                        : t('settings.extensions.disabled')}
+                    </span>
                     <button
                       type="button"
                       className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${extension.enabled ? 'bg-buy/12 text-buy' : 'bg-white/8 text-muted'}`}
                       onClick={() => onUpdateExtensionEnabled(extension.id, !extension.enabled)}
                     >
-                      {extension.enabled ? 'On' : 'Off'}
+                      {extension.enabled
+                        ? t('settings.extensions.on')
+                        : t('settings.extensions.off')}
                     </button>
                   </div>
                 )}
                 {extensionSettings.length ? (
+                  /* settings inputs use backend-provided labels */
                   <div className="mt-4 space-y-3">
                     {extensionSettings.map((setting) => (
                       <label key={setting.key} className="block space-y-2 text-sm text-muted">
@@ -340,7 +346,7 @@ export function ExtensionsTab({
                         )
                       }
                     >
-                      Save extension settings
+                      {t('settings.extensions.saveExtensionSettings')}
                     </Button>
                   </div>
                 ) : null}
@@ -353,18 +359,19 @@ export function ExtensionsTab({
         </div>
       ) : (
         <EmptyState
-          title="No extensions reported"
-          description="The backend did not return extension registry metadata."
+          title={t('settings.extensions.emptyExtTitle')}
+          description={t('settings.extensions.emptyExtDesc')}
         />
       )}
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="font-medium text-ink">Registered strategies</p>
+              <p className="font-medium text-ink">
+                {t('settings.extensions.registeredStrategies')}
+              </p>
               <p className="mt-2 text-sm text-muted">
-                Backtesting uses this registry. Extension strategies appear here and can contribute
-                matching setup presets.
+                {t('settings.extensions.registeredStrategiesDesc')}
               </p>
             </div>
             <span className="rounded-full border border-border px-2.5 py-1 text-xs text-muted">
@@ -390,13 +397,19 @@ export function ExtensionsTab({
                   </div>
                 </div>
                 <p className="mt-2 text-xs text-muted">{strategy.description}</p>
-                <p className="mt-2 text-xs text-muted">Setups: {strategy.setup_types.join(', ')}</p>
+                <p className="mt-2 text-xs text-muted">
+                  {t('settings.extensions.setups', { list: strategy.setup_types.join(', ') })}
+                </p>
                 <p className="mt-1 text-xs text-muted">
-                  Markets: {strategy.market_types.join(', ')} / Timeframes:{' '}
-                  {strategy.timeframes.join(', ')}
+                  {t('settings.extensions.marketsTimeframes', {
+                    markets: strategy.market_types.join(', '),
+                    timeframes: strategy.timeframes.join(', '),
+                  })}
                 </p>
                 {strategy.extension_id ? (
-                  <p className="mt-1 text-xs text-accent">Extension: {strategy.extension_id}</p>
+                  <p className="mt-1 text-xs text-accent">
+                    {t('settings.extensions.extensionLabel', { id: strategy.extension_id })}
+                  </p>
                 ) : null}
               </div>
             ))}
@@ -405,21 +418,22 @@ export function ExtensionsTab({
         <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="font-medium text-ink">Indicator catalog</p>
+              <p className="font-medium text-ink">{t('settings.extensions.indicatorCatalog')}</p>
               <p className="mt-2 text-sm text-muted">
-                Computed indicators feed signals and backtests now. Catalog indicators are
-                documented contribution targets for community packs and future chart overlays.
+                {t('settings.extensions.indicatorCatalogDesc')}
               </p>
             </div>
             <div className="flex flex-wrap justify-end gap-2">
               <span className="rounded-full border border-border px-2.5 py-1 text-xs text-muted">
-                {extensionIndicators.length} total
+                {t('settings.extensions.totalCount', { count: extensionIndicators.length })}
               </span>
               <span className="rounded-full border border-buy/30 bg-buy/10 px-2.5 py-1 text-xs text-buy">
-                {computedIndicatorCount} computed
+                {t('settings.extensions.computedCount', { count: computedIndicatorCount })}
               </span>
               <span className="rounded-full border border-border px-2.5 py-1 text-xs text-muted">
-                {extensionIndicators.length - computedIndicatorCount} catalog
+                {t('settings.extensions.catalogCount', {
+                  count: extensionIndicators.length - computedIndicatorCount,
+                })}
               </span>
             </div>
           </div>
@@ -457,17 +471,21 @@ export function ExtensionsTab({
                       </div>
                       <p className="mt-2 text-xs text-muted">{indicator.description}</p>
                       <p className="mt-2 text-xs text-muted">
-                        Inputs: {indicator.inputs.join(', ') || 'none'} / Outputs:{' '}
-                        {indicator.outputs.join(', ') || 'none'}
+                        {t('settings.extensions.inputsOutputs', {
+                          inputs: indicator.inputs.join(', ') || t('settings.extensions.none'),
+                          outputs: indicator.outputs.join(', ') || t('settings.extensions.none'),
+                        })}
                       </p>
                       {indicator.families?.length ? (
                         <p className="mt-1 text-xs text-muted">
-                          Families: {indicator.families.join(', ')}
+                          {t('settings.extensions.families', {
+                            list: indicator.families.join(', '),
+                          })}
                         </p>
                       ) : null}
                       {indicator.extension_id ? (
                         <p className="mt-1 text-xs text-accent">
-                          Extension: {indicator.extension_id}
+                          {t('settings.extensions.extensionLabel', { id: indicator.extension_id })}
                         </p>
                       ) : null}
                     </div>
@@ -479,10 +497,9 @@ export function ExtensionsTab({
         </div>
       </div>
       <div className="rounded-3xl border border-border bg-white/[0.03] p-4">
-        <p className="font-medium text-ink">Contribution surfaces</p>
+        <p className="font-medium text-ink">{t('settings.extensions.contributionSurfaces')}</p>
         <p className="mt-2 text-sm text-muted">
-          Backend-declared extension points that contributors can target with providers, execution
-          adapters, notifications, import/export flows, data-quality checks, and UI panels.
+          {t('settings.extensions.contributionSurfacesDesc')}
         </p>
         {extensionSurfaceGroups.length ? (
           <div className="mt-4 grid gap-4 lg:grid-cols-2">
@@ -507,8 +524,11 @@ export function ExtensionsTab({
                       </div>
                       <p className="mt-2 text-xs text-muted">{surface.description}</p>
                       <p className="mt-2 text-xs text-muted">
-                        Source: {surface.source}
-                        {surface.extension_id ? ` / ${surface.extension_id}` : ''}
+                        {t('settings.extensions.source', {
+                          source:
+                            surface.source +
+                            (surface.extension_id ? ` / ${surface.extension_id}` : ''),
+                        })}
                       </p>
                     </div>
                   ))}
@@ -518,8 +538,8 @@ export function ExtensionsTab({
           </div>
         ) : (
           <EmptyState
-            title="No contribution surfaces reported"
-            description="The backend did not return extension surface metadata."
+            title={t('settings.extensions.emptySurfacesTitle')}
+            description={t('settings.extensions.emptySurfacesDesc')}
           />
         )}
       </div>
