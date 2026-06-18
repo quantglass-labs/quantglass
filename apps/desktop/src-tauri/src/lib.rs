@@ -107,6 +107,10 @@ fn start_backend(app: &tauri::App) -> (String, Option<CommandChild>) {
     if let Some(root) = workspace_root() {
         command = command.env("QUANTGLASS_WORKSPACE_ROOT", root);
     }
+    // Give the sidecar our PID so its watchdog can self-terminate if this app
+    // crashes or is force-quit (when ExitRequested never fires) — otherwise the
+    // orphaned backend keeps the analytics DuckDB lock and breaks the next launch.
+    command = command.env("QUANTGLASS_PARENT_PID", std::process::id().to_string());
 
     match command.spawn() {
         Ok((mut rx, child)) => {
