@@ -21,6 +21,9 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.services.content_locale import localize_drills, localize_missions
+from app.services.locale import get_locale
+
 _MISSIONS_FILE = Path(__file__).resolve().parent.parent / "content" / "missions" / "missions.json"
 
 # Every criterion type the engine evaluates. Community packs are validated
@@ -90,18 +93,28 @@ ACTION_HINTS: dict[str, dict[str, str]] = {
 
 
 @lru_cache(maxsize=1)
-def _load_missions() -> tuple[dict[str, Any], ...]:
+def _load_missions_base() -> tuple[dict[str, Any], ...]:
     with open(_MISSIONS_FILE, encoding="utf-8") as handle:
         return tuple(json.load(handle))
+
+
+def _load_missions() -> tuple[dict[str, Any], ...]:
+    """Built-in missions localized to the active request locale (English fallback)."""
+    return localize_missions(_load_missions_base(), get_locale())
 
 
 _DRILLS_FILE = Path(__file__).resolve().parent.parent / "content" / "missions" / "drills.json"
 
 
 @lru_cache(maxsize=1)
-def _load_drills() -> dict[str, dict[str, Any]]:
+def _load_drills_base() -> dict[str, dict[str, Any]]:
     with open(_DRILLS_FILE, encoding="utf-8") as handle:
         return {drill["category"]: drill for drill in json.load(handle)}
+
+
+def _load_drills() -> dict[str, dict[str, Any]]:
+    """Decision drills localized to the active request locale (English fallback)."""
+    return localize_drills(_load_drills_base(), get_locale())
 
 
 class MissionService:
