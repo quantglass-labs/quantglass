@@ -14,8 +14,10 @@ from quantglass_sdk import (
 
 ## Install
 
+Until QuantGlass SDK is published to PyPI, install it from the repository:
+
 ```bash
-pip install quantglass-sdk
+pip install "quantglass-sdk @ git+https://github.com/quantglass-labs/quantglass-sdk.git"
 ```
 
 ## What's here
@@ -32,7 +34,8 @@ pip install quantglass-sdk
 
 The SDK follows a versioning promise: additions bump the minor version;
 removals or signature changes bump the major and are announced in the
-changelog. `SDK_VERSION` exposes the current version.
+[release notes](https://github.com/quantglass-labs/quantglass-sdk/releases).
+`SDK_VERSION` exposes the current version.
 
 ## License
 
