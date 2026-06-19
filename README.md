@@ -473,5 +473,7 @@ unavailable in the public preview.
 
 - [Technical docs](docs/technical/README.md)
 - [User guide](docs/user-guide/README.md)
+- [Integrations](docs/integrations/README.md) — data providers, AI models, MCP, alerts, strategy export
 - [Configuration reference](docs/configuration.md)
+- [Network transparency](docs/network-transparency.md)
 - [Changelog](CHANGELOG.md)
