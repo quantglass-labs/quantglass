@@ -6,6 +6,14 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- A **deterministic screenshot pipeline** (`scripts/screenshots/`, `npm run
+  screenshots`): renders the real UI in headless Chromium and mocks every API
+  call from curated fixtures, so the README/marketing screenshots are populated,
+  byte-stable, and reproducible with no backend — and the tour now shows the
+  Watchlist, Alerts, and the QuantGlass-mark Copilot panel.
+
 ### Fixed
 
 - **The Dashboard (and the rest of the app) loads fast again.** The new
