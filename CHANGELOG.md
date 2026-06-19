@@ -12,6 +12,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   days of Academy/mission work, rewarding consistency — never profit), a
   seven-day activity strip, your longest run, and a date-seeded "today's
   mission" so there is always one clear rep to do. Localized in all 20 languages.
+- Passing a decision drill now reveals your **discipline streak** as the
+  reward — the consistency of showing up, never the trade's P&L.
 
 ## [0.3.1] - 2026-06-18
 

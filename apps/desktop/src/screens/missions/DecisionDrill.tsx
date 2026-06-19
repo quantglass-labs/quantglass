@@ -10,10 +10,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { AlertTriangle, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Flame, ShieldCheck } from 'lucide-react';
 
 import { backendClient } from '../../lib/backend';
 import { AiMarkdown } from '../../components/AiMarkdown';
+import { CountUp, FadeIn } from '../../components/motion';
 import type { DrillDetail, DrillGradeResponse } from '../../types';
 
 function ScoreTile({ label, value, bar }: { label: string; value: number; bar: number }) {
@@ -26,6 +27,33 @@ function ScoreTile({ label, value, bar }: { label: string; value: number; bar: n
   );
 }
 
+/**
+ * The reward for passing: your discipline streak ticking up. On-brand — it
+ * celebrates the consistency of showing up, never the P&L of the choice.
+ */
+function StreakReward({ streak, extendedToday }: { streak: number; extendedToday: boolean }) {
+  return (
+    <FadeIn>
+      <div className="mb-3 flex items-center gap-3 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 to-amber-500/5 p-4">
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-300">
+          <Flame size={22} className="drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]" />
+        </div>
+        <div>
+          <p className="flex items-baseline gap-1.5 font-semibold text-zinc-100">
+            <CountUp value={streak} format={(n) => String(Math.round(n))} />
+            <span className="text-sm font-normal text-zinc-400">day discipline streak</span>
+          </p>
+          <p className="mt-0.5 text-xs text-amber-200/80">
+            {extendedToday
+              ? 'Extended today — consistency compounds.'
+              : 'Logged for today — keep it alive tomorrow.'}
+          </p>
+        </div>
+      </div>
+    </FadeIn>
+  );
+}
+
 export function DecisionDrill({ category, onExit }: { category: string; onExit: () => void }) {
   const [drill, setDrill] = useState<DrillDetail | null>(null);
   const [step, setStep] = useState(0);
@@ -33,13 +61,32 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
   const [grade, setGrade] = useState<DrillGradeResponse | null>(null);
   const [grading, setGrading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Was the user already active today before this drill? Captured on mount so
+  // a pass can tell "extended today" from "already logged".
+  const [activeAtStart, setActiveAtStart] = useState(false);
+  const [rewardStreak, setRewardStreak] = useState<number | null>(null);
 
   useEffect(() => {
     backendClient
       .getDrill(category)
       .then(setDrill)
       .catch(() => setError('Could not load the drill.'));
+    backendClient
+      .getDailyBriefing()
+      .then((briefing) => setActiveAtStart(briefing.active_today))
+      .catch(() => undefined);
   }, [category]);
+
+  // On a pass, the drill has just recorded today's activity; surface the
+  // resulting streak as the reward. (The display is gated on `grade.passed`,
+  // so a stale value from a prior run is never shown.)
+  useEffect(() => {
+    if (!grade?.passed) return;
+    backendClient
+      .getDailyBriefing()
+      .then((briefing) => setRewardStreak(briefing.streak))
+      .catch(() => undefined);
+  }, [grade]);
 
   const reset = () => {
     setStep(0);
@@ -119,6 +166,9 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
         </div>
       ) : (
         <div className="mt-4">
+          {grade.passed && rewardStreak && rewardStreak > 0 ? (
+            <StreakReward streak={rewardStreak} extendedToday={!activeAtStart} />
+          ) : null}
           <div className="grid grid-cols-3 gap-3">
             <ScoreTile label="Process" value={grade.scores.process} bar={grade.pass_percent} />
             <ScoreTile label="Risk" value={grade.scores.risk} bar={grade.pass_percent} />
