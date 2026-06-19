@@ -106,7 +106,7 @@ Current working surface:
   cancel, partial close, account guards, and a closure ledger with
   R-multiples — all on honest closed-candle fills, managed from a dedicated
   Portfolio screen. A live-mode mapping of the same ticket onto broker APIs
-  (Alpaca reference mapping) is *designed* to refuse what a broker cannot
+  (Alpaca reference mapping) is _designed_ to refuse what a broker cannot
   express rather than silently downgrade — but built-in live broker execution
   is **not enabled in the public preview**; paper trading is the supported
   execution path (see Known limitations below).
@@ -200,6 +200,23 @@ the engine runs them, and the model narrates only those results behind a numeric
 fact-guard — so it **cannot invent a number**. Source-labeled on every answer.
 
 <p align="center"><img src="docs/assets/screenshots/copilot.png" alt="AI Copilot" width="860"></p>
+
+## Privacy & network use
+
+QuantGlass is **local-first**. The app, your data, and the Academy run on your
+machine. There is **no telemetry** of any kind, the bundled engine is
+**loopback-only** (`127.0.0.1`), and there is **no auto-updater or launch ping**.
+
+The research lab fetches **public market data only for the symbols you choose to
+track** (a fresh install tracks nothing, so it makes zero market calls until you
+add a ticker), and **every other network feature is opt-in**: keyed data
+providers, paper/live broker connections, cloud AI (the default is a **local**
+Ollama model), and alerts all stay off until you supply your own credentials.
+
+We deliberately avoid the phrase "fully offline" — the Academy and your data are
+local, but the lab pulls public market data for tracked symbols. For an audited,
+line-cited breakdown of exactly what touches the network and when, see
+**[docs/network-transparency.md](docs/network-transparency.md)**.
 
 ## Install (for traders — no developer setup)
 
