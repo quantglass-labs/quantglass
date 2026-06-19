@@ -1107,6 +1107,10 @@
       "openMissions": "Open Missions",
       "tryLive": "Try It Live",
       "openScreen": "Open {{screen}}"
+    },
+    "tierMap": {
+      "title": "Your path",
+      "subtitle": "Progress through the tiers — each unlocks the next."
     }
   },
   "nav": {

@@ -1107,6 +1107,10 @@
       "openMissions": "Missionen öffnen",
       "tryLive": "Live ausprobieren",
       "openScreen": "{{screen}} öffnen"
+    },
+    "tierMap": {
+      "title": "Dein Weg",
+      "subtitle": "Arbeite dich durch die Stufen – jede schaltet die nächste frei."
     }
   },
   "nav": {

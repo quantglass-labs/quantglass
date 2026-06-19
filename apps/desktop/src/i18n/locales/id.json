@@ -1107,6 +1107,10 @@
       "openMissions": "Buka Misi",
       "tryLive": "Coba langsung",
       "openScreen": "Buka {{screen}}"
+    },
+    "tierMap": {
+      "title": "Jalur Anda",
+      "subtitle": "Maju melalui tingkatan — masing-masing membuka yang berikutnya."
     }
   },
   "nav": {

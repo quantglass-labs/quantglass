@@ -1107,6 +1107,10 @@
       "openMissions": "미션 열기",
       "tryLive": "실시간으로 시도",
       "openScreen": "{{screen}} 열기"
+    },
+    "tierMap": {
+      "title": "나의 학습 경로",
+      "subtitle": "단계를 거치며 나아가세요 — 각 단계가 다음 단계를 잠금 해제합니다."
     }
   },
   "nav": {

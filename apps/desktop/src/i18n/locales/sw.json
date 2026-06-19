@@ -1107,6 +1107,10 @@
       "openMissions": "Fungua Misheni",
       "tryLive": "Jaribu moja kwa moja",
       "openScreen": "Fungua {{screen}}"
+    },
+    "tierMap": {
+      "title": "Njia yako",
+      "subtitle": "Endelea kupitia ngazi — kila moja hufungua inayofuata."
     }
   },
   "nav": {

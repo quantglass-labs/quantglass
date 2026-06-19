@@ -1107,6 +1107,10 @@
       "openMissions": "ミッションを開く",
       "tryLive": "ライブで試す",
       "openScreen": "{{screen}}を開く"
+    },
+    "tierMap": {
+      "title": "あなたの道のり",
+      "subtitle": "各ティアを進めましょう — それぞれが次を解放します。"
     }
   },
   "nav": {
