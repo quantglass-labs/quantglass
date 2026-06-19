@@ -866,7 +866,7 @@ function WorkbenchPanels({ workbench }: { workbench: NonNullable<StrategyPreset[
   const mc = workbench.monte_carlo;
   const statusTone: Record<string, string> = {
     pass: 'text-buy',
-    warn: 'text-amber-300',
+    warn: 'text-hold',
     fail: 'text-sell',
     info: 'text-muted',
   };

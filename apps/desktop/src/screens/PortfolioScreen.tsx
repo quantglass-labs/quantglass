@@ -85,9 +85,9 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
   return (
     <div className="mx-auto max-w-5xl">
       <div className="flex items-center gap-2">
-        <Briefcase size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">{t('portfolio.title')}</h1>
-        <span className="ml-auto text-xs text-zinc-600">{t('portfolio.tagline')}</span>
+        <Briefcase size={20} className="text-accent" />
+        <h1 className="text-lg font-semibold text-ink">{t('portfolio.title')}</h1>
+        <span className="ml-auto text-xs text-muted/70">{t('portfolio.tagline')}</span>
       </div>
 
       <BackendStatusNotice status={backendStatus} />
@@ -126,7 +126,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       ) : null}
 
       {notice ? (
-        <p className="mt-4 rounded-xl border border-zinc-700 bg-zinc-900/40 p-3 text-sm text-zinc-300">
+        <p className="mt-4 rounded-xl border border-border bg-white/[0.03] p-3 text-sm text-ink">
           {notice}
         </p>
       ) : null}
@@ -139,8 +139,8 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
             onClick={() => setTab(entry)}
             className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
               tab === entry
-                ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                : 'border-zinc-700 text-zinc-500 hover:text-zinc-300'
+                ? 'border-accent/60 bg-accent/15 text-accent'
+                : 'border-border text-muted hover:text-ink'
             }`}
           >
             {t(`portfolio.tabs.${entry}`)}
@@ -152,25 +152,25 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       {tab === 'positions' ? (
         <div className="mt-4 space-y-2">
           {!account?.openPositions.length ? (
-            <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
+            <p className="rounded-xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
               {t('portfolio.positions.empty')}
             </p>
           ) : (
             account.openPositions.map((position) => (
               <div
                 key={position.symbolId}
-                className="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"
+                className="flex items-center gap-4 rounded-xl border border-border bg-white/[0.03] p-4"
               >
                 <div>
-                  <p className="font-semibold text-zinc-100">{position.symbolId}</p>
-                  <p className="text-xs text-zinc-500">
+                  <p className="font-semibold text-ink">{position.symbolId}</p>
+                  <p className="text-xs text-muted">
                     {position.side.toUpperCase()} {position.quantity} @{' '}
                     {money(position.averagePrice)}
                   </p>
                 </div>
                 <span
                   className={`ml-auto font-semibold ${
-                    position.pnl >= 0 ? 'text-emerald-300' : 'text-rose-300'
+                    position.pnl >= 0 ? 'text-buy' : 'text-sell'
                   }`}
                 >
                   {money(position.pnl)}
@@ -180,7 +180,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                     type="button"
                     title={t('portfolio.positions.scaleOut')}
                     onClick={() => void closePosition(position.symbolId, position.quantity / 2)}
-                    className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:border-amber-500/50 hover:text-amber-300"
+                    className="rounded-full border border-border px-3 py-1.5 text-xs text-muted transition-colors hover:border-hold/50 hover:text-hold"
                   >
                     {t('portfolio.positions.closeHalf')}
                   </button>
@@ -188,7 +188,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 <button
                   type="button"
                   onClick={() => void closePosition(position.symbolId)}
-                  className="rounded-full border border-zinc-700 px-4 py-1.5 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
+                  className="rounded-full border border-border px-4 py-1.5 text-xs text-muted transition-colors hover:border-sell/50 hover:text-sell"
                 >
                   {t('portfolio.positions.close')}
                 </button>
@@ -201,18 +201,18 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       {tab === 'orders' ? (
         <div className="mt-4 space-y-2">
           {!orders.length ? (
-            <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
+            <p className="rounded-xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
               {t('portfolio.orders.empty')}
             </p>
           ) : (
             orders.map((order) => (
               <div
                 key={order.id}
-                className="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4"
+                className="flex items-center gap-4 rounded-xl border border-border bg-white/[0.03] p-4"
               >
                 <div>
-                  <p className="font-semibold text-zinc-100">{order.symbol}</p>
-                  <p className="text-xs text-zinc-500">
+                  <p className="font-semibold text-ink">{order.symbol}</p>
+                  <p className="text-xs text-muted">
                     {order.side} {order.quantity} ·{' '}
                     {t('portfolio.orders.submitted', { time: order.submittedAt.slice(0, 16) })}
                   </p>
@@ -220,7 +220,7 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 <button
                   type="button"
                   onClick={() => void cancelOrder(order.id)}
-                  className="ml-auto rounded-full border border-zinc-700 px-4 py-1.5 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
+                  className="ml-auto rounded-full border border-border px-4 py-1.5 text-xs text-muted transition-colors hover:border-sell/50 hover:text-sell"
                 >
                   {t('portfolio.orders.cancel')}
                 </button>
@@ -233,16 +233,16 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
       {tab === 'history' ? (
         <div className="mt-4">
           {closures === null ? (
-            <div className="h-24 animate-pulse rounded-xl bg-zinc-800/60" aria-busy="true" />
+            <div className="h-24 animate-pulse rounded-xl bg-white/5" aria-busy="true" />
           ) : !closures.length ? (
-            <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
+            <p className="rounded-xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
               {t('portfolio.history.empty')}
             </p>
           ) : (
             <>
-              <p className="mb-3 text-sm text-zinc-400">
+              <p className="mb-3 text-sm text-muted">
                 {t('portfolio.history.summary', { count: closures.length, winners })}{' '}
-                <span className={realizedTotal >= 0 ? 'text-emerald-300' : 'text-rose-300'}>
+                <span className={realizedTotal >= 0 ? 'text-buy' : 'text-sell'}>
                   {money(realizedTotal)}
                 </span>
               </p>
@@ -250,20 +250,20 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                 {closures.map((closure, index) => (
                   <div
                     key={`${closure.symbolId}-${closure.closedAt}-${index}`}
-                    className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/40 p-3 text-sm"
+                    className="flex items-center gap-3 rounded-xl border border-border bg-white/[0.03] p-3 text-sm"
                   >
-                    <span className="font-medium text-zinc-100">{closure.symbolId}</span>
-                    <span className="text-zinc-500">
+                    <span className="font-medium text-ink">{closure.symbolId}</span>
+                    <span className="text-muted">
                       {closure.side} {closure.quantity} · {money(closure.entryPrice)} →{' '}
                       {money(closure.exitPrice)}
                     </span>
                     <span
                       className={`rounded-full border px-2 py-0.5 text-[10px] uppercase ${
                         closure.exitKind === 'target'
-                          ? 'border-emerald-500/40 text-emerald-300'
+                          ? 'border-buy/40 text-buy'
                           : closure.exitKind === 'stop'
-                            ? 'border-rose-500/40 text-rose-300'
-                            : 'border-zinc-600 text-zinc-400'
+                            ? 'border-sell/40 text-sell'
+                            : 'border-border text-muted'
                       }`}
                     >
                       {t(`portfolio.exitKind.${closure.exitKind}`, {
@@ -272,13 +272,13 @@ export function PortfolioScreen({ backendStatus }: { backendStatus: BackendStatu
                     </span>
                     <span
                       className={`ml-auto font-semibold ${
-                        closure.pnl >= 0 ? 'text-emerald-300' : 'text-rose-300'
+                        closure.pnl >= 0 ? 'text-buy' : 'text-sell'
                       }`}
                     >
                       {money(closure.pnl)}
                     </span>
                     {closure.rMultiple !== null ? (
-                      <span className="text-xs text-zinc-500">
+                      <span className="text-xs text-muted">
                         {closure.rMultiple > 0 ? '+' : ''}
                         {closure.rMultiple}R
                       </span>

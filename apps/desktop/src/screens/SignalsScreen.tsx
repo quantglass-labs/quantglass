@@ -188,9 +188,7 @@ export function SignalsScreen({
             <div
               key={risk.display_name}
               className={`rounded-2xl border p-4 ${
-                risk.severity >= 3
-                  ? 'border-rose-500/40 bg-rose-600/10'
-                  : 'border-amber-500/40 bg-amber-600/10'
+                risk.severity >= 3 ? 'border-sell/40 bg-sell/10' : 'border-hold/40 bg-hold/10'
               }`}
             >
               <p className="text-sm font-semibold text-ink">

@@ -67,14 +67,14 @@ interface LearnScreenProps {
 
 const TIER_COLORS: Record<LessonTier, { badge: string; ring: string; dot: string }> = {
   novice: {
-    badge: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
-    ring: 'ring-emerald-500/50',
-    dot: 'bg-emerald-400',
+    badge: 'bg-buy/20 text-buy border border-buy/30',
+    ring: 'ring-buy/50',
+    dot: 'bg-buy',
   },
   intermediate: {
-    badge: 'bg-sky-500/20 text-sky-300 border border-sky-500/30',
-    ring: 'ring-sky-500/50',
-    dot: 'bg-sky-400',
+    badge: 'bg-watch/20 text-watch border border-watch/30',
+    ring: 'ring-watch/50',
+    dot: 'bg-watch',
   },
   advanced: {
     badge: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',
@@ -82,9 +82,9 @@ const TIER_COLORS: Record<LessonTier, { badge: string; ring: string; dot: string
     dot: 'bg-violet-400',
   },
   expert: {
-    badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-    ring: 'ring-amber-500/50',
-    dot: 'bg-amber-400',
+    badge: 'bg-hold/20 text-hold border border-hold/30',
+    ring: 'ring-hold/50',
+    dot: 'bg-hold',
   },
 };
 
@@ -104,25 +104,22 @@ function renderMarkdown(text: string): string {
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(
       /`(.+?)`/g,
-      '<code class="font-mono text-amber-300 bg-zinc-800 px-1 rounded text-sm">$1</code>',
+      '<code class="font-mono text-hold bg-white/[0.06] px-1 rounded text-sm">$1</code>',
     )
-    .replace(
-      /^#{1,3} (.+)$/gm,
-      '<h3 class="text-base font-semibold text-zinc-100 mt-4 mb-1">$1</h3>',
-    )
+    .replace(/^#{1,3} (.+)$/gm, '<h3 class="text-base font-semibold text-ink mt-4 mb-1">$1</h3>')
     .replace(/^\| (.+) \|$/gm, (line) => {
       const cells = line
         .split('|')
         .map((c) => c.trim())
         .filter(Boolean);
       return (
-        '<div class="flex gap-4 border-b border-zinc-700/60 py-1">' +
-        cells.map((c) => `<span class="flex-1 text-sm text-zinc-300">${c}</span>`).join('') +
+        '<div class="flex gap-4 border-b border-border py-1">' +
+        cells.map((c) => `<span class="flex-1 text-sm text-ink">${c}</span>`).join('') +
         '</div>'
       );
     })
     .replace(/^\|---.*$/gm, '')
-    .replace(/^- (.+)$/gm, '<li class="ml-4 text-zinc-300 text-sm list-disc">$1</li>')
+    .replace(/^- (.+)$/gm, '<li class="ml-4 text-ink text-sm list-disc">$1</li>')
     .replace(/\n\n/g, '<br/><br/>')
     .replace(/\n/g, '<br/>');
 }
@@ -145,21 +142,21 @@ function ProgressBar({ done, total, tier }: { done: number; total: number; tier?
   const p = pct(done, total);
   const barColor = tier
     ? {
-        novice: 'bg-emerald-500',
-        intermediate: 'bg-sky-500',
+        novice: 'bg-buy',
+        intermediate: 'bg-watch',
         advanced: 'bg-violet-500',
-        expert: 'bg-amber-500',
+        expert: 'bg-hold',
       }[tier]
-    : 'bg-indigo-500';
+    : 'bg-accentStrong';
   return (
     <div className="flex items-center gap-2 min-w-0">
-      <div className="flex-1 h-1.5 rounded-full bg-zinc-700 min-w-0">
+      <div className="flex-1 h-1.5 rounded-full bg-white/10 min-w-0">
         <div
           className={clsx('h-full rounded-full transition-all duration-500', barColor)}
           style={{ width: `${p}%` }}
         />
       </div>
-      <span className="text-xs text-zinc-500 shrink-0">
+      <span className="text-xs text-muted shrink-0">
         {done}/{total}
       </span>
     </div>
@@ -195,23 +192,23 @@ function LevelSection({
   return (
     <div className="mb-2">
       <button
-        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-zinc-800/70 transition-colors group text-left"
+        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors group text-left"
         onClick={() => setOpen(!open)}
       >
         <ChevronRight
           size={14}
           className={clsx(
-            'shrink-0 text-zinc-500 transition-transform duration-200',
+            'shrink-0 text-muted transition-transform duration-200',
             open && 'rotate-90',
           )}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-sm font-medium text-zinc-200 truncate">{level.title}</span>
+            <span className="text-sm font-medium text-ink truncate">{level.title}</span>
             <TierBadge tier={level.id} />
             {locked ? (
               <span title={(lockReasons ?? []).join(' · ') || t('learn.locked')}>
-                <Lock size={12} className="shrink-0 text-zinc-500" />
+                <Lock size={12} className="shrink-0 text-muted" />
               </span>
             ) : null}
           </div>
@@ -221,7 +218,7 @@ function LevelSection({
           role="button"
           tabIndex={0}
           title={t('learn.takeAssessment', { level: t(`learn.tiers.${level.id}`) })}
-          className="shrink-0 rounded-md p-1 text-zinc-500 hover:text-indigo-300 hover:bg-zinc-800"
+          className="shrink-0 rounded-md p-1 text-muted hover:text-accent hover:bg-white/[0.06]"
           onClick={(event) => {
             event.stopPropagation();
             onTakeAssessment(level.id);
@@ -238,10 +235,10 @@ function LevelSection({
         <div className="ml-4 mt-0.5 space-y-1">
           {level.tracks.map((track) => (
             <div key={track.id}>
-              <p className="px-3 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+              <p className="px-3 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
                 {track.title}
                 {track.source === 'community' ? (
-                  <span className="ml-1.5 rounded-full border border-sky-500/40 px-1.5 font-normal normal-case tracking-normal text-sky-300">
+                  <span className="ml-1.5 rounded-full border border-watch/40 px-1.5 font-normal normal-case tracking-normal text-watch">
                     {t('learn.community')}
                   </span>
                 ) : null}
@@ -257,8 +254,8 @@ function LevelSection({
                     className={clsx(
                       'w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-left transition-colors',
                       activeLessonId === lesson.id
-                        ? 'bg-indigo-600/30 text-indigo-200'
-                        : 'hover:bg-zinc-800/60 text-zinc-400 hover:text-zinc-200',
+                        ? 'bg-accent/20 text-accent'
+                        : 'hover:bg-white/5 text-muted hover:text-ink',
                     )}
                   >
                     {lesson.completed ? (
@@ -267,7 +264,7 @@ function LevelSection({
                         className={clsx('shrink-0', c.dot.replace('bg-', 'text-'))}
                       />
                     ) : (
-                      <Circle size={14} className="shrink-0 text-zinc-600" />
+                      <Circle size={14} className="shrink-0 text-muted/70" />
                     )}
                     <span className="text-xs truncate">{lesson.title}</span>
                   </button>
@@ -322,18 +319,18 @@ function AssessmentView({
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-zinc-100 capitalize">
+        <h2 className="text-lg font-semibold text-ink capitalize">
           {t('learn.assessment.heading', { level: t(`learn.tiers.${level}`) })}
         </h2>
         <button
           type="button"
-          className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
+          className="rounded-lg border border-border px-3 py-1.5 text-sm text-muted hover:bg-white/[0.06]"
           onClick={onClose}
         >
           {t('learn.assessment.back')}
         </button>
       </div>
-      <p className="mt-1 text-sm text-zinc-500">
+      <p className="mt-1 text-sm text-muted">
         {exam
           ? t('learn.assessment.meta', {
               count: exam.questions.length,
@@ -343,13 +340,13 @@ function AssessmentView({
         {' · '}
         {t('learn.assessment.gradedNote')}
       </p>
-      {error ? <p className="mt-4 text-sm text-amber-300">{error}</p> : null}
+      {error ? <p className="mt-4 text-sm text-hold">{error}</p> : null}
       {result ? (
         <div
           className={`mt-4 rounded-xl border p-4 text-sm ${
             result.passed
-              ? 'border-emerald-500/40 bg-emerald-600/10 text-emerald-200'
-              : 'border-amber-500/40 bg-amber-600/10 text-amber-200'
+              ? 'border-buy/40 bg-buy/10 text-buy'
+              : 'border-hold/40 bg-hold/10 text-hold/90'
           }`}
         >
           {result.passed ? t('learn.assessment.passed') : t('learn.assessment.notYet')} —{' '}
@@ -364,19 +361,19 @@ function AssessmentView({
         {exam?.questions.map((q, qi) => {
           const feedback = resultByLesson.get(q.lesson_id);
           return (
-            <div key={q.lesson_id} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-              <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">
+            <div key={q.lesson_id} className="rounded-xl border border-border bg-white/[0.03] p-4">
+              <p className="text-xs uppercase tracking-[0.14em] text-muted">
                 {t('learn.assessment.question', { number: qi + 1, title: q.title })}
               </p>
-              <p className="mt-2 text-sm text-zinc-200">{q.question}</p>
+              <p className="mt-2 text-sm text-ink">{q.question}</p>
               <div className="mt-3 space-y-1.5">
                 {q.options.map((option, oi) => (
                   <label
                     key={oi}
                     className={`flex items-start gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer ${
                       answers[q.lesson_id] === oi
-                        ? 'border-indigo-500/60 bg-indigo-600/15 text-zinc-100'
-                        : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                        ? 'border-accent/60 bg-accent/15 text-ink'
+                        : 'border-border text-muted hover:border-border'
                     }`}
                   >
                     <input
@@ -392,9 +389,7 @@ function AssessmentView({
                 ))}
               </div>
               {feedback ? (
-                <p
-                  className={`mt-3 text-sm ${feedback.correct ? 'text-emerald-300' : 'text-amber-300'}`}
-                >
+                <p className={`mt-3 text-sm ${feedback.correct ? 'text-buy' : 'text-hold'}`}>
                   {feedback.correct
                     ? t('learn.assessment.correct')
                     : t('learn.assessment.incorrect')}
@@ -409,7 +404,7 @@ function AssessmentView({
         <button
           type="button"
           disabled={Object.keys(answers).length < exam.questions.length}
-          className="mt-5 rounded-lg border border-indigo-500/50 px-4 py-2 text-sm text-indigo-200 hover:bg-indigo-600/20 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="mt-5 rounded-lg border border-accent/50 px-4 py-2 text-sm text-accent hover:bg-accent/15 disabled:opacity-40 disabled:cursor-not-allowed"
           onClick={() => void submit()}
         >
           {t('learn.assessment.submit')}
@@ -418,7 +413,7 @@ function AssessmentView({
       {result && !result.passed ? (
         <button
           type="button"
-          className="mt-5 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+          className="mt-5 rounded-lg border border-border px-4 py-2 text-sm text-ink hover:bg-white/[0.06]"
           onClick={() => {
             setResult(null);
             setAnswers({});
@@ -478,54 +473,54 @@ function LiveExercisePanel({
   }
 
   return (
-    <div className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+    <div className="mt-6 rounded-xl border border-buy/30 bg-buy/10 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-buy">
         {t('learn.live.title')}
       </p>
-      <p className="mt-2 text-sm text-zinc-400">{t('learn.live.subtitle')}</p>
+      <p className="mt-2 text-sm text-muted">{t('learn.live.subtitle')}</p>
       {!exercise ? (
         <button
           type="button"
-          className="mt-3 rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
+          className="mt-3 rounded-lg border border-buy/40 px-3 py-1.5 text-sm text-buy hover:bg-buy/15"
           onClick={() => void loadExercise()}
         >
           {t('learn.live.generate')}
         </button>
       ) : (
         <div className="mt-3 space-y-3">
-          <p className="text-sm text-zinc-200">{exercise.question}</p>
-          <p className="text-xs text-zinc-500">{exercise.hint}</p>
+          <p className="text-sm text-ink">{exercise.question}</p>
+          <p className="text-xs text-muted">{exercise.hint}</p>
           <div className="flex gap-2">
             <input
-              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100"
+              className="flex-1 rounded-lg border border-border bg-panel px-3 py-1.5 text-sm text-ink"
               value={answer}
               onChange={(event) => setAnswer(event.target.value)}
               placeholder={t('learn.live.answerPlaceholder')}
             />
             <button
               type="button"
-              className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
+              className="rounded-lg border border-buy/40 px-3 py-1.5 text-sm text-buy hover:bg-buy/15"
               onClick={() => void submit()}
             >
               {t('learn.live.check')}
             </button>
             <button
               type="button"
-              className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
+              className="rounded-lg border border-border px-3 py-1.5 text-sm text-muted hover:bg-white/[0.06]"
               onClick={() => void loadExercise()}
             >
               {t('learn.live.newNumbers')}
             </button>
           </div>
           {result ? (
-            <p className={`text-sm ${result.correct ? 'text-emerald-300' : 'text-amber-300'}`}>
+            <p className={`text-sm ${result.correct ? 'text-buy' : 'text-hold'}`}>
               {result.correct ? t('learn.live.correct') : t('learn.live.notQuite')}
               {result.explanation}
             </p>
           ) : null}
         </div>
       )}
-      {status ? <p className="mt-3 text-sm text-amber-300">{status}</p> : null}
+      {status ? <p className="mt-3 text-sm text-hold">{status}</p> : null}
     </div>
   );
 }
@@ -580,15 +575,15 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700/60 bg-zinc-800/40 p-5 space-y-4">
+    <div className="rounded-xl border border-border bg-white/[0.04] p-5 space-y-4">
       <div className="flex items-center gap-2 mb-1">
-        <Lightbulb size={15} className="text-amber-400 shrink-0" />
-        <span className="text-sm font-semibold text-zinc-100">{t('learn.exercise.title')}</span>
+        <Lightbulb size={15} className="text-hold shrink-0" />
+        <span className="text-sm font-semibold text-ink">{t('learn.exercise.title')}</span>
       </div>
-      <p className="text-sm text-zinc-300 leading-relaxed">{ex.question}</p>
+      <p className="text-sm text-ink leading-relaxed">{ex.question}</p>
 
       {'hint' in ex && (ex as { hint?: string }).hint && (
-        <p className="text-xs text-zinc-500 italic">{(ex as { hint?: string }).hint}</p>
+        <p className="text-xs text-muted italic">{(ex as { hint?: string }).hint}</p>
       )}
 
       {ex.type === 'multiple_choice' && 'options' in ex && (
@@ -604,15 +599,15 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
               className={clsx(
                 'w-full text-left px-4 py-3 rounded-lg text-sm border transition-colors',
                 result === null && selectedIndex === i
-                  ? 'border-indigo-500 bg-indigo-600/20 text-indigo-100'
+                  ? 'border-accent bg-accent/15 text-ink'
                   : result !== null && result.correct && selectedIndex === i
-                    ? 'border-emerald-500 bg-emerald-600/20 text-emerald-100'
+                    ? 'border-buy bg-buy/15 text-ink'
                     : result !== null && !result.correct && selectedIndex === i
                       ? 'border-red-500 bg-red-600/20 text-red-100'
-                      : 'border-zinc-700 bg-zinc-800/60 text-zinc-300 hover:border-zinc-600 hover:text-zinc-100',
+                      : 'border-border bg-white/5 text-ink hover:border-border hover:text-ink',
               )}
             >
-              <span className="font-medium mr-2 text-zinc-500">{String.fromCharCode(65 + i)}.</span>
+              <span className="font-medium mr-2 text-muted">{String.fromCharCode(65 + i)}.</span>
               {opt}
             </button>
           ))}
@@ -629,7 +624,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
           }}
           disabled={result !== null || loading}
           placeholder={t('learn.exercise.placeholder')}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+          className="w-full bg-white/[0.06] border border-border rounded-lg px-4 py-2 text-sm text-ink placeholder-zinc-500 focus:outline-none focus:border-accent"
         />
       )}
 
@@ -640,7 +635,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
             (ex.type === 'multiple_choice' ? selectedIndex === null : !numericValue.trim())
           }
           onClick={() => void handleSubmit()}
-          className="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+          className="px-5 py-2 bg-accentStrong hover:bg-accentStrong disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
         >
           {loading ? t('learn.exercise.checking') : t('learn.exercise.check')}
         </button>
@@ -652,19 +647,19 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
             className={clsx(
               'rounded-lg p-4 border text-sm',
               result.correct
-                ? 'border-emerald-500/40 bg-emerald-600/10 text-emerald-200'
+                ? 'border-buy/40 bg-buy/10 text-buy'
                 : 'border-red-500/40 bg-red-600/10 text-red-200',
             )}
           >
             <div className="flex items-center gap-2 font-semibold mb-2">
               {result.correct ? (
-                <CheckCircle2 size={15} className="text-emerald-400" />
+                <CheckCircle2 size={15} className="text-buy" />
               ) : (
                 <AlertCircle size={15} className="text-red-400" />
               )}
               {result.correct ? t('learn.exercise.correct') : t('learn.exercise.notQuite')}
             </div>
-            <p className="text-zinc-300 leading-relaxed">{result.explanation}</p>
+            <p className="text-ink leading-relaxed">{result.explanation}</p>
           </div>
           {!result.correct && (
             <button
@@ -673,7 +668,7 @@ function ExerciseController({ lesson, onComplete }: ExerciseControllerProps) {
                 setSelectedIndex(null);
                 setNumericValue('');
               }}
-              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="flex items-center gap-1.5 text-sm text-muted hover:text-ink transition-colors"
             >
               <RotateCcw size={13} />
               {t('learn.exercise.tryAgain')}
@@ -724,8 +719,8 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
   };
 
   return (
-    <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
-      <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+    <div className="rounded-xl border border-border bg-white/[0.03] p-5">
+      <h2 className="text-sm font-semibold text-muted uppercase tracking-wider mb-2">
         {t('learn.tutor.title')}
       </h2>
       <div className="flex gap-2">
@@ -737,22 +732,22 @@ function TutorPanel({ lessonId }: { lessonId: string }) {
             if (event.key === 'Enter') void ask();
           }}
           placeholder={t('learn.tutor.placeholder')}
-          className="flex-1 rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-indigo-500 focus:outline-none"
+          className="flex-1 rounded-lg border border-border bg-background/50 px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:border-accent focus:outline-none"
         />
         <button
           type="button"
           disabled={asking || !question.trim()}
           onClick={() => void ask()}
-          className="rounded-lg border border-indigo-500/50 px-4 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-40"
+          className="rounded-lg border border-accent/50 px-4 py-2 text-xs font-semibold text-accent transition-colors hover:bg-accent/15 disabled:opacity-40"
         >
           {asking ? t('learn.tutor.thinking') : t('learn.tutor.ask')}
         </button>
       </div>
-      {notice ? <p className="mt-3 text-sm text-amber-300">{notice}</p> : null}
+      {notice ? <p className="mt-3 text-sm text-hold">{notice}</p> : null}
       {answer ? (
-        <div className="mt-3 rounded-lg border border-zinc-700/60 bg-zinc-950/40 p-3">
-          <AiMarkdown className="text-sm leading-relaxed text-zinc-200">{answer}</AiMarkdown>
-          <p className="mt-2 text-[11px] text-zinc-600">{t('learn.tutor.footer', { source })}</p>
+        <div className="mt-3 rounded-lg border border-border bg-background/40 p-3">
+          <AiMarkdown className="text-sm leading-relaxed text-ink">{answer}</AiMarkdown>
+          <p className="mt-2 text-[11px] text-muted/70">{t('learn.tutor.footer', { source })}</p>
         </div>
       ) : null}
     </div>
@@ -779,7 +774,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
           className={clsx(
             'w-10 h-10 rounded-xl flex items-center justify-center ring-1 shrink-0',
             c.ring,
-            'bg-zinc-800',
+            'bg-white/[0.06]',
           )}
         >
           <BookOpen size={18} className={c.dot.replace('bg-', 'text-')} />
@@ -787,28 +782,28 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <TierBadge tier={lesson.tier} />
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-muted">
               {t('learn.lesson.number', { order: lesson.order })}
             </span>
             {lesson.completed && (
-              <span className="flex items-center gap-1 text-xs text-emerald-400">
+              <span className="flex items-center gap-1 text-xs text-buy">
                 <CheckCircle2 size={12} />
                 {t('learn.lesson.completed')}
               </span>
             )}
           </div>
-          <h1 className="text-xl font-bold text-zinc-100">{lesson.title}</h1>
-          <p className="text-sm text-zinc-400 mt-0.5">{lesson.summary}</p>
+          <h1 className="text-xl font-bold text-ink">{lesson.title}</h1>
+          <p className="text-sm text-muted mt-0.5">{lesson.summary}</p>
         </div>
       </div>
 
       {/* Concept */}
-      <div ref={conceptRef} className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
-        <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+      <div ref={conceptRef} className="rounded-xl border border-border bg-white/[0.03] p-5">
+        <h2 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">
           {t('learn.lesson.concept')}
         </h2>
         <div
-          className="text-sm text-zinc-300 leading-relaxed space-y-1 prose-zinc"
+          className="text-sm text-ink leading-relaxed space-y-1 prose-zinc"
           dangerouslySetInnerHTML={{ __html: renderMarkdown(lesson.concept) }}
         />
 
@@ -817,17 +812,15 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
       {/* Key Terms */}
       {lesson.key_terms?.length > 0 && (
-        <div className="rounded-xl border border-zinc-700/40 bg-zinc-800/30 p-5">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+        <div className="rounded-xl border border-border bg-white/[0.03] p-5">
+          <h2 className="text-sm font-semibold text-muted uppercase tracking-wider mb-3">
             {t('learn.lesson.keyTerms')}
           </h2>
           <dl className="space-y-2">
             {lesson.key_terms.map((kt) => (
               <div key={kt.term} className="flex gap-3">
-                <dt className="text-sm font-medium text-zinc-100 shrink-0 w-40 truncate">
-                  {kt.term}
-                </dt>
-                <dd className="text-sm text-zinc-400 leading-relaxed">{kt.definition}</dd>
+                <dt className="text-sm font-medium text-ink shrink-0 w-40 truncate">{kt.term}</dt>
+                <dd className="text-sm text-muted leading-relaxed">{kt.definition}</dd>
               </div>
             ))}
           </dl>
@@ -836,14 +829,14 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
       {/* Common mistakes */}
       {lesson.common_mistakes?.length ? (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-600/10 p-5">
-          <h2 className="text-sm font-semibold text-amber-300 uppercase tracking-wider mb-3">
+        <div className="rounded-xl border border-hold/30 bg-hold/10 p-5">
+          <h2 className="text-sm font-semibold text-hold uppercase tracking-wider mb-3">
             {t('learn.lesson.commonMistakes')}
           </h2>
           <ul className="space-y-2">
             {lesson.common_mistakes.map((mistake) => (
-              <li key={mistake} className="flex gap-2 text-sm text-zinc-300 leading-relaxed">
-                <span className="text-amber-400 shrink-0">⚠</span>
+              <li key={mistake} className="flex gap-2 text-sm text-ink leading-relaxed">
+                <span className="text-hold shrink-0">⚠</span>
                 {mistake}
               </li>
             ))}
@@ -865,15 +858,15 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       {/* Try It Live */}
       {/* Bridge: lesson -> mission/scenario */}
       {lesson.bridge ? (
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-600/10 p-5">
-          <h2 className="text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2">
+        <div className="rounded-xl border border-buy/30 bg-buy/10 p-5">
+          <h2 className="text-sm font-semibold text-buy uppercase tracking-wider mb-2">
             {t('learn.lesson.takeFurther')}
           </h2>
-          <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.bridge.cta}</p>
+          <p className="text-sm text-ink leading-relaxed mb-3">{lesson.bridge.cta}</p>
           <button
             type="button"
             onClick={() => onNavigate('/missions')}
-            className="rounded-lg border border-emerald-500/50 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
+            className="rounded-lg border border-buy/50 px-3 py-1.5 text-xs font-semibold text-buy transition-colors hover:bg-buy/15"
           >
             {t('learn.lesson.openMissions')}
           </button>
@@ -881,11 +874,11 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       ) : null}
 
       {lesson.live_apply && (
-        <div className="rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-5">
-          <h2 className="text-sm font-semibold text-indigo-300 uppercase tracking-wider mb-2">
+        <div className="rounded-xl border border-accent/30 bg-accent/10 p-5">
+          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-2">
             {t('learn.lesson.tryLive')}
           </h2>
-          <p className="text-sm text-zinc-300 leading-relaxed mb-3">{lesson.live_apply.cta}</p>
+          <p className="text-sm text-ink leading-relaxed mb-3">{lesson.live_apply.cta}</p>
           {lesson.live_apply.screen && (
             <button
               onClick={() => {
@@ -899,7 +892,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
                 };
                 onNavigate(screenMap[lesson.live_apply.screen] ?? '/');
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-accentStrong hover:bg-accentStrong text-white text-sm font-medium rounded-lg transition-colors"
             >
               <SquareArrowOutUpRight size={14} />
               {t('learn.lesson.openScreen', {
@@ -915,7 +908,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
       )}
 
       {/* Disclaimer */}
-      <p className="text-xs text-zinc-600 text-center pt-2">{t('learn.eduDisclaimer')}</p>
+      <p className="text-xs text-muted/70 text-center pt-2">{t('learn.eduDisclaimer')}</p>
     </div>
   );
 }
@@ -926,7 +919,7 @@ function LessonViewer({ lesson, onNavigate, onLessonCompleted }: LessonViewerPro
 
 function EmptyLearnState({ message }: { message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center flex-1 min-h-[300px] gap-4 text-zinc-500">
+    <div className="flex flex-col items-center justify-center flex-1 min-h-[300px] gap-4 text-muted">
       <GraduationCap size={40} className="opacity-30" />
       <p className="text-sm">{message}</p>
     </div>
@@ -1098,21 +1091,21 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       style={{ height: screenHeight }}
     >
       {/* Top bar */}
-      <div className="shrink-0 border-b border-zinc-800 px-6 py-3 flex items-center gap-4">
+      <div className="shrink-0 border-b border-border px-6 py-3 flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <GraduationCap size={18} className="text-indigo-400" />
-          <span className="text-sm font-semibold text-zinc-100">{t('learn.title')}</span>
+          <GraduationCap size={18} className="text-accent" />
+          <span className="text-sm font-semibold text-ink">{t('learn.title')}</span>
         </div>
         {progress && (
           <div className="flex items-center gap-3 ml-4 flex-1 max-w-xs">
             <ProgressBar done={progress.completed} total={progress.total} />
-            <span className="text-xs text-zinc-500 shrink-0">
+            <span className="text-xs text-muted shrink-0">
               {t('learn.percentComplete', { percent: pct(progress.completed, progress.total) })}
             </span>
           </div>
         )}
         {readiness ? (
-          <div className="hidden lg:flex items-center gap-3 text-[11px] text-zinc-500">
+          <div className="hidden lg:flex items-center gap-3 text-[11px] text-muted">
             {(
               [
                 ['knowledge', readiness.scores.knowledge],
@@ -1128,13 +1121,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               >
                 {t(`learn.readiness.${key}`)}{' '}
                 <span
-                  className={
-                    value >= 70
-                      ? 'text-emerald-400'
-                      : value >= 40
-                        ? 'text-amber-300'
-                        : 'text-zinc-400'
-                  }
+                  className={value >= 70 ? 'text-buy' : value >= 40 ? 'text-hold' : 'text-muted'}
                 >
                   {value}
                 </span>
@@ -1142,12 +1129,12 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             ))}
           </div>
         ) : null}
-        <span className="ml-auto text-xs text-zinc-600">{t('learn.eduDisclaimer')}</span>
+        <span className="ml-auto text-xs text-muted/70">{t('learn.eduDisclaimer')}</span>
       </div>
 
       {/* Tier progression overview (full width) */}
       {catalog ? (
-        <div className="shrink-0 border-b border-zinc-800 px-6 py-3">
+        <div className="shrink-0 border-b border-border px-6 py-3">
           <div className="flex items-baseline gap-3">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
               {t('learn.tierMap.title')}
@@ -1171,12 +1158,12 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
       {/* Body */}
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-72 shrink-0 border-r border-zinc-800 overflow-y-auto p-3 hidden md:block">
+        <aside className="w-72 shrink-0 border-r border-border overflow-y-auto p-3 hidden md:block">
           <input
             type="search"
             placeholder={t('learn.sidebar.searchPlaceholder')}
             aria-label={t('learn.sidebar.searchLabel')}
-            className="mb-3 w-full rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
+            className="mb-3 w-full rounded-lg border border-border bg-background/50 px-3 py-2 text-sm text-ink outline-none placeholder:text-muted/70 focus:border-accent/60"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
           />
@@ -1187,8 +1174,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               className={clsx(
                 'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
                 libraryView === 'glossary'
-                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+                  ? 'border-accent/60 bg-accent/15 text-accent'
+                  : 'border-border text-muted hover:border-white/20',
               )}
             >
               {t('learn.sidebar.glossary')}
@@ -1199,8 +1186,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               className={clsx(
                 'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
                 libraryView === 'reference'
-                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+                  ? 'border-accent/60 bg-accent/15 text-accent'
+                  : 'border-border text-muted hover:border-white/20',
               )}
             >
               {t('learn.sidebar.reference')}
@@ -1211,8 +1198,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               className={clsx(
                 'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
                 libraryView === 'practice'
-                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+                  ? 'border-accent/60 bg-accent/15 text-accent'
+                  : 'border-border text-muted hover:border-white/20',
               )}
             >
               {t('learn.sidebar.practice')}
@@ -1223,8 +1210,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
               className={clsx(
                 'flex-1 rounded-lg border px-2 py-1.5 text-xs transition-colors',
                 libraryView === 'progress'
-                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500',
+                  ? 'border-accent/60 bg-accent/15 text-accent'
+                  : 'border-border text-muted hover:border-white/20',
               )}
             >
               {t('learn.sidebar.progress')}
@@ -1233,7 +1220,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
           {searchResults ? (
             <div className="space-y-0.5">
               {searchResults.length === 0 ? (
-                <p className="px-3 py-2 text-xs text-zinc-500">{t('learn.sidebar.noMatch')}</p>
+                <p className="px-3 py-2 text-xs text-muted">{t('learn.sidebar.noMatch')}</p>
               ) : null}
               {searchResults.map(({ lesson: result, trackTitle, level }) => (
                 <button
@@ -1242,12 +1229,12 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   className={clsx(
                     'w-full rounded-md px-3 py-2 text-left transition-colors',
                     activeLessonId === result.id
-                      ? 'bg-indigo-600/30 text-indigo-200'
-                      : 'hover:bg-zinc-800/60 text-zinc-400 hover:text-zinc-200',
+                      ? 'bg-accent/20 text-accent'
+                      : 'hover:bg-white/5 text-muted hover:text-ink',
                   )}
                 >
                   <span className="block text-xs font-medium truncate">{result.title}</span>
-                  <span className="block text-[10px] text-zinc-600">
+                  <span className="block text-[10px] text-muted/70">
                     {level} · {trackTitle}
                   </span>
                 </button>
@@ -1258,7 +1245,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             {!catalog && (
               <div className="space-y-3 p-2">
                 {[1, 2, 3, 4].map((n) => (
-                  <div key={n} className="h-12 rounded-lg bg-zinc-800 animate-pulse" />
+                  <div key={n} className="h-12 rounded-lg bg-white/[0.06] animate-pulse" />
                 ))}
               </div>
             )}
@@ -1315,26 +1302,26 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
             <>
               {!catalog && !error ? (
                 <div className="max-w-3xl space-y-3" aria-busy="true">
-                  <p className="text-sm text-zinc-500">{t('learn.loadingAcademy')}</p>
+                  <p className="text-sm text-muted">{t('learn.loadingAcademy')}</p>
                   {[1, 2, 3].map((n) => (
-                    <div key={n} className="h-24 rounded-xl bg-zinc-800/60 animate-pulse" />
+                    <div key={n} className="h-24 rounded-xl bg-white/5 animate-pulse" />
                   ))}
                 </div>
               ) : null}
               {tradeReview && tradeReview.summary.trades > 0 ? (
-                <div className="mb-4 rounded-xl border border-zinc-700/60 bg-zinc-900/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                <div className="mb-4 rounded-xl border border-border bg-white/[0.03] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
                     {t('learn.review.title')}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-4 text-sm">
-                    <span className="text-zinc-300">
+                    <span className="text-ink">
                       {t('learn.review.avgScore')}{' '}
                       <span
                         className={
                           tradeReview.summary.average_process_score >=
                           tradeReview.summary.process_good_bar
-                            ? 'text-emerald-300 font-semibold'
-                            : 'text-amber-300 font-semibold'
+                            ? 'text-buy font-semibold'
+                            : 'text-hold font-semibold'
                         }
                       >
                         {tradeReview.summary.average_process_score}
@@ -1358,7 +1345,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                       .filter((item) => item.process_notes.length > 0)
                       .slice(0, 3);
                     return flagged.length ? (
-                      <ul className="mt-2 space-y-1 text-xs text-zinc-400">
+                      <ul className="mt-2 space-y-1 text-xs text-muted">
                         {flagged.map((item) => (
                           <li key={item.id}>
                             {item.symbol} {item.side} ({item.process_score}/100):{' '}
@@ -1371,8 +1358,8 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                 </div>
               ) : null}
               {moments.length > 0 && (
-                <div className="mb-4 rounded-xl border border-indigo-500/30 bg-indigo-600/10 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+                <div className="mb-4 rounded-xl border border-accent/30 bg-accent/10 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
                     {t('learn.moments.title')}
                   </p>
                   <div className="mt-3 space-y-2">
@@ -1380,11 +1367,11 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                       <button
                         key={moment.id}
                         type="button"
-                        className="block w-full rounded-lg border border-zinc-700/60 bg-zinc-900/40 p-3 text-left text-sm text-zinc-300 hover:border-indigo-400/60"
+                        className="block w-full rounded-lg border border-border bg-white/[0.03] p-3 text-left text-sm text-ink hover:border-accent/60"
                         onClick={() => setActiveLessonId(moment.lesson_id)}
                       >
                         {moment.message}
-                        <span className="mt-1 block text-xs text-indigo-300">
+                        <span className="mt-1 block text-xs text-accent">
                           {t('learn.moments.openLesson')}
                         </span>
                       </button>
@@ -1403,7 +1390,7 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                   {[200, 120, 80, 240].map((h, i) => (
                     <div
                       key={i}
-                      className="rounded-xl bg-zinc-800/60 animate-pulse"
+                      className="rounded-xl bg-white/5 animate-pulse"
                       style={{ height: h }}
                     />
                   ))}
