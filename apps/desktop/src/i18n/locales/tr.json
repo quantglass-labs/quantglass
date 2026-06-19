@@ -48,7 +48,13 @@
       "generating": "Sabah özeti oluşturuluyor…",
       "title": "Sabah özeti",
       "footer": "Motorun kendi okumalarından anlatıldı — rejimler, sinyaller, risk. Asla tavsiye değildir."
-    }
+    },
+    "greeting": {
+      "morning": "Günaydın",
+      "afternoon": "İyi günler",
+      "evening": "İyi akşamlar"
+    },
+    "streakChipTitle": "Disiplin serin — Görevleri aç"
   },
   "signals": {
     "eyebrow": "Sinyaller",

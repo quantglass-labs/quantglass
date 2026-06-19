@@ -48,7 +48,13 @@
       "generating": "Morgenbriefing wird erstellt…",
       "title": "Morgenbriefing",
       "footer": "Erzählt aus den eigenen Auswertungen der Engine – Regime, Signale, Risiko. Niemals eine Beratung."
-    }
+    },
+    "greeting": {
+      "morning": "Guten Morgen",
+      "afternoon": "Guten Tag",
+      "evening": "Guten Abend"
+    },
+    "streakChipTitle": "Deine Disziplin-Serie — Missionen öffnen"
   },
   "signals": {
     "eyebrow": "Signale",

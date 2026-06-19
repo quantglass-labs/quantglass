@@ -48,7 +48,13 @@
       "generating": "Membuat ringkasan pagi…",
       "title": "Ringkasan pagi",
       "footer": "Dinarasikan dari pembacaan mesin sendiri — rezim, sinyal, risiko. Bukan nasihat."
-    }
+    },
+    "greeting": {
+      "morning": "Selamat pagi",
+      "afternoon": "Selamat siang",
+      "evening": "Selamat malam"
+    },
+    "streakChipTitle": "Runtunan disiplinmu — buka Misi"
   },
   "signals": {
     "eyebrow": "Sinyal",

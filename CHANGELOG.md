@@ -17,6 +17,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - A global **command palette** (⌘K / Ctrl+K, also reachable from the header
   search) to jump to any screen or symbol — fully keyboard-driven (↑/↓, ↵, esc).
   Localized in all 20 languages.
+- The Dashboard now greets you by time of day with the date, and surfaces your
+  **discipline streak** as a chip that links to Missions — pulling the practice
+  loop onto the home screen. Localized in all 20 languages.
 
 ### Changed
 

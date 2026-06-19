@@ -48,7 +48,13 @@
       "generating": "正在生成晨报…",
       "title": "晨报",
       "footer": "依据引擎自身的读数撰写——状态、信号、风险。绝非投资建议。"
-    }
+    },
+    "greeting": {
+      "morning": "早上好",
+      "afternoon": "下午好",
+      "evening": "晚上好"
+    },
+    "streakChipTitle": "你的自律连续记录 — 打开任务"
   },
   "signals": {
     "eyebrow": "信号",
