@@ -340,6 +340,15 @@
     "title": "Nhiệm vụ",
     "earnedBadge": "Đã đạt {{completed}} / {{total}}",
     "tagline": "Đạt được bằng hành vi, không phải bằng nhấp chuột — mỗi tiêu chí đọc hoạt động thực của bạn.",
+    "daily": {
+      "dayStreak": "ngày liên tiếp",
+      "bestLabel": "Tốt nhất",
+      "showedUp": "Hôm nay bạn đã có mặt — kỷ luật được tích lũy.",
+      "keepAlive": "Hãy luyện một lần hôm nay để giữ chuỗi.",
+      "startToday": "Bắt đầu chuỗi của bạn — một lần luyện trung thực hôm nay.",
+      "todaysMission": "Nhiệm vụ hôm nay",
+      "allComplete": "Đã đạt mọi nhiệm vụ. Quay lại khi giao dịch của bạn tiến xa hơn."
+    },
     "aiTitle": "Huấn luyện viên nhiệm vụ",
     "loadError": "Không thể tải nhiệm vụ. Backend có đang chạy không?",
     "searchPlaceholder": "Tìm nhiệm vụ…",

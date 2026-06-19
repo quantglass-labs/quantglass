@@ -340,6 +340,15 @@
     "title": "Misiones",
     "earnedBadge": "{{completed}} / {{total}} obtenidas",
     "tagline": "Se gana por conducta, no por clics — cada criterio lee tu actividad real.",
+    "daily": {
+      "dayStreak": "días seguidos",
+      "bestLabel": "Mejor",
+      "showedUp": "Hoy te presentaste: la disciplina se acumula.",
+      "keepAlive": "Haz una práctica hoy para mantener la racha viva.",
+      "startToday": "Empieza tu racha: una práctica honesta hoy.",
+      "todaysMission": "Misión de hoy",
+      "allComplete": "Todas las misiones logradas. Vuelve a medida que evolucione tu trading."
+    },
     "aiTitle": "Entrenador de misiones",
     "loadError": "No se pudieron cargar las misiones. ¿El backend está en ejecución?",
     "searchPlaceholder": "Buscar misiones…",

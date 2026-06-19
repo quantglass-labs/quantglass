@@ -340,6 +340,15 @@
     "title": "Misi",
     "earnedBadge": "{{completed}} / {{total}} diraih",
     "tagline": "Diraih lewat perilaku, bukan klik — setiap kriteria membaca aktivitas nyata Anda.",
+    "daily": {
+      "dayStreak": "hari beruntun",
+      "bestLabel": "Terbaik",
+      "showedUp": "Kamu hadir hari ini — disiplin terakumulasi.",
+      "keepAlive": "Lakukan satu latihan hari ini agar runtunan tetap hidup.",
+      "startToday": "Mulai runtunanmu — satu latihan jujur hari ini.",
+      "todaysMission": "Misi hari ini",
+      "allComplete": "Semua misi diraih. Kembalilah seiring trading-mu berkembang."
+    },
     "aiTitle": "Pelatih misi",
     "loadError": "Tidak dapat memuat misi. Apakah backend berjalan?",
     "searchPlaceholder": "Cari misi…",

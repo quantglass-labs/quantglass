@@ -165,6 +165,12 @@ async def list_missions(request: Request) -> dict:
     return request.app.state.mission_service.list_missions()
 
 
+@router.get("/missions/daily")
+async def daily_briefing(request: Request) -> dict:
+    """The discipline streak and today's featured mission."""
+    return request.app.state.mission_service.daily_briefing()
+
+
 @router.post("/missions/{mission_id}/accept")
 async def accept_mission(mission_id: str, request: Request) -> dict:
     """Take the mission on — it joins the active briefing slots (max 3)."""

@@ -5,6 +5,7 @@ import type { MarketType, ViewMode } from '@quantglass/contracts';
 
 export type {
   MissionRecord,
+  DailyBriefing,
   PaperTradeIntentRecord,
   PaperClosureRecord,
   ContextSignal,

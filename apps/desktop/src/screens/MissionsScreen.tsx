@@ -29,9 +29,16 @@ import { MissionsTierDiagram } from '../components/flow/FlowDiagram';
 import { CountUp, FadeIn } from '../components/motion';
 import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
+import { DailyBriefing } from './missions/DailyBriefing';
 import { DecisionDrill } from './missions/DecisionDrill';
 import { ScenarioPlayer } from './missions/ScenarioPlayer';
-import type { BackendStatus, MissionRecord, ScenarioDetail, ScenarioSummary } from '../types';
+import type {
+  BackendStatus,
+  DailyBriefing as DailyBriefingData,
+  MissionRecord,
+  ScenarioDetail,
+  ScenarioSummary,
+} from '../types';
 
 // Order + `missions.categories.<key>` subkey for each mission category.
 const CATEGORY_META: Record<string, { key: string; order: number }> = {
@@ -270,6 +277,7 @@ function MissionCard({
 export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus }) {
   const { t } = useTranslation();
   const [missions, setMissions] = useState<MissionRecord[] | null>(null);
+  const [briefing, setBriefing] = useState<DailyBriefingData | null>(null);
   const [scenarios, setScenarios] = useState<ScenarioSummary[] | null>(null);
   const [activeScenario, setActiveScenario] = useState<ScenarioDetail | null>(null);
   const [activeDrill, setActiveDrill] = useState<string | null>(null);
@@ -290,6 +298,10 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       })
       .catch(() => setError(t('missions.loadError')));
     backendClient
+      .getDailyBriefing()
+      .then(setBriefing)
+      .catch(() => setBriefing(null));
+    backendClient
       .getScenarios()
       .then((response) => setScenarios(response.items))
       .catch(() => setScenarios([]));
@@ -297,6 +309,10 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
 
   const refreshMissions = () => {
     void backendClient.getMissions().then((response) => setMissions(response.items));
+    void backendClient
+      .getDailyBriefing()
+      .then(setBriefing)
+      .catch(() => undefined);
   };
 
   const handleAccept = (missionId: string) => {
@@ -431,6 +447,15 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
             />
           </MetricTile>
         </div>
+      ) : null}
+
+      {briefing ? (
+        <DailyBriefing
+          briefing={briefing}
+          onRunDrill={setActiveDrill}
+          onAccept={handleAccept}
+          slotsFull={slotsFull}
+        />
       ) : null}
 
       <div className="mt-4 flex flex-wrap items-center gap-2">

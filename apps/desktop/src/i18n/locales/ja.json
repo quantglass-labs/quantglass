@@ -340,6 +340,15 @@
     "title": "ミッション",
     "earnedBadge": "{{completed}} / {{total}} 獲得",
     "tagline": "クリックではなく行動で獲得——各基準はあなたの実際の活動を読み取ります。",
+    "daily": {
+      "dayStreak": "日連続",
+      "bestLabel": "最高",
+      "showedUp": "今日も取り組みました — 規律は積み重なります。",
+      "keepAlive": "連続を絶やさないよう、今日ひとつ練習を。",
+      "startToday": "連続を始めよう — 今日、誠実な練習をひとつ。",
+      "todaysMission": "今日のミッション",
+      "allComplete": "すべてのミッション達成。取引の成長とともにまたお越しを。"
+    },
     "aiTitle": "ミッションコーチ",
     "loadError": "ミッションを読み込めませんでした。バックエンドは稼働していますか？",
     "searchPlaceholder": "ミッションを検索…",

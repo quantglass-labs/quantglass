@@ -58,6 +58,7 @@ import type {
   LearnReadiness,
   TradeReviewResponse,
   MissionsResponse,
+  DailyBriefing,
   DrillDetail,
   DrillGradeResponse,
   JournalResponse,
@@ -552,6 +553,9 @@ export const backendClient = {
   },
   getMissions() {
     return requestJson<MissionsResponse>('/api/learn/missions');
+  },
+  getDailyBriefing() {
+    return requestJson<DailyBriefing>('/api/learn/missions/daily');
   },
   acceptMission(missionId: string) {
     return requestJson<{ ok: boolean }>(`/api/learn/missions/${missionId}/accept`, {

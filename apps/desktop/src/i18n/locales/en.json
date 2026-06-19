@@ -340,6 +340,15 @@
     "title": "Missions",
     "earnedBadge": "{{completed}} / {{total}} earned",
     "tagline": "Earned by conduct, not clicks — every criterion reads your real activity.",
+    "daily": {
+      "dayStreak": "day streak",
+      "bestLabel": "Best",
+      "showedUp": "You showed up today — discipline compounds.",
+      "keepAlive": "Do one rep today to keep the streak alive.",
+      "startToday": "Start your streak — one honest rep today.",
+      "todaysMission": "Today's mission",
+      "allComplete": "Every mission earned. Come back as your trading evolves."
+    },
     "aiTitle": "Mission coach",
     "loadError": "Could not load missions. Is the backend running?",
     "searchPlaceholder": "Search missions…",

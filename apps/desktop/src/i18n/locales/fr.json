@@ -340,6 +340,15 @@
     "title": "Missions",
     "earnedBadge": "{{completed}} / {{total}} obtenues",
     "tagline": "Gagnées par la conduite, pas par les clics — chaque critère lit votre activité réelle.",
+    "daily": {
+      "dayStreak": "jours d’affilée",
+      "bestLabel": "Record",
+      "showedUp": "Tu étais présent aujourd’hui — la discipline se cumule.",
+      "keepAlive": "Fais un exercice aujourd’hui pour garder la série en vie.",
+      "startToday": "Lance ta série — un exercice honnête aujourd’hui.",
+      "todaysMission": "Mission du jour",
+      "allComplete": "Toutes les missions accomplies. Reviens à mesure que ton trading évolue."
+    },
     "aiTitle": "Coach de missions",
     "loadError": "Impossible de charger les missions. Le backend est-il en cours d'exécution ?",
     "searchPlaceholder": "Rechercher des missions…",

@@ -340,6 +340,15 @@
     "title": "任务",
     "earnedBadge": "已获得 {{completed}} / {{total}}",
     "tagline": "凭行为而非点击获得——每条标准都读取你的真实活动。",
+    "daily": {
+      "dayStreak": "连续天数",
+      "bestLabel": "最佳",
+      "showedUp": "你今天来了——自律会复利累积。",
+      "keepAlive": "今天练一次，让连续记录延续下去。",
+      "startToday": "开启你的连续记录——今天踏实练一次。",
+      "todaysMission": "今日任务",
+      "allComplete": "所有任务均已达成。随着交易进阶，欢迎再来。"
+    },
     "aiTitle": "任务教练",
     "loadError": "无法加载任务。后端是否在运行？",
     "searchPlaceholder": "搜索任务…",

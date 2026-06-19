@@ -103,5 +103,41 @@ class MissionTests(unittest.TestCase):
         self.assertFalse(mission["completed"])
 
 
+class DailyBriefingTests(unittest.TestCase):
+    def _briefing(self, days):
+        class _StoreWithDays(_Store):
+            def get_activity_days(self_inner):
+                return list(days)
+
+        return MissionService(_StoreWithDays(), _Review([])).daily_briefing()
+
+    def test_empty_history_has_no_streak_but_offers_a_daily_mission(self) -> None:
+        from datetime import UTC, datetime
+
+        briefing = self._briefing([])
+        self.assertEqual(briefing["streak"], 0)
+        self.assertEqual(briefing["longest"], 0)
+        self.assertFalse(briefing["active_today"])
+        self.assertEqual(len(briefing["week"]), 7)
+        self.assertEqual(briefing["week"][-1]["date"], datetime.now(UTC).date().isoformat())
+        self.assertIsNotNone(briefing["daily_mission"])
+        self.assertFalse(briefing["daily_mission"]["completed"])
+
+    def test_consecutive_days_build_the_streak(self) -> None:
+        from datetime import UTC, datetime, timedelta
+
+        today = datetime.now(UTC).date()
+        days = [(today - timedelta(days=offset)).isoformat() for offset in range(3)]
+        briefing = self._briefing(days)
+        self.assertEqual(briefing["streak"], 3)
+        self.assertTrue(briefing["active_today"])
+        self.assertTrue(briefing["week"][-1]["active"])
+
+    def test_daily_mission_is_stable_within_the_day(self) -> None:
+        first = self._briefing([])["daily_mission"]["id"]
+        second = self._briefing([])["daily_mission"]["id"]
+        self.assertEqual(first, second)
+
+
 if __name__ == "__main__":
     unittest.main()
