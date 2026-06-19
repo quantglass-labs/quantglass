@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "扩展",
       "strategies": "策略",
-      "legal": "法律"
+      "legal": "法律",
+      "data": "数据"
     },
     "risk": {
       "tradingMode": "交易模式",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "自定义",
       "tpl_custom_auth": "Bearer 令牌",
       "tpl_custom_desc": "任何兼容 OpenAI 的模型端点。"
+    },
+    "data": {
+      "clearTitle": "清除所有数据",
+      "clearDesc": "永久删除你的自选、模拟交易、日志、学习进度、提醒和策略，并重置模拟账户。设置与 API 密钥会保留。",
+      "clearAll": "清除所有数据",
+      "confirmClear": "是的，全部清除",
+      "clearing": "清除中…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "纪律会复利。",
     "coreLine2": "优势会延续。"
+  },
+  "onboarding": {
+    "title": "欢迎使用 QuantGlass",
+    "subtitle": "你想如何开始？",
+    "sampleTitle": "加载示例设置",
+    "sampleDesc": "添加一个初始自选列表（BTC、ETH、SPY、AAPL），让信号和仪表盘立即填充。可随时在设置中清除。",
+    "loadSample": "加载示例",
+    "loading": "加载中…",
+    "emptyTitle": "从空白开始",
+    "emptyDesc": "从零开始——在你添加标的之前不会跟踪任何内容，也不会获取行情数据。",
+    "startEmpty": "从空白开始",
+    "note": "QuantGlass 本地优先且仅供教育，非投资建议。示例只添加本地数据，绝不外发。"
   }
 }

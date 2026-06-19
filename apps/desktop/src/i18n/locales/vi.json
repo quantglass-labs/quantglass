@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "Tiện ích mở rộng",
       "strategies": "Chiến lược",
-      "legal": "Pháp lý"
+      "legal": "Pháp lý",
+      "data": "Dữ liệu"
     },
     "risk": {
       "tradingMode": "Chế độ giao dịch",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Tự định nghĩa",
       "tpl_custom_auth": "Token bearer",
       "tpl_custom_desc": "Bất kỳ điểm cuối mô hình tương thích OpenAI nào."
+    },
+    "data": {
+      "clearTitle": "Xóa tất cả dữ liệu",
+      "clearDesc": "Xóa vĩnh viễn danh sách theo dõi, giao dịch giấy, nhật ký, tiến độ, cảnh báo và chiến lược, đồng thời đặt lại tài khoản giấy. Cài đặt và khóa API của bạn được giữ lại.",
+      "clearAll": "Xóa tất cả dữ liệu",
+      "confirmClear": "Có, xóa mọi thứ",
+      "clearing": "Đang xóa…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Kỷ luật tích lũy.",
     "coreLine2": "Lợi thế bền vững."
+  },
+  "onboarding": {
+    "title": "Chào mừng đến với QuantGlass",
+    "subtitle": "Bạn muốn bắt đầu thế nào?",
+    "sampleTitle": "Tải thiết lập mẫu",
+    "sampleDesc": "Thêm danh sách theo dõi khởi đầu (BTC, ETH, SPY, AAPL) để tín hiệu và bảng điều khiển có dữ liệu ngay. Có thể xóa bất cứ lúc nào trong Cài đặt.",
+    "loadSample": "Tải mẫu",
+    "loading": "Đang tải…",
+    "emptyTitle": "Bắt đầu trống",
+    "emptyDesc": "Bắt đầu từ con số không — không theo dõi gì và không tải dữ liệu thị trường cho đến khi bạn thêm một mã.",
+    "startEmpty": "Bắt đầu trống",
+    "note": "QuantGlass ưu tiên cục bộ và mang tính giáo dục — không phải lời khuyên tài chính. Mẫu chỉ thêm dữ liệu cục bộ; không gửi bất cứ thứ gì ra ngoài."
   }
 }

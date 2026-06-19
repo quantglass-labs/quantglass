@@ -579,7 +579,8 @@
       "ai": "Yapay zekâ",
       "extensions": "Uzantılar",
       "strategies": "Stratejiler",
-      "legal": "Yasal"
+      "legal": "Yasal",
+      "data": "Veri"
     },
     "risk": {
       "tradingMode": "İşlem modu",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Kendi tanımlı",
       "tpl_custom_auth": "Bearer belirteci",
       "tpl_custom_desc": "Herhangi bir OpenAI uyumlu model uç noktası."
+    },
+    "data": {
+      "clearTitle": "Tüm verileri temizle",
+      "clearDesc": "İzleme listesi, kâğıt işlemler, günlük, ilerleme, uyarılar ve stratejileri kalıcı olarak siler ve kâğıt hesabı sıfırlar. Ayarlarınız ve API anahtarlarınız korunur.",
+      "clearAll": "Tüm verileri temizle",
+      "confirmClear": "Evet, her şeyi temizle",
+      "clearing": "Temizleniyor…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Disiplin birikir.",
     "coreLine2": "Avantaj kalıcıdır."
+  },
+  "onboarding": {
+    "title": "QuantGlass’a hoş geldiniz",
+    "subtitle": "Nasıl başlamak istersiniz?",
+    "sampleTitle": "Örnek kurulumu yükle",
+    "sampleDesc": "Sinyaller ve panoların hemen dolması için başlangıç izleme listesi (BTC, ETH, SPY, AAPL) ekler. Ayarlar’dan istediğiniz zaman silinebilir.",
+    "loadSample": "Örneği yükle",
+    "loading": "Yükleniyor…",
+    "emptyTitle": "Boş başla",
+    "emptyDesc": "Temiz bir sayfayla başlayın — bir sembol eklemeden hiçbir şey izlenmez ve piyasa verisi çekilmez.",
+    "startEmpty": "Boş başla",
+    "note": "QuantGlass yerel öncelikli ve eğiticidir — finansal tavsiye değildir. Örnek yalnızca yerel veri ekler; dışarı hiçbir şey göndermez."
   }
 }

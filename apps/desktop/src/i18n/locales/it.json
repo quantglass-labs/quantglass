@@ -579,7 +579,8 @@
       "ai": "IA",
       "extensions": "Estensioni",
       "strategies": "Strategie",
-      "legal": "Legale"
+      "legal": "Legale",
+      "data": "Dati"
     },
     "risk": {
       "tradingMode": "Modalità di trading",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Autodefinito",
       "tpl_custom_auth": "Token bearer",
       "tpl_custom_desc": "Qualsiasi endpoint di modello compatibile con OpenAI."
+    },
+    "data": {
+      "clearTitle": "Cancella tutti i dati",
+      "clearDesc": "Rimuove definitivamente watchlist, trade su carta, diario, progressi, avvisi e strategie, e azzera il conto su carta. Impostazioni e chiavi API sono mantenute.",
+      "clearAll": "Cancella tutti i dati",
+      "confirmClear": "Sì, cancella tutto",
+      "clearing": "Cancellazione…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "La disciplina si accumula.",
     "coreLine2": "Il vantaggio dura."
+  },
+  "onboarding": {
+    "title": "Benvenuto in QuantGlass",
+    "subtitle": "Come vuoi iniziare?",
+    "sampleTitle": "Carica una configurazione di esempio",
+    "sampleDesc": "Aggiunge una watchlist iniziale (BTC, ETH, SPY, AAPL) così segnali e dashboard sono subito popolati. Cancellabile nelle Impostazioni.",
+    "loadSample": "Carica esempio",
+    "loading": "Caricamento…",
+    "emptyTitle": "Inizia vuoto",
+    "emptyDesc": "Parti da zero — niente viene tracciato e nessun dato viene scaricato finché non aggiungi un simbolo.",
+    "startEmpty": "Inizia vuoto",
+    "note": "QuantGlass è locale ed educativo, non consulenza finanziaria. L’esempio aggiunge solo dati locali; non invia nulla."
   }
 }

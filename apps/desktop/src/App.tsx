@@ -4,6 +4,7 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AppShell } from './components/layout';
+import { OnboardingDialog } from './components/OnboardingDialog';
 import { ConfirmDialog, Modal, ToastLayer, Button, LoadingSkeleton } from './components/ui';
 import type { ToastMessage } from './components/ui';
 import { symbolCatalog, symbolById } from './data/symbolCatalog';
@@ -240,6 +241,17 @@ export default function App() {
       .getLearnLesson('novice-10-order-types')
       .then((lesson) => setOrderTypesUnlocked(Boolean(lesson.completed)))
       .catch(() => setOrderTypesUnlocked(false));
+  }, [backendStatus]);
+
+  // First-run onboarding: offer a sample setup (or empty start) once, so a new
+  // user never lands on blank screens — without auto-fetching any market data.
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  useEffect(() => {
+    if (backendStatus !== 'online') return;
+    backendClient
+      .getDataState()
+      .then((state) => setShowOnboarding(!state.onboardingCompleted))
+      .catch(() => undefined);
   }, [backendStatus]);
   const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -1997,6 +2009,8 @@ export default function App() {
           );
         }}
       />
+
+      <OnboardingDialog open={showOnboarding} onDone={() => setShowOnboarding(false)} />
 
       <ToastLayer toasts={toasts} />
     </>

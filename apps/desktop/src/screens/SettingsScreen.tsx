@@ -18,6 +18,7 @@ import { AiTab } from './settings/AiTab';
 import { ProvidersTab } from './settings/ProvidersTab';
 import { ExtensionsTab } from './settings/ExtensionsTab';
 import { KeysTab } from './settings/KeysTab';
+import { DataTab } from './settings/DataTab';
 import { LegalTab } from './settings/LegalTab';
 import { RiskTab } from './settings/RiskTab';
 import { StrategiesTab } from './settings/StrategiesTab';
@@ -41,7 +42,15 @@ import type {
   ViewMode,
 } from '../types';
 
-type SettingsTab = 'providers' | 'keys' | 'risk' | 'ai' | 'extensions' | 'strategies' | 'legal';
+type SettingsTab =
+  | 'providers'
+  | 'keys'
+  | 'risk'
+  | 'ai'
+  | 'extensions'
+  | 'strategies'
+  | 'data'
+  | 'legal';
 type ProviderCapabilityName = ProviderRegistryEntry['capabilities'][number];
 type ProviderCredentialRequirement = {
   keyIds: string[];
@@ -232,7 +241,9 @@ export function SettingsScreen({
   const currentTab = (searchParams.get('tab') as SettingsTab | null) ?? 'providers';
   const tab = useMemo<SettingsTab>(() => {
     if (
-      ['providers', 'keys', 'risk', 'ai', 'extensions', 'strategies', 'legal'].includes(currentTab)
+      ['providers', 'keys', 'risk', 'ai', 'extensions', 'strategies', 'data', 'legal'].includes(
+        currentTab,
+      )
     ) {
       return currentTab as SettingsTab;
     }
@@ -527,6 +538,7 @@ export function SettingsScreen({
           { value: 'ai', label: t('settings.tabs.ai') },
           { value: 'extensions', label: t('settings.tabs.extensions') },
           { value: 'strategies', label: t('settings.tabs.strategies') },
+          { value: 'data', label: t('settings.tabs.data') },
           { value: 'legal', label: t('settings.tabs.legal') },
         ]}
       />
@@ -636,6 +648,7 @@ export function SettingsScreen({
                 />
               ) : null}
 
+              {tab === 'data' ? <DataTab /> : null}
               {tab === 'legal' ? <LegalTab /> : null}
             </>
           }

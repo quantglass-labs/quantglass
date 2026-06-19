@@ -579,7 +579,8 @@
       "ai": "KI",
       "extensions": "Erweiterungen",
       "strategies": "Strategien",
-      "legal": "Rechtliches"
+      "legal": "Rechtliches",
+      "data": "Daten"
     },
     "risk": {
       "tradingMode": "Handelsmodus",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Selbst definiert",
       "tpl_custom_auth": "Bearer-Token",
       "tpl_custom_desc": "Jeder OpenAI-kompatible Modell-Endpoint."
+    },
+    "data": {
+      "clearTitle": "Alle Daten löschen",
+      "clearDesc": "Entfernt dauerhaft deine Watchlist, Paper-Trades, Journal, Fortschritt, Alarme und Strategien und setzt das Paper-Konto zurück. Einstellungen und API-Schlüssel bleiben erhalten.",
+      "clearAll": "Alle Daten löschen",
+      "confirmClear": "Ja, alles löschen",
+      "clearing": "Wird gelöscht…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Disziplin summiert sich.",
     "coreLine2": "Der Vorteil bleibt."
+  },
+  "onboarding": {
+    "title": "Willkommen bei QuantGlass",
+    "subtitle": "Wie möchtest du starten?",
+    "sampleTitle": "Beispiel-Setup laden",
+    "sampleDesc": "Fügt eine Start-Watchlist (BTC, ETH, SPY, AAPL) hinzu, damit Signale und Dashboards sofort gefüllt sind. Jederzeit in den Einstellungen löschbar.",
+    "loadSample": "Beispiel laden",
+    "loading": "Wird geladen…",
+    "emptyTitle": "Leer starten",
+    "emptyDesc": "Mit leerem Blatt beginnen — nichts wird verfolgt und keine Marktdaten geladen, bis du ein Symbol hinzufügst.",
+    "startEmpty": "Leer starten",
+    "note": "QuantGlass ist lokal und lehrreich — keine Finanzberatung. Das Beispiel fügt nur lokale Daten hinzu; es sendet nichts."
   }
 }

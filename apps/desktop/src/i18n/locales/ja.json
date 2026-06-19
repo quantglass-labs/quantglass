@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "拡張機能",
       "strategies": "戦略",
-      "legal": "法務"
+      "legal": "法務",
+      "data": "データ"
     },
     "risk": {
       "tradingMode": "取引モード",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "自己定義",
       "tpl_custom_auth": "Bearer トークン",
       "tpl_custom_desc": "任意の OpenAI 互換モデルエンドポイント。"
+    },
+    "data": {
+      "clearTitle": "すべてのデータを消去",
+      "clearDesc": "ウォッチリスト、ペーパー取引、ジャーナル、学習進捗、アラート、戦略を完全に削除し、ペーパー口座をリセットします。設定と API キーは保持されます。",
+      "clearAll": "すべてのデータを消去",
+      "confirmClear": "はい、すべて消去",
+      "clearing": "消去中…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "規律は積み重なる。",
     "coreLine2": "優位性は続く。"
+  },
+  "onboarding": {
+    "title": "QuantGlass へようこそ",
+    "subtitle": "どのように始めますか？",
+    "sampleTitle": "サンプル設定を読み込む",
+    "sampleDesc": "スターターのウォッチリスト（BTC, ETH, SPY, AAPL）を追加し、シグナルやダッシュボードをすぐに表示します。設定でいつでも消去できます。",
+    "loadSample": "サンプルを読み込む",
+    "loading": "読み込み中…",
+    "emptyTitle": "空の状態で開始",
+    "emptyDesc": "まっさらな状態で開始 — 銘柄を追加するまで何も追跡せず、相場データも取得しません。",
+    "startEmpty": "空の状態で開始",
+    "note": "QuantGlass はローカル優先で教育目的です（投資助言ではありません）。サンプルはローカルデータを追加するだけで、外部送信は一切ありません。"
   }
 }

@@ -756,6 +756,21 @@ export const backendClient = {
       { method: 'POST' },
     );
   },
+  getDataState() {
+    return requestJson<{ onboardingCompleted: boolean; hasData: boolean }>('/api/data/state');
+  },
+  loadSampleData() {
+    return requestJson<{ ok: boolean }>('/api/data/sample', { method: 'POST' });
+  },
+  clearAllData() {
+    return requestJson<{ ok: boolean }>('/api/data/clear', { method: 'POST' });
+  },
+  setOnboardingCompleted(completed: boolean) {
+    return requestJson<{ onboardingCompleted: boolean }>('/api/data/onboarding', {
+      method: 'PUT',
+      body: JSON.stringify({ completed }),
+    });
+  },
 };
 
 export function maskApiKeyValue(value: string): string {
