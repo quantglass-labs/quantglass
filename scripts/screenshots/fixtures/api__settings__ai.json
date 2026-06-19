@@ -1,0 +1,1 @@
+{"ai":{"model":"qwen3.5:4b","cloudEnabled":true,"provider":"ollama","baseUrl":"http://127.0.0.1:11434","apiKeyId":null,"temperature":0.2,"maxTokens":9000,"requestTimeoutSeconds":600.0}}

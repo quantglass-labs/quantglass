@@ -4,6 +4,7 @@
   "version": "0.3.1",
   "license": "AGPL-3.0-or-later",
   "scripts": {
+    "screenshots": "node scripts/screenshots/capture.mjs",
     "backend:backup": "PYTHONPATH=apps/backend ./.venv/bin/python apps/backend/scripts/manage_state_bundle.py export",
     "backend:bundle": "./.venv/bin/python apps/backend/scripts/build_sidecar.py",
     "backend:check": "PYTHONPATH=apps/backend ./.venv/bin/python -c \"from app.main import app; print(app.title, len(app.routes))\"",
