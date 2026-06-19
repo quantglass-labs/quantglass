@@ -340,6 +340,15 @@
     "title": "Missionen",
     "earnedBadge": "{{completed}} / {{total}} verdient",
     "tagline": "Durch Verhalten verdient, nicht durch Klicks — jedes Kriterium liest Ihre echte Aktivität.",
+    "daily": {
+      "dayStreak": "Tage in Folge",
+      "bestLabel": "Bestwert",
+      "showedUp": "Du warst heute da — Disziplin summiert sich.",
+      "keepAlive": "Mach heute eine Übung, um die Serie am Leben zu halten.",
+      "startToday": "Starte deine Serie — heute eine ehrliche Übung.",
+      "todaysMission": "Heutige Mission",
+      "allComplete": "Jede Mission verdient. Komm wieder, wenn sich dein Trading weiterentwickelt."
+    },
     "aiTitle": "Missions-Coach",
     "loadError": "Missionen konnten nicht geladen werden. Läuft das Backend?",
     "searchPlaceholder": "Missionen suchen…",

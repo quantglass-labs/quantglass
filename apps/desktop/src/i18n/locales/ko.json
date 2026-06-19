@@ -340,6 +340,15 @@
     "title": "미션",
     "earnedBadge": "{{completed}} / {{total}} 획득",
     "tagline": "클릭이 아니라 행동으로 획득합니다 — 모든 기준이 당신의 실제 활동을 읽습니다.",
+    "daily": {
+      "dayStreak": "일 연속",
+      "bestLabel": "최고",
+      "showedUp": "오늘 해냈어요 — 절제는 쌓입니다.",
+      "keepAlive": "연속을 이어가려면 오늘 한 번 연습하세요.",
+      "startToday": "연속을 시작하세요 — 오늘 정직한 연습 한 번.",
+      "todaysMission": "오늘의 미션",
+      "allComplete": "모든 미션 달성. 트레이딩이 성장하면 다시 오세요."
+    },
     "aiTitle": "미션 코치",
     "loadError": "미션을 불러올 수 없습니다. 백엔드가 실행 중인가요?",
     "searchPlaceholder": "미션 검색…",

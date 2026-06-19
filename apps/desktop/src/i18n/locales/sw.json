@@ -340,6 +340,15 @@
     "title": "Misheni",
     "earnedBadge": "{{completed}} / {{total}} zimepatikana",
     "tagline": "Hupatikana kwa mwenendo, si kwa mibofyo — kila kigezo husoma shughuli yako halisi.",
+    "daily": {
+      "dayStreak": "siku mfululizo",
+      "bestLabel": "Bora",
+      "showedUp": "Umejitokeza leo — nidhamu hujikusanya.",
+      "keepAlive": "Fanya zoezi moja leo ili kuendeleza mfululizo.",
+      "startToday": "Anza mfululizo wako — zoezi moja la uaminifu leo.",
+      "todaysMission": "Misheni ya leo",
+      "allComplete": "Kila misheni imepatikana. Rudi kadri biashara yako inavyokua."
+    },
     "aiTitle": "Kocha wa misheni",
     "loadError": "Imeshindwa kupakia misheni. Je, backend inafanya kazi?",
     "searchPlaceholder": "Tafuta misheni…",

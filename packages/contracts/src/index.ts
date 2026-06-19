@@ -1036,6 +1036,27 @@ export interface MissionsResponse {
   max_active: number;
 }
 
+export interface DailyWeekDot {
+  date: string;
+  active: boolean;
+}
+
+/** The discipline streak + today's featured mission (rewards consistency, not profit). */
+export interface DailyBriefing {
+  /** Consecutive days of Academy/mission work ending today (or yesterday if today is unworked). */
+  streak: number;
+  /** Longest streak ever reached. */
+  longest: number;
+  /** Whether the user has already done work today. */
+  active_today: boolean;
+  /** Total missions completed (mirrors the catalog count). */
+  completed_total: number;
+  /** Rolling seven-day strip, oldest first. */
+  week: DailyWeekDot[];
+  /** A deterministic, date-seeded pick from the user's incomplete missions. */
+  daily_mission: MissionRecord | null;
+}
+
 export interface TradeReviewItem {
   id: string;
   symbol: string;

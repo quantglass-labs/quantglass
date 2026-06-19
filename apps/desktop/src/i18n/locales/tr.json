@@ -340,6 +340,15 @@
     "title": "Görevler",
     "earnedBadge": "{{completed}} / {{total}} kazanıldı",
     "tagline": "Tıklamayla değil davranışla kazanılır — her ölçüt gerçek etkinliğinizi okur.",
+    "daily": {
+      "dayStreak": "gün üst üste",
+      "bestLabel": "En iyi",
+      "showedUp": "Bugün buradaydın — disiplin birikir.",
+      "keepAlive": "Seriyi canlı tutmak için bugün bir tekrar yap.",
+      "startToday": "Serini başlat — bugün dürüst bir tekrar.",
+      "todaysMission": "Bugünün görevi",
+      "allComplete": "Tüm görevler kazanıldı. Ticaretin geliştikçe yine gel."
+    },
     "aiTitle": "Görev koçu",
     "loadError": "Görevler yüklenemedi. Arka uç çalışıyor mu?",
     "searchPlaceholder": "Görev ara…",

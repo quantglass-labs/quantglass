@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from datetime import UTC, date, datetime, timedelta
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -189,6 +190,80 @@ class MissionService:
                 }
             )
         return {"items": missions, "max_active": MAX_ACTIVE_MISSIONS}
+
+    def daily_briefing(self) -> dict[str, Any]:
+        """The discipline streak + today's featured mission.
+
+        The streak counts consecutive days on which the user did any
+        Academy/mission work — it rewards showing up and practising, never
+        profit. ``daily_mission`` is a deterministic, date-seeded pick from
+        the user's incomplete missions so the same mission stands for the
+        whole day and rotates tomorrow.
+        """
+        days = set(self._maybe(self._store, "get_activity_days", []) or [])
+        today = datetime.now(UTC).date()
+        active_today = today.isoformat() in days
+        # A rolling seven-day strip, oldest first, for the week dots.
+        week = [
+            {
+                "date": (day := today - timedelta(days=offset)).isoformat(),
+                "active": day.isoformat() in days,
+            }
+            for offset in range(6, -1, -1)
+        ]
+
+        listing = self.list_missions()
+        items = listing["items"]
+        incomplete = [mission for mission in items if not mission["completed"]]
+        daily_mission = self._pick_daily_mission(incomplete, today) if incomplete else None
+
+        return {
+            "streak": self._current_streak(days, today),
+            "longest": self._longest_streak(days),
+            "active_today": active_today,
+            "completed_total": sum(1 for mission in items if mission["completed"]),
+            "week": week,
+            "daily_mission": daily_mission,
+        }
+
+    @staticmethod
+    def _current_streak(days: set[str], today: date) -> int:
+        if not days:
+            return 0
+        # Today counts if active; otherwise the streak is measured to yesterday
+        # so it survives an as-yet-unworked but not-yet-missed today.
+        cursor = today if today.isoformat() in days else today - timedelta(days=1)
+        streak = 0
+        while cursor.isoformat() in days:
+            streak += 1
+            cursor -= timedelta(days=1)
+        return streak
+
+    @staticmethod
+    def _longest_streak(days: set[str]) -> int:
+        if not days:
+            return 0
+        ordered = sorted(date.fromisoformat(day) for day in days)
+        longest = run = 1
+        for previous, current in zip(ordered, ordered[1:]):
+            run = run + 1 if (current - previous).days == 1 else 1
+            longest = max(longest, run)
+        return longest
+
+    @staticmethod
+    def _pick_daily_mission(incomplete: list[dict[str, Any]], today: date) -> dict[str, Any] | None:
+        if not incomplete:
+            return None
+        # Prefer missions the user can act on today (a decision drill is
+        # immediately runnable); fall back to the full incomplete pool.
+        actionable = [
+            mission
+            for mission in incomplete
+            if any(criterion.get("drill") for criterion in mission["criteria"])
+        ]
+        pool = actionable or incomplete
+        seed = int(today.strftime("%Y%m%d"))
+        return pool[seed % len(pool)]
 
     def accept(self, mission_id: str) -> dict[str, Any]:
         known = {mission["id"] for mission in self._all_missions()}

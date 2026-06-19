@@ -340,6 +340,15 @@
     "title": "Missões",
     "earnedBadge": "{{completed}} / {{total}} conquistadas",
     "tagline": "Conquistadas por conduta, não por cliques — cada critério lê sua atividade real.",
+    "daily": {
+      "dayStreak": "dias seguidos",
+      "bestLabel": "Melhor",
+      "showedUp": "Você apareceu hoje — a disciplina se acumula.",
+      "keepAlive": "Faça uma prática hoje para manter a sequência viva.",
+      "startToday": "Comece sua sequência — uma prática honesta hoje.",
+      "todaysMission": "Missão de hoje",
+      "allComplete": "Todas as missões conquistadas. Volte conforme seu trading evoluir."
+    },
     "aiTitle": "Coach de missões",
     "loadError": "Não foi possível carregar as missões. O backend está em execução?",
     "searchPlaceholder": "Buscar missões…",

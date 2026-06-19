@@ -6,6 +6,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Missions now open with a **daily briefing**: a discipline streak (consecutive
+  days of Academy/mission work, rewarding consistency — never profit), a
+  seven-day activity strip, your longest run, and a date-seeded "today's
+  mission" so there is always one clear rep to do. Localized in all 20 languages.
+
 ## [0.3.1] - 2026-06-18
 
 ### Fixed
