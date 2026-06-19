@@ -15,6 +15,12 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Passing a decision drill now reveals your **discipline streak** as the
   reward — the consistency of showing up, never the trade's P&L.
 
+### Changed
+
+- The Missions surface (catalog, daily briefing, decision drills, replay player)
+  now uses the app's premium design system instead of its own off-palette
+  styling, so it matches the rest of QuantGlass.
+
 ## [0.3.1] - 2026-06-18
 
 ### Fixed
