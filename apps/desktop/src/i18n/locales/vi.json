@@ -399,7 +399,11 @@
       "decisions": "{{count}} quyết định · đạt ở {{percent}}%",
       "best": "tốt nhất {{percent}}%"
     },
-    "footer": "Hoàn thành nhiệm vụ mở khóa các cấp độ Academy. Gói cộng đồng có thể thêm nhiều hơn qua SDK tiện ích mở rộng. Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính."
+    "footer": "Hoàn thành nhiệm vụ mở khóa các cấp độ Academy. Gói cộng đồng có thể thêm nhiều hơn qua SDK tiện ích mở rộng. Chỉ dùng cho mục đích giáo dục — không phải lời khuyên tài chính.",
+    "tierMap": {
+      "title": "Tiến độ theo cấp độ",
+      "subtitle": "Nhiệm vụ đã hoàn thành ở mỗi cấp độ."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Giao dịch trực tiếp đã tắt",
     "copyJson": "Sao chép JSON tín hiệu",
     "noSignalTitle": "Chưa chọn tín hiệu",
-    "noSignalDesc": "Mở bất kỳ thẻ tín hiệu, hành động hàng, hoặc nút chi tiết biểu tượng nào để điền vào ngăn kéo này."
+    "noSignalDesc": "Mở bất kỳ thẻ tín hiệu, hành động hàng, hoặc nút chi tiết biểu tượng nào để điền vào ngăn kéo này.",
+    "evidence": {
+      "title": "Độ tin cậy này được xây dựng như thế nào",
+      "backtest": "Backtest",
+      "expectancy": "Kỳ vọng",
+      "oos": "Ngoài mẫu",
+      "confidence": "Độ tin cậy"
+    }
   },
   "howItWorks": {
     "title": "QuantGlass hoạt động như thế nào",

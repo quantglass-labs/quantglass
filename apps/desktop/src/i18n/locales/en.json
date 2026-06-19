@@ -399,7 +399,11 @@
       "decisions": "{{count}} decisions · pass at {{percent}}%",
       "best": "best {{percent}}%"
     },
-    "footer": "Completing missions unlocks Academy levels. Community packs can add more via the extension SDK. Educational use only — not financial advice."
+    "footer": "Completing missions unlocks Academy levels. Community packs can add more via the extension SDK. Educational use only — not financial advice.",
+    "tierMap": {
+      "title": "Progress by tier",
+      "subtitle": "Missions completed at each level."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Live trade disabled",
     "copyJson": "Copy signal JSON",
     "noSignalTitle": "No signal selected",
-    "noSignalDesc": "Open any signal card, row action, or symbol-detail button to populate this drawer."
+    "noSignalDesc": "Open any signal card, row action, or symbol-detail button to populate this drawer.",
+    "evidence": {
+      "title": "How this confidence is built",
+      "backtest": "Backtest",
+      "expectancy": "Expectancy",
+      "oos": "Out-of-sample",
+      "confidence": "Confidence"
+    }
   },
   "howItWorks": {
     "title": "How QuantGlass works",

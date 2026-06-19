@@ -399,7 +399,11 @@
       "decisions": "Maamuzi {{count}} · kupita kwa {{percent}}%",
       "best": "bora {{percent}}%"
     },
-    "footer": "Kukamilisha misheni hufungua viwango vya Academy. Pakiti za jamii zinaweza kuongeza zaidi kupitia SDK ya viendelezi. Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha."
+    "footer": "Kukamilisha misheni hufungua viwango vya Academy. Pakiti za jamii zinaweza kuongeza zaidi kupitia SDK ya viendelezi. Kwa madhumuni ya kielimu pekee — si ushauri wa kifedha.",
+    "tierMap": {
+      "title": "Maendeleo kwa ngazi",
+      "subtitle": "Misheni iliyokamilishwa katika kila ngazi."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Biashara ya moja kwa moja imezimwa",
     "copyJson": "Nakili JSON ya ishara",
     "noSignalTitle": "Hakuna ishara iliyochaguliwa",
-    "noSignalDesc": "Fungua kadi yoyote ya ishara, kitendo cha safu, au kitufe cha maelezo ya alama ili kujaza droo hii."
+    "noSignalDesc": "Fungua kadi yoyote ya ishara, kitendo cha safu, au kitufe cha maelezo ya alama ili kujaza droo hii.",
+    "evidence": {
+      "title": "Jinsi imani hii inavyojengwa",
+      "backtest": "Backtest",
+      "expectancy": "Matarajio",
+      "oos": "Nje ya sampuli",
+      "confidence": "Imani"
+    }
   },
   "howItWorks": {
     "title": "Jinsi QuantGlass inavyofanya kazi",

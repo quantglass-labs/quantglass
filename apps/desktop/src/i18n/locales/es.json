@@ -399,7 +399,11 @@
       "decisions": "{{count}} decisiones · aprobado al {{percent}}%",
       "best": "mejor {{percent}}%"
     },
-    "footer": "Completar misiones desbloquea niveles de la Academia. Los paquetes de la comunidad pueden añadir más mediante el SDK de extensiones. Solo uso educativo — no es asesoramiento financiero."
+    "footer": "Completar misiones desbloquea niveles de la Academia. Los paquetes de la comunidad pueden añadir más mediante el SDK de extensiones. Solo uso educativo — no es asesoramiento financiero.",
+    "tierMap": {
+      "title": "Progreso por nivel",
+      "subtitle": "Misiones completadas en cada nivel."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Operación en vivo desactivada",
     "copyJson": "Copiar JSON de la señal",
     "noSignalTitle": "Ninguna señal seleccionada",
-    "noSignalDesc": "Abre cualquier tarjeta de señal, acción de fila o botón de detalle de símbolo para llenar este cajón."
+    "noSignalDesc": "Abre cualquier tarjeta de señal, acción de fila o botón de detalle de símbolo para llenar este cajón.",
+    "evidence": {
+      "title": "Cómo se construye esta confianza",
+      "backtest": "Backtest",
+      "expectancy": "Esperanza",
+      "oos": "Fuera de muestra",
+      "confidence": "Confianza"
+    }
   },
   "howItWorks": {
     "title": "Cómo funciona QuantGlass",

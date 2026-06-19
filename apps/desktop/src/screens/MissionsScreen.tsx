@@ -25,6 +25,7 @@ import {
 
 import { AiInsight } from '../components/aiInsight';
 import { BackendStatusNotice } from '../components/backendGate';
+import { MissionsTierDiagram } from '../components/flow/FlowDiagram';
 import { CountUp, FadeIn } from '../components/motion';
 import { MetricTile } from '../components/surface';
 import { backendClient } from '../lib/backend';
@@ -333,6 +334,22 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   const slotsFull = activeMissions.length >= maxActive;
   const searching = query.trim().length > 0;
 
+  const missionTiers = useMemo(() => {
+    const order = ['novice', 'intermediate', 'advanced', 'expert'];
+    return order
+      .map((id) => {
+        const inTier = (missions ?? []).filter((mission) => mission.level === id);
+        return {
+          id,
+          title: t(`missions.levels.${id}`, { defaultValue: id }),
+          completed: inTier.filter((mission) => mission.completed).length,
+          total: inTier.length,
+          unlocked: true,
+        };
+      })
+      .filter((tier) => tier.total > 0);
+  }, [missions, t]);
+
   const openScenario = (scenarioId: string) => {
     void backendClient.getScenario(scenarioId).then(setActiveScenario);
   };
@@ -440,6 +457,16 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </button>
         ))}
       </div>
+
+      {missions && missionTiers.length > 0 ? (
+        <div className="mt-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+            {t('missions.tierMap.title')}
+          </p>
+          <p className="mb-2 text-xs text-muted">{t('missions.tierMap.subtitle')}</p>
+          <MissionsTierDiagram tiers={missionTiers} />
+        </div>
+      ) : null}
 
       {activeMissions.length ? (
         <>

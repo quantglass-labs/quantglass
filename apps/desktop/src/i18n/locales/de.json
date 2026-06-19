@@ -399,7 +399,11 @@
       "decisions": "{{count}} Entscheidungen · Bestehen bei {{percent}}%",
       "best": "Beste {{percent}}%"
     },
-    "footer": "Abgeschlossene Missionen schalten Akademie-Stufen frei. Community-Pakete können über das Erweiterungs-SDK mehr hinzufügen. Nur zu Bildungszwecken — keine Finanzberatung."
+    "footer": "Abgeschlossene Missionen schalten Akademie-Stufen frei. Community-Pakete können über das Erweiterungs-SDK mehr hinzufügen. Nur zu Bildungszwecken — keine Finanzberatung.",
+    "tierMap": {
+      "title": "Fortschritt nach Stufe",
+      "subtitle": "Pro Stufe abgeschlossene Missionen."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Live-Handel deaktiviert",
     "copyJson": "Signal-JSON kopieren",
     "noSignalTitle": "Kein Signal ausgewählt",
-    "noSignalDesc": "Öffne eine beliebige Signalkarte, Zeilenaktion oder Symboldetail-Schaltfläche, um diese Schublade zu füllen."
+    "noSignalDesc": "Öffne eine beliebige Signalkarte, Zeilenaktion oder Symboldetail-Schaltfläche, um diese Schublade zu füllen.",
+    "evidence": {
+      "title": "Wie diese Konfidenz entsteht",
+      "backtest": "Backtest",
+      "expectancy": "Erwartungswert",
+      "oos": "Out-of-Sample",
+      "confidence": "Konfidenz"
+    }
   },
   "howItWorks": {
     "title": "Wie QuantGlass funktioniert",

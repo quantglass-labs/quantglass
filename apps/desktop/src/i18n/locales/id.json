@@ -399,7 +399,11 @@
       "decisions": "{{count}} keputusan · lulus di {{percent}}%",
       "best": "terbaik {{percent}}%"
     },
-    "footer": "Menyelesaikan misi membuka level Academy. Paket komunitas dapat menambahkan lebih banyak melalui SDK ekstensi. Hanya untuk tujuan edukasi — bukan nasihat keuangan."
+    "footer": "Menyelesaikan misi membuka level Academy. Paket komunitas dapat menambahkan lebih banyak melalui SDK ekstensi. Hanya untuk tujuan edukasi — bukan nasihat keuangan.",
+    "tierMap": {
+      "title": "Kemajuan per tingkat",
+      "subtitle": "Misi yang diselesaikan di setiap tingkat."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Trade langsung dinonaktifkan",
     "copyJson": "Salin JSON sinyal",
     "noSignalTitle": "Tidak ada sinyal dipilih",
-    "noSignalDesc": "Buka kartu sinyal, aksi baris, atau tombol detail simbol mana pun untuk mengisi laci ini."
+    "noSignalDesc": "Buka kartu sinyal, aksi baris, atau tombol detail simbol mana pun untuk mengisi laci ini.",
+    "evidence": {
+      "title": "Bagaimana keyakinan ini dibangun",
+      "backtest": "Backtest",
+      "expectancy": "Ekspektasi",
+      "oos": "Luar sampel",
+      "confidence": "Keyakinan"
+    }
   },
   "howItWorks": {
     "title": "Cara kerja QuantGlass",
