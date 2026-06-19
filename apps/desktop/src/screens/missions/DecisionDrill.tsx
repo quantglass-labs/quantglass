@@ -18,11 +18,11 @@ import { CountUp, FadeIn } from '../../components/motion';
 import type { DrillDetail, DrillGradeResponse } from '../../types';
 
 function ScoreTile({ label, value, bar }: { label: string; value: number; bar: number }) {
-  const tone = value >= bar ? 'text-emerald-300' : 'text-amber-300';
+  const tone = value >= bar ? 'text-buy' : 'text-hold';
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 px-4 py-3 text-center">
+    <div className="rounded-lg border border-border bg-background/40 px-4 py-3 text-center">
       <p className={`text-2xl font-bold ${tone}`}>{value}</p>
-      <p className="mt-0.5 text-[11px] uppercase tracking-wider text-zinc-500">{label}</p>
+      <p className="mt-0.5 text-[11px] uppercase tracking-wider text-muted">{label}</p>
     </div>
   );
 }
@@ -34,16 +34,16 @@ function ScoreTile({ label, value, bar }: { label: string; value: number; bar: n
 function StreakReward({ streak, extendedToday }: { streak: number; extendedToday: boolean }) {
   return (
     <FadeIn>
-      <div className="mb-3 flex items-center gap-3 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 to-amber-500/5 p-4">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-300">
-          <Flame size={22} className="drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]" />
+      <div className="mb-3 flex items-center gap-3 rounded-xl border border-hold/40 bg-gradient-to-r from-hold/15 to-hold/5 p-4">
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-hold/20 text-hold">
+          <Flame size={22} className="drop-shadow-[0_0_6px_rgba(240,184,75,0.5)]" />
         </div>
         <div>
-          <p className="flex items-baseline gap-1.5 font-semibold text-zinc-100">
+          <p className="flex items-baseline gap-1.5 font-semibold text-ink">
             <CountUp value={streak} format={(n) => String(Math.round(n))} />
-            <span className="text-sm font-normal text-zinc-400">day discipline streak</span>
+            <span className="text-sm font-normal text-muted">day discipline streak</span>
           </p>
-          <p className="mt-0.5 text-xs text-amber-200/80">
+          <p className="mt-0.5 text-xs text-hold/90">
             {extendedToday
               ? 'Extended today — consistency compounds.'
               : 'Logged for today — keep it alive tomorrow.'}
@@ -111,13 +111,11 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
 
   if (error) {
     return (
-      <p className="rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
-        {error}
-      </p>
+      <p className="rounded-xl border border-hold/30 bg-hold/10 p-4 text-sm text-hold">{error}</p>
     );
   }
   if (!drill) {
-    return <div className="h-48 animate-pulse rounded-xl bg-zinc-800/60" aria-busy="true" />;
+    return <div className="h-48 animate-pulse rounded-xl bg-white/5" aria-busy="true" />;
   }
 
   const checkpoint = drill.checkpoints[step];
@@ -128,27 +126,27 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
         <button
           type="button"
           onClick={onExit}
-          className="flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-400 transition-colors hover:border-zinc-500"
+          className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-white/20"
         >
           <ArrowLeft size={13} /> Back
         </button>
-        <h2 className="font-semibold text-zinc-100">Decision drill: {drill.title}</h2>
-        <span className="ml-auto text-xs text-zinc-600">
+        <h2 className="font-semibold text-ink">Decision drill: {drill.title}</h2>
+        <span className="ml-auto text-xs text-muted/70">
           pass at {drill.pass_percent}% process, no severe violation
           {drill.best_percent !== null ? ` · best ${drill.best_percent}%` : ''}
         </span>
       </div>
 
-      <p className="mt-3 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm leading-relaxed text-zinc-300">
+      <p className="mt-3 rounded-xl border border-border bg-white/[0.03] p-4 text-sm leading-relaxed text-ink">
         {drill.scenario}
       </p>
 
       {!grade ? (
-        <div className="mt-4 rounded-xl border border-indigo-500/40 bg-indigo-600/10 p-5">
-          <p className="text-xs uppercase tracking-wider text-indigo-300">
+        <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-5">
+          <p className="text-xs uppercase tracking-wider text-accent">
             Decision {step + 1} of {drill.checkpoints.length}
           </p>
-          <p className="mt-2 font-medium text-zinc-100">{checkpoint.question}</p>
+          <p className="mt-2 font-medium text-ink">{checkpoint.question}</p>
           <div className="mt-3 space-y-2">
             {checkpoint.options.map((option) => (
               <button
@@ -156,13 +154,13 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
                 type="button"
                 disabled={grading}
                 onClick={() => void choose(option.id)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2.5 text-left text-sm text-zinc-200 transition-colors hover:border-indigo-400/60 hover:bg-indigo-600/10 disabled:opacity-50"
+                className="w-full rounded-lg border border-border bg-background/50 px-3 py-2.5 text-left text-sm text-ink transition-colors hover:border-accent/60 hover:bg-accent/10 disabled:opacity-50"
               >
                 {option.label}
               </button>
             ))}
           </div>
-          {grading ? <p className="mt-3 text-xs text-zinc-500">Grading…</p> : null}
+          {grading ? <p className="mt-3 text-xs text-muted">Grading…</p> : null}
         </div>
       ) : (
         <div className="mt-4">
@@ -180,22 +178,20 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
           </div>
           <div
             className={`mt-3 flex items-start gap-3 rounded-xl border p-4 ${
-              grade.passed
-                ? 'border-emerald-500/40 bg-emerald-600/10'
-                : 'border-amber-500/40 bg-amber-600/10'
+              grade.passed ? 'border-buy/40 bg-buy/10' : 'border-hold/40 bg-hold/10'
             }`}
           >
             {grade.passed ? (
-              <ShieldCheck size={18} className="mt-0.5 shrink-0 text-emerald-300" />
+              <ShieldCheck size={18} className="mt-0.5 shrink-0 text-buy" />
             ) : (
-              <AlertTriangle size={18} className="mt-0.5 shrink-0 text-amber-300" />
+              <AlertTriangle size={18} className="mt-0.5 shrink-0 text-hold" />
             )}
             <div>
-              <p className="font-semibold text-zinc-100">
+              <p className="font-semibold text-ink">
                 {grade.passed ? 'Drill passed' : 'Drill failed'}
                 {grade.severe_violation ? ' — severe risk violation' : ''}
               </p>
-              <p className="mt-1 text-sm text-zinc-300">{grade.officer_note}</p>
+              <p className="mt-1 text-sm text-ink">{grade.officer_note}</p>
             </div>
           </div>
           <div className="mt-3 space-y-3">
@@ -203,20 +199,16 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               <div
                 key={index}
                 className={`rounded-xl border p-4 ${
-                  item.severe
-                    ? 'border-rose-500/40 bg-rose-600/10'
-                    : 'border-zinc-800 bg-zinc-900/40'
+                  item.severe ? 'border-sell/40 bg-sell/10' : 'border-border bg-white/[0.03]'
                 }`}
               >
-                <p className="text-sm font-medium text-zinc-200">{item.question}</p>
+                <p className="text-sm font-medium text-ink">{item.question}</p>
                 {item.chosen ? (
-                  <p className="mt-1 text-xs text-zinc-500">You chose: {item.chosen}</p>
+                  <p className="mt-1 text-xs text-muted">You chose: {item.chosen}</p>
                 ) : null}
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">{item.feedback}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{item.feedback}</p>
                 {item.best_choice ? (
-                  <p className="mt-2 text-xs text-emerald-300/80">
-                    Stronger play: {item.best_choice}
-                  </p>
+                  <p className="mt-2 text-xs text-buy/80">Stronger play: {item.best_choice}</p>
                 ) : null}
               </div>
             ))}
@@ -226,14 +218,14 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
             <button
               type="button"
               onClick={reset}
-              className="rounded-lg border border-indigo-500/50 px-5 py-2 text-sm font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20"
+              className="rounded-lg border border-accent/50 px-5 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/15"
             >
               Replay the drill
             </button>
             <button
               type="button"
               onClick={onExit}
-              className="rounded-lg border border-zinc-700 px-5 py-2 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
+              className="rounded-lg border border-border px-5 py-2 text-sm text-ink transition-colors hover:border-white/20"
             >
               Back to missions
             </button>
@@ -277,19 +269,19 @@ function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
           type="button"
           disabled={loading}
           onClick={() => void ask()}
-          className="w-full rounded-xl border border-indigo-500/30 bg-indigo-600/10 px-4 py-2.5 text-sm text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-50"
+          className="w-full rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm text-accent transition-colors hover:bg-accent/15 disabled:opacity-50"
         >
           {loading ? 'The instructor is reviewing your run…' : 'Get the AI instructor debrief'}
         </button>
       ) : (
-        <div className="rounded-xl border border-indigo-500/25 bg-indigo-600/10 p-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-indigo-300">
+        <div className="rounded-xl border border-accent/25 bg-accent/10 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent">
             Instructor debrief{' '}
-            <span className="ml-1 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] normal-case text-zinc-500">
+            <span className="ml-1 rounded-full border border-border px-2 py-0.5 text-[10px] normal-case text-muted">
               {debrief.source}
             </span>
           </p>
-          <AiMarkdown className="mt-2 text-sm leading-relaxed text-zinc-200">
+          <AiMarkdown className="mt-2 text-sm leading-relaxed text-ink">
             {debrief.summary}
           </AiMarkdown>
         </div>

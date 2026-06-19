@@ -59,7 +59,7 @@ function CandleChart({
   }, [visible, candles.length]);
 
   return (
-    <svg viewBox="0 0 720 260" className="w-full rounded-lg border border-zinc-800 bg-zinc-950/70">
+    <svg viewBox="0 0 720 260" className="w-full rounded-lg border border-border bg-background/60">
       {path?.map((bar, index) => (
         <g key={index}>
           <line
@@ -132,39 +132,39 @@ export function ScenarioPlayer({
         <button
           type="button"
           onClick={onExit}
-          className="flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-400 transition-colors hover:border-zinc-500"
+          className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-white/20"
         >
           <ArrowLeft size={13} /> All missions
         </button>
-        <h2 className="font-semibold text-zinc-100">{scenario.title}</h2>
-        <span className="rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+        <h2 className="font-semibold text-ink">{scenario.title}</h2>
+        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
           {scenario.level}
         </span>
-        <span className="ml-auto text-xs text-zinc-600">
+        <span className="ml-auto text-xs text-muted/70">
           Bar {Math.min(revealed, scenario.candles.length)} / {scenario.candles.length}
         </span>
       </div>
-      <p className="mt-2 text-sm text-zinc-400">{scenario.description}</p>
+      <p className="mt-2 text-sm text-muted">{scenario.description}</p>
 
       <div className="mt-4">
         <CandleChart candles={scenario.candles} revealed={revealed} />
       </div>
 
       {atCheckpoint && !grade ? (
-        <div className="mt-4 rounded-xl border border-indigo-500/40 bg-indigo-600/10 p-5">
-          <p className="text-xs uppercase tracking-wider text-indigo-300">
+        <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-5">
+          <p className="text-xs uppercase tracking-wider text-accent">
             Decision {checkpointIndex + 1} of {scenario.checkpoints.length}
           </p>
-          <p className="mt-2 font-medium text-zinc-100">{activeCheckpoint.question}</p>
+          <p className="mt-2 font-medium text-ink">{activeCheckpoint.question}</p>
           <div className="mt-3 space-y-2">
             {activeCheckpoint.options.map((option) => (
               <button
                 key={option.id}
                 type="button"
                 onClick={() => handleAnswer(option.id)}
-                className="flex w-full items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-2.5 text-left text-sm text-zinc-200 transition-colors hover:border-indigo-400/60 hover:bg-indigo-600/10"
+                className="flex w-full items-center gap-2 rounded-lg border border-border bg-background/50 px-3 py-2.5 text-left text-sm text-ink transition-colors hover:border-accent/60 hover:bg-accent/10"
               >
-                <ChevronRight size={14} className="shrink-0 text-indigo-400" />
+                <ChevronRight size={14} className="shrink-0 text-accent" />
                 {option.label}
               </button>
             ))}
@@ -178,7 +178,7 @@ export function ScenarioPlayer({
             type="button"
             disabled={grading}
             onClick={() => void handleGrade()}
-            className="rounded-lg border border-indigo-500/50 px-6 py-2.5 text-sm font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-40"
+            className="rounded-lg border border-accent/50 px-6 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent/15 disabled:opacity-40"
           >
             {grading ? 'Grading…' : 'Get the debrief'}
           </button>
@@ -189,40 +189,36 @@ export function ScenarioPlayer({
         <div className="mt-4">
           <div
             className={`flex items-center gap-3 rounded-xl border p-4 ${
-              grade.passed
-                ? 'border-emerald-500/40 bg-emerald-600/10'
-                : 'border-amber-500/40 bg-amber-600/10'
+              grade.passed ? 'border-buy/40 bg-buy/10' : 'border-hold/40 bg-hold/10'
             }`}
           >
-            <Award size={20} className={grade.passed ? 'text-emerald-300' : 'text-amber-300'} />
-            <p className="font-semibold text-zinc-100">
+            <Award size={20} className={grade.passed ? 'text-buy' : 'text-hold'} />
+            <p className="font-semibold text-ink">
               {grade.percent}% — {grade.passed ? 'Passed' : `Below the ${grade.pass_percent}% bar`}
             </p>
-            <span className="ml-auto text-xs text-zinc-500">
+            <span className="ml-auto text-xs text-muted">
               {grade.score} / {grade.max_score} points
             </span>
           </div>
           <div className="mt-3 space-y-3">
             {grade.checkpoints.map((item, index) => (
-              <div key={index} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div key={index} className="rounded-xl border border-border bg-white/[0.03] p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-sm font-medium text-zinc-200">{item.question}</p>
+                  <p className="text-sm font-medium text-ink">{item.question}</p>
                   <span
                     className={`shrink-0 text-sm font-semibold ${
-                      item.points === item.max_points ? 'text-emerald-300' : 'text-amber-300'
+                      item.points === item.max_points ? 'text-buy' : 'text-hold'
                     }`}
                   >
                     {item.points}/{item.max_points}
                   </span>
                 </div>
                 {item.chosen ? (
-                  <p className="mt-1 text-xs text-zinc-500">You chose: {item.chosen}</p>
+                  <p className="mt-1 text-xs text-muted">You chose: {item.chosen}</p>
                 ) : null}
-                <p className="mt-2 text-sm text-zinc-400">{item.debrief}</p>
+                <p className="mt-2 text-sm text-muted">{item.debrief}</p>
                 {item.best_choice ? (
-                  <p className="mt-2 text-xs text-emerald-300/80">
-                    Stronger play: {item.best_choice}
-                  </p>
+                  <p className="mt-2 text-xs text-buy/80">Stronger play: {item.best_choice}</p>
                 ) : null}
               </div>
             ))}
@@ -231,7 +227,7 @@ export function ScenarioPlayer({
             <button
               type="button"
               onClick={onExit}
-              className="rounded-lg border border-zinc-700 px-5 py-2 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
+              className="rounded-lg border border-border px-5 py-2 text-sm text-ink transition-colors hover:border-white/20"
             >
               Back to missions
             </button>

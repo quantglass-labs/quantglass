@@ -71,21 +71,19 @@ function ObjectiveList({
       {mission.criteria.map((criterion) => (
         <li key={criterion.label} className="flex items-center gap-2 text-sm">
           {criterion.met ? (
-            <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
+            <CheckCircle2 size={15} className="shrink-0 text-buy" />
           ) : (
-            <Circle size={15} className="shrink-0 text-zinc-600" />
+            <Circle size={15} className="shrink-0 text-muted/70" />
           )}
-          <span className={criterion.met ? 'text-zinc-300' : 'text-zinc-400'}>
-            {criterion.label}
-          </span>
-          <span className="ml-auto shrink-0 text-xs text-zinc-600">
+          <span className={criterion.met ? 'text-ink' : 'text-muted'}>{criterion.label}</span>
+          <span className="ml-auto shrink-0 text-xs text-muted/70">
             {criterion.current} / {criterion.target}
           </span>
           {!criterion.met && criterion.drill ? (
             <button
               type="button"
               onClick={() => onRunDrill(criterion.drill as string)}
-              className="flex shrink-0 items-center gap-0.5 rounded-full border border-emerald-500/40 px-2 py-0.5 text-[11px] text-emerald-300 transition-colors hover:bg-emerald-600/20"
+              className="flex shrink-0 items-center gap-0.5 rounded-full border border-buy/40 px-2 py-0.5 text-[11px] text-buy transition-colors hover:bg-buy/15"
             >
               {t('missions.card.runDrill')} <ArrowUpRight size={11} />
             </button>
@@ -93,7 +91,7 @@ function ObjectiveList({
             <Link
               to={criterion.action.route}
               title={criterion.action.cta}
-              className="flex shrink-0 items-center gap-0.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[11px] text-indigo-300 transition-colors hover:bg-indigo-600/20"
+              className="flex shrink-0 items-center gap-0.5 rounded-full border border-accent/40 px-2 py-0.5 text-[11px] text-accent transition-colors hover:bg-accent/15"
             >
               {t('missions.card.go')} <ArrowUpRight size={11} />
             </Link>
@@ -117,48 +115,48 @@ function ActiveMissionCard({
   const met = mission.criteria.filter((criterion) => criterion.met).length;
   const next = mission.criteria.find((criterion) => !criterion.met);
   return (
-    <div className="rounded-xl border border-indigo-500/40 bg-indigo-600/10 p-4">
+    <div className="rounded-xl border border-accent/40 bg-accent/10 p-4">
       <div className="flex items-center gap-2">
-        <Crosshair size={15} className="shrink-0 text-indigo-300" />
-        <p className="font-semibold text-zinc-100">{mission.title}</p>
-        <span className="rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+        <Crosshair size={15} className="shrink-0 text-accent" />
+        <p className="font-semibold text-ink">{mission.title}</p>
+        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
           {mission.level}
         </span>
         <button
           type="button"
           onClick={() => onAbandon(mission.id)}
-          className="ml-auto shrink-0 text-[11px] text-zinc-500 hover:text-zinc-300"
+          className="ml-auto shrink-0 text-[11px] text-muted hover:text-ink"
         >
           {t('missions.card.standDown')}
         </button>
       </div>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-zinc-800">
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div
-          className="h-full bg-indigo-500"
+          className="h-full bg-accentStrong"
           style={{ width: `${(100 * met) / Math.max(1, mission.criteria.length)}%` }}
         />
       </div>
-      <p className="mt-1 text-[11px] text-zinc-500">
+      <p className="mt-1 text-[11px] text-muted">
         {t('missions.card.objectivesComplete', { met, total: mission.criteria.length })}
       </p>
       {next ? (
-        <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/60 bg-zinc-900/50 px-3 py-2">
-          <span className="text-xs uppercase tracking-wider text-indigo-300/80">
+        <div className="mt-3 flex items-center gap-2 rounded-lg border border-border bg-background/40 px-3 py-2">
+          <span className="text-xs uppercase tracking-wider text-accent/80">
             {t('missions.card.next')}
           </span>
-          <span className="min-w-0 truncate text-sm text-zinc-200">{next.label}</span>
+          <span className="min-w-0 truncate text-sm text-ink">{next.label}</span>
           {next.drill ? (
             <button
               type="button"
               onClick={() => onRunDrill(next.drill as string)}
-              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-emerald-500/50 px-2.5 py-1 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-600/20"
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-buy/50 px-2.5 py-1 text-xs font-semibold text-buy transition-colors hover:bg-buy/15"
             >
               {t('missions.card.runDecisionDrill')} <ArrowUpRight size={12} />
             </button>
           ) : next.action ? (
             <Link
               to={next.action.route}
-              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-indigo-500/50 px-2.5 py-1 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20"
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg border border-accent/50 px-2.5 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent/15"
             >
               {next.action.cta} <ArrowUpRight size={12} />
             </Link>
@@ -188,10 +186,10 @@ function MissionCard({
     <div
       className={`rounded-xl border ${
         mission.completed
-          ? 'border-emerald-500/40 bg-emerald-600/10'
+          ? 'border-buy/40 bg-buy/10'
           : mission.active
-            ? 'border-indigo-500/40 bg-zinc-900/40'
-            : 'border-zinc-800 bg-zinc-900/40'
+            ? 'border-accent/40 bg-white/[0.03]'
+            : 'border-border bg-white/[0.03]'
       }`}
     >
       <button
@@ -200,45 +198,45 @@ function MissionCard({
         className="flex w-full items-start gap-3 p-4 text-left"
       >
         {expanded ? (
-          <ChevronDown size={15} className="mt-1 shrink-0 text-zinc-500" />
+          <ChevronDown size={15} className="mt-1 shrink-0 text-muted" />
         ) : (
-          <ChevronRight size={15} className="mt-1 shrink-0 text-zinc-500" />
+          <ChevronRight size={15} className="mt-1 shrink-0 text-muted" />
         )}
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-zinc-100">
+          <p className="font-semibold text-ink">
             {mission.title}
-            <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+            <span className="ml-2 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
               {t(`missions.levels.${mission.level}`, { defaultValue: mission.level })}
             </span>
             {mission.active ? (
-              <span className="ml-1.5 rounded-full border border-indigo-500/40 px-2 py-0.5 text-[10px] text-indigo-300">
+              <span className="ml-1.5 rounded-full border border-accent/40 px-2 py-0.5 text-[10px] text-accent">
                 {t('missions.card.activeBadge')}
               </span>
             ) : null}
             {mission.source === 'community' ? (
-              <span className="ml-1.5 rounded-full border border-sky-500/40 px-2 py-0.5 text-[10px] text-sky-300">
+              <span className="ml-1.5 rounded-full border border-watch/40 px-2 py-0.5 text-[10px] text-watch">
                 {t('missions.card.communityBadge')}
               </span>
             ) : null}
           </p>
           {!expanded ? (
-            <p className="mt-0.5 line-clamp-1 text-sm text-zinc-500">{mission.description}</p>
+            <p className="mt-0.5 line-clamp-1 text-sm text-muted">{mission.description}</p>
           ) : null}
         </div>
         {mission.completed ? (
-          <span className="shrink-0 rounded-full border border-emerald-500/40 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
+          <span className="shrink-0 rounded-full border border-buy/40 px-2.5 py-0.5 text-xs font-semibold text-buy">
             {t('missions.card.done')}
           </span>
         ) : (
-          <span className="shrink-0 text-xs text-zinc-600">
+          <span className="shrink-0 text-xs text-muted/70">
             {met}/{mission.criteria.length}
           </span>
         )}
       </button>
       {expanded ? (
         <div className="px-4 pb-4 pl-11">
-          <p className="text-sm text-zinc-400">{mission.description}</p>
-          <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+          <p className="text-sm text-muted">{mission.description}</p>
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted">
             {t('missions.card.objectives')}
           </p>
           <ObjectiveList mission={mission} onRunDrill={onRunDrill} />
@@ -249,18 +247,18 @@ function MissionCard({
                 disabled={slotsFull}
                 onClick={() => onAccept(mission.id)}
                 title={slotsFull ? t('missions.card.slotsFull') : ''}
-                className="rounded-lg border border-indigo-500/50 px-4 py-1.5 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-lg border border-accent/50 px-4 py-1.5 text-xs font-semibold text-accent transition-colors hover:bg-accent/15 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {t('missions.card.startMission')}
               </button>
             ) : null}
             {mission.lesson_links.length ? (
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-muted">
                 {t('missions.card.studyFirst')}{' '}
                 {mission.lesson_links.map((lessonId, i) => (
                   <span key={lessonId}>
                     {i > 0 ? ' · ' : ''}
-                    <Link to="/learn" className="text-indigo-300 hover:text-indigo-200">
+                    <Link to="/learn" className="text-accent hover:text-accent">
                       {lessonId}
                     </Link>
                   </span>
@@ -401,14 +399,14 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
   return (
     <div className="mx-auto max-w-4xl">
       <div className="flex items-center gap-2">
-        <Target size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">{t('missions.title')}</h1>
+        <Target size={20} className="text-accent" />
+        <h1 className="text-lg font-semibold text-ink">{t('missions.title')}</h1>
         {missions ? (
-          <span className="rounded-full border border-zinc-700 px-2.5 py-0.5 text-xs text-zinc-400">
+          <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">
             {t('missions.earnedBadge', { completed: completedCount, total: missions.length })}
           </span>
         ) : null}
-        <span className="ml-auto text-xs text-zinc-600">{t('missions.tagline')}</span>
+        <span className="ml-auto text-xs text-muted/70">{t('missions.tagline')}</span>
       </div>
 
       {missions ? (
@@ -465,7 +463,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           aria-label={t('missions.searchPlaceholder')}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className="w-56 rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-sm text-zinc-200 outline-none placeholder:text-zinc-600 focus:border-indigo-500/60"
+          className="w-56 rounded-lg border border-border bg-background/50 px-3 py-1.5 text-sm text-ink outline-none placeholder:text-muted/70 focus:border-accent/60"
         />
         {['all', ...LEVELS].map((level) => (
           <button
@@ -474,8 +472,8 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
             onClick={() => setLevelFilter(level)}
             className={`rounded-full border px-3 py-1 text-xs transition-colors ${
               levelFilter === level
-                ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                ? 'border-accent/60 bg-accent/15 text-accent'
+                : 'border-border text-muted hover:border-white/20'
             }`}
           >
             {t(`missions.levels.${level}`)}
@@ -495,10 +493,10 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
 
       {activeMissions.length ? (
         <>
-          <h2 className="mt-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-indigo-300">
+          <h2 className="mt-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-accent">
             <Crosshair size={14} />
             {t('missions.activeHeading')}
-            <span className="text-xs font-normal normal-case tracking-normal text-zinc-600">
+            <span className="text-xs font-normal normal-case tracking-normal text-muted/70">
               {t('missions.slots', { active: activeMissions.length, max: maxActive })}
             </span>
           </h2>
@@ -514,7 +512,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </div>
         </>
       ) : missions ? (
-        <p className="mt-6 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/30 p-4 text-sm text-zinc-500">
+        <p className="mt-6 rounded-xl border border-dashed border-border bg-white/[0.02] p-4 text-sm text-muted">
           {t('missions.noActive')}
         </p>
       ) : null}
@@ -522,21 +520,21 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
       <BackendStatusNotice status={backendStatus} />
       <AiInsight surface="missions" title={t('missions.aiTitle')} />
       {error ? (
-        <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
+        <p className="mt-6 rounded-xl border border-hold/30 bg-hold/10 p-4 text-sm text-hold">
           {error}
         </p>
       ) : null}
       {!missions && !error && backendStatus !== 'offline' ? (
         <div className="mt-6 space-y-3" aria-busy="true">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-24 animate-pulse rounded-xl bg-zinc-800/60" />
+            <div key={n} className="h-24 animate-pulse rounded-xl bg-white/5" />
           ))}
         </div>
       ) : null}
 
       <div className="mt-5 space-y-4">
         {grouped?.length === 0 ? (
-          <p className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-500">
+          <p className="rounded-xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
             {t('missions.noMatch')}
           </p>
         ) : null}
@@ -552,21 +550,21 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
                 className="flex w-full items-center gap-2 rounded-lg px-1 py-1.5 text-left"
               >
                 {open ? (
-                  <ChevronDown size={15} className="text-zinc-500" />
+                  <ChevronDown size={15} className="text-muted" />
                 ) : (
-                  <ChevronRight size={15} className="text-zinc-500" />
+                  <ChevronRight size={15} className="text-muted" />
                 )}
-                <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-300">
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-ink">
                   {meta ? t(`missions.categories.${meta.key}`) : category.replace(/-/g, ' ')}
                 </h2>
                 <span
                   className={`text-xs ${
-                    done === categoryMissions.length ? 'text-emerald-400' : 'text-zinc-600'
+                    done === categoryMissions.length ? 'text-buy' : 'text-muted/70'
                   }`}
                 >
                   {done}/{categoryMissions.length}
                 </span>
-                <span className="ml-auto h-px flex-1 max-w-[40%] bg-zinc-800" />
+                <span className="ml-auto h-px flex-1 max-w-[40%] bg-white/10" />
               </button>
               {open ? (
                 <div className="mt-2 space-y-2">
@@ -588,31 +586,29 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
 
       {scenarios && scenarios.length > 0 ? (
         <>
-          <h2 className="mt-10 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-400">
-            <PlayCircle size={15} className="text-indigo-400" />
+          <h2 className="mt-10 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted">
+            <PlayCircle size={15} className="text-accent" />
             {t('missions.replay.title')}
           </h2>
-          <p className="mt-1 text-xs text-zinc-600">{t('missions.replay.description')}</p>
+          <p className="mt-1 text-xs text-muted/70">{t('missions.replay.description')}</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {scenarios.map((scenario, index) => (
               <FadeIn key={scenario.id} delayMs={Math.min(index, 8) * 50}>
                 <button
                   type="button"
                   onClick={() => openScenario(scenario.id)}
-                  className={`h-full w-full rounded-xl border p-5 text-left transition-colors hover:border-indigo-400/50 ${
-                    scenario.passed
-                      ? 'border-emerald-500/40 bg-emerald-600/10'
-                      : 'border-zinc-800 bg-zinc-900/40'
+                  className={`h-full w-full rounded-xl border p-5 text-left transition-colors hover:border-accent/50 ${
+                    scenario.passed ? 'border-buy/40 bg-buy/10' : 'border-border bg-white/[0.03]'
                   }`}
                 >
-                  <p className="font-semibold text-zinc-100">
+                  <p className="font-semibold text-ink">
                     {scenario.title}
-                    <span className="ml-2 rounded-full border border-zinc-700 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
+                    <span className="ml-2 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
                       {t(`missions.levels.${scenario.level}`, { defaultValue: scenario.level })}
                     </span>
                   </p>
-                  <p className="mt-1 line-clamp-3 text-sm text-zinc-400">{scenario.description}</p>
-                  <p className="mt-3 text-xs text-zinc-500">
+                  <p className="mt-1 line-clamp-3 text-sm text-muted">{scenario.description}</p>
+                  <p className="mt-3 text-xs text-muted">
                     {t('missions.replay.decisions', {
                       count: scenario.checkpoints,
                       percent: scenario.pass_percent,
@@ -620,7 +616,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
                     {scenario.best_percent !== null ? (
                       <span
                         className={`ml-2 font-semibold ${
-                          scenario.passed ? 'text-emerald-300' : 'text-amber-300'
+                          scenario.passed ? 'text-buy' : 'text-hold'
                         }`}
                       >
                         {t('missions.replay.best', { percent: scenario.best_percent })}
@@ -633,7 +629,7 @@ export function MissionsScreen({ backendStatus }: { backendStatus: BackendStatus
           </div>
         </>
       ) : null}
-      <p className="mt-6 text-xs text-zinc-600">{t('missions.footer')}</p>
+      <p className="mt-6 text-xs text-muted/70">{t('missions.footer')}</p>
     </div>
   );
 }
