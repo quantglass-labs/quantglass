@@ -250,7 +250,16 @@ export default function App() {
     if (backendStatus !== 'online') return;
     backendClient
       .getDataState()
-      .then((state) => setShowOnboarding(!state.onboardingCompleted))
+      .then((state) => {
+        if (state.onboardingCompleted) return;
+        // An existing install (data but no flag yet) is not a first run: mark it
+        // done silently so only a genuinely fresh install sees the prompt.
+        if (state.hasData) {
+          backendClient.setOnboardingCompleted(true).catch(() => undefined);
+          return;
+        }
+        setShowOnboarding(true);
+      })
       .catch(() => undefined);
   }, [backendStatus]);
   const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
