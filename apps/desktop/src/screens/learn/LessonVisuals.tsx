@@ -3,10 +3,11 @@
 
 /**
  * Lesson visual registry (VIS-1). Lessons declare visuals as data; this
- * module maps each declared type to a vetted component. Content never
- * carries markup, so community lesson packs stay safe. The annotation
- * grammar (dashed leaders, bold label, muted sublabel) follows the visual
- * spec for candlestick annotations.
+ * module maps each declared type to a vetted component. Content never carries
+ * markup, so community lesson packs stay safe. Each visual is a bespoke,
+ * premium SVG illustration that shares one visual language with the rest of the
+ * app's diagrams (glass panels, glowing nodes, blue accents); candle colours
+ * stay domain-accurate (green up / red down).
  */
 
 import type { JSX } from 'react';
@@ -28,55 +29,15 @@ export interface LessonVisual {
 }
 
 const PALETTE = {
-  bg: '#0a1730',
-  // Candle semantics — kept domain-accurate (green up / red down).
   up: '#14c784',
   upEdge: '#a7f3d0',
   down: '#f6465d',
   downEdge: '#fecaca',
   ink: '#f1f6ff',
   muted: '#94aed8',
-  leader: '#5f7cae',
-  // Premium blue accent for decorative elements (matches the flow diagrams).
-  accent: '#6aa0ff',
-  panelStroke: 'rgba(141, 183, 255, 0.3)',
+  accent: '#9cc0ff',
+  panelStroke: 'rgba(141, 183, 255, 0.35)',
 };
-
-function Leader({
-  x1,
-  y1,
-  x2,
-  label,
-  sub,
-}: {
-  x1: number;
-  y1: number;
-  x2: number;
-  label: string;
-  sub?: string;
-}) {
-  return (
-    <g>
-      <line
-        x1={x1}
-        y1={y1}
-        x2={x2}
-        y2={y1}
-        stroke={PALETTE.leader}
-        strokeWidth={2}
-        strokeDasharray="7 7"
-      />
-      <text x={x2 + 14} y={y1 + 6} fill={PALETTE.ink} fontSize={19} fontWeight={700}>
-        {label}
-      </text>
-      {sub ? (
-        <text x={x2 + 14} y={y1 + 30} fill={PALETTE.muted} fontSize={13}>
-          {sub}
-        </text>
-      ) : null}
-    </g>
-  );
-}
 
 function Frame({
   title,
@@ -93,23 +54,31 @@ function Frame({
 }) {
   const [, , w] = viewBox.split(' ').map(Number);
   return (
-    <svg viewBox={viewBox} role="img" aria-label={label} className="w-full rounded-xl">
+    <svg viewBox={viewBox} role="img" aria-label={label} className="w-full rounded-2xl">
       <defs>
-        <linearGradient id="qgFrame" x1="0" y1="0" x2="0" y2="1">
+        <radialGradient id="qgFrame" cx="50%" cy="38%" r="80%">
           <stop offset="0" stopColor="#102246" />
-          <stop offset="0.55" stopColor="#0a1730" />
+          <stop offset="0.6" stopColor="#0a1730" />
           <stop offset="1" stopColor="#070e1c" />
-        </linearGradient>
+        </radialGradient>
         <linearGradient id="qgBox" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="rgba(24, 42, 76, 0.92)" />
-          <stop offset="1" stopColor="rgba(12, 22, 42, 0.82)" />
+          <stop offset="0" stopColor="rgba(24, 42, 76, 0.95)" />
+          <stop offset="1" stopColor="rgba(12, 22, 42, 0.85)" />
         </linearGradient>
         <linearGradient id="qgAcc" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#4a86ff" />
           <stop offset="1" stopColor="#9cc0ff" />
         </linearGradient>
-        <filter id="qgGlow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="2.4" result="b" />
+        <linearGradient id="qgLink" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#4a86ff" stopOpacity="0.15" />
+          <stop offset="1" stopColor="#9cc0ff" stopOpacity="0.9" />
+        </linearGradient>
+        <radialGradient id="qgCore" cx="50%" cy="40%" r="60%">
+          <stop offset="0" stopColor="#6aa0ff" />
+          <stop offset="1" stopColor="#0c1c3a" />
+        </radialGradient>
+        <filter id="qgGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2.6" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
@@ -130,11 +99,11 @@ function Frame({
       <rect
         width="100%"
         height="100%"
-        rx={16}
+        rx={18}
         fill="url(#qgFrame)"
         stroke="rgba(120, 165, 255, 0.12)"
       />
-      <text x={w / 2} y={44} textAnchor="middle" fill={PALETTE.ink} fontSize={26} fontWeight={800}>
+      <text x={w / 2} y={46} textAnchor="middle" fill={PALETTE.ink} fontSize={25} fontWeight={800}>
         {title}
       </text>
       {subtitle ? (
@@ -191,9 +160,17 @@ function CandleGlyph({
   );
 }
 
+/** Reimagined: candle with a price axis, glowing OHLC markers, and side labels. */
 function CandleAnatomy({ params }: { params: Record<string, unknown> }) {
   const { t } = useTranslation();
   const bullish = params.variant !== 'bearish';
+  const x = 430;
+  const levels = [
+    { y: 120, label: t('academy.vHigh'), mx: x },
+    { y: 195, label: bullish ? t('academy.wClose') : t('academy.wOpen'), mx: x + 60 },
+    { y: 330, label: bullish ? t('academy.wOpen') : t('academy.wClose'), mx: x + 60 },
+    { y: 420, label: t('academy.vLow'), mx: x },
+  ];
   return (
     <Frame
       title={t('academy.candlestickAnatomy')}
@@ -201,8 +178,19 @@ function CandleAnatomy({ params }: { params: Record<string, unknown> }) {
       viewBox="0 0 1000 480"
       label={t('academy.candlestickDiagram')}
     >
+      {levels.map((lvl) => (
+        <line
+          key={lvl.label}
+          x1={120}
+          y1={lvl.y}
+          x2={760}
+          y2={lvl.y}
+          stroke="rgba(141,183,255,0.18)"
+          strokeDasharray="4 8"
+        />
+      ))}
       <CandleGlyph
-        x={420}
+        x={x}
         top={120}
         bodyTop={195}
         bodyBottom={330}
@@ -210,56 +198,84 @@ function CandleAnatomy({ params }: { params: Record<string, unknown> }) {
         bullish={bullish}
         width={120}
       />
-      <text x={420} y={272} textAnchor="middle" fill={PALETTE.bg} fontSize={20} fontWeight={900}>
+      <text x={x} y={272} textAnchor="middle" fill="#06301f" fontSize={20} fontWeight={900}>
         {t('academy.vBody')}
       </text>
-      <Leader x1={420} y1={120} x2={620} label={t('academy.vHigh')} sub={t('academy.highSub')} />
-      <Leader
-        x1={480}
-        y1={195}
-        x2={620}
-        label={bullish ? t('academy.wClose') : t('academy.wOpen')}
-        sub={bullish ? t('academy.priceAtEnd') : t('academy.priceAtStart')}
-      />
-      <Leader
-        x1={480}
-        y1={330}
-        x2={620}
-        label={bullish ? t('academy.wOpen') : t('academy.wClose')}
-        sub={bullish ? t('academy.priceAtStart') : t('academy.priceAtEnd')}
-      />
-      <Leader x1={420} y1={420} x2={620} label={t('academy.vLow')} sub={t('academy.lowSub')} />
-      <Leader x1={420} y1={158} x2={250} label={t('academy.vWick')} sub={t('academy.wickSub')} />
+      {levels.map((lvl) => (
+        <g key={`m-${lvl.label}`}>
+          <circle cx={lvl.mx} cy={lvl.y} r={8} fill="#cfe6ff" filter="url(#qgGlow)" />
+          <text x={775} y={lvl.y + 6} fill={PALETTE.ink} fontSize={18} fontWeight={700}>
+            {lvl.label}
+          </text>
+        </g>
+      ))}
+      <text x={250} y={158} fill={PALETTE.muted} fontSize={13}>
+        {t('academy.vWick')}
+      </text>
     </Frame>
   );
 }
 
+/** Reimagined: same prices, two outcomes — green close>open vs red close<open. */
 function CandleComparison() {
   const { t } = useTranslation();
   return (
     <Frame
       title={t('academy.greenVsRed')}
       subtitle={t('academy.sameAnatomy')}
-      viewBox="0 0 1000 430"
+      viewBox="0 0 1000 440"
       label={t('academy.greenRedComparison')}
     >
-      <CandleGlyph x={300} top={120} bodyTop={190} bodyBottom={330} bottom={380} bullish />
-      <text x={300} y={415} textAnchor="middle" fill={PALETTE.up} fontSize={18} fontWeight={800}>
-        {t('academy.closeGtOpen')}
-      </text>
-      <CandleGlyph x={700} top={120} bodyTop={190} bodyBottom={330} bottom={380} bullish={false} />
-      <text x={700} y={415} textAnchor="middle" fill={PALETTE.down} fontSize={18} fontWeight={800}>
-        {t('academy.closeLtOpen')}
-      </text>
+      {[
+        { x: 300, bullish: true, caption: t('academy.closeGtOpen'), color: PALETTE.up },
+        { x: 700, bullish: false, caption: t('academy.closeLtOpen'), color: PALETTE.down },
+      ].map((c) => (
+        <g key={c.x}>
+          <CandleGlyph
+            x={c.x}
+            top={120}
+            bodyTop={190}
+            bodyBottom={330}
+            bottom={380}
+            bullish={c.bullish}
+          />
+          <circle
+            cx={c.x + 70}
+            cy={c.bullish ? 330 : 190}
+            r={7}
+            fill="#cfe6ff"
+            filter="url(#qgGlow)"
+          />
+          <circle
+            cx={c.x + 70}
+            cy={c.bullish ? 190 : 330}
+            r={7}
+            fill="#cfe6ff"
+            filter="url(#qgGlow)"
+          />
+          <text x={c.x + 86} y={c.bullish ? 335 : 195} fill={PALETTE.muted} fontSize={13}>
+            {t('academy.wOpen')}
+          </text>
+          <text x={c.x + 86} y={c.bullish ? 195 : 335} fill={PALETTE.muted} fontSize={13}>
+            {t('academy.wClose')}
+          </text>
+          <text x={c.x} y={420} textAnchor="middle" fill={c.color} fontSize={18} fontWeight={800}>
+            {c.caption}
+          </text>
+        </g>
+      ))}
     </Frame>
   );
 }
 
+/** Reimagined: gradient lollipop bars with end dots, value chips, and gridlines. */
 function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
   const items = (params.items as { label: string; value: number; note?: string }[]) ?? [];
   const max = Math.max(...items.map((item) => item.value), 1);
-  const rowH = 64;
+  const rowH = 70;
   const height = 110 + items.length * rowH;
+  const x0 = 280;
+  const xMax = 660;
   return (
     <Frame
       title={String(params.heading ?? 'Magnitude')}
@@ -267,24 +283,51 @@ function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
       viewBox={`0 0 1000 ${height}`}
       label={`${String(params.heading ?? 'Magnitude')} comparison`}
     >
+      {[0, 0.5, 1].map((g) => (
+        <line
+          key={g}
+          x1={x0 + g * (xMax - x0)}
+          y1={96}
+          x2={x0 + g * (xMax - x0)}
+          y2={height - 24}
+          stroke="rgba(141,183,255,0.12)"
+        />
+      ))}
       {items.map((item, i) => {
-        const y = 110 + i * rowH;
-        const w = Math.max(24, (item.value / max) * 560);
+        const cy = 122 + i * rowH;
+        const len = Math.max(20, (item.value / max) * (xMax - x0));
         return (
           <g key={item.label}>
-            <text x={40} y={y + 26} fill={PALETTE.ink} fontSize={17} fontWeight={700}>
+            <text x={50} y={cy + 6} fill={PALETTE.ink} fontSize={16} fontWeight={700}>
               {item.label}
             </text>
             <rect
-              x={260}
-              y={y}
-              width={w}
-              height={36}
-              rx={9}
+              x={x0}
+              y={cy - 7}
+              width={len}
+              height={14}
+              rx={7}
               fill="url(#qgAcc)"
               filter="url(#qgGlow)"
             />
-            <text x={260 + w + 12} y={y + 25} fill={PALETTE.muted} fontSize={15}>
+            <circle cx={x0 + len} cy={cy} r={11} fill="#cfe6ff" filter="url(#qgGlow)" />
+            <rect
+              x={x0 + len + 18}
+              y={cy - 14}
+              width={68}
+              height={28}
+              rx={9}
+              fill="rgba(12,22,42,0.85)"
+              stroke={PALETTE.panelStroke}
+            />
+            <text
+              x={x0 + len + 52}
+              y={cy + 5}
+              textAnchor="middle"
+              fill="#cfe0ff"
+              fontSize={14}
+              fontWeight={700}
+            >
               {item.note ?? item.value}
             </text>
           </g>
@@ -294,44 +337,57 @@ function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
   );
 }
 
+/** Reimagined: a glowing node timeline (numbered light-nodes on a progress line). */
 function ProcessSteps({ params }: { params: Record<string, unknown> }) {
   const steps = (params.steps as string[]) ?? [];
-  const w = 1000;
-  const gap = (w - 120) / Math.max(steps.length, 1);
+  const n = Math.max(steps.length, 1);
+  const x0 = 130;
+  const x1 = 870;
+  const cy = 132;
+  const stepX = (i: number) => (n > 1 ? x0 + (i * (x1 - x0)) / (n - 1) : (x0 + x1) / 2);
   return (
     <Frame
       title={String(params.heading ?? 'Process')}
       viewBox="0 0 1000 240"
       label={`${String(params.heading ?? 'Process')} steps`}
     >
+      <line x1={x0} y1={cy} x2={x1} y2={cy} stroke="rgba(141,183,255,0.2)" strokeWidth={3} />
+      <line
+        x1={x0}
+        y1={cy}
+        x2={x1}
+        y2={cy}
+        stroke="url(#qgLink)"
+        strokeWidth={3}
+        filter="url(#qgGlow)"
+      />
       {steps.map((step, i) => {
-        const x = 60 + i * gap;
+        const x = stepX(i);
+        const last = i === steps.length - 1;
         return (
           <g key={step}>
-            <rect
-              x={x}
-              y={110}
-              width={gap - 40}
-              height={70}
-              rx={14}
-              fill="url(#qgBox)"
-              stroke={PALETTE.panelStroke}
+            <circle
+              cx={x}
+              cy={cy}
+              r={last ? 28 : 25}
+              fill={last ? 'url(#qgCore)' : 'url(#qgBox)'}
+              stroke={PALETTE.accent}
+              strokeWidth={2}
+              filter="url(#qgGlow)"
             />
+            <text x={x} y={cy + 6} textAnchor="middle" fill="#fff" fontSize={16} fontWeight={800}>
+              {i + 1}
+            </text>
             <text
-              x={x + (gap - 40) / 2}
-              y={152}
+              x={x}
+              y={cy + 58}
               textAnchor="middle"
               fill={PALETTE.ink}
-              fontSize={15}
+              fontSize={14}
               fontWeight={700}
             >
               {step}
             </text>
-            {i < steps.length - 1 ? (
-              <text x={x + gap - 28} y={152} fill={PALETTE.accent} fontSize={22} fontWeight={900}>
-                →
-              </text>
-            ) : null}
           </g>
         );
       })}
@@ -339,9 +395,13 @@ function ProcessSteps({ params }: { params: Record<string, unknown> }) {
   );
 }
 
+/** Reimagined: a branching decision spine — glowing decision cards, yes flows down, no branches off. */
 function Flowchart({ params }: { params: Record<string, unknown> }) {
   const steps = (params.steps as { text: string; yes?: string; no?: string }[]) ?? [];
-  const height = 120 + steps.length * 96;
+  const cardH = 64;
+  const gap = 46;
+  const top = 96;
+  const height = top + steps.length * (cardH + gap) + 20;
   return (
     <Frame
       title={String(params.heading ?? 'Decision Flow')}
@@ -349,21 +409,25 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
       label={`${String(params.heading ?? 'Decision flow')} flowchart`}
     >
       {steps.map((step, i) => {
-        const y = 100 + i * 96;
+        const y = top + i * (cardH + gap);
+        const last = i === steps.length - 1;
+        const accent = last;
         return (
           <g key={step.text}>
             <rect
-              x={250}
+              x={340}
               y={y}
-              width={500}
-              height={62}
-              rx={14}
-              fill="url(#qgBox)"
-              stroke={PALETTE.panelStroke}
+              width={320}
+              height={cardH}
+              rx={16}
+              fill={accent ? 'rgba(74,134,255,0.18)' : 'url(#qgBox)'}
+              stroke={accent ? '#6aa0ff' : PALETTE.panelStroke}
+              strokeWidth={accent ? 2 : 1}
+              filter="url(#qgGlow)"
             />
             <text
               x={500}
-              y={y + 28}
+              y={y + cardH / 2 + 6}
               textAnchor="middle"
               fill={PALETTE.ink}
               fontSize={16}
@@ -371,23 +435,45 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
             >
               {step.text}
             </text>
-            {step.yes ? (
-              <text x={500} y={y + 50} textAnchor="middle" fill={PALETTE.muted} fontSize={12}>
-                yes → {step.yes}
-                {step.no ? `  ·  no → ${step.no}` : ''}
-              </text>
+            {!last ? (
+              <>
+                <line
+                  x1={500}
+                  y1={y + cardH}
+                  x2={500}
+                  y2={y + cardH + gap}
+                  stroke="url(#qgAcc)"
+                  strokeWidth={3}
+                  filter="url(#qgGlow)"
+                  markerEnd="url(#qgArrow)"
+                />
+                <text
+                  x={516}
+                  y={y + cardH + gap - 14}
+                  fill={PALETTE.accent}
+                  fontSize={12}
+                  fontWeight={700}
+                >
+                  {step.yes ? `yes · ${step.yes}` : 'yes'}
+                </text>
+              </>
             ) : null}
-            {i < steps.length - 1 ? (
-              <line
-                x1={500}
-                y1={y + 62}
-                x2={500}
-                y2={y + 96}
-                stroke="url(#qgAcc)"
-                strokeWidth={3}
-                filter="url(#qgGlow)"
-                markerEnd="url(#qgArrow)"
-              />
+            {step.no ? (
+              <>
+                <line
+                  x1={660}
+                  y1={y + cardH / 2}
+                  x2={780}
+                  y2={y + cardH / 2}
+                  stroke="rgba(141,183,255,0.3)"
+                  strokeWidth={2}
+                  strokeDasharray="6 6"
+                  markerEnd="url(#qgArrow)"
+                />
+                <text x={790} y={y + cardH / 2 - 8} fill={PALETTE.muted} fontSize={11}>
+                  no · {step.no}
+                </text>
+              </>
             ) : null}
           </g>
         );
@@ -396,11 +482,16 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
   );
 }
 
+/** Reimagined: a radial hub — inputs converge via glowing links into a glowing core. */
 function LabeledInputs({ params }: { params: Record<string, unknown> }) {
   const inputs = (params.inputs as { label: string; note?: string }[]) ?? [];
   const hub = String(params.hub ?? 'Output');
-  const height = Math.max(360, 140 + inputs.length * 64);
-  const cy = height / 2 + 20;
+  const top = 110;
+  const gap = 80;
+  const height = Math.max(360, top + inputs.length * gap + 30);
+  const coreX = 720;
+  const coreR = 70;
+  const coreY = height / 2 + 16;
   return (
     <Frame
       title={String(params.heading ?? 'Inputs')}
@@ -408,21 +499,34 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
       label={`${String(params.heading ?? 'Inputs')} diagram`}
     >
       {inputs.map((input, i) => {
-        const y = 110 + i * 64;
+        const y = top + i * gap + 23;
+        return (
+          <path
+            key={`l-${input.label}`}
+            d={`M330 ${y} C 500 ${y}, 540 ${coreY}, ${coreX - coreR} ${coreY}`}
+            stroke="url(#qgLink)"
+            strokeWidth={2.5}
+            fill="none"
+            filter="url(#qgGlow)"
+          />
+        );
+      })}
+      {inputs.map((input, i) => {
+        const y = top + i * gap;
         return (
           <g key={input.label}>
             <rect
-              x={50}
+              x={60}
               y={y}
-              width={300}
-              height={48}
-              rx={12}
+              width={270}
+              height={46}
+              rx={13}
               fill="url(#qgBox)"
               stroke={PALETTE.panelStroke}
             />
             <text
-              x={200}
-              y={y + 22}
+              x={195}
+              y={input.note ? y + 20 : y + 28}
               textAnchor="middle"
               fill={PALETTE.ink}
               fontSize={14}
@@ -431,39 +535,25 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
               {input.label}
             </text>
             {input.note ? (
-              <text x={200} y={y + 40} textAnchor="middle" fill={PALETTE.muted} fontSize={11}>
+              <text x={195} y={y + 37} textAnchor="middle" fill={PALETTE.muted} fontSize={11}>
                 {input.note}
               </text>
             ) : null}
-            <line
-              x1={350}
-              y1={y + 24}
-              x2={620}
-              y2={cy}
-              stroke={PALETTE.leader}
-              strokeWidth={2}
-              opacity={0.7}
-            />
+            <circle cx={330} cy={y + 23} r={5} fill="#9cc0ff" filter="url(#qgGlow)" />
           </g>
         );
       })}
+      <circle cx={coreX} cy={coreY} r={coreR + 22} fill="none" stroke="rgba(141,183,255,0.22)" />
       <circle
-        cx={700}
-        cy={cy}
-        r={84}
-        fill="url(#qgAcc)"
-        opacity={0.18}
-        stroke={PALETTE.accent}
-        strokeWidth={2.5}
+        cx={coreX}
+        cy={coreY}
+        r={coreR}
+        fill="url(#qgCore)"
+        stroke="#9cc0ff"
+        strokeWidth={2}
+        filter="url(#qgGlow)"
       />
-      <text
-        x={700}
-        y={cy + 6}
-        textAnchor="middle"
-        fill={PALETTE.ink}
-        fontSize={18}
-        fontWeight={800}
-      >
+      <text x={coreX} y={coreY + 6} textAnchor="middle" fill="#fff" fontSize={18} fontWeight={800}>
         {hub}
       </text>
     </Frame>
