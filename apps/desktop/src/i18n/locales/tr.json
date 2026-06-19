@@ -1277,7 +1277,22 @@
     "typicalRange": "bir günün tipik aralığı (ATR %{{pct}})",
     "wipeoutAt": "−%{{pct}}'te tasfiye",
     "liqInside": "Tasfiye sıradan gürültünün İÇİNDE — hayatta kalmak şanstır.",
-    "liqBeyond": "Tasfiye tipik gürültünün ötesinde — teze nefes alacak alan var."
+    "liqBeyond": "Tasfiye tipik gürültünün ötesinde — teze nefes alacak alan var.",
+    "mc": {
+      "winRate": "Kazanma oranı",
+      "avgWin": "Ort. kazanç",
+      "avgLoss": "Ort. kayıp",
+      "trades": "İşlem",
+      "runs": "Tur",
+      "resample": "Yeniden örnekle",
+      "start": "başlangıç",
+      "runsLabel": "{{n}} karışık tur",
+      "medianEnd": "Medyan sonuç",
+      "maxDdMed": "Medyan maks DD",
+      "maxDd95": "95. maks DD",
+      "belowStart": "Başlangıcın altında biter",
+      "ruin": "İflas riski"
+    }
   },
   "signalDetail": {
     "title": "{{symbol}} sinyal ayrıntısı",

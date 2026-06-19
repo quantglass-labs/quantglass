@@ -1277,7 +1277,22 @@
     "typicalRange": "biên độ điển hình một ngày (ATR {{pct}}%)",
     "wipeoutAt": "thanh lý tại −{{pct}}%",
     "liqInside": "Thanh lý nằm BÊN TRONG nhiễu thông thường — sống sót là may mắn.",
-    "liqBeyond": "Thanh lý nằm ngoài nhiễu thông thường — luận điểm có chỗ để thở."
+    "liqBeyond": "Thanh lý nằm ngoài nhiễu thông thường — luận điểm có chỗ để thở.",
+    "mc": {
+      "winRate": "Tỷ lệ thắng",
+      "avgWin": "Lãi trung bình",
+      "avgLoss": "Lỗ trung bình",
+      "trades": "Lệnh",
+      "runs": "Lượt chạy",
+      "resample": "Lấy mẫu lại",
+      "start": "bắt đầu",
+      "runsLabel": "{{n}} lượt xáo trộn",
+      "medianEnd": "Kết quả trung vị",
+      "maxDdMed": "DD tối đa trung vị",
+      "maxDd95": "DD tối đa thứ 95",
+      "belowStart": "Kết thúc dưới mốc đầu",
+      "ruin": "Rủi ro phá sản"
+    }
   },
   "signalDetail": {
     "title": "Chi tiết tín hiệu {{symbol}}",

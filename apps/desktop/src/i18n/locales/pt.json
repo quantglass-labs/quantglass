@@ -1277,7 +1277,22 @@
     "typicalRange": "amplitude típica de um dia (ATR {{pct}}%)",
     "wipeoutAt": "liquidação em −{{pct}}%",
     "liqInside": "A liquidação fica DENTRO do ruído comum — sobreviver é sorte.",
-    "liqBeyond": "A liquidação fica além do ruído típico — a tese tem espaço para respirar."
+    "liqBeyond": "A liquidação fica além do ruído típico — a tese tem espaço para respirar.",
+    "mc": {
+      "winRate": "Taxa de acerto",
+      "avgWin": "Ganho médio",
+      "avgLoss": "Perda média",
+      "trades": "Operações",
+      "runs": "Simulações",
+      "resample": "Reamostrar",
+      "start": "início",
+      "runsLabel": "{{n}} sequências embaralhadas",
+      "medianEnd": "Final mediano",
+      "maxDdMed": "DD máx. mediano",
+      "maxDd95": "DD máx. p95",
+      "belowStart": "Termina abaixo do início",
+      "ruin": "Risco de ruína"
+    }
   },
   "signalDetail": {
     "title": "Detalhe do sinal {{symbol}}",

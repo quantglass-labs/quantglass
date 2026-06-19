@@ -8,7 +8,7 @@
  * outcomes. Live mode pulls the learner's own candles.
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { backendClient } from '../../lib/backend';
@@ -25,13 +25,6 @@ const C = {
   warn: '#f0b84b',
   violet: '#a78bfa',
 };
-
-function reducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
-  );
-}
 
 function Shell({
   title,
@@ -213,125 +206,293 @@ const DEFAULT_OUTCOMES = [
   2.2, -1, 0.7, 1.5, -1, -1, 1.8, -1,
 ];
 
-function maxDrawdown(outcomes: number[]): number {
-  let equity = 100;
-  let peak = 100;
-  let worst = 0;
-  for (const r of outcomes) {
-    equity *= 1 + r * 0.012;
-    peak = Math.max(peak, equity);
-    worst = Math.min(worst, ((equity - peak) / peak) * 100);
-  }
-  return worst;
+function mulberry32(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
+function quantile(sorted: number[], q: number): number {
+  if (!sorted.length) return 0;
+  return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * q))];
+}
+
+function McSlider({
+  label,
+  value,
+  min,
+  max,
+  step = 1,
+  onChange,
+  suffix = '',
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (value: number) => void;
+  suffix?: string;
+}) {
+  return (
+    <label className="block text-xs text-[#94aed8]">
+      <span className="flex justify-between">
+        <span>{label}</span>
+        <span className="font-medium text-[#dbe9ff]">
+          {value}
+          {suffix}
+        </span>
+      </span>
+      <input
+        type="range"
+        className="mt-1 w-full accent-[#4a86ff]"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(event) => onChange(Number(event.target.value))}
+      />
+    </label>
+  );
+}
+
+/**
+ * Advanced, interactive Monte Carlo. Live sliders (win rate, avg win/loss in R,
+ * trades, runs) drive a seeded resample; the chart shows a 5–95th percentile
+ * band, a fan of sample equity paths, the median, and risk stats (drawdown
+ * percentiles, P(end below start), P(ruin)). Resample draws a fresh sequence.
+ */
 export function MonteCarloAnimator({ params }: { params: Record<string, unknown> }) {
   const { t } = useTranslation();
-  const outcomes = (params.outcomes as number[]) ?? DEFAULT_OUTCOMES;
-  const [paths, setPaths] = useState<number[][]>([]);
-  const raf = useRef<number | null>(null);
+  const [winRate, setWinRate] = useState(Number(params.winRate ?? 45));
+  const [avgWin, setAvgWin] = useState(Number(params.avgWin ?? 1.7));
+  const [avgLoss, setAvgLoss] = useState(Number(params.avgLoss ?? 1));
+  const [trades, setTrades] = useState(Number(params.trades ?? 40));
+  const [runs, setRuns] = useState(Number(params.runs ?? 220));
+  const [seed, setSeed] = useState(7);
+  const risk = 0.02;
 
-  function run() {
-    if (raf.current) cancelAnimationFrame(raf.current);
-    const all: number[][] = [];
-    for (let k = 0; k < 200; k++) {
-      const sample = Array.from(
-        { length: outcomes.length },
-        () => outcomes[Math.floor(Math.random() * outcomes.length)],
-      );
-      let equity = 100;
-      all.push(sample.map((r) => (equity *= 1 + r * 0.012)));
+  const sim = useMemo(() => {
+    const rng = mulberry32((seed * 2654435761) >>> 0);
+    const curves: number[][] = [];
+    for (let s = 0; s < runs; s++) {
+      let eq = 100;
+      const c = [100];
+      for (let i = 0; i < trades; i++) {
+        const r = rng() < winRate / 100 ? avgWin : -avgLoss;
+        eq *= 1 + r * risk;
+        c.push(eq);
+      }
+      curves.push(c);
     }
-    if (reducedMotion()) {
-      setPaths(all);
-      return;
+    const p5: number[] = [];
+    const p50: number[] = [];
+    const p95: number[] = [];
+    for (let i = 0; i <= trades; i++) {
+      const col = curves.map((c) => c[i]).sort((a, b) => a - b);
+      p5.push(quantile(col, 0.05));
+      p50.push(quantile(col, 0.5));
+      p95.push(quantile(col, 0.95));
     }
-    setPaths([]);
-    let shown = 0;
-    const step = () => {
-      shown = Math.min(shown + 6, all.length);
-      setPaths(all.slice(0, shown));
-      if (shown < all.length) raf.current = requestAnimationFrame(step);
+    const term = curves.map((c) => c[trades]).sort((a, b) => a - b);
+    const dds = curves
+      .map((c) => {
+        let pk = c[0];
+        let w = 0;
+        for (const v of c) {
+          pk = Math.max(pk, v);
+          w = Math.min(w, ((v - pk) / pk) * 100);
+        }
+        return w;
+      })
+      .sort((a, b) => a - b);
+    const n = Math.max(runs, 1);
+    return {
+      curves,
+      p5,
+      p50,
+      p95,
+      medTerm: quantile(term, 0.5),
+      loTerm: quantile(term, 0.05),
+      hiTerm: quantile(term, 0.95),
+      below: (term.filter((v) => v < 100).length / n) * 100,
+      ruin: (term.filter((v) => v < 60).length / n) * 100,
+      medDD: quantile(dds, 0.5),
+      p95DD: quantile(dds, 0.05),
     };
-    raf.current = requestAnimationFrame(step);
-  }
-  // Auto-run on mount; cleanup only on unmount. A dependency-less cleanup
-  // would cancel the animation frame after every render and freeze the run.
-  useEffect(() => {
-    // Frame-aligned start keeps the initial state write out of the render
-    // commit, so the mount never triggers a cascading synchronous render.
-    const start = requestAnimationFrame(run);
-    return () => {
-      cancelAnimationFrame(start);
-      if (raf.current) cancelAnimationFrame(raf.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [winRate, avgWin, avgLoss, trades, runs, seed]);
 
-  const drawdowns = paths.map((path) => {
-    let peak = path[0] ?? 100;
-    let worst = 0;
-    for (const v of path) {
-      peak = Math.max(peak, v);
-      worst = Math.min(worst, ((v - peak) / peak) * 100);
-    }
-    return worst;
-  });
-  const sortedDd = [...drawdowns].sort((a, b) => a - b);
-  const medianDd = sortedDd.length ? sortedDd[Math.floor(sortedDd.length / 2)] : 0;
-  const p95Dd = sortedDd.length ? sortedDd[Math.floor(sortedDd.length * 0.05)] : 0;
-  const historical = maxDrawdown(outcomes);
-
-  const allValues = paths.flat();
-  const lo = Math.min(90, ...allValues);
-  const hi = Math.max(110, ...allValues);
-  const px = (i: number) => 40 + (i / Math.max(outcomes.length - 1, 1)) * 460;
-  const py = (v: number) => 270 - ((v - lo) / (hi - lo || 1)) * 230;
+  const all = sim.curves.flat();
+  const lo = Math.min(95, ...all);
+  const hi = Math.max(105, ...all);
+  const X = (i: number) => 50 + (i / Math.max(trades, 1)) * 620;
+  const Y = (v: number) => 320 - ((v - lo) / (hi - lo || 1)) * 250;
+  const toPts = (arr: number[]) => arr.map((v, i) => `${X(i)},${Y(v)}`).join(' ');
+  const band = `${sim.p95.map((v, i) => `${X(i)},${Y(v)}`).join(' ')} ${sim.p5
+    .map((_, i) => `${X(trades - i)},${Y(sim.p5[trades - i])}`)
+    .join(' ')}`;
+  const sampleCount = Math.min(70, runs);
+  const sample = Array.from(
+    { length: sampleCount },
+    (_, k) => sim.curves[Math.floor((k * runs) / sampleCount)],
+  );
 
   return (
     <Shell
       title={t('academy.monteCarloTitle')}
       footer={
-        <button
-          type="button"
-          className="rounded-lg border border-[rgba(141,183,255,0.4)] px-3 py-1.5 text-sm text-[#bcd6ff] hover:bg-[rgba(74,134,255,0.18)]"
-          onClick={run}
-        >
-          {t('academy.resample')}
-        </button>
+        <div className="grid items-end gap-3 sm:grid-cols-3">
+          <McSlider
+            label={t('academy.mc.winRate')}
+            value={winRate}
+            min={20}
+            max={70}
+            onChange={setWinRate}
+            suffix="%"
+          />
+          <McSlider
+            label={t('academy.mc.avgWin')}
+            value={avgWin}
+            min={0.5}
+            max={4}
+            step={0.1}
+            onChange={(v) => setAvgWin(Number(v.toFixed(1)))}
+            suffix="R"
+          />
+          <McSlider
+            label={t('academy.mc.avgLoss')}
+            value={avgLoss}
+            min={0.5}
+            max={2}
+            step={0.1}
+            onChange={(v) => setAvgLoss(Number(v.toFixed(1)))}
+            suffix="R"
+          />
+          <McSlider
+            label={t('academy.mc.trades')}
+            value={trades}
+            min={10}
+            max={80}
+            onChange={setTrades}
+          />
+          <McSlider
+            label={t('academy.mc.runs')}
+            value={runs}
+            min={60}
+            max={400}
+            step={20}
+            onChange={setRuns}
+          />
+          <button
+            type="button"
+            className="rounded-lg border border-[rgba(141,183,255,0.4)] px-3 py-1.5 text-sm text-[#bcd6ff] hover:bg-[rgba(74,134,255,0.18)]"
+            onClick={() => setSeed((s) => s + 1)}
+          >
+            {t('academy.mc.resample')}
+          </button>
+        </div>
       }
     >
       <svg
-        viewBox="0 0 720 300"
+        viewBox="0 0 720 380"
         role="img"
         aria-label={t('academy.monteCarloPaths')}
         className="w-full"
       >
-        <rect width="720" height="300" rx={12} fill={C.bg} />
-        {paths.map((path, k) => (
+        <defs>
+          <linearGradient id="mcBand" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#4a86ff" stopOpacity="0.28" />
+            <stop offset="1" stopColor="#4a86ff" stopOpacity="0.04" />
+          </linearGradient>
+          <filter id="mcGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.2" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <rect width="720" height="380" rx={12} fill={C.bg} />
+        <line
+          x1={50}
+          y1={Y(100)}
+          x2={670}
+          y2={Y(100)}
+          stroke="rgba(141,183,255,0.3)"
+          strokeDasharray="4 6"
+        />
+        <text x={672} y={Y(100) + 4} fill={C.muted} fontSize={11}>
+          {t('academy.mc.start')}
+        </text>
+        <polygon points={band} fill="url(#mcBand)" />
+        {sample.map((c, k) => (
           <polyline
             key={k}
-            points={path.map((v, i) => `${px(i)},${py(v)}`).join(' ')}
+            points={toPts(c)}
             fill="none"
             stroke={C.accent}
             strokeWidth={1}
-            opacity={0.12}
+            opacity={0.1}
           />
         ))}
-        <text x={520} y={60} fill={C.ink} fontSize={14} fontWeight={700}>
-          {paths.length} resamples
+        <polyline
+          points={toPts(sim.p95)}
+          fill="none"
+          stroke="#9cc0ff"
+          strokeWidth={1.5}
+          opacity={0.5}
+        />
+        <polyline
+          points={toPts(sim.p5)}
+          fill="none"
+          stroke="#9cc0ff"
+          strokeWidth={1.5}
+          opacity={0.5}
+        />
+        <polyline
+          points={toPts(sim.p50)}
+          fill="none"
+          stroke="#cfe6ff"
+          strokeWidth={2.5}
+          filter="url(#mcGlow)"
+        />
+        <text x={20} y={28} fill={C.ink} fontSize={15} fontWeight={800}>
+          {t('academy.mc.runsLabel', { n: runs })}
         </text>
-        <text x={520} y={92} fill={C.muted} fontSize={13}>
-          historical max DD: {historical.toFixed(1)}%
+        <text x={50} y={356} fill={C.muted} fontSize={12.5}>
+          {t('academy.mc.medianEnd')}{' '}
+          <tspan fill="#cfe0ff" fontWeight={700}>
+            {sim.medTerm.toFixed(0)}%
+          </tspan>
+          {'   ·   '}
+          <tspan fill="#cfe0ff" fontWeight={700}>
+            {sim.loTerm.toFixed(0)}–{sim.hiTerm.toFixed(0)}%
+          </tspan>
+          {'   ·   '}
+          {t('academy.mc.maxDdMed')}{' '}
+          <tspan fill={C.warn} fontWeight={700}>
+            {sim.medDD.toFixed(1)}%
+          </tspan>
+          {'   ·   '}
+          {t('academy.mc.maxDd95')}{' '}
+          <tspan fill={C.down} fontWeight={700}>
+            {sim.p95DD.toFixed(1)}%
+          </tspan>
         </text>
-        <text x={520} y={118} fill={C.warn} fontSize={13}>
-          median max DD: {paths.length ? medianDd.toFixed(1) : '—'}%
-        </text>
-        <text x={520} y={144} fill={C.down} fontSize={13} fontWeight={700}>
-          95th-pct max DD: {paths.length ? p95Dd.toFixed(1) : '—'}%
-        </text>
-        <text x={40} y={28} fill={C.muted} fontSize={13}>
-          {t('academy.sameTradesShuffled')}
+        <text x={50} y={374} fill={C.muted} fontSize={12.5}>
+          {t('academy.mc.belowStart')}{' '}
+          <tspan fill={C.warn} fontWeight={700}>
+            {sim.below.toFixed(0)}%
+          </tspan>
+          {'   ·   '}
+          {t('academy.mc.ruin')}{' '}
+          <tspan fill={C.down} fontWeight={700}>
+            {sim.ruin.toFixed(0)}%
+          </tspan>
         </text>
       </svg>
     </Shell>

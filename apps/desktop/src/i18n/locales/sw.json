@@ -1277,7 +1277,22 @@
     "typicalRange": "masafa ya kawaida ya siku moja (ATR {{pct}}%)",
     "wipeoutAt": "ufutaji kwa −{{pct}}%",
     "liqInside": "Ufutaji uko NDANI ya kelele za kawaida — kuokoka ni bahati.",
-    "liqBeyond": "Ufutaji uko nje ya kelele za kawaida — nadharia ina nafasi ya kupumua."
+    "liqBeyond": "Ufutaji uko nje ya kelele za kawaida — nadharia ina nafasi ya kupumua.",
+    "mc": {
+      "winRate": "Kiwango cha ushindi",
+      "avgWin": "Faida wastani",
+      "avgLoss": "Hasara wastani",
+      "trades": "Biashara",
+      "runs": "Mizunguko",
+      "resample": "Sampuli upya",
+      "start": "mwanzo",
+      "runsLabel": "Mizunguko {{n}} iliyochanganywa",
+      "medianEnd": "Matokeo ya wastani",
+      "maxDdMed": "DD kubwa ya wastani",
+      "maxDd95": "DD kubwa ya 95",
+      "belowStart": "Inaisha chini ya mwanzo",
+      "ruin": "Hatari ya kufilisika"
+    }
   },
   "signalDetail": {
     "title": "Maelezo ya ishara {{symbol}}",

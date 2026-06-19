@@ -1277,7 +1277,22 @@
     "typicalRange": "一日の典型的なレンジ（ATR {{pct}}%）",
     "wipeoutAt": "−{{pct}}% でゼロカット",
     "liqInside": "清算は通常のノイズの内側——生存は運。",
-    "liqBeyond": "清算は通常のノイズの外側——仮説に呼吸する余地がある。"
+    "liqBeyond": "清算は通常のノイズの外側——仮説に呼吸する余地がある。",
+    "mc": {
+      "winRate": "勝率",
+      "avgWin": "平均利益",
+      "avgLoss": "平均損失",
+      "trades": "トレード数",
+      "runs": "試行回数",
+      "resample": "再サンプリング",
+      "start": "開始",
+      "runsLabel": "{{n}} 回のシャッフル試行",
+      "medianEnd": "中央値の結果",
+      "maxDdMed": "中央値の最大DD",
+      "maxDd95": "95%タイルの最大DD",
+      "belowStart": "開始を下回る",
+      "ruin": "破産リスク"
+    }
   },
   "signalDetail": {
     "title": "{{symbol}} シグナル詳細",

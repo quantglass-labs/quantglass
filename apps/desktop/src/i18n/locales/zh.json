@@ -1277,7 +1277,22 @@
     "typicalRange": "一天的典型波幅（ATR {{pct}}%）",
     "wipeoutAt": "在 −{{pct}}% 爆仓",
     "liqInside": "清算落在普通噪声之内——存活靠运气。",
-    "liqBeyond": "清算落在典型噪声之外——论点有喘息空间。"
+    "liqBeyond": "清算落在典型噪声之外——论点有喘息空间。",
+    "mc": {
+      "winRate": "胜率",
+      "avgWin": "平均盈利",
+      "avgLoss": "平均亏损",
+      "trades": "交易数",
+      "runs": "模拟次数",
+      "resample": "重新抽样",
+      "start": "起点",
+      "runsLabel": "{{n}} 次打乱模拟",
+      "medianEnd": "中位结果",
+      "maxDdMed": "中位最大回撤",
+      "maxDd95": "95% 最大回撤",
+      "belowStart": "低于起点",
+      "ruin": "破产风险"
+    }
   },
   "signalDetail": {
     "title": "{{symbol}} 信号详情",
