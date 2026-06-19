@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { TinyLineChart } from '../components/charts';
+import { BacktestPipelineDiagram } from '../components/flow/FlowDiagram';
 import { CountUp, FadeIn } from '../components/motion';
 import { MetricTile } from '../components/surface';
 import {
@@ -344,6 +345,9 @@ export function BacktestScreen({
         {howToOpen ? (
           <>
             <p className="mt-2 text-sm text-muted">{t('backtest.howTo.intro')}</p>
+            <div className="mt-3">
+              <BacktestPipelineDiagram />
+            </div>
             <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted">
               <li>{t('backtest.howTo.step1')}</li>
               <li>{t('backtest.howTo.step2')}</li>

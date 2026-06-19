@@ -551,6 +551,15 @@
       "mcRunsLine": "对 {{sample}} 笔样本外交易重采样 {{runs}} 次。{{caveat}}",
       "biasGates": "偏差与质量闸门",
       "experimentLine": "实验 {{id}} · {{range}}"
+    },
+    "pipeline": {
+      "title": "回测如何运行",
+      "data": "已存储的K线",
+      "split": "训练 / 测试拆分",
+      "cost": "成本压力测试",
+      "montecarlo": "蒙特卡洛",
+      "gates": "偏差检验",
+      "result": "诚实的结果"
     }
   },
   "settings": {
@@ -1111,7 +1120,8 @@
     "missions": "任务",
     "journal": "日志",
     "review": "复盘",
-    "settings": "设置"
+    "settings": "设置",
+    "howItWorks": "工作原理"
   },
   "common": {
     "save": "保存",
@@ -1326,5 +1336,10 @@
     "copyJson": "复制信号 JSON",
     "noSignalTitle": "未选择信号",
     "noSignalDesc": "打开任意信号卡片、行操作或品种详情按钮以填充此抽屉。"
+  },
+  "howItWorks": {
+    "title": "QuantGlass 如何运作",
+    "subtitle": "一个有纪律的循环：寻找证据，诚实地测试，安全地练习，然后复盘和改进。",
+    "hint": "选择一个步骤以打开它。"
   }
 }

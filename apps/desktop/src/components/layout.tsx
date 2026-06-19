@@ -17,6 +17,7 @@ import {
   TestTubeDiagonal,
   TrendingUp,
   Wallet,
+  Workflow,
   Star,
 } from 'lucide-react';
 import { useDeferredValue, useMemo, useState } from 'react';
@@ -29,6 +30,7 @@ import type { BackendStatus, MarketType, SymbolRecord } from '../types';
 
 const navItems = [
   { to: '/', key: 'dashboard', icon: LayoutDashboard, end: true },
+  { to: '/how-it-works', key: 'howItWorks', icon: Workflow },
   { to: '/signals', key: 'signals', icon: TrendingUp },
   { to: '/watchlist', key: 'watchlist', icon: Star },
   { to: '/portfolio', key: 'portfolio', icon: Briefcase },

@@ -551,6 +551,15 @@
       "mcRunsLine": "{{runs}} remuestreos de {{sample}} operaciones OOS. {{caveat}}",
       "biasGates": "Controles de sesgo y calidad",
       "experimentLine": "experimento {{id}} · {{range}}"
+    },
+    "pipeline": {
+      "title": "Cómo se ejecuta un backtest",
+      "data": "Velas almacenadas",
+      "split": "División entrenamiento / prueba",
+      "cost": "Estrés de costes",
+      "montecarlo": "Monte Carlo",
+      "gates": "Filtros de sesgo",
+      "result": "Resultado honesto"
     }
   },
   "settings": {
@@ -1111,7 +1120,8 @@
     "missions": "Misiones",
     "journal": "Diario",
     "review": "Revisión",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "howItWorks": "Cómo funciona"
   },
   "common": {
     "save": "Guardar",
@@ -1326,5 +1336,10 @@
     "copyJson": "Copiar JSON de la señal",
     "noSignalTitle": "Ninguna señal seleccionada",
     "noSignalDesc": "Abre cualquier tarjeta de señal, acción de fila o botón de detalle de símbolo para llenar este cajón."
+  },
+  "howItWorks": {
+    "title": "Cómo funciona QuantGlass",
+    "subtitle": "Un ciclo disciplinado: encuentra evidencia, pruébala con honestidad, practica de forma segura y luego revisa y mejora.",
+    "hint": "Selecciona un paso para abrirlo."
   }
 }

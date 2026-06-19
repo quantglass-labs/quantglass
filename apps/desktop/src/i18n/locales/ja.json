@@ -551,6 +551,15 @@
       "mcRunsLine": "{{sample}} 件のOOSトレードの {{runs}} 回リサンプル。{{caveat}}",
       "biasGates": "バイアス＆品質ゲート",
       "experimentLine": "実験 {{id}} · {{range}}"
+    },
+    "pipeline": {
+      "title": "バックテストの実行方法",
+      "data": "保存済みのローソク足",
+      "split": "学習 / テスト分割",
+      "cost": "コストストレス",
+      "montecarlo": "モンテカルロ",
+      "gates": "バイアス検査",
+      "result": "正直な結果"
     }
   },
   "settings": {
@@ -1111,7 +1120,8 @@
     "missions": "ミッション",
     "journal": "ジャーナル",
     "review": "レビュー",
-    "settings": "設定"
+    "settings": "設定",
+    "howItWorks": "仕組み"
   },
   "common": {
     "save": "保存",
@@ -1326,5 +1336,10 @@
     "copyJson": "シグナル JSON をコピー",
     "noSignalTitle": "シグナル未選択",
     "noSignalDesc": "任意のシグナルカード、行アクション、またはシンボル詳細ボタンを開いてこのドロワーを埋めてください。"
+  },
+  "howItWorks": {
+    "title": "QuantGlass の仕組み",
+    "subtitle": "規律あるループ：根拠を見つけ、正直に検証し、安全に練習し、振り返って改善する。",
+    "hint": "ステップを選択して開きます。"
   }
 }
