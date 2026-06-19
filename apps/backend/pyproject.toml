@@ -10,14 +10,14 @@ license = "AGPL-3.0-or-later"
 dependencies = [
   "quantglass-sdk",
   "apscheduler>=3.10,<4",
-  "tzlocal>=5,<5.4",
-  "cryptography>=43,<45",
+  "tzlocal>=5,<5.5",
+  "cryptography>=43,<50",
   "duckdb>=1.0,<2",
   "fastapi>=0.115,<1",
   "httpx>=0.27,<1",
   "pydantic-settings>=2.4,<3",
   "uvicorn>=0.30,<1",
-  "websockets>=15,<16",
+  "websockets>=15,<17",
 ]
 
 [project.optional-dependencies]
