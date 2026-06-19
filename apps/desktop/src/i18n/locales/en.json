@@ -1292,7 +1292,10 @@
       "maxDd95": "95th max DD",
       "belowStart": "End below start",
       "ruin": "Risk of ruin"
-    }
+    },
+    "conformalHeadline": "Honest range for the next trade",
+    "conformalCoverage": "≥{{cov}}% of out-of-sample trades land in this range",
+    "conformalInvalid": "n={{n}} is too small for {{cov}}% coverage — no honest range yet"
   },
   "signalDetail": {
     "title": "{{symbol}} signal detail",

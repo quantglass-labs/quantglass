@@ -1292,7 +1292,10 @@
       "maxDd95": "95هون وڌ ۾ وڌ DD",
       "belowStart": "شروعات کان هيٺ ختم",
       "ruin": "تباهي جو خطرو"
-    }
+    },
+    "conformalHeadline": "ايندڙ ٽريڊ لاءِ ايماندار حد",
+    "conformalCoverage": "نموني کان ٻاهر ٽريڊز مان ≥{{cov}}% هن حد ۾ اچن ٿا",
+    "conformalInvalid": "{{cov}}% ڪوريج لاءِ n={{n}} تمام ننڍو آهي — اڃا ڪا ايماندار حد ناهي"
   },
   "signalDetail": {
     "title": "{{symbol}} سگنل تفصيل",

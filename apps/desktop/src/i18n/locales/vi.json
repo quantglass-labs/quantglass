@@ -1292,7 +1292,10 @@
       "maxDd95": "DD tối đa thứ 95",
       "belowStart": "Kết thúc dưới mốc đầu",
       "ruin": "Rủi ro phá sản"
-    }
+    },
+    "conformalHeadline": "Khoảng trung thực cho lệnh tiếp theo",
+    "conformalCoverage": "≥{{cov}}% lệnh ngoài mẫu rơi vào khoảng này",
+    "conformalInvalid": "n={{n}} quá nhỏ cho độ phủ {{cov}}% — chưa có khoảng trung thực"
   },
   "signalDetail": {
     "title": "Chi tiết tín hiệu {{symbol}}",

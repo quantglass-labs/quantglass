@@ -1292,7 +1292,10 @@
       "maxDd95": "DD máx. p95",
       "belowStart": "Termina bajo el inicio",
       "ruin": "Riesgo de ruina"
-    }
+    },
+    "conformalHeadline": "Rango honesto para la próxima operación",
+    "conformalCoverage": "≥{{cov}}% de las operaciones fuera de muestra caen en este rango",
+    "conformalInvalid": "n={{n}} es demasiado pequeño para {{cov}}% de cobertura — aún no hay rango honesto"
   },
   "signalDetail": {
     "title": "Detalle de señal de {{symbol}}",

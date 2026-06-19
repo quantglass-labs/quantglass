@@ -1292,7 +1292,10 @@
       "maxDd95": "DD max 95e",
       "belowStart": "Finit sous le départ",
       "ruin": "Risque de ruine"
-    }
+    },
+    "conformalHeadline": "Fourchette honnête pour le prochain trade",
+    "conformalCoverage": "≥{{cov}}% des trades hors échantillon tombent dans cette fourchette",
+    "conformalInvalid": "n={{n}} est trop petit pour {{cov}}% de couverture — pas encore de fourchette honnête"
   },
   "signalDetail": {
     "title": "Détail du signal {{symbol}}",

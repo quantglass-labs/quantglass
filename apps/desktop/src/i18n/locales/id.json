@@ -1292,7 +1292,10 @@
       "maxDd95": "Maks DD ke-95",
       "belowStart": "Berakhir di bawah awal",
       "ruin": "Risiko kebangkrutan"
-    }
+    },
+    "conformalHeadline": "Rentang jujur untuk transaksi berikutnya",
+    "conformalCoverage": "≥{{cov}}% transaksi luar sampel jatuh dalam rentang ini",
+    "conformalInvalid": "n={{n}} terlalu kecil untuk cakupan {{cov}}% — belum ada rentang jujur"
   },
   "signalDetail": {
     "title": "Detail sinyal {{symbol}}",

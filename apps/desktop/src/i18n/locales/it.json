@@ -1292,7 +1292,10 @@
       "maxDd95": "DD max 95°",
       "belowStart": "Finisce sotto l’inizio",
       "ruin": "Rischio di rovina"
-    }
+    },
+    "conformalHeadline": "Intervallo onesto per il prossimo trade",
+    "conformalCoverage": "≥{{cov}}% dei trade fuori campione cade in questo intervallo",
+    "conformalInvalid": "n={{n}} è troppo piccolo per {{cov}}% di copertura — nessun intervallo onesto ancora"
   },
   "signalDetail": {
     "title": "Dettaglio segnale {{symbol}}",

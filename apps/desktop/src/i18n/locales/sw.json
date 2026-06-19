@@ -1292,7 +1292,10 @@
       "maxDd95": "DD kubwa ya 95",
       "belowStart": "Inaisha chini ya mwanzo",
       "ruin": "Hatari ya kufilisika"
-    }
+    },
+    "conformalHeadline": "Kipimo cha uaminifu kwa biashara ifuatayo",
+    "conformalCoverage": "≥{{cov}}% ya biashara za nje ya sampuli huangukia katika kipimo hiki",
+    "conformalInvalid": "n={{n}} ni ndogo mno kwa ufikiaji wa {{cov}}% — bado hakuna kipimo cha uaminifu"
   },
   "signalDetail": {
     "title": "Maelezo ya ishara {{symbol}}",
