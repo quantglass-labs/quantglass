@@ -144,7 +144,8 @@ Known limitations:
 
 Market regime, the live signal inventory, watchlist momentum, and paper-account
 exposure at a glance — topped by an AI daily brief narrated from the engine's own
-reads.
+reads, a time-of-day greeting, and your discipline streak. Press **⌘K / Ctrl+K**
+anywhere for a command palette that jumps to any screen or symbol.
 
 <p align="center"><img src="docs/assets/screenshots/dashboard.png" alt="Dashboard" width="860"></p>
 
@@ -183,6 +184,8 @@ rather than flatter it.
 
 121 lessons across four levels, decision drills, and behavioral missions that
 grade your **process**, not luck — with live exercises against real corridor data.
+A daily briefing rewards a **discipline streak** for the days you show up and
+practise (never P&L), and passing a drill reveals the streak as its reward.
 
 <p align="center"><img src="docs/assets/screenshots/learn.png" alt="The Academy" width="860"></p>
 
@@ -195,9 +198,11 @@ at the ticket and block any trade that violates them, before it's placed.
 
 ### AI Copilot — grounded in your own data
 
-Ask about your signals, account, and trades. The model proposes read-only tools,
-the engine runs them, and the model narrates only those results behind a numeric
-fact-guard — so it **cannot invent a number**. Source-labeled on every answer.
+Ask about your signals, account, and trades. It runs **your own model** — a local
+model (e.g. Ollama) or your API key, never a QuantGlass-hosted service. The model
+proposes read-only tools, the engine runs them, and the model narrates only those
+results behind a numeric fact-guard — so it **cannot invent a number**.
+Source-labeled on every answer.
 
 <p align="center"><img src="docs/assets/screenshots/copilot.png" alt="AI Copilot" width="860"></p>
 

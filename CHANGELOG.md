@@ -43,6 +43,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   progress, library views), Review, Journal, and Portfolio — now use the design
   tokens too. The app is now at **zero raw-palette utilities**: one coherent
   premium surface from end to end.
+- The AI Copilot and the per-screen AI insight panel now use the **QuantGlass
+  brand mark** (a lens over a rising chart) instead of a generic sparkle, so the
+  assistant reads as QuantGlass's own local-first AI rather than a third party.
 
 ## [0.3.1] - 2026-06-18
 
