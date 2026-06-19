@@ -23,6 +23,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - The shared AI insight panel (present on every screen) now uses the design
   system with a subtle accent glow and reveal, and the AI-text and
   backend-status components match it — one consistent premium look app-wide.
+- The last off-system screens — the Academy (catalog, lesson, practice,
+  progress, library views), Review, Journal, and Portfolio — now use the design
+  tokens too. The app is now at **zero raw-palette utilities**: one coherent
+  premium surface from end to end.
 
 ## [0.3.1] - 2026-06-18
 
