@@ -22,25 +22,25 @@ function CertificateCard({ certificate }: { certificate: LearnCertificate }) {
   const { t } = useTranslation();
   if (!certificate.earned) return null;
   return (
-    <div className="rounded-xl border-2 border-emerald-500/40 bg-gradient-to-br from-zinc-900 to-emerald-950/40 p-6 text-center">
-      <Award size={28} className="mx-auto text-emerald-300" />
-      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-emerald-400/80">
+    <div className="rounded-xl border-2 border-buy/40 bg-gradient-to-br from-panelStrong/60 to-transparent p-6 text-center">
+      <Award size={28} className="mx-auto text-buy" />
+      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-buy/80">
         {t('academy.certificateOfCompletion')}
       </p>
-      <p className="mt-2 text-xl font-bold text-zinc-100">{certificate.level_title}</p>
-      <p className="mt-1 text-sm text-zinc-400">
+      <p className="mt-2 text-xl font-bold text-ink">{certificate.level_title}</p>
+      <p className="mt-1 text-sm text-muted">
         {t('academy.certLessonsScore', {
           count: certificate.lesson_count,
           score: certificate.exam_score,
         })}
       </p>
-      <p className="mt-3 text-[11px] text-zinc-600">
+      <p className="mt-3 text-[11px] text-muted/70">
         {t('academy.certIssued', {
           date: certificate.issued_at?.slice(0, 10),
           code: certificate.verification,
         })}
       </p>
-      <p className="mt-1 text-[10px] text-zinc-700">{t('academy.academyDisclaimer')}</p>
+      <p className="mt-1 text-[10px] text-muted/60">{t('academy.academyDisclaimer')}</p>
     </div>
   );
 }
@@ -77,14 +77,14 @@ export function ProgressView() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-2">
-        <BarChart3 size={18} className="text-indigo-400" />
-        <h2 className="text-lg font-semibold text-zinc-100">{t('academy.progress')}</h2>
+        <BarChart3 size={18} className="text-accent" />
+        <h2 className="text-lg font-semibold text-ink">{t('academy.progress')}</h2>
       </div>
 
       {!analytics ? (
         <div className="mt-4 space-y-3" aria-busy="true">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-20 animate-pulse rounded-xl bg-zinc-800/60" />
+            <div key={n} className="h-20 animate-pulse rounded-xl bg-white/5" />
           ))}
         </div>
       ) : (
@@ -126,29 +126,27 @@ export function ProgressView() {
 
           <div className="mt-4 space-y-3">
             {analytics.levels.map((level) => (
-              <div key={level.id} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div key={level.id} className="rounded-xl border border-border bg-white/[0.03] p-4">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-semibold text-zinc-100">{level.title}</p>
+                  <p className="text-sm font-semibold text-ink">{level.title}</p>
                   {level.assessment ? (
                     <span
                       className={`rounded-full border px-2 py-0.5 text-[10px] ${
                         level.assessment.passed
-                          ? 'border-emerald-500/40 text-emerald-300'
-                          : 'border-amber-500/40 text-amber-300'
+                          ? 'border-buy/40 text-buy'
+                          : 'border-hold/40 text-hold'
                       }`}
                     >
                       {t('academy.examScore', { score: level.assessment.score })}
                     </span>
                   ) : null}
-                  {level.certificate_earned ? (
-                    <Award size={14} className="text-emerald-400" />
-                  ) : null}
-                  <span className="ml-auto text-xs text-zinc-500">
+                  {level.certificate_earned ? <Award size={14} className="text-buy" /> : null}
+                  <span className="ml-auto text-xs text-muted">
                     {level.completed}/{level.total} · {level.percent}%
                   </span>
                 </div>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-800">
-                  <div className="h-full bg-indigo-500" style={{ width: `${level.percent}%` }} />
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                  <div className="h-full bg-accentStrong" style={{ width: `${level.percent}%` }} />
                 </div>
               </div>
             ))}
@@ -156,42 +154,42 @@ export function ProgressView() {
 
           {analytics.weekly.length ? (
             <>
-              <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+              <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-muted">
                 {t('academy.weeklyPace')}
               </h3>
-              <div className="mt-3 flex items-end gap-2 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
+              <div className="mt-3 flex items-end gap-2 rounded-xl border border-border bg-white/[0.03] p-4">
                 {analytics.weekly.map((week) => (
                   <div key={week.week} className="flex flex-1 flex-col items-center gap-1">
-                    <span className="text-[10px] text-zinc-500">{week.lessons}</span>
+                    <span className="text-[10px] text-muted">{week.lessons}</span>
                     <div
-                      className="w-full rounded-t bg-indigo-500/70"
+                      className="w-full rounded-t bg-accentStrong/70"
                       style={{ height: `${Math.max(6, (56 * week.lessons) / maxWeekly)}px` }}
                     />
-                    <span className="text-[9px] text-zinc-600">{week.week.slice(5)}</span>
+                    <span className="text-[9px] text-muted/70">{week.week.slice(5)}</span>
                   </div>
                 ))}
               </div>
             </>
           ) : null}
 
-          <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+          <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-muted">
             {t('academy.tracks')}
           </h3>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {analytics.tracks.map((track) => (
               <div
                 key={track.track_id}
-                className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2.5"
+                className="rounded-lg border border-border bg-white/[0.03] px-3 py-2.5"
               >
                 <div className="flex items-center justify-between">
-                  <p className="truncate text-sm text-zinc-200">{track.title}</p>
-                  <span className="text-[11px] text-zinc-600">
+                  <p className="truncate text-sm text-ink">{track.title}</p>
+                  <span className="text-[11px] text-muted/70">
                     {track.progress}/{track.total}
                   </span>
                 </div>
-                <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-zinc-800">
+                <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/[0.06]">
                   <div
-                    className={track.earned ? 'h-full bg-emerald-500' : 'h-full bg-indigo-500/60'}
+                    className={track.earned ? 'h-full bg-buy' : 'h-full bg-accentStrong/60'}
                     style={{ width: `${(100 * track.progress) / Math.max(1, track.total)}%` }}
                   />
                 </div>
@@ -201,7 +199,7 @@ export function ProgressView() {
 
           {certificates.length ? (
             <>
-              <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+              <h3 className="mt-6 text-sm font-semibold uppercase tracking-wider text-muted">
                 {t('academy.certificates')}
               </h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">

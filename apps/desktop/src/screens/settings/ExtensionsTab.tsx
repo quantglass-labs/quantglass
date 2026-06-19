@@ -134,7 +134,7 @@ export function ExtensionsTab({
                   </Button>
                 </div>
                 {extensionsState.restartRequired ? (
-                  <p className="mt-2 text-xs text-amber-300">
+                  <p className="mt-2 text-xs text-hold">
                     {t('settings.extensions.restartToApply')}
                   </p>
                 ) : null}

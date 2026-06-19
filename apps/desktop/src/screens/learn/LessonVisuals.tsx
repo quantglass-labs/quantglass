@@ -579,7 +579,7 @@ export function LessonVisuals({ visuals }: { visuals?: LessonVisual[] }) {
           <figure key={`${visual.type}-${i}`}>
             <Component params={visual.params ?? {}} />
             {visual.title ? (
-              <figcaption className="mt-2 text-center text-xs text-zinc-500">
+              <figcaption className="mt-2 text-center text-xs text-muted">
                 {visual.title}
               </figcaption>
             ) : null}

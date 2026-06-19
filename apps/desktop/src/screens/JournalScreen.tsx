@@ -35,10 +35,10 @@ const TAG_KEYS: Record<string, string> = {
 
 // Tone + `journal.classification.<key>` subkey for each trade classification.
 const CLASSIFICATION_META: Record<string, { key: string; tone: string }> = {
-  earned_win: { key: 'earnedWin', tone: 'text-emerald-300 border-emerald-500/40' },
-  well_played_loss: { key: 'wellPlayedLoss', tone: 'text-sky-300 border-sky-500/40' },
-  honest_tuition: { key: 'honestTuition', tone: 'text-zinc-300 border-zinc-600' },
-  dangerous_success: { key: 'dangerousSuccess', tone: 'text-amber-300 border-amber-500/40' },
+  earned_win: { key: 'earnedWin', tone: 'text-buy border-buy/40' },
+  well_played_loss: { key: 'wellPlayedLoss', tone: 'text-watch border-watch/40' },
+  honest_tuition: { key: 'honestTuition', tone: 'text-ink border-border' },
+  dangerous_success: { key: 'dangerousSuccess', tone: 'text-hold border-hold/40' },
 };
 
 function TradeCard({
@@ -58,19 +58,19 @@ function TradeCard({
   const badge = item.classification ? CLASSIFICATION_META[item.classification] : null;
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
+    <div className="rounded-xl border border-border bg-white/[0.03] p-5">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-semibold text-zinc-100">{item.symbol}</span>
-        <span className="text-xs uppercase tracking-wider text-zinc-500">{item.side}</span>
-        <span className="text-xs text-zinc-600">{item.submittedAt?.slice(0, 10)}</span>
-        <span className="ml-auto text-sm text-zinc-400">
+        <span className="font-semibold text-ink">{item.symbol}</span>
+        <span className="text-xs uppercase tracking-wider text-muted">{item.side}</span>
+        <span className="text-xs text-muted/70">{item.submittedAt?.slice(0, 10)}</span>
+        <span className="ml-auto text-sm text-muted">
           {t('journal.process')}{' '}
-          <span className={item.process_score >= 70 ? 'text-emerald-300' : 'text-amber-300'}>
+          <span className={item.process_score >= 70 ? 'text-buy' : 'text-hold'}>
             {item.process_score}
           </span>
         </span>
         {item.outcome_r !== null ? (
-          <span className={`text-sm ${item.outcome_r > 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
+          <span className={`text-sm ${item.outcome_r > 0 ? 'text-buy' : 'text-sell'}`}>
             {item.outcome_r > 0 ? '+' : ''}
             {item.outcome_r.toFixed(2)}R
           </span>
@@ -82,12 +82,12 @@ function TradeCard({
         ) : null}
       </div>
       {item.planReason ? (
-        <p className="mt-2 text-sm text-zinc-400">
-          <span className="text-zinc-600">{t('journal.thesis')}</span> {item.planReason}
+        <p className="mt-2 text-sm text-muted">
+          <span className="text-muted/70">{t('journal.thesis')}</span> {item.planReason}
         </p>
       ) : null}
       {item.process_notes.length ? (
-        <ul className="mt-2 space-y-0.5 text-xs text-amber-300/80">
+        <ul className="mt-2 space-y-0.5 text-xs text-hold/80">
           {item.process_notes.map((processNote) => (
             <li key={processNote}>• {processNote}</li>
           ))}
@@ -106,8 +106,8 @@ function TradeCard({
               }
               className={`rounded-full border px-2.5 py-1 text-xs transition-colors ${
                 active
-                  ? 'border-indigo-400/60 bg-indigo-600/20 text-indigo-200'
-                  : 'border-zinc-700 text-zinc-500 hover:border-zinc-500'
+                  ? 'border-accent/60 bg-accent/15 text-accent'
+                  : 'border-border text-muted hover:border-white/20'
               }`}
             >
               {TAG_KEYS[tag] ? t(`journal.tags.${TAG_KEYS[tag]}`) : tag}
@@ -121,7 +121,7 @@ function TradeCard({
           onChange={(event) => setNote(event.target.value)}
           placeholder={t('journal.notePlaceholder')}
           rows={2}
-          className="flex-1 resize-y rounded-lg border border-zinc-700 bg-zinc-950/60 p-2.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-indigo-500 focus:outline-none"
+          className="flex-1 resize-y rounded-lg border border-border bg-background/50 p-2.5 text-sm text-ink placeholder:text-muted/70 focus:border-accent focus:outline-none"
         />
         <button
           type="button"
@@ -131,7 +131,7 @@ function TradeCard({
             await onSave(item.id, note, tags);
             setSaving(false);
           }}
-          className="rounded-lg border border-indigo-500/50 px-3 py-2 text-xs font-semibold text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-accent/50 px-3 py-2 text-xs font-semibold text-accent transition-colors hover:bg-accent/15 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {saving ? t('common.saving') : t('common.save')}
         </button>
@@ -175,19 +175,19 @@ function TradePostmortem({ item }: { item: JournalItem }) {
           type="button"
           disabled={loading}
           onClick={() => void ask()}
-          className="rounded-full border border-indigo-500/30 bg-indigo-600/10 px-3 py-1.5 text-xs text-indigo-300 transition-colors hover:bg-indigo-600/20 disabled:opacity-50"
+          className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs text-accent transition-colors hover:bg-accent/15 disabled:opacity-50"
         >
           {loading ? t('journal.postmortem.reviewing') : t('journal.postmortem.button')}
         </button>
       ) : (
-        <div className="rounded-lg border border-indigo-500/25 bg-indigo-600/10 p-3">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-300">
+        <div className="rounded-lg border border-accent/25 bg-accent/10 p-3">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-accent">
             {t('journal.postmortem.label')}{' '}
-            <span className="ml-1 rounded-full border border-zinc-700 px-2 py-0.5 normal-case text-zinc-500">
+            <span className="ml-1 rounded-full border border-border px-2 py-0.5 normal-case text-muted">
               {result.source}
             </span>
           </p>
-          <AiMarkdown className="mt-1.5 text-sm leading-relaxed text-zinc-200">
+          <AiMarkdown className="mt-1.5 text-sm leading-relaxed text-ink">
             {result.summary}
           </AiMarkdown>
         </div>
@@ -246,9 +246,9 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
   return (
     <div className="mx-auto max-w-4xl">
       <div className="flex items-center gap-2">
-        <NotebookPen size={20} className="text-indigo-400" />
-        <h1 className="text-lg font-semibold text-zinc-100">{t('journal.title')}</h1>
-        <span className="ml-auto text-xs text-zinc-600">{t('journal.tagline')}</span>
+        <NotebookPen size={20} className="text-accent" />
+        <h1 className="text-lg font-semibold text-ink">{t('journal.title')}</h1>
+        <span className="ml-auto text-xs text-muted/70">{t('journal.tagline')}</span>
       </div>
 
       <BackendStatusNotice status={backendStatus} />
@@ -288,33 +288,33 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
       ) : null}
 
       {error ? (
-        <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-600/10 p-4 text-sm text-amber-300">
+        <p className="mt-6 rounded-xl border border-hold/30 bg-hold/10 p-4 text-sm text-hold">
           {error}
         </p>
       ) : null}
       {!items && !error && backendStatus !== 'offline' ? (
         <div className="mt-6 space-y-3" aria-busy="true">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-40 animate-pulse rounded-xl bg-zinc-800/60" />
+            <div key={n} className="h-40 animate-pulse rounded-xl bg-white/5" />
           ))}
         </div>
       ) : null}
       {items && items.length === 0 ? (
-        <p className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4 text-sm text-zinc-400">
+        <p className="mt-6 rounded-xl border border-border bg-white/[0.03] p-4 text-sm text-muted">
           {t('journal.empty')}
         </p>
       ) : null}
 
       {pendingOrders.length ? (
-        <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <div className="mt-6 rounded-xl border border-border bg-white/[0.03] p-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
             {t('journal.pendingOrders')}
           </p>
           <ul className="mt-2 space-y-2">
             {pendingOrders.map((order) => (
               <li key={order.id} className="flex items-center gap-3 text-sm">
-                <span className="font-medium text-zinc-200">{order.symbol}</span>
-                <span className="text-zinc-500">
+                <span className="font-medium text-ink">{order.symbol}</span>
+                <span className="text-muted">
                   {order.side} {order.quantity}
                 </span>
                 <button
@@ -322,7 +322,7 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
                   onClick={() => {
                     void backendClient.cancelPaperTrade(order.id).then(loadPending);
                   }}
-                  className="ml-auto rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-300"
+                  className="ml-auto rounded-full border border-border px-3 py-1 text-xs text-muted transition-colors hover:border-sell/50 hover:text-sell"
                 >
                   {t('common.cancel')}
                 </button>
@@ -339,7 +339,7 @@ export function JournalScreen({ backendStatus }: { backendStatus: BackendStatus 
           </FadeIn>
         ))}
       </div>
-      <p className="mt-6 text-xs text-zinc-600">{t('journal.footer')}</p>
+      <p className="mt-6 text-xs text-muted/70">{t('journal.footer')}</p>
     </div>
   );
 }
