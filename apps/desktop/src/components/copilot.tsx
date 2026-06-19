@@ -9,11 +9,12 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { Send, Sparkles, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { backendClient } from '../lib/backend';
 import type { BackendStatus } from '../types';
 import { AiMarkdown } from './AiMarkdown';
+import { QuantGlassMark } from './QuantGlassMark';
 
 type CopilotMessage = {
   role: 'user' | 'assistant';
@@ -83,13 +84,13 @@ export function Copilot({ backendStatus }: { backendStatus: BackendStatus }) {
         title={t('chrome.copilotButtonTitle')}
         className="fixed bottom-20 right-5 z-50 grid size-12 place-items-center rounded-full border border-accent/40 bg-accentStrong/30 text-accent shadow-lg backdrop-blur-xl transition hover:bg-accentStrong/50 lg:bottom-6"
       >
-        {open ? <X className="size-5" /> : <Sparkles className="size-5" />}
+        {open ? <X className="size-5" /> : <QuantGlassMark className="size-5" />}
       </button>
 
       {open ? (
         <div className="fixed bottom-36 right-5 z-50 flex max-h-[70vh] w-[min(26rem,calc(100vw-2.5rem))] flex-col rounded-3xl border border-border bg-surface/95 shadow-2xl backdrop-blur-xl lg:bottom-22">
           <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-            <Sparkles className="size-4 text-accent" />
+            <QuantGlassMark className="size-4 text-accent" />
             <p className="text-sm font-semibold text-ink">QuantGlass Copilot</p>
             <p className="ml-auto text-[10px] uppercase tracking-wider text-muted">
               {t('chrome.copilotReadsData')}
