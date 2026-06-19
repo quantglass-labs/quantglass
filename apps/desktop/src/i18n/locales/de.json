@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Liest deine Daten · niemals Beratung",
     "copilotEmptyState": "Frage nach deiner eigenen Arbeitsstation - Signale, Papierkonto, Watchlist, Backtests, geschlossene Trades oder deine Trade-Auswertung. Antworten stammen aus den schreibgeschützten Daten der Engine; nichts hier kann Orders platzieren.",
     "copilotBusy": "Lese deine Daten… große lokale Modelle können bis zu einer Minute dauern.",
-    "copilotPlaceholder": "Frage nach deinen Signalen, deinem Konto, deinen Trades…"
+    "copilotPlaceholder": "Frage nach deinen Signalen, deinem Konto, deinen Trades…",
+    "cmdk": {
+      "placeholder": "Bildschirme und Symbole suchen…",
+      "navigate": "Gehe zu",
+      "symbols": "Symbole",
+      "empty": "Keine Treffer",
+      "hintMove": "navigieren",
+      "hintOpen": "öffnen",
+      "openHint": "Befehlspalette (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glossar",

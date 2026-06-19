@@ -1188,7 +1188,16 @@
     "copilotReadsData": "데이터를 읽습니다 · 조언 아님",
     "copilotEmptyState": "자신의 워크스테이션에 대해 물어보세요 - 신호, 페이퍼 계좌, 관심목록, 백테스트, 청산된 거래 또는 거래 복기. 답변은 엔진의 읽기 전용 데이터에서 나옵니다. 여기서는 아무것도 주문할 수 없습니다.",
     "copilotBusy": "데이터를 읽는 중… 대형 로컬 모델은 최대 1분이 걸릴 수 있습니다.",
-    "copilotPlaceholder": "신호, 계좌, 거래에 대해 물어보세요…"
+    "copilotPlaceholder": "신호, 계좌, 거래에 대해 물어보세요…",
+    "cmdk": {
+      "placeholder": "화면과 심볼 검색…",
+      "navigate": "이동",
+      "symbols": "심볼",
+      "empty": "결과 없음",
+      "hintMove": "이동",
+      "hintOpen": "열기",
+      "openHint": "명령 팔레트 (⌘K)"
+    }
   },
   "academy": {
     "glossary": "용어집",

@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Đọc dữ liệu của bạn · không bao giờ là lời khuyên",
     "copilotEmptyState": "Hỏi về máy trạm của riêng bạn - tín hiệu, tài khoản giấy, danh sách theo dõi, backtest, giao dịch đã đóng, hoặc bài đánh giá giao dịch của bạn. Câu trả lời đến từ dữ liệu chỉ-đọc của engine; không gì ở đây có thể đặt lệnh.",
     "copilotBusy": "Đang đọc dữ liệu của bạn… mô hình cục bộ lớn có thể mất đến một phút.",
-    "copilotPlaceholder": "Hỏi về tín hiệu, tài khoản, giao dịch của bạn…"
+    "copilotPlaceholder": "Hỏi về tín hiệu, tài khoản, giao dịch của bạn…",
+    "cmdk": {
+      "placeholder": "Tìm màn hình và mã…",
+      "navigate": "Đi tới",
+      "symbols": "Mã",
+      "empty": "Không có kết quả",
+      "hintMove": "điều hướng",
+      "hintOpen": "mở",
+      "openHint": "Bảng lệnh (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Bảng thuật ngữ",

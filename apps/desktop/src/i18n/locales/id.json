@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Membaca data Anda · bukan saran",
     "copilotEmptyState": "Tanyakan tentang stasiun kerja Anda sendiri - sinyal, akun kertas, watchlist, backtest, trade tertutup, atau tinjauan trade Anda. Jawaban berasal dari data baca-saja mesin; tidak ada di sini yang bisa menempatkan order.",
     "copilotBusy": "Membaca data Anda… model lokal besar bisa memakan waktu hingga satu menit.",
-    "copilotPlaceholder": "Tanyakan tentang sinyal, akun, trade Anda…"
+    "copilotPlaceholder": "Tanyakan tentang sinyal, akun, trade Anda…",
+    "cmdk": {
+      "placeholder": "Cari layar dan simbol…",
+      "navigate": "Buka",
+      "symbols": "Simbol",
+      "empty": "Tidak ada hasil",
+      "hintMove": "navigasi",
+      "hintOpen": "buka",
+      "openHint": "Palet perintah (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glosarium",

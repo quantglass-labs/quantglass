@@ -1188,7 +1188,16 @@
     "copilotReadsData": "あなたのデータを読み取り · 助言ではありません",
     "copilotEmptyState": "自分のワークステーションについて尋ねてください - シグナル、ペーパー口座、ウォッチリスト、バックテスト、クローズ済み取引、または取引レビュー。回答はエンジンの読み取り専用データから得られます。ここでは注文はできません。",
     "copilotBusy": "データを読み取り中…大型のローカルモデルは最大1分かかることがあります。",
-    "copilotPlaceholder": "シグナル、口座、取引について尋ねる…"
+    "copilotPlaceholder": "シグナル、口座、取引について尋ねる…",
+    "cmdk": {
+      "placeholder": "画面とシンボルを検索…",
+      "navigate": "移動",
+      "symbols": "シンボル",
+      "empty": "一致なし",
+      "hintMove": "移動",
+      "hintOpen": "開く",
+      "openHint": "コマンドパレット (⌘K)"
+    }
   },
   "academy": {
     "glossary": "用語集",

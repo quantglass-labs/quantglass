@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Husoma data yako · kamwe si ushauri",
     "copilotEmptyState": "Uliza kuhusu kituo chako cha kazi - ishara, akaunti ya karatasi, orodha ya kufuatilia, backtest, biashara zilizofungwa, au mapitio yako ya biashara. Majibu hutoka kwa data ya kusoma-tu ya injini; hakuna kitu hapa kinachoweza kuweka oda.",
     "copilotBusy": "Inasoma data yako… modeli kubwa za ndani zinaweza kuchukua hadi dakika moja.",
-    "copilotPlaceholder": "Uliza kuhusu ishara, akaunti, biashara zako…"
+    "copilotPlaceholder": "Uliza kuhusu ishara, akaunti, biashara zako…",
+    "cmdk": {
+      "placeholder": "Tafuta skrini na alama…",
+      "navigate": "Nenda",
+      "symbols": "Alama",
+      "empty": "Hakuna matokeo",
+      "hintMove": "sogeza",
+      "hintOpen": "fungua",
+      "openHint": "Paleti ya amri (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Kamusi",
