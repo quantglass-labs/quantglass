@@ -272,10 +272,11 @@ function CandleComparison() {
 function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
   const items = (params.items as { label: string; value: number; note?: string }[]) ?? [];
   const max = Math.max(...items.map((item) => item.value), 1);
-  const rowH = 70;
-  const height = 110 + items.length * rowH;
-  const x0 = 280;
-  const xMax = 660;
+  const rowH = 56;
+  const top = 124;
+  const height = top + items.length * rowH + 6;
+  const x0 = 250;
+  const xMax = 520;
   return (
     <Frame
       title={String(params.heading ?? 'Magnitude')}
@@ -289,45 +290,28 @@ function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
           x1={x0 + g * (xMax - x0)}
           y1={96}
           x2={x0 + g * (xMax - x0)}
-          y2={height - 24}
-          stroke="rgba(141,183,255,0.12)"
+          y2={height - 18}
+          stroke="rgba(141,183,255,0.1)"
         />
       ))}
       {items.map((item, i) => {
-        const cy = 122 + i * rowH;
-        const len = Math.max(20, (item.value / max) * (xMax - x0));
+        const cy = top + i * rowH;
+        const len = Math.max(10, (item.value / max) * (xMax - x0));
         return (
           <g key={item.label}>
-            <text x={50} y={cy + 6} fill={PALETTE.ink} fontSize={16} fontWeight={700}>
+            <text x={50} y={cy + 5} fill={PALETTE.ink} fontSize={15} fontWeight={700}>
               {item.label}
             </text>
             <rect
               x={x0}
-              y={cy - 7}
+              y={cy - 8}
               width={len}
-              height={14}
-              rx={7}
+              height={16}
+              rx={8}
               fill="url(#qgAcc)"
               filter="url(#qgGlow)"
             />
-            <circle cx={x0 + len} cy={cy} r={11} fill="#cfe6ff" filter="url(#qgGlow)" />
-            <rect
-              x={x0 + len + 18}
-              y={cy - 14}
-              width={68}
-              height={28}
-              rx={9}
-              fill="rgba(12,22,42,0.85)"
-              stroke={PALETTE.panelStroke}
-            />
-            <text
-              x={x0 + len + 52}
-              y={cy + 5}
-              textAnchor="middle"
-              fill="#cfe0ff"
-              fontSize={14}
-              fontWeight={700}
-            >
+            <text x={x0 + len + 16} y={cy + 5} fill="#cfe0ff" fontSize={13.5} fontWeight={600}>
               {item.note ?? item.value}
             </text>
           </g>
