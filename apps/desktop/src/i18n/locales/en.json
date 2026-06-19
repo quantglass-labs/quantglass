@@ -1277,7 +1277,22 @@
     "typicalRange": "one day's typical range (ATR {{pct}}%)",
     "wipeoutAt": "wipeout at −{{pct}}%",
     "liqInside": "Liquidation sits INSIDE ordinary noise — survival is luck.",
-    "liqBeyond": "Liquidation sits beyond typical noise — thesis gets room to breathe."
+    "liqBeyond": "Liquidation sits beyond typical noise — thesis gets room to breathe.",
+    "mc": {
+      "winRate": "Win rate",
+      "avgWin": "Avg win",
+      "avgLoss": "Avg loss",
+      "trades": "Trades",
+      "runs": "Runs",
+      "resample": "Resample",
+      "start": "start",
+      "runsLabel": "{{n}} shuffled runs",
+      "medianEnd": "Median end",
+      "maxDdMed": "Median max DD",
+      "maxDd95": "95th max DD",
+      "belowStart": "End below start",
+      "ruin": "Risk of ruin"
+    }
   },
   "signalDetail": {
     "title": "{{symbol}} signal detail",

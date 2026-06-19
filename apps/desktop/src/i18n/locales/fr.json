@@ -1277,7 +1277,22 @@
     "typicalRange": "amplitude typique d'une journée (ATR {{pct}}%)",
     "wipeoutAt": "liquidation à −{{pct}}%",
     "liqInside": "La liquidation est DANS le bruit ordinaire — survivre tient à la chance.",
-    "liqBeyond": "La liquidation dépasse le bruit habituel — la thèse a de l'air pour respirer."
+    "liqBeyond": "La liquidation dépasse le bruit habituel — la thèse a de l'air pour respirer.",
+    "mc": {
+      "winRate": "Taux de gain",
+      "avgWin": "Gain moyen",
+      "avgLoss": "Perte moyenne",
+      "trades": "Trades",
+      "runs": "Tirages",
+      "resample": "Rééchantillonner",
+      "start": "début",
+      "runsLabel": "{{n}} séquences mélangées",
+      "medianEnd": "Fin médiane",
+      "maxDdMed": "DD max médian",
+      "maxDd95": "DD max 95e",
+      "belowStart": "Finit sous le départ",
+      "ruin": "Risque de ruine"
+    }
   },
   "signalDetail": {
     "title": "Détail du signal {{symbol}}",

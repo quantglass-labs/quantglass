@@ -1277,7 +1277,22 @@
     "typicalRange": "typische Tagesspanne (ATR {{pct}}%)",
     "wipeoutAt": "Liquidation bei −{{pct}}%",
     "liqInside": "Die Liquidation liegt INNERHALB des gewöhnlichen Rauschens — Überleben ist Glück.",
-    "liqBeyond": "Die Liquidation liegt jenseits des üblichen Rauschens — die These bekommt Luft zum Atmen."
+    "liqBeyond": "Die Liquidation liegt jenseits des üblichen Rauschens — die These bekommt Luft zum Atmen.",
+    "mc": {
+      "winRate": "Trefferquote",
+      "avgWin": "Ø Gewinn",
+      "avgLoss": "Ø Verlust",
+      "trades": "Trades",
+      "runs": "Läufe",
+      "resample": "Neu ziehen",
+      "start": "Start",
+      "runsLabel": "{{n}} gemischte Läufe",
+      "medianEnd": "Median-Ende",
+      "maxDdMed": "Median Max-DD",
+      "maxDd95": "95. Max-DD",
+      "belowStart": "Endet unter Start",
+      "ruin": "Ruinrisiko"
+    }
   },
   "signalDetail": {
     "title": "{{symbol}} Signaldetail",

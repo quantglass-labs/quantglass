@@ -1277,7 +1277,22 @@
     "typicalRange": "rentang khas satu hari (ATR {{pct}}%)",
     "wipeoutAt": "wipeout di −{{pct}}%",
     "liqInside": "Likuidasi berada DI DALAM derau biasa — bertahan adalah keberuntungan.",
-    "liqBeyond": "Likuidasi berada di luar derau biasa — tesis punya ruang bernapas."
+    "liqBeyond": "Likuidasi berada di luar derau biasa — tesis punya ruang bernapas.",
+    "mc": {
+      "winRate": "Win rate",
+      "avgWin": "Rata-rata untung",
+      "avgLoss": "Rata-rata rugi",
+      "trades": "Transaksi",
+      "runs": "Simulasi",
+      "resample": "Sampel ulang",
+      "start": "awal",
+      "runsLabel": "{{n}} run teracak",
+      "medianEnd": "Median akhir",
+      "maxDdMed": "Median maks DD",
+      "maxDd95": "Maks DD ke-95",
+      "belowStart": "Berakhir di bawah awal",
+      "ruin": "Risiko kebangkrutan"
+    }
   },
   "signalDetail": {
     "title": "Detail sinyal {{symbol}}",

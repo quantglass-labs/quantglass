@@ -13,12 +13,12 @@ import { useTranslation } from 'react-i18next';
 import { exponentialMovingAverage, relativeStrengthIndex } from '../../lib/analytics';
 
 const C = {
-  bg: '#07111f',
-  panel: '#0e2238',
+  bg: '#0a1426',
+  panel: '#13284a',
   up: '#14c784',
   down: '#f6465d',
-  ink: '#f8fafc',
-  muted: '#9fb0c7',
+  ink: '#f1f6ff',
+  muted: '#94aed8',
   accent: '#8db7ff',
   warn: '#f0b84b',
 };
@@ -48,17 +48,17 @@ function Slider({
   suffix?: string;
 }) {
   return (
-    <label className="block text-xs text-zinc-400">
+    <label className="block text-xs text-[#94aed8]">
       <span className="flex justify-between">
         <span>{label}</span>
-        <span className="text-zinc-200 font-medium">
+        <span className="font-medium text-[#dbe9ff]">
           {value}
           {suffix}
         </span>
       </span>
       <input
         type="range"
-        className="mt-1 w-full accent-indigo-400"
+        className="mt-1 w-full accent-[#4a86ff]"
         min={min}
         max={max}
         step={step}
@@ -79,8 +79,8 @@ function WidgetShell({
   controls?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-[#07111f] p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">{title}</p>
+    <div className="rounded-2xl border border-[rgba(120,165,255,0.18)] bg-gradient-to-br from-[#13284a]/55 to-[#0a1426]/75 p-4 shadow-[0_14px_40px_rgba(2,7,18,0.5)] backdrop-blur-sm">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8ea6cf]">{title}</p>
       <div className="mt-3">{children}</div>
       {controls ? <div className="mt-4 grid gap-3 sm:grid-cols-2">{controls}</div> : null}
     </div>
@@ -305,7 +305,7 @@ export function CandleBuilder() {
       </svg>
       <button
         type="button"
-        className="mt-3 rounded-lg border border-indigo-500/40 px-3 py-1.5 text-sm text-indigo-200 hover:bg-indigo-600/20"
+        className="mt-3 rounded-lg border border-[rgba(141,183,255,0.4)] px-3 py-1.5 text-sm text-[#bcd6ff] hover:bg-[rgba(74,134,255,0.18)]"
         onClick={replay}
       >
         {t('academy.replayCompression')}
@@ -524,14 +524,14 @@ export function AuctionSim() {
       <div className="mt-3 flex gap-2">
         <button
           type="button"
-          className="rounded-lg border border-emerald-500/40 px-3 py-1.5 text-sm text-emerald-200 hover:bg-emerald-600/20"
+          className="rounded-lg border border-[rgba(141,183,255,0.4)] px-3 py-1.5 text-sm text-[#bcd6ff] hover:bg-[rgba(74,134,255,0.18)]"
           onClick={() => setConsumed(Math.min(consumed + orderSize, 75))}
         >
           {t('academy.marketBuy', { n: orderSize })}
         </button>
         <button
           type="button"
-          className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800"
+          className="rounded-lg border border-[rgba(141,183,255,0.2)] px-3 py-1.5 text-sm text-[#94aed8] hover:bg-[rgba(141,183,255,0.1)]"
           onClick={() => setConsumed(0)}
         >
           {t('academy.resetBook')}
