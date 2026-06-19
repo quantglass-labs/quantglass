@@ -59,6 +59,7 @@ import type {
   TradeReviewResponse,
   MissionsResponse,
   DailyBriefing,
+  StreakSummary,
   DrillDetail,
   DrillGradeResponse,
   JournalResponse,
@@ -556,6 +557,10 @@ export const backendClient = {
   },
   getDailyBriefing() {
     return requestJson<DailyBriefing>('/api/learn/missions/daily');
+  },
+  /** Cheap streak-only summary (no mission evaluation) — for the Dashboard chip. */
+  getStreakSummary() {
+    return requestJson<StreakSummary>('/api/learn/missions/streak');
   },
   acceptMission(missionId: string) {
     return requestJson<{ ok: boolean }>(`/api/learn/missions/${missionId}/accept`, {

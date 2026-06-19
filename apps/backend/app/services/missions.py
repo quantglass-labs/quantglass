@@ -191,18 +191,15 @@ class MissionService:
             )
         return {"items": missions, "max_active": MAX_ACTIVE_MISSIONS}
 
-    def daily_briefing(self) -> dict[str, Any]:
-        """The discipline streak + today's featured mission.
+    def streak_summary(self) -> dict[str, Any]:
+        """Just the discipline streak — cheap.
 
-        The streak counts consecutive days on which the user did any
-        Academy/mission work — it rewards showing up and practising, never
-        profit. ``daily_mission`` is a deterministic, date-seeded pick from
-        the user's incomplete missions so the same mission stands for the
-        whole day and rotates tomorrow.
+        Reads only the activity-days table (one query); does NOT evaluate the
+        108-mission catalog or review every trade. The Dashboard streak chip
+        uses this so the home screen never pays for a full mission evaluation.
         """
         days = set(self._maybe(self._store, "get_activity_days", []) or [])
         today = datetime.now(UTC).date()
-        active_today = today.isoformat() in days
         # A rolling seven-day strip, oldest first, for the week dots.
         week = [
             {
@@ -211,18 +208,35 @@ class MissionService:
             }
             for offset in range(6, -1, -1)
         ]
+        return {
+            "streak": self._current_streak(days, today),
+            "longest": self._longest_streak(days),
+            "active_today": today.isoformat() in days,
+            "week": week,
+        }
+
+    def daily_briefing(self) -> dict[str, Any]:
+        """The discipline streak + today's featured mission.
+
+        The streak counts consecutive days on which the user did any
+        Academy/mission work — it rewards showing up and practising, never
+        profit. ``daily_mission`` is a deterministic, date-seeded pick from
+        the user's incomplete missions so the same mission stands for the
+        whole day and rotates tomorrow. This is the heavy variant (it evaluates
+        the catalog for the daily pick); the Dashboard uses ``streak_summary``.
+        """
+        summary = self.streak_summary()
 
         listing = self.list_missions()
         items = listing["items"]
         incomplete = [mission for mission in items if not mission["completed"]]
-        daily_mission = self._pick_daily_mission(incomplete, today) if incomplete else None
+        daily_mission = (
+            self._pick_daily_mission(incomplete, datetime.now(UTC).date()) if incomplete else None
+        )
 
         return {
-            "streak": self._current_streak(days, today),
-            "longest": self._longest_streak(days),
-            "active_today": active_today,
+            **summary,
             "completed_total": sum(1 for mission in items if mission["completed"]),
-            "week": week,
             "daily_mission": daily_mission,
         }
 

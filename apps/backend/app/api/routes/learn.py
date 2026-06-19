@@ -159,15 +159,25 @@ async def submit_assessment(level: str, body: AssessmentSubmission, request: Req
     return svc.grade(level, body.answers)
 
 
+# NOTE: these handlers do synchronous, CPU-bound work (evaluating the mission
+# catalog over every trade). They are deliberately plain `def`, not `async def`,
+# so FastAPI runs them in a worker thread instead of blocking the event loop and
+# stalling every other request on the screen.
 @router.get("/missions")
-async def list_missions(request: Request) -> dict:
+def list_missions(request: Request) -> dict:
     """Behavioral missions evaluated over the user's own paper trading."""
     return request.app.state.mission_service.list_missions()
 
 
+@router.get("/missions/streak")
+def streak_summary(request: Request) -> dict:
+    """Just the discipline streak — cheap, for the Dashboard chip."""
+    return request.app.state.mission_service.streak_summary()
+
+
 @router.get("/missions/daily")
-async def daily_briefing(request: Request) -> dict:
-    """The discipline streak and today's featured mission."""
+def daily_briefing(request: Request) -> dict:
+    """The discipline streak and today's featured mission (heavier)."""
     return request.app.state.mission_service.daily_briefing()
 
 
@@ -209,7 +219,7 @@ async def grade_drill(category: str, body: DrillAnswers, request: Request) -> di
 
 
 @router.get("/mastery")
-async def get_mastery(request: Request) -> dict:
+def get_mastery(request: Request) -> dict:
     """XP, level, streak, track badges, and the review-queue count."""
     return request.app.state.learn_mastery_service.mastery()
 

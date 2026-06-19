@@ -138,6 +138,26 @@ class DailyBriefingTests(unittest.TestCase):
         second = self._briefing([])["daily_mission"]["id"]
         self.assertEqual(first, second)
 
+    def test_streak_summary_is_cheap_and_skips_trade_review(self) -> None:
+        # The cheap path must not touch the review service (which is what makes
+        # the full briefing expensive). A review that explodes proves we never
+        # call it.
+        from datetime import UTC, datetime, timedelta
+
+        class _BoomReview:
+            def review(self):
+                raise AssertionError("streak_summary must not evaluate trades")
+
+        class _StoreWithDays(_Store):
+            def get_activity_days(self_inner):
+                today = datetime.now(UTC).date()
+                return [(today - timedelta(days=o)).isoformat() for o in range(4)]
+
+        summary = MissionService(_StoreWithDays(), _BoomReview()).streak_summary()
+        self.assertEqual(summary["streak"], 4)
+        self.assertEqual(len(summary["week"]), 7)
+        self.assertNotIn("daily_mission", summary)
+
 
 if __name__ == "__main__":
     unittest.main()
