@@ -21,6 +21,7 @@ from app.api.routes.paper import router as paper_router
 from app.api.routes.providers import router as providers_router
 from app.api.routes.settings import router as settings_router
 from app.api.routes.strategies import router as strategies_router
+from app.api.routes.data import router as data_router
 from app.api.routes.watchlist import router as watchlist_router
 from app.core.config import apply_api_key_settings, get_settings
 from app.extensions.registry import load_extension_registry
@@ -263,6 +264,7 @@ app.include_router(providers_router)
 app.include_router(extensions_router)
 app.include_router(settings_router)
 app.include_router(strategies_router)
+app.include_router(data_router)
 app.include_router(watchlist_router)
 app.include_router(alerts_router)
 app.include_router(events_router)

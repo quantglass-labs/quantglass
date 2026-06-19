@@ -110,6 +110,69 @@ class StateStore:
     def set_extensions_enabled(self, enabled: bool) -> bool:
         return self.settings.set_extensions_enabled(enabled)
 
+    def get_onboarding_completed(self) -> bool:
+        return self.settings.get_onboarding_completed()
+
+    def set_onboarding_completed(self, completed: bool) -> bool:
+        return self.settings.set_onboarding_completed(completed)
+
+    # ------------------------------------------------------------------
+    # Sample data + reset (opt-in; default install stays empty)
+    # ------------------------------------------------------------------
+
+    # User-generated data tables wiped by ``clear_user_data``. Config
+    # (provider settings, API keys, migrations) is deliberately preserved.
+    _USER_DATA_TABLES = (
+        "watchlist_entries",
+        "alerts",
+        "alert_history",
+        "saved_strategies",
+        "paper_positions",
+        "paper_trade_intents",
+        "paper_trade_closures",
+        "journal_notes",
+        "constitution",
+        "learn_progress",
+        "learn_assessments",
+        "learn_missions",
+        "learn_scenarios",
+        "learn_review_cards",
+        "learn_activity",
+        "learn_active_missions",
+        "learn_mission_drills",
+    )
+
+    def has_user_data(self) -> bool:
+        """True if any tracked symbols, trades, journal notes, or progress exist."""
+        return bool(self.list_watchlist()) or bool(self.list_saved_strategies())
+
+    def seed_sample_data(self) -> None:
+        """Opt-in starter setup: a small, mixed starter watchlist so a new user
+        lands on populated signals/dashboard instead of blank screens. Only ever
+        runs when the user chooses it (so the 'zero calls until you track a
+        symbol' guarantee holds for the default install)."""
+        starter = [
+            ("BTC-USD", "crypto"),
+            ("ETH-USD", "crypto"),
+            ("SPY", "stock"),
+            ("AAPL", "stock"),
+        ]
+        existing = {entry.get("symbol") for entry in self.list_watchlist()}
+        for symbol, market_type in starter:
+            if symbol not in existing:
+                self.add_watchlist_symbol(symbol, market_type, None)
+
+    def clear_user_data(self) -> None:
+        """Wipe all user-generated data back to a fresh install; reset the paper
+        account to its default. App settings and API keys are kept."""
+        with connect(self.sqlite_path) as connection:
+            for table in self._USER_DATA_TABLES:
+                connection.execute(f"DELETE FROM {table}")  # noqa: S608 (fixed allowlist)
+            connection.execute("DELETE FROM paper_account_state")
+            # The trading store's schema bootstrap re-inserts the default account.
+            self.trading.ensure_schema(connection)
+            connection.commit()
+
     def get_extension_settings(self, extension_id: str) -> dict[str, Any]:
         return self.settings.get_extension_settings(extension_id)
 
