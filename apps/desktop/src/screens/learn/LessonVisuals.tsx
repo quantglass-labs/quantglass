@@ -28,14 +28,18 @@ export interface LessonVisual {
 }
 
 const PALETTE = {
-  bg: '#07111f',
+  bg: '#0a1730',
+  // Candle semantics — kept domain-accurate (green up / red down).
   up: '#14c784',
   upEdge: '#a7f3d0',
   down: '#f6465d',
   downEdge: '#fecaca',
-  ink: '#f8fafc',
-  muted: '#9fb0c7',
-  leader: '#506684',
+  ink: '#f1f6ff',
+  muted: '#94aed8',
+  leader: '#5f7cae',
+  // Premium blue accent for decorative elements (matches the flow diagrams).
+  accent: '#6aa0ff',
+  panelStroke: 'rgba(141, 183, 255, 0.3)',
 };
 
 function Leader({
@@ -90,7 +94,46 @@ function Frame({
   const [, , w] = viewBox.split(' ').map(Number);
   return (
     <svg viewBox={viewBox} role="img" aria-label={label} className="w-full rounded-xl">
-      <rect width="100%" height="100%" rx={14} fill={PALETTE.bg} />
+      <defs>
+        <linearGradient id="qgFrame" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#102246" />
+          <stop offset="0.55" stopColor="#0a1730" />
+          <stop offset="1" stopColor="#070e1c" />
+        </linearGradient>
+        <linearGradient id="qgBox" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="rgba(24, 42, 76, 0.92)" />
+          <stop offset="1" stopColor="rgba(12, 22, 42, 0.82)" />
+        </linearGradient>
+        <linearGradient id="qgAcc" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#4a86ff" />
+          <stop offset="1" stopColor="#9cc0ff" />
+        </linearGradient>
+        <filter id="qgGlow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.4" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <marker
+          id="qgArrow"
+          viewBox="0 0 10 10"
+          refX={8}
+          refY={5}
+          markerWidth={7}
+          markerHeight={7}
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#9cc0ff" />
+        </marker>
+      </defs>
+      <rect
+        width="100%"
+        height="100%"
+        rx={16}
+        fill="url(#qgFrame)"
+        stroke="rgba(120, 165, 255, 0.12)"
+      />
       <text x={w / 2} y={44} textAnchor="middle" fill={PALETTE.ink} fontSize={26} fontWeight={800}>
         {title}
       </text>
@@ -232,7 +275,15 @@ function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
             <text x={40} y={y + 26} fill={PALETTE.ink} fontSize={17} fontWeight={700}>
               {item.label}
             </text>
-            <rect x={260} y={y} width={w} height={36} rx={8} fill={PALETTE.up} opacity={0.85} />
+            <rect
+              x={260}
+              y={y}
+              width={w}
+              height={36}
+              rx={9}
+              fill="url(#qgAcc)"
+              filter="url(#qgGlow)"
+            />
             <text x={260 + w + 12} y={y + 25} fill={PALETTE.muted} fontSize={15}>
               {item.note ?? item.value}
             </text>
@@ -262,9 +313,9 @@ function ProcessSteps({ params }: { params: Record<string, unknown> }) {
               y={110}
               width={gap - 40}
               height={70}
-              rx={12}
-              fill="#0e2238"
-              stroke={PALETTE.leader}
+              rx={14}
+              fill="url(#qgBox)"
+              stroke={PALETTE.panelStroke}
             />
             <text
               x={x + (gap - 40) / 2}
@@ -277,7 +328,7 @@ function ProcessSteps({ params }: { params: Record<string, unknown> }) {
               {step}
             </text>
             {i < steps.length - 1 ? (
-              <text x={x + gap - 28} y={152} fill={PALETTE.up} fontSize={22} fontWeight={900}>
+              <text x={x + gap - 28} y={152} fill={PALETTE.accent} fontSize={22} fontWeight={900}>
                 →
               </text>
             ) : null}
@@ -306,9 +357,9 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
               y={y}
               width={500}
               height={62}
-              rx={12}
-              fill="#0e2238"
-              stroke={PALETTE.leader}
+              rx={14}
+              fill="url(#qgBox)"
+              stroke={PALETTE.panelStroke}
             />
             <text
               x={500}
@@ -332,27 +383,15 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
                 y1={y + 62}
                 x2={500}
                 y2={y + 96}
-                stroke={PALETTE.up}
+                stroke="url(#qgAcc)"
                 strokeWidth={3}
-                markerEnd="url(#arrow)"
+                filter="url(#qgGlow)"
+                markerEnd="url(#qgArrow)"
               />
             ) : null}
           </g>
         );
       })}
-      <defs>
-        <marker
-          id="arrow"
-          viewBox="0 0 10 10"
-          refX={8}
-          refY={5}
-          markerWidth={7}
-          markerHeight={7}
-          orient="auto-start-reverse"
-        >
-          <path d="M 0 0 L 10 5 L 0 10 z" fill={PALETTE.up} />
-        </marker>
-      </defs>
     </Frame>
   );
 }
@@ -377,9 +416,9 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
               y={y}
               width={300}
               height={48}
-              rx={10}
-              fill="#0e2238"
-              stroke={PALETTE.leader}
+              rx={12}
+              fill="url(#qgBox)"
+              stroke={PALETTE.panelStroke}
             />
             <text
               x={200}
@@ -412,9 +451,9 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
         cx={700}
         cy={cy}
         r={84}
-        fill={PALETTE.up}
-        opacity={0.16}
-        stroke={PALETTE.up}
+        fill="url(#qgAcc)"
+        opacity={0.18}
+        stroke={PALETTE.accent}
         strokeWidth={2.5}
       />
       <text
