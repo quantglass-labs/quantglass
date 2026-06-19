@@ -10,6 +10,7 @@ from app.api.routes.alerts import router as alerts_router
 from app.api.routes.constitution import router as constitution_router
 from app.api.routes.content import router as content_router
 from app.api.routes.copilot import router as copilot_router
+from app.api.routes.data import router as data_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
@@ -21,7 +22,6 @@ from app.api.routes.paper import router as paper_router
 from app.api.routes.providers import router as providers_router
 from app.api.routes.settings import router as settings_router
 from app.api.routes.strategies import router as strategies_router
-from app.api.routes.data import router as data_router
 from app.api.routes.watchlist import router as watchlist_router
 from app.core.config import apply_api_key_settings, get_settings
 from app.extensions.registry import load_extension_registry
