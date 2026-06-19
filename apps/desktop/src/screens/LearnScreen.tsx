@@ -1145,6 +1145,29 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
         <span className="ml-auto text-xs text-zinc-600">{t('learn.eduDisclaimer')}</span>
       </div>
 
+      {/* Tier progression overview (full width) */}
+      {catalog ? (
+        <div className="shrink-0 border-b border-zinc-800 px-6 py-3">
+          <div className="flex items-baseline gap-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+              {t('learn.tierMap.title')}
+            </p>
+            <p className="text-xs text-muted">{t('learn.tierMap.subtitle')}</p>
+          </div>
+          <div className="mt-2">
+            <LearnTierMapDiagram
+              tiers={catalog.levels.map((level) => ({
+                id: level.id,
+                title: level.title,
+                completed: level.completed,
+                total: level.total,
+                unlocked: readiness?.levels.find((l) => l.id === level.id)?.unlocked !== false,
+              }))}
+            />
+          </div>
+        </div>
+      ) : null}
+
       {/* Body */}
       <div className="flex-1 flex min-h-0 overflow-hidden">
         {/* Sidebar */}
@@ -1239,23 +1262,6 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                 ))}
               </div>
             )}
-            {catalog ? (
-              <div className="mb-4">
-                <p className="px-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-                  {t('learn.tierMap.title')}
-                </p>
-                <p className="mb-2 px-2 text-xs text-muted">{t('learn.tierMap.subtitle')}</p>
-                <LearnTierMapDiagram
-                  tiers={catalog.levels.map((level) => ({
-                    id: level.id,
-                    title: level.title,
-                    completed: level.completed,
-                    total: level.total,
-                    unlocked: readiness?.levels.find((l) => l.id === level.id)?.unlocked !== false,
-                  }))}
-                />
-              </div>
-            ) : null}
             {catalog?.levels.map((level, i) => (
               <LevelSection
                 key={level.id}

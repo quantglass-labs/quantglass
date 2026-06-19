@@ -1,7 +1,24 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { lazy, Suspense } from 'react';
+import {
+  BadgeCheck,
+  Briefcase,
+  ClipboardCheck,
+  Coins,
+  Database,
+  Dices,
+  FlaskConical,
+  Gauge,
+  GitBranch,
+  GraduationCap,
+  NotebookPen,
+  ShieldCheck,
+  Target,
+  TestTubeDiagonal,
+  TrendingUp,
+} from 'lucide-react';
+import { type ComponentType, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { Edge } from '@xyflow/react';
@@ -38,6 +55,7 @@ export function FeedbackLoopDiagram({ onNavigate }: { onNavigate: (route: string
       position: { x: 0, y: 0 },
       data: {
         label: t('nav.signals'),
+        icon: TrendingUp,
         route: '/signals',
         targetPos: 'bottom',
         sourcePos: 'right',
@@ -47,15 +65,22 @@ export function FeedbackLoopDiagram({ onNavigate }: { onNavigate: (route: string
     {
       id: 'backtest',
       type: 'qg',
-      position: { x: 210, y: 0 },
-      data: { label: t('nav.backtest'), route: '/backtest', targetPos: 'left', sourcePos: 'right' },
+      position: { x: 230, y: 0 },
+      data: {
+        label: t('nav.backtest'),
+        icon: TestTubeDiagonal,
+        route: '/backtest',
+        targetPos: 'left',
+        sourcePos: 'right',
+      },
     },
     {
       id: 'paper',
       type: 'qg',
-      position: { x: 420, y: 0 },
+      position: { x: 460, y: 0 },
       data: {
         label: t('nav.portfolio'),
+        icon: Briefcase,
         route: '/portfolio',
         targetPos: 'left',
         sourcePos: 'bottom',
@@ -64,21 +89,34 @@ export function FeedbackLoopDiagram({ onNavigate }: { onNavigate: (route: string
     {
       id: 'journal',
       type: 'qg',
-      position: { x: 420, y: 150 },
-      data: { label: t('nav.journal'), route: '/journal', targetPos: 'top', sourcePos: 'left' },
+      position: { x: 460, y: 170 },
+      data: {
+        label: t('nav.journal'),
+        icon: NotebookPen,
+        route: '/journal',
+        targetPos: 'top',
+        sourcePos: 'left',
+      },
     },
     {
       id: 'review',
       type: 'qg',
-      position: { x: 210, y: 150 },
-      data: { label: t('nav.review'), route: '/review', targetPos: 'right', sourcePos: 'left' },
+      position: { x: 230, y: 170 },
+      data: {
+        label: t('nav.review'),
+        icon: ClipboardCheck,
+        route: '/review',
+        targetPos: 'right',
+        sourcePos: 'left',
+      },
     },
     {
       id: 'constitution',
       type: 'qg',
-      position: { x: 0, y: 150 },
+      position: { x: 0, y: 170 },
       data: {
         label: t('review.constitution.title'),
+        icon: ShieldCheck,
         route: '/review',
         targetPos: 'right',
         sourcePos: 'top',
@@ -116,20 +154,31 @@ export function FeedbackLoopDiagram({ onNavigate }: { onNavigate: (route: string
 export function BacktestPipelineDiagram() {
   const { t } = useTranslation();
 
-  const steps: Array<{ id: string; label: string; tone?: 'accent' }> = [
-    { id: 'data', label: t('backtest.pipeline.data') },
-    { id: 'split', label: t('backtest.pipeline.split') },
-    { id: 'cost', label: t('backtest.pipeline.cost') },
-    { id: 'montecarlo', label: t('backtest.pipeline.montecarlo') },
-    { id: 'gates', label: t('backtest.pipeline.gates') },
-    { id: 'result', label: t('backtest.pipeline.result'), tone: 'accent' },
+  const steps: Array<{
+    id: string;
+    label: string;
+    icon: ComponentType<{ className?: string }>;
+    tone?: 'accent';
+  }> = [
+    { id: 'data', label: t('backtest.pipeline.data'), icon: Database },
+    { id: 'split', label: t('backtest.pipeline.split'), icon: GitBranch },
+    { id: 'cost', label: t('backtest.pipeline.cost'), icon: Coins },
+    { id: 'montecarlo', label: t('backtest.pipeline.montecarlo'), icon: Dices },
+    { id: 'gates', label: t('backtest.pipeline.gates'), icon: ShieldCheck },
+    { id: 'result', label: t('backtest.pipeline.result'), icon: BadgeCheck, tone: 'accent' },
   ];
 
   const nodes: QgNode[] = steps.map((step, index) => ({
     id: step.id,
     type: 'qg',
-    position: { x: index * 175, y: 0 },
-    data: { label: step.label, targetPos: 'left', sourcePos: 'right', tone: step.tone },
+    position: { x: index * 195, y: 0 },
+    data: {
+      label: step.label,
+      icon: step.icon,
+      targetPos: 'left',
+      sourcePos: 'right',
+      tone: step.tone,
+    },
   }));
 
   const edges: Edge[] = steps.slice(1).map((step, index) => ({
@@ -166,14 +215,23 @@ export type TierMapTier = {
  * clickable) — it summarises the path while the cards below drive interaction.
  */
 /** Shared renderer for a horizontal tier progression with live counts + lock. */
-function TierProgression({ tiers, ariaLabel }: { tiers: TierMapTier[]; ariaLabel: string }) {
+function TierProgression({
+  tiers,
+  ariaLabel,
+  icon,
+}: {
+  tiers: TierMapTier[];
+  ariaLabel: string;
+  icon: ComponentType<{ className?: string }>;
+}) {
   const nodes: QgNode[] = tiers.map((tier, index) => ({
     id: tier.id,
     type: 'qg',
-    position: { x: index * 190, y: 0 },
+    position: { x: index * 200, y: 0 },
     data: {
       label: tier.title,
       sublabel: `${tier.completed}/${tier.total}`,
+      icon,
       locked: !tier.unlocked,
       tone: tier.total > 0 && tier.completed >= tier.total ? 'accent' : 'default',
       targetPos: 'left',
@@ -202,13 +260,15 @@ function TierProgression({ tiers, ariaLabel }: { tiers: TierMapTier[]; ariaLabel
 
 export function LearnTierMapDiagram({ tiers }: { tiers: TierMapTier[] }) {
   const { t } = useTranslation();
-  return <TierProgression tiers={tiers} ariaLabel={t('learn.tierMap.title')} />;
+  return (
+    <TierProgression tiers={tiers} ariaLabel={t('learn.tierMap.title')} icon={GraduationCap} />
+  );
 }
 
 /** Missions completed per tier as a live progression (no readiness gate). */
 export function MissionsTierDiagram({ tiers }: { tiers: TierMapTier[] }) {
   const { t } = useTranslation();
-  return <TierProgression tiers={tiers} ariaLabel={t('missions.tierMap.title')} />;
+  return <TierProgression tiers={tiers} ariaLabel={t('missions.tierMap.title')} icon={Target} />;
 }
 
 /**
@@ -239,6 +299,7 @@ export function EvidencePipelineDiagram({
       position: { x: 0, y: 0 },
       data: {
         label: t('signalDetail.evidence.backtest'),
+        icon: FlaskConical,
         sublabel: `${Math.round(winrate * 100)}% · ${sampleSize}`,
         targetPos: 'left',
         sourcePos: 'right',
@@ -247,9 +308,10 @@ export function EvidencePipelineDiagram({
     {
       id: 'expectancy',
       type: 'qg',
-      position: { x: 190, y: 0 },
+      position: { x: 200, y: 0 },
       data: {
         label: t('signalDetail.evidence.expectancy'),
+        icon: TrendingUp,
         sublabel: `${expectancyR.toFixed(2)}R`,
         targetPos: 'left',
         sourcePos: 'right',
@@ -258,9 +320,10 @@ export function EvidencePipelineDiagram({
     {
       id: 'oos',
       type: 'qg',
-      position: { x: 380, y: 0 },
+      position: { x: 400, y: 0 },
       data: {
         label: t('signalDetail.evidence.oos'),
+        icon: ShieldCheck,
         sublabel: outOfSampleValidated ? '✓' : '—',
         locked: !outOfSampleValidated,
         targetPos: 'left',
@@ -270,9 +333,10 @@ export function EvidencePipelineDiagram({
     {
       id: 'confidence',
       type: 'qg',
-      position: { x: 570, y: 0 },
+      position: { x: 600, y: 0 },
       data: {
         label: t('signalDetail.evidence.confidence'),
+        icon: Gauge,
         sublabel: `${Math.round(confidence)}`,
         tone: 'accent',
         targetPos: 'left',
