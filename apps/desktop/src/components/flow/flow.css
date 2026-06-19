@@ -1,0 +1,52 @@
+/* SPDX-FileCopyrightText: 2026 QuantGlass contributors */
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+
+/* Flowing highlight that travels along each edge. */
+@keyframes qg-edge-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.qg-edge-flow {
+  stroke-dasharray: 4 10;
+  animation: qg-edge-dash 0.9s linear infinite;
+}
+
+/* Soft breathing glow on emphasised (accent) nodes. */
+@keyframes qg-node-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(58, 116, 240, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(141, 183, 255, 0.55));
+  }
+}
+
+.qg-node {
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+.qg-node:hover {
+  transform: translateY(-2px);
+}
+.qg-node-accent {
+  animation: qg-node-glow 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qg-edge-flow {
+    animation: none;
+  }
+  .qg-node-accent {
+    animation: none;
+  }
+}
+
+/* JS-level reduced-motion fallback (set when matchMedia reports reduce). */
+.qg-reduced .qg-edge-flow,
+.qg-reduced .qg-node-accent {
+  animation: none;
+}
