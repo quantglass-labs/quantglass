@@ -399,7 +399,11 @@
       "decisions": "{{count}} 个决策 · 通过线 {{percent}}%",
       "best": "最佳 {{percent}}%"
     },
-    "footer": "完成任务可解锁学院等级。社区扩展包可通过扩展 SDK 添加更多。仅供教育用途——并非投资建议。"
+    "footer": "完成任务可解锁学院等级。社区扩展包可通过扩展 SDK 添加更多。仅供教育用途——并非投资建议。",
+    "tierMap": {
+      "title": "按级别的进度",
+      "subtitle": "每个级别已完成的任务。"
+    }
   },
   "backtest": {
     "eyebrow": "回测",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "实盘交易已禁用",
     "copyJson": "复制信号 JSON",
     "noSignalTitle": "未选择信号",
-    "noSignalDesc": "打开任意信号卡片、行操作或品种详情按钮以填充此抽屉。"
+    "noSignalDesc": "打开任意信号卡片、行操作或品种详情按钮以填充此抽屉。",
+    "evidence": {
+      "title": "该置信度如何构建",
+      "backtest": "回测",
+      "expectancy": "期望值",
+      "oos": "样本外",
+      "confidence": "置信度"
+    }
   },
   "howItWorks": {
     "title": "QuantGlass 如何运作",

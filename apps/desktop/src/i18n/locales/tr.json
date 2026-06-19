@@ -399,7 +399,11 @@
       "decisions": "{{count}} karar · geçme {{percent}}%",
       "best": "en iyi {{percent}}%"
     },
-    "footer": "Görevleri tamamlamak Akademi seviyelerini açar. Topluluk paketleri eklenti SDK'sı ile daha fazlasını ekleyebilir. Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir."
+    "footer": "Görevleri tamamlamak Akademi seviyelerini açar. Topluluk paketleri eklenti SDK'sı ile daha fazlasını ekleyebilir. Yalnızca eğitim amaçlıdır — yatırım tavsiyesi değildir.",
+    "tierMap": {
+      "title": "Seviyeye göre ilerleme",
+      "subtitle": "Her seviyede tamamlanan görevler."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Canlı işlem devre dışı",
     "copyJson": "Sinyal JSON'unu kopyala",
     "noSignalTitle": "Sinyal seçilmedi",
-    "noSignalDesc": "Bu çekmeceyi doldurmak için herhangi bir sinyal kartını, satır eylemini veya sembol ayrıntı düğmesini açın."
+    "noSignalDesc": "Bu çekmeceyi doldurmak için herhangi bir sinyal kartını, satır eylemini veya sembol ayrıntı düğmesini açın.",
+    "evidence": {
+      "title": "Bu güven nasıl oluşturulur",
+      "backtest": "Backtest",
+      "expectancy": "Beklenti",
+      "oos": "Örneklem dışı",
+      "confidence": "Güven"
+    }
   },
   "howItWorks": {
     "title": "QuantGlass nasıl çalışır",

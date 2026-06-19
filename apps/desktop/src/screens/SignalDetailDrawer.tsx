@@ -17,6 +17,7 @@ import {
   SignalChip,
 } from '../components/ui';
 import { backendClient } from '../lib/backend';
+import { EvidencePipelineDiagram } from '../components/flow/FlowDiagram';
 import { AiMarkdown } from '../components/AiMarkdown';
 import { freshnessClassName, signalFreshness } from '../lib/freshness';
 import { formatCurrency, formatDateTime } from '../lib/format';
@@ -176,6 +177,17 @@ export function SignalDetailDrawer({
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
                   {t('signalDetail.confidenceBasis')}
                 </p>
+                <div className="mt-3">
+                  <EvidencePipelineDiagram
+                    winrate={signalRecord.signal.confidence_basis.backtested_winrate}
+                    expectancyR={signalRecord.signal.confidence_basis.backtested_expectancy_R}
+                    sampleSize={signalRecord.signal.confidence_basis.backtest_sample_size}
+                    outOfSampleValidated={
+                      signalRecord.signal.confidence_basis.out_of_sample_validated
+                    }
+                    confidence={signalRecord.signal.confidence}
+                  />
+                </div>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <MetricStat
                     label={t('signalDetail.trendAlignment')}

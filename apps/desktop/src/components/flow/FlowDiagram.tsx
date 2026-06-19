@@ -165,9 +165,8 @@ export type TierMapTier = {
  * lock state; a fully-complete tier is highlighted. Illustrative (not
  * clickable) — it summarises the path while the cards below drive interaction.
  */
-export function LearnTierMapDiagram({ tiers }: { tiers: TierMapTier[] }) {
-  const { t } = useTranslation();
-
+/** Shared renderer for a horizontal tier progression with live counts + lock. */
+function TierProgression({ tiers, ariaLabel }: { tiers: TierMapTier[]; ariaLabel: string }) {
   const nodes: QgNode[] = tiers.map((tier, index) => ({
     id: tier.id,
     type: 'qg',
@@ -194,7 +193,107 @@ export function LearnTierMapDiagram({ tiers }: { tiers: TierMapTier[] }) {
         nodes={nodes}
         edges={edges}
         reducedMotion={prefersReducedMotion()}
-        ariaLabel={t('learn.tierMap.title')}
+        ariaLabel={ariaLabel}
+        heightClass="h-[160px]"
+      />
+    </Suspense>
+  );
+}
+
+export function LearnTierMapDiagram({ tiers }: { tiers: TierMapTier[] }) {
+  const { t } = useTranslation();
+  return <TierProgression tiers={tiers} ariaLabel={t('learn.tierMap.title')} />;
+}
+
+/** Missions completed per tier as a live progression (no readiness gate). */
+export function MissionsTierDiagram({ tiers }: { tiers: TierMapTier[] }) {
+  const { t } = useTranslation();
+  return <TierProgression tiers={tiers} ariaLabel={t('missions.tierMap.title')} />;
+}
+
+/**
+ * The per-signal confidence build, bound to the signal's own `confidence_basis`:
+ * Backtest → Expectancy → Out-of-sample → Confidence. Live data — it shows the
+ * actual evidence behind *this* signal's number, the literal "defensible number"
+ * claim made concrete.
+ */
+export function EvidencePipelineDiagram({
+  winrate,
+  expectancyR,
+  sampleSize,
+  outOfSampleValidated,
+  confidence,
+}: {
+  winrate: number;
+  expectancyR: number;
+  sampleSize: number;
+  outOfSampleValidated: boolean;
+  confidence: number;
+}) {
+  const { t } = useTranslation();
+
+  const nodes: QgNode[] = [
+    {
+      id: 'backtest',
+      type: 'qg',
+      position: { x: 0, y: 0 },
+      data: {
+        label: t('signalDetail.evidence.backtest'),
+        sublabel: `${Math.round(winrate * 100)}% · ${sampleSize}`,
+        targetPos: 'left',
+        sourcePos: 'right',
+      },
+    },
+    {
+      id: 'expectancy',
+      type: 'qg',
+      position: { x: 190, y: 0 },
+      data: {
+        label: t('signalDetail.evidence.expectancy'),
+        sublabel: `${expectancyR.toFixed(2)}R`,
+        targetPos: 'left',
+        sourcePos: 'right',
+      },
+    },
+    {
+      id: 'oos',
+      type: 'qg',
+      position: { x: 380, y: 0 },
+      data: {
+        label: t('signalDetail.evidence.oos'),
+        sublabel: outOfSampleValidated ? '✓' : '—',
+        locked: !outOfSampleValidated,
+        targetPos: 'left',
+        sourcePos: 'right',
+      },
+    },
+    {
+      id: 'confidence',
+      type: 'qg',
+      position: { x: 570, y: 0 },
+      data: {
+        label: t('signalDetail.evidence.confidence'),
+        sublabel: `${Math.round(confidence)}`,
+        tone: 'accent',
+        targetPos: 'left',
+        sourcePos: 'right',
+      },
+    },
+  ];
+
+  const edges: Edge[] = [
+    { id: 'e-backtest-expectancy', source: 'backtest', target: 'expectancy' },
+    { id: 'e-expectancy-oos', source: 'expectancy', target: 'oos' },
+    { id: 'e-oos-confidence', source: 'oos', target: 'confidence' },
+  ];
+
+  return (
+    <Suspense fallback={<DiagramFallback heightClass="h-[160px]" />}>
+      <FlowCanvas
+        nodes={nodes}
+        edges={edges}
+        reducedMotion={prefersReducedMotion()}
+        ariaLabel={t('signalDetail.evidence.title')}
         heightClass="h-[160px]"
       />
     </Suspense>

@@ -399,7 +399,11 @@
       "decisions": "{{count}} décisions · réussite à {{percent}}%",
       "best": "meilleur {{percent}}%"
     },
-    "footer": "Compléter des missions débloque des niveaux de l'Académie. Les packs communautaires peuvent en ajouter via le SDK d'extensions. Usage éducatif uniquement — pas un conseil financier."
+    "footer": "Compléter des missions débloque des niveaux de l'Académie. Les packs communautaires peuvent en ajouter via le SDK d'extensions. Usage éducatif uniquement — pas un conseil financier.",
+    "tierMap": {
+      "title": "Progression par niveau",
+      "subtitle": "Missions accomplies à chaque niveau."
+    }
   },
   "backtest": {
     "eyebrow": "Backtesting",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "Trading en direct désactivé",
     "copyJson": "Copier le JSON du signal",
     "noSignalTitle": "Aucun signal sélectionné",
-    "noSignalDesc": "Ouvrez une carte de signal, une action de ligne ou un bouton de détail de symbole pour remplir ce tiroir."
+    "noSignalDesc": "Ouvrez une carte de signal, une action de ligne ou un bouton de détail de symbole pour remplir ce tiroir.",
+    "evidence": {
+      "title": "Comment cette confiance est construite",
+      "backtest": "Backtest",
+      "expectancy": "Espérance",
+      "oos": "Hors échantillon",
+      "confidence": "Confiance"
+    }
   },
   "howItWorks": {
     "title": "Comment fonctionne QuantGlass",

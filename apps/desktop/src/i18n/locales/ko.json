@@ -399,7 +399,11 @@
       "decisions": "{{count}}개 결정 · 합격 기준 {{percent}}%",
       "best": "최고 {{percent}}%"
     },
-    "footer": "미션을 완료하면 아카데미 레벨이 잠금 해제됩니다. 커뮤니티 팩은 확장 SDK로 더 추가할 수 있습니다. 교육 목적으로만 사용 — 투자 자문이 아닙니다."
+    "footer": "미션을 완료하면 아카데미 레벨이 잠금 해제됩니다. 커뮤니티 팩은 확장 SDK로 더 추가할 수 있습니다. 교육 목적으로만 사용 — 투자 자문이 아닙니다.",
+    "tierMap": {
+      "title": "단계별 진행",
+      "subtitle": "각 단계에서 완료한 미션."
+    }
   },
   "backtest": {
     "eyebrow": "백테스팅",
@@ -1339,7 +1343,14 @@
     "liveTradeDisabled": "라이브 거래 비활성화",
     "copyJson": "시그널 JSON 복사",
     "noSignalTitle": "선택된 시그널 없음",
-    "noSignalDesc": "아무 시그널 카드, 행 동작, 또는 심볼 상세 버튼을 열어 이 서랍을 채우세요."
+    "noSignalDesc": "아무 시그널 카드, 행 동작, 또는 심볼 상세 버튼을 열어 이 서랍을 채우세요.",
+    "evidence": {
+      "title": "이 신뢰도가 구성되는 방식",
+      "backtest": "백테스트",
+      "expectancy": "기대값",
+      "oos": "표본 외",
+      "confidence": "신뢰도"
+    }
   },
   "howItWorks": {
     "title": "QuantGlass 작동 방식",
