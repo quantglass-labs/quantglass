@@ -551,6 +551,15 @@
       "mcRunsLine": "{{sample}}건의 OOS 거래를 {{runs}}회 재표집. {{caveat}}",
       "biasGates": "편향 & 품질 게이트",
       "experimentLine": "실험 {{id}} · {{range}}"
+    },
+    "pipeline": {
+      "title": "백테스트 실행 방식",
+      "data": "저장된 캔들",
+      "split": "학습 / 테스트 분할",
+      "cost": "비용 스트레스",
+      "montecarlo": "몬테카를로",
+      "gates": "편향 게이트",
+      "result": "정직한 결과"
     }
   },
   "settings": {
@@ -1111,7 +1120,8 @@
     "missions": "미션",
     "journal": "저널",
     "review": "리뷰",
-    "settings": "설정"
+    "settings": "설정",
+    "howItWorks": "작동 방식"
   },
   "common": {
     "save": "저장",
@@ -1326,5 +1336,10 @@
     "copyJson": "시그널 JSON 복사",
     "noSignalTitle": "선택된 시그널 없음",
     "noSignalDesc": "아무 시그널 카드, 행 동작, 또는 심볼 상세 버튼을 열어 이 서랍을 채우세요."
+  },
+  "howItWorks": {
+    "title": "QuantGlass 작동 방식",
+    "subtitle": "규율 있는 루프: 근거를 찾고, 정직하게 검증하고, 안전하게 연습한 뒤, 검토하고 개선합니다.",
+    "hint": "열려면 단계를 선택하세요."
   }
 }

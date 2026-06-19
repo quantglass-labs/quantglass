@@ -87,6 +87,9 @@ const PortfolioScreen = lazy(async () =>
 const ReviewScreen = lazy(async () =>
   import('./screens/ReviewScreen').then((module) => ({ default: module.ReviewScreen })),
 );
+const HowItWorksScreen = lazy(async () =>
+  import('./screens/HowItWorksScreen').then((module) => ({ default: module.HowItWorksScreen })),
+);
 
 interface AlertModalState {
   open: boolean;
@@ -1532,6 +1535,7 @@ export default function App() {
             <Route path="/portfolio" element={<PortfolioScreen backendStatus={backendStatus} />} />
             <Route path="/journal" element={<JournalScreen backendStatus={backendStatus} />} />
             <Route path="/review" element={<ReviewScreen backendStatus={backendStatus} />} />
+            <Route path="/how-it-works" element={<HowItWorksScreen />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

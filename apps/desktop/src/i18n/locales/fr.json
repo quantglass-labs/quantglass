@@ -551,6 +551,15 @@
       "mcRunsLine": "{{runs}} rééchantillonnages de {{sample}} trades OOS. {{caveat}}",
       "biasGates": "Contrôles de biais & qualité",
       "experimentLine": "expérience {{id}} · {{range}}"
+    },
+    "pipeline": {
+      "title": "Comment se déroule un backtest",
+      "data": "Bougies stockées",
+      "split": "Répartition entraînement / test",
+      "cost": "Test de coûts",
+      "montecarlo": "Monte-Carlo",
+      "gates": "Filtres de biais",
+      "result": "Résultat honnête"
     }
   },
   "settings": {
@@ -1111,7 +1120,8 @@
     "missions": "Missions",
     "journal": "Journal",
     "review": "Revue",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "howItWorks": "Comment ça marche"
   },
   "common": {
     "save": "Enregistrer",
@@ -1326,5 +1336,10 @@
     "copyJson": "Copier le JSON du signal",
     "noSignalTitle": "Aucun signal sélectionné",
     "noSignalDesc": "Ouvrez une carte de signal, une action de ligne ou un bouton de détail de symbole pour remplir ce tiroir."
+  },
+  "howItWorks": {
+    "title": "Comment fonctionne QuantGlass",
+    "subtitle": "Une boucle disciplinée : trouver des preuves, les tester honnêtement, s’entraîner sans risque, puis analyser et affiner.",
+    "hint": "Sélectionnez une étape pour l’ouvrir."
   }
 }
