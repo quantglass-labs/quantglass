@@ -48,7 +48,13 @@
       "generating": "Gerando o resumo matinal…",
       "title": "Resumo matinal",
       "footer": "Narrado a partir das próprias leituras do motor — regimes, sinais, risco. Nunca é conselho."
-    }
+    },
+    "greeting": {
+      "morning": "Bom dia",
+      "afternoon": "Boa tarde",
+      "evening": "Boa noite"
+    },
+    "streakChipTitle": "Sua sequência de disciplina — abrir Missões"
   },
   "signals": {
     "eyebrow": "Sinais",

@@ -48,7 +48,13 @@
       "generating": "모닝 브리프 생성 중…",
       "title": "모닝 브리프",
       "footer": "엔진 자체의 판독(국면·신호·리스크)에서 작성. 결코 투자 자문이 아닙니다."
-    }
+    },
+    "greeting": {
+      "morning": "좋은 아침입니다",
+      "afternoon": "좋은 오후입니다",
+      "evening": "좋은 저녁입니다"
+    },
+    "streakChipTitle": "당신의 절제 연속 — 미션 열기"
   },
   "signals": {
     "eyebrow": "신호",

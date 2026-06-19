@@ -48,7 +48,13 @@
       "generating": "Đang tạo bản tóm tắt buổi sáng…",
       "title": "Bản tóm tắt buổi sáng",
       "footer": "Được tường thuật từ chính số liệu của động cơ — chế độ, tín hiệu, rủi ro. Không bao giờ là lời khuyên."
-    }
+    },
+    "greeting": {
+      "morning": "Chào buổi sáng",
+      "afternoon": "Chào buổi chiều",
+      "evening": "Chào buổi tối"
+    },
+    "streakChipTitle": "Chuỗi kỷ luật của bạn — mở Nhiệm vụ"
   },
   "signals": {
     "eyebrow": "Tín hiệu",

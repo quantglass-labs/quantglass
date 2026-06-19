@@ -48,7 +48,13 @@
       "generating": "Génération du résumé matinal…",
       "title": "Résumé matinal",
       "footer": "Rédigé à partir des propres lectures du moteur — régimes, signaux, risque. Jamais un conseil."
-    }
+    },
+    "greeting": {
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "streakChipTitle": "Ta série de discipline — ouvrir Missions"
   },
   "signals": {
     "eyebrow": "Signaux",

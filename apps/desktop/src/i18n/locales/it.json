@@ -48,7 +48,13 @@
       "generating": "Generazione del riepilogo mattutino…",
       "title": "Riepilogo mattutino",
       "footer": "Narrato dalle letture del motore stesso — regimi, segnali, rischio. Mai un consiglio."
-    }
+    },
+    "greeting": {
+      "morning": "Buongiorno",
+      "afternoon": "Buon pomeriggio",
+      "evening": "Buonasera"
+    },
+    "streakChipTitle": "La tua serie di disciplina — apri Missioni"
   },
   "signals": {
     "eyebrow": "Segnali",

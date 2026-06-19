@@ -48,7 +48,13 @@
       "generating": "Morning brief is generating…",
       "title": "Morning brief",
       "footer": "Narrated from the engine's own reads — regimes, signals, risk. Never advice."
-    }
+    },
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "streakChipTitle": "Your discipline streak — open Missions"
   },
   "signals": {
     "eyebrow": "Signals",

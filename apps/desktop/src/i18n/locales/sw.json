@@ -48,7 +48,13 @@
       "generating": "Inatengeneza muhtasari wa asubuhi…",
       "title": "Muhtasari wa asubuhi",
       "footer": "Imesimuliwa kutoka kwa usomaji wa injini yenyewe — hali, ishara, hatari. Kamwe si ushauri."
-    }
+    },
+    "greeting": {
+      "morning": "Habari ya asubuhi",
+      "afternoon": "Habari ya mchana",
+      "evening": "Habari ya jioni"
+    },
+    "streakChipTitle": "Mfululizo wako wa nidhamu — fungua Misheni"
   },
   "signals": {
     "eyebrow": "Ishara",

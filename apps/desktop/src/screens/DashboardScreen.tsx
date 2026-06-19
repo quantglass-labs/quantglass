@@ -1,7 +1,8 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ArrowRight, CircleSlash2 } from 'lucide-react';
+import { ArrowRight, CircleSlash2, Flame } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import {
   DataStateView,
   Button,
@@ -119,6 +120,38 @@ function GridCell({ row, onOpen }: { row: MarketRow; onOpen: (id: string) => voi
   );
 }
 
+// Surfaces the Missions discipline streak on the home screen — a gentle pull
+// back into the practice loop. Rewards consistency, never P&L; only appears
+// once a streak exists.
+function StreakChip() {
+  const { t } = useTranslation();
+  const [streak, setStreak] = useState<number | null>(null);
+  const [activeToday, setActiveToday] = useState(false);
+  useEffect(() => {
+    backendClient
+      .getDailyBriefing()
+      .then((b) => {
+        setStreak(b.streak);
+        setActiveToday(b.active_today);
+      })
+      .catch(() => undefined);
+  }, []);
+  if (!streak) return null;
+  return (
+    <Link
+      to="/missions"
+      title={t('dashboard.streakChipTitle')}
+      className="flex items-center gap-2 rounded-full border border-hold/30 bg-hold/10 px-3 py-1.5 text-xs font-semibold text-hold transition-colors hover:border-hold/50"
+    >
+      <Flame
+        size={14}
+        className={activeToday ? 'drop-shadow-[0_0_6px_rgba(240,184,75,0.55)]' : ''}
+      />
+      {streak} {t('missions.daily.dayStreak')}
+    </Link>
+  );
+}
+
 export function DashboardScreen({
   onClosePosition,
   state,
@@ -147,7 +180,21 @@ export function DashboardScreen({
   onOpenSignal: (signalId: string) => void;
   onRunBacktest: (symbolId: string, setupType: string) => void;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const now = new Date();
+  const hour = now.getHours();
+  const greeting = t(
+    hour < 12
+      ? 'dashboard.greeting.morning'
+      : hour < 18
+        ? 'dashboard.greeting.afternoon'
+        : 'dashboard.greeting.evening',
+  );
+  const todayLabel = new Intl.DateTimeFormat(i18n.language, {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  }).format(now);
   const marketRows: MarketRow[] = symbols.map((symbol) => ({
     symbol,
     display: buildMarketDisplay(symbol, marketCorridorItems, marketCandlesByKey),
@@ -174,17 +221,23 @@ export function DashboardScreen({
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">
-            {t('dashboard.eyebrow')}
+            {greeting}
+            <span className="ms-2 font-normal normal-case tracking-normal text-muted/70">
+              {todayLabel}
+            </span>
           </p>
           <h1 className="mt-1 text-2xl font-semibold text-ink">{t('dashboard.title')}</h1>
         </div>
-        <Button
-          variant="secondary"
-          onClick={onRefreshMarketCorridor}
-          disabled={marketCorridorRefreshing}
-        >
-          {marketCorridorRefreshing ? t('dashboard.refreshing') : t('dashboard.refresh')}
-        </Button>
+        <div className="flex items-center gap-3">
+          <StreakChip />
+          <Button
+            variant="secondary"
+            onClick={onRefreshMarketCorridor}
+            disabled={marketCorridorRefreshing}
+          >
+            {marketCorridorRefreshing ? t('dashboard.refreshing') : t('dashboard.refresh')}
+          </Button>
+        </div>
       </div>
 
       {state !== 'ready' ? (

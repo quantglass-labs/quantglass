@@ -48,7 +48,13 @@
       "generating": "Generando el resumen matutino…",
       "title": "Resumen matutino",
       "footer": "Narrado a partir de las propias lecturas del motor: regímenes, señales, riesgo. Nunca es asesoramiento."
-    }
+    },
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "streakChipTitle": "Tu racha de disciplina — abrir Misiones"
   },
   "signals": {
     "eyebrow": "Señales",
