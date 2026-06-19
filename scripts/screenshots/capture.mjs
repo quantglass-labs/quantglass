@@ -98,6 +98,35 @@ const SCREENS = {
       await page.waitForTimeout(1200);
     },
   },
+  // Settings tabs are selected by a `?tab=` query param inside the hash route.
+  'settings-providers': { route: '/settings?tab=providers' },
+  'settings-apikeys': { route: '/settings?tab=keys' },
+  'settings-ai': { route: '/settings?tab=ai' },
+  'settings-risk': { route: '/settings?tab=risk' },
+  constitution: {
+    route: '/review',
+    async before(page) {
+      // Pin the constitution heading to the top of the frame so the panel fills it.
+      await page
+        .getByText('Trading Constitution')
+        .first()
+        .evaluate((el) => el.scrollIntoView({ block: 'start' }))
+        .catch(() => {});
+      await page.waitForTimeout(800);
+    },
+  },
+  'symbol-detail': {
+    route: '/signals',
+    async before(page) {
+      // Click the first signal's symbol to open the detail drawer.
+      await page
+        .locator('table button')
+        .first()
+        .click({ timeout: 4000 })
+        .catch(() => {});
+      await page.waitForTimeout(1800);
+    },
+  },
 };
 
 const wanted = process.argv.slice(2);

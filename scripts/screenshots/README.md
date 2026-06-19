@@ -42,8 +42,9 @@ paper account; no secrets). To refresh, run a backend and `curl` the endpoints
 in `apps/desktop/src/lib/backend.ts` into `fixtures/<sanitized-path>.json`, then
 re-capture.
 
-## Not yet captured (add to `SCREENS`)
+## Captured states
 
-Settings tabs, the trading constitution, the paper-trade ticket, and the symbol
-detail drawer — each needs a small `before(page)` interaction (click a tab /
-open a modal). The framework is ready; they just need their selectors added.
+All README screens are captured, including interactive ones: the Copilot panel,
+the four Settings tabs (`?tab=…`), the trading constitution, and the symbol
+detail. The only remaining one is the **paper-trade ticket** — add a `SCREENS`
+entry once its open trigger has a stable selector.
