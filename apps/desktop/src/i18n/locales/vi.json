@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "QuantGlass hoạt động như thế nào",
     "subtitle": "Một vòng lặp kỷ luật: tìm bằng chứng, kiểm tra trung thực, luyện tập an toàn, rồi xem lại và tinh chỉnh.",
-    "hint": "Chọn một bước để mở."
+    "hint": "Chọn một bước để mở.",
+    "steps": {
+      "signals": "Tìm các thiết lập chất lượng cao bằng bộ lọc dựa trên bằng chứng.",
+      "backtest": "Kiểm thử ý tưởng nghiêm ngặt trên nhiều thị trường và bối cảnh.",
+      "portfolio": "Phân bổ vốn với quy tắc rõ ràng và kiểm soát rủi ro.",
+      "journal": "Ghi lại mọi giao dịch và quan sát một cách rõ ràng.",
+      "review": "Phân tích hiệu suất, quyết định và hành vi.",
+      "constitution": "Hệ thống hóa nguyên tắc, quy tắc và kỷ luật rủi ro."
+    },
+    "coreLine1": "Kỷ luật tích lũy.",
+    "coreLine2": "Lợi thế bền vững."
   }
 }

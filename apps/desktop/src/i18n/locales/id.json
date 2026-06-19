@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "Cara kerja QuantGlass",
     "subtitle": "Sebuah siklus disiplin: temukan bukti, uji dengan jujur, berlatih dengan aman, lalu tinjau dan sempurnakan.",
-    "hint": "Pilih langkah untuk membukanya."
+    "hint": "Pilih langkah untuk membukanya.",
+    "steps": {
+      "signals": "Temukan setup berkualitas dengan filter berbasis bukti.",
+      "backtest": "Uji ide secara ketat di berbagai pasar dan kondisi.",
+      "portfolio": "Alokasikan modal dengan aturan jelas dan kontrol risiko.",
+      "journal": "Catat setiap transaksi dan pengamatan dengan jelas.",
+      "review": "Analisis kinerja, keputusan, dan perilaku.",
+      "constitution": "Kodifikasikan prinsip, aturan, dan disiplin risiko."
+    },
+    "coreLine1": "Disiplin berlipat.",
+    "coreLine2": "Keunggulan bertahan."
   }
 }

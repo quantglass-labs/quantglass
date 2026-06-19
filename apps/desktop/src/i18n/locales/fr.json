@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "Comment fonctionne QuantGlass",
     "subtitle": "Une boucle disciplinée : trouver des preuves, les tester honnêtement, s’entraîner sans risque, puis analyser et affiner.",
-    "hint": "Sélectionnez une étape pour l’ouvrir."
+    "hint": "Sélectionnez une étape pour l’ouvrir.",
+    "steps": {
+      "signals": "Repérez des configurations de qualité avec des filtres fondés sur des preuves.",
+      "backtest": "Testez vos idées rigoureusement sur plusieurs marchés et régimes.",
+      "portfolio": "Allouez le capital avec des règles claires et un contrôle du risque.",
+      "journal": "Consignez chaque trade et observation avec clarté.",
+      "review": "Analysez la performance, les décisions et les comportements.",
+      "constitution": "Codifiez principes, règles et discipline du risque."
+    },
+    "coreLine1": "La discipline se cumule.",
+    "coreLine2": "L’avantage perdure."
   }
 }

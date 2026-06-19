@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "Cómo funciona QuantGlass",
     "subtitle": "Un ciclo disciplinado: encuentra evidencia, pruébala con honestidad, practica de forma segura y luego revisa y mejora.",
-    "hint": "Selecciona un paso para abrirlo."
+    "hint": "Selecciona un paso para abrirlo.",
+    "steps": {
+      "signals": "Encuentra setups de calidad con filtros basados en evidencia.",
+      "backtest": "Prueba ideas con rigor en distintos mercados y regímenes.",
+      "portfolio": "Asigna capital con reglas claras y control de riesgo.",
+      "journal": "Registra cada operación y observación con claridad.",
+      "review": "Analiza el rendimiento, las decisiones y los comportamientos.",
+      "constitution": "Codifica principios, reglas y disciplina de riesgo."
+    },
+    "coreLine1": "La disciplina se acumula.",
+    "coreLine2": "La ventaja perdura."
   }
 }

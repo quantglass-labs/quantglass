@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "How QuantGlass works",
     "subtitle": "A disciplined loop: find evidence, test it honestly, practice safely, then review and refine.",
-    "hint": "Select a step to open it."
+    "hint": "Select a step to open it.",
+    "steps": {
+      "signals": "Find high-quality setups with evidence-based filters.",
+      "backtest": "Test ideas rigorously across markets and regimes.",
+      "portfolio": "Allocate capital with clear rules and risk controls.",
+      "journal": "Log every trade and observation with clarity.",
+      "review": "Analyze performance, decisions, and behaviors.",
+      "constitution": "Codify principles, rules, and risk discipline."
+    },
+    "coreLine1": "Discipline compounds.",
+    "coreLine2": "Edge endures."
   }
 }
