@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Lê seus dados · nunca conselho",
     "copilotEmptyState": "Pergunte sobre sua própria estação de trabalho - sinais, conta de papel, watchlist, backtests, trades fechados ou sua revisão de trades. As respostas vêm dos dados somente leitura do motor; nada aqui pode enviar ordens.",
     "copilotBusy": "Lendo seus dados… modelos locais grandes podem levar até um minuto.",
-    "copilotPlaceholder": "Pergunte sobre seus sinais, conta, trades…"
+    "copilotPlaceholder": "Pergunte sobre seus sinais, conta, trades…",
+    "cmdk": {
+      "placeholder": "Pesquisar telas e símbolos…",
+      "navigate": "Ir para",
+      "symbols": "Símbolos",
+      "empty": "Sem resultados",
+      "hintMove": "navegar",
+      "hintOpen": "abrir",
+      "openHint": "Paleta de comandos (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glossário",

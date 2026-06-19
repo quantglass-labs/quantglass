@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Verilerinizi okur · asla tavsiye değil",
     "copilotEmptyState": "Kendi çalışma istasyonunuz hakkında sorun - sinyaller, kâğıt hesap, izleme listesi, backtestler, kapanmış işlemler veya işlem incelemeniz. Yanıtlar motorun salt-okunur verilerinden gelir; burada hiçbir şey emir veremez.",
     "copilotBusy": "Verilerinizi okuyor… büyük yerel modeller bir dakikaya kadar sürebilir.",
-    "copilotPlaceholder": "Sinyalleriniz, hesabınız, işlemleriniz hakkında sorun…"
+    "copilotPlaceholder": "Sinyalleriniz, hesabınız, işlemleriniz hakkında sorun…",
+    "cmdk": {
+      "placeholder": "Ekran ve sembolleri ara…",
+      "navigate": "Git",
+      "symbols": "Semboller",
+      "empty": "Eşleşme yok",
+      "hintMove": "gez",
+      "hintOpen": "aç",
+      "openHint": "Komut paleti (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Sözlük",

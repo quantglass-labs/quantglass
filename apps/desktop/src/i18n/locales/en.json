@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Reads your data · never advice",
     "copilotEmptyState": "Ask about your own workstation - signals, paper account, watchlist, backtests, closed trades, or your trade review. Answers come from the engine's read-only data; nothing here can place orders.",
     "copilotBusy": "Reading your data… large local models can take up to a minute.",
-    "copilotPlaceholder": "Ask about your signals, account, trades…"
+    "copilotPlaceholder": "Ask about your signals, account, trades…",
+    "cmdk": {
+      "placeholder": "Search screens and symbols…",
+      "navigate": "Go to",
+      "symbols": "Symbols",
+      "empty": "No matches",
+      "hintMove": "navigate",
+      "hintOpen": "open",
+      "openHint": "Command palette (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glossary",

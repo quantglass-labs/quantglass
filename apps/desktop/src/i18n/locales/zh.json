@@ -1188,7 +1188,16 @@
     "copilotReadsData": "读取你的数据 · 绝非建议",
     "copilotEmptyState": "询问你自己的工作台——信号、纸面账户、自选列表、回测、已平仓交易或你的交易复盘。答案来自引擎的只读数据；这里无法下单。",
     "copilotBusy": "正在读取你的数据……大型本地模型可能需要长达一分钟。",
-    "copilotPlaceholder": "询问你的信号、账户、交易……"
+    "copilotPlaceholder": "询问你的信号、账户、交易……",
+    "cmdk": {
+      "placeholder": "搜索页面和标的…",
+      "navigate": "前往",
+      "symbols": "标的",
+      "empty": "无匹配",
+      "hintMove": "导航",
+      "hintOpen": "打开",
+      "openHint": "命令面板 (⌘K)"
+    }
   },
   "academy": {
     "glossary": "术语表",

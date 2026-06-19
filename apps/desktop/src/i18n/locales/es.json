@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Lee tus datos · nunca consejo",
     "copilotEmptyState": "Pregunta sobre tu propia estación de trabajo - señales, cuenta de papel, lista de seguimiento, backtests, operaciones cerradas o tu revisión de operaciones. Las respuestas provienen de los datos de solo lectura del motor; nada aquí puede colocar órdenes.",
     "copilotBusy": "Leyendo tus datos… los modelos locales grandes pueden tardar hasta un minuto.",
-    "copilotPlaceholder": "Pregunta sobre tus señales, cuenta, operaciones…"
+    "copilotPlaceholder": "Pregunta sobre tus señales, cuenta, operaciones…",
+    "cmdk": {
+      "placeholder": "Buscar pantallas y símbolos…",
+      "navigate": "Ir a",
+      "symbols": "Símbolos",
+      "empty": "Sin resultados",
+      "hintMove": "navegar",
+      "hintOpen": "abrir",
+      "openHint": "Paleta de comandos (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glosario",

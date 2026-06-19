@@ -14,6 +14,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   mission" so there is always one clear rep to do. Localized in all 20 languages.
 - Passing a decision drill now reveals your **discipline streak** as the
   reward — the consistency of showing up, never the trade's P&L.
+- A global **command palette** (⌘K / Ctrl+K, also reachable from the header
+  search) to jump to any screen or symbol — fully keyboard-driven (↑/↓, ↵, esc).
+  Localized in all 20 languages.
 
 ### Changed
 

@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Lit vos données · jamais de conseil",
     "copilotEmptyState": "Posez des questions sur votre poste de travail - signaux, compte papier, liste de suivi, backtests, trades clôturés ou votre revue de trades. Les réponses proviennent des données en lecture seule du moteur ; rien ici ne peut passer d'ordres.",
     "copilotBusy": "Lecture de vos données… les grands modèles locaux peuvent prendre jusqu'à une minute.",
-    "copilotPlaceholder": "Posez des questions sur vos signaux, compte, trades…"
+    "copilotPlaceholder": "Posez des questions sur vos signaux, compte, trades…",
+    "cmdk": {
+      "placeholder": "Rechercher écrans et symboles…",
+      "navigate": "Aller à",
+      "symbols": "Symboles",
+      "empty": "Aucun résultat",
+      "hintMove": "naviguer",
+      "hintOpen": "ouvrir",
+      "openHint": "Palette de commandes (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glossaire",

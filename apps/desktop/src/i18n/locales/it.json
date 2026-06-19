@@ -1188,7 +1188,16 @@
     "copilotReadsData": "Legge i tuoi dati · mai consigli",
     "copilotEmptyState": "Chiedi della tua postazione di lavoro - segnali, conto carta, watchlist, backtest, trade chiusi o la tua revisione dei trade. Le risposte provengono dai dati in sola lettura del motore; nulla qui può inviare ordini.",
     "copilotBusy": "Lettura dei tuoi dati… i modelli locali grandi possono richiedere fino a un minuto.",
-    "copilotPlaceholder": "Chiedi dei tuoi segnali, conto, trade…"
+    "copilotPlaceholder": "Chiedi dei tuoi segnali, conto, trade…",
+    "cmdk": {
+      "placeholder": "Cerca schermate e simboli…",
+      "navigate": "Vai a",
+      "symbols": "Simboli",
+      "empty": "Nessun risultato",
+      "hintMove": "naviga",
+      "hintOpen": "apri",
+      "openHint": "Palette comandi (⌘K)"
+    }
   },
   "academy": {
     "glossary": "Glossario",

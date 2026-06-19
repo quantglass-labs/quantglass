@@ -2,46 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { clsx } from 'clsx';
-import {
-  Bell,
-  ChevronRight,
-  Briefcase,
-  ClipboardCheck,
-  GraduationCap,
-  NotebookPen,
-  Target,
-  LayoutDashboard,
-  Search,
-  Settings,
-  ShieldAlert,
-  TestTubeDiagonal,
-  TrendingUp,
-  Wallet,
-  Workflow,
-  Star,
-} from 'lucide-react';
-import { useDeferredValue, useMemo, useState } from 'react';
+import { ChevronRight, Search, ShieldAlert, TrendingUp, Wallet } from 'lucide-react';
+import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { CommandPalette } from './CommandPalette';
+import { navItems } from './navItems';
 import { Copilot } from './copilot';
 import { LanguageMenu } from './LanguageMenu';
 import { DisclaimerChip, PillTabs } from './ui';
 import type { BackendStatus, MarketType, SymbolRecord } from '../types';
-
-const navItems = [
-  { to: '/', key: 'dashboard', icon: LayoutDashboard, end: true },
-  { to: '/how-it-works', key: 'howItWorks', icon: Workflow },
-  { to: '/signals', key: 'signals', icon: TrendingUp },
-  { to: '/watchlist', key: 'watchlist', icon: Star },
-  { to: '/portfolio', key: 'portfolio', icon: Briefcase },
-  { to: '/backtest', key: 'backtest', icon: TestTubeDiagonal },
-  { to: '/alerts', key: 'alerts', icon: Bell },
-  { to: '/learn', key: 'learn', icon: GraduationCap },
-  { to: '/missions', key: 'missions', icon: Target },
-  { to: '/journal', key: 'journal', icon: NotebookPen },
-  { to: '/review', key: 'review', icon: ClipboardCheck },
-  { to: '/settings', key: 'settings', icon: Settings },
-];
 
 function SidebarNav() {
   const { t } = useTranslation();
@@ -91,7 +61,20 @@ export function AppShell({
 }) {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const deferredQuery = useDeferredValue(query);
+
+  // Global ⌘K / Ctrl+K toggles the command palette from anywhere.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const searchResults = useMemo(() => {
     const needle = deferredQuery.trim().toLowerCase();
     if (!needle) return [];
@@ -150,8 +133,17 @@ export function AppShell({
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={t('common.search')}
-                  className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 ps-11 pe-4 text-sm text-ink outline-none transition placeholder:text-muted focus:border-accent"
+                  className="w-full rounded-2xl border border-border bg-white/[0.04] py-3 ps-11 pe-16 text-sm text-ink outline-none transition placeholder:text-muted focus:border-accent"
                 />
+                <button
+                  type="button"
+                  onClick={() => setPaletteOpen(true)}
+                  title={t('chrome.cmdk.openHint')}
+                  aria-label={t('chrome.cmdk.openHint')}
+                  className="absolute end-3 top-1/2 -translate-y-1/2 rounded-md border border-border bg-white/[0.04] px-1.5 py-0.5 text-[10px] font-medium text-muted transition hover:border-accent/50 hover:text-accent"
+                >
+                  ⌘K
+                </button>
                 {searchResults.length ? (
                   <div className="glass-panel absolute left-0 right-0 top-[calc(100%+0.5rem)] max-h-72 overflow-y-auto rounded-3xl p-2">
                     {searchResults.slice(0, 6).map((result) => (
@@ -280,6 +272,13 @@ export function AppShell({
           ))}
         </div>
       </nav>
+
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        symbols={symbols}
+        onSelectSymbol={onSelectSymbol}
+      />
 
       <Copilot backendStatus={backendStatus} />
 
