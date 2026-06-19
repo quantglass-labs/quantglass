@@ -10,11 +10,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { backendClient } from '../lib/backend';
 import { AiMarkdown } from './AiMarkdown';
+import { QuantGlassMark } from './QuantGlassMark';
 import { FadeIn } from './motion';
 
 export function AiInsight({ surface, title }: { surface: string; title?: string }) {
@@ -59,10 +59,7 @@ export function AiInsight({ surface, title }: { surface: string; title?: string 
       <div className="group relative mt-4 overflow-hidden rounded-2xl border border-accent/25 bg-gradient-to-br from-accent/12 to-transparent p-4 transition-colors hover:border-accent/40">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         <div className="flex items-center gap-2">
-          <Sparkles
-            size={14}
-            className="text-accent drop-shadow-[0_0_6px_rgba(141,183,255,0.55)] transition-transform group-hover:scale-110"
-          />
+          <QuantGlassMark className="size-3.5 text-accent drop-shadow-[0_0_6px_rgba(141,183,255,0.55)] transition-transform group-hover:scale-110" />
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
             {title ?? t('chrome.aiReadTitle')}
           </p>
