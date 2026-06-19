@@ -16,11 +16,11 @@ import { averageTrueRange, directionalMovementIndex } from '../../lib/analytics'
 import type { Candle } from '../../types';
 
 const C = {
-  bg: '#07111f',
+  bg: '#0a1426',
   up: '#14c784',
   down: '#f6465d',
-  ink: '#f8fafc',
-  muted: '#9fb0c7',
+  ink: '#f1f6ff',
+  muted: '#94aed8',
   accent: '#8db7ff',
   warn: '#f0b84b',
   violet: '#a78bfa',
@@ -43,8 +43,8 @@ function Shell({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-zinc-800 bg-[#07111f] p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">{title}</p>
+    <div className="rounded-2xl border border-[rgba(120,165,255,0.18)] bg-gradient-to-br from-[#13284a]/55 to-[#0a1426]/75 p-4 shadow-[0_14px_40px_rgba(2,7,18,0.5)] backdrop-blur-sm">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8ea6cf]">{title}</p>
       <div className="mt-3">{children}</div>
       {footer ? <div className="mt-3">{footer}</div> : null}
     </div>
@@ -148,7 +148,7 @@ export function RegimeScrubber({ params }: { params: Record<string, unknown> }) 
         <input
           type="range"
           aria-label={t('academy.playhead')}
-          className="w-full accent-indigo-400"
+          className="w-full accent-[#4a86ff]"
           min={20}
           max={candles.length - 1}
           value={idx}
@@ -294,7 +294,7 @@ export function MonteCarloAnimator({ params }: { params: Record<string, unknown>
       footer={
         <button
           type="button"
-          className="rounded-lg border border-indigo-500/40 px-3 py-1.5 text-sm text-indigo-200 hover:bg-indigo-600/20"
+          className="rounded-lg border border-[rgba(141,183,255,0.4)] px-3 py-1.5 text-sm text-[#bcd6ff] hover:bg-[rgba(74,134,255,0.18)]"
           onClick={run}
         >
           {t('academy.resample')}
@@ -367,28 +367,28 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
       title={t('academy.conformalTitle')}
       footer={
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="block text-xs text-zinc-400">
+          <label className="block text-xs text-[#94aed8]">
             <span className="flex justify-between">
               <span>{t('academy.calibrationTrades')}</span>
               <span className="text-zinc-200 font-medium">{n}</span>
             </span>
             <input
               type="range"
-              className="mt-1 w-full accent-indigo-400"
+              className="mt-1 w-full accent-[#4a86ff]"
               min={5}
               max={pool.length}
               value={n}
               onChange={(event) => setN(Number(event.target.value))}
             />
           </label>
-          <label className="block text-xs text-zinc-400">
+          <label className="block text-xs text-[#94aed8]">
             <span className="flex justify-between">
               <span>{t('academy.coverage')}</span>
               <span className="text-zinc-200 font-medium">{coverage}%</span>
             </span>
             <input
               type="range"
-              className="mt-1 w-full accent-indigo-400"
+              className="mt-1 w-full accent-[#4a86ff]"
               min={70}
               max={95}
               step={5}
