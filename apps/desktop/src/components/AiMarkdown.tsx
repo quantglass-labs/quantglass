@@ -22,7 +22,7 @@ type AiMarkdownProps = {
 
 export function AiMarkdown({ children, className }: AiMarkdownProps) {
   return (
-    <div className={className ?? 'text-sm leading-relaxed text-zinc-200'}>
+    <div className={className ?? 'text-sm leading-relaxed text-ink'}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -35,41 +35,41 @@ export function AiMarkdown({ children, className }: AiMarkdownProps) {
           ),
           li: ({ node: _node, ...props }) => <li className="leading-relaxed" {...props} />,
           strong: ({ node: _node, ...props }) => (
-            <strong className="font-semibold text-zinc-100" {...props} />
+            <strong className="font-semibold text-ink" {...props} />
           ),
           em: ({ node: _node, ...props }) => <em className="italic" {...props} />,
           a: ({ node: _node, ...props }) => (
             <a
-              className="text-indigo-300 underline underline-offset-2 hover:text-indigo-200"
+              className="text-accent underline underline-offset-2 hover:text-ink"
               target="_blank"
               rel="noreferrer noopener"
               {...props}
             />
           ),
           h1: ({ node: _node, ...props }) => (
-            <h1 className="mb-2 mt-3 text-base font-semibold text-zinc-100 first:mt-0" {...props} />
+            <h1 className="mb-2 mt-3 text-base font-semibold text-ink first:mt-0" {...props} />
           ),
           h2: ({ node: _node, ...props }) => (
-            <h2 className="mb-2 mt-3 text-sm font-semibold text-zinc-100 first:mt-0" {...props} />
+            <h2 className="mb-2 mt-3 text-sm font-semibold text-ink first:mt-0" {...props} />
           ),
           h3: ({ node: _node, ...props }) => (
-            <h3 className="mb-1 mt-2 text-sm font-semibold text-zinc-200 first:mt-0" {...props} />
+            <h3 className="mb-1 mt-2 text-sm font-semibold text-ink first:mt-0" {...props} />
           ),
           blockquote: ({ node: _node, ...props }) => (
-            <blockquote className="my-2 border-l-2 border-zinc-700 pl-3 text-zinc-400" {...props} />
+            <blockquote className="my-2 border-l-2 border-border pl-3 text-muted" {...props} />
           ),
           code: ({ node: _node, className: codeClass, ...props }) =>
             codeClass?.includes('language-') ? (
               <code className={`${codeClass} text-xs`} {...props} />
             ) : (
               <code
-                className="rounded bg-zinc-800 px-1 py-0.5 font-mono text-[0.85em] text-zinc-200"
+                className="rounded bg-white/10 px-1 py-0.5 font-mono text-[0.85em] text-ink"
                 {...props}
               />
             ),
           pre: ({ node: _node, ...props }) => (
             <pre
-              className="my-2 overflow-x-auto rounded-lg bg-zinc-900/80 p-3 font-mono text-xs text-zinc-200"
+              className="my-2 overflow-x-auto rounded-lg bg-background/60 p-3 font-mono text-xs text-ink"
               {...props}
             />
           ),
@@ -80,14 +80,14 @@ export function AiMarkdown({ children, className }: AiMarkdownProps) {
           ),
           th: ({ node: _node, ...props }) => (
             <th
-              className="border border-zinc-700 bg-zinc-800/60 px-2 py-1 text-left font-semibold"
+              className="border border-border bg-white/5 px-2 py-1 text-left font-semibold"
               {...props}
             />
           ),
           td: ({ node: _node, ...props }) => (
-            <td className="border border-zinc-800 px-2 py-1 align-top" {...props} />
+            <td className="border border-border px-2 py-1 align-top" {...props} />
           ),
-          hr: ({ node: _node, ...props }) => <hr className="my-3 border-zinc-800" {...props} />,
+          hr: ({ node: _node, ...props }) => <hr className="my-3 border-border" {...props} />,
         }}
       >
         {children}

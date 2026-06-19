@@ -20,6 +20,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - The Missions surface (catalog, daily briefing, decision drills, replay player)
   now uses the app's premium design system instead of its own off-palette
   styling, so it matches the rest of QuantGlass.
+- The shared AI insight panel (present on every screen) now uses the design
+  system with a subtle accent glow and reveal, and the AI-text and
+  backend-status components match it — one consistent premium look app-wide.
 
 ## [0.3.1] - 2026-06-18
 
