@@ -5,7 +5,6 @@ import {
   Briefcase,
   ClipboardCheck,
   FlaskConical,
-  Infinity as InfinityIcon,
   type LucideIcon,
   NotebookPen,
   ShieldCheck,
@@ -15,6 +14,25 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './flow.css';
+
+/** The QuantGlass brand mark (Q lens + rising chart arrow) as a stroke icon. */
+function QuantGlassMark() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="13" r="7" />
+      <path d="M15 17 L19.5 21.5" />
+      <path d="M6 13.5 L10 9.5 L13 12.5 L19 6.5" />
+      <path d="M14.5 6.5 L19 6.5 L19 11" />
+    </svg>
+  );
+}
 
 // Fixed design coordinate system (matches the prototype); the whole board is
 // scaled to the container width so it renders pixel-faithfully at any size.
@@ -181,7 +199,7 @@ export function FeedbackLoopBoard({ onNavigate }: { onNavigate: (route: string) 
 
         <div className="qg-board-core">
           <span className="qg-board-emblem">
-            <InfinityIcon />
+            <QuantGlassMark />
           </span>
           <span className="qg-board-cap">
             {t('howItWorks.coreLine1')}
