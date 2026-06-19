@@ -191,6 +191,9 @@ class StateStore:
     def list_saved_strategies(self) -> list[dict[str, Any]]:
         return self.strategies.list_saved_strategies()
 
+    def get_saved_strategy(self, strategy_id: str) -> dict[str, Any] | None:
+        return self.strategies.get_saved_strategy(strategy_id)
+
     def save_strategy(self, payload: dict[str, Any]) -> dict[str, Any]:
         return self.strategies.save_strategy(payload)
 

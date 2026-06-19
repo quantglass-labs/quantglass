@@ -16,6 +16,9 @@ class _StateStore:
     def list_saved_strategies(self) -> list[dict[str, object]]:
         return list(self.items.values())
 
+    def get_saved_strategy(self, strategy_id: str) -> dict[str, object] | None:
+        return self.items.get(strategy_id)
+
     def save_strategy(self, payload: dict[str, object]) -> dict[str, object]:
         self.items[str(payload["id"])] = payload
         return payload
@@ -60,3 +63,31 @@ class StrategyRouteTests(unittest.TestCase):
         self.assertEqual(delete_response.json(), {"deleted": True, "id": "strategy-1"})
         self.assertEqual(missing_delete_response.status_code, 200)
         self.assertEqual(missing_delete_response.json(), {"deleted": False, "id": "strategy-1"})
+
+    def test_saved_strategy_can_be_exported_in_a_portable_format(self) -> None:
+        app = FastAPI()
+        app.include_router(strategies_router)
+        app.state.state_store = _StateStore()
+
+        payload = {
+            "id": "strategy-7",
+            "name": "Breakout",
+            "symbolId": "SPY",
+            "setupType": "Momentum",
+            "timeframe": "1h",
+            "savedAt": "2026-06-01T12:00:00Z",
+        }
+
+        with TestClient(app) as client:
+            client.post("/api/strategies", json=payload)
+            export_response = client.get("/api/strategies/strategy-7/export")
+            missing_export_response = client.get("/api/strategies/strategy-404/export")
+
+        self.assertEqual(export_response.status_code, 200)
+        body = export_response.json()
+        self.assertEqual(body["schema"], "quantglass.strategy/v1")
+        self.assertEqual(body["source"], "QuantGlass")
+        self.assertIn("exportedAt", body)
+        self.assertEqual(body["strategy"], payload)
+        self.assertTrue(any("Not financial advice" in note for note in body["notes"]))
+        self.assertEqual(missing_export_response.status_code, 404)
