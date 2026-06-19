@@ -1041,6 +1041,14 @@ export interface DailyWeekDot {
   active: boolean;
 }
 
+/** Cheap streak-only summary (no mission evaluation) — for the Dashboard chip. */
+export interface StreakSummary {
+  streak: number;
+  longest: number;
+  active_today: boolean;
+  week: DailyWeekDot[];
+}
+
 /** The discipline streak + today's featured mission (rewards consistency, not profit). */
 export interface DailyBriefing {
   /** Consecutive days of Academy/mission work ending today (or yesterday if today is unworked). */

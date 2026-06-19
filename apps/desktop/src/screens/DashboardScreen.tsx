@@ -128,8 +128,10 @@ function StreakChip() {
   const [streak, setStreak] = useState<number | null>(null);
   const [activeToday, setActiveToday] = useState(false);
   useEffect(() => {
+    // Cheap streak-only call — must not drag the home screen into a full
+    // mission evaluation.
     backendClient
-      .getDailyBriefing()
+      .getStreakSummary()
       .then((b) => {
         setStreak(b.streak);
         setActiveToday(b.active_today);

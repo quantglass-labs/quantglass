@@ -6,6 +6,16 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- **The Dashboard (and the rest of the app) loads fast again.** The new
+  home-screen streak chip was calling the full daily-briefing endpoint, which
+  evaluates the whole mission catalog over every trade — and because that work
+  ran on the async event loop, it stalled every other request on the screen.
+  The chip now uses a cheap streak-only endpoint (one activity-days query), and
+  the heavy mission routes run in a worker thread so they no longer block other
+  requests.
+
 ### Added
 
 - Missions now open with a **daily briefing**: a discipline streak (consecutive
