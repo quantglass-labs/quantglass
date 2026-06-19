@@ -1292,7 +1292,10 @@
       "maxDd95": "95. Max-DD",
       "belowStart": "Endet unter Start",
       "ruin": "Ruinrisiko"
-    }
+    },
+    "conformalHeadline": "Ehrliche Spanne für den nächsten Trade",
+    "conformalCoverage": "≥{{cov}}% der Out-of-Sample-Trades liegen in dieser Spanne",
+    "conformalInvalid": "n={{n}} ist zu klein für {{cov}}% Abdeckung — noch keine ehrliche Spanne"
   },
   "signalDetail": {
     "title": "{{symbol}} Signaldetail",

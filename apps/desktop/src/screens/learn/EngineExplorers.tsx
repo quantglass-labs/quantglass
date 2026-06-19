@@ -129,10 +129,26 @@ export function RegimeScrubber({ params }: { params: Record<string, unknown> }) 
   const min = Math.min(...closes);
   const max = Math.max(...closes);
   const px = (i: number) => 40 + (i / (candles.length - 1)) * 640;
-  const py = (v: number) => 230 - ((v - min) / (max - min || 1)) * 180;
+  const py = (v: number) => 250 - ((v - min) / (max - min || 1)) * 180;
   const idx = Math.min(playhead, candles.length - 1);
   const { adx } = useMemo(() => directionalMovementIndex(candles, 14), [candles]);
   const atrSeries = useMemo(() => averageTrueRange(candles, 14), [candles]);
+
+  const segments = useMemo(() => {
+    const segs: { a: number; b: number; reg: string }[] = [];
+    let start = 0;
+    for (let i = 1; i <= regimes.length; i++) {
+      if (i === regimes.length || regimes[i] !== regimes[start]) {
+        segs.push({ a: start, b: i - 1, reg: regimes[start] });
+        start = i;
+      }
+    }
+    return segs;
+  }, [regimes]);
+
+  const reg = regimes[idx] ?? 'ranging';
+  const regColor = REGIME_COLORS[reg] ?? C.muted;
+  const atrPct = ((atrSeries[idx] ?? 0) / (closes[idx] || 1)) * 100;
 
   return (
     <Shell
@@ -155,39 +171,70 @@ export function RegimeScrubber({ params }: { params: Record<string, unknown> }) 
         aria-label={t('academy.regimeScrubber')}
         className="w-full"
       >
+        <defs>
+          <linearGradient id="qgRegLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#7fb0ff" />
+            <stop offset="1" stopColor="#cfe6ff" />
+          </linearGradient>
+          <filter id="qgRegGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
         <rect width="720" height="300" rx={12} fill={C.bg} />
-        {candles.map((_, i) =>
-          i % 2 === 0 ? (
-            <rect
-              key={i}
-              x={px(i) - 2}
-              y={250}
-              width={4.5}
-              height={14}
-              fill={REGIME_COLORS[regimes[i]] ?? C.muted}
-              opacity={0.9}
-            />
-          ) : null,
-        )}
+        {segments.map((sg) => (
+          <rect
+            key={sg.a}
+            x={px(sg.a)}
+            y={60}
+            width={Math.max(px(sg.b) - px(sg.a), 1)}
+            height={195}
+            fill={REGIME_COLORS[sg.reg] ?? C.muted}
+            opacity={0.12}
+          />
+        ))}
         <polyline
           points={closes.map((v, i) => `${px(i)},${py(v)}`).join(' ')}
           fill="none"
-          stroke={C.muted}
-          strokeWidth={1.6}
+          stroke="url(#qgRegLine)"
+          strokeWidth={2.2}
+          filter="url(#qgRegGlow)"
         />
-        <line x1={px(idx)} y1={40} x2={px(idx)} y2={264} stroke={C.violet} strokeWidth={2} />
-        <text x={40} y={28} fill={REGIME_COLORS[regimes[idx]]} fontSize={17} fontWeight={800}>
-          {regimes[idx].toUpperCase()}
+        <line
+          x1={px(idx)}
+          y1={60}
+          x2={px(idx)}
+          y2={255}
+          stroke="#cfe6ff"
+          strokeWidth={1.5}
+          opacity={0.7}
+        />
+        <circle cx={px(idx)} cy={py(closes[idx])} r={6} fill="#fff" filter="url(#qgRegGlow)" />
+        <rect
+          x={20}
+          y={16}
+          width={170}
+          height={34}
+          rx={17}
+          fill={regColor}
+          opacity={0.18}
+          stroke={regColor}
+        />
+        <circle cx={40} cy={33} r={5} fill={regColor} filter="url(#qgRegGlow)" />
+        <text x={54} y={38} fill={regColor} fontSize={15} fontWeight={800}>
+          {reg.toUpperCase()}
         </text>
-        <text x={170} y={28} fill={C.muted} fontSize={13}>
-          ADX {(adx[idx] ?? 0).toFixed(1)} (gates: ≥22 trending, &lt;16 ranging) · ATR%{' '}
-          {(((atrSeries[idx] ?? 0) / (closes[idx] || 1)) * 100).toFixed(2)} (volatile at 1.7×
-          median)
+        <text x={205} y={38} fill={C.muted} fontSize={12.5}>
+          ADX {(adx[idx] ?? 0).toFixed(1)} · ATR% {atrPct.toFixed(2)} · gates ≥22 trend, &lt;16
+          range
         </text>
         {Object.entries(REGIME_COLORS).map(([name, color], i) => (
           <g key={name}>
-            <rect x={40 + i * 150} y={278} width={10} height={10} rx={2} fill={color} />
-            <text x={56 + i * 150} y={287} fill={C.muted} fontSize={11}>
+            <rect x={40 + i * 150} y={278} width={11} height={11} rx={3} fill={color} />
+            <text x={57 + i * 150} y={288} fill={C.muted} fontSize={11}>
               {name}
             </text>
           </g>
@@ -520,8 +567,11 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
   const upper = valid ? sorted[upperRank - 1] : null;
 
   const minV = Math.min(...sorted, -1.5);
-  const maxV = Math.max(...sorted, 2.5);
-  const px = (v: number) => 60 + ((v - minV) / (maxV - minV || 1)) * 600;
+  const maxV = Math.max(...sorted, 2.8);
+  const axisY = 150;
+  const px = (v: number) => 70 + ((v - minV) / (maxV - minV || 1)) * 580;
+  const ticks: number[] = [];
+  for (let r = Math.ceil(minV * 2) / 2; r <= maxV; r += 0.5) ticks.push(Number(r.toFixed(1)));
 
   return (
     <Shell
@@ -531,7 +581,7 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
           <label className="block text-xs text-[#94aed8]">
             <span className="flex justify-between">
               <span>{t('academy.calibrationTrades')}</span>
-              <span className="text-zinc-200 font-medium">{n}</span>
+              <span className="font-medium text-[#dbe9ff]">{n}</span>
             </span>
             <input
               type="range"
@@ -545,7 +595,7 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
           <label className="block text-xs text-[#94aed8]">
             <span className="flex justify-between">
               <span>{t('academy.coverage')}</span>
-              <span className="text-zinc-200 font-medium">{coverage}%</span>
+              <span className="font-medium text-[#dbe9ff]">{coverage}%</span>
             </span>
             <input
               type="range"
@@ -561,43 +611,110 @@ export function ConformalVisualizer({ params }: { params: Record<string, unknown
       }
     >
       <svg
-        viewBox="0 0 720 220"
+        viewBox="0 0 720 230"
         role="img"
         aria-label={t('academy.conformalInterval')}
         className="w-full"
       >
-        <rect width="720" height="220" rx={12} fill={C.bg} />
-        {valid && lower !== null && upper !== null ? (
-          <rect
-            x={px(lower)}
-            y={90}
-            width={Math.max(px(upper) - px(lower), 2)}
-            height={60}
-            fill={C.up}
-            opacity={0.15}
-          />
-        ) : null}
-        <line x1={60} y1={120} x2={660} y2={120} stroke={C.muted} strokeWidth={1.5} />
-        {sorted.map((v, i) => (
-          <circle
-            key={i}
-            cx={px(v)}
-            cy={120}
-            r={5}
-            fill={valid && (i === lowerRank - 1 || i === upperRank - 1) ? C.warn : C.accent}
-            opacity={0.85}
-          />
-        ))}
-        <text x={60} y={40} fill={valid ? C.up : C.down} fontSize={16} fontWeight={800}>
-          {valid && lower !== null && upper !== null
-            ? `Next trade in [${lower.toFixed(2)}R, ${upper.toFixed(2)}R] with ≥${coverage}% coverage`
-            : `No guarantee — n=${n} is below the minimum for ${coverage}% coverage`}
+        <defs>
+          <linearGradient id="qgConfBand" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#14c784" stopOpacity="0.05" />
+            <stop offset="0.5" stopColor="#14c784" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#14c784" stopOpacity="0.05" />
+          </linearGradient>
+          <filter id="qgConfGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <rect width="720" height="230" rx={12} fill={C.bg} />
+        <text x={20} y={32} fill={C.ink} fontSize={15} fontWeight={800}>
+          {t('academy.conformalHeadline')}
         </text>
-        <text x={60} y={66} fill={C.muted} fontSize={13}>
+        <line
+          x1={70}
+          y1={axisY}
+          x2={650}
+          y2={axisY}
+          stroke={C.muted}
+          strokeWidth={1.2}
+          opacity={0.5}
+        />
+        {ticks.map((r) => (
+          <g key={r}>
+            <line
+              x1={px(r)}
+              y1={axisY - 4}
+              x2={px(r)}
+              y2={axisY + 4}
+              stroke={C.muted}
+              opacity={0.4}
+            />
+            <text x={px(r)} y={axisY + 22} textAnchor="middle" fill={C.muted} fontSize={10}>
+              {r}R
+            </text>
+          </g>
+        ))}
+        {valid && lower !== null && upper !== null ? (
+          <g>
+            <rect
+              x={px(lower)}
+              y={92}
+              width={Math.max(px(upper) - px(lower), 2)}
+              height={66}
+              rx={8}
+              fill="url(#qgConfBand)"
+              stroke={C.up}
+              strokeOpacity={0.5}
+            />
+            <line x1={px(lower)} y1={86} x2={px(lower)} y2={axisY} stroke={C.up} strokeWidth={2} />
+            <line x1={px(upper)} y1={86} x2={px(upper)} y2={axisY} stroke={C.up} strokeWidth={2} />
+            <text
+              x={px(lower)}
+              y={80}
+              textAnchor="middle"
+              fill="#a7f3d0"
+              fontSize={13}
+              fontWeight={700}
+            >
+              {lower.toFixed(2)}R
+            </text>
+            <text
+              x={px(upper)}
+              y={80}
+              textAnchor="middle"
+              fill="#a7f3d0"
+              fontSize={13}
+              fontWeight={700}
+            >
+              {upper.toFixed(2)}R
+            </text>
+          </g>
+        ) : null}
+        {sorted.map((v, i) => {
+          const inside = valid && lower !== null && upper !== null && v >= lower && v <= upper;
+          return (
+            <circle
+              key={i}
+              cx={px(v)}
+              cy={axisY - ((i % 4) - 1.5) * 9}
+              r={5}
+              fill={inside ? C.accent : '#506684'}
+              opacity={inside ? 0.95 : 0.5}
+              filter={inside ? 'url(#qgConfGlow)' : undefined}
+            />
+          );
+        })}
+        <text x={20} y={196} fill={C.muted} fontSize={12}>
           {t('academy.ranksExplain', { lower: lowerRank, upper: upperRank })}
         </text>
-        <text x={60} y={196} fill={C.muted} fontSize={12}>
-          {t('academy.eachDotOos')}
+        <text x={20} y={216} fill={valid ? '#a7f3d0' : C.down} fontSize={13} fontWeight={700}>
+          {valid
+            ? t('academy.conformalCoverage', { cov: coverage })
+            : t('academy.conformalInvalid', { n, cov: coverage })}
         </text>
       </svg>
     </Shell>

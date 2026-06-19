@@ -1292,7 +1292,10 @@
       "maxDd95": "95번째 최대 DD",
       "belowStart": "시작 미만 종료",
       "ruin": "파산 위험"
-    }
+    },
+    "conformalHeadline": "다음 거래의 정직한 범위",
+    "conformalCoverage": "표본 외 거래의 {{cov}}% 이상이 이 범위에 들어옵니다",
+    "conformalInvalid": "n={{n}}은 {{cov}}% 커버리지에 너무 작습니다 — 아직 정직한 범위가 없습니다"
   },
   "signalDetail": {
     "title": "{{symbol}} 시그널 상세",

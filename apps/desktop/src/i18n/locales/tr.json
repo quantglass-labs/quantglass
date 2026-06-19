@@ -1292,7 +1292,10 @@
       "maxDd95": "95. maks DD",
       "belowStart": "Başlangıcın altında biter",
       "ruin": "İflas riski"
-    }
+    },
+    "conformalHeadline": "Sonraki işlem için dürüst aralık",
+    "conformalCoverage": "Örneklem dışı işlemlerin ≥{{cov}}%’si bu aralığa düşer",
+    "conformalInvalid": "n={{n}}, {{cov}}% kapsama için çok küçük — henüz dürüst aralık yok"
   },
   "signalDetail": {
     "title": "{{symbol}} sinyal ayrıntısı",

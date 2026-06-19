@@ -1292,7 +1292,10 @@
       "maxDd95": "95%タイルの最大DD",
       "belowStart": "開始を下回る",
       "ruin": "破産リスク"
-    }
+    },
+    "conformalHeadline": "次のトレードの正直なレンジ",
+    "conformalCoverage": "アウトオブサンプルの取引の {{cov}}% 以上がこのレンジに収まる",
+    "conformalInvalid": "n={{n}} は {{cov}}% のカバレッジには小さすぎます — まだ正直なレンジはありません"
   },
   "signalDetail": {
     "title": "{{symbol}} シグナル詳細",

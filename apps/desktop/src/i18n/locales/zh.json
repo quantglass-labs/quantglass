@@ -1292,7 +1292,10 @@
       "maxDd95": "95% 最大回撤",
       "belowStart": "低于起点",
       "ruin": "破产风险"
-    }
+    },
+    "conformalHeadline": "下一笔交易的诚实区间",
+    "conformalCoverage": "≥{{cov}}% 的样本外交易落在此区间",
+    "conformalInvalid": "n={{n}} 太小，无法达到 {{cov}}% 覆盖率 — 暂无诚实区间"
   },
   "signalDetail": {
     "title": "{{symbol}} 信号详情",
