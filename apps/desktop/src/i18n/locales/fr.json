@@ -579,7 +579,8 @@
       "ai": "IA",
       "extensions": "Extensions",
       "strategies": "Stratégies",
-      "legal": "Légal"
+      "legal": "Légal",
+      "data": "Données"
     },
     "risk": {
       "tradingMode": "Mode de trading",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Auto-défini",
       "tpl_custom_auth": "Jeton bearer",
       "tpl_custom_desc": "Tout endpoint de modèle compatible OpenAI."
+    },
+    "data": {
+      "clearTitle": "Effacer toutes les données",
+      "clearDesc": "Supprime définitivement votre liste, trades papier, journal, progression, alertes et stratégies, et réinitialise le compte papier. Vos réglages et clés API sont conservés.",
+      "clearAll": "Effacer toutes les données",
+      "confirmClear": "Oui, tout effacer",
+      "clearing": "Effacement…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "La discipline se cumule.",
     "coreLine2": "L’avantage perdure."
+  },
+  "onboarding": {
+    "title": "Bienvenue dans QuantGlass",
+    "subtitle": "Comment souhaitez-vous commencer ?",
+    "sampleTitle": "Charger un exemple",
+    "sampleDesc": "Ajoute une liste de départ (BTC, ETH, SPY, AAPL) pour que les signaux et tableaux soient remplis immédiatement. Effaçable dans les Réglages.",
+    "loadSample": "Charger l’exemple",
+    "loading": "Chargement…",
+    "emptyTitle": "Commencer à vide",
+    "emptyDesc": "Partez de zéro — rien n’est suivi et aucune donnée n’est récupérée tant que vous n’ajoutez pas de symbole.",
+    "startEmpty": "Commencer à vide",
+    "note": "QuantGlass est local et éducatif, pas un conseil financier. L’exemple n’ajoute que des données locales ; rien n’est envoyé."
   }
 }

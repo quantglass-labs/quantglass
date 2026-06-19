@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "Extensions",
       "strategies": "Strategies",
-      "legal": "Legal"
+      "legal": "Legal",
+      "data": "Data"
     },
     "risk": {
       "tradingMode": "Trading mode",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Self-defined",
       "tpl_custom_auth": "Bearer token",
       "tpl_custom_desc": "Any OpenAI-compatible model endpoint."
+    },
+    "data": {
+      "clearTitle": "Clear all data",
+      "clearDesc": "Permanently remove your watchlist, paper trades, journal, lesson progress, alerts and strategies, and reset the paper account. Your settings and API keys are kept.",
+      "clearAll": "Clear all data",
+      "confirmClear": "Yes, clear everything",
+      "clearing": "Clearing…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Discipline compounds.",
     "coreLine2": "Edge endures."
+  },
+  "onboarding": {
+    "title": "Welcome to QuantGlass",
+    "subtitle": "How would you like to start?",
+    "sampleTitle": "Load a sample setup",
+    "sampleDesc": "Adds a starter watchlist (BTC, ETH, SPY, AAPL) so signals and dashboards are populated right away. Clearable anytime in Settings.",
+    "loadSample": "Load sample setup",
+    "loading": "Loading…",
+    "emptyTitle": "Start empty",
+    "emptyDesc": "Begin with a clean slate — nothing is tracked and no market data is fetched until you add a symbol.",
+    "startEmpty": "Start empty",
+    "note": "QuantGlass is local-first and educational — not financial advice. The sample only adds local data; it never sends anything out."
   }
 }

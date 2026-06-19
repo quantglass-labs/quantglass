@@ -167,6 +167,23 @@ class SettingsStore:
             connection.commit()
         return bool(enabled)
 
+    def get_onboarding_completed(self) -> bool:
+        """Whether the first-run choice (load sample setup / start empty) was made.
+
+        Kept local so a fresh install can show the one-time onboarding prompt and
+        never blank-screen the user, without auto-fetching any market data.
+        """
+        payload = self._read_settings_payload("onboarding_completed", {"completed": False})
+        return bool(payload.get("completed", False))
+
+    def set_onboarding_completed(self, completed: bool) -> bool:
+        with connect(self.sqlite_path) as connection:
+            self._write_settings_payload(
+                connection, "onboarding_completed", {"completed": bool(completed)}
+            )
+            connection.commit()
+        return bool(completed)
+
     def get_extension_settings(self, extension_id: str) -> dict[str, Any]:
         payload = self._read_settings_payload("extension_settings", {})
         item = payload.get(extension_id, {})

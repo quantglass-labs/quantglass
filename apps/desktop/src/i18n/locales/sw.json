@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "Viendelezi",
       "strategies": "Mikakati",
-      "legal": "Kisheria"
+      "legal": "Kisheria",
+      "data": "Data"
     },
     "risk": {
       "tradingMode": "Hali ya biashara",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Iliyojifafanua",
       "tpl_custom_auth": "Tokeni ya bearer",
       "tpl_custom_desc": "Kiunganishi chochote cha modeli kinachooana na OpenAI."
+    },
+    "data": {
+      "clearTitle": "Futa data yote",
+      "clearDesc": "Huondoa kabisa orodha yako, biashara za karatasi, jarida, maendeleo, arifa na mikakati, na kuweka upya akaunti ya karatasi. Mipangilio na funguo za API zinabaki.",
+      "clearAll": "Futa data yote",
+      "confirmClear": "Ndiyo, futa kila kitu",
+      "clearing": "Inafuta…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Nidhamu hujikusanya.",
     "coreLine2": "Ubora hudumu."
+  },
+  "onboarding": {
+    "title": "Karibu QuantGlass",
+    "subtitle": "Ungependa kuanza vipi?",
+    "sampleTitle": "Pakia mpangilio wa sampuli",
+    "sampleDesc": "Huongeza orodha ya kuanzia (BTC, ETH, SPY, AAPL) ili ishara na dashibodi zijazwe mara moja. Inaweza kufutwa wakati wowote katika Mipangilio.",
+    "loadSample": "Pakia sampuli",
+    "loading": "Inapakia…",
+    "emptyTitle": "Anza tupu",
+    "emptyDesc": "Anza upya — hakuna kinachofuatiliwa wala data ya soko kuvutwa hadi uongeze alama.",
+    "startEmpty": "Anza tupu",
+    "note": "QuantGlass ni ya ndani na ya kielimu — si ushauri wa kifedha. Sampuli huongeza data ya ndani tu; haitumi chochote nje."
   }
 }

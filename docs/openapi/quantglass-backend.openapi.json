@@ -578,6 +578,17 @@
         "title": "NlAlertRequest",
         "type": "object"
       },
+      "OnboardingPayload": {
+        "properties": {
+          "completed": {
+            "default": true,
+            "title": "Completed",
+            "type": "boolean"
+          }
+        },
+        "title": "OnboardingPayload",
+        "type": "object"
+      },
       "PaperAccountPayload": {
         "properties": {
           "balance": {
@@ -1626,6 +1637,118 @@
         "summary": "Daily Brief",
         "tags": [
           "content"
+        ]
+      }
+    },
+    "/api/data/clear": {
+      "post": {
+        "operationId": "clear_data_api_data_clear_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Clear Data Api Data Clear Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Clear Data",
+        "tags": [
+          "data"
+        ]
+      }
+    },
+    "/api/data/onboarding": {
+      "put": {
+        "operationId": "set_onboarding_api_data_onboarding_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardingPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Set Onboarding Api Data Onboarding Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Set Onboarding",
+        "tags": [
+          "data"
+        ]
+      }
+    },
+    "/api/data/sample": {
+      "post": {
+        "operationId": "load_sample_api_data_sample_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Load Sample Api Data Sample Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Load Sample",
+        "tags": [
+          "data"
+        ]
+      }
+    },
+    "/api/data/state": {
+      "get": {
+        "operationId": "data_state_api_data_state_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Data State Api Data State Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Data State",
+        "tags": [
+          "data"
         ]
       }
     },

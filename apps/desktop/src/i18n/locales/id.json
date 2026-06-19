@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "Ekstensi",
       "strategies": "Strategi",
-      "legal": "Legal"
+      "legal": "Legal",
+      "data": "Data"
     },
     "risk": {
       "tradingMode": "Mode perdagangan",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "Swadefinisi",
       "tpl_custom_auth": "Token bearer",
       "tpl_custom_desc": "Endpoint model kompatibel OpenAI mana pun."
+    },
+    "data": {
+      "clearTitle": "Hapus semua data",
+      "clearDesc": "Menghapus permanen watchlist, transaksi kertas, jurnal, progres, peringatan, dan strategi, serta mereset akun kertas. Pengaturan dan kunci API tetap disimpan.",
+      "clearAll": "Hapus semua data",
+      "confirmClear": "Ya, hapus semuanya",
+      "clearing": "Menghapus…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "Disiplin berlipat.",
     "coreLine2": "Keunggulan bertahan."
+  },
+  "onboarding": {
+    "title": "Selamat datang di QuantGlass",
+    "subtitle": "Bagaimana Anda ingin memulai?",
+    "sampleTitle": "Muat penyiapan contoh",
+    "sampleDesc": "Menambahkan watchlist awal (BTC, ETH, SPY, AAPL) agar sinyal dan dasbor langsung terisi. Bisa dihapus kapan saja di Pengaturan.",
+    "loadSample": "Muat contoh",
+    "loading": "Memuat…",
+    "emptyTitle": "Mulai kosong",
+    "emptyDesc": "Mulai dari nol — tidak ada yang dilacak dan tidak ada data pasar diambil sampai Anda menambahkan simbol.",
+    "startEmpty": "Mulai kosong",
+    "note": "QuantGlass bersifat lokal dan edukatif — bukan nasihat keuangan. Contoh hanya menambah data lokal; tidak mengirim apa pun keluar."
   }
 }

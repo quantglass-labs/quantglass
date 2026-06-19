@@ -579,7 +579,8 @@
       "ai": "AI",
       "extensions": "확장",
       "strategies": "전략",
-      "legal": "법적 고지"
+      "legal": "법적 고지",
+      "data": "데이터"
     },
     "risk": {
       "tradingMode": "거래 모드",
@@ -921,6 +922,13 @@
       "tpl_custom_tier": "자체 정의",
       "tpl_custom_auth": "Bearer 토큰",
       "tpl_custom_desc": "모든 OpenAI 호환 모델 엔드포인트."
+    },
+    "data": {
+      "clearTitle": "모든 데이터 지우기",
+      "clearDesc": "관심목록, 모의매매, 저널, 학습 진행, 알림, 전략을 영구 삭제하고 모의 계좌를 초기화합니다. 설정과 API 키는 유지됩니다.",
+      "clearAll": "모든 데이터 지우기",
+      "confirmClear": "네, 모두 지우기",
+      "clearing": "지우는 중…"
     }
   },
   "symbolDetail": {
@@ -1384,5 +1392,17 @@
     },
     "coreLine1": "규율은 복리로 쌓입니다.",
     "coreLine2": "엣지는 지속됩니다."
+  },
+  "onboarding": {
+    "title": "QuantGlass에 오신 것을 환영합니다",
+    "subtitle": "어떻게 시작하시겠어요?",
+    "sampleTitle": "샘플 설정 불러오기",
+    "sampleDesc": "시작용 관심목록(BTC, ETH, SPY, AAPL)을 추가해 신호와 대시보드가 바로 채워집니다. 설정에서 언제든 지울 수 있습니다.",
+    "loadSample": "샘플 불러오기",
+    "loading": "불러오는 중…",
+    "emptyTitle": "빈 상태로 시작",
+    "emptyDesc": "깨끗한 상태로 시작 — 심볼을 추가하기 전에는 아무것도 추적하지 않고 시세도 가져오지 않습니다.",
+    "startEmpty": "빈 상태로 시작",
+    "note": "QuantGlass는 로컬 우선·교육용이며 투자 자문이 아닙니다. 샘플은 로컬 데이터만 추가하며 외부로 아무것도 보내지 않습니다."
   }
 }

@@ -10,6 +10,7 @@ from app.api.routes.alerts import router as alerts_router
 from app.api.routes.constitution import router as constitution_router
 from app.api.routes.content import router as content_router
 from app.api.routes.copilot import router as copilot_router
+from app.api.routes.data import router as data_router
 from app.api.routes.events import router as events_router
 from app.api.routes.extensions import router as extensions_router
 from app.api.routes.health import router as health_router
@@ -263,6 +264,7 @@ app.include_router(providers_router)
 app.include_router(extensions_router)
 app.include_router(settings_router)
 app.include_router(strategies_router)
+app.include_router(data_router)
 app.include_router(watchlist_router)
 app.include_router(alerts_router)
 app.include_router(events_router)
