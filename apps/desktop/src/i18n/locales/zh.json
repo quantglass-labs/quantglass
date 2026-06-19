@@ -1107,6 +1107,10 @@
       "openMissions": "打开任务",
       "tryLive": "实战体验",
       "openScreen": "打开{{screen}}"
+    },
+    "tierMap": {
+      "title": "你的路径",
+      "subtitle": "逐级前进——每一级解锁下一级。"
     }
   },
   "nav": {

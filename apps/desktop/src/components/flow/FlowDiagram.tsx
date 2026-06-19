@@ -150,3 +150,53 @@ export function BacktestPipelineDiagram() {
     </Suspense>
   );
 }
+
+export type TierMapTier = {
+  id: string;
+  title: string;
+  completed: number;
+  total: number;
+  unlocked: boolean;
+};
+
+/**
+ * The Academy tiers as a live-data progression: Novice → Intermediate →
+ * Advanced → Expert. Each node shows real progress (`completed/total`) and its
+ * lock state; a fully-complete tier is highlighted. Illustrative (not
+ * clickable) — it summarises the path while the cards below drive interaction.
+ */
+export function LearnTierMapDiagram({ tiers }: { tiers: TierMapTier[] }) {
+  const { t } = useTranslation();
+
+  const nodes: QgNode[] = tiers.map((tier, index) => ({
+    id: tier.id,
+    type: 'qg',
+    position: { x: index * 190, y: 0 },
+    data: {
+      label: tier.title,
+      sublabel: `${tier.completed}/${tier.total}`,
+      locked: !tier.unlocked,
+      tone: tier.total > 0 && tier.completed >= tier.total ? 'accent' : 'default',
+      targetPos: 'left',
+      sourcePos: 'right',
+    },
+  }));
+
+  const edges: Edge[] = tiers.slice(1).map((tier, index) => ({
+    id: `e-${tiers[index].id}-${tier.id}`,
+    source: tiers[index].id,
+    target: tier.id,
+  }));
+
+  return (
+    <Suspense fallback={<DiagramFallback heightClass="h-[160px]" />}>
+      <FlowCanvas
+        nodes={nodes}
+        edges={edges}
+        reducedMotion={prefersReducedMotion()}
+        ariaLabel={t('learn.tierMap.title')}
+        heightClass="h-[160px]"
+      />
+    </Suspense>
+  );
+}

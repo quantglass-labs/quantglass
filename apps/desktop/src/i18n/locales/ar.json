@@ -1107,6 +1107,10 @@
       "openMissions": "افتح المهام",
       "tryLive": "جرّبه مباشرة",
       "openScreen": "افتح {{screen}}"
+    },
+    "tierMap": {
+      "title": "مسارك",
+      "subtitle": "تقدّم عبر المستويات — كل مستوى يفتح التالي."
     }
   },
   "nav": {

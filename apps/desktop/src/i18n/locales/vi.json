@@ -1107,6 +1107,10 @@
       "openMissions": "Mở Nhiệm vụ",
       "tryLive": "Thử trực tiếp",
       "openScreen": "Mở {{screen}}"
+    },
+    "tierMap": {
+      "title": "Lộ trình của bạn",
+      "subtitle": "Tiến qua các cấp độ — mỗi cấp mở khóa cấp tiếp theo."
     }
   },
   "nav": {

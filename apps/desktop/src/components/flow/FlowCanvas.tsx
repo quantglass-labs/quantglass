@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2026 QuantGlass contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { Lock } from 'lucide-react';
 import { useMemo } from 'react';
 import {
   Background,
@@ -32,6 +33,10 @@ const SIDE_TO_POSITION: Record<FlowSide, Position> = {
 /** Data carried by every QuantGlass flow node. */
 export type QgNodeData = {
   label: string;
+  /** Optional secondary line (e.g. progress "3/12"). */
+  sublabel?: string;
+  /** Renders a lock glyph and dims the node. */
+  locked?: boolean;
   /** Side the incoming edge attaches to. Defaults to 'left'. */
   targetPos?: FlowSide;
   /** Side the outgoing edge leaves from. Defaults to 'right'. */
@@ -50,9 +55,10 @@ function FlowNode({ data }: NodeProps<QgNode>) {
   return (
     <div
       className={[
-        'rounded-xl border px-4 py-2 text-center text-sm font-medium shadow-glow transition-colors',
+        'rounded-xl border px-4 py-2 text-center shadow-glow transition-colors',
         accent ? 'border-accent/60 bg-panelStrong text-ink' : 'border-border bg-panel text-ink',
         clickable ? 'cursor-pointer hover:border-accent hover:bg-panelStrong' : 'cursor-default',
+        data.locked ? 'opacity-60' : '',
       ].join(' ')}
     >
       <Handle
@@ -60,7 +66,11 @@ function FlowNode({ data }: NodeProps<QgNode>) {
         position={SIDE_TO_POSITION[data.targetPos ?? 'left']}
         className="!h-1.5 !w-1.5 !border-0 !bg-accent/70"
       />
-      {data.label}
+      <div className="flex items-center justify-center gap-1.5 text-sm font-medium">
+        {data.locked ? <Lock className="size-3.5 text-muted" aria-hidden /> : null}
+        {data.label}
+      </div>
+      {data.sublabel ? <div className="mt-0.5 text-xs text-muted">{data.sublabel}</div> : null}
       <Handle
         type="source"
         position={SIDE_TO_POSITION[data.sourcePos ?? 'right']}

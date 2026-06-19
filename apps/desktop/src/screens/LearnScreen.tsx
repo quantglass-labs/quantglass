@@ -29,6 +29,7 @@ import type {
   LessonTier,
 } from '@quantglass/contracts';
 import { BackendStatusNotice } from '../components/backendGate';
+import { LearnTierMapDiagram } from '../components/flow/FlowDiagram';
 import { backendClient } from '../lib/backend';
 import { AiMarkdown } from '../components/AiMarkdown';
 import { LessonVisuals } from './learn/LessonVisuals';
@@ -1238,6 +1239,23 @@ export function LearnScreen({ backendStatus, onNavigate }: LearnScreenProps) {
                 ))}
               </div>
             )}
+            {catalog ? (
+              <div className="mb-4">
+                <p className="px-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                  {t('learn.tierMap.title')}
+                </p>
+                <p className="mb-2 px-2 text-xs text-muted">{t('learn.tierMap.subtitle')}</p>
+                <LearnTierMapDiagram
+                  tiers={catalog.levels.map((level) => ({
+                    id: level.id,
+                    title: level.title,
+                    completed: level.completed,
+                    total: level.total,
+                    unlocked: readiness?.levels.find((l) => l.id === level.id)?.unlocked !== false,
+                  }))}
+                />
+              </div>
+            ) : null}
             {catalog?.levels.map((level, i) => (
               <LevelSection
                 key={level.id}

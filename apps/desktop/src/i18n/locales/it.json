@@ -1107,6 +1107,10 @@
       "openMissions": "Apri Missioni",
       "tryLive": "Provalo live",
       "openScreen": "Apri {{screen}}"
+    },
+    "tierMap": {
+      "title": "Il tuo percorso",
+      "subtitle": "Avanza tra i livelli: ciascuno sblocca il successivo."
     }
   },
   "nav": {

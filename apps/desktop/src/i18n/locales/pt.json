@@ -1107,6 +1107,10 @@
       "openMissions": "Abrir Missões",
       "tryLive": "Experimente ao vivo",
       "openScreen": "Abrir {{screen}}"
+    },
+    "tierMap": {
+      "title": "Seu caminho",
+      "subtitle": "Avance pelos níveis: cada um desbloqueia o próximo."
     }
   },
   "nav": {

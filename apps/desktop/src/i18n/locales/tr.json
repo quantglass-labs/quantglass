@@ -1107,6 +1107,10 @@
       "openMissions": "Görevleri aç",
       "tryLive": "Canlı dene",
       "openScreen": "{{screen}} aç"
+    },
+    "tierMap": {
+      "title": "Yolculuğunuz",
+      "subtitle": "Seviyelerde ilerleyin — her biri bir sonrakini açar."
     }
   },
   "nav": {
