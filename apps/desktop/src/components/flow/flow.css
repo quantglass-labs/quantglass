@@ -1,54 +1,91 @@
 /* SPDX-FileCopyrightText: 2026 QuantGlass contributors */
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 
-/* Flowing highlight that travels along each edge. */
-@keyframes qg-edge-dash {
-  to {
-    stroke-dashoffset: -28;
-  }
+/* ---- Flow rail (premium horizontal sequence) ------------------------------ */
+.qg-rail {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  padding: 6px 2px;
 }
-
-.qg-edge-flow {
-  stroke-dasharray: 4 10;
-  animation: qg-edge-dash 0.9s linear infinite;
+.qg-rail-card {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 118px;
+  max-width: 190px;
+  border-radius: 18px;
+  padding: 18px 14px 16px;
+  text-align: center;
+  background: linear-gradient(160deg, rgba(18, 34, 64, 0.55), rgba(9, 17, 34, 0.3));
+  border: 1px solid rgba(120, 165, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(173, 200, 255, 0.08),
+    0 14px 36px rgba(2, 7, 18, 0.55);
+  backdrop-filter: blur(4px);
 }
-
-/* Soft breathing glow on emphasised (accent) nodes. */
-@keyframes qg-node-glow {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 6px rgba(58, 116, 240, 0.35));
-  }
-  50% {
-    filter: drop-shadow(0 0 16px rgba(141, 183, 255, 0.55));
-  }
+.qg-rail-med {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  background: radial-gradient(
+    circle at 50% 32%,
+    rgba(74, 134, 255, 0.42),
+    rgba(74, 134, 255, 0.06)
+  );
+  border: 1px solid rgba(141, 183, 255, 0.42);
+  box-shadow:
+    0 0 22px rgba(74, 134, 255, 0.34),
+    inset 0 0 14px rgba(141, 183, 255, 0.18);
 }
-
-.qg-node {
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease;
+.qg-rail-med svg {
+  width: 23px;
+  height: 23px;
+  color: #dbe9ff;
 }
-.qg-node:hover {
-  transform: translateY(-2px);
+.qg-rail-title {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #eef4ff;
+  line-height: 1.2;
 }
-.qg-node-accent {
-  animation: qg-node-glow 2.6s ease-in-out infinite;
+.qg-rail-sub {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #8ea6cf;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .qg-edge-flow {
-    animation: none;
-  }
-  .qg-node-accent {
-    animation: none;
-  }
+.qg-rail-card-accent {
+  border-color: rgba(141, 183, 255, 0.7);
+  background: linear-gradient(160deg, rgba(30, 56, 108, 0.62), rgba(12, 24, 48, 0.4));
+  box-shadow:
+    inset 0 1px 0 rgba(173, 200, 255, 0.12),
+    0 14px 40px rgba(2, 7, 18, 0.6),
+    0 0 36px rgba(74, 134, 255, 0.36);
 }
-
-/* JS-level reduced-motion fallback (set when matchMedia reports reduce). */
-.qg-reduced .qg-edge-flow,
-.qg-reduced .qg-node-accent {
-  animation: none;
+.qg-rail-card-accent .qg-rail-med {
+  box-shadow:
+    0 0 30px rgba(74, 134, 255, 0.55),
+    inset 0 0 16px rgba(173, 200, 255, 0.26);
+}
+.qg-rail-locked {
+  opacity: 0.55;
+}
+.qg-rail-conn {
+  flex: 0 0 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qg-rail-arrow {
+  width: 44px;
+  height: 22px;
+  overflow: visible;
 }
 
 /* ---- Feedback loop board (premium card grid) ------------------------------ */
