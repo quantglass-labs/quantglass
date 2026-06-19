@@ -127,6 +127,24 @@ const SCREENS = {
       await page.waitForTimeout(1800);
     },
   },
+  'paper-ticket': {
+    route: '/',
+    async before(page) {
+      // Dashboard signal card -> "View signal" drawer -> "Paper trade this" ticket.
+      await page
+        .getByRole('button', { name: 'View signal' })
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
+      await page.waitForTimeout(1200);
+      await page
+        .getByText('Paper trade this')
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
+      await page.waitForTimeout(1500);
+    },
+  },
 };
 
 const wanted = process.argv.slice(2);

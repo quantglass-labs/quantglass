@@ -44,7 +44,7 @@ re-capture.
 
 ## Captured states
 
-All README screens are captured, including interactive ones: the Copilot panel,
-the four Settings tabs (`?tab=…`), the trading constitution, and the symbol
-detail. The only remaining one is the **paper-trade ticket** — add a `SCREENS`
-entry once its open trigger has a stable selector.
+Every README screen is captured, including the interactive ones: the Copilot
+panel, the four Settings tabs (`?tab=…`), the trading constitution, the symbol
+detail, and the paper-trade ticket (dashboard signal -> drawer -> ticket). Add
+a new `SCREENS` entry to capture any future screen or state.
