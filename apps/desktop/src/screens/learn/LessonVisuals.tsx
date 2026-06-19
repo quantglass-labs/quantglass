@@ -272,10 +272,11 @@ function CandleComparison() {
 function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
   const items = (params.items as { label: string; value: number; note?: string }[]) ?? [];
   const max = Math.max(...items.map((item) => item.value), 1);
-  const rowH = 70;
-  const height = 110 + items.length * rowH;
-  const x0 = 280;
-  const xMax = 660;
+  const rowH = 56;
+  const top = 124;
+  const height = top + items.length * rowH + 6;
+  const x0 = 250;
+  const xMax = 520;
   return (
     <Frame
       title={String(params.heading ?? 'Magnitude')}
@@ -289,45 +290,28 @@ function MagnitudeBars({ params }: { params: Record<string, unknown> }) {
           x1={x0 + g * (xMax - x0)}
           y1={96}
           x2={x0 + g * (xMax - x0)}
-          y2={height - 24}
-          stroke="rgba(141,183,255,0.12)"
+          y2={height - 18}
+          stroke="rgba(141,183,255,0.1)"
         />
       ))}
       {items.map((item, i) => {
-        const cy = 122 + i * rowH;
-        const len = Math.max(20, (item.value / max) * (xMax - x0));
+        const cy = top + i * rowH;
+        const len = Math.max(10, (item.value / max) * (xMax - x0));
         return (
           <g key={item.label}>
-            <text x={50} y={cy + 6} fill={PALETTE.ink} fontSize={16} fontWeight={700}>
+            <text x={50} y={cy + 5} fill={PALETTE.ink} fontSize={15} fontWeight={700}>
               {item.label}
             </text>
             <rect
               x={x0}
-              y={cy - 7}
+              y={cy - 8}
               width={len}
-              height={14}
-              rx={7}
+              height={16}
+              rx={8}
               fill="url(#qgAcc)"
               filter="url(#qgGlow)"
             />
-            <circle cx={x0 + len} cy={cy} r={11} fill="#cfe6ff" filter="url(#qgGlow)" />
-            <rect
-              x={x0 + len + 18}
-              y={cy - 14}
-              width={68}
-              height={28}
-              rx={9}
-              fill="rgba(12,22,42,0.85)"
-              stroke={PALETTE.panelStroke}
-            />
-            <text
-              x={x0 + len + 52}
-              y={cy + 5}
-              textAnchor="middle"
-              fill="#cfe0ff"
-              fontSize={14}
-              fontWeight={700}
-            >
+            <text x={x0 + len + 16} y={cy + 5} fill="#cfe0ff" fontSize={13.5} fontWeight={600}>
               {item.note ?? item.value}
             </text>
           </g>
@@ -398,10 +382,12 @@ function ProcessSteps({ params }: { params: Record<string, unknown> }) {
 /** Reimagined: a branching decision spine — glowing decision cards, yes flows down, no branches off. */
 function Flowchart({ params }: { params: Record<string, unknown> }) {
   const steps = (params.steps as { text: string; yes?: string; no?: string }[]) ?? [];
-  const cardH = 64;
-  const gap = 46;
-  const top = 96;
-  const height = top + steps.length * (cardH + gap) + 20;
+  const outcome = params.outcome ? String(params.outcome) : undefined;
+  const n = steps.length;
+  const cardH = 74;
+  const gap = 42;
+  const top = 92;
+  const height = top + n * (cardH + gap) + (outcome ? 60 : 12);
   return (
     <Frame
       title={String(params.heading ?? 'Decision Flow')}
@@ -410,14 +396,17 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
     >
       {steps.map((step, i) => {
         const y = top + i * (cardH + gap);
-        const last = i === steps.length - 1;
-        const accent = last;
+        const lastDecision = i === n - 1;
+        const accent = lastDecision && !outcome;
+        const detail = [step.yes ? `yes → ${step.yes}` : null, step.no ? `no → ${step.no}` : null]
+          .filter(Boolean)
+          .join('  ·  ');
         return (
           <g key={step.text}>
             <rect
-              x={340}
+              x={270}
               y={y}
-              width={320}
+              width={460}
               height={cardH}
               rx={16}
               fill={accent ? 'rgba(74,134,255,0.18)' : 'url(#qgBox)'}
@@ -427,7 +416,7 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
             />
             <text
               x={500}
-              y={y + cardH / 2 + 6}
+              y={detail ? y + 32 : y + cardH / 2 + 6}
               textAnchor="middle"
               fill={PALETTE.ink}
               fontSize={16}
@@ -435,49 +424,51 @@ function Flowchart({ params }: { params: Record<string, unknown> }) {
             >
               {step.text}
             </text>
-            {!last ? (
-              <>
-                <line
-                  x1={500}
-                  y1={y + cardH}
-                  x2={500}
-                  y2={y + cardH + gap}
-                  stroke="url(#qgAcc)"
-                  strokeWidth={3}
-                  filter="url(#qgGlow)"
-                  markerEnd="url(#qgArrow)"
-                />
-                <text
-                  x={516}
-                  y={y + cardH + gap - 14}
-                  fill={PALETTE.accent}
-                  fontSize={12}
-                  fontWeight={700}
-                >
-                  {step.yes ? `yes · ${step.yes}` : 'yes'}
-                </text>
-              </>
+            {detail ? (
+              <text x={500} y={y + 56} textAnchor="middle" fill={PALETTE.muted} fontSize={12.5}>
+                {detail}
+              </text>
             ) : null}
-            {step.no ? (
-              <>
-                <line
-                  x1={660}
-                  y1={y + cardH / 2}
-                  x2={780}
-                  y2={y + cardH / 2}
-                  stroke="rgba(141,183,255,0.3)"
-                  strokeWidth={2}
-                  strokeDasharray="6 6"
-                  markerEnd="url(#qgArrow)"
-                />
-                <text x={790} y={y + cardH / 2 - 8} fill={PALETTE.muted} fontSize={11}>
-                  no · {step.no}
-                </text>
-              </>
+            {!lastDecision || outcome ? (
+              <line
+                x1={500}
+                y1={y + cardH}
+                x2={500}
+                y2={y + cardH + gap}
+                stroke="url(#qgAcc)"
+                strokeWidth={3}
+                filter="url(#qgGlow)"
+                markerEnd="url(#qgArrow)"
+              />
             ) : null}
           </g>
         );
       })}
+      {outcome ? (
+        <g>
+          <rect
+            x={320}
+            y={top + n * (cardH + gap)}
+            width={360}
+            height={44}
+            rx={14}
+            fill="rgba(74,134,255,0.18)"
+            stroke="#6aa0ff"
+            strokeWidth={2}
+            filter="url(#qgGlow)"
+          />
+          <text
+            x={500}
+            y={top + n * (cardH + gap) + 28}
+            textAnchor="middle"
+            fill="#eaf3ff"
+            fontSize={15}
+            fontWeight={800}
+          >
+            {outcome}
+          </text>
+        </g>
+      ) : null}
     </Frame>
   );
 }
@@ -503,7 +494,7 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
         return (
           <path
             key={`l-${input.label}`}
-            d={`M330 ${y} C 500 ${y}, 540 ${coreY}, ${coreX - coreR} ${coreY}`}
+            d={`M380 ${y} C 540 ${y}, 580 ${coreY}, ${coreX - coreR} ${coreY}`}
             stroke="url(#qgLink)"
             strokeWidth={2.5}
             fill="none"
@@ -516,30 +507,30 @@ function LabeledInputs({ params }: { params: Record<string, unknown> }) {
         return (
           <g key={input.label}>
             <rect
-              x={60}
+              x={50}
               y={y}
-              width={270}
+              width={330}
               height={46}
               rx={13}
               fill="url(#qgBox)"
               stroke={PALETTE.panelStroke}
             />
             <text
-              x={195}
+              x={215}
               y={input.note ? y + 20 : y + 28}
               textAnchor="middle"
               fill={PALETTE.ink}
-              fontSize={14}
+              fontSize={13.5}
               fontWeight={700}
             >
               {input.label}
             </text>
             {input.note ? (
-              <text x={195} y={y + 37} textAnchor="middle" fill={PALETTE.muted} fontSize={11}>
+              <text x={215} y={y + 37} textAnchor="middle" fill={PALETTE.muted} fontSize={11}>
                 {input.note}
               </text>
             ) : null}
-            <circle cx={330} cy={y + 23} r={5} fill="#9cc0ff" filter="url(#qgGlow)" />
+            <circle cx={380} cy={y + 23} r={5} fill="#9cc0ff" filter="url(#qgGlow)" />
           </g>
         );
       })}
