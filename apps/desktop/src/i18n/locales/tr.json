@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "QuantGlass nasıl çalışır",
     "subtitle": "Disiplinli bir döngü: kanıt bul, dürüstçe test et, güvenle pratik yap, sonra gözden geçir ve iyileştir.",
-    "hint": "Açmak için bir adım seçin."
+    "hint": "Açmak için bir adım seçin.",
+    "steps": {
+      "signals": "Kanıta dayalı filtrelerle yüksek kaliteli kurulumlar bulun.",
+      "backtest": "Fikirleri farklı piyasalarda ve rejimlerde titizlikle test edin.",
+      "portfolio": "Sermayeyi net kurallar ve risk kontrolüyle dağıtın.",
+      "journal": "Her işlemi ve gözlemi netçe kaydedin.",
+      "review": "Performansı, kararları ve davranışları analiz edin.",
+      "constitution": "İlkeleri, kuralları ve risk disiplinini kodlayın."
+    },
+    "coreLine1": "Disiplin birikir.",
+    "coreLine2": "Avantaj kalıcıdır."
   }
 }

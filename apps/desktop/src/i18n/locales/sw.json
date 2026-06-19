@@ -1355,6 +1355,16 @@
   "howItWorks": {
     "title": "Jinsi QuantGlass inavyofanya kazi",
     "subtitle": "Mzunguko wenye nidhamu: tafuta ushahidi, ujaribu kwa uaminifu, fanya mazoezi kwa usalama, kisha kagua na uboreshe.",
-    "hint": "Chagua hatua ili kuifungua."
+    "hint": "Chagua hatua ili kuifungua.",
+    "steps": {
+      "signals": "Tafuta mipangilio bora kwa vichujio vinavyotegemea ushahidi.",
+      "backtest": "Jaribu mawazo kwa ukali katika masoko na mazingira mbalimbali.",
+      "portfolio": "Gawanya mtaji kwa kanuni wazi na udhibiti wa hatari.",
+      "journal": "Andika kila biashara na uchunguzi kwa uwazi.",
+      "review": "Changanua utendaji, maamuzi, na tabia.",
+      "constitution": "Weka kanuni, sheria, na nidhamu ya hatari."
+    },
+    "coreLine1": "Nidhamu hujikusanya.",
+    "coreLine2": "Ubora hudumu."
   }
 }
