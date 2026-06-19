@@ -44,7 +44,7 @@
             "type": "string"
           },
           "requestTimeoutSeconds": {
-            "default": 8.0,
+            "default": 120.0,
             "title": "Requesttimeoutseconds",
             "type": "number"
           }
@@ -104,7 +104,7 @@
             "type": "string"
           },
           "requestTimeoutSeconds": {
-            "default": 8.0,
+            "default": 120.0,
             "title": "Requesttimeoutseconds",
             "type": "number"
           },
@@ -176,7 +176,7 @@
             "type": "string"
           },
           "requestTimeoutSeconds": {
-            "default": 8.0,
+            "default": 120.0,
             "title": "Requesttimeoutseconds",
             "type": "number"
           },
@@ -497,6 +497,19 @@
           "settings"
         ],
         "title": "ExtensionSettingsPayload",
+        "type": "object"
+      },
+      "ExtensionsEnabledPayload": {
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "title": "ExtensionsEnabledPayload",
         "type": "object"
       },
       "HTTPValidationError": {
@@ -1115,7 +1128,7 @@
   },
   "info": {
     "title": "QuantGlass Backend",
-    "version": "0.2.0"
+    "version": "0.2.6"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -4200,6 +4213,70 @@
         ]
       }
     },
+    "/api/settings/extensions-enabled": {
+      "get": {
+        "operationId": "extensions_enabled_api_settings_extensions_enabled_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Extensions Enabled Api Settings Extensions Enabled Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Extensions Enabled",
+        "tags": [
+          "settings"
+        ]
+      },
+      "put": {
+        "operationId": "update_extensions_enabled_api_settings_extensions_enabled_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtensionsEnabledPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Update Extensions Enabled Api Settings Extensions Enabled Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Extensions Enabled",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
     "/api/settings/notifications/test/{channel}": {
       "post": {
         "operationId": "test_notification_api_settings_notifications_test__channel__post",
@@ -4548,6 +4625,51 @@
           }
         },
         "summary": "Update Saved Strategy",
+        "tags": [
+          "strategies"
+        ]
+      }
+    },
+    "/api/strategies/{strategy_id}/export": {
+      "get": {
+        "description": "Return a portable, documented record of a saved strategy.\n\nThis is the interoperability seam: a strategy you researched in QuantGlass\n(its symbol, signal-engine setup type, and timeframe) exported as a stable,\nversioned JSON artifact that an external tool \u2014 or a future execution layer \u2014\ncan consume. It is a *definition with provenance*, not an order spec, and\nexplicitly not a recommendation.",
+        "operationId": "export_saved_strategy_api_strategies__strategy_id__export_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "strategy_id",
+            "required": true,
+            "schema": {
+              "title": "Strategy Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Export Saved Strategy Api Strategies  Strategy Id  Export Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export Saved Strategy",
         "tags": [
           "strategies"
         ]

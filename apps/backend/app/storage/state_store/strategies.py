@@ -41,6 +41,18 @@ class SavedStrategiesStore:
             ).fetchall()
         return [self._serialize_saved_strategy_row(row) for row in rows]
 
+    def get_saved_strategy(self, strategy_id: str) -> dict[str, Any] | None:
+        with connect(self.sqlite_path) as connection:
+            row = connection.execute(
+                """
+                SELECT id, name, symbol_id, setup_type, timeframe, saved_at
+                FROM saved_strategies
+                WHERE id = ?
+                """,
+                (strategy_id,),
+            ).fetchone()
+        return self._serialize_saved_strategy_row(row) if row else None
+
     def save_strategy(self, payload: dict[str, Any]) -> dict[str, Any]:
         with connect(self.sqlite_path) as connection:
             connection.execute(
