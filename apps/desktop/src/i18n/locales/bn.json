@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "স্তর অনুযায়ী অগ্রগতি",
       "subtitle": "প্রতিটি স্তরে সম্পন্ন মিশন।"
+    },
+    "drill": {
+      "back": "ফিরুন",
+      "heading": "সিদ্ধান্ত মহড়া: {{title}}",
+      "passRule": "{{percent}}% প্রক্রিয়ায় উত্তীর্ণ, কোনো গুরুতর লঙ্ঘন নেই",
+      "best": " · সেরা {{percent}}%",
+      "decisionOf": "সিদ্ধান্ত {{current}} / {{total}}",
+      "grading": "মূল্যায়ন চলছে…",
+      "scoreProcess": "প্রক্রিয়া",
+      "scoreRisk": "ঝুঁকি",
+      "scoreDiscipline": "শৃঙ্খলা",
+      "passed": "মহড়া উত্তীর্ণ",
+      "failed": "মহড়া অনুত্তীর্ণ",
+      "severe": " — গুরুতর ঝুঁকি লঙ্ঘন",
+      "youChose": "আপনি বেছেছেন: {{choice}}",
+      "strongerPlay": "ভালো পদক্ষেপ: {{choice}}",
+      "replay": "মহড়া পুনরায় করুন",
+      "backToMissions": "মিশনে ফিরুন",
+      "streakLabel": "দিনের শৃঙ্খলা ধারা",
+      "extendedToday": "আজ বাড়ানো হলো — ধারাবাহিকতা জমে।",
+      "loggedToday": "আজ নথিভুক্ত — আগামীকাল ধরে রাখুন।",
+      "loadError": "মহড়া লোড করা যায়নি।",
+      "debrief": {
+        "cta": "AI প্রশিক্ষকের পর্যালোচনা নিন",
+        "loading": "প্রশিক্ষক আপনার পর্ব পর্যালোচনা করছেন…",
+        "title": "প্রশিক্ষকের পর্যালোচনা",
+        "unavailable": "AI পর্যালোচনা এখন অনুপলব্ধ।"
+      }
+    },
+    "scenario": {
+      "allMissions": "সব মিশন",
+      "barOf": "ক্যান্ডেল {{current}} / {{total}}",
+      "decisionOf": "সিদ্ধান্ত {{current}} / {{total}}",
+      "grading": "মূল্যায়ন চলছে…",
+      "getDebrief": "পর্যালোচনা নিন",
+      "passed": "উত্তীর্ণ",
+      "belowBar": "{{percent}}% সীমার নিচে",
+      "points": "{{score}} / {{max}} পয়েন্ট",
+      "youChose": "আপনি বেছেছেন: {{choice}}",
+      "strongerPlay": "ভালো পদক্ষেপ: {{choice}}",
+      "backToMissions": "মিশনে ফিরুন"
     }
   },
   "backtest": {

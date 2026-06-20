@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Kemajuan per tingkat",
       "subtitle": "Misi yang diselesaikan di setiap tingkat."
+    },
+    "drill": {
+      "back": "Kembali",
+      "heading": "Latihan keputusan: {{title}}",
+      "passRule": "lulus pada {{percent}}% proses, tanpa pelanggaran berat",
+      "best": " · terbaik {{percent}}%",
+      "decisionOf": "Keputusan {{current}} dari {{total}}",
+      "grading": "Menilai…",
+      "scoreProcess": "Proses",
+      "scoreRisk": "Risiko",
+      "scoreDiscipline": "Disiplin",
+      "passed": "Latihan lulus",
+      "failed": "Latihan gagal",
+      "severe": " — pelanggaran risiko berat",
+      "youChose": "Anda memilih: {{choice}}",
+      "strongerPlay": "Langkah lebih baik: {{choice}}",
+      "replay": "Ulangi latihan",
+      "backToMissions": "Kembali ke misi",
+      "streakLabel": "hari rentetan disiplin",
+      "extendedToday": "Diperpanjang hari ini — konsistensi berbuah.",
+      "loggedToday": "Tercatat hari ini — jaga tetap hidup besok.",
+      "loadError": "Tidak dapat memuat latihan.",
+      "debrief": {
+        "cta": "Dapatkan pembekalan instruktur AI",
+        "loading": "Instruktur sedang meninjau sesi Anda…",
+        "title": "Pembekalan instruktur",
+        "unavailable": "Pembekalan AI tidak tersedia saat ini."
+      }
+    },
+    "scenario": {
+      "allMissions": "Semua misi",
+      "barOf": "Lilin {{current}} / {{total}}",
+      "decisionOf": "Keputusan {{current}} dari {{total}}",
+      "grading": "Menilai…",
+      "getDebrief": "Dapatkan pembekalan",
+      "passed": "Lulus",
+      "belowBar": "Di bawah ambang {{percent}}%",
+      "points": "{{score}} / {{max}} poin",
+      "youChose": "Anda memilih: {{choice}}",
+      "strongerPlay": "Langkah lebih baik: {{choice}}",
+      "backToMissions": "Kembali ke misi"
     }
   },
   "backtest": {

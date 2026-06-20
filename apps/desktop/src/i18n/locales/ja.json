@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "ティア別の進捗",
       "subtitle": "各ティアで完了したミッション。"
+    },
+    "drill": {
+      "back": "戻る",
+      "heading": "意思決定ドリル：{{title}}",
+      "passRule": "プロセス{{percent}}%で合格、重大な違反なし",
+      "best": " · 最高 {{percent}}%",
+      "decisionOf": "判断 {{current}} / {{total}}",
+      "grading": "採点中…",
+      "scoreProcess": "プロセス",
+      "scoreRisk": "リスク",
+      "scoreDiscipline": "規律",
+      "passed": "ドリル合格",
+      "failed": "ドリル不合格",
+      "severe": " — 重大なリスク違反",
+      "youChose": "あなたの選択：{{choice}}",
+      "strongerPlay": "より良い選択：{{choice}}",
+      "replay": "ドリルをやり直す",
+      "backToMissions": "ミッションへ戻る",
+      "streakLabel": "日間の規律ストリーク",
+      "extendedToday": "本日更新——継続は力なり。",
+      "loggedToday": "本日記録——明日も続けましょう。",
+      "loadError": "ドリルを読み込めませんでした。",
+      "debrief": {
+        "cta": "AIインストラクターの講評を見る",
+        "loading": "インストラクターがあなたの記録を確認中…",
+        "title": "インストラクター講評",
+        "unavailable": "AI講評は現在利用できません。"
+      }
+    },
+    "scenario": {
+      "allMissions": "すべてのミッション",
+      "barOf": "ローソク足 {{current}} / {{total}}",
+      "decisionOf": "判断 {{current}} / {{total}}",
+      "grading": "採点中…",
+      "getDebrief": "講評を見る",
+      "passed": "合格",
+      "belowBar": "{{percent}}%の基準を下回る",
+      "points": "{{score}} / {{max}} ポイント",
+      "youChose": "あなたの選択：{{choice}}",
+      "strongerPlay": "より良い選択：{{choice}}",
+      "backToMissions": "ミッションへ戻る"
     }
   },
   "backtest": {

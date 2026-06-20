@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Tiến độ theo cấp độ",
       "subtitle": "Nhiệm vụ đã hoàn thành ở mỗi cấp độ."
+    },
+    "drill": {
+      "back": "Quay lại",
+      "heading": "Bài tập quyết định: {{title}}",
+      "passRule": "đạt ở {{percent}}% quy trình, không vi phạm nghiêm trọng",
+      "best": " · tốt nhất {{percent}}%",
+      "decisionOf": "Quyết định {{current}} / {{total}}",
+      "grading": "Đang chấm…",
+      "scoreProcess": "Quy trình",
+      "scoreRisk": "Rủi ro",
+      "scoreDiscipline": "Kỷ luật",
+      "passed": "Đã đạt bài tập",
+      "failed": "Chưa đạt bài tập",
+      "severe": " — vi phạm rủi ro nghiêm trọng",
+      "youChose": "Bạn đã chọn: {{choice}}",
+      "strongerPlay": "Nước đi tốt hơn: {{choice}}",
+      "replay": "Làm lại bài tập",
+      "backToMissions": "Về nhiệm vụ",
+      "streakLabel": "ngày chuỗi kỷ luật",
+      "extendedToday": "Đã kéo dài hôm nay — sự kiên định tích lũy.",
+      "loggedToday": "Đã ghi nhận hôm nay — giữ vững vào ngày mai.",
+      "loadError": "Không thể tải bài tập.",
+      "debrief": {
+        "cta": "Nhận bản tổng kết từ huấn luyện viên AI",
+        "loading": "Huấn luyện viên đang xem lại lượt của bạn…",
+        "title": "Tổng kết của huấn luyện viên",
+        "unavailable": "Bản tổng kết AI hiện không khả dụng."
+      }
+    },
+    "scenario": {
+      "allMissions": "Tất cả nhiệm vụ",
+      "barOf": "Nến {{current}} / {{total}}",
+      "decisionOf": "Quyết định {{current}} / {{total}}",
+      "grading": "Đang chấm…",
+      "getDebrief": "Nhận bản tổng kết",
+      "passed": "Đạt",
+      "belowBar": "Dưới ngưỡng {{percent}}%",
+      "points": "{{score}} / {{max}} điểm",
+      "youChose": "Bạn đã chọn: {{choice}}",
+      "strongerPlay": "Nước đi tốt hơn: {{choice}}",
+      "backToMissions": "Về nhiệm vụ"
     }
   },
   "backtest": {

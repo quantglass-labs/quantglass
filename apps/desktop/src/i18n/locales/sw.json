@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Maendeleo kwa ngazi",
       "subtitle": "Misheni iliyokamilishwa katika kila ngazi."
+    },
+    "drill": {
+      "back": "Rudi",
+      "heading": "Zoezi la uamuzi: {{title}}",
+      "passRule": "umefaulu kwa mchakato wa {{percent}}%, bila ukiukaji mzito",
+      "best": " · bora {{percent}}%",
+      "decisionOf": "Uamuzi {{current}} kati ya {{total}}",
+      "grading": "Inakadiria…",
+      "scoreProcess": "Mchakato",
+      "scoreRisk": "Hatari",
+      "scoreDiscipline": "Nidhamu",
+      "passed": "Zoezi limefaulu",
+      "failed": "Zoezi halikufaulu",
+      "severe": " — ukiukaji mzito wa hatari",
+      "youChose": "Ulichagua: {{choice}}",
+      "strongerPlay": "Hatua bora: {{choice}}",
+      "replay": "Rudia zoezi",
+      "backToMissions": "Rudi kwenye misheni",
+      "streakLabel": "siku za mfululizo wa nidhamu",
+      "extendedToday": "Imeongezwa leo — uthabiti hujilimbikiza.",
+      "loggedToday": "Imerekodiwa leo — iendeleze kesho.",
+      "loadError": "Imeshindwa kupakia zoezi.",
+      "debrief": {
+        "cta": "Pata uchambuzi wa mkufunzi wa AI",
+        "loading": "Mkufunzi anapitia kipindi chako…",
+        "title": "Uchambuzi wa mkufunzi",
+        "unavailable": "Uchambuzi wa AI haupatikani kwa sasa."
+      }
+    },
+    "scenario": {
+      "allMissions": "Misheni zote",
+      "barOf": "Mshumaa {{current}} / {{total}}",
+      "decisionOf": "Uamuzi {{current}} kati ya {{total}}",
+      "grading": "Inakadiria…",
+      "getDebrief": "Pata uchambuzi",
+      "passed": "Umefaulu",
+      "belowBar": "Chini ya kiwango cha {{percent}}%",
+      "points": "pointi {{score}} / {{max}}",
+      "youChose": "Ulichagua: {{choice}}",
+      "strongerPlay": "Hatua bora: {{choice}}",
+      "backToMissions": "Rudi kwenye misheni"
     }
   },
   "backtest": {

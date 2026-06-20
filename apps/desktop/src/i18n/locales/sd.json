@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "درجي مطابق ترقي",
       "subtitle": "هر درجي تي مڪمل ٿيل مشن."
+    },
+    "drill": {
+      "back": "واپس",
+      "heading": "فيصلي جي مشق: {{title}}",
+      "passRule": "{{percent}}% عمل تي ڪامياب، ڪا سنگين خلاف ورزي ناهي",
+      "best": " · بهترين {{percent}}%",
+      "decisionOf": "فيصلو {{current}} مان {{total}}",
+      "grading": "جانچ ٿي رهي آهي…",
+      "scoreProcess": "عمل",
+      "scoreRisk": "خطرو",
+      "scoreDiscipline": "نظم",
+      "passed": "مشق ڪامياب",
+      "failed": "مشق ناڪام",
+      "severe": " — سنگين خطري جي خلاف ورزي",
+      "youChose": "توهان چونڊيو: {{choice}}",
+      "strongerPlay": "بهتر قدم: {{choice}}",
+      "replay": "مشق ٻيهر ڪريو",
+      "backToMissions": "مشن ڏانهن واپس",
+      "streakLabel": "ڏينهن جو نظم سلسلو",
+      "extendedToday": "اڄ وڌايو ويو — تسلسل جمع ٿيندو آهي.",
+      "loggedToday": "اڄ درج ٿيو — سڀاڻي ان کي جاري رکو.",
+      "loadError": "مشق لوڊ نه ٿي سگهي.",
+      "debrief": {
+        "cta": "AI استاد جو جائزو وٺو",
+        "loading": "استاد توهان جي دور جو جائزو وٺي رهيو آهي…",
+        "title": "استاد جو جائزو",
+        "unavailable": "AI جائزو هن وقت دستياب ناهي."
+      }
+    },
+    "scenario": {
+      "allMissions": "سڀ مشن",
+      "barOf": "ڪينڊل {{current}} / {{total}}",
+      "decisionOf": "فيصلو {{current}} مان {{total}}",
+      "grading": "جانچ ٿي رهي آهي…",
+      "getDebrief": "جائزو وٺو",
+      "passed": "ڪامياب",
+      "belowBar": "{{percent}}% حد کان گهٽ",
+      "points": "{{score}} / {{max}} پوائنٽ",
+      "youChose": "توهان چونڊيو: {{choice}}",
+      "strongerPlay": "بهتر قدم: {{choice}}",
+      "backToMissions": "مشن ڏانهن واپس"
     }
   },
   "backtest": {

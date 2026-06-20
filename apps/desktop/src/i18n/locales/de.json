@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Fortschritt nach Stufe",
       "subtitle": "Pro Stufe abgeschlossene Missionen."
+    },
+    "drill": {
+      "back": "Zurück",
+      "heading": "Entscheidungsübung: {{title}}",
+      "passRule": "bestanden bei {{percent}}% Prozess, kein schwerer Verstoß",
+      "best": " · Bestwert {{percent}}%",
+      "decisionOf": "Entscheidung {{current}} von {{total}}",
+      "grading": "Bewertung…",
+      "scoreProcess": "Prozess",
+      "scoreRisk": "Risiko",
+      "scoreDiscipline": "Disziplin",
+      "passed": "Übung bestanden",
+      "failed": "Übung nicht bestanden",
+      "severe": " — schwerer Risikoverstoß",
+      "youChose": "Deine Wahl: {{choice}}",
+      "strongerPlay": "Bessere Wahl: {{choice}}",
+      "replay": "Übung wiederholen",
+      "backToMissions": "Zurück zu den Missionen",
+      "streakLabel": "Tage Disziplin-Serie",
+      "extendedToday": "Heute verlängert — Beständigkeit zahlt sich aus.",
+      "loggedToday": "Heute erfasst — halte sie morgen am Leben.",
+      "loadError": "Übung konnte nicht geladen werden.",
+      "debrief": {
+        "cta": "KI-Trainer-Auswertung abrufen",
+        "loading": "Der Trainer überprüft deinen Durchlauf…",
+        "title": "Trainer-Auswertung",
+        "unavailable": "KI-Auswertung derzeit nicht verfügbar."
+      }
+    },
+    "scenario": {
+      "allMissions": "Alle Missionen",
+      "barOf": "Kerze {{current}} / {{total}}",
+      "decisionOf": "Entscheidung {{current}} von {{total}}",
+      "grading": "Bewertung…",
+      "getDebrief": "Auswertung abrufen",
+      "passed": "Bestanden",
+      "belowBar": "Unter der {{percent}}%-Schwelle",
+      "points": "{{score}} / {{max}} Punkte",
+      "youChose": "Deine Wahl: {{choice}}",
+      "strongerPlay": "Bessere Wahl: {{choice}}",
+      "backToMissions": "Zurück zu den Missionen"
     }
   },
   "backtest": {

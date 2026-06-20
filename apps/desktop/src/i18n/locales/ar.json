@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "التقدّم حسب المستوى",
       "subtitle": "المهام المكتملة في كل مستوى."
+    },
+    "drill": {
+      "back": "رجوع",
+      "heading": "تدريب القرار: {{title}}",
+      "passRule": "ينجح عند {{percent}}% من العملية، دون مخالفة جسيمة",
+      "best": " · الأفضل {{percent}}%",
+      "decisionOf": "القرار {{current}} من {{total}}",
+      "grading": "جارٍ التقييم…",
+      "scoreProcess": "العملية",
+      "scoreRisk": "المخاطرة",
+      "scoreDiscipline": "الانضباط",
+      "passed": "اجتياز التدريب",
+      "failed": "إخفاق التدريب",
+      "severe": " — مخالفة جسيمة للمخاطر",
+      "youChose": "اخترت: {{choice}}",
+      "strongerPlay": "خيار أقوى: {{choice}}",
+      "replay": "إعادة التدريب",
+      "backToMissions": "العودة إلى المهام",
+      "streakLabel": "يوماً من سلسلة الانضباط",
+      "extendedToday": "تم تمديدها اليوم — الاستمرارية تتراكم.",
+      "loggedToday": "سُجّلت اليوم — حافظ عليها غداً.",
+      "loadError": "تعذّر تحميل التدريب.",
+      "debrief": {
+        "cta": "احصل على تقييم المدرب بالذكاء الاصطناعي",
+        "loading": "يراجع المدرب جولتك…",
+        "title": "تقييم المدرب",
+        "unavailable": "تقييم الذكاء الاصطناعي غير متاح حالياً."
+      }
+    },
+    "scenario": {
+      "allMissions": "كل المهام",
+      "barOf": "الشمعة {{current}} / {{total}}",
+      "decisionOf": "القرار {{current}} من {{total}}",
+      "grading": "جارٍ التقييم…",
+      "getDebrief": "احصل على التقييم",
+      "passed": "ناجح",
+      "belowBar": "أقل من حد {{percent}}%",
+      "points": "{{score}} / {{max}} نقطة",
+      "youChose": "اخترت: {{choice}}",
+      "strongerPlay": "خيار أقوى: {{choice}}",
+      "backToMissions": "العودة إلى المهام"
     }
   },
   "backtest": {

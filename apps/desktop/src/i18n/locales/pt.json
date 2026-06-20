@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Progresso por nível",
       "subtitle": "Missões concluídas em cada nível."
+    },
+    "drill": {
+      "back": "Voltar",
+      "heading": "Simulação de decisão: {{title}}",
+      "passRule": "aprovado com {{percent}}% de processo, sem infração grave",
+      "best": " · melhor {{percent}}%",
+      "decisionOf": "Decisão {{current}} de {{total}}",
+      "grading": "Avaliando…",
+      "scoreProcess": "Processo",
+      "scoreRisk": "Risco",
+      "scoreDiscipline": "Disciplina",
+      "passed": "Simulação aprovada",
+      "failed": "Simulação reprovada",
+      "severe": " — infração grave de risco",
+      "youChose": "Você escolheu: {{choice}}",
+      "strongerPlay": "Melhor jogada: {{choice}}",
+      "replay": "Repetir a simulação",
+      "backToMissions": "Voltar às missões",
+      "streakLabel": "dias de sequência de disciplina",
+      "extendedToday": "Ampliada hoje — a consistência se acumula.",
+      "loggedToday": "Registrada hoje — mantenha viva amanhã.",
+      "loadError": "Não foi possível carregar a simulação.",
+      "debrief": {
+        "cta": "Obter a análise do instrutor de IA",
+        "loading": "O instrutor está revisando sua execução…",
+        "title": "Análise do instrutor",
+        "unavailable": "Análise de IA indisponível no momento."
+      }
+    },
+    "scenario": {
+      "allMissions": "Todas as missões",
+      "barOf": "Candle {{current}} / {{total}}",
+      "decisionOf": "Decisão {{current}} de {{total}}",
+      "grading": "Avaliando…",
+      "getDebrief": "Obter a análise",
+      "passed": "Aprovado",
+      "belowBar": "Abaixo do limite de {{percent}}%",
+      "points": "{{score}} / {{max}} pontos",
+      "youChose": "Você escolheu: {{choice}}",
+      "strongerPlay": "Melhor jogada: {{choice}}",
+      "backToMissions": "Voltar às missões"
     }
   },
   "backtest": {

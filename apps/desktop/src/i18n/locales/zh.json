@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "按级别的进度",
       "subtitle": "每个级别已完成的任务。"
+    },
+    "drill": {
+      "back": "返回",
+      "heading": "决策演练：{{title}}",
+      "passRule": "流程达 {{percent}}% 即通过，无严重违规",
+      "best": " · 最佳 {{percent}}%",
+      "decisionOf": "决策 {{current}} / {{total}}",
+      "grading": "评分中…",
+      "scoreProcess": "流程",
+      "scoreRisk": "风险",
+      "scoreDiscipline": "纪律",
+      "passed": "演练通过",
+      "failed": "演练未通过",
+      "severe": " — 严重风险违规",
+      "youChose": "你选择了：{{choice}}",
+      "strongerPlay": "更优选择：{{choice}}",
+      "replay": "重做演练",
+      "backToMissions": "返回任务",
+      "streakLabel": "天纪律连续记录",
+      "extendedToday": "今日延续——坚持终有回报。",
+      "loggedToday": "今日已记录——明天继续保持。",
+      "loadError": "无法加载演练。",
+      "debrief": {
+        "cta": "获取 AI 导师讲评",
+        "loading": "导师正在回顾你的过程…",
+        "title": "导师讲评",
+        "unavailable": "AI 讲评暂时不可用。"
+      }
+    },
+    "scenario": {
+      "allMissions": "全部任务",
+      "barOf": "第 {{current}} / {{total}} 根K线",
+      "decisionOf": "决策 {{current}} / {{total}}",
+      "grading": "评分中…",
+      "getDebrief": "获取讲评",
+      "passed": "通过",
+      "belowBar": "低于 {{percent}}% 门槛",
+      "points": "{{score}} / {{max}} 分",
+      "youChose": "你选择了：{{choice}}",
+      "strongerPlay": "更优选择：{{choice}}",
+      "backToMissions": "返回任务"
     }
   },
   "backtest": {
