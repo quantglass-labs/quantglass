@@ -10,6 +10,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { AlertTriangle, ArrowLeft, Flame, ShieldCheck } from 'lucide-react';
 
 import { backendClient } from '../../lib/backend';
@@ -32,6 +33,7 @@ function ScoreTile({ label, value, bar }: { label: string; value: number; bar: n
  * celebrates the consistency of showing up, never the P&L of the choice.
  */
 function StreakReward({ streak, extendedToday }: { streak: number; extendedToday: boolean }) {
+  const { t } = useTranslation();
   return (
     <FadeIn>
       <div className="mb-3 flex items-center gap-3 rounded-xl border border-hold/40 bg-gradient-to-r from-hold/15 to-hold/5 p-4">
@@ -41,12 +43,12 @@ function StreakReward({ streak, extendedToday }: { streak: number; extendedToday
         <div>
           <p className="flex items-baseline gap-1.5 font-semibold text-ink">
             <CountUp value={streak} format={(n) => String(Math.round(n))} />
-            <span className="text-sm font-normal text-muted">day discipline streak</span>
+            <span className="text-sm font-normal text-muted">
+              {t('missions.drill.streakLabel')}
+            </span>
           </p>
           <p className="mt-0.5 text-xs text-hold/90">
-            {extendedToday
-              ? 'Extended today — consistency compounds.'
-              : 'Logged for today — keep it alive tomorrow.'}
+            {extendedToday ? t('missions.drill.extendedToday') : t('missions.drill.loggedToday')}
           </p>
         </div>
       </div>
@@ -55,6 +57,7 @@ function StreakReward({ streak, extendedToday }: { streak: number; extendedToday
 }
 
 export function DecisionDrill({ category, onExit }: { category: string; onExit: () => void }) {
+  const { t } = useTranslation();
   const [drill, setDrill] = useState<DrillDetail | null>(null);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -70,12 +73,12 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
     backendClient
       .getDrill(category)
       .then(setDrill)
-      .catch(() => setError('Could not load the drill.'));
+      .catch(() => setError(t('missions.drill.loadError')));
     backendClient
       .getDailyBriefing()
       .then((briefing) => setActiveAtStart(briefing.active_today))
       .catch(() => undefined);
-  }, [category]);
+  }, [category, t]);
 
   // On a pass, the drill has just recorded today's activity; surface the
   // resulting streak as the reward. (The display is gated on `grade.passed`,
@@ -128,12 +131,16 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
           onClick={onExit}
           className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-white/20"
         >
-          <ArrowLeft size={13} /> Back
+          <ArrowLeft size={13} /> {t('missions.drill.back')}
         </button>
-        <h2 className="font-semibold text-ink">Decision drill: {drill.title}</h2>
+        <h2 className="font-semibold text-ink">
+          {t('missions.drill.heading', { title: drill.title })}
+        </h2>
         <span className="ml-auto text-xs text-muted/70">
-          pass at {drill.pass_percent}% process, no severe violation
-          {drill.best_percent !== null ? ` · best ${drill.best_percent}%` : ''}
+          {t('missions.drill.passRule', { percent: drill.pass_percent })}
+          {drill.best_percent !== null
+            ? t('missions.drill.best', { percent: drill.best_percent })
+            : ''}
         </span>
       </div>
 
@@ -144,7 +151,10 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
       {!grade ? (
         <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-5">
           <p className="text-xs uppercase tracking-wider text-accent">
-            Decision {step + 1} of {drill.checkpoints.length}
+            {t('missions.drill.decisionOf', {
+              current: step + 1,
+              total: drill.checkpoints.length,
+            })}
           </p>
           <p className="mt-2 font-medium text-ink">{checkpoint.question}</p>
           <div className="mt-3 space-y-2">
@@ -160,7 +170,9 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               </button>
             ))}
           </div>
-          {grading ? <p className="mt-3 text-xs text-muted">Grading…</p> : null}
+          {grading ? (
+            <p className="mt-3 text-xs text-muted">{t('missions.drill.grading')}</p>
+          ) : null}
         </div>
       ) : (
         <div className="mt-4">
@@ -168,10 +180,18 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
             <StreakReward streak={rewardStreak} extendedToday={!activeAtStart} />
           ) : null}
           <div className="grid grid-cols-3 gap-3">
-            <ScoreTile label="Process" value={grade.scores.process} bar={grade.pass_percent} />
-            <ScoreTile label="Risk" value={grade.scores.risk} bar={grade.pass_percent} />
             <ScoreTile
-              label="Discipline"
+              label={t('missions.drill.scoreProcess')}
+              value={grade.scores.process}
+              bar={grade.pass_percent}
+            />
+            <ScoreTile
+              label={t('missions.drill.scoreRisk')}
+              value={grade.scores.risk}
+              bar={grade.pass_percent}
+            />
+            <ScoreTile
+              label={t('missions.drill.scoreDiscipline')}
               value={grade.scores.discipline}
               bar={grade.pass_percent}
             />
@@ -188,8 +208,8 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
             )}
             <div>
               <p className="font-semibold text-ink">
-                {grade.passed ? 'Drill passed' : 'Drill failed'}
-                {grade.severe_violation ? ' — severe risk violation' : ''}
+                {grade.passed ? t('missions.drill.passed') : t('missions.drill.failed')}
+                {grade.severe_violation ? t('missions.drill.severe') : ''}
               </p>
               <p className="mt-1 text-sm text-ink">{grade.officer_note}</p>
             </div>
@@ -204,11 +224,15 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               >
                 <p className="text-sm font-medium text-ink">{item.question}</p>
                 {item.chosen ? (
-                  <p className="mt-1 text-xs text-muted">You chose: {item.chosen}</p>
+                  <p className="mt-1 text-xs text-muted">
+                    {t('missions.drill.youChose', { choice: item.chosen })}
+                  </p>
                 ) : null}
                 <p className="mt-2 text-sm leading-relaxed text-muted">{item.feedback}</p>
                 {item.best_choice ? (
-                  <p className="mt-2 text-xs text-buy/80">Stronger play: {item.best_choice}</p>
+                  <p className="mt-2 text-xs text-buy/80">
+                    {t('missions.drill.strongerPlay', { choice: item.best_choice })}
+                  </p>
                 ) : null}
               </div>
             ))}
@@ -220,14 +244,14 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
               onClick={reset}
               className="rounded-lg border border-accent/50 px-5 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/15"
             >
-              Replay the drill
+              {t('missions.drill.replay')}
             </button>
             <button
               type="button"
               onClick={onExit}
               className="rounded-lg border border-border px-5 py-2 text-sm text-ink transition-colors hover:border-white/20"
             >
-              Back to missions
+              {t('missions.drill.backToMissions')}
             </button>
           </div>
         </div>
@@ -237,6 +261,7 @@ export function DecisionDrill({ category, onExit }: { category: string; onExit: 
 }
 
 function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
+  const { t } = useTranslation();
   const [debrief, setDebrief] = useState<{ summary: string; source: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -256,7 +281,7 @@ function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
         }),
       );
     } catch {
-      setDebrief({ summary: 'AI debrief unavailable right now.', source: 'error' });
+      setDebrief({ summary: t('missions.drill.debrief.unavailable'), source: 'error' });
     } finally {
       setLoading(false);
     }
@@ -271,12 +296,12 @@ function AiDebrief({ grade }: { grade: DrillGradeResponse }) {
           onClick={() => void ask()}
           className="w-full rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm text-accent transition-colors hover:bg-accent/15 disabled:opacity-50"
         >
-          {loading ? 'The instructor is reviewing your run…' : 'Get the AI instructor debrief'}
+          {loading ? t('missions.drill.debrief.loading') : t('missions.drill.debrief.cta')}
         </button>
       ) : (
         <div className="rounded-xl border border-accent/25 bg-accent/10 p-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-accent">
-            Instructor debrief{' '}
+            {t('missions.drill.debrief.title')}{' '}
             <span className="ml-1 rounded-full border border-border px-2 py-0.5 text-[10px] normal-case text-muted">
               {debrief.source}
             </span>

@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Progreso por nivel",
       "subtitle": "Misiones completadas en cada nivel."
+    },
+    "drill": {
+      "back": "Atrás",
+      "heading": "Simulacro de decisión: {{title}}",
+      "passRule": "se aprueba con {{percent}}% de proceso, sin infracción grave",
+      "best": " · mejor {{percent}}%",
+      "decisionOf": "Decisión {{current}} de {{total}}",
+      "grading": "Calificando…",
+      "scoreProcess": "Proceso",
+      "scoreRisk": "Riesgo",
+      "scoreDiscipline": "Disciplina",
+      "passed": "Simulacro superado",
+      "failed": "Simulacro no superado",
+      "severe": " — infracción grave de riesgo",
+      "youChose": "Elegiste: {{choice}}",
+      "strongerPlay": "Mejor jugada: {{choice}}",
+      "replay": "Repetir el simulacro",
+      "backToMissions": "Volver a misiones",
+      "streakLabel": "días de racha de disciplina",
+      "extendedToday": "Ampliada hoy: la constancia se acumula.",
+      "loggedToday": "Registrada hoy: mantenla viva mañana.",
+      "loadError": "No se pudo cargar el simulacro.",
+      "debrief": {
+        "cta": "Obtener el análisis del instructor de IA",
+        "loading": "El instructor está revisando tu ejecución…",
+        "title": "Análisis del instructor",
+        "unavailable": "Análisis de IA no disponible en este momento."
+      }
+    },
+    "scenario": {
+      "allMissions": "Todas las misiones",
+      "barOf": "Vela {{current}} / {{total}}",
+      "decisionOf": "Decisión {{current}} de {{total}}",
+      "grading": "Calificando…",
+      "getDebrief": "Obtener el análisis",
+      "passed": "Superado",
+      "belowBar": "Por debajo del umbral del {{percent}}%",
+      "points": "{{score}} / {{max}} puntos",
+      "youChose": "Elegiste: {{choice}}",
+      "strongerPlay": "Mejor jugada: {{choice}}",
+      "backToMissions": "Volver a misiones"
     }
   },
   "backtest": {

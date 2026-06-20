@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "درجے کے مطابق پیش رفت",
       "subtitle": "ہر سطح پر مکمل کیے گئے مشن۔"
+    },
+    "drill": {
+      "back": "واپس",
+      "heading": "فیصلہ مشق: {{title}}",
+      "passRule": "{{percent}}% عمل پر کامیاب، کوئی سنگین خلاف ورزی نہیں",
+      "best": " · بہترین {{percent}}%",
+      "decisionOf": "فیصلہ {{current}} از {{total}}",
+      "grading": "جانچ ہو رہی ہے…",
+      "scoreProcess": "عمل",
+      "scoreRisk": "خطرہ",
+      "scoreDiscipline": "نظم و ضبط",
+      "passed": "مشق کامیاب",
+      "failed": "مشق ناکام",
+      "severe": " — سنگین خطرے کی خلاف ورزی",
+      "youChose": "آپ نے منتخب کیا: {{choice}}",
+      "strongerPlay": "بہتر اقدام: {{choice}}",
+      "replay": "مشق دہرائیں",
+      "backToMissions": "مشنز پر واپس",
+      "streakLabel": "دن کا نظم و ضبط تسلسل",
+      "extendedToday": "آج بڑھایا گیا — تسلسل جمع ہوتا ہے۔",
+      "loggedToday": "آج درج — کل اسے جاری رکھیں۔",
+      "loadError": "مشق لوڈ نہ ہو سکی۔",
+      "debrief": {
+        "cta": "AI انسٹرکٹر کا جائزہ حاصل کریں",
+        "loading": "انسٹرکٹر آپ کے دور کا جائزہ لے رہے ہیں…",
+        "title": "انسٹرکٹر کا جائزہ",
+        "unavailable": "AI جائزہ اس وقت دستیاب نہیں۔"
+      }
+    },
+    "scenario": {
+      "allMissions": "تمام مشنز",
+      "barOf": "کینڈل {{current}} / {{total}}",
+      "decisionOf": "فیصلہ {{current}} از {{total}}",
+      "grading": "جانچ ہو رہی ہے…",
+      "getDebrief": "جائزہ حاصل کریں",
+      "passed": "کامیاب",
+      "belowBar": "{{percent}}% حد سے کم",
+      "points": "{{score}} / {{max}} پوائنٹس",
+      "youChose": "آپ نے منتخب کیا: {{choice}}",
+      "strongerPlay": "بہتر اقدام: {{choice}}",
+      "backToMissions": "مشنز پر واپس"
     }
   },
   "backtest": {

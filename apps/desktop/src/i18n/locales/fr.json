@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Progression par niveau",
       "subtitle": "Missions accomplies à chaque niveau."
+    },
+    "drill": {
+      "back": "Retour",
+      "heading": "Exercice de décision : {{title}}",
+      "passRule": "réussi à {{percent}}% de processus, sans faute grave",
+      "best": " · record {{percent}}%",
+      "decisionOf": "Décision {{current}} sur {{total}}",
+      "grading": "Évaluation…",
+      "scoreProcess": "Processus",
+      "scoreRisk": "Risque",
+      "scoreDiscipline": "Discipline",
+      "passed": "Exercice réussi",
+      "failed": "Exercice échoué",
+      "severe": " — faute grave de risque",
+      "youChose": "Votre choix : {{choice}}",
+      "strongerPlay": "Meilleur choix : {{choice}}",
+      "replay": "Refaire l'exercice",
+      "backToMissions": "Retour aux missions",
+      "streakLabel": "jours de série de discipline",
+      "extendedToday": "Prolongée aujourd’hui — la régularité paie.",
+      "loggedToday": "Enregistrée aujourd’hui — gardez-la vivante demain.",
+      "loadError": "Impossible de charger l'exercice.",
+      "debrief": {
+        "cta": "Obtenir le débrief de l'instructeur IA",
+        "loading": "L’instructeur examine votre parcours…",
+        "title": "Débrief de l'instructeur",
+        "unavailable": "Débrief IA indisponible pour le moment."
+      }
+    },
+    "scenario": {
+      "allMissions": "Toutes les missions",
+      "barOf": "Bougie {{current}} / {{total}}",
+      "decisionOf": "Décision {{current}} sur {{total}}",
+      "grading": "Évaluation…",
+      "getDebrief": "Obtenir le débrief",
+      "passed": "Réussi",
+      "belowBar": "En dessous du seuil de {{percent}}%",
+      "points": "{{score}} / {{max}} points",
+      "youChose": "Votre choix : {{choice}}",
+      "strongerPlay": "Meilleur choix : {{choice}}",
+      "backToMissions": "Retour aux missions"
     }
   },
   "backtest": {

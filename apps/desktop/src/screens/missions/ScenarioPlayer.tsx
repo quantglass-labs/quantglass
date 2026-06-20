@@ -10,6 +10,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Award, ChevronRight } from 'lucide-react';
 
 import { backendClient } from '../../lib/backend';
@@ -90,6 +91,7 @@ export function ScenarioPlayer({
   scenario: ScenarioDetail;
   onExit: () => void;
 }) {
+  const { t } = useTranslation();
   const firstStop = scenario.checkpoints[0]?.at_bar ?? scenario.candles.length;
   const [revealed, setRevealed] = useState(Math.min(8, firstStop));
   const [checkpointIndex, setCheckpointIndex] = useState(0);
@@ -134,14 +136,17 @@ export function ScenarioPlayer({
           onClick={onExit}
           className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-white/20"
         >
-          <ArrowLeft size={13} /> All missions
+          <ArrowLeft size={13} /> {t('missions.scenario.allMissions')}
         </button>
         <h2 className="font-semibold text-ink">{scenario.title}</h2>
         <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted">
           {scenario.level}
         </span>
         <span className="ml-auto text-xs text-muted/70">
-          Bar {Math.min(revealed, scenario.candles.length)} / {scenario.candles.length}
+          {t('missions.scenario.barOf', {
+            current: Math.min(revealed, scenario.candles.length),
+            total: scenario.candles.length,
+          })}
         </span>
       </div>
       <p className="mt-2 text-sm text-muted">{scenario.description}</p>
@@ -153,7 +158,10 @@ export function ScenarioPlayer({
       {atCheckpoint && !grade ? (
         <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-5">
           <p className="text-xs uppercase tracking-wider text-accent">
-            Decision {checkpointIndex + 1} of {scenario.checkpoints.length}
+            {t('missions.scenario.decisionOf', {
+              current: checkpointIndex + 1,
+              total: scenario.checkpoints.length,
+            })}
           </p>
           <p className="mt-2 font-medium text-ink">{activeCheckpoint.question}</p>
           <div className="mt-3 space-y-2">
@@ -180,7 +188,7 @@ export function ScenarioPlayer({
             onClick={() => void handleGrade()}
             className="rounded-lg border border-accent/50 px-6 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent/15 disabled:opacity-40"
           >
-            {grading ? 'Grading…' : 'Get the debrief'}
+            {grading ? t('missions.scenario.grading') : t('missions.scenario.getDebrief')}
           </button>
         </div>
       ) : null}
@@ -194,10 +202,13 @@ export function ScenarioPlayer({
           >
             <Award size={20} className={grade.passed ? 'text-buy' : 'text-hold'} />
             <p className="font-semibold text-ink">
-              {grade.percent}% — {grade.passed ? 'Passed' : `Below the ${grade.pass_percent}% bar`}
+              {grade.percent}% —{' '}
+              {grade.passed
+                ? t('missions.scenario.passed')
+                : t('missions.scenario.belowBar', { percent: grade.pass_percent })}
             </p>
             <span className="ml-auto text-xs text-muted">
-              {grade.score} / {grade.max_score} points
+              {t('missions.scenario.points', { score: grade.score, max: grade.max_score })}
             </span>
           </div>
           <div className="mt-3 space-y-3">
@@ -214,11 +225,15 @@ export function ScenarioPlayer({
                   </span>
                 </div>
                 {item.chosen ? (
-                  <p className="mt-1 text-xs text-muted">You chose: {item.chosen}</p>
+                  <p className="mt-1 text-xs text-muted">
+                    {t('missions.scenario.youChose', { choice: item.chosen })}
+                  </p>
                 ) : null}
                 <p className="mt-2 text-sm text-muted">{item.debrief}</p>
                 {item.best_choice ? (
-                  <p className="mt-2 text-xs text-buy/80">Stronger play: {item.best_choice}</p>
+                  <p className="mt-2 text-xs text-buy/80">
+                    {t('missions.scenario.strongerPlay', { choice: item.best_choice })}
+                  </p>
                 ) : null}
               </div>
             ))}
@@ -229,7 +244,7 @@ export function ScenarioPlayer({
               onClick={onExit}
               className="rounded-lg border border-border px-5 py-2 text-sm text-ink transition-colors hover:border-white/20"
             >
-              Back to missions
+              {t('missions.scenario.backToMissions')}
             </button>
           </div>
         </div>

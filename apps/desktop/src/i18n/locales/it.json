@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Progressi per livello",
       "subtitle": "Missioni completate a ogni livello."
+    },
+    "drill": {
+      "back": "Indietro",
+      "heading": "Esercitazione decisionale: {{title}}",
+      "passRule": "superata al {{percent}}% di processo, senza violazioni gravi",
+      "best": " · record {{percent}}%",
+      "decisionOf": "Decisione {{current}} di {{total}}",
+      "grading": "Valutazione…",
+      "scoreProcess": "Processo",
+      "scoreRisk": "Rischio",
+      "scoreDiscipline": "Disciplina",
+      "passed": "Esercitazione superata",
+      "failed": "Esercitazione non superata",
+      "severe": " — violazione grave di rischio",
+      "youChose": "Hai scelto: {{choice}}",
+      "strongerPlay": "Mossa migliore: {{choice}}",
+      "replay": "Ripeti l'esercitazione",
+      "backToMissions": "Torna alle missioni",
+      "streakLabel": "giorni di serie di disciplina",
+      "extendedToday": "Estesa oggi — la costanza paga.",
+      "loggedToday": "Registrata oggi — tienila viva domani.",
+      "loadError": "Impossibile caricare l'esercitazione.",
+      "debrief": {
+        "cta": "Ottieni il debrief dell'istruttore IA",
+        "loading": "L’istruttore sta esaminando la tua sessione…",
+        "title": "Debrief dell'istruttore",
+        "unavailable": "Debrief IA non disponibile al momento."
+      }
+    },
+    "scenario": {
+      "allMissions": "Tutte le missioni",
+      "barOf": "Candela {{current}} / {{total}}",
+      "decisionOf": "Decisione {{current}} di {{total}}",
+      "grading": "Valutazione…",
+      "getDebrief": "Ottieni il debrief",
+      "passed": "Superato",
+      "belowBar": "Sotto la soglia del {{percent}}%",
+      "points": "{{score}} / {{max}} punti",
+      "youChose": "Hai scelto: {{choice}}",
+      "strongerPlay": "Mossa migliore: {{choice}}",
+      "backToMissions": "Torna alle missioni"
     }
   },
   "backtest": {

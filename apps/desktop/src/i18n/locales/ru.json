@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Прогресс по уровням",
       "subtitle": "Миссии, выполненные на каждом уровне."
+    },
+    "drill": {
+      "back": "Назад",
+      "heading": "Тренировка решений: {{title}}",
+      "passRule": "зачёт при {{percent}}% процесса, без грубых нарушений",
+      "best": " · лучший {{percent}}%",
+      "decisionOf": "Решение {{current}} из {{total}}",
+      "grading": "Оценка…",
+      "scoreProcess": "Процесс",
+      "scoreRisk": "Риск",
+      "scoreDiscipline": "Дисциплина",
+      "passed": "Тренировка пройдена",
+      "failed": "Тренировка не пройдена",
+      "severe": " — грубое нарушение риска",
+      "youChose": "Ваш выбор: {{choice}}",
+      "strongerPlay": "Лучший ход: {{choice}}",
+      "replay": "Повторить тренировку",
+      "backToMissions": "К миссиям",
+      "streakLabel": "дней серии дисциплины",
+      "extendedToday": "Продлена сегодня — постоянство накапливается.",
+      "loggedToday": "Засчитана сегодня — сохраните её завтра.",
+      "loadError": "Не удалось загрузить тренировку.",
+      "debrief": {
+        "cta": "Получить разбор ИИ-инструктора",
+        "loading": "Инструктор анализирует вашу сессию…",
+        "title": "Разбор инструктора",
+        "unavailable": "Разбор ИИ сейчас недоступен."
+      }
+    },
+    "scenario": {
+      "allMissions": "Все миссии",
+      "barOf": "Свеча {{current}} / {{total}}",
+      "decisionOf": "Решение {{current}} из {{total}}",
+      "grading": "Оценка…",
+      "getDebrief": "Получить разбор",
+      "passed": "Пройдено",
+      "belowBar": "Ниже порога {{percent}}%",
+      "points": "{{score}} / {{max}} баллов",
+      "youChose": "Ваш выбор: {{choice}}",
+      "strongerPlay": "Лучший ход: {{choice}}",
+      "backToMissions": "К миссиям"
     }
   },
   "backtest": {

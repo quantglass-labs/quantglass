@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Seviyeye göre ilerleme",
       "subtitle": "Her seviyede tamamlanan görevler."
+    },
+    "drill": {
+      "back": "Geri",
+      "heading": "Karar tatbikatı: {{title}}",
+      "passRule": "%{{percent}} süreçle geçer, ağır ihlal yok",
+      "best": " · en iyi %{{percent}}",
+      "decisionOf": "Karar {{current}} / {{total}}",
+      "grading": "Değerlendiriliyor…",
+      "scoreProcess": "Süreç",
+      "scoreRisk": "Risk",
+      "scoreDiscipline": "Disiplin",
+      "passed": "Tatbikat geçildi",
+      "failed": "Tatbikat geçilemedi",
+      "severe": " — ağır risk ihlali",
+      "youChose": "Seçimin: {{choice}}",
+      "strongerPlay": "Daha iyi hamle: {{choice}}",
+      "replay": "Tatbikatı tekrarla",
+      "backToMissions": "Görevlere dön",
+      "streakLabel": "günlük disiplin serisi",
+      "extendedToday": "Bugün uzatıldı — istikrar birikir.",
+      "loggedToday": "Bugün kaydedildi — yarın da sürdür.",
+      "loadError": "Tatbikat yüklenemedi.",
+      "debrief": {
+        "cta": "Yapay zekâ eğitmen değerlendirmesini al",
+        "loading": "Eğitmen oturumunu inceliyor…",
+        "title": "Eğitmen değerlendirmesi",
+        "unavailable": "Yapay zekâ değerlendirmesi şu anda kullanılamıyor."
+      }
+    },
+    "scenario": {
+      "allMissions": "Tüm görevler",
+      "barOf": "Mum {{current}} / {{total}}",
+      "decisionOf": "Karar {{current}} / {{total}}",
+      "grading": "Değerlendiriliyor…",
+      "getDebrief": "Değerlendirmeyi al",
+      "passed": "Geçildi",
+      "belowBar": "%{{percent}} eşiğinin altında",
+      "points": "{{score}} / {{max}} puan",
+      "youChose": "Seçimin: {{choice}}",
+      "strongerPlay": "Daha iyi hamle: {{choice}}",
+      "backToMissions": "Görevlere dön"
     }
   },
   "backtest": {

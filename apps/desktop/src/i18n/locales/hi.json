@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "स्तर के अनुसार प्रगति",
       "subtitle": "प्रत्येक स्तर पर पूरी की गई मिशन।"
+    },
+    "drill": {
+      "back": "वापस",
+      "heading": "निर्णय अभ्यास: {{title}}",
+      "passRule": "{{percent}}% प्रक्रिया पर उत्तीर्ण, कोई गंभीर उल्लंघन नहीं",
+      "best": " · सर्वश्रेष्ठ {{percent}}%",
+      "decisionOf": "निर्णय {{current}} / {{total}}",
+      "grading": "मूल्यांकन हो रहा है…",
+      "scoreProcess": "प्रक्रिया",
+      "scoreRisk": "जोखिम",
+      "scoreDiscipline": "अनुशासन",
+      "passed": "अभ्यास उत्तीर्ण",
+      "failed": "अभ्यास अनुत्तीर्ण",
+      "severe": " — गंभीर जोखिम उल्लंघन",
+      "youChose": "आपने चुना: {{choice}}",
+      "strongerPlay": "बेहतर चाल: {{choice}}",
+      "replay": "अभ्यास दोहराएँ",
+      "backToMissions": "मिशन पर वापस",
+      "streakLabel": "दिन का अनुशासन सिलसिला",
+      "extendedToday": "आज बढ़ा — निरंतरता संचित होती है।",
+      "loggedToday": "आज दर्ज — कल इसे बनाए रखें।",
+      "loadError": "अभ्यास लोड नहीं हो सका।",
+      "debrief": {
+        "cta": "AI प्रशिक्षक की समीक्षा लें",
+        "loading": "प्रशिक्षक आपकी प्रगति की समीक्षा कर रहे हैं…",
+        "title": "प्रशिक्षक समीक्षा",
+        "unavailable": "AI समीक्षा अभी उपलब्ध नहीं है।"
+      }
+    },
+    "scenario": {
+      "allMissions": "सभी मिशन",
+      "barOf": "कैंडल {{current}} / {{total}}",
+      "decisionOf": "निर्णय {{current}} / {{total}}",
+      "grading": "मूल्यांकन हो रहा है…",
+      "getDebrief": "समीक्षा लें",
+      "passed": "उत्तीर्ण",
+      "belowBar": "{{percent}}% सीमा से नीचे",
+      "points": "{{score}} / {{max}} अंक",
+      "youChose": "आपने चुना: {{choice}}",
+      "strongerPlay": "बेहतर चाल: {{choice}}",
+      "backToMissions": "मिशन पर वापस"
     }
   },
   "backtest": {

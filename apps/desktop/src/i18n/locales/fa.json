@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "پیشرفت بر اساس سطح",
       "subtitle": "مأموریت‌های تکمیل‌شده در هر سطح."
+    },
+    "drill": {
+      "back": "بازگشت",
+      "heading": "تمرین تصمیم: {{title}}",
+      "passRule": "قبولی با {{percent}}% فرایند، بدون تخلف جدی",
+      "best": " · بهترین {{percent}}%",
+      "decisionOf": "تصمیم {{current}} از {{total}}",
+      "grading": "در حال ارزیابی…",
+      "scoreProcess": "فرایند",
+      "scoreRisk": "ریسک",
+      "scoreDiscipline": "انضباط",
+      "passed": "تمرین قبول شد",
+      "failed": "تمرین رد شد",
+      "severe": " — تخلف جدی ریسک",
+      "youChose": "انتخاب شما: {{choice}}",
+      "strongerPlay": "حرکت بهتر: {{choice}}",
+      "replay": "تکرار تمرین",
+      "backToMissions": "بازگشت به مأموریت‌ها",
+      "streakLabel": "روز زنجیره انضباط",
+      "extendedToday": "امروز تمدید شد — پایداری انباشته می‌شود.",
+      "loggedToday": "امروز ثبت شد — فردا آن را زنده نگه دارید.",
+      "loadError": "بارگیری تمرین ممکن نشد.",
+      "debrief": {
+        "cta": "دریافت جمع‌بندی مربی هوش مصنوعی",
+        "loading": "مربی در حال بررسی دور شماست…",
+        "title": "جمع‌بندی مربی",
+        "unavailable": "جمع‌بندی هوش مصنوعی اکنون در دسترس نیست."
+      }
+    },
+    "scenario": {
+      "allMissions": "همه مأموریت‌ها",
+      "barOf": "کندل {{current}} / {{total}}",
+      "decisionOf": "تصمیم {{current}} از {{total}}",
+      "grading": "در حال ارزیابی…",
+      "getDebrief": "دریافت جمع‌بندی",
+      "passed": "قبول",
+      "belowBar": "کمتر از آستانه {{percent}}%",
+      "points": "{{score}} / {{max}} امتیاز",
+      "youChose": "انتخاب شما: {{choice}}",
+      "strongerPlay": "حرکت بهتر: {{choice}}",
+      "backToMissions": "بازگشت به مأموریت‌ها"
     }
   },
   "backtest": {

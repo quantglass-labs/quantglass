@@ -418,6 +418,47 @@
     "tierMap": {
       "title": "Progress by tier",
       "subtitle": "Missions completed at each level."
+    },
+    "drill": {
+      "back": "Back",
+      "heading": "Decision drill: {{title}}",
+      "passRule": "pass at {{percent}}% process, no severe violation",
+      "best": " · best {{percent}}%",
+      "decisionOf": "Decision {{current}} of {{total}}",
+      "grading": "Grading…",
+      "scoreProcess": "Process",
+      "scoreRisk": "Risk",
+      "scoreDiscipline": "Discipline",
+      "passed": "Drill passed",
+      "failed": "Drill failed",
+      "severe": " — severe risk violation",
+      "youChose": "You chose: {{choice}}",
+      "strongerPlay": "Stronger play: {{choice}}",
+      "replay": "Replay the drill",
+      "backToMissions": "Back to missions",
+      "streakLabel": "day discipline streak",
+      "extendedToday": "Extended today — consistency compounds.",
+      "loggedToday": "Logged for today — keep it alive tomorrow.",
+      "loadError": "Could not load the drill.",
+      "debrief": {
+        "cta": "Get the AI instructor debrief",
+        "loading": "The instructor is reviewing your run…",
+        "title": "Instructor debrief",
+        "unavailable": "AI debrief unavailable right now."
+      }
+    },
+    "scenario": {
+      "allMissions": "All missions",
+      "barOf": "Bar {{current}} / {{total}}",
+      "decisionOf": "Decision {{current}} of {{total}}",
+      "grading": "Grading…",
+      "getDebrief": "Get the debrief",
+      "passed": "Passed",
+      "belowBar": "Below the {{percent}}% bar",
+      "points": "{{score}} / {{max}} points",
+      "youChose": "You chose: {{choice}}",
+      "strongerPlay": "Stronger play: {{choice}}",
+      "backToMissions": "Back to missions"
     }
   },
   "backtest": {
