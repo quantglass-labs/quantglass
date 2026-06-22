@@ -4,6 +4,8 @@
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/quantglass-labs/quantglass?include_prereleases)](https://github.com/quantglass-labs/quantglass/releases)
 [![Languages: 20 + RTL](https://img.shields.io/badge/languages-20%20%C2%B7%20RTL-2ea44f.svg)](#speaks-your-language-20-languages)
+[![YouTube: @QuantGlass](https://img.shields.io/badge/YouTube-@QuantGlass-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@QuantGlass)
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/quantglass-labs)
 
 QuantGlass is an open-source, local-first trading education and research
 workstation for crypto and US equities — a complete trading academy (121
@@ -31,6 +33,8 @@ fact-guard covenant.
 <p align="center"><em>A guided tour is below — <a href="#screenshots--a-guided-tour">jump to screenshots</a>.</em></p>
 
 <p align="center"><em>🌍 Now in <strong>20 languages</strong> — including full right-to-left Arabic, Persian, Urdu &amp; Sindhi. <a href="#speaks-your-language-20-languages">See the list ↓</a></em></p>
+
+<p align="center"><em>🎥 Learn trading honestly on YouTube — new lessons Tuesday &amp; Thursday: <a href="https://www.youtube.com/@QuantGlass">@QuantGlass</a></em></p>
 
 QuantGlass is licensed under **AGPL-3.0-or-later**. The community edition is
 free to use, study, modify, and redistribute under the AGPL. Commercial licenses
