@@ -39,5 +39,6 @@ arrangement rather than a sponsorship. See
 
 ## Acknowledgements
 
-Sponsors who wish to be listed publicly will be acknowledged here. Sponsorship is
-never required to use, study, modify, or contribute to QuantGlass under the AGPL.
+Sponsors who wish to be listed publicly are acknowledged in
+[BACKERS.md](BACKERS.md). Sponsorship is never required to use, study, modify,
+or contribute to QuantGlass under the AGPL.
