@@ -284,6 +284,19 @@ quant, desktop, and local-AI contributors:
   settings.
 - Packaging for a local desktop app with a managed backend sidecar.
 
+## Sponsors
+
+QuantGlass is free and open-source under the AGPL. Sponsorships fund ongoing
+development — keeping the community edition free, native-speaker translation
+review across the 20 languages, honest tooling, and new lessons and features.
+Sponsorship supports open-source development; it is **not** the purchase of
+trading signals, advice, or influence over the project.
+
+**[💛 Sponsor QuantGlass →](https://github.com/sponsors/quantglass-labs)**
+
+See [BACKERS.md](BACKERS.md) for the people and organizations who make this
+possible. *Your name or logo could be here* — thank you for considering it.
+
 ## Repository Layout
 
 ```text
